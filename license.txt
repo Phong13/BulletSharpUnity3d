@@ -1,5 +1,4 @@
 Copyright for portions of project BulletSharp and BulletSharpPInvoke are held by Andres Traks, 2013-2015 as part of project BulletSharpUnity3d. 
-All other copyright for project Foo are held by Ian Deane (c) 2015
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
