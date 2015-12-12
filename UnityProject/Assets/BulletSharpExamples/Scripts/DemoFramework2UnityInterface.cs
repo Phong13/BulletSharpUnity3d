@@ -10,6 +10,8 @@ This class contains functions and classes that look like the ones the BulletShar
 expecting. Some are stubs, some are wrappers for Unity classes. This allows the BulletSharp demo code to work with minimal changes.
 */
 namespace BulletSharpExamples {
+
+
     public enum Keys {
             Escape,
             B,
@@ -17,6 +19,7 @@ namespace BulletSharpExamples {
             Q,
             F,
             G,
+            P,
             F3,
             F8,
             F11,
@@ -158,6 +161,9 @@ namespace BulletSharpExamples {
         }
 
         public void SetEyeTarget(Vector3 eye, Vector3 targ) {
+            UnityEngine.Transform t = UnityEngine.Camera.main.transform;
+            t.position = eye.ToUnity();
+            t.rotation = UnityEngine.Quaternion.LookRotation((targ - eye).ToUnity().normalized, UnityEngine.Vector3.up);
 
         }
 
@@ -168,20 +174,68 @@ namespace BulletSharpExamples {
 
     //TODO this should be a wrapper for the Input class
     public class Input {
+
+        public static UnityEngine.KeyCode[] UnityKeys = new UnityEngine.KeyCode[]{
+            UnityEngine.KeyCode.Escape,
+            UnityEngine.KeyCode.B,
+            UnityEngine.KeyCode.N,
+            UnityEngine.KeyCode.Q,
+            UnityEngine.KeyCode.F,
+            UnityEngine.KeyCode.G,
+            UnityEngine.KeyCode.P,
+            UnityEngine.KeyCode.F3,
+            UnityEngine.KeyCode.F8,
+            UnityEngine.KeyCode.F11,
+            UnityEngine.KeyCode.LeftControl,
+            UnityEngine.KeyCode.RightControl,
+            UnityEngine.KeyCode.Space,
+            UnityEngine.KeyCode.Return,
+            UnityEngine.KeyCode.RightShift,
+            UnityEngine.KeyCode.LeftShift,
+            UnityEngine.KeyCode.UpArrow,
+            UnityEngine.KeyCode.DownArrow,
+            UnityEngine.KeyCode.LeftArrow,
+            UnityEngine.KeyCode.RightArrow,
+        };
+
+        public static Keys[] BSKeys = new Keys[]{
+            Keys.Escape,
+            Keys.B,
+            Keys.N,
+            Keys.Q,
+            Keys.F,
+            Keys.G,
+            Keys.P,
+            Keys.F3,
+            Keys.F8,
+            Keys.F11,
+            Keys.Control,
+            Keys.Control,
+            Keys.Space,
+            Keys.Return,
+            Keys.ShiftKey,
+            Keys.ShiftKey,
+            Keys.Up,
+            Keys.Down,
+            Keys.Left,
+            Keys.Right,
+        };
+
         public Point MousePoint;
         public MouseButtons MousePressed;
         public MouseButtons MouseDown;
         public MouseButtons MouseReleased;
 
-        public List<Keys> KeysPressed;
-        public List<Keys> KeysDown;
+        public List<Keys> KeysPressed = new List<Keys>();
+        public List<Keys> KeysDown = new List<Keys>();
 
         public Input(GraphicsForm f) {
 
         }
 
         public void ClearKeyCache() {
-
+            KeysPressed.Clear();
+            KeysDown.Clear();
         }
     }
 

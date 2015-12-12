@@ -26,7 +26,7 @@ namespace SoftDemo
         Vector3 goal;
         bool drag;
 
-        int demo = 4;
+        int demo = 0;
 
         SoftBodyWorldInfo softBodyWorldInfo;
 
@@ -235,6 +235,7 @@ namespace SoftDemo
                 psb.Materials[0].Lst = 0.1f + (i / (float)(n - 1)) * 0.9f;
                 psb.TotalMass = 20;
                 SoftWorld.AddSoftBody(psb);
+                
             }
         }
 
@@ -243,6 +244,7 @@ namespace SoftDemo
             SoftBody psb = SoftBodyHelpers.CreateRope(softBodyWorldInfo, p, p + new Vector3(10, 0, 0), 8, 0);
             psb.TotalMass = 50;
             SoftWorld.AddSoftBody(psb);
+            
             return (psb);
         }
 
@@ -269,6 +271,7 @@ namespace SoftDemo
                 new Vector3(-s, h, +s),
                 new Vector3(+s, h, +s), r, r, 4 + 8, true);
             SoftWorld.AddSoftBody(psb);
+            UnityEngine.Debug.Log("Hello World.");
 
             RigidBody body = LocalCreateRigidBody(20, Matrix.Translation(0, h, -(s + 3.5f)), new BoxShape(s, 1, 3));
             psb.AppendAnchor(0, body);
@@ -532,9 +535,7 @@ namespace SoftDemo
 
         void Init_TetraCube()
         {
-            UnityEngine.Debug.LogError("Not implemented.");
-            /*
-            String path = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
+            String path = System.IO.Path.GetDirectoryName(UnityEngine.Application.dataPath);
             SoftBody psb = SoftBodyHelpers.CreateFromTetGenFile(softBodyWorldInfo,
                 path + "\\data\\cube.ele", null, path + "\\data\\cube.node", false, true, true);
             SoftWorld.AddSoftBody(psb);
@@ -556,9 +557,6 @@ namespace SoftDemo
             // | Collision.CLSelf;
             psb.Materials[0].Lst = 0.8f;
             cutting = false;
-
-            Graphics.CullingEnabled = false;
-            */
         }
 
         void Init_Volume()
@@ -642,6 +640,7 @@ namespace SoftDemo
             psb.GenerateBendingConstraints(2, pm);
             psb.TotalMass = 150;
             SoftWorld.AddSoftBody(psb);
+            
 
             Create_RbUpStack(10);
             cutting = true;

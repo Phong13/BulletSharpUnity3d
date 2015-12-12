@@ -11,7 +11,7 @@ namespace BenchmarkDemo
         Vector3 eye = new Vector3(60, 40, 20);
         Vector3 target = new Vector3(0, 5, -4);
 
-        int benchmark = 2;
+        int benchmark = 1;
 
         float collisionRadius = 0.0f;
         float defaultContactProcessingThreshold = 0.0f;

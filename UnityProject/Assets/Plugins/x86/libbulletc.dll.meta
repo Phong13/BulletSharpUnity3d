@@ -22,7 +22,7 @@ PluginImporter:
         DefaultValueInitialized: true
         OS: AnyOS
     Linux:
-      enabled: 1
+      enabled: 0
       settings:
         CPU: x86
     Linux64:
@@ -32,9 +32,9 @@ PluginImporter:
     LinuxUniversal:
       enabled: 0
       settings:
-        CPU: x86
+        CPU: None
     OSXIntel:
-      enabled: 1
+      enabled: 0
       settings:
         CPU: AnyCPU
     OSXIntel64:
@@ -44,7 +44,7 @@ PluginImporter:
     OSXUniversal:
       enabled: 0
       settings:
-        CPU: x86
+        CPU: None
     SamsungTV:
       enabled: 0
       settings:
@@ -56,7 +56,7 @@ PluginImporter:
         DontProcess: False
         PlaceholderPath: 
     Win:
-      enabled: 1
+      enabled: 0
       settings:
         CPU: AnyCPU
     Win64:

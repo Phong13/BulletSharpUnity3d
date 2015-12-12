@@ -136,6 +136,7 @@ namespace DemoFramework
                 if (World == null)
                 {
                     OnInitializePhysics();
+                    BulletExampleRunner.Get().PostOnInitializePhysics();
                 }
                 if (_isDebugDrawEnabled)
                 {
@@ -186,6 +187,7 @@ namespace DemoFramework
             RemovePickingConstraint();
             ExitPhysics();
             OnInitializePhysics();
+            BulletExampleRunner.Get().PostOnInitializePhysics();
             if (World != null && _debugDrawer != null)
             {
                 World.DebugDrawer = _debugDrawer;
@@ -194,6 +196,7 @@ namespace DemoFramework
 
         public virtual void ExitPhysics()
         {
+            BulletExampleRunner.Get().ExitPhysics();
             UnityEngine.Debug.Log("ExitPhysics");
             if (_world != null)
             {
