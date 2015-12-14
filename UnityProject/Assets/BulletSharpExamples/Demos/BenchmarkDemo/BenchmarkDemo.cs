@@ -77,7 +77,7 @@ namespace BenchmarkDemo
                     BoxShape blockShape = new BoxShape(cubeSize - collisionRadius);
                     mass = 2.0f;
 
-                    for (int k = 0; k < 47; k++)
+                    for (int k = 0; k < 20; k++)
                     {
                         for (int j = 0; j < size; j++)
                         {

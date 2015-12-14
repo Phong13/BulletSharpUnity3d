@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using BulletSharp;
 
-public class BPhysicsWorld : MonoBehaviour {
+public class BPhysicsWorld : MonoBehaviour, IDisposable
+{
     protected static BPhysicsWorld singleton;
     protected static bool _isDisposed = false;
 
@@ -38,13 +40,9 @@ public class BPhysicsWorld : MonoBehaviour {
         World.StepSimulation(UnityEngine.Time.fixedTime);
     }
 
-    protected virtual void OnDisable() {
-        Debug.Log("Disposing Physics World");
-        _DisposePhysicsWorld();
-    }
-
     protected virtual void OnDestroy() {
         Debug.Log("Destroying Physics World");
+        Dispose(false);
     }
 
     public bool isDisposed {
@@ -55,12 +53,19 @@ public class BPhysicsWorld : MonoBehaviour {
         _isDisposed = false;
     }
 
-    protected virtual void _DisposePhysicsWorld() {
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing) {
         _isDisposed = true;
     }
 
     public bool AddRigidBody(BulletSharp.RigidBody rb) {
         if (!_isDisposed) {
+            Debug.LogFormat("Adding {0} to world",rb);
             World.AddRigidBody(rb);
             return true;
         }
@@ -69,6 +74,7 @@ public class BPhysicsWorld : MonoBehaviour {
 
     public void RemoveRigidBody(BulletSharp.RigidBody rb) {
         if (!_isDisposed) {
+            Debug.LogFormat("Removing {0} from world", rb);
             World.RemoveRigidBody(rb);
         }
     }

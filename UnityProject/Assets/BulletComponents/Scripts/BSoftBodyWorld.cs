@@ -5,7 +5,7 @@ using BulletSharp.Math;
 using BulletSharp.SoftBody;
 
 
-public class BSoftBodyWorld : BPhysicsWorld {
+public class BSoftBodyWorld : BDynamicsWorld {
 
     SoftBodyWorldInfo softBodyWorldInfo;
     public DefaultCollisionConfiguration CollisionConf;
@@ -40,50 +40,5 @@ public class BSoftBodyWorld : BPhysicsWorld {
         BulletSharp.Math.Vector3 g = new BulletSharp.Math.Vector3(0, -10, 0);
         World.Gravity = g;
         World.DispatchInfo.EnableSpu = true;
-    }
-
-    protected override void _DisposePhysicsWorld() {
-        Debug.Log("Disposing physics.");
-        if (World != null) {
-            //remove/dispose constraints
-            int i;
-            for (i = World.NumConstraints - 1; i >= 0; i--) {
-                TypedConstraint constraint = World.GetConstraint(i);
-                World.RemoveConstraint(constraint);
-                constraint.Dispose();
-            }
-
-            //remove the rigidbodies from the dynamics world and delete them
-            for (i = World.NumCollisionObjects - 1; i >= 0; i--) {
-                CollisionObject obj = World.CollisionObjectArray[i];
-                RigidBody body = obj as RigidBody;
-                if (body != null && body.MotionState != null) {
-                    body.MotionState.Dispose();
-                }
-                World.RemoveCollisionObject(obj);
-                obj.Dispose();
-            }
-
-            //delete collision shapes
-            //foreach (CollisionShape shape in CollisionShapes)
-            //    shape.Dispose();
-            //CollisionShapes.Clear();
-
-            World.Dispose();
-            Broadphase.Dispose();
-            Dispatcher.Dispose();
-            CollisionConf.Dispose();
-            base._DisposePhysicsWorld();
-        }
-
-        if (Broadphase != null) {
-            Broadphase.Dispose();
-        }
-        if (Dispatcher != null) {
-            Dispatcher.Dispose();
-        }
-        if (CollisionConf != null) {
-            CollisionConf.Dispose();
-        }
     }
 }

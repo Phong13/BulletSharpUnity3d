@@ -5,8 +5,10 @@ using BulletSharp.Math;
 using BulletSharp;
 
 [System.Serializable]
-public abstract class BCollisionShape {
-    public enum CollisionShapeType {
+public abstract class BCollisionShape : MonoBehaviour, IDisposable
+{
+    public enum CollisionShapeType
+    {
         // dynamic
         BoxShape = 0,
         SphereShape = 1,
@@ -21,12 +23,32 @@ public abstract class BCollisionShape {
         StaticPlaneShape = 8,
     };
 
-    public CollisionShape collisionShapePtr = null;
-    public Transform transform;
+    protected CollisionShape collisionShapePtr = null;
 
-    public abstract CollisionShape CreateCollisionShape();
+    void OnDestroy()
+    {
+        Dispose(false);
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool isdisposing)
+    {
+        if (collisionShapePtr != null)
+        {
+            collisionShapePtr.Dispose();
+            collisionShapePtr = null;
+        }
+    }
+
+    public abstract CollisionShape GetCollisionShape();
 }
 
+/*
 [System.Serializable]
 public class BCollisionShapeBox : BCollisionShape{
     public UnityEngine.Vector3 BoxShapeVec = new UnityEngine.Vector3(0.5f, 0.5f, 0.5f);
@@ -46,6 +68,7 @@ public class BCollisionShapeSphere : BCollisionShape {
         return collisionShapePtr;
     }
 }
+*/
 
 /*
     private MeshFilter meshFilter = null;

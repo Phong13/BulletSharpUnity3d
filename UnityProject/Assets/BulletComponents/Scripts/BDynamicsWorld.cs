@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using BulletSharp;
 
 
 
-public class BDynamicsWorld : BPhysicsWorld {
+public class BDynamicsWorld : BPhysicsWorld, IDisposable {
 
     public DefaultCollisionConfiguration CollisionConf;
     public CollisionDispatcher Dispatcher;
@@ -20,23 +21,28 @@ public class BDynamicsWorld : BPhysicsWorld {
         World.Gravity = new BulletSharp.Math.Vector3(v.x, v.y, v.z);
     }
 
-    protected override void _DisposePhysicsWorld() {
+    protected override void Dispose(bool disposing)
+    {
         Debug.Log("BDynamicsWorld Disposing physics.");
 
-        if (World != null) {
+        if (World != null)
+        {
             //remove/dispose constraints
             int i;
-            for (i = World.NumConstraints - 1; i >= 0; i--) {
+            for (i = World.NumConstraints - 1; i >= 0; i--)
+            {
                 TypedConstraint constraint = World.GetConstraint(i);
                 World.RemoveConstraint(constraint);
                 constraint.Dispose();
             }
 
             //remove the rigidbodies from the dynamics world and delete them
-            for (i = World.NumCollisionObjects - 1; i >= 0; i--) {
+            for (i = World.NumCollisionObjects - 1; i >= 0; i--)
+            {
                 CollisionObject obj = World.CollisionObjectArray[i];
                 RigidBody body = obj as RigidBody;
-                if (body != null && body.MotionState != null) {
+                if (body != null && body.MotionState != null)
+                {
                     body.MotionState.Dispose();
                 }
                 World.RemoveCollisionObject(obj);
@@ -52,17 +58,21 @@ public class BDynamicsWorld : BPhysicsWorld {
             Broadphase.Dispose();
             Dispatcher.Dispose();
             CollisionConf.Dispose();
-            base._DisposePhysicsWorld();
+            
         }
 
-        if (Broadphase != null) {
+        if (Broadphase != null)
+        {
             Broadphase.Dispose();
         }
-        if (Dispatcher != null) {
+        if (Dispatcher != null)
+        {
             Dispatcher.Dispose();
         }
-        if (CollisionConf != null) {
+        if (CollisionConf != null)
+        {
             CollisionConf.Dispose();
         }
+        base.Dispose(disposing);
     }
 }

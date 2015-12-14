@@ -38,7 +38,7 @@ public class BulletExampleRunner : MonoBehaviour {
     }
 
     void Start() {
-        demo = new SoftDemo.SoftDemo();
+        demo = new CharacterDemo.CharacterDemo();
         demo.Run();
     }
 
@@ -75,7 +75,7 @@ public class BulletExampleRunner : MonoBehaviour {
                         ggo.transform.localPosition = BSExtensionMethods.ExtractTranslationFromMatrix(ref mt);
                         ggo.transform.localRotation = BSExtensionMethods.ExtractRotationFromMatrix(ref mt);
                         ggo.transform.localScale = BSExtensionMethods.ExtractScaleFromMatrix(ref mt);
-                        
+
                         /*
                         BulletRigidBodyProxy rbp = ggo.AddComponent<BulletRigidBodyProxy>();
                         rbp.target = body;
@@ -83,7 +83,17 @@ public class BulletExampleRunner : MonoBehaviour {
                         */
                         //InitRigidBodyInstance(colObj, child.ChildShape, ref childTransform);
                     }
-                } else {
+                } else if (cs.ShapeType == BroadphaseNativeType.CapsuleShape) {
+                    GameObject ggo = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+                    Destroy(ggo.GetComponent<Collider>());
+                    go = new GameObject();
+                    ggo.transform.parent = go.transform;
+                    ggo.transform.localPosition = Vector3.zero;
+                    ggo.transform.localRotation = Quaternion.identity;
+                    BulletRigidBodyProxy rbp = go.AddComponent<BulletRigidBodyProxy>();
+                    rbp.target = co as RigidBody;
+                } else { 
+                    Debug.Log("Creating " + cs.ShapeType);
                     go = CreateUnityRigidBody(co as RigidBody);
                 }
             }

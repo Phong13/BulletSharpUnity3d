@@ -1,76 +1,173 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using BulletSharp;
 using BulletSharp.Math;
 using System.Collections;
 
-public class BRigidBody : MonoBehaviour {
+public class BRigidBody : MonoBehaviour,IDisposable {
     public enum RBType {
         dynamic,
         kinematic,
         isStatic,
     }
 
-    public RigidBody rigidbody;
-    //todo should be a property so rigidbody is updated when this is updated
-    public float mass;
-    public RBType type;
-    public BCollisionShape.CollisionShapeType shapeType;
+    protected RigidBody m_Brigidbody;
+    BGameObjectMotionState m_motionState;
+    protected bool isInWorld = false;
+    BCollisionShape m_collisionShape;
+
     [SerializeField]
-    public BCollisionShape collisionShape = new BCollisionShapeBox();
+    float _mass = 1f;
+    public float mass
+    {
+        set
+        {
+            if (_mass != value)
+            {
+                if (_mass == 0f && _type == RBType.dynamic)
+                {
+                    Debug.LogError("Dynamic rigid bodies must have positive mass");
+                    return;
+                }
+            }
+            if (isInWorld)
+            {
+                BulletSharp.Math.Vector3 inertia = m_Brigidbody.CollisionShape.CalculateLocalInertia(_mass);
+                m_Brigidbody.SetMassProps(_mass, inertia);
+            }
+            _mass = value;
+        }
+        get
+        {
+            return _mass;
+        }
+    }
 
-    BGameObjectMotionState myMotionState;
+    [SerializeField]
+    RBType _type;
+    public RBType type
+    {
+        set
+        {
+            if (isInWorld)
+            {
+                Debug.LogError("Cannot change the type of a rigid body while it is in the Physics World. Remove, the rigid body, change the type, then re-add the rigid body.");
+                return;
+            }
+            _type = type;
+        }
+        get
+        {
+            return _type;
+        }
+    }
 
-    protected bool isInWorld;
 
+    
+    //TODO this should be modified so it is safe to call just before a rigidbody is added to the physics world
+    //It should be possible to call multiple times.
     void _CreateRigidBody() {
         BPhysicsWorld world = BPhysicsWorld.Get();
-        //rigidbody is dynamic if and only if mass is non zero, otherwise static
+        if (m_Brigidbody != null)
+        {
+            if (isInWorld && world != null)
+            {
+                isInWorld = false;
+                world.World.RemoveRigidBody(m_Brigidbody);
+            }
+        }
 
+        if (transform.localScale != UnityEngine.Vector3.one)
+        {
+            Debug.LogError("The local scale on this rigid body is not one. Bullet physics does not support scaling on a rigid body world transform. Instead alter the dimensions of the CollisionShape.");
+        }
+
+
+
+        //rigidbody is dynamic if and only if mass is non zero, otherwise static
         BulletSharp.Math.Vector3 localInertia = BulletSharp.Math.Vector3.Zero;
 
-        collisionShape.CreateCollisionShape();
+        CollisionShape cs = m_collisionShape.GetCollisionShape();
 
-        if (type == RBType.dynamic) {
-            collisionShape.collisionShapePtr.CalculateLocalInertia(mass, out localInertia);
+        if (_type == RBType.dynamic) {
+            cs.CalculateLocalInertia(_mass, out localInertia);
         }
 
         //using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
-        BGameObjectMotionState myMotionState = new BGameObjectMotionState(transform);
+        m_motionState = new BGameObjectMotionState(transform);
 
         UnityEngine.Vector3 uv = transform.localScale;
-        //collisionShape = new BoxShape(uv.x,uv.y,uv.z);
-        //Debug.Log(name + " " + uv);
-        RigidBodyConstructionInfo rbInfo = new RigidBodyConstructionInfo(mass, myMotionState, collisionShape.collisionShapePtr, localInertia);
-        rigidbody = new RigidBody(rbInfo);
+
+        RigidBodyConstructionInfo rbInfo;
+        if (_type == RBType.dynamic) {
+            rbInfo = new RigidBodyConstructionInfo(_mass, m_motionState, cs, localInertia);
+        } else
+        {
+            rbInfo = new RigidBodyConstructionInfo(0, m_motionState, cs, localInertia);
+        }
+
+        m_Brigidbody = new RigidBody(rbInfo);
+        if (_type == RBType.kinematic)
+        {
+            m_Brigidbody.CollisionFlags = m_Brigidbody.CollisionFlags | BulletSharp.CollisionFlags.KinematicObject;
+            m_Brigidbody.ActivationState = ActivationState.DisableDeactivation;
+        }
+
         rbInfo.Dispose();
     }
 
     void Awake() {
-        _CreateRigidBody();
+        m_collisionShape = GetComponent<BCollisionShape>();
+        if (m_collisionShape == null)
+        {
+            Debug.LogError("A BRigidBody component must be on an object with a BCollisionShape component.");
+        }
+        else
+        {
+            _CreateRigidBody();
+        }
     }
 
     void OnEnable() {
-        if (BPhysicsWorld.Get().AddRigidBody(rigidbody)) {
+        if (m_Brigidbody != null && BPhysicsWorld.Get().AddRigidBody(m_Brigidbody)) {
             isInWorld = true;
         }
     }
 
     void OnDisable() {
-        BPhysicsWorld.Get().RemoveRigidBody(rigidbody);
+        if (isInWorld)
+        {
+            BPhysicsWorld.Get().RemoveRigidBody(m_Brigidbody);
+        }
         isInWorld = false;
     }
 
     void OnDestroy() {
-        Debug.Log("Destroying RigidBody " + name);
-        if (isInWorld) {
+        Dispose(false);
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool isdisposing)
+    {
+        if (isInWorld && isdisposing && m_Brigidbody != null)
+        {
             BPhysicsWorld pw = BPhysicsWorld.Get();
-            if (pw != null) {
-                pw.World.RemoveRigidBody(rigidbody);
+            if (pw != null && pw.World != null)
+            {
+                pw.World.RemoveRigidBody(m_Brigidbody);
             }
         }
-        if (rigidbody != null) {
-            if (rigidbody.MotionState != null) rigidbody.MotionState.Dispose();
-            rigidbody.Dispose();
+        if (m_Brigidbody != null)
+        {
+            if (m_Brigidbody.MotionState != null) m_Brigidbody.MotionState.Dispose();
+            m_Brigidbody.Dispose();
+            m_Brigidbody = null;
         }
+        Debug.Log("Destroying RigidBody " + name);
     }
 }

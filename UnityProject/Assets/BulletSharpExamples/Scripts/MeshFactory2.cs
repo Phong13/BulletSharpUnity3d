@@ -15,27 +15,38 @@ namespace DemoFramework {
                     CreateCube(shape as BoxShape, mesh);
                     return;
                 case BroadphaseNativeType.Box2DShape:
+                    Debug.LogError("Not Implemented " + shape);
                     return;
                 case BroadphaseNativeType.CapsuleShape:
+                    Debug.LogError("Not Implemented " + shape);
                     return;
                 case BroadphaseNativeType.Convex2DShape:
+                    Debug.LogError("Not Implemented " + shape);
                     return;
                 case BroadphaseNativeType.ConvexHullShape:
+                    CreateConvexHull(shape as ConvexHullShape, mesh);
                     return;
                 case BroadphaseNativeType.ConeShape:
+                    Debug.LogError("Not Implemented " + shape);
                     return;
                 case BroadphaseNativeType.CylinderShape:
+                    Debug.LogError("Not Implemented " + shape);
                     return;
                 case BroadphaseNativeType.GImpactShape:
+                    Debug.LogError("Not Implemented " + shape);
                     return;
                 case BroadphaseNativeType.MultiSphereShape:
+                    Debug.LogError("Not Implemented " + shape);
                     return;
                 case BroadphaseNativeType.SphereShape:
                     CreateSphere(shape as SphereShape, mesh);
+                    Debug.LogError("Not Implemented " + shape);
                     return;
                 case BroadphaseNativeType.StaticPlaneShape:
+                    Debug.LogError("Not Implemented " + shape);
                     return;
                 case BroadphaseNativeType.TriangleMeshShape:
+                    Debug.LogError("Not Implemented " + shape);
                     return;
             }
             if (shape is PolyhedralConvexShape) {
@@ -43,6 +54,31 @@ namespace DemoFramework {
             }
             Debug.LogError("Not Implemented " + shape);
             throw new NotImplementedException();
+        }
+
+        public static void CreateConvexHull(ConvexHullShape shape, Mesh mesh)
+        {
+            ShapeHull hull = new ShapeHull(shape);
+            hull.BuildHull(shape.Margin);
+
+            int vertexCount = hull.NumIndices;
+            UIntArray indices = hull.Indices;
+            Vector3Array points = hull.Vertices;
+
+            UnityEngine.Vector3[] vertices = new UnityEngine.Vector3[vertexCount];
+            for (int i = 0; i < vertexCount; i++)
+            {
+                vertices[i] = points[(int)indices[i]].ToUnity();
+            }
+            int[] tris = new int[indices.Count];
+            for (int i = 0; i < indices.Count; i++)
+            {
+                tris[i] = (int) indices[i];
+            }
+            mesh.vertices = vertices;
+            mesh.triangles = tris;
+            mesh.RecalculateBounds();
+            mesh.RecalculateNormals();
         }
 
         public static void CreateCube(CollisionShape cs, Mesh mesh) {

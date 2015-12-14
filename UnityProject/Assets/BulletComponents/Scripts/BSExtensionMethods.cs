@@ -17,7 +17,17 @@ public static class BSExtensionMethods {
                         new Type[] {typeof(bool)},
                         null);
         dynMethod.Invoke(reader, new System.Object[] { true });
-    } 
+    }
+
+    public static BulletSharp.Math.Quaternion ToBullet(this UnityEngine.Quaternion v)
+    {
+        return new BulletSharp.Math.Quaternion(v.x, v.y, v.z, v.w);
+    }
+
+    public static UnityEngine.Quaternion ToUnity(this BulletSharp.Math.Quaternion v)
+    {
+        return new UnityEngine.Quaternion(v.X, v.Y, v.Z, v.W);
+    }
 
     public static BulletSharp.Math.Vector3 ToBullet(this UnityEngine.Vector3 v) {
         return new BulletSharp.Math.Vector3(v.x,v.y,v.z);
