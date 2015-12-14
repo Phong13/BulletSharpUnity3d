@@ -5,6 +5,15 @@ using BulletSharp;
 using BulletSharpExamples;
 using DemoFramework;
 
+/*
+WARNING
+
+The DemoFramework that these examples run in is not implemented using good design from a Unity point of view. 
+I would not recommend setting up Bullet physics in Unity based on the DemoFramework these examples run in.
+
+These are the examples included in the bullet distribution with minimal modification. They are included
+here as a reference and to make sure things are working correctly.
+*/
 public class BulletExampleRunner : MonoBehaviour {
     protected static BulletExampleRunner singleton;
     public BulletSharpExamples.Graphics graphics;
@@ -17,6 +26,15 @@ public class BulletExampleRunner : MonoBehaviour {
     public GameObject softBodyPrefab;
 
     public List<GameObject> createdObjs = new List<GameObject>();
+
+    void Start()
+    {
+        //demo = new BasicDemo.BasicDemo();
+        demo = new SoftDemo.SoftDemo();
+        //demo = new BenchmarkDemo.BenchmarkDemo();
+        //demo = new CharacterDemo.CharacterDemo();
+        demo.Run();
+    }
 
     //singleton not sure if it needs to be
     public static BulletExampleRunner Get() {
@@ -35,11 +53,6 @@ public class BulletExampleRunner : MonoBehaviour {
             }
         }
         return singleton;
-    }
-
-    void Start() {
-        demo = new CharacterDemo.CharacterDemo();
-        demo.Run();
     }
 
     public void PostOnInitializePhysics() {
