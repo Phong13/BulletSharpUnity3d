@@ -28,15 +28,27 @@ public class BPhysicsWorld : MonoBehaviour, IDisposable
     }
 
     public DynamicsWorld World;
+
+    protected int _frameCount;
+    public int frameCount
+    {
+        get
+        {
+            return _frameCount;
+        }
+    }
+
     
     //It is critical that Awake be called before any other scripts call BPhysicsWorld.Get()
     //Set this script and any derived classes very early in script execution order.
     protected virtual void Awake() {
+        _frameCount = 0;
         _isDisposed = false;
         singleton = BPhysicsWorld.Get();
     }
 
     protected virtual void FixedUpdate() {
+        _frameCount++;
         World.StepSimulation(UnityEngine.Time.fixedTime);
     }
 

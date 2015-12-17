@@ -45,6 +45,8 @@ public abstract class BCollisionShape : MonoBehaviour, IDisposable
         }
     }
 
+    public abstract void OnDrawGizmosSelected();
+
     public abstract CollisionShape GetCollisionShape();
 }
 

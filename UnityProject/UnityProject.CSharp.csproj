@@ -68,15 +68,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\BulletComponents\Demos\AddForcesAndTorques.cs" />
     <Compile Include="Assets\BulletComponents\Demos\MoveKinematicObject.cs" />
+    <Compile Include="Assets\BulletComponents\Demos\SetAngularAndLinearVelocity.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BBoxShape.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BCollisionShape.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\BCompoundCollider.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BDynamicsWorld.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BGameObjectMotionState.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BPhysicsWorld.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BRigidBody.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BSExtensionMethods.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BSoftBodyWorld.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\BSphereShape.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BUtility.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\InvalidDataException.cs" />
     <Compile Include="Assets\BulletSharp\Collision\ActivatingCollisionAlgorithm.cs" />

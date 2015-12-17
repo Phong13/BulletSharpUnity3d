@@ -4,6 +4,10 @@ using BulletSharp;
 using BulletSharp.Math;
 using System.Collections;
 
+/*
+    todo 
+    continuous collision detection ccd
+    */
 public class BRigidBody : MonoBehaviour,IDisposable {
     public enum RBType {
         dynamic,
@@ -62,8 +66,49 @@ public class BRigidBody : MonoBehaviour,IDisposable {
         }
     }
 
+    public UnityEngine.Vector3 velocity
+    {
+        get
+        {
+            if (isInWorld)
+            {
+                return m_Brigidbody.LinearVelocity.ToUnity();
+            } else
+            {
+                return UnityEngine.Vector3.zero;
+            }
+        }
+        set
+        {
+            if (isInWorld)
+            {
+                m_Brigidbody.LinearVelocity = value.ToBullet();
+            }
+        }
+    }
 
-    
+    public UnityEngine.Vector3 angularVelocity
+    {
+        get
+        {
+            if (isInWorld)
+            {
+                return m_Brigidbody.AngularVelocity.ToUnity();
+            }
+            else
+            {
+                return UnityEngine.Vector3.zero;
+            }
+        }
+        set
+        {
+            if (isInWorld)
+            {
+                m_Brigidbody.AngularVelocity = value.ToBullet();
+            }
+        }
+    }
+
     //TODO this should be modified so it is safe to call just before a rigidbody is added to the physics world
     //It should be possible to call multiple times.
     void _CreateRigidBody() {
@@ -117,6 +162,11 @@ public class BRigidBody : MonoBehaviour,IDisposable {
     }
 
     void Awake() {
+        BRigidBody[] rbs = GetComponentsInParent<BRigidBody>();
+        if (rbs.Length != 1)
+        {
+            Debug.LogError("Can't nest rigid bodies. The transforms are updated by Bullet in undefined order which can cause spasing. Object " + name);
+        }
         m_collisionShape = GetComponent<BCollisionShape>();
         if (m_collisionShape == null)
         {
@@ -169,5 +219,29 @@ public class BRigidBody : MonoBehaviour,IDisposable {
             m_Brigidbody = null;
         }
         Debug.Log("Destroying RigidBody " + name);
+    }
+
+    public void AddForce(UnityEngine.Vector3 force)
+    {
+        if (isInWorld)
+        {
+            m_Brigidbody.ApplyCentralForce(force.ToBullet());
+        }
+    }
+
+    public void AddForceAtPosition(UnityEngine.Vector3 force, UnityEngine.Vector3 relativePostion)
+    {
+        if (isInWorld)
+        {
+            m_Brigidbody.ApplyForce(force.ToBullet(), relativePostion.ToBullet());
+        }
+    }
+
+    public void AddTorque(UnityEngine.Vector3 torque)
+    {
+        if (isInWorld)
+        {
+            m_Brigidbody.ApplyTorque(torque.ToBullet());
+        }
     }
 }
