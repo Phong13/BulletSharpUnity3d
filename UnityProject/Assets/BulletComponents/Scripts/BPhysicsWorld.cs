@@ -50,6 +50,18 @@ public class BPhysicsWorld : MonoBehaviour, IDisposable
     protected virtual void FixedUpdate() {
         _frameCount++;
         World.StepSimulation(UnityEngine.Time.fixedTime);
+
+        //collisions
+        /*
+        int numManifolds = World.Dispatcher.NumManifolds;
+        for (int i = 0; i < numManifolds; i++)
+        {
+            PersistentManifold contactManifold = World.Dispatcher.GetManifoldByIndexInternal(i);
+            CollisionObject a = contactManifold.Body0;
+            CollisionObject b = contactManifold.Body1;
+            Debug.LogFormat("Collision between {0},{1} numContacts={2}",a,b,contactManifold.NumContacts);
+        }
+        */
     }
 
     protected virtual void OnDestroy() {
@@ -75,10 +87,13 @@ public class BPhysicsWorld : MonoBehaviour, IDisposable
         _isDisposed = true;
     }
 
-    public bool AddRigidBody(BulletSharp.RigidBody rb) {
+    public bool AddRigidBody(BRigidBody rb) {
         if (!_isDisposed) {
             Debug.LogFormat("Adding {0} to world",rb);
-            World.AddRigidBody(rb);
+            if (rb._BuildRigidBody())
+            {
+                World.AddRigidBody(rb.GetRigidBody());
+            }
             return true;
         }
         return false;

@@ -9,8 +9,8 @@ public class BulletMultiBodyLinkColliderProxy : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Matrix4x4 m = target.WorldTransform.ToUnity();
-        transform.position = BSExtensionMethods.ExtractTranslationFromMatrix(ref m);
-        transform.rotation = BSExtensionMethods.ExtractRotationFromMatrix(ref m);
-        transform.localScale = BSExtensionMethods.ExtractScaleFromMatrix(ref m);
+        transform.position = BSExtensionMethods2.ExtractTranslationFromMatrix(ref m);
+        transform.rotation = BSExtensionMethods2.ExtractRotationFromMatrix(ref m);
+        transform.localScale = BSExtensionMethods2.ExtractScaleFromMatrix(ref m);
     }
 }

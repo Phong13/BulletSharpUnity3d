@@ -5,19 +5,7 @@ using System.Collections;
 using System.Reflection;
 
 
-public static class BSExtensionMethods {
-    public static IntPtr Add(this IntPtr ptr, int amt) {
-        return new IntPtr(ptr.ToInt64() + amt);
-    }
-
-    public static void Dispose(this BinaryReader reader) {
-        MethodInfo dynMethod = reader.GetType().GetMethod("Dispose",
-                        BindingFlags.NonPublic | BindingFlags.Instance,
-                        null,
-                        new Type[] {typeof(bool)},
-                        null);
-        dynMethod.Invoke(reader, new System.Object[] { true });
-    }
+public static class BSExtensionMethods2 {
 
     public static BulletSharp.Math.Quaternion ToBullet(this UnityEngine.Quaternion v)
     {
@@ -105,6 +93,15 @@ public static class BSExtensionMethods {
         return translate;
     }
 
+    public static Vector3 ExtractTranslationFromMatrix(ref BulletSharp.Math.Matrix matrix)
+    {
+        Vector3 translate;
+        translate.x = matrix.M41;
+        translate.y = matrix.M42;
+        translate.z = matrix.M43;
+        return translate;
+    }
+
     /// <summary>
     /// Extract rotation quaternion from transform matrix.
     /// </summary>
@@ -127,6 +124,21 @@ public static class BSExtensionMethods {
         return Quaternion.LookRotation(forward, upwards);
     }
 
+    public static Quaternion ExtractRotationFromMatrix(ref BulletSharp.Math.Matrix matrix)
+    {
+        Vector3 forward;
+        forward.x = matrix.M31;
+        forward.y = matrix.M32;
+        forward.z = matrix.M33;
+
+        Vector3 upwards;
+        upwards.x = matrix.M21;
+        upwards.y = matrix.M22;
+        upwards.z = matrix.M23;
+
+        return Quaternion.LookRotation(forward, upwards);
+    }
+
     /// <summary>
     /// Extract scale from transform matrix.
     /// </summary>
@@ -140,6 +152,15 @@ public static class BSExtensionMethods {
         scale.x = new Vector4(matrix.m00, matrix.m10, matrix.m20, matrix.m30).magnitude;
         scale.y = new Vector4(matrix.m01, matrix.m11, matrix.m21, matrix.m31).magnitude;
         scale.z = new Vector4(matrix.m02, matrix.m12, matrix.m22, matrix.m32).magnitude;
+        return scale;
+    }
+
+    public static Vector3 ExtractScaleFromMatrix(ref BulletSharp.Math.Matrix matrix)
+    {
+        Vector3 scale;
+        scale.x = new Vector4(matrix.M11, matrix.M12, matrix.M13, matrix.M14).magnitude;
+        scale.y = new Vector4(matrix.M21, matrix.M22, matrix.M23, matrix.M24).magnitude;
+        scale.z = new Vector4(matrix.M31, matrix.M32, matrix.M33, matrix.M34).magnitude;
         return scale;
     }
 

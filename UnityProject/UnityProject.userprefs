@@ -1,0 +1,13 @@
+﻿<Properties StartupItem="UnityProject.CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BulletComponents\Scripts\BGameObjectMotionState.cs">
+    <Files>
+      <File FileName="Assets\BulletComponents\Scripts\BGameObjectMotionState.cs" Line="1" Column="1" />
+      <File FileName="Assets\BulletComponents\Scripts\BCompoundCollider.cs" Line="11" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

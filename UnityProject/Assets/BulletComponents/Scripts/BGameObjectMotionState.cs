@@ -38,10 +38,25 @@ public class BGameObjectMotionState : MotionState, IDisposable {
         q.y *= Mathf.Sign(q.y * (m[2, 0] - m[0, 2]));
         q.z *= Mathf.Sign(q.z * (m[0, 1] - m[1, 2]));
         */
+        
         //todo not very efficient
+        /*
         Matrix4x4 mu = m.ToUnity();
-        transform.position = BSExtensionMethods.ExtractTranslationFromMatrix(ref mu);
-        transform.rotation = BSExtensionMethods.ExtractRotationFromMatrix(ref mu);
-        transform.localScale = BSExtensionMethods.ExtractScaleFromMatrix(ref mu);
+        UnityEngine.Vector3 p = BSExtensionMethods.ExtractTranslationFromMatrix(ref mu);
+        UnityEngine.Quaternion q = BSExtensionMethods.ExtractRotationFromMatrix(ref mu);
+        UnityEngine.Vector3 sc = BSExtensionMethods.ExtractScaleFromMatrix(ref mu);
+
+        UnityEngine.Vector3 p1 = BSExtensionMethods.ExtractTranslationFromMatrix(ref m);
+        UnityEngine.Quaternion q1 = BSExtensionMethods.ExtractRotationFromMatrix(ref m);
+        UnityEngine.Vector3 sc1 = BSExtensionMethods.ExtractScaleFromMatrix(ref m);
+
+        if (p != p1) Debug.Log("Dont match p " + p + " " + p1);
+        if (q != q1) Debug.Log("Dont match q " + q + " " + q1);
+        if (sc != sc1) Debug.Log("Dont match p " + sc + " " + sc1);
+        */
+
+        transform.position = BSExtensionMethods2.ExtractTranslationFromMatrix(ref m);
+        transform.rotation = BSExtensionMethods2.ExtractRotationFromMatrix(ref m);
+        transform.localScale = BSExtensionMethods2.ExtractScaleFromMatrix(ref m);
     }
 }

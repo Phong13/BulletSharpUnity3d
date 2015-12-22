@@ -11,8 +11,8 @@ WARNING
 The DemoFramework that these examples run in is not implemented using good design from a Unity point of view. 
 I would not recommend setting up Bullet physics in Unity based on the DemoFramework these examples run in.
 
-These are the examples included in the bullet distribution with minimal modification. They are included
-here as a reference and to make sure things are working correctly.
+This framework is designed to run the demos included in the bullet distribution with minimal modification. 
+They are included here as a reference and to make sure things are working correctly.
 */
 public class BulletExampleRunner : MonoBehaviour {
     protected static BulletExampleRunner singleton;
@@ -29,11 +29,30 @@ public class BulletExampleRunner : MonoBehaviour {
 
     void Start()
     {
-        //demo = new BasicDemo.BasicDemo();
-        demo = new SoftDemo.SoftDemo();
+        //demo = new CollisionInterfaceDemo.CollisionInterfaceDemo();
+        demo = new BasicDemo.BasicDemo();
+        //demo = new SoftDemo.SoftDemo();
         //demo = new BenchmarkDemo.BenchmarkDemo();
         //demo = new CharacterDemo.CharacterDemo();
+        demo.DebugDrawMode = DebugDrawModes.DrawWireframe;
         demo.Run();
+        demo.IsDebugDrawEnabled = true;
+    }
+
+    public void OnDrawGizmos()
+    {
+        if (demo != null && demo.World != null)
+        {
+            demo.IsDebugDrawEnabled = true;
+            Debug.Log(demo.World.DebugDrawer);
+            demo.World.DebugDrawWorld();
+            CollisionObject co = demo.World.CollisionObjectArray[0];
+            BulletSharp.Math.Matrix m;
+            co.GetWorldTransform(out m);
+            BulletSharp.Math.Vector3 v = new BulletSharp.Math.Vector3(1f, 0f, 0f);
+            Debug.Log(co.CollisionShape);
+            demo.World.DebugDrawObject(ref m, co.CollisionShape,ref v);
+        }
     }
 
     //singleton not sure if it needs to be
@@ -85,9 +104,9 @@ public class BulletExampleRunner : MonoBehaviour {
                         mr.sharedMaterial = mat;
                         ggo.transform.SetParent(go.transform);
                         Matrix4x4 mt = childTransform.ToUnity();
-                        ggo.transform.localPosition = BSExtensionMethods.ExtractTranslationFromMatrix(ref mt);
-                        ggo.transform.localRotation = BSExtensionMethods.ExtractRotationFromMatrix(ref mt);
-                        ggo.transform.localScale = BSExtensionMethods.ExtractScaleFromMatrix(ref mt);
+                        ggo.transform.localPosition = BSExtensionMethods2.ExtractTranslationFromMatrix(ref mt);
+                        ggo.transform.localRotation = BSExtensionMethods2.ExtractRotationFromMatrix(ref mt);
+                        ggo.transform.localScale = BSExtensionMethods2.ExtractScaleFromMatrix(ref mt);
 
                         /*
                         BulletRigidBodyProxy rbp = ggo.AddComponent<BulletRigidBodyProxy>();
@@ -106,8 +125,8 @@ public class BulletExampleRunner : MonoBehaviour {
                     BulletRigidBodyProxy rbp = go.AddComponent<BulletRigidBodyProxy>();
                     rbp.target = co as RigidBody;
                 } else { 
-                    Debug.Log("Creating " + cs.ShapeType);
-                    go = CreateUnityRigidBody(co as RigidBody);
+                    Debug.Log("Creating " + cs.ShapeType + " for " + co.ToString());
+                    go = CreateUnityCollisionObjectProxy(co as CollisionObject);
                 }
             }
             createdObjs.Add(go);
@@ -171,7 +190,7 @@ public class BulletExampleRunner : MonoBehaviour {
     }
     */
 
-    public GameObject CreateUnityRigidBody(RigidBody body) {
+    public GameObject CreateUnityCollisionObjectProxy(CollisionObject body) {
         GameObject go = new GameObject(body.ToString());
         MeshFilter mf = go.AddComponent<MeshFilter>();
         Mesh m = mf.mesh;
@@ -238,9 +257,9 @@ public class BulletExampleRunner : MonoBehaviour {
             MeshRenderer mr = cube.GetComponentInChildren<MeshRenderer>();
             mr.transform.localScale = s.ToUnity() * 2f;
             Matrix4x4 m = body.WorldTransform.ToUnity();
-            cube.transform.position = BSExtensionMethods.ExtractTranslationFromMatrix(ref m);
-            cube.transform.rotation = BSExtensionMethods.ExtractRotationFromMatrix(ref m);
-            cube.transform.localScale = BSExtensionMethods.ExtractScaleFromMatrix(ref m);
+            cube.transform.position = BSExtensionMethods2.ExtractTranslationFromMatrix(ref m);
+            cube.transform.rotation = BSExtensionMethods2.ExtractRotationFromMatrix(ref m);
+            cube.transform.localScale = BSExtensionMethods2.ExtractScaleFromMatrix(ref m);
             Destroy(cube.GetComponent<BulletRigidBodyProxy>());
             BulletMultiBodyLinkColliderProxy cp = cube.AddComponent<BulletMultiBodyLinkColliderProxy>();
             cp.target = body;

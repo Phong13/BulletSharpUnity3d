@@ -20,6 +20,14 @@ public class BRigidBody : MonoBehaviour,IDisposable {
     protected bool isInWorld = false;
     BCollisionShape m_collisionShape;
 
+    BulletSharp.Math.Vector3 _localInertia = BulletSharp.Math.Vector3.Zero;
+    public BulletSharp.Math.Vector3 localInertia
+    {
+        get{
+            return _localInertia;
+        }
+    }
+
     [SerializeField]
     float _mass = 1f;
     public float mass
@@ -36,8 +44,12 @@ public class BRigidBody : MonoBehaviour,IDisposable {
             }
             if (isInWorld)
             {
-                BulletSharp.Math.Vector3 inertia = m_Brigidbody.CollisionShape.CalculateLocalInertia(_mass);
-                m_Brigidbody.SetMassProps(_mass, inertia);
+                _localInertia = BulletSharp.Math.Vector3.Zero;
+                if (_type == RBType.dynamic)
+                {
+                    m_collisionShape.GetCollisionShape().CalculateLocalInertia(_mass, out _localInertia);
+                }
+                m_Brigidbody.SetMassProps(_mass, _localInertia);
             }
             _mass = value;
         }
@@ -109,9 +121,9 @@ public class BRigidBody : MonoBehaviour,IDisposable {
         }
     }
 
-    //TODO this should be modified so it is safe to call just before a rigidbody is added to the physics world
-    //It should be possible to call multiple times.
-    void _CreateRigidBody() {
+    //called by Physics World just before rigid body is added to world.
+    //the current rigid body properties are used to rebuild the rigid body.
+    public bool _BuildRigidBody() {
         BPhysicsWorld world = BPhysicsWorld.Get();
         if (m_Brigidbody != null)
         {
@@ -127,38 +139,57 @@ public class BRigidBody : MonoBehaviour,IDisposable {
             Debug.LogError("The local scale on this rigid body is not one. Bullet physics does not support scaling on a rigid body world transform. Instead alter the dimensions of the CollisionShape.");
         }
 
-
-
-        //rigidbody is dynamic if and only if mass is non zero, otherwise static
-        BulletSharp.Math.Vector3 localInertia = BulletSharp.Math.Vector3.Zero;
+        m_collisionShape = GetComponent<BCollisionShape>();
+        if (m_collisionShape == null)
+        {
+            Debug.LogError("There was no collision shape component attached to this BRigidBody. " + name);
+            return false;
+        }
 
         CollisionShape cs = m_collisionShape.GetCollisionShape();
-
+        //rigidbody is dynamic if and only if mass is non zero, otherwise static
+        _localInertia = BulletSharp.Math.Vector3.Zero;
         if (_type == RBType.dynamic) {
-            cs.CalculateLocalInertia(_mass, out localInertia);
+            cs.CalculateLocalInertia(_mass, out _localInertia);
         }
 
-        //using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
-        m_motionState = new BGameObjectMotionState(transform);
-
-        UnityEngine.Vector3 uv = transform.localScale;
-
-        RigidBodyConstructionInfo rbInfo;
-        if (_type == RBType.dynamic) {
-            rbInfo = new RigidBodyConstructionInfo(_mass, m_motionState, cs, localInertia);
+        if (m_Brigidbody == null)
+        {
+            m_motionState = new BGameObjectMotionState(transform);
+            RigidBodyConstructionInfo rbInfo;
+            if (_type == RBType.dynamic)
+            {
+                rbInfo = new RigidBodyConstructionInfo(_mass, m_motionState, cs, _localInertia);
+            }
+            else
+            {
+                rbInfo = new RigidBodyConstructionInfo(0, m_motionState, cs, localInertia);
+            }
+            m_Brigidbody = new RigidBody(rbInfo);
+            rbInfo.Dispose();
         } else
         {
-            rbInfo = new RigidBodyConstructionInfo(0, m_motionState, cs, localInertia);
+            m_Brigidbody.SetMassProps(_mass, localInertia);
+            m_Brigidbody.CollisionShape = cs;
         }
 
-        m_Brigidbody = new RigidBody(rbInfo);
         if (_type == RBType.kinematic)
         {
             m_Brigidbody.CollisionFlags = m_Brigidbody.CollisionFlags | BulletSharp.CollisionFlags.KinematicObject;
             m_Brigidbody.ActivationState = ActivationState.DisableDeactivation;
         }
 
-        rbInfo.Dispose();
+        
+        return true;
+    }
+
+    public RigidBody GetRigidBody()
+    {
+        if (m_Brigidbody == null)
+        {
+            _BuildRigidBody();
+        }
+        return m_Brigidbody;
     }
 
     void Awake() {
@@ -172,14 +203,10 @@ public class BRigidBody : MonoBehaviour,IDisposable {
         {
             Debug.LogError("A BRigidBody component must be on an object with a BCollisionShape component.");
         }
-        else
-        {
-            _CreateRigidBody();
-        }
     }
 
     void OnEnable() {
-        if (m_Brigidbody != null && BPhysicsWorld.Get().AddRigidBody(m_Brigidbody)) {
+        if (BPhysicsWorld.Get().AddRigidBody(this)) {
             isInWorld = true;
         }
     }

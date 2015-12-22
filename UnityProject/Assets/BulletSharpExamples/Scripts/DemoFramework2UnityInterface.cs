@@ -55,6 +55,7 @@ namespace BulletSharpExamples {
     Todo implment these and get them to work in OnDrawGizmos
     I have no idea how that will work since they are called from the demo code not from inside OnDrawGizmos
     */
+    /*
     public class DebugDrawStub : IDebugDraw {
         public void DrawLine(ref Vector3 from, ref Vector3 to, ref Vector3 fromColor) { }
         public void DrawLine(ref Vector3 from, ref Vector3 to, ref Vector3 fromColor, ref Vector3 toColor) { }
@@ -67,9 +68,7 @@ namespace BulletSharpExamples {
         public void DrawContactPoint(ref Vector3 pointOnB, ref Vector3 normalOnB, float distance, int lifeTime, ref Vector3 color) { }
         public void ReportErrorWarning(String warningString) { }
         public void Draw3dText(ref Vector3 location, String textString) { }
-
         public DebugDrawModes DebugMode { get; set; }
-
         public void DrawAabb(ref Vector3 from, ref Vector3 to, ref Vector3 color) { }
         public void DrawTransform(ref Matrix transform, float orthoLen) { }
         public void DrawArc(ref Vector3 center, ref Vector3 normal, ref Vector3 axis, float radiusA, float radiusB, float minAngle, float maxAngle,
@@ -84,9 +83,8 @@ namespace BulletSharpExamples {
         public void DrawCylinder(float radius, float halfHeight, int upAxis, ref Matrix transform, ref Vector3 color) { }
         public void DrawCone(float radius, float height, int upAxis, ref Matrix transform, ref Vector3 color) { }
         public void DrawPlane(ref Vector3 planeNormal, float planeConst, ref Matrix transform, ref Vector3 color) { }
-
     }
-
+    */
 
     public class GraphicsLibraryManager {
         public static bool ExitWithReload;
@@ -122,7 +120,7 @@ namespace BulletSharpExamples {
         //public MouseButtons MouseDown;
 
         public IDebugDraw GetPhysicsDebugDrawer() {
-            return new DebugDrawStub();
+            return new DebugDrawUnity();
         }
 
         public void Initialize() {

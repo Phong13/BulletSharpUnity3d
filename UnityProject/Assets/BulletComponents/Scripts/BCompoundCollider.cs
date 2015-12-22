@@ -52,6 +52,7 @@ public class BCompoundCollider : BCollisionShape {
             
             //TODO
             // some of the collider types (non-finite and other compound colliders) are probably not
+            // can only be added to game object with rigid body attached.
             // allowed should check for these.
             // what about scaling not sure if it is handled correctly
             CompoundShape cs = new CompoundShape();
@@ -73,8 +74,16 @@ public class BCompoundCollider : BCollisionShape {
                 forward = transform.InverseTransformPoint(forward);
                 Quaternion q = Quaternion.LookRotation(forward, up);
 
-                BulletSharp.Math.Matrix m = BulletSharp.Math.Matrix.AffineTransformation(1f,q.ToBullet(),origin.ToBullet());
+                /*
+                Some collision shapes can have local scaling applied. Use
+                btCollisionShape::setScaling(vector3).Non uniform scaling with different scaling
+                values for each axis, can be used for btBoxShape, btMultiSphereShape,
+                btConvexShape, btTriangleMeshShape.Note that a non - uniform scaled
+                sphere can be created by using a btMultiSphereShape with 1 sphere.
+                */
 
+                BulletSharp.Math.Matrix m = BulletSharp.Math.Matrix.AffineTransformation(1f,q.ToBullet(),origin.ToBullet());
+                
                 cs.AddChildShape(m, chcs);
             }
         }

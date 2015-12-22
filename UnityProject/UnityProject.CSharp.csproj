@@ -72,17 +72,19 @@
     <Compile Include="Assets\BulletComponents\Demos\MoveKinematicObject.cs" />
     <Compile Include="Assets\BulletComponents\Demos\SetAngularAndLinearVelocity.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BBoxShape.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\BCollisionContact.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BCollisionShape.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BCompoundCollider.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BDynamicsWorld.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BGameObjectMotionState.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BPhysicsWorld.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BRigidBody.cs" />
-    <Compile Include="Assets\BulletComponents\Scripts\BSExtensionMethods.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\BSExtensionMethods2.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BSoftBodyWorld.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BSphereShape.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BUtility.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\InvalidDataException.cs" />
+    <Compile Include="Assets\BulletSharp\BSExtensionMethods.cs" />
     <Compile Include="Assets\BulletSharp\Collision\ActivatingCollisionAlgorithm.cs" />
     <Compile Include="Assets\BulletSharp\Collision\AxisSweep3.cs" />
     <Compile Include="Assets\BulletSharp\Collision\Box2DBox2DCollisionAlgorithm.cs" />
@@ -275,6 +277,7 @@
     <Compile Include="Assets\BulletSharpExamples\Demos\CharacterDemo\BspConverter.cs" />
     <Compile Include="Assets\BulletSharpExamples\Demos\CharacterDemo\BspLoader.cs" />
     <Compile Include="Assets\BulletSharpExamples\Demos\CharacterDemo\CharacterDemo.cs" />
+    <Compile Include="Assets\BulletSharpExamples\Demos\CollisionInterfaceDemo\CollisionInterfaceDemo.cs" />
     <Compile Include="Assets\BulletSharpExamples\Demos\DemoFramework\Demo.cs" />
     <Compile Include="Assets\BulletSharpExamples\Demos\FeatherStoneDemo\FeatherStoneDemo.cs" />
     <Compile Include="Assets\BulletSharpExamples\Demos\SoftDemo\Bunny.cs" />
@@ -286,6 +289,7 @@
     <Compile Include="Assets\BulletSharpExamples\Scripts\BulletRigidBodyProxy.cs" />
     <Compile Include="Assets\BulletSharpExamples\Scripts\BulletRopeProxy.cs" />
     <Compile Include="Assets\BulletSharpExamples\Scripts\BulletSoftBodyProxy.cs" />
+    <Compile Include="Assets\BulletSharpExamples\Scripts\DebugDrawUnity.cs" />
     <Compile Include="Assets\BulletSharpExamples\Scripts\DemoFramework2UnityInterface.cs" />
     <Compile Include="Assets\BulletSharpExamples\Scripts\MeshFactory.cs" />
     <Compile Include="Assets\BulletSharpExamples\Scripts\MeshFactory2.cs" />
