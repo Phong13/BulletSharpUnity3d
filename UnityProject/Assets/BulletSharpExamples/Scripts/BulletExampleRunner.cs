@@ -44,14 +44,7 @@ public class BulletExampleRunner : MonoBehaviour {
         if (demo != null && demo.World != null)
         {
             demo.IsDebugDrawEnabled = true;
-            Debug.Log(demo.World.DebugDrawer);
             demo.World.DebugDrawWorld();
-            CollisionObject co = demo.World.CollisionObjectArray[0];
-            BulletSharp.Math.Matrix m;
-            co.GetWorldTransform(out m);
-            BulletSharp.Math.Vector3 v = new BulletSharp.Math.Vector3(1f, 0f, 0f);
-            Debug.Log(co.CollisionShape);
-            demo.World.DebugDrawObject(ref m, co.CollisionShape,ref v);
         }
     }
 

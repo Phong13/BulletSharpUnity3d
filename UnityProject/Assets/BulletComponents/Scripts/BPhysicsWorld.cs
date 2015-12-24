@@ -38,7 +38,44 @@ public class BPhysicsWorld : MonoBehaviour, IDisposable
         }
     }
 
-    
+    protected DebugDrawModes _debugDrawMode = DebugDrawModes.DrawWireframe;
+    public DebugDrawModes DebugDrawMode {
+        get { return _debugDrawMode; }
+        set {
+            _debugDrawMode = value;
+            if (_doDebugDraw && World != null && World.DebugDrawer != null) {
+                World.DebugDrawer.DebugMode = value;
+            }
+        }
+    }
+
+    protected bool _doDebugDraw = false;
+    public bool DoDebugDraw {
+        get { return _doDebugDraw; }
+        set {
+            if (_doDebugDraw != value && World != null) {
+                if (value == true) {
+                    BulletSharpExamples.DebugDrawUnity db = new BulletSharpExamples.DebugDrawUnity();
+                    db.DebugMode = DebugDrawModes.DrawWireframe;
+                    World.DebugDrawer = db;
+                } else {
+                    IDebugDraw db = World.DebugDrawer;
+                    if (db != null && db is IDisposable) {
+                        ((IDisposable)db).Dispose();
+                    }
+                    World.DebugDrawer = null;
+                }
+            }
+            _doDebugDraw = value;
+        }
+    }
+
+    public void OnDrawGizmos() {
+        if (_doDebugDraw && World != null) {
+            World.DebugDrawWorld();
+        }
+    }
+
     //It is critical that Awake be called before any other scripts call BPhysicsWorld.Get()
     //Set this script and any derived classes very early in script execution order.
     protected virtual void Awake() {

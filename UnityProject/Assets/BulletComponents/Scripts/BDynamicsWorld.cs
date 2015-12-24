@@ -49,6 +49,13 @@ public class BDynamicsWorld : BPhysicsWorld, IDisposable {
                 obj.Dispose();
             }
 
+            if (World.DebugDrawer != null) {
+                if (World.DebugDrawer is IDisposable) {
+                    IDisposable dis = (IDisposable) World.DebugDrawer;
+                    dis.Dispose();
+                }
+            }
+
             //delete collision shapes
             //foreach (CollisionShape shape in CollisionShapes)
             //    shape.Dispose();

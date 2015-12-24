@@ -57,6 +57,12 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -72,7 +78,7 @@
     <Compile Include="Assets\BulletComponents\Demos\MoveKinematicObject.cs" />
     <Compile Include="Assets\BulletComponents\Demos\SetAngularAndLinearVelocity.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BBoxShape.cs" />
-    <Compile Include="Assets\BulletComponents\Scripts\BCollisionContact.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\BCapsuleShape.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BCollisionShape.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BCompoundCollider.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BDynamicsWorld.cs" />
@@ -293,6 +299,10 @@
     <Compile Include="Assets\BulletSharpExamples\Scripts\DemoFramework2UnityInterface.cs" />
     <Compile Include="Assets\BulletSharpExamples\Scripts\MeshFactory.cs" />
     <Compile Include="Assets\BulletSharpExamples\Scripts\MeshFactory2.cs" />
+    <Compile Include="Assets\_Experiment\BPTestHarness.cs" />
+    <Compile Include="Assets\_Experiment\BulletRope.cs" />
+    <Compile Include="Assets\_Experiment\ExtensionMethodTestHarness.cs" />
+    <Compile Include="Assets\_Experiment\IansTestScript.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
