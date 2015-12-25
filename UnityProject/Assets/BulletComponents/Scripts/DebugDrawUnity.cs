@@ -3,7 +3,7 @@ using System.Collections;
 using BulletSharp;
 using BulletSharp.Math;
 
-namespace BulletSharpExamples
+namespace BulletUnity
 {
     public class DebugDrawUnity : DebugDraw
     {

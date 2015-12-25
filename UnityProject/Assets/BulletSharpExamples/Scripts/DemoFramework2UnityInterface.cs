@@ -4,6 +4,7 @@ using System.Collections;
 using BulletSharp;
 using BulletSharp.Math;
 using System.Collections.Generic;
+using BulletUnity;
 
 /*
 This class contains functions and classes that look like the ones the BulletSharp DemoFramework is

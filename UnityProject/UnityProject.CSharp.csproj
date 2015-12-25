@@ -81,15 +81,18 @@
     <Compile Include="Assets\BulletComponents\Scripts\BCapsuleShape.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BCollisionShape.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BCompoundCollider.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\BConvexHullShape.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\BConvexTriangleMeshShape.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BDynamicsWorld.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BGameObjectMotionState.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\BMultiSphereShape.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BPhysicsWorld.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BRigidBody.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BSExtensionMethods2.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BSoftBodyWorld.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BSphereShape.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BUtility.cs" />
-    <Compile Include="Assets\BulletComponents\Scripts\InvalidDataException.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\DebugDrawUnity.cs" />
     <Compile Include="Assets\BulletSharp\BSExtensionMethods.cs" />
     <Compile Include="Assets\BulletSharp\Collision\ActivatingCollisionAlgorithm.cs" />
     <Compile Include="Assets\BulletSharp\Collision\AxisSweep3.cs" />
@@ -239,6 +242,7 @@
     <Compile Include="Assets\BulletSharp\Extras\Hacd.cs" />
     <Compile Include="Assets\BulletSharp\Extras\WorldImporter.cs" />
     <Compile Include="Assets\BulletSharp\Extras\bFile.cs" />
+    <Compile Include="Assets\BulletSharp\InvalidDataException.cs" />
     <Compile Include="Assets\BulletSharp\LinearMath\AlignedBroadphasePairArray.cs" />
     <Compile Include="Assets\BulletSharp\LinearMath\AlignedCollisionObjectArray.cs" />
     <Compile Include="Assets\BulletSharp\LinearMath\AlignedIndexedMeshArray.cs" />
@@ -295,7 +299,6 @@
     <Compile Include="Assets\BulletSharpExamples\Scripts\BulletRigidBodyProxy.cs" />
     <Compile Include="Assets\BulletSharpExamples\Scripts\BulletRopeProxy.cs" />
     <Compile Include="Assets\BulletSharpExamples\Scripts\BulletSoftBodyProxy.cs" />
-    <Compile Include="Assets\BulletSharpExamples\Scripts\DebugDrawUnity.cs" />
     <Compile Include="Assets\BulletSharpExamples\Scripts\DemoFramework2UnityInterface.cs" />
     <Compile Include="Assets\BulletSharpExamples\Scripts\MeshFactory.cs" />
     <Compile Include="Assets\BulletSharpExamples\Scripts\MeshFactory2.cs" />

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using BulletSharp.SoftBody;
+using BulletUnity;
 
 public class BulletSoftBodyProxy : MonoBehaviour {
     public SoftBody target;

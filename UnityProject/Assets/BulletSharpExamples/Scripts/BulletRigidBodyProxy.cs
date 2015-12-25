@@ -2,6 +2,7 @@
 using System.Collections;
 using BulletSharp;
 using BulletSharp.Math;
+using BulletUnity;
 
 //todo should rename to CollisionObjectProxy
 public class BulletRigidBodyProxy : MonoBehaviour {

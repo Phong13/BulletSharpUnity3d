@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using BulletUnity;
 
 [CustomEditor(typeof(BDynamicsWorld))]
 public class BDynamicsWorldEditor : Editor

@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using BulletSharp;
 using BulletSharp.Math;
 using UnityEngine;
+using BulletUnity;
 
 namespace DemoFramework {
     public class MeshFactory2 {
