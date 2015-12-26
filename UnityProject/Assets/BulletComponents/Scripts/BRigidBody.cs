@@ -99,12 +99,12 @@ namespace BulletUnity {
 
         //called by Physics World just before rigid body is added to world.
         //the current rigid body properties are used to rebuild the rigid body.
-        public bool _BuildRigidBody() {
+        internal bool _BuildRigidBody() {
             BPhysicsWorld world = BPhysicsWorld.Get();
             if (m_Brigidbody != null) {
                 if (isInWorld && world != null) {
                     isInWorld = false;
-                    world.World.RemoveRigidBody(m_Brigidbody);
+                    world.RemoveRigidBody(m_Brigidbody);
                 }
             }
 
@@ -144,8 +144,6 @@ namespace BulletUnity {
                 m_Brigidbody.CollisionFlags = m_Brigidbody.CollisionFlags | BulletSharp.CollisionFlags.KinematicObject;
                 m_Brigidbody.ActivationState = ActivationState.DisableDeactivation;
             }
-
-
             return true;
         }
 

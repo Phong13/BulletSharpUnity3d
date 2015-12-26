@@ -31,7 +31,7 @@ namespace DemoFramework {
                     Debug.LogError("Not Implemented " + shape);
                     return;
                 case BroadphaseNativeType.CylinderShape:
-                    Debug.LogError("Not Implemented " + shape);
+                    CreateCylinder(shape as CylinderShape, mesh);
                     return;
                 case BroadphaseNativeType.GImpactShape:
                     Debug.LogError("Not Implemented " + shape);
@@ -80,6 +80,144 @@ namespace DemoFramework {
             mesh.triangles = tris;
             mesh.RecalculateBounds();
             mesh.RecalculateNormals();
+        }
+
+        public static void CreateCylinder(CylinderShape cs, Mesh mesh) {
+            mesh.Clear();
+            float r = cs.Radius;
+            //todo this is a cube
+            mesh.Clear();
+            BulletSharp.Math.Vector3 ext = cs.HalfExtentsWithMargin;
+            float length = ext.X * 2f;
+            float width = ext.Y * 2f;
+            float height = ext.Z * 2f;
+
+
+            UnityEngine.Vector3 p0 = new UnityEngine.Vector3(-length * .5f, -width * .5f, height * .5f);
+            UnityEngine.Vector3 p1 = new UnityEngine.Vector3(length * .5f, -width * .5f, height * .5f);
+            UnityEngine.Vector3 p2 = new UnityEngine.Vector3(length * .5f, -width * .5f, -height * .5f);
+            UnityEngine.Vector3 p3 = new UnityEngine.Vector3(-length * .5f, -width * .5f, -height * .5f);
+
+            UnityEngine.Vector3 p4 = new UnityEngine.Vector3(-length * .5f, width * .5f, height * .5f);
+            UnityEngine.Vector3 p5 = new UnityEngine.Vector3(length * .5f, width * .5f, height * .5f);
+            UnityEngine.Vector3 p6 = new UnityEngine.Vector3(length * .5f, width * .5f, -height * .5f);
+            UnityEngine.Vector3 p7 = new UnityEngine.Vector3(-length * .5f, width * .5f, -height * .5f);
+
+            UnityEngine.Vector3[] vertices = new UnityEngine.Vector3[]
+            {
+	// Bottom
+	p0, p1, p2, p3,
+ 
+	// Left
+	p7, p4, p0, p3,
+ 
+	// Front
+	p4, p5, p1, p0,
+ 
+	// Back
+	p6, p7, p3, p2,
+ 
+	// Right
+	p5, p6, p2, p1,
+ 
+	// Top
+	p7, p6, p5, p4
+            };
+
+
+
+            UnityEngine.Vector3 up = UnityEngine.Vector3.up;
+            UnityEngine.Vector3 down = UnityEngine.Vector3.down;
+            UnityEngine.Vector3 front = UnityEngine.Vector3.forward;
+            UnityEngine.Vector3 back = UnityEngine.Vector3.back;
+            UnityEngine.Vector3 left = UnityEngine.Vector3.left;
+            UnityEngine.Vector3 right = UnityEngine.Vector3.right;
+
+            UnityEngine.Vector3[] normales = new UnityEngine.Vector3[]
+            {
+	// Bottom
+	down, down, down, down,
+ 
+	// Left
+	left, left, left, left,
+ 
+	// Front
+	front, front, front, front,
+ 
+	// Back
+	back, back, back, back,
+ 
+	// Right
+	right, right, right, right,
+ 
+	// Top
+	up, up, up, up
+            };
+
+
+
+            Vector2 _00 = new Vector2(0f, 0f);
+            Vector2 _10 = new Vector2(1f, 0f);
+            Vector2 _01 = new Vector2(0f, 1f);
+            Vector2 _11 = new Vector2(1f, 1f);
+
+            Vector2[] uvs = new Vector2[]
+            {
+	// Bottom
+	_11, _01, _00, _10,
+ 
+	// Left
+	_11, _01, _00, _10,
+ 
+	// Front
+	_11, _01, _00, _10,
+ 
+	// Back
+	_11, _01, _00, _10,
+ 
+	// Right
+	_11, _01, _00, _10,
+ 
+	// Top
+	_11, _01, _00, _10,
+            };
+
+
+
+            int[] triangles = new int[]
+            {
+	// Bottom
+	3, 1, 0,
+    3, 2, 1,			
+ 
+	// Left
+	3 + 4 * 1, 1 + 4 * 1, 0 + 4 * 1,
+    3 + 4 * 1, 2 + 4 * 1, 1 + 4 * 1,
+ 
+	// Front
+	3 + 4 * 2, 1 + 4 * 2, 0 + 4 * 2,
+    3 + 4 * 2, 2 + 4 * 2, 1 + 4 * 2,
+ 
+	// Back
+	3 + 4 * 3, 1 + 4 * 3, 0 + 4 * 3,
+    3 + 4 * 3, 2 + 4 * 3, 1 + 4 * 3,
+ 
+	// Right
+	3 + 4 * 4, 1 + 4 * 4, 0 + 4 * 4,
+    3 + 4 * 4, 2 + 4 * 4, 1 + 4 * 4,
+ 
+	// Top
+	3 + 4 * 5, 1 + 4 * 5, 0 + 4 * 5,
+    3 + 4 * 5, 2 + 4 * 5, 1 + 4 * 5,
+
+            };
+            mesh.vertices = vertices;
+            mesh.normals = normales;
+            mesh.uv = uvs;
+            mesh.triangles = triangles;
+
+            mesh.RecalculateBounds();
+            mesh.Optimize();
         }
 
         public static void CreateCube(CollisionShape cs, Mesh mesh) {

@@ -75,9 +75,19 @@ namespace BulletUnity
         public override void DrawAabb(ref Vector3 from, ref Vector3 to, ref Vector3 color) {
             DrawBox(ref from, ref to, ref color);
         }
-        public override void DrawTransform(ref Matrix transform, float orthoLen) {
-            //todo
-            UnityEngine.Debug.LogError("Not implemented");
+        public override void DrawTransform(ref Matrix trans, float orthoLen) {
+            UnityEngine.Vector3 pos = BSExtensionMethods2.ExtractTranslationFromMatrix(ref trans);
+            UnityEngine.Quaternion rot = BSExtensionMethods2.ExtractRotationFromMatrix(ref trans);
+            UnityEngine.Vector3 scale = BSExtensionMethods2.ExtractScaleFromMatrix(ref trans);
+            UnityEngine.Vector3 p1 = pos + rot * UnityEngine.Vector3.up * orthoLen;
+            UnityEngine.Vector3 p2 = pos - rot * UnityEngine.Vector3.up * orthoLen;
+            UnityEngine.Gizmos.DrawLine(p1, p2);
+            p1 = pos + rot * UnityEngine.Vector3.right * orthoLen;
+            p2 = pos - rot * UnityEngine.Vector3.right * orthoLen;
+            UnityEngine.Gizmos.DrawLine(p1, p2);
+            p1 = pos + rot * UnityEngine.Vector3.forward * orthoLen;
+            p2 = pos - rot * UnityEngine.Vector3.forward * orthoLen;
+            UnityEngine.Gizmos.DrawLine(p1, p2);
         }
         public override void DrawArc(ref Vector3 center, ref Vector3 normal, ref Vector3 axis, float radiusA, float radiusB, float minAngle, float maxAngle,
             ref Vector3 color, bool drawSect)

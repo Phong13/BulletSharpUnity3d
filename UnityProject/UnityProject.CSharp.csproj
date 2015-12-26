@@ -93,6 +93,8 @@
     <Compile Include="Assets\BulletComponents\Scripts\CollisionShapes\BConvexTriangleMeshShape.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\CollisionShapes\BMultiSphereShape.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\CollisionShapes\BSphereShape.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\Constraints\BHingedConstraint.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\Constraints\BTypedConstraint.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\DebugDrawUnity.cs" />
     <Compile Include="Assets\BulletSharp\BSExtensionMethods.cs" />
     <Compile Include="Assets\BulletSharp\Collision\ActivatingCollisionAlgorithm.cs" />
@@ -289,6 +291,7 @@
     <Compile Include="Assets\BulletSharpExamples\Demos\CharacterDemo\BspLoader.cs" />
     <Compile Include="Assets\BulletSharpExamples\Demos\CharacterDemo\CharacterDemo.cs" />
     <Compile Include="Assets\BulletSharpExamples\Demos\CollisionInterfaceDemo\CollisionInterfaceDemo.cs" />
+    <Compile Include="Assets\BulletSharpExamples\Demos\ConstraintDemo\ConstraintDemo.cs" />
     <Compile Include="Assets\BulletSharpExamples\Demos\DemoFramework\Demo.cs" />
     <Compile Include="Assets\BulletSharpExamples\Demos\FeatherStoneDemo\FeatherStoneDemo.cs" />
     <Compile Include="Assets\BulletSharpExamples\Demos\SoftDemo\Bunny.cs" />

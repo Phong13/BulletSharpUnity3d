@@ -31,10 +31,11 @@ public class BulletExampleRunner : MonoBehaviour {
     void Start()
     {
         //demo = new CollisionInterfaceDemo.CollisionInterfaceDemo();
-        demo = new BasicDemo.BasicDemo();
+        //demo = new BasicDemo.BasicDemo();
         //demo = new SoftDemo.SoftDemo();
         //demo = new BenchmarkDemo.BenchmarkDemo();
         //demo = new CharacterDemo.CharacterDemo();
+        demo = new ConstraintDemo.ConstraintDemo();
         demo.DebugDrawMode = DebugDrawModes.DrawWireframe;
         demo.Run();
         demo.IsDebugDrawEnabled = true;

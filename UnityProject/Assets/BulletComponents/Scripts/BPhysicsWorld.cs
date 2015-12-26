@@ -125,7 +125,7 @@ namespace BulletUnity {
 
         public bool AddRigidBody(BRigidBody rb) {
             if (!_isDisposed) {
-                Debug.LogFormat("Adding {0} to world", rb);
+                Debug.LogFormat("Adding rigidbody {0} to world", rb);
                 if (rb._BuildRigidBody()) {
                     World.AddRigidBody(rb.GetRigidBody());
                 }
@@ -136,8 +136,26 @@ namespace BulletUnity {
 
         public void RemoveRigidBody(BulletSharp.RigidBody rb) {
             if (!_isDisposed) {
-                Debug.LogFormat("Removing {0} from world", rb);
+                Debug.LogFormat("Removing rigidbody {0} from world", rb);
                 World.RemoveRigidBody(rb);
+            }
+        }
+
+        public bool AddConstraint(BTypedConstraint c) {
+            if (!_isDisposed) {
+                Debug.LogFormat("Adding constraint {0} to world", c);
+                if (c._BuildConstraint()) {
+                    World.AddConstraint(c.GetConstraint());
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public void RemoveConstraint(BulletSharp.TypedConstraint c) {
+            if (!_isDisposed) {
+                Debug.LogFormat("Removing constraint {0} from world", c);
+                World.RemoveConstraint(c);
             }
         }
     }

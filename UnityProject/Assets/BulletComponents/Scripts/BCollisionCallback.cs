@@ -19,7 +19,7 @@ namespace BulletUnity {
     If you want only a few objects in your scene to have collision callbacks then attach the BCollisionCallback to the
     rigidbodies you want the callbacks for.
 
-    Will bullet you can also query for collisions between objects on demand
+    With bullet you can also query for collisions between objects on demand
     */
     public class BCollisionCallback : MonoBehaviour {
 
@@ -64,6 +64,8 @@ namespace BulletUnity {
             contactCallback.Dispose();
         }
 
+        // index is the index in the triangle array if the collision object was a triangle array
+        // partID is the part of the mesh involved
         public float AddSingleResult(ManifoldPoint cp, CollisionObjectWrapper colObj0Wrap, int partId0, int index0, CollisionObjectWrapper colObj1Wrap, int partId1, int index1) {
             CollisionObject other = colObj0Wrap.CollisionObject;
             if (other == rigidBody) {
@@ -79,6 +81,7 @@ namespace BulletUnity {
 
             //TODO see if there is a way to do this without needing to allocate two HashSets every FixeUpdate
             //TODO think about efficiency. things won't change much most of the FixedUpdate calls. Using these sets may be overkill
+            //TODO can probably arrays if less than 4 total collisions in previous and current and use hashsets if more.
 
             //enter collisions
             HashSet<CollisionObject> enterObjects = new HashSet<CollisionObject>(objsCurrentlyInContactWith);

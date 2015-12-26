@@ -1,0 +1,46 @@
+Implement:
+  - Cone collision shape
+  - Cylinder collision shape
+  
+Add a BCollisionShape field to the RigidBody so shapes can be shared across rigid bodies. Perhaps shapes should be scriptable objects instead of
+Monobehaviors since they don't actually use their transform. A RigidBody will use a shape if component is present else it will look for an 
+attached collision shape component.
+
+Implement editors for the collision shapes and add warnings explaining which shapes support local scaling and which shapes are for static
+vs. dynamic geometry. Add checks in the code for this.
+
+Implement localScaling for the shapes that support it.
+
+---- BCollisionCallback
+Add collision details to the OnEnter, OnStay, OnExit callbacks in the BCollisionCallback class. Copy all the data in the ManifoldPoint to Unity objects
+Make this optional since it is expensive. Find out if we can just use a reference to the ManifoldPoint, when does that get disposed.
+
+Improve the use of HashSets so we are not allocating two new HashSets every LateUpdate
+
+Find out if there can be multiple collision manifolds between the same pairs of CollisionObjects. If so we need to change the callback algorithm.
+
+---- All components
+
+Everything should be properties so that changes can be intercepted and passed on to the corresponding Bullet objects
+
+---- BPhysicsWorld
+
+Integrate layers to control what can collide with what.
+Make the World configurable so it is possible to change the Brodphase algorithm, Collision Dispatcher algorithm etc...
+
+---- Create a trigger equivalent component
+
+---- Implement the Constraints
+
+---- Native Plugin builds for more platforms, OSX, Windows Store, Android, iOS etc...
+
+---- Unit tests and examples. Don't bother with examples until we are very happy with the components
+
+---- BulletSharp Demos, finish implementing these.
+        MeshFactory2.CreateShape is wrong for Cylinder. It is creating a cube. Needs to be a Cylinder.
+
+-------------
+Soft bodies
+
+---- Loads to do
+
