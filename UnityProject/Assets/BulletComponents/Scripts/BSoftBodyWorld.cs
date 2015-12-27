@@ -4,17 +4,18 @@ using BulletSharp;
 using BulletSharp.Math;
 using BulletSharp.SoftBody;
 
-namespace BulletUnity {
-    public class BSoftBodyWorld : BDynamicsWorld {
+namespace BulletUnity
+{
+
+    public class BSoftBodyWorld : BDynamicsWorld
+    {
 
         SoftBodyWorldInfo softBodyWorldInfo;
-        public DefaultCollisionConfiguration CollisionConf;
-        public CollisionDispatcher Dispatcher;
-        public AxisSweep3 Broadphase;
         public SequentialImpulseConstraintSolver Solver;
         const int maxProxies = 32766;
 
-        protected override void _InitializePhysicsWorld() {
+        protected override void _InitializePhysicsWorld()
+        {
             base._InitializePhysicsWorld();
             CollisionConf = new SoftBodyRigidBodyCollisionConfiguration();
             Dispatcher = new CollisionDispatcher(CollisionConf);
@@ -25,7 +26,8 @@ namespace BulletUnity {
             // the default constraint solver.
             Solver = new SequentialImpulseConstraintSolver();
 
-            softBodyWorldInfo = new SoftBodyWorldInfo {
+            softBodyWorldInfo = new SoftBodyWorldInfo
+            {
                 AirDensity = 1.2f,
                 WaterDensity = 0,
                 WaterOffset = 0,

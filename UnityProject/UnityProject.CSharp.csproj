@@ -57,12 +57,6 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -83,19 +77,31 @@
     <Compile Include="Assets\BulletComponents\Scripts\BPhysicsWorld.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BRigidBody.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BSExtensionMethods2.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\BSoftBody.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BSoftBodyWorld.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\BUtility.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\CollisionShapes\BBoxShape.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\CollisionShapes\BCapsuleShape.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\CollisionShapes\BCollisionShape.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\CollisionShapes\BCompoundCollider.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\CollisionShapes\BConeShape.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\CollisionShapes\BConvexHullShape.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\CollisionShapes\BConvexTriangleMeshShape.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\CollisionShapes\BCylinderShape.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\CollisionShapes\BMultiSphereShape.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\CollisionShapes\BSphereShape.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\Constraints\BHingedConstraint.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\Constraints\BTypedConstraint.cs" />
     <Compile Include="Assets\BulletComponents\Scripts\DebugDrawUnity.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\Primitives\BBox.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\Primitives\BCone.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\Primitives\BCylinder.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\Primitives\BObjects\BObject.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\Primitives\BPrimitive.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\Primitives\BSoft.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\Primitives\BSphere.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\Primitives\EnumerationExtensions.cs" />
+    <Compile Include="Assets\BulletComponents\Scripts\Primitives\ProceduralPrimitives.cs" />
     <Compile Include="Assets\BulletSharp\BSExtensionMethods.cs" />
     <Compile Include="Assets\BulletSharp\Collision\ActivatingCollisionAlgorithm.cs" />
     <Compile Include="Assets\BulletSharp\Collision\AxisSweep3.cs" />

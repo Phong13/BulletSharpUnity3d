@@ -7,9 +7,9 @@ using BulletSharp;
 namespace BulletUnity {
     public class BDynamicsWorld : BPhysicsWorld, IDisposable {
 
-        public DefaultCollisionConfiguration CollisionConf;
+        public CollisionConfiguration CollisionConf;
         public CollisionDispatcher Dispatcher;
-        public DbvtBroadphase Broadphase;
+        public BroadphaseInterface Broadphase;
 
         protected override void _InitializePhysicsWorld() {
             base._InitializePhysicsWorld();

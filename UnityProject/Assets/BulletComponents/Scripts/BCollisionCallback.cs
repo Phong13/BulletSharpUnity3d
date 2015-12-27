@@ -35,11 +35,102 @@ namespace BulletUnity {
             }
         }
 
+        public class BulletUnityContactPoint {
+            public CollisionObject objA;
+            public CollisionShape shapeA;
+            public CollisionObject objB;
+            public CollisionShape shapeB;
+            public float AppliedImpulse;
+            public float AppliedImpulseLateral1;
+            public float AppliedImpulseLateral2;
+            public float CombinedFriction;
+            public float CombinedRestitution;
+            public float CombinedRollingFriction;
+            public float ContactCfm1;
+            public float ContactCfm2;
+            public float ContactMotion1;
+            public float ContactMotion2;
+            public float Distance;
+            public float Distance1;
+            //index is the index in the triangle array for triangle meshes
+            public float Index0;
+            public float Index1;
+            //part is the part id for large meshes
+            public int PartID0;
+            public int PartID1;
+            public Vector3 LateralFrictionDir1;
+            public Vector3 LateralFrictionDir2;
+            public int Lifetime;
+            public Vector3 NormalWorldOnB;
+            public Vector3 PositionWorldOnB;
+            public Vector3 PositionWorldOnA;
+
+            public BulletUnityContactPoint(ManifoldPoint mp, CollisionObjectWrapper a, CollisionObjectWrapper b) {
+                objA = a.CollisionObject;
+                objB = b.CollisionObject;
+                shapeA = a.CollisionShape;
+                shapeB = b.CollisionShape;
+                AppliedImpulse = mp.AppliedImpulse;
+                AppliedImpulseLateral1 = mp.AppliedImpulseLateral1;
+                AppliedImpulseLateral2 = mp.AppliedImpulseLateral2;
+                CombinedFriction = mp.CombinedFriction;
+                CombinedRestitution = mp.CombinedRestitution;
+                CombinedRollingFriction = mp.CombinedRollingFriction;
+                ContactCfm1 = mp.ContactCfm1;
+                ContactCfm2 = mp.ContactCfm2;
+                ContactMotion1 = mp.ContactMotion1;
+                ContactMotion2 = mp.ContactMotion2;
+                Distance = mp.Distance;
+                Distance1 = mp.Distance1;
+                Index0 = mp.Index0;
+                Index1 = mp.Index1;
+                PartID0 = mp.PartId0;
+                PartID1 = mp.PartId1;
+                LateralFrictionDir1 = mp.LateralFrictionDir1.ToUnity();
+                LateralFrictionDir2 = mp.LateralFrictionDir2.ToUnity();
+                Lifetime = mp.LifeTime;
+                NormalWorldOnB = mp.NormalWorldOnB.ToUnity();
+                PositionWorldOnA = mp.PositionWorldOnA.ToUnity();
+                PositionWorldOnB = mp.PositionWorldOnB.ToUnity();
+            }
+        }
+
+        public struct SingleCollision {
+            public CollisionObject obj;
+            public BulletUnityContactPoint collisionDetails;
+
+            public SingleCollision(CollisionObject o, BulletUnityContactPoint cp) {
+                obj = o;
+                collisionDetails = cp;
+            }
+            /*
+            public override bool Equals(object obj) {
+                if (!(obj is SingleCollision)) return false;
+                SingleCollision other = (SingleCollision)obj;
+                return obj.Equals(other.obj);
+            }
+
+            public override int GetHashCode() {
+                return obj.GetHashCode();
+            }
+            */
+        }
+
+        public class SingleCollisionComparer:IEqualityComparer<SingleCollision>{
+            public bool Equals(SingleCollision a, SingleCollision b) {
+                return a.Equals(b);
+            }
+            public int GetHashCode(SingleCollision a) {
+                return a.GetHashCode();
+            } 
+        }
+
+        public bool returnFullCollisionDetails;
         CollisionWorld world;
         RigidBody rigidBody;
         ContactResultCallbackUnity contactCallback;
-        HashSet<CollisionObject> objsIWasInContactWithLastFrame = new HashSet<CollisionObject>();
-        HashSet<CollisionObject> objsCurrentlyInContactWith = new HashSet<CollisionObject>();
+        HashSet<SingleCollision> objsIWasInContactWithLastFrame = new HashSet<SingleCollision>(new SingleCollisionComparer());
+        HashSet<SingleCollision> objsCurrentlyInContactWith = new HashSet<SingleCollision>(new SingleCollisionComparer());
 
         void OnEnable() {
             objsIWasInContactWithLastFrame.Clear();
@@ -50,7 +141,6 @@ namespace BulletUnity {
             }
             rigidBody = brb.GetRigidBody();
             world = BPhysicsWorld.Get().World;
-
             if (contactCallback == null) contactCallback = new ContactResultCallbackUnity(this);
         }
 
@@ -71,7 +161,11 @@ namespace BulletUnity {
             if (other == rigidBody) {
                 other = colObj1Wrap.CollisionObject;
             }
-            objsCurrentlyInContactWith.Add(other);
+            BulletUnityContactPoint cpp = null;
+            if (returnFullCollisionDetails) {
+                cpp = new BulletUnityContactPoint(cp,colObj0Wrap,colObj1Wrap);
+            }
+            objsCurrentlyInContactWith.Add(new SingleCollision(other, cpp));
             return 0; //todo what am I supposed to return?
         }
 
@@ -84,24 +178,24 @@ namespace BulletUnity {
             //TODO can probably arrays if less than 4 total collisions in previous and current and use hashsets if more.
 
             //enter collisions
-            HashSet<CollisionObject> enterObjects = new HashSet<CollisionObject>(objsCurrentlyInContactWith);
+            HashSet<SingleCollision> enterObjects = new HashSet<SingleCollision>(objsCurrentlyInContactWith, new SingleCollisionComparer());
             enterObjects.ExceptWith(objsIWasInContactWithLastFrame);
             //exit collisions
-            HashSet<CollisionObject> exitObjects = new HashSet<CollisionObject>(objsIWasInContactWithLastFrame);
+            HashSet<SingleCollision> exitObjects = new HashSet<SingleCollision>(objsIWasInContactWithLastFrame, new SingleCollisionComparer());
             exitObjects.ExceptWith(objsCurrentlyInContactWith);
             //stay collisions
             objsCurrentlyInContactWith.ExceptWith(enterObjects);
 
-            foreach(CollisionObject o in enterObjects) {
-                OnCollisionEnter();
+            foreach(SingleCollision o in enterObjects) {
+                BOnCollisionEnter(o);
             }
 
-            foreach (CollisionObject o in objsCurrentlyInContactWith) {
-                OnCollisionStay();
+            foreach (SingleCollision o in objsCurrentlyInContactWith) {
+                BOnCollisionStay(o);
             }
 
-            foreach (CollisionObject o in exitObjects) {
-                OnCollisionExit();
+            foreach (SingleCollision o in exitObjects) {
+                BOnCollisionExit(o);
             }
 
             objsIWasInContactWithLastFrame.Clear();
@@ -109,19 +203,16 @@ namespace BulletUnity {
             objsIWasInContactWithLastFrame.UnionWith(objsCurrentlyInContactWith);
         }
 
-        //todo need the collision details
-        public virtual void OnCollisionEnter() {
-            Debug.Log("Enter with ");
+        public virtual void BOnCollisionEnter(SingleCollision details) {
+            Debug.Log("Enter with " + details.obj + " details " + details.collisionDetails + " frame" + BPhysicsWorld.Get().frameCount);
         }
 
-        //todo need the collision details
-        public virtual void OnCollisionStay() {
-            Debug.Log("Stay with ");
+        public virtual void BOnCollisionStay(SingleCollision details) {
+            Debug.Log("Stay with " + details.obj + " details " + details.collisionDetails + " frame" + BPhysicsWorld.Get().frameCount);
         }
 
-        //todo need the collision details
-        public virtual void OnCollisionExit() {
-            Debug.Log("Exit with ");
+        public virtual void BOnCollisionExit(SingleCollision details) {
+            Debug.Log("Exit with " + details.obj + " details " + details.collisionDetails + " frame" + BPhysicsWorld.Get().frameCount);
         }
     }
 }

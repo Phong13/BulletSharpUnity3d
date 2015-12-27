@@ -1,6 +1,4 @@
 Implement:
-  - Cone collision shape
-  - Cylinder collision shape
   
 Add a BCollisionShape field to the RigidBody so shapes can be shared across rigid bodies. Perhaps shapes should be scriptable objects instead of
 Monobehaviors since they don't actually use their transform. A RigidBody will use a shape if component is present else it will look for an 
@@ -12,8 +10,7 @@ vs. dynamic geometry. Add checks in the code for this.
 Implement localScaling for the shapes that support it.
 
 ---- BCollisionCallback
-Add collision details to the OnEnter, OnStay, OnExit callbacks in the BCollisionCallback class. Copy all the data in the ManifoldPoint to Unity objects
-Make this optional since it is expensive. Find out if we can just use a reference to the ManifoldPoint, when does that get disposed.
+Find out if we can just use a reference to the ManifoldPoint, when does the ManifoldPoint get disposed. Am I responsible for that or is Bullet?
 
 Improve the use of HashSets so we are not allocating two new HashSets every LateUpdate
 

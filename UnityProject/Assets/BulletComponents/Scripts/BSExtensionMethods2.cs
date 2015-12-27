@@ -75,6 +75,13 @@ namespace BulletUnity {
             bm[3, 3] = um[3, 3];
         }
 
+        public static void SetTransformationFromBulletMatrix(this UnityEngine.Transform transform, BulletSharp.Math.Matrix bm) {
+            UnityEngine.Matrix4x4 matrix = bm.ToUnity();  //creates new Unity Matrix4x4
+            transform.localPosition = ExtractTranslationFromMatrix(ref matrix);
+            transform.localRotation = ExtractRotationFromMatrix(ref matrix);
+            transform.localScale = ExtractScaleFromMatrix(ref matrix);
+        }
+
         /// <summary>
         /// Extract translation from transform matrix.
         /// </summary>
