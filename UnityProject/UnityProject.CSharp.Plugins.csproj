@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{353BF0E8-F7B0-288C-C929-51857470B0EB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
+    <CompilerResponseFile>Assets\smcs.rsp</CompilerResponseFile>
+    <UnityProjectType>GamePlugins:3</UnityProjectType>
+    <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
+    <UnityVersion>5.3.0f4</UnityVersion>
+    <RootNamespace></RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Debug\</OutputPath>
+    <IntermediateOutputPath>Temp\UnityVS_obj\Debug\</IntermediateOutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_0;UNITY_5_3;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_SPRITE_POLYGON;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_LOCALIZATION;ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION;ENABLE_EDITOR_TESTS_RUNNER;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_LOG_MIXED_STACKTRACE;ENABLE_UNITYWEBREQUEST;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Release\</OutputPath>
+    <IntermediateOutputPath>Temp\UnityVS_obj\Release\</IntermediateOutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>TRACE;UNITY_5_3_0;UNITY_5_3;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_SPRITE_POLYGON;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_LOCALIZATION;ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION;ENABLE_EDITOR_TESTS_RUNNER;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_LOG_MIXED_STACKTRACE;ENABLE_UNITYWEBREQUEST;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Core" />
+    <Reference Include="Boo.Lang" />
+    <Reference Include="UnityScript.Lang" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>Library\UnityAssemblies\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Plugins\BulletSharp\BSExtensionMethods.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\ActivatingCollisionAlgorithm.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\AxisSweep3.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\Box2DBox2DCollisionAlgorithm.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\Box2DShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\BoxBoxCollisionAlgorithm.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\BoxBoxDetector.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\BoxShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\BroadphaseInterface.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\BroadphaseProxy.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\BvhTriangleMeshShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\CapsuleShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\CollisionAlgorithm.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\CollisionConfiguration.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\CollisionCreateFunc.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\CollisionDispatcher.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\CollisionObject.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\CollisionObjectWrapper.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\CollisionShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\CollisionWorld.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\CompoundCollisionAlgorithm.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\CompoundCompoundCollisionAlgorithm.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\CompoundShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\ConcaveShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\ConeShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\ContinuousConvexCollision.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\Convex2DConvex2DAlgorithm.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\Convex2DShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\ConvexCast.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\ConvexConcaveCollisionAlgorithm.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\ConvexConvexAlgorithm.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\ConvexHullShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\ConvexInternalShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\ConvexPenetrationDepthSolver.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\ConvexPlaneCollisionAlgorithm.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\ConvexPointCloudShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\ConvexPolyhedron.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\ConvexShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\ConvexTriangleMeshShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\CylinderShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\Dbvt.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\DbvtBroadphase.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\DefaultCollisionConfiguration.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\DiscreteCollisionDetectorInterface.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\Dispatcher.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\EmptyCollisionAlgorithm.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\EmptyShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\GImpact\BoxCollision.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\GImpact\CompoundFromGImpact.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\GImpact\GImpactBvh.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\GImpact\GImpactCollisionAlgorithm.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\GImpact\GImpactQuantizedBvh.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\GImpact\GImpactShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\GImpact\TriangleShapeEx.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\GhostObject.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\GjkConvexCast.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\GjkEpaPenetrationDepthSolver.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\GjkPairDetector.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\HeightfieldTerrainShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\ManifoldPoint.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\ManifoldResult.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\MinkowskiPenetrationDepthSolver.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\MinkowskiSumShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\MultiSphereShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\MultimaterialTriangleMeshShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\OptimizedBvh.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\OverlappingPairCache.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\OverlappingPairCallback.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\PersistentManifold.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\PointCollector.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\PolyhedralConvexShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\QuantizedBvh.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\RaycastCallback.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\ScaledBvhTriangleMeshShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\ShapeHull.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\SimpleBroadphase.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\SimulationIslandManager.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\SoftBodyConcaveCollisionAlgorithm.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\SoftRigidCollisionAlgorithm.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\SoftSoftCollisionAlgorithm.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\SphereBoxCollisionAlgorithm.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\SphereShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\SphereSphereCollisionAlgorithm.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\SphereTriangleCollisionAlgorithm.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\SphereTriangleDetector.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\StaticPlaneShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\StridingMeshInterface.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\TetrahedronShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\TriangleBuffer.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\TriangleCallback.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\TriangleIndexVertexArray.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\TriangleIndexVertexMaterialArray.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\TriangleInfoMap.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\TriangleMesh.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\TriangleMeshShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\TriangleShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\UniformScalingShape.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\UnionFind.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Collision\VoronoiSimplexSolver.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\ConeTwistConstraint.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\ConstraintSolver.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\ContactConstraint.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\ContactSolverInfo.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\DantzigSolver.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\DiscreteDynamicsWorld.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\DynamicsWorld.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\Featherstone\MultiBody.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\Featherstone\MultiBodyConstraint.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\Featherstone\MultiBodyConstraintSolver.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\Featherstone\MultiBodyDynamicsWorld.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\Featherstone\MultiBodyJointLimitConstraint.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\Featherstone\MultiBodyJointMotor.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\Featherstone\MultiBodyLink.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\Featherstone\MultiBodyLinkCollider.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\Featherstone\MultiBodyPoint2Point.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\Featherstone\MultiBodySolverConstraint.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\FixedConstraint.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\GearConstraint.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\Generic6DofConstraint.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\Generic6DofSpring2Constraint.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\Generic6DofSpringConstraint.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\Hinge2Constraint.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\HingeConstraint.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\IAction.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\ICharacterController.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\KinematicCharacterController.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\MlcpSolver.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\MlcpSolverInterface.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\NncgConstraintSolver.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\Point2PointConstraint.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\RaycastVehicle.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\RigidBody.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\RigidBodyConstructionInfo.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\SequentialImpulseConstraintSolver.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\SliderConstraint.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\TypedConstraint.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\UniversalConstraint.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\VehicleRaycaster.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Dynamics\WheelInfo.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Extras\BulletFile.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Extras\BulletReader.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Extras\BulletWorldImporter.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Extras\BulletWriter.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Extras\BulletXmlWorldImporter.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Extras\Chunk.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Extras\Dna.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Extras\Hacd.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Extras\WorldImporter.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Extras\bFile.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\InvalidDataException.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\LinearMath\AlignedBroadphasePairArray.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\LinearMath\AlignedCollisionObjectArray.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\LinearMath\AlignedIndexedMeshArray.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\LinearMath\AlignedManifoldArray.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\LinearMath\AlignedVector3Array.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\LinearMath\Collections.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\LinearMath\DebugDraw.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\LinearMath\DefaultMotionState.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\LinearMath\GeometryUtil.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\LinearMath\IDebugDraw.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\LinearMath\MotionState.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\LinearMath\PolarDecomposition.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\LinearMath\Serializer.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Math\Matrix.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Math\Quaternion.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Math\Vector3.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Math\Vector4.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\MathUtil.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Native.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\SoftBody\AlignedAnchorArray.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\SoftBody\AlignedClusterArray.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\SoftBody\AlignedFaceArray.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\SoftBody\AlignedJointArray.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\SoftBody\AlignedLinkArray.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\SoftBody\AlignedMaterialArray.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\SoftBody\AlignedNodeArray.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\SoftBody\AlignedSoftBodyArray.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\SoftBody\AlignedTetraArray.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\SoftBody\Collections.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\SoftBody\DefaultSoftBodySolver.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\SoftBody\SoftBody.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\SoftBody\SoftBodyHelpers.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\SoftBody\SoftBodyRigidBodyCollisionConfiguration.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\SoftBody\SoftBodySolver.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\SoftBody\SoftRigidDynamicsWorld.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\SoftBody\SparseSdf.cs" />
+    <Compile Include="Assets\Plugins\BulletSharp\Utilities.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
+</Project>

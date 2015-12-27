@@ -110,16 +110,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="UnityProject.CSharp.Plugins.csproj">
+      <Project>{353BF0E8-F7B0-288C-C929-51857470B0EB}</Project>
+      <Name>UnityProject.CSharp.Plugins</Name>
+    </ProjectReference>
     <ProjectReference Include="UnityProject.CSharp.csproj">
       <Project>{F5F9D48D-6914-C6F2-CF81-CF8D045EAAD0}</Project>
       <Name>UnityProject.CSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\BulletComponents\Scripts\Editor\BPhysicsWorldEditor.cs" />
-    <Compile Include="Assets\BulletComponents\Scripts\Editor\BPrimitiveComponentOrderSorter.cs" />
-    <Compile Include="Assets\BulletComponents\Scripts\Editor\BRigidBodyEditor.cs" />
-    <Compile Include="Assets\BulletComponents\Scripts\Editor\PrimitiveEditor.cs" />
+    <Compile Include="Assets\BulletUnity\Scripts\Editor\BPhysicsWorldEditor.cs" />
+    <Compile Include="Assets\BulletUnity\Scripts\Editor\BPrimitiveComponentOrderSorter.cs" />
+    <Compile Include="Assets\BulletUnity\Scripts\Editor\BRigidBodyEditor.cs" />
+    <Compile Include="Assets\BulletUnity\Scripts\Editor\PrimitiveEditor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
