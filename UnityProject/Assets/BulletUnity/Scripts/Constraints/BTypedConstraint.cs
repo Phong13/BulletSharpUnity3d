@@ -7,7 +7,7 @@ namespace BulletUnity {
     [System.Serializable]
     public abstract class BTypedConstraint : MonoBehaviour, IDisposable {
 
-        protected TypedConstraint constraintPtr = null;
+        internal TypedConstraint constraintPtr = null;
         internal bool isInWorld;
 
         void OnDestroy() {

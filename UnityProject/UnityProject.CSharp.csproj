@@ -107,6 +107,8 @@
     <Compile Include="Assets\BulletUnity\Scripts\BRigidBody.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\BSExtensionMethods2.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\BSoftBody.cs" />
+    <Compile Include="Assets\BulletUnity\Scripts\BSoftBodyRope.cs" />
+    <Compile Include="Assets\BulletUnity\Scripts\BSoftBodyRopeLineRenderer.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\BSoftBodyWorld.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\BUtility.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\CollisionShapes\BBoxShape.cs" />

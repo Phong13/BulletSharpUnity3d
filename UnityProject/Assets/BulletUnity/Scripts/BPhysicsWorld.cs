@@ -158,5 +158,27 @@ namespace BulletUnity {
                 World.RemoveConstraint(c);
             }
         }
+
+        public bool AddSoftBody(BSoftBody softBody) {
+            if (!(World is BulletSharp.SoftBody.SoftRigidDynamicsWorld)) {
+                Debug.LogError("The Physics World must be a BSoftBodyWorld for adding soft bodies");
+                return false;
+            }
+            if (!_isDisposed) {
+                Debug.LogFormat("Adding softbody {0} to world", softBody);
+                if (softBody._BuildSoftBody()) {
+                    ((BulletSharp.SoftBody.SoftRigidDynamicsWorld)World).AddSoftBody(softBody.GetSoftBody());
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public void RemoveSoftBody(BulletSharp.SoftBody.SoftBody softBody) {
+            if (!_isDisposed && World is BulletSharp.SoftBody.SoftRigidDynamicsWorld) {
+                Debug.LogFormat("Removing softbody {0} from world", softBody);
+                ((BulletSharp.SoftBody.SoftRigidDynamicsWorld) World).RemoveSoftBody(softBody);
+            }
+        }
     }
 }
