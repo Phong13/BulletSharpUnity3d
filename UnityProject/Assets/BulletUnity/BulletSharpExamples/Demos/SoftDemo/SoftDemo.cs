@@ -483,7 +483,6 @@ namespace SoftDemo
                 psb.Cfg.PIterations = 2;
                 psb.Cfg.AeroModel = AeroModel.VTwoSidedLiftDrag;
 
-
                 psb.WindVelocity = new Vector3(4, -12.0f, -25.0f);
 
                 pos += new Vector3(s * 2 + gap, 0, 0);

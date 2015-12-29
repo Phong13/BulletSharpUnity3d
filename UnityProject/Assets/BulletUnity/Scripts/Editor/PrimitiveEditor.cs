@@ -9,19 +9,14 @@ namespace BulletUnity.Primitives
     {
 
         public BPrimitive primitiveTarget;
-
-
+        
         static GUIStyle versionStyle = new GUIStyle();
         static string version = "0.1";
-
-
+        
         private static Texture2D editorLogo;
         public static Texture2D EditorLogo
         {
-            get
-            {
-                return editorLogo = (Texture2D)LoadAsset(editorLogo, "bulletLogo");
-            }
+            get { return editorLogo = (Texture2D)LoadAsset(editorLogo, "bulletLogo"); }
         }
 
         SerializedProperty meshSettings;
@@ -54,19 +49,17 @@ namespace BulletUnity.Primitives
             EditorGUILayout.Space();
             EditorGUILayout.EndHorizontal();
 
-            EditorGUILayout.BeginHorizontal();
-            GUI.backgroundColor = GUIBlue;
-            if (InspectorButton("BuildMesh", 100, 40, GUIBlue, "Update size or something\n\n"))
-            {
-                primitiveTarget.BuildMesh(); //build mesh and resize
-            }
-            EditorGUILayout.EndHorizontal();
+            //EditorGUILayout.BeginHorizontal();
+            //GUI.backgroundColor = GUIBlue;
+            //if (InspectorButton("BuildMesh", 100, 40, GUIBlue, "Update size or something\n\n"))
+            //{
+            //    primitiveTarget.BuildMesh(); //build mesh and resize
+            //}
+            //EditorGUILayout.EndHorizontal();
             EditorGUILayout.PropertyField(meshSettings, gcSize, true);
 
             serializedObject.ApplyModifiedProperties();
-
-     
-
+            
             if (GUI.changed)
             {
                 primitiveTarget.BuildMesh();
@@ -124,7 +117,7 @@ namespace BulletUnity.Primitives
 
         static void PostCreateObject()
         {
-            BPrimitiveComponentOrderSorter.SortComponents((GameObject )Selection.activeObject);  //order the scripts, looks nicer
+            BPrimitiveComponentOrderSorter.SortComponents((GameObject)Selection.activeObject);  //order the scripts, looks nicer
 
         }
 

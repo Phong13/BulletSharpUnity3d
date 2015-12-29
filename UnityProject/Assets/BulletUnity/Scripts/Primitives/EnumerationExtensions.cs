@@ -5,8 +5,6 @@ using System.Text;
 using System.ComponentModel;
 using System.Reflection;
 
-//namespace RatherGood
-//{
 
 public static class EnumerationExtensions
 {
@@ -143,4 +141,3 @@ public static class EnumerationExtensions
 }
 
 
-//}

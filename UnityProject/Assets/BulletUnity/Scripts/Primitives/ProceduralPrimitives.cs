@@ -1267,6 +1267,8 @@ namespace BulletUnity.Primitives
     [Serializable]
     public class BSoftMeshSettings : BPrimitiveMeshSettings
     {
+
+
         [SerializeField]
         public PrimitiveMeshOptions _meshType = PrimitiveMeshOptions.Bunny;
         public PrimitiveMeshOptions meshType
@@ -1274,10 +1276,12 @@ namespace BulletUnity.Primitives
             get { return _meshType; }
             set
             {
-                meshSettings = ProceduralPrimitives.GetSettingsClass(value);
+                meshSettings = ProceduralPrimitives.GetSettingsClass(value); //TODO: something else this doesnt work
                 _meshType = value;
             }
         }
+
+        //public Vector3 scale = Vector3.one;
 
         //Unity cant display this due to serialization, figure it out later
         public BPrimitiveMeshSettings meshSettings = new BPrimitiveMeshSettings();
