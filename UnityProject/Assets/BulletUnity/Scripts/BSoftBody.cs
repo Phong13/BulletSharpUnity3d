@@ -9,6 +9,9 @@ using System.Collections.Generic;
 namespace BulletUnity {
 
     public abstract class BSoftBody : MonoBehaviour, IDisposable {
+
+        public SBSettings softBodySettings = new SBSettings();
+
         protected SoftBody m_BSoftBody;
         protected bool isInWorld = false;
 
