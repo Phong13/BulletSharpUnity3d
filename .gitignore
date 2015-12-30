@@ -6,3 +6,10 @@ Library
 .vs
 /UnityProject/Assets/_Experiment.meta
 _Experiment
+/UnityProject/UnityProject.CSharp.csproj
+/UnityProject/UnityProject.CSharp.Editor.csproj
+/UnityProject/UnityProject.CSharp.Plugins.csproj
+/UnityProject/UnityProject.sln
+/UnityProject/UnityProject.userprefs
+/UnityProject/Assembly-CSharp.csproj
+/UnityProject/Assembly-CSharp-Editor.csproj

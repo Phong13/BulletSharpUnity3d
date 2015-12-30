@@ -7,11 +7,31 @@ namespace BulletUnity {
     [System.Serializable]
     public abstract class BTypedConstraint : MonoBehaviour, IDisposable {
 
+        public BRigidBody targetRigidBodyA;
+        public BRigidBody targetRigidBodyB;
+
         internal TypedConstraint constraintPtr = null;
         internal bool isInWorld;
 
         void OnDestroy() {
             Dispose(false);
+        }
+
+        public void OnEnable()
+        {
+            if (BPhysicsWorld.Get().AddConstraint(this))
+            {
+                isInWorld = true;
+            }
+        }
+
+        public void OnDisable()
+        {
+            if (isInWorld)
+            {
+                BPhysicsWorld.Get().RemoveConstraint(constraintPtr);
+            }
+            isInWorld = false;
         }
 
         //do not override this
@@ -31,6 +51,13 @@ namespace BulletUnity {
         //the current constraint properties are used to rebuild the constraint.
         internal abstract bool _BuildConstraint();
 
-        public abstract TypedConstraint GetConstraint();
+        public virtual TypedConstraint GetConstraint()
+        {
+            if (constraintPtr == null)
+            {
+                _BuildConstraint();
+            }
+            return constraintPtr;
+        }
     }
 }
