@@ -106,9 +106,6 @@
     <Compile Include="Assets\BulletUnity\Scripts\BPhysicsWorld.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\BRigidBody.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\BSExtensionMethods2.cs" />
-    <Compile Include="Assets\BulletUnity\Scripts\BSoftBody.cs" />
-    <Compile Include="Assets\BulletUnity\Scripts\BSoftBodyRope.cs" />
-    <Compile Include="Assets\BulletUnity\Scripts\BSoftBodyRopeLineRenderer.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\BSoftBodyWorld.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\BUtility.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\CollisionShapes\BBoxShape.cs" />
@@ -127,13 +124,18 @@
     <Compile Include="Assets\BulletUnity\Scripts\Primitives\BBox.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\Primitives\BCone.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\Primitives\BCylinder.cs" />
-    <Compile Include="Assets\BulletUnity\Scripts\Primitives\BObjects\BObject.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\Primitives\BPrimitive.cs" />
-    <Compile Include="Assets\BulletUnity\Scripts\Primitives\BSoft.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\Primitives\BSphere.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\Primitives\EnumerationExtensions.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\Primitives\ProceduralPrimitives.cs" />
+    <Compile Include="Assets\BulletUnity\Scripts\SoftBody\BAnySoftObject.cs" />
+    <Compile Include="Assets\BulletUnity\Scripts\SoftBody\BSoftBody.cs" />
+    <Compile Include="Assets\BulletUnity\Scripts\SoftBody\BSoftBodyRope.cs" />
+    <Compile Include="Assets\BulletUnity\Scripts\SoftBody\BSoftBodyWMesh.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\SoftBody\SBSettings.cs" />
+    <Compile Include="Assets\BulletUnity\Scripts\SoftBody\Test\BunnyRainTest.cs" />
+    <Compile Include="Assets\BulletUnity\Scripts\SoftBody\old\BSoftBodyOld.cs" />
+    <Compile Include="Assets\BulletUnity\Scripts\SoftBody\old\BSoftBodyRopeLineRenderer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

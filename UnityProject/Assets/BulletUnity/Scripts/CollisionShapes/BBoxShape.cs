@@ -5,6 +5,7 @@ using BulletSharp;
 
 namespace BulletUnity {
     public class BBoxShape : BCollisionShape {
+
         public Vector3 extents = Vector3.one;
 
         public override void OnDrawGizmosSelected() {

@@ -127,7 +127,9 @@
     <Compile Include="Assets\BulletUnity\Scripts\Editor\BPhysicsWorldEditor.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\Editor\BPrimitiveComponentOrderSorter.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\Editor\BRigidBodyEditor.cs" />
+    <Compile Include="Assets\BulletUnity\Scripts\Editor\BSoftBodyComponentOrderSorter.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\Editor\BSoftBodyEditor.cs" />
+    <Compile Include="Assets\BulletUnity\Scripts\Editor\EditorHelpers.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\Editor\PrimitiveEditor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />

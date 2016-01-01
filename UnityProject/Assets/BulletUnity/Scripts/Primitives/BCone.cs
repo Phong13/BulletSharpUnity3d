@@ -23,14 +23,14 @@ namespace BulletUnity.Primitives
             BCone bCone = go.AddComponent<BCone>();
             CreateNewBase(go, position, rotation);
             bCone.BuildMesh();
-            go.name = "BCylinder";
+            go.name = "BCone";
 
             return go;
         }
 
         public override void BuildMesh()
         {
-            GetComponent<MeshFilter>().sharedMesh = ProceduralPrimitives.CreateMeshCone(meshSettings.height, meshSettings.radius, 0, meshSettings.nbSides);
+            GetComponent<MeshFilter>().sharedMesh = ProceduralPrimitives.CreateMeshCone(meshSettings.height, meshSettings.radius, 0, meshSettings.nbSides, meshSettings.autoWeldVertices);
             BConeShape bCone = GetComponent<BConeShape>();
             bCone.radius = meshSettings.radius;
             bCone.height  = meshSettings.height;

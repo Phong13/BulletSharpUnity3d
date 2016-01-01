@@ -29,7 +29,7 @@ namespace BulletUnity.Primitives
 
         public override void BuildMesh()
         {
-            GetComponent<MeshFilter>().sharedMesh = ProceduralPrimitives.CreateMeshCylinder(meshSettings.height, meshSettings.radius, meshSettings.nbSides);
+            GetComponent<MeshFilter>().sharedMesh = ProceduralPrimitives.CreateMeshCylinder(meshSettings.height, meshSettings.radius, meshSettings.nbSides, meshSettings.autoWeldVertices);
             GetComponent<BCylinderShape>().halfExtent = meshSettings.halfExtent;
         }
 

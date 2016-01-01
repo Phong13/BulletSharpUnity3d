@@ -2,7 +2,7 @@
 using UnityEngine;
 using BulletUnity;
 
-[CustomEditor(typeof(BDynamicsWorld))]
+[CustomEditor(typeof(BDynamicsWorld), true)]
 public class BDynamicsWorldEditor : Editor
 {
     SerializedProperty doDebugDraw;

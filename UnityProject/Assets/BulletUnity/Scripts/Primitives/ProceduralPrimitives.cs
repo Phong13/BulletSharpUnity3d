@@ -19,7 +19,7 @@ namespace BulletUnity.Primitives
     public static class ProceduralPrimitives
     {
 
-        public static Mesh CreateMeshPlane(float length, float width, int resX, int resZ)
+        public static Mesh CreateMeshPlane(float length = 1f, float width = 1f, int resX = 10, int resZ = 10, bool autoWeldVertices = false)
         {
             // You can change that line to provide another MeshFilter
             //MeshFilter filter = gameObject.AddComponent<MeshFilter>();
@@ -88,19 +88,24 @@ namespace BulletUnity.Primitives
             mesh.uv = uvs;
             mesh.triangles = triangles;
 
+            mesh.AddBackFaceTriangles();  //test me
+
             mesh.RecalculateBounds();
             mesh.Optimize();
+
+            if (autoWeldVertices)
+                mesh.AutoWeldVertices();
 
             return mesh;
 
         }
 
-        public static Mesh CreateMeshCube(float sides)
+        public static Mesh CreateMeshCube(float sides, bool autoWeldVertices = false)
         {
-            return CreateMeshBox(sides, sides, sides);
+            return CreateMeshBox(sides, sides, sides, autoWeldVertices);
         }
 
-        public static Mesh CreateMeshBox(float length = 1f, float width = 1f, float height = 1f)
+        public static Mesh CreateMeshBox(float length = 1f, float width = 1f, float height = 1f, bool autoWeldVertices = false)
         {
             // You can change that line to provide another MeshFilter
             //MeshFilter filter = gameObject.AddComponent<MeshFilter>();
@@ -241,21 +246,24 @@ namespace BulletUnity.Primitives
             mesh.RecalculateBounds();
             mesh.Optimize();
 
+            if (autoWeldVertices)
+                mesh.AutoWeldVertices();
+
             return mesh;
         }
 
-        public static Mesh CreateMeshCylinder(float height = 1f, float radius = 1f, int nbSides = 18)
+        public static Mesh CreateMeshCylinder(float height = 1f, float radius = 1f, int nbSides = 18, bool autoWeldVertices = false)
         {
-            return CreateMeshCone(height, radius, radius, nbSides);
+            return CreateMeshCone(height, radius, radius, nbSides, autoWeldVertices);
         }
 
-        public static Mesh CreateMeshPyramid(float height = 1f, float baseSize = 1f)
+        public static Mesh CreateMeshPyramid(float height = 1f, float baseSize = 1f, bool autoWeldVertices = false)
         {
-            return CreateMeshCone(height, baseSize, 0f, 4);
+            return CreateMeshCone(height, baseSize, 0f, 4, autoWeldVertices);
         }
 
         //Note that cylinders(bottomRadius == topRadius) and pyramids(4 sides, topRadius == 0) are types of cones, and can be created with this script.
-        public static Mesh CreateMeshCone(float height = 1f, float bottomRadius = 1f, float topRadius = 0f, int nbSides = 18)
+        public static Mesh CreateMeshCone(float height = 1f, float bottomRadius = 1f, float topRadius = 0f, int nbSides = 18, bool autoWeldVertices = false)
         {
 
             //MeshFilter filter = gameObject.AddComponent<MeshFilter>();
@@ -442,13 +450,16 @@ namespace BulletUnity.Primitives
             mesh.uv = uvs;
             mesh.triangles = triangles;
 
+            if (autoWeldVertices)
+                mesh.AutoWeldVertices();
+
             mesh.RecalculateBounds();
             mesh.Optimize();
             return mesh;
         }
 
         public static Mesh MeshCreateTube(float height = 1f, int nbSides = 24, float bottomRadius1 = .5f,
-            float bottomRadius2 = .15f, float topRadius1 = .5f, float topRadius2 = .15f)
+            float bottomRadius2 = .15f, float topRadius1 = .5f, float topRadius2 = .15f, bool autoWeldVertices = false)
 
         {
 
@@ -703,12 +714,15 @@ namespace BulletUnity.Primitives
             mesh.uv = uvs;
             mesh.triangles = triangles;
 
+            if (autoWeldVertices)
+                mesh.AutoWeldVertices();
+
             mesh.RecalculateBounds();
             mesh.Optimize();
             return mesh;
         }
 
-        public static Mesh CreateMeshTorus(float radius1 = 1f, float radius2 = .3f, int nbRadSeg = 24, int nbSides = 18)
+        public static Mesh CreateMeshTorus(float radius1 = 1f, float radius2 = .3f, int nbRadSeg = 24, int nbSides = 18, bool autoWeldVertices = false)
         {
             //MeshFilter filter = gameObject.AddComponent<MeshFilter>();
             //Mesh mesh = filter.mesh;
@@ -798,6 +812,9 @@ namespace BulletUnity.Primitives
             mesh.uv = uvs;
             mesh.triangles = triangles;
 
+            if (autoWeldVertices)
+                mesh.AutoWeldVertices();
+
             mesh.RecalculateBounds();
             mesh.Optimize();
             return mesh;
@@ -810,7 +827,7 @@ namespace BulletUnity.Primitives
         /// <param name="nbLong">number of longitude lines</param>
         /// <param name="nbLat">number of latitude lines</param>
         /// <returns></returns>
-        public static Mesh CreateMeshSphere(float radius = 1f, int nbLong = 24, int nbLat = 16)
+        public static Mesh CreateMeshSphere(float radius = 1f, int nbLong = 24, int nbLat = 16, bool autoWeldVertices = false)
         {
             //MeshFilter filter = gameObject.AddComponent<MeshFilter>();
             //Mesh mesh = filter.mesh;
@@ -909,6 +926,9 @@ namespace BulletUnity.Primitives
             mesh.normals = normales;
             mesh.uv = uvs;
             mesh.triangles = triangles;
+
+            if (autoWeldVertices)
+                mesh.AutoWeldVertices();
 
             mesh.RecalculateBounds();
             mesh.Optimize();
@@ -1085,7 +1105,7 @@ namespace BulletUnity.Primitives
         }
         */
 
-        public static Mesh BuildMeshFromData(float[] vertices, int[] triangles)
+        public static Mesh BuildMeshFromData(float[] vertices, int[] triangles, bool autoWeldVertices = false)
         {
             Mesh mesh = new Mesh();
 
@@ -1100,6 +1120,9 @@ namespace BulletUnity.Primitives
             mesh.vertices = newVerts;
             mesh.triangles = triangles;
 
+            if (autoWeldVertices)
+                mesh.AutoWeldVertices();
+
             mesh.RecalculateBounds();
             mesh.Optimize();
 
@@ -1113,117 +1136,200 @@ namespace BulletUnity.Primitives
         /// <param name="options">Select an option</param>
         /// <param name="settings">Provide the proper settings class</param>
         /// <returns>new Mesh</returns>
-        public static Mesh BuildSomething(PrimitiveMeshOptions options, BPrimitiveMeshSettings settings)
+        //public static Mesh BuildSomething(PrimitiveMeshOptions options, BPrimitiveMeshSettings settings)
+        public static Mesh BuildSomething(PrimitiveMeshOptions meshType, BAnyMeshSettings settings, bool autoWeldVertices = false)
         {
             Mesh mesh = null;
 
-            switch (options)
+            switch (meshType)
             {
-                case PrimitiveMeshOptions.None:
-                    break;
                 case PrimitiveMeshOptions.UserDefinedMesh:
                     break;
                 case PrimitiveMeshOptions.Box:
-                    if (settings is BBoxMeshSettings)
-                    {
-                        BBoxMeshSettings ms = (BBoxMeshSettings)settings;
-                        mesh = CreateMeshBox(ms.extents.x, ms.extents.x, ms.extents.x);
-                    }
-                    else
-                        mesh = CreateMeshBox();
+                    mesh = CreateMeshBox(settings.extents.x, settings.extents.x, settings.extents.x, autoWeldVertices);
                     break;
                 case PrimitiveMeshOptions.Sphere:
-                    if (settings is BSphereMeshSettings)
-                    {
-                        BSphereMeshSettings ms = (BSphereMeshSettings)settings;
-                        mesh = CreateMeshSphere(ms.radius, ms.numLongitudeLines, ms.numLatitudeLines);
-                    }
-                    else
-                        mesh = CreateMeshSphere();
+                    mesh = CreateMeshSphere(settings.radius, settings.numLongitudeLines, settings.numLatitudeLines, autoWeldVertices);
                     break;
                 case PrimitiveMeshOptions.Cylinder:
-                    if (settings is BCylinderMeshSettings)
-                    {
-                        BCylinderMeshSettings ms = (BCylinderMeshSettings)settings;
-                        mesh = CreateMeshCylinder(ms.height, ms.radius, ms.nbSides);
-                    }
-                    else
-                        mesh = CreateMeshCylinder();
+                    mesh = CreateMeshCylinder(settings.height, settings.radius, settings.nbSides, autoWeldVertices);
                     break;
                 case PrimitiveMeshOptions.Cone:
-                    if (settings is BConeMeshSettings)
-                    {
-                        BConeMeshSettings ms = (BConeMeshSettings)settings;
-                        mesh = CreateMeshCone(ms.height, ms.radius, 0f, ms.nbSides);
-                    }
-                    else
-                        mesh = CreateMeshCone();
+                    mesh = CreateMeshCone(settings.height, settings.radius, 0f, settings.nbSides, autoWeldVertices);
                     break;
                 case PrimitiveMeshOptions.Pyramid:
-
+                    mesh = CreateMeshPyramid(settings.height, settings.radius, autoWeldVertices);
                     break;
                 case PrimitiveMeshOptions.Bunny:
-                    if (settings is BSoftMeshSettings)
-                    {
-                        BSoftMeshSettings ms = (BSoftMeshSettings)settings;  //TODO: something
-                        mesh = BuildMeshFromData(SoftDemo.BunnyMesh.Vertices, SoftDemo.BunnyMesh.Indices);
-                    }
+                    mesh = BuildMeshFromData(SoftDemo.BunnyMesh.Vertices, SoftDemo.BunnyMesh.Indices, autoWeldVertices);
                     break;
-
-
+                case PrimitiveMeshOptions.Plane:
+                    mesh = CreateMeshPlane(settings.length, settings.width, settings.resX, settings.resZ, autoWeldVertices);
+                    break;
                 default:
                     break;
             }
 
+            mesh.RecalculateNormals();
 
             return mesh;
         }
 
 
-        public static BPrimitiveMeshSettings GetSettingsClass(PrimitiveMeshOptions options)
-        {
+        //public static BPrimitiveMeshSettings GetSettingsClass(PrimitiveMeshOptions options)
+        //{
 
-            switch (options)
+        //    switch (options)
+        //    {
+        //        case PrimitiveMeshOptions.None:
+        //            return null;
+        //            break;
+        //        case PrimitiveMeshOptions.UserDefinedMesh:
+        //            return null;
+        //            break;
+        //        case PrimitiveMeshOptions.Box:
+        //            return new BBoxMeshSettings();
+        //            break;
+        //        case PrimitiveMeshOptions.Sphere:
+        //            return new BSphereMeshSettings();
+        //            break;
+        //        case PrimitiveMeshOptions.Cylinder:
+        //            return new BCylinderMeshSettings();
+        //            break;
+        //        case PrimitiveMeshOptions.Cone:
+        //            return new BConeMeshSettings();
+        //            break;
+        //        case PrimitiveMeshOptions.Pyramid:
+        //            return new BConeMeshSettings();
+        //            break;
+        //        case PrimitiveMeshOptions.Bunny:
+        //            return new BSoftMeshSettings();
+        //            break;
+        //        default:
+        //            break;
+        //    }
+
+        //    return null;
+
+        //}
+
+        //http://answers.unity3d.com/questions/228841/dynamically-combine-verticies-that-share-the-same.html
+
+        /// <summary>
+        /// Weld vertices together to create a closed hull (hopefully)
+        /// </summary>
+        /// <param name="mesh"></param>
+        /// <param name="threshold"></param>
+        /// <returns></returns>
+        public static void AutoWeldVertices(this Mesh mesh, float threshold = 0.001f)
+        {
+            Vector3[] verts = mesh.vertices;
+
+            // Build new vertex buffer and remove "duplicate" verticies
+            // that are within the given threshold.
+            List<Vector3> newVerts = new List<Vector3>();
+            List<Vector2> newUVs = new List<Vector2>();
+
+            int k = 0;
+
+            foreach (Vector3 vert in verts)
             {
-                case PrimitiveMeshOptions.None:
-                    return null;
-                    break;
-                case PrimitiveMeshOptions.UserDefinedMesh:
-                    return null;
-                    break;
-                case PrimitiveMeshOptions.Box:
-                    return new BBoxMeshSettings();
-                    break;
-                case PrimitiveMeshOptions.Sphere:
-                    return new BSphereMeshSettings();
-                    break;
-                case PrimitiveMeshOptions.Cylinder:
-                    return new BCylinderMeshSettings();
-                    break;
-                case PrimitiveMeshOptions.Cone:
-                    return new BConeMeshSettings();
-                    break;
-                case PrimitiveMeshOptions.Pyramid:
-                    return new BConeMeshSettings();
-                    break;
-                case PrimitiveMeshOptions.Bunny:
-                    return new BSoftMeshSettings();
-                    break;
-                default:
-                    break;
+                // Has vertex already been added to newVerts list?
+                foreach (Vector3 newVert in newVerts)
+                    if (Vector3.Distance(newVert, vert) <= threshold)
+                        goto skipToNext;
+
+                // Accept new vertex!
+                newVerts.Add(vert);
+                newUVs.Add(mesh.uv[k]);
+
+                skipToNext:;
+                ++k;
             }
 
-            return null;
+            // Rebuild triangles using new verticies
+            int[] tris = mesh.triangles;
+            for (int i = 0; i < tris.Length; ++i)
+            {
+                // Find new vertex point from buffer
+                for (int j = 0; j < newVerts.Count; ++j)
+                {
+                    if (Vector3.Distance(newVerts[j], verts[tris[i]]) <= threshold)
+                    {
+                        tris[i] = j;
+                        break;
+                    }
+                }
+            }
 
+            // Update mesh!
+            mesh.Clear();
+            mesh.vertices = newVerts.ToArray();
+            mesh.triangles = tris;
+            mesh.uv = newUVs.ToArray();
+            mesh.RecalculateBounds();
         }
 
 
-    }
+
+        /// <summary>
+        /// Add back face triangles to this mesh. Test me
+        /// </summary>
+        /// <param name="mesh"></param>
+        public static void AddBackFaceTriangles(this Mesh mesh)
+        {
+            //Mesh mesh = GetComponent<MeshFilter>().mesh;
+            Vector3[] vertices = mesh.vertices;
+            Vector2[] uv = mesh.uv;
+            Vector3[] normals = mesh.normals;
+            int szV = vertices.Length;
+            Vector3[] newVerts = new Vector3[szV * 2];
+            Vector2[] newUv = new Vector2[szV * 2];
+            Vector3[] newNorms = new Vector3[szV * 2];
+
+            int j, i;
+
+            for (j = 0; j < szV; j++)
+            {
+                // duplicate vertices and uvs:
+                newVerts[j] = newVerts[j + szV] = vertices[j];
+                newUv[j] = newUv[j + szV] = uv[j];
+                // copy the original normals...
+                newNorms[j] = normals[j];
+                // and revert the new ones
+                newNorms[j + szV] = -normals[j];
+            }
+            int[] triangles = mesh.triangles;
+            int szT = triangles.Length;
+            int[] newTris = new int[szT * 2]; // double the triangles
+            for (i = 0; i < szT; i += 3)
+            {
+                // copy the original triangle
+                newTris[i] = triangles[i];
+                newTris[i + 1] = triangles[i + 1];
+                newTris[i + 2] = triangles[i + 2];
+                // save the new reversed triangle
+                j = i + szT;
+                newTris[j] = triangles[i] + szV;
+                newTris[j + 2] = triangles[i + 1] + szV;
+                newTris[j + 1] = triangles[i + 2] + szV;
+            }
+            mesh.vertices = newVerts;
+            mesh.uv = newUv;
+            mesh.normals = newNorms;
+            mesh.triangles = newTris; // assign triangles last!
+        }
+    
+ 
+
+
+}
 
     [Serializable]
     public class BPrimitiveMeshSettings
     {
-        //public float test = 1.0f;
+        public bool autoWeldVertices = false;
+        //public float autoWeldThreshold = 0.001f; //TODO
     }
 
     [Serializable]
@@ -1265,31 +1371,41 @@ namespace BulletUnity.Primitives
     }
 
     [Serializable]
-    public class BSoftMeshSettings : BPrimitiveMeshSettings
+    public class BAnyMeshSettings : BPrimitiveMeshSettings
     {
-        [SerializeField]
-        public PrimitiveMeshOptions _meshType = PrimitiveMeshOptions.Bunny;
-        public PrimitiveMeshOptions meshType
-        {
-            get { return _meshType; }
-            set
-            {
-                meshSettings = ProceduralPrimitives.GetSettingsClass(value);
-                _meshType = value;
-            }
-        }
+        //[SerializeField]
+        //public PrimitiveMeshOptions meshType = PrimitiveMeshOptions.Bunny;
 
+        //Unity wont allow switching classes in editor, so SB class has all parameters, ick!
+        public Vector3 extents = Vector3.one; //cube
+        public float radius = 0.5f; //sphere, cone, cylinder
+        public float height = 1f; //cone, cylinder
+        public float length = 5f;
+        public float width = 5f; //Plane
+        public int numLongitudeLines = 10; //sphere
+        public int numLatitudeLines = 8; //sphere
+        public int nbSides = 18;  //cone/cylinder sides
+        public int resX = 5;
+        public int resZ = 5;
         //Unity cant display this due to serialization, figure it out later
-        public BPrimitiveMeshSettings meshSettings = new BPrimitiveMeshSettings();
+        //public BPrimitiveMeshSettings meshSettings = new BPrimitiveMeshSettings();
 
     }
+
+    [Serializable]
+    public class BPlaneMeshSettings : BPrimitiveMeshSettings
+    {
+        public float length =1f;
+        public float width = 1f;
+        public int resX = 10;
+        public int resZ = 10;
+    }
+
 
     [Flags]
     public enum PrimitiveMeshOptions
     {
-        [Description("nothing")]
-        None = 0,
-        [Description("Provide a mesh in MeshFilter")]
+        [Description("User needs to provide a mesh in MeshFilter")]
         UserDefinedMesh,
         Box,
         Sphere,
@@ -1297,7 +1413,7 @@ namespace BulletUnity.Primitives
         Cone,
         Pyramid,
         Bunny,
-
+        Plane,
     }
 
 
