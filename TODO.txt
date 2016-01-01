@@ -1,5 +1,9 @@
 Implement:
   
+Constraints warning if constraining to static geometry
+
+Constraints warning if both rigid bodies are the same
+
 Add a BCollisionShape field to the RigidBody so shapes can be shared across rigid bodies. Perhaps shapes should be scriptable objects instead of
 Monobehaviors since they don't actually use their transform. A RigidBody will use a shape if component is present else it will look for an 
 attached collision shape component.

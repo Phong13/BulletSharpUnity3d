@@ -145,7 +145,7 @@ namespace BulletUnity {
             if (!_isDisposed) {
                 Debug.LogFormat("Adding constraint {0} to world", c);
                 if (c._BuildConstraint()) {
-                    World.AddConstraint(c.GetConstraint());
+                    World.AddConstraint(c.GetConstraint(), c.disableCollisionsBetweenConstrainedBodies);
                 }
                 return true;
             }

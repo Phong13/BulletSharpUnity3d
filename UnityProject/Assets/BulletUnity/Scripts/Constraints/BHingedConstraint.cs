@@ -6,11 +6,6 @@ using BulletSharp;
 namespace BulletUnity {
     [System.Serializable]
     public class BHingedConstraint : BTypedConstraint {
-        public enum ConstraintType
-        {
-            constrainToPointInSpace,
-            constrainToAnotherBody
-        }
 
         //todo should be properties so can capture changes and propagate to scene
         /// <summary>

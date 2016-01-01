@@ -6,7 +6,12 @@ using BulletSharp;
 namespace BulletUnity {
     [System.Serializable]
     public abstract class BTypedConstraint : MonoBehaviour, IDisposable {
-
+        public enum ConstraintType
+        {
+            constrainToPointInSpace,
+            constrainToAnotherBody
+        }
+        public bool disableCollisionsBetweenConstrainedBodies = true;
         public BRigidBody targetRigidBodyA;
         public BRigidBody targetRigidBodyB;
 
