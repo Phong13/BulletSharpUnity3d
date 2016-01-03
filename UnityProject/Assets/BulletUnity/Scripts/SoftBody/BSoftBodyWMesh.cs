@@ -16,102 +16,106 @@ namespace BulletUnity
     [RequireComponent(typeof(MeshRenderer))]
     public class BSoftBodyWMesh : BSoftBody
     {
-      
+        [Tooltip("Mesh for this softbody")]
+        [SerializeField]
+        private Mesh _userMesh;
+        public Mesh UserMesh
+        {
+            get { return _userMesh; }
+            set { _userMesh = value; }
+        }
+
+        [Header("Mesh post processing")]
+        public bool autoWeldVertices = false;
+        public float autoWeldThreshold = 0.001f; //TODO
+        [Tooltip("Should use this if autoWeldVertices is selected.")]
+        public bool recalculateNormals = false;
+        public bool addBackFaceTriangles = false;
+        public bool recalculateBounds = true;
+        public bool optimize = true;
+
         private MeshFilter _meshFilter;
         protected MeshFilter meshFilter
         {
             get { return _meshFilter = _meshFilter ?? GetComponent<MeshFilter>(); }
         }
-   
+
         public override bool BuildSoftBody()
         {
-            Mesh mesh = meshFilter.sharedMesh;
+            if (UserMesh == null) //fill in something
+            {
+                Debug.Log("Must provide a mesh or create one!");
+                return false;
+            }
 
+            Mesh mesh = (Mesh)GameObject.Instantiate(UserMesh);  //create a copy of UserMesh, dont overwrite prefabs
+
+            //For softBody to perfrom properly, it may need processing
+            mesh.ApplyMeshPostProcessing(autoWeldVertices, autoWeldThreshold, addBackFaceTriangles,
+                 recalculateNormals, recalculateBounds, optimize);
+
+            GetComponent<MeshFilter>().sharedMesh = mesh;
+            //meshFilter.sharedMesh = mesh;
+
+            //convert the mesh data to Bullet data and create DoftBody
             BulletSharp.Math.Vector3[] bVerts = new BulletSharp.Math.Vector3[mesh.vertexCount];
 
             for (int i = 0; i < mesh.vertexCount; i++)
             {
                 bVerts[i] = mesh.vertices[i].ToBullet();
-                //triangles[i] = mesh.triangles[i];          
             }
 
             m_BSoftBody = SoftBodyHelpers.CreateFromTriMesh(World.WorldInfo, bVerts, mesh.triangles);
 
-            //build nodes 2 verts map
-            Dictionary<BulletSharp.SoftBody.Node, int> node2vertIdx = new Dictionary<BulletSharp.SoftBody.Node, int>();
-            for (int i = 0; i < m_BSoftBody.Nodes.Count; i++)
-            {
-                node2vertIdx.Add(m_BSoftBody.Nodes[i], i);
-            }
-            List<int> bTris = new List<int>();
-            for (int i = 0; i < m_BSoftBody.Faces.Count; i++)
-            {
-                BulletSharp.SoftBody.Face f = m_BSoftBody.Faces[i];
-                if (f.N.Count != 3)
-                {
-                    Debug.LogError("Face was not a triangle");
-                    continue;
-                }
-                for (int j = 0; j < f.N.Count; j++)
-                {
-                    bTris.Add(node2vertIdx[f.N[j]]);
-                }
-            }
 
-            List<int> trisRev = new List<int>();
-            for (int i = 0; i < bTris.Count; i += 3)
-            {
-                trisRev.Add(bTris[i]);
-                trisRev.Add(bTris[i + 2]);
-                trisRev.Add(bTris[i + 1]);
-            }
-            bTris.AddRange(trisRev);
-            verts = new Vector3[m_BSoftBody.Nodes.Count];
-            tris = bTris.ToArray();
-
-            //Set SB settings
-            SoftBodySettings.ConfigureSoftBody(m_BSoftBody);         
+            SoftBodySettings.ConfigureSoftBody(m_BSoftBody);         //Set SB settings
 
             //Set SB position to GO position
             m_BSoftBody.Translate(transform.position.ToBullet());
             m_BSoftBody.Scale(transform.localScale.ToBullet());
 
-            //UpdateMesh();
-
             return true;
         }
 
-       
+        /// <summary>
+        /// Create new SoftBody object using a Mesh
+        /// </summary>
+        /// <param name="position">World position</param>
+        /// <param name="rotation">rotation</param>
+        /// <param name="mesh">Need to provide a mesh</param>
+        /// <param name="buildNow">Build now or configure properties and call BuildSoftBody() after</param>
+        /// <param name="sBpresetSelect">Use a particular softBody configuration pre select values</param>
+        /// <returns></returns>
+        public static GameObject CreateNew(Vector3 position, Quaternion rotation, Mesh mesh, bool buildNow, SBSettingsPresets sBpresetSelect = SBSettingsPresets.ShapeMatching)
+        {
+            GameObject go = new GameObject();
+            go.transform.position = position;
+            go.transform.rotation = rotation;
+            BSoftBodyWMesh BSoft = go.AddComponent<BSoftBodyWMesh>();
+
+            BSoft.UserMesh = mesh;
+            MeshRenderer meshRenderer = go.GetComponent<MeshRenderer>();
+            UnityEngine.Material material = new UnityEngine.Material(Shader.Find("Standard"));
+            meshRenderer.material = material;
+
+            BSoft.SoftBodySettings.ResetToSoftBodyPresets(sBpresetSelect); //Apply SoftBody settings presets
+
+            if (buildNow)  
+                BSoft.BuildSoftBody();  //Build the SoftBody
+            go.name = "BSoftBodyWMesh";
+            return go;
+        }
+
         /// <summary>
         /// Update Mesh (or line renderer) at runtime, call from Update 
         /// </summary>
         public override void UpdateMesh()
         {
             Mesh mesh = meshFilter.sharedMesh;
-            //mesh.Clear();
-
-            if (verts.Length != m_BSoftBody.Nodes.Count)
-            {
-                verts = new Vector3[m_BSoftBody.Nodes.Count];
-            }
-            if (norms.Length != m_BSoftBody.Nodes.Count)
-            {
-                norms = new Vector3[m_BSoftBody.Nodes.Count];
-            }
-            for (int i = 0; i < m_BSoftBody.Nodes.Count; i++)
-            {
-                verts[i] = m_BSoftBody.Nodes[i].Position.ToUnity();
-                norms[i] = m_BSoftBody.Nodes[i].Normal.ToUnity();
-            }
-
             mesh.vertices = verts;
             mesh.normals = norms;
-            //mesh.triangles = tris;
-
             mesh.RecalculateBounds();
-            meshFilter.sharedMesh = mesh;
-            transform.SetTransformationFromBulletMatrix(m_BSoftBody.WorldTransform);  //Set SoftBody position, No motionstate
-
+            transform.SetTransformationFromBulletMatrix(m_BSoftBody.WorldTransform);  //Set SoftBody position, No motionstate    
         }
 
 

@@ -76,8 +76,9 @@ namespace BulletUnity
         /// </summary>
         /// <param name="position"></param>
         /// <param name="rotation"></param>
+        /// <param name="buildNow">Build now or configure properties and call BuildSoftBody() after</param>
         /// <returns></returns>
-        public static GameObject CreateNew(Vector3 position, Quaternion rotation)
+        public static GameObject CreateNew(Vector3 position, Quaternion rotation, bool buildNow =  true)
         {
             GameObject go = new GameObject();
             go.transform.position = position;
@@ -88,7 +89,8 @@ namespace BulletUnity
             bRope.lr.sharedMaterial = material;
 
             bRope.SoftBodySettings.ResetToSoftBodyPresets(SBSettingsPresets.Rope);
-            bRope.BuildSoftBody();
+            if (buildNow)
+                bRope.BuildSoftBody();
             go.name = "BSoftBodyRope";
             return go;
         }
@@ -124,12 +126,7 @@ namespace BulletUnity
         }
 
 
-        public void BuildMesh()
-        {
 
-
-
-        }
 
     }
 }

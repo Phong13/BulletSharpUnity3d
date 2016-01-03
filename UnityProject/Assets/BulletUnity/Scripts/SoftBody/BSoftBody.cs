@@ -11,25 +11,9 @@ namespace BulletUnity
 
     public class BSoftBody : MonoBehaviour, IDisposable
     {
-        //const string collisionTooltip = "Collisions flags\n\n" +
-        //    "SDF_RS Rigid versus soft mask.\n\n" +
-        //    "CL_RS: SDF based rigid vs soft.\n\n" +
-        //    "SVSmask: Cluster vs convex rigid vs soft.\n\n" +
-        //    "VF_SS: Rigid versus soft mask.\n\n" +
-        //    "CL_SS:Vertex vs face soft vs soft handling.\n\n" +
-        //    "CL_SELF: Cluster vs cluster soft vs soft handling.\n\n" +
-        //    "Default: Cluster soft body self collision.\n\n";
-
-        //[Tooltip(collisionTooltip)]
-        //public Collisions Collisions = Collisions.Default;
-
-
-        //http://bulletphysics.org/Bullet/BulletFull/structbtSoftBody_1_1fCollision.html
-
         //common Soft body settings class used for all softbodies, parameters set based on type of soft body
-        //SoftBodyEditor will display this when needed
         [SerializeField]
-        private SBSettings _softBodySettings = new SBSettings();
+        private SBSettings _softBodySettings = new SBSettings();      //SoftBodyEditor will display this when needed
         public SBSettings SoftBodySettings
         {
             get { return _softBodySettings; }
@@ -51,25 +35,15 @@ namespace BulletUnity
         protected UnityEngine.Vector3[] norms = new UnityEngine.Vector3[0];
         protected int[] tris = new int[1];
 
-        //void OnEnable()
-        //{
-        //    if (BPhysicsWorld.Get().AddSoftBody(this))
-        //    {
-        //        isInWorld = true;
-        //    }
-        //}
-
-        void Start()
+        //void OnEnable()    
+        void Start()  //Need to add in start or SB is not initialized and world may not exist yet
         {
             if (BPhysicsWorld.Get().AddSoftBody(this))
             {
                 isInWorld = true;
             }
-
         }
-
-
-
+        
         void OnDisable()
         {
             if (isInWorld)
@@ -88,19 +62,15 @@ namespace BulletUnity
             return m_BSoftBody;
         }
 
-        //TODO: Editor access _BuildSoftBody()
         public virtual bool BuildSoftBody()
         {
             return false;
         }
 
-
-
         void OnDestroy()
         {
             Dispose(false);
         }
-
 
         public void Dispose()
         {
@@ -145,7 +115,6 @@ namespace BulletUnity
                 }
             }
         }
-
 
 
         void Update()

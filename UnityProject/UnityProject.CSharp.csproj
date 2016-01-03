@@ -17,7 +17,8 @@
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.2.3f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -127,15 +128,13 @@
     <Compile Include="Assets\BulletUnity\Scripts\Primitives\BPrimitive.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\Primitives\BSphere.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\Primitives\EnumerationExtensions.cs" />
-    <Compile Include="Assets\BulletUnity\Scripts\Primitives\ProceduralPrimitives.cs" />
-    <Compile Include="Assets\BulletUnity\Scripts\SoftBody\BAnySoftObject.cs" />
+    <Compile Include="Assets\BulletUnity\Scripts\ProceduralMeshes\PPMeshFactory.cs" />
+    <Compile Include="Assets\BulletUnity\Scripts\ProceduralMeshes\ProceduralPrimitives.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\SoftBody\BSoftBody.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\SoftBody\BSoftBodyRope.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\SoftBody\BSoftBodyWMesh.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\SoftBody\SBSettings.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\SoftBody\Test\BunnyRainTest.cs" />
-    <Compile Include="Assets\BulletUnity\Scripts\SoftBody\old\BSoftBodyOld.cs" />
-    <Compile Include="Assets\BulletUnity\Scripts\SoftBody\old\BSoftBodyRopeLineRenderer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

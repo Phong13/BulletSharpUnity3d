@@ -1,7 +1,5 @@
 ﻿using System;
 using UnityEngine;
-//using BulletSharp;
-//using BulletSharp.Math;
 using System.Collections;
 using BulletUnity;
 
@@ -16,7 +14,7 @@ namespace BulletUnity.Primitives
     {
 
         public BCylinderMeshSettings meshSettings = new BCylinderMeshSettings();
-        
+
         public static GameObject CreateNew(Vector3 position, Quaternion rotation)
         {
             GameObject go = new GameObject();
@@ -29,7 +27,7 @@ namespace BulletUnity.Primitives
 
         public override void BuildMesh()
         {
-            GetComponent<MeshFilter>().sharedMesh = ProceduralPrimitives.CreateMeshCylinder(meshSettings.height, meshSettings.radius, meshSettings.nbSides, meshSettings.autoWeldVertices);
+            GetComponent<MeshFilter>().sharedMesh = meshSettings.Build();
             GetComponent<BCylinderShape>().halfExtent = meshSettings.halfExtent;
         }
 

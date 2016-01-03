@@ -25,7 +25,6 @@ public class BSoftBodyComponentOrderSorter : ScriptableObject
  
             typeof (MeshFilter),
             typeof (MeshRenderer),
-            typeof (BSoftBodyRopeLineRenderer),
             typeof (LineRenderer),
             
 

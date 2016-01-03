@@ -15,21 +15,24 @@ namespace BulletUnity
         //BulletSharp.SoftBody.Collisions collisions;  //bitmask field for collisions
 
         GUIContent gcSoftBodySettings = new GUIContent("SoftBodySettings");
+        GUIContent gcSoftBodyMeshSettings = new GUIContent("SoftBodyMeshSettings");
 
         //used to hide specific serialized properties in the editor
         //Hide softBody Settings until we want to display it, also script name
         private static readonly string[] hideMe = new string[] { "_softBodySettings", "m_Script" };
 
-        const string collisionTooltip = "Collisions flags\n\n" +
-       "SDF_RS Rigid versus soft mask.\n\n" +
-       "CL_RS: SDF based rigid vs soft.\n\n" +
-       "SVSmask: Cluster vs convex rigid vs soft.\n\n" +
-       "VF_SS: Rigid versus soft mask.\n\n" +
-       "CL_SS:Vertex vs face soft vs soft handling.\n\n" +
-       "CL_SELF: Cluster vs cluster soft vs soft handling.\n\n" +
-       "Default: Cluster soft body self collision.\n\n";
+        const string collisionTooltip = "Collisions flags\n" +
+       "SDF_RS Rigid versus soft mask.\n" +
+       "CL_RS: SDF based rigid vs soft.\n" +
+       "SVSmask: Cluster vs convex rigid vs soft.\n" +
+       "VF_SS: Rigid versus soft mask.\n" +
+       "CL_SS:Vertex vs face soft vs soft handling.\n" +
+       "CL_SELF: Cluster vs cluster soft vs soft handling.\n" +
+       "Default: Cluster soft body self collision.";
 
         GUIContent gcCollisionTooltip = new GUIContent("Collision Mask", collisionTooltip);
+
+        Color GUIBlue = new Color32(82, 140, 255, 255);
 
         public void OnEnable()
         {
@@ -37,13 +40,20 @@ namespace BulletUnity
             softBodySettings = serializedObject.FindProperty("_softBodySettings");
         }
 
+
+
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
-            Color GUIBlue = new Color32(82, 140, 255, 255);
+            //Color GUIBlue = new Color32(82, 140, 255, 255);
 
             EditorHelpers.DrawLogoAndVersion();
+
+            if (bSoftBodyTarget is BSoftBodyWMesh)
+            {
+                DrawCustomMeshSettingsOptions();
+            }
 
             DrawPropertiesExcluding(serializedObject, hideMe); //Draw settings after the default inspector
             //DrawDefaultInspector();//Items custom to this type of SoftBody
@@ -86,17 +96,14 @@ namespace BulletUnity
         {
             Selection.activeObject = BSoftBodyRope.CreateNew(EditorHelpers.GetCameraRaycastPosition(), Quaternion.identity);
             PostCreateObject();
-
         }
 
-
-        [MenuItem("BulletForUnity/BSoftBody/BAnySoftObject")]
-        [MenuItem("GameObject/Create Other/BulletForUnity/BSoftBody/BAnySoftObject")]  //right click menu
-        static void CreateBAnySoftObject()
+        [MenuItem("BulletForUnity/BSoftBody/BSoftBodyWMesh")]
+        [MenuItem("GameObject/Create Other/BulletForUnity/BSoftBody/BSoftBodyWMesh")]  //right click menu
+        static void CreateBSoftWithMesh()
         {
-            Selection.activeObject = BAnySoftObject.CreateNew(EditorHelpers.GetCameraRaycastPosition(), Quaternion.identity);
+            Selection.activeObject = BSoftBodyWMesh.CreateNew(EditorHelpers.GetCameraRaycastPosition(), Quaternion.identity, BAnyMeshSettingsForEditor.Instance.Build(), true);
             PostCreateObject();
-
         }
 
         /// <summary>
@@ -109,7 +116,88 @@ namespace BulletUnity
 
         #endregion
 
+        //Hackish method to get past Unity serialization
+        void DrawCustomMeshSettingsOptions()
+        {
+            //Get Instance
+            BAnyMeshSettingsForEditor bAny = BAnyMeshSettingsForEditor.Instance;
 
+            //Build it!
+            if (EditorHelpers.InspectorButton("Update Mesh", 100, 15, GUIBlue, "New/Change mesh"))
+            {
+                ((BSoftBodyWMesh)bSoftBodyTarget).UserMesh = bAny.Build();
+                bSoftBodyTarget.BuildSoftBody();
+            }
+
+            bAny.imediateUpdate = EditorGUILayout.Toggle("Imediate Update", bAny.imediateUpdate);
+
+            //Select a mesh type
+            bAny.meshType = (PrimitiveMeshOptions)EditorGUILayout.EnumPopup("Mesh Type", bAny.meshType);
+
+            switch (bAny.meshType)
+            {
+                case PrimitiveMeshOptions.UserDefinedMesh:
+
+                    break;
+                case PrimitiveMeshOptions.Box:
+                    bAny.extents = EditorGUILayout.Vector3Field("Extents", bAny.extents);
+                    break;
+                case PrimitiveMeshOptions.Sphere:
+                    bAny.radius = EditorGUILayout.FloatField("radius", bAny.radius);
+                    bAny.numLongitudeLines = EditorGUILayout.IntField("numLongitudeLines", bAny.numLongitudeLines);
+                    bAny.numLatitudeLines = EditorGUILayout.IntField("numLatitudeLines", bAny.numLatitudeLines);
+
+                    break;
+                case PrimitiveMeshOptions.Cylinder:
+                    bAny.height = EditorGUILayout.FloatField("height", bAny.height);
+                    bAny.radius = EditorGUILayout.FloatField("radius", bAny.radius);
+                    bAny.nbSides = EditorGUILayout.IntField("nbSides", bAny.nbSides);
+                    break;
+                case PrimitiveMeshOptions.Cone:
+                    bAny.height = EditorGUILayout.FloatField("height", bAny.height);
+                    bAny.radius = EditorGUILayout.FloatField("radius", bAny.radius);
+                    bAny.nbSides = EditorGUILayout.IntField("nbSides", bAny.nbSides);
+                    break;
+                case PrimitiveMeshOptions.Pyramid:
+                    bAny.height = EditorGUILayout.FloatField("height", bAny.height);
+                    bAny.radius = EditorGUILayout.FloatField("radius", bAny.radius);
+                    break;
+                case PrimitiveMeshOptions.Bunny:
+                    break;
+                case PrimitiveMeshOptions.Plane:
+                    bAny.length = EditorGUILayout.FloatField("length", bAny.length);
+                    bAny.width = EditorGUILayout.FloatField("width", bAny.width);
+                    bAny.resX = EditorGUILayout.IntField("resX", bAny.resX);
+                    bAny.resZ = EditorGUILayout.IntField("resZ", bAny.resZ);
+                    break;
+                default:
+                    break;
+            }
+
+            //limit the fields [Range()] doesnt work
+            bAny.extents.x = Mathf.Clamp(bAny.extents.x, 0f, 10000f);
+            bAny.extents.y = Mathf.Clamp(bAny.extents.y, 0f, 10000f);
+            bAny.extents.z = Mathf.Clamp(bAny.extents.z, 0f, 10000f);
+            bAny.radius = Mathf.Clamp(bAny.radius, 0f, 10000f);
+            bAny.numLatitudeLines = Mathf.Clamp(bAny.numLatitudeLines, 2, 100);
+            bAny.numLongitudeLines = Mathf.Clamp(bAny.numLongitudeLines, 2, 100);
+            bAny.height = Mathf.Clamp(bAny.height, 0, 100);
+            bAny.nbSides = Mathf.Clamp(bAny.nbSides, 2, 100);
+            
+            bAny.length = Mathf.Clamp(bAny.length, 0, 1000);
+            bAny.width = Mathf.Clamp(bAny.width, 0, 1000);
+            bAny.resX = Mathf.Clamp(bAny.resX, 2, 100);
+            bAny.resZ = Mathf.Clamp(bAny.resZ, 2, 100);
+
+            //AutoMagickally change settings is edited
+            if (GUI.changed && bAny.imediateUpdate) //Can apply settings on editor change
+            {
+                ((BSoftBodyWMesh)bSoftBodyTarget).UserMesh = bAny.Build();
+                bSoftBodyTarget.BuildSoftBody();
+            }
+
+
+        }
 
     }
 }

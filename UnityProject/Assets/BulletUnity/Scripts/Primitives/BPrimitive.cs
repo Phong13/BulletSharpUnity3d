@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using BulletSharp;
-//using BulletSharp.Math;
 using System.Collections;
 using BulletUnity;
 
@@ -27,7 +26,6 @@ namespace BulletUnity.Primitives
         {
             go.transform.position = position;
             go.transform.rotation = rotation;
-
             MeshRenderer meshRenderer = go.GetComponent<MeshRenderer>();
             UnityEngine.Material material = new UnityEngine.Material(Shader.Find("Standard"));
             meshRenderer.sharedMaterial = material;

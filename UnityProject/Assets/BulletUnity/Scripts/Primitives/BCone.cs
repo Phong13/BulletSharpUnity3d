@@ -1,7 +1,5 @@
 ﻿using System;
 using UnityEngine;
-//using BulletSharp;
-//using BulletSharp.Math;
 using System.Collections;
 using BulletUnity;
 
@@ -14,7 +12,6 @@ namespace BulletUnity.Primitives
     [RequireComponent(typeof(BConeShape))]
     public class BCone : BPrimitive
     {
-
         public BConeMeshSettings meshSettings = new BConeMeshSettings();
  
         public static GameObject CreateNew(Vector3 position, Quaternion rotation)
@@ -24,13 +21,12 @@ namespace BulletUnity.Primitives
             CreateNewBase(go, position, rotation);
             bCone.BuildMesh();
             go.name = "BCone";
-
             return go;
         }
 
         public override void BuildMesh()
         {
-            GetComponent<MeshFilter>().sharedMesh = ProceduralPrimitives.CreateMeshCone(meshSettings.height, meshSettings.radius, 0, meshSettings.nbSides, meshSettings.autoWeldVertices);
+            GetComponent<MeshFilter>().sharedMesh = meshSettings.Build();
             BConeShape bCone = GetComponent<BConeShape>();
             bCone.radius = meshSettings.radius;
             bCone.height  = meshSettings.height;
