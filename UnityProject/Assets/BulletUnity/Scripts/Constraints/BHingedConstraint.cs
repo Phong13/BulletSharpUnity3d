@@ -6,16 +6,27 @@ using BulletSharp;
 namespace BulletUnity {
     [System.Serializable]
     public class BHingedConstraint : BTypedConstraint {
+
         //todo should be properties so can capture changes and propagate to scene
         /// <summary>
         /// In targetRigidbody local coordinates
         /// </summary>
-        public Vector3 localPointOnHingeOffset;
+        public Vector3 localPointOnHingeOffsetA;
         /// <summary>
         /// In targetRigidbody local coordinates
         /// </summary>
-        public Vector3 localPivotAxis;
-        public BRigidBody targetRigidBody;
+        public Vector3 localPivotAxisA;
+
+        /// <summary>
+        /// In targetRigidbody local coordinates
+        /// </summary>
+        public Vector3 localPointOnHingeOffsetB;
+        /// <summary>
+        /// In targetRigidbody local coordinates
+        /// </summary>
+        public Vector3 localPivotAxisB;
+
+        public ConstraintType constraintType;
 
         public bool enableMotor;
         public float targetMotorAngularVelocity = 0f;
@@ -26,19 +37,6 @@ namespace BulletUnity {
         public float highLimitAngleRadians;
         public float limitSoftness = .9f;
         public float limitBiasFactor = .3f;
-
-        public void OnEnable() {
-            if (BPhysicsWorld.Get().AddConstraint(this)) {
-                isInWorld = true;
-            }
-        }
-
-        public void OnDisable() {
-            if (isInWorld) {
-                BPhysicsWorld.Get().RemoveConstraint(constraintPtr);
-            }
-            isInWorld = false;
-        }
 
         public float GetAngle() {
             if (constraintPtr == null) {
@@ -57,34 +55,42 @@ namespace BulletUnity {
                     world.RemoveConstraint(constraintPtr);
                 }
             }
-            if (targetRigidBody == null) {
+            if (targetRigidBodyA == null) {
                 Debug.LogError("Constraint target rigid body was not set.");
                 return false;
             }
-            RigidBody rb = targetRigidBody.GetRigidBody();
-            if (rb == null) {
-                Debug.LogError("Constraint could not get bullet RigidBody from target rigid body");
-                return false;
-            }
-            if (localPivotAxis == Vector3.zero) {
+            if (localPivotAxisA == Vector3.zero)
+            {
                 Debug.LogError("Constaint axis cannot be zero vector");
                 return false;
             }
-            constraintPtr = new HingeConstraint(targetRigidBody.GetRigidBody(), localPointOnHingeOffset.ToBullet(), localPivotAxis.ToBullet());
-            if (enableMotor) {
+            RigidBody rba = targetRigidBodyA.GetRigidBody();
+            if (rba == null) {
+                Debug.LogError("Constraint could not get bullet RigidBody from target rigid body");
+                return false;
+            }
+            if (constraintType == ConstraintType.constrainToAnotherBody)
+            {
+                RigidBody rbb = targetRigidBodyB.GetRigidBody();
+                if (rbb == null)
+                {
+                    Debug.LogError("Constraint could not get bullet RigidBody from target rigid body");
+                    return false;
+                }
+                constraintPtr = new HingeConstraint(rba,rbb,localPointOnHingeOffsetA.ToBullet(),localPointOnHingeOffsetB.ToBullet(),localPivotAxisA.ToBullet(),localPivotAxisB.ToBullet());
+            }
+            else {
+                constraintPtr = new HingeConstraint(rba, localPointOnHingeOffsetA.ToBullet(), localPivotAxisA.ToBullet());
+            }
+            if (enableMotor)
+            {
                 ((HingeConstraint)constraintPtr).EnableAngularMotor(true, targetMotorAngularVelocity, maxMotorImpulse);
             }
-            if (setLimit) {
+            if (setLimit)
+            {
                 ((HingeConstraint)constraintPtr).SetLimit(lowLimitAngleRadians, highLimitAngleRadians, limitSoftness, limitBiasFactor);
             }
             return true;
-        }
-
-        public override TypedConstraint GetConstraint() {
-            if (constraintPtr == null) {
-                _BuildConstraint();
-            }
-            return constraintPtr;
         }
     }
 }
