@@ -5,12 +5,14 @@ using BulletSharp;
 
 namespace BulletUnity {
     [System.Serializable]
-    public class BSliderConstraint : BTwoFrameConstraint {
+    public class BConeTwistConstraint : BTwoFrameConstraint {
         [Header("Limits")]
-        public float lowerLinearLimit = -10f;
-        public float upperLinearLimit = 10f;
-        public float lowerAngularLimit = -Mathf.PI;
-        public float upperAngularLimit = Mathf.PI;
+        public float swingSpan1 = Mathf.PI;
+        public float swingSpan2 = Mathf.PI;
+        public float twistSpan = Mathf.PI;
+        public float softness = .5f;
+        public float biasFactor = .3f;
+        public float relaxationFactor = 1f;
 
         //called by Physics World just before constraint is added to world.
         //the current constraint properties are used to rebuild the constraint.
@@ -26,21 +28,20 @@ namespace BulletUnity {
             {
                 if (constraintType == ConstraintType.constrainToAnotherBody)
                 {
-                    constraintPtr = new SliderConstraint(targetRigidBodyA.GetRigidBody(), targetRigidBodyB.GetRigidBody(), frameInA.CreateBSMatrix(), frameInB.CreateBSMatrix(), false);
+                    constraintPtr = new ConeTwistConstraint(targetRigidBodyA.GetRigidBody(), targetRigidBodyB.GetRigidBody(), frameInA.CreateBSMatrix(), frameInB.CreateBSMatrix());
                 }
                 else
                 {
-                    constraintPtr = new SliderConstraint(targetRigidBodyA.GetRigidBody(), frameInA.CreateBSMatrix(), false);
+                    constraintPtr = new ConeTwistConstraint(targetRigidBodyA.GetRigidBody(), frameInA.CreateBSMatrix());
                 }
-                SliderConstraint sl = (SliderConstraint)constraintPtr;
-                sl.LowerLinearLimit = lowerLinearLimit;
-                sl.UpperLinearLimit = upperLinearLimit;
+                ConeTwistConstraint sl = (ConeTwistConstraint)constraintPtr;
 
-                sl.LowerAngularLimit = lowerAngularLimit;
-                sl.UpperAngularLimit = upperAngularLimit;
+                sl.SetLimit(swingSpan1, swingSpan2, twistSpan, softness, biasFactor, relaxationFactor);
                 return true;
             }
             return false;
         }
     }
 }
+
+// DllNotFoundException: Unable to load DLL 'Plugins'. The Specified module could not be found.

@@ -28,6 +28,8 @@ namespace BulletUnity {
             }
         }
 
+        public bool _isTrigger = false;
+
         [SerializeField]
         float _mass = 1f;
         public float mass {
@@ -143,6 +145,10 @@ namespace BulletUnity {
             if (_type == RBType.kinematic) {
                 m_Brigidbody.CollisionFlags = m_Brigidbody.CollisionFlags | BulletSharp.CollisionFlags.KinematicObject;
                 m_Brigidbody.ActivationState = ActivationState.DisableDeactivation;
+            }
+            if (_isTrigger)
+            {
+                m_Brigidbody.CollisionFlags = m_Brigidbody.CollisionFlags | BulletSharp.CollisionFlags.NoContactResponse;
             }
             return true;
         }

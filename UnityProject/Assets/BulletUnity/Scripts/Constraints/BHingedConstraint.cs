@@ -5,28 +5,8 @@ using BulletSharp;
 
 namespace BulletUnity {
     [System.Serializable]
-    public class BHingedConstraint : BTypedConstraint {
+    public class BHingedConstraint : BTwoFrameConstraint {
 
-        //todo should be properties so can capture changes and propagate to scene
-        /// <summary>
-        /// In targetRigidbody local coordinates
-        /// </summary>
-        public Vector3 localPointOnHingeOffsetA;
-        /// <summary>
-        /// In targetRigidbody local coordinates
-        /// </summary>
-        public Vector3 localPivotAxisA;
-
-        /// <summary>
-        /// In targetRigidbody local coordinates
-        /// </summary>
-        public Vector3 localPointOnHingeOffsetB;
-        /// <summary>
-        /// In targetRigidbody local coordinates
-        /// </summary>
-        public Vector3 localPivotAxisB;
-
-        public ConstraintType constraintType;
 
         public bool enableMotor;
         public float targetMotorAngularVelocity = 0f;
@@ -55,42 +35,28 @@ namespace BulletUnity {
                     world.RemoveConstraint(constraintPtr);
                 }
             }
-            if (targetRigidBodyA == null) {
-                Debug.LogError("Constraint target rigid body was not set.");
-                return false;
-            }
-            if (localPivotAxisA == Vector3.zero)
+
+            if (IsValid())
             {
-                Debug.LogError("Constaint axis cannot be zero vector");
-                return false;
-            }
-            RigidBody rba = targetRigidBodyA.GetRigidBody();
-            if (rba == null) {
-                Debug.LogError("Constraint could not get bullet RigidBody from target rigid body");
-                return false;
-            }
-            if (constraintType == ConstraintType.constrainToAnotherBody)
-            {
-                RigidBody rbb = targetRigidBodyB.GetRigidBody();
-                if (rbb == null)
+                if (constraintType == ConstraintType.constrainToAnotherBody)
                 {
-                    Debug.LogError("Constraint could not get bullet RigidBody from target rigid body");
-                    return false;
+                    constraintPtr = new HingeConstraint(targetRigidBodyA.GetRigidBody(), targetRigidBodyB.GetRigidBody(),frameInA.CreateBSMatrix(),frameInB.CreateBSMatrix());
                 }
-                constraintPtr = new HingeConstraint(rba,rbb,localPointOnHingeOffsetA.ToBullet(),localPointOnHingeOffsetB.ToBullet(),localPivotAxisA.ToBullet(),localPivotAxisB.ToBullet());
+                else {
+                    constraintPtr = new HingeConstraint(targetRigidBodyA.GetRigidBody(), frameInA.CreateBSMatrix());
+                }
+
+                if (enableMotor)
+                {
+                    ((HingeConstraint)constraintPtr).EnableAngularMotor(true, targetMotorAngularVelocity, maxMotorImpulse);
+                }
+                if (setLimit)
+                {
+                    ((HingeConstraint)constraintPtr).SetLimit(lowLimitAngleRadians, highLimitAngleRadians, limitSoftness, limitBiasFactor);
+                }
+                return true;
             }
-            else {
-                constraintPtr = new HingeConstraint(rba, localPointOnHingeOffsetA.ToBullet(), localPivotAxisA.ToBullet());
-            }
-            if (enableMotor)
-            {
-                ((HingeConstraint)constraintPtr).EnableAngularMotor(true, targetMotorAngularVelocity, maxMotorImpulse);
-            }
-            if (setLimit)
-            {
-                ((HingeConstraint)constraintPtr).SetLimit(lowLimitAngleRadians, highLimitAngleRadians, limitSoftness, limitBiasFactor);
-            }
-            return true;
+            return false;
         }
     }
 }

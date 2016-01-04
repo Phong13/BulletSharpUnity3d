@@ -6,6 +6,29 @@ using BulletSharp;
 
 namespace BulletUnity {
     public class BDynamicsWorld : BPhysicsWorld, IDisposable {
+        public enum CollisionConfType
+        {
+            DefaultDynamicsWorldCollisionConf,
+            SoftBodyRigidBodyCollisionConf,
+        }
+
+        public enum BroadphaseType
+        {
+            DynamicAABBBroadphase,
+            Axis3SweepBroadphase,
+            Axis3SweepBroadphase_32bit,
+            SimpleBroadphase,
+        }
+
+        public CollisionConfType collisionType = CollisionConfType.DefaultDynamicsWorldCollisionConf;
+
+        public BroadphaseType broadphaseType = BroadphaseType.DynamicAABBBroadphase;
+
+        public Vector3 axis3SweepBroadphaseMin = new Vector3(-1000f, -1000f, -1000f);
+        public Vector3 axis3SweepBroadphaseMax = new Vector3(1000f, 1000f, 1000f);
+        const int axis3SweepMaxProxies = 32766;
+
+        public Vector3 gravity = new Vector3(0f,-9.8f,0f);
 
         public CollisionConfiguration CollisionConf;
         public CollisionDispatcher Dispatcher;
@@ -13,12 +36,33 @@ namespace BulletUnity {
 
         protected override void _InitializePhysicsWorld() {
             base._InitializePhysicsWorld();
-            CollisionConf = new DefaultCollisionConfiguration();
+            
+            if (collisionType == CollisionConfType.DefaultDynamicsWorldCollisionConf)
+            {
+                CollisionConf = new DefaultCollisionConfiguration();
+            } else if (collisionType == CollisionConfType.SoftBodyRigidBodyCollisionConf)
+            {
+                CollisionConf = new SoftBodyRigidBodyCollisionConfiguration();
+            }
+
             Dispatcher = new CollisionDispatcher(CollisionConf);
-            Broadphase = new DbvtBroadphase();
+
+            if (broadphaseType == BroadphaseType.DynamicAABBBroadphase)
+            {
+                Broadphase = new DbvtBroadphase();
+            } else if (broadphaseType == BroadphaseType.Axis3SweepBroadphase)
+            {
+                Broadphase = new AxisSweep3(axis3SweepBroadphaseMin.ToBullet(), axis3SweepBroadphaseMax.ToBullet(), axis3SweepMaxProxies);
+            } else if (broadphaseType == BroadphaseType.Axis3SweepBroadphase_32bit)
+            {
+                Broadphase = new AxisSweep3_32Bit(axis3SweepBroadphaseMin.ToBullet(), axis3SweepBroadphaseMax.ToBullet(), axis3SweepMaxProxies);
+            } else
+            {
+                Broadphase = new SimpleBroadphase();
+            }
+            
             World = new DiscreteDynamicsWorld(Dispatcher, Broadphase, null, CollisionConf);
-            UnityEngine.Vector3 v = UnityEngine.Physics.gravity;
-            World.Gravity = new BulletSharp.Math.Vector3(v.x, v.y, v.z);
+            World.Gravity = gravity.ToBullet();
             if (_doDebugDraw) {
                 DebugDrawUnity db = new DebugDrawUnity();
                 db.DebugMode = _debugDrawMode;
