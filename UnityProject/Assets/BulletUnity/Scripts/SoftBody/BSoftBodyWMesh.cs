@@ -71,6 +71,7 @@ namespace BulletUnity
             SoftBodySettings.ConfigureSoftBody(m_BSoftBody);         //Set SB settings
 
             //Set SB position to GO position
+            m_BSoftBody.Rotate(transform.rotation.ToBullet());
             m_BSoftBody.Translate(transform.position.ToBullet());
             m_BSoftBody.Scale(transform.localScale.ToBullet());
 
