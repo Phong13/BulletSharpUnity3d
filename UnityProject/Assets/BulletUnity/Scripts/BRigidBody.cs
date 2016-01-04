@@ -29,6 +29,22 @@ namespace BulletUnity {
         }
 
         public bool _isTrigger = false;
+        public float friction = .5f;
+        public float rollingFriction = 0f;
+        public float linearDamping = 0f;
+        public float angularDamping = 0f;
+        public float restitution = 0f;
+        public float linearSleepingThreshold = .8f;
+        public float angularSleepingThreshold = 1f;
+        public bool additionalDamping = false;
+        public float additionalDampingFactor = .005f;
+        public float additionalLinearDampingThresholdSqr = .01f;
+        public float additionalAngularDampingThresholdSqr = .01f;
+        public float additionalAngularDampingFactor = .01f;
+
+        /* can lock axis with this */
+        public UnityEngine.Vector3 linearFactor = UnityEngine.Vector3.one;
+        public UnityEngine.Vector3 angularFactor = UnityEngine.Vector3.one;
 
         [SerializeField]
         float _mass = 1f;
@@ -109,7 +125,7 @@ namespace BulletUnity {
                     world.RemoveRigidBody(m_Brigidbody);
                 }
             }
-
+            
             if (transform.localScale != UnityEngine.Vector3.one) {
                 Debug.LogError("The local scale on this rigid body is not one. Bullet physics does not support scaling on a rigid body world transform. Instead alter the dimensions of the CollisionShape.");
             }
