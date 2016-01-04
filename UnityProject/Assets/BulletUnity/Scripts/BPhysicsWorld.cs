@@ -166,7 +166,7 @@ namespace BulletUnity {
             }
             if (!_isDisposed) {
                 Debug.LogFormat("Adding softbody {0} to world", softBody);
-                if (softBody._BuildSoftBody()) {
+                if (softBody.BuildSoftBody()) {
                     ((BulletSharp.SoftBody.SoftRigidDynamicsWorld)World).AddSoftBody(softBody.GetSoftBody());
                 }
                 return true;

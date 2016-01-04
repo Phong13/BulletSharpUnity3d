@@ -1,0 +1,161 @@
+fileFormatVersion: 2
+guid: 29e3b69e80fa539489bf8086872c2f88
+timeCreated: 1451668541
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Calf_L
+    100002: Calf_R
+    100004: Camera
+    100006: Ear_L_1
+    100008: Ear_L_2
+    100010: Ear_L_3
+    100012: Ear_R_1
+    100014: Ear_R_2
+    100016: Ear_R_3
+    100018: Fingers_L
+    100020: Fingers_R
+    100022: Foot_L
+    100024: Foot_R
+    100026: Forearm_L
+    100028: Forearm_R
+    100030: Hand_L
+    100032: Hand_R
+    100034: Head
+    100036: Hip_L
+    100038: Hip_R
+    100040: Light
+    100042: Neck_1
+    100044: Neck_2
+    100046: Pelvis
+    100048: Shoulder_L
+    100050: Shoulder_R
+    100052: Spine_1
+    100054: Spine_2
+    100056: Spine_3
+    100058: Spine_4
+    100060: Tail_1
+    100062: Tail_2
+    100064: Tail_3
+    100066: Tail_4
+    100068: Tail_5
+    100070: Thigh_L
+    100072: Thigh_R
+    100074: Toes_L
+    100076: Toes_R
+    100078: UpperArm_L
+    100080: UpperArm_R
+    100082: //RootNode
+    100084: Wolf
+    400000: Calf_L
+    400002: Calf_R
+    400004: Camera
+    400006: Ear_L_1
+    400008: Ear_L_2
+    400010: Ear_L_3
+    400012: Ear_R_1
+    400014: Ear_R_2
+    400016: Ear_R_3
+    400018: Fingers_L
+    400020: Fingers_R
+    400022: Foot_L
+    400024: Foot_R
+    400026: Forearm_L
+    400028: Forearm_R
+    400030: Hand_L
+    400032: Hand_R
+    400034: Head
+    400036: Hip_L
+    400038: Hip_R
+    400040: Light
+    400042: Neck_1
+    400044: Neck_2
+    400046: Pelvis
+    400048: Shoulder_L
+    400050: Shoulder_R
+    400052: Spine_1
+    400054: Spine_2
+    400056: Spine_3
+    400058: Spine_4
+    400060: Tail_1
+    400062: Tail_2
+    400064: Tail_3
+    400066: Tail_4
+    400068: Tail_5
+    400070: Thigh_L
+    400072: Thigh_R
+    400074: Toes_L
+    400076: Toes_R
+    400078: UpperArm_L
+    400080: UpperArm_R
+    400082: //RootNode
+    400084: Wolf
+    4300000: Wolf
+    7400000: Base Stack
+    9500000: //RootNode
+    13700000: Wolf
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
