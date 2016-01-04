@@ -165,7 +165,8 @@ namespace BulletUnity {
             }
         }
 
-        void OnEnable() {
+        void Start() { 
+        //void OnEnable() {
             if (BPhysicsWorld.Get().AddRigidBody(this)) {
                 isInWorld = true;
             }

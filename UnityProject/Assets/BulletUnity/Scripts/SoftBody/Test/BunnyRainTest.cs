@@ -64,8 +64,8 @@ namespace BulletUnity
             {
                 Vector3 pos = new Vector3(0, 0, 0);
 
-                pos.x = UnityEngine.Random.Range(-startAreaOfRain.width / 2, startAreaOfRain.width / 2);
-                pos.z = UnityEngine.Random.Range(-startAreaOfRain.height / 2, startAreaOfRain.height / 2);
+                pos.x = startAreaOfRain.center.x + UnityEngine.Random.Range(-startAreaOfRain.width / 2, startAreaOfRain.width / 2);
+                pos.z = startAreaOfRain.center.y + UnityEngine.Random.Range(-startAreaOfRain.height / 2, startAreaOfRain.height / 2);
                 pos.y = fromHeight;
 
                 GameObject go = BSoftBodyWMesh.CreateNew(pos, UnityEngine.Random.rotation, anyMeshSettings.Build(), false, SBPresetSelect);
