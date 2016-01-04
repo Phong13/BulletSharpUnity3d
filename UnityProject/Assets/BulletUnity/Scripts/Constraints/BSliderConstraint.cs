@@ -5,7 +5,17 @@ using BulletSharp;
 
 namespace BulletUnity {
     [System.Serializable]
-    public class BSliderConstraint : BTwoFrameConstraint {
+    public class BSliderConstraint : BTypedConstraint {
+        //todo should be properties so can capture changes and propagate to scene
+        public ConstraintType constraintType;
+        [Header("Local Reference Frame For Rigid Body A")]
+        public Vector3 localPointInA = Vector3.zero;
+        public Vector3 localForwardInA = Vector3.forward;
+        public Vector3 localUpInA = Vector3.up;
+        [Header("Local Reference Frame For Rigid Body B")]
+        public Vector3 localPointInB = Vector3.zero;
+        public Vector3 localForwardInB = Vector3.forward;
+        public Vector3 localUpInB = Vector3.up;
         [Header("Limits")]
         public float lowerLinearLimit = -10f;
         public float upperLinearLimit = 10f;
@@ -22,25 +32,41 @@ namespace BulletUnity {
                     world.RemoveConstraint(constraintPtr);
                 }
             }
-            if (IsValid())
-            {
-                if (constraintType == ConstraintType.constrainToAnotherBody)
-                {
-                    constraintPtr = new SliderConstraint(targetRigidBodyA.GetRigidBody(), targetRigidBodyB.GetRigidBody(), frameInA.CreateBSMatrix(), frameInB.CreateBSMatrix(), false);
-                }
-                else
-                {
-                    constraintPtr = new SliderConstraint(targetRigidBodyA.GetRigidBody(), frameInA.CreateBSMatrix(), false);
-                }
-                SliderConstraint sl = (SliderConstraint)constraintPtr;
-                sl.LowerLinearLimit = lowerLinearLimit;
-                sl.UpperLinearLimit = upperLinearLimit;
-
-                sl.LowerAngularLimit = lowerAngularLimit;
-                sl.UpperAngularLimit = upperAngularLimit;
-                return true;
+            if (targetRigidBodyA == null) {
+                Debug.LogError("Constraint target rigid body was not set.");
+                return false;
             }
-            return false;
+            
+            RigidBody rba = targetRigidBodyA.GetRigidBody();
+            if (rba == null) {
+                Debug.LogError("Constraint could not get bullet RigidBody from target rigid body");
+                return false;
+            }
+            if (constraintType == ConstraintType.constrainToAnotherBody)
+            {
+                RigidBody rbb = targetRigidBodyB.GetRigidBody();
+                if (rbb == null)
+                {
+                    Debug.LogError("Constraint could not get bullet RigidBody from target rigid body");
+                    return false;
+                }
+                
+                BulletSharp.Math.Matrix frameInA = BulletSharp.Math.Matrix.AffineTransformation(1f, Quaternion.LookRotation(localForwardInA, localUpInA).ToBullet(), localPointInA.ToBullet());
+                BulletSharp.Math.Matrix frameInB = BulletSharp.Math.Matrix.AffineTransformation(1f, Quaternion.LookRotation(localForwardInB, localUpInB).ToBullet(), localPointInB.ToBullet());
+                constraintPtr = new SliderConstraint(rba,rbb, frameInA, frameInB, false);
+            } else
+            {
+                BulletSharp.Math.Matrix frameInA = BulletSharp.Math.Matrix.AffineTransformation(1f, Quaternion.LookRotation(localForwardInA, localUpInA).ToBullet(), localPointInA.ToBullet());
+                constraintPtr = new SliderConstraint(rba, frameInA, false);
+            }
+            SliderConstraint sl = (SliderConstraint)constraintPtr;  
+            sl.LowerLinearLimit = lowerLinearLimit;
+            sl.UpperLinearLimit = upperLinearLimit;
+
+            sl.LowerAngularLimit = lowerAngularLimit;
+            sl.UpperAngularLimit = upperAngularLimit;
+
+            return true;
         }
     }
 }
