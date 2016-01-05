@@ -28,17 +28,17 @@ namespace BulletUnity
 
         SBSettingsPresets lastSBPresetSelect;
 
-        const string collisionTooltip = "Collisions flags\n" +
-"SDF_RS Rigid versus soft mask.\n" +
-"CL_RS: SDF based rigid vs soft.\n" +
-"SVSmask: Cluster vs convex rigid vs soft.\n" +
-"VF_SS: Rigid versus soft mask.\n" +
-"CL_SS:Vertex vs face soft vs soft handling.\n" +
-"CL_SELF: Cluster vs cluster soft vs soft handling.\n" +
-"Default: Cluster soft body self collision.";
-        //[HideInInspector]
-        [Tooltip(collisionTooltip)]
-        public Collisions Collisions = Collisions.Default;
+//        const string collisionTooltip = "Collisions flags\n" +
+//"SDF_RS Rigid versus soft mask.\n" +
+//"CL_RS: SDF based rigid vs soft.\n" +
+//"SVSmask: Cluster vs convex rigid vs soft.\n" +
+//"VF_SS: Rigid versus soft mask.\n" +
+//"CL_SS:Vertex vs face soft vs soft handling.\n" +
+//"CL_SELF: Cluster vs cluster soft vs soft handling.\n" +
+//"Default: Cluster soft body self collision.";
+//        //[HideInInspector]
+//        [Tooltip(collisionTooltip)]
+//        public Collisions collisionMask = Collisions.Default;
 
         public SBSettings SoftBodySettings = new SBSettings();
 
@@ -79,6 +79,8 @@ namespace BulletUnity
                 bSoft.optimize = anyMeshSettings.optimize;
 
                 bSoft.SoftBodySettings = SoftBodySettings;  //play with settings
+
+                //bSoft.SoftBodySettings.config.Collisions = collisionMask;
 
                 bSoft.BuildSoftBody();
 

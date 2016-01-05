@@ -22,9 +22,12 @@ namespace BulletUnity
 
         }
 
-        int lrVertexCount = 0;
-
         public RopeSettings meshSettings = new RopeSettings();
+
+        [Tooltip("Rope anchors, if any")]
+        public RopeAnchor[] ropeAnchors;
+
+        int lrVertexCount = 0;
 
         LineRenderer _lr;
         LineRenderer lr
@@ -63,9 +66,26 @@ namespace BulletUnity
             //Set SB settings
             SoftBodySettings.ConfigureSoftBody(m_BSoftBody);
 
+
+
+            foreach (RopeAnchor anchor in ropeAnchors)
+            {
+                int f = (int)Mathf.Lerp(0, m_BSoftBody.Nodes.Count, anchor.anchorNodePoint);
+
+                if (f < 0)
+                    f = 0;
+                else if (f >= m_BSoftBody.Nodes.Count)
+                    f = m_BSoftBody.Nodes.Count - 1;
+
+                m_BSoftBody.AppendAnchor(f, anchor.body.GetRigidBody());
+
+            }
+
             //Set SB position to GO position
+            m_BSoftBody.Rotate(transform.rotation.ToBullet());
             m_BSoftBody.Translate(transform.position.ToBullet());
             m_BSoftBody.Scale(transform.localScale.ToBullet());
+           
 
             UpdateMesh();
             return true;
@@ -78,7 +98,7 @@ namespace BulletUnity
         /// <param name="rotation"></param>
         /// <param name="buildNow">Build now or configure properties and call BuildSoftBody() after</param>
         /// <returns></returns>
-        public static GameObject CreateNew(Vector3 position, Quaternion rotation, bool buildNow =  true)
+        public static GameObject CreateNew(Vector3 position, Quaternion rotation, bool buildNow = true)
         {
             GameObject go = new GameObject();
             go.transform.position = position;
@@ -121,12 +141,28 @@ namespace BulletUnity
                 lr.SetPosition(i, verts[i]);
             }
 
-            transform.SetTransformationFromBulletMatrix(m_BSoftBody.WorldTransform);  //Set SoftBody position, No motionstate
-
+            //transform.SetTransformationFromBulletMatrix(m_BSoftBody.WorldTransform);  //Set SoftBody position, No motionstate
         }
 
 
 
+    }
+
+    [Serializable]
+    public class RopeAnchor
+    {
+        public BRigidBody body;
+
+        //public bool anchorSameAsNode = true;
+        [Range(0, 1)]
+        [Tooltip("Node point calulated from total rope lenght.  Anchor point inserted at ((startPoint - endPoint) * anchorNodePoint; (0 to 1) (0 to 100%)")]
+        public float anchorNodePoint;
+
+        //psb0.AppendAnchor(psb0.Nodes.Count - 1, body);
+        //psb1.AppendAnchor(psb1.Nodes.Count - 1, body);
+        //psb0.AppendAnchor(0, kinematicBody);
+        //psb1.AppendAnchor(0, kinematicBody);
 
     }
+
 }
