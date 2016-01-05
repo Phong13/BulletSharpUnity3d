@@ -10,7 +10,7 @@ namespace BulletUnity
 {
     public class BunnyRainTest : MonoBehaviour
     {
-
+         
         public Rect startAreaOfRain = new Rect(new Vector2(0f, 0f), new Vector2(10f, 10f));
         [Range(0.5f, 50f)]
         public float fromHeight = 30f;

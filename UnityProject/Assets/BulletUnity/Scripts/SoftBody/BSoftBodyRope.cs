@@ -80,7 +80,7 @@ namespace BulletUnity
                 m_BSoftBody.AppendAnchor(f, anchor.body.GetRigidBody());
 
             }
-
+             
             //Set SB position to GO position
             m_BSoftBody.Rotate(transform.rotation.ToBullet());
             m_BSoftBody.Translate(transform.position.ToBullet());
