@@ -5,7 +5,12 @@ using BulletSharp;
 
 namespace BulletUnity {
     [System.Serializable]
-    public class BFixedConstraint : BTwoFrameConstraint {
+    public class BFixedConstraint : BTypedConstraint {
+
+
+        //todo should be properties so can capture changes and propagate to scene
+        public Vector3 localPointInA;
+        public Vector3 localPointInB;
 
         //called by Physics World just before constraint is added to world.
         //the current constraint properties are used to rebuild the constraint.
@@ -17,18 +22,29 @@ namespace BulletUnity {
                     world.RemoveConstraint(constraintPtr);
                 }
             }
-            if (IsValid())
-            {
-                if (constraintType == ConstraintType.constrainToAnotherBody)
-                {
-                    constraintPtr = new FixedConstraint(targetRigidBodyA.GetRigidBody(), targetRigidBodyB.GetRigidBody(), frameInA.CreateBSMatrix(), frameInB.CreateBSMatrix());
-                } else
-                {
-                    Debug.LogError("BFixedConstraint must have Constraint Type constrainToAnotherBody");
-                }
-                return true;
+            if (targetRigidBodyA == null) {
+                Debug.LogError("Constraint target rigid body was not set.");
+                return false;
             }
-            return false;
+ 
+            RigidBody rba = targetRigidBodyA.GetRigidBody();
+            if (rba == null) {
+                Debug.LogError("Constraint could not get bullet RigidBody from target rigid body");
+                return false;
+            }
+
+            RigidBody rbb = targetRigidBodyB.GetRigidBody();
+            if (rbb == null)
+            {
+                Debug.LogError("Constraint could not get bullet RigidBody from target rigid body");
+                return false;
+            }
+            BulletSharp.Math.Matrix frameInA = BulletSharp.Math.Matrix.Translation(localPointInA.ToBullet());
+            BulletSharp.Math.Matrix frameInB = BulletSharp.Math.Matrix.Translation(localPointInB.ToBullet());
+            constraintPtr = new FixedConstraint(rba,rbb,frameInA,frameInB);
+
+
+            return true;
         }
     }
 }
