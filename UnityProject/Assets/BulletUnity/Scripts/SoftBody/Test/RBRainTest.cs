@@ -15,7 +15,7 @@ namespace BulletUnity
         [Range(0.5f, 300f)]
         public float fromHeight = 30f;
         [Range(0.1f, 20f)]
-        public float softBodiesPerSecond = 1.0f;
+        public float rigidBodiesPerSecond = 1.0f;
         [Range(1f, 300f)]
         public float lifetime = 10f;
       
@@ -38,7 +38,7 @@ namespace BulletUnity
             if (!enableRain)
                 return;
 
-            if ((Time.time - lastBunnyTime) > (1 / softBodiesPerSecond))
+            if ((Time.time - lastBunnyTime) > (1 / rigidBodiesPerSecond))
             {
                 Vector3 pos = new Vector3(0, 0, 0);
 

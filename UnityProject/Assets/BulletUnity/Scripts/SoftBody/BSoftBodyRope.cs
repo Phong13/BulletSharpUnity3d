@@ -14,11 +14,14 @@ namespace BulletUnity
         public class RopeSettings
         {
             public int numPointsInRope = 10;
+            [Tooltip("Rope start position in world position")]
             public Vector3 startPoint;
+            [Tooltip("Rope end position in world position")]
             public Vector3 endPoint;
 
             public float width = .25f;
-            public Color color = Color.white;
+            public Color startColor = Color.white;
+            public Color endColor = Color.white;
 
         }
 
@@ -51,9 +54,6 @@ namespace BulletUnity
             m_BSoftBody = SoftBodyHelpers.CreateRope(World.WorldInfo,
                 meshSettings.startPoint.ToBullet(), meshSettings.endPoint.ToBullet(), meshSettings.numPointsInRope, 0);
 
-            //TODO: lr, Doesnt always work in editor
-            GetComponent<LineRenderer>().useWorldSpace = false;
-
             verts = new Vector3[m_BSoftBody.Nodes.Count];
             norms = new Vector3[m_BSoftBody.Nodes.Count];
 
@@ -66,26 +66,34 @@ namespace BulletUnity
             //Set SB settings
             SoftBodySettings.ConfigureSoftBody(m_BSoftBody);
 
-
-
             foreach (RopeAnchor anchor in ropeAnchors)
             {
-                int f = (int)Mathf.Lerp(0, m_BSoftBody.Nodes.Count, anchor.anchorNodePoint);
+                //anchorNode point 0 to 1, rounds to node # 
+                int node = (int)Mathf.Floor(Mathf.Lerp(0, m_BSoftBody.Nodes.Count - 1, anchor.anchorNodePoint));
 
-                if (f < 0)
-                    f = 0;
-                else if (f >= m_BSoftBody.Nodes.Count)
-                    f = m_BSoftBody.Nodes.Count - 1;
-
-                m_BSoftBody.AppendAnchor(f, anchor.body.GetRigidBody());
+                if (anchor.body != null)
+                    m_BSoftBody.AppendAnchor(node, anchor.body.GetRigidBody());
+                else
+                {
+                    m_BSoftBody.SetMass(node, 0);  //setting node mass to 0 fixes it in space apparently
+                }
 
             }
-             
+
+            //TODO: lr, Doesnt always work in editor
+            LineRenderer lr = GetComponent<LineRenderer>();
+
+            lr.useWorldSpace = false;
+
+            lr.SetVertexCount(verts.Length);
+            lr.SetWidth(meshSettings.width, meshSettings.width);
+            lr.SetColors(meshSettings.startColor, meshSettings.endColor);
+
             //Set SB position to GO position
             m_BSoftBody.Rotate(transform.rotation.ToBullet());
             m_BSoftBody.Translate(transform.position.ToBullet());
             m_BSoftBody.Scale(transform.localScale.ToBullet());
-           
+
 
             UpdateMesh();
             return true;
@@ -105,7 +113,7 @@ namespace BulletUnity
             go.transform.rotation = rotation;
             BSoftBodyRope bRope = go.AddComponent<BSoftBodyRope>();
 
-            UnityEngine.Material material = new UnityEngine.Material(Shader.Find("Particles/Additive"));
+            UnityEngine.Material material = new UnityEngine.Material(Shader.Find("Particles/Multiply (Double)"));
             bRope.lr.sharedMaterial = material;
 
             bRope.SoftBodySettings.ResetToSoftBodyPresets(SBSettingsPresets.Rope);
@@ -134,7 +142,7 @@ namespace BulletUnity
                 lrVertexCount = verts.Length;
                 lr.SetVertexCount(lrVertexCount);
                 lr.SetWidth(meshSettings.width, meshSettings.width);
-                lr.SetColors(meshSettings.color, meshSettings.color);
+                lr.SetColors(meshSettings.startColor, meshSettings.endColor);
             }
             for (int i = 0; i < verts.Length; i++)
             {
@@ -151,17 +159,13 @@ namespace BulletUnity
     [Serializable]
     public class RopeAnchor
     {
+        [Tooltip("Anchor to body.  null = anchor to current rope node world position")]
         public BRigidBody body;
 
         //public bool anchorSameAsNode = true;
         [Range(0, 1)]
-        [Tooltip("Node point calulated from total rope lenght.  Anchor point inserted at ((startPoint - endPoint) * anchorNodePoint; (0 to 1) (0 to 100%)")]
+        [Tooltip("Anchor point location calulated from total rope lenghth.  Anchor point inserted at ((startPoint - endPoint) * anchorNodePoint; (0 to 1) (0 to 100%)")]
         public float anchorNodePoint;
-
-        //psb0.AppendAnchor(psb0.Nodes.Count - 1, body);
-        //psb1.AppendAnchor(psb1.Nodes.Count - 1, body);
-        //psb0.AppendAnchor(0, kinematicBody);
-        //psb1.AppendAnchor(0, kinematicBody);
 
     }
 
