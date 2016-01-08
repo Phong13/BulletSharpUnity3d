@@ -16,7 +16,7 @@ namespace BulletUnity
         [Range(0.5f, 1000f)]
         public float shootBoxInitialSpeed = 10f;
 
-        public BulletUnity.Primitives.BSphereMeshSettings meshSettings = new BulletUnity.Primitives.BSphereMeshSettings();
+        public BSphereMeshSettings meshSettings = new BSphereMeshSettings();
 
         public float mass = 10f;
         public float lifeTime = 120f;

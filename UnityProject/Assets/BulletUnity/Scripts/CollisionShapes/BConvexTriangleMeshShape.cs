@@ -13,8 +13,7 @@ namespace BulletUnity {
         public override void OnDrawGizmosSelected() {
             //BUtility.DebugDrawCapsule(position, rotation, scale, radius, height / 2f, 1, Gizmos.color);  
         }
-
-
+        
         public override CollisionShape GetCollisionShape() {
             if (collisionShapePtr == null) {
                 Vector3[] verts = hullMesh.vertices;

@@ -71,12 +71,12 @@ namespace BulletUnity
                 GameObject go = BSoftBodyWMesh.CreateNew(pos, UnityEngine.Random.rotation, anyMeshSettings.Build(), false, SBPresetSelect);
                 BSoftBodyWMesh bSoft = go.GetComponent<BSoftBodyWMesh>();
 
-                bSoft.autoWeldVertices = anyMeshSettings.autoWeldVertices;
-                bSoft.autoWeldThreshold = anyMeshSettings.autoWeldThreshold;
-                bSoft.recalculateNormals = anyMeshSettings.recalculateNormals;
-                bSoft.addBackFaceTriangles = anyMeshSettings.addBackFaceTriangles;
-                bSoft.recalculateBounds = anyMeshSettings.recalculateBounds;
-                bSoft.optimize = anyMeshSettings.optimize;
+                bSoft.meshSettings. autoWeldVertices = anyMeshSettings.autoWeldVertices;
+                bSoft.meshSettings.autoWeldThreshold = anyMeshSettings.autoWeldThreshold;
+                bSoft.meshSettings.recalculateNormals = anyMeshSettings.recalculateNormals;
+                bSoft.meshSettings.addBackFaceTriangles = anyMeshSettings.addBackFaceTriangles;
+                bSoft.meshSettings.recalculateBounds = anyMeshSettings.recalculateBounds;
+                bSoft.meshSettings.optimize = anyMeshSettings.optimize;
 
                 bSoft.SoftBodySettings = SoftBodySettings;  //play with settings
 

@@ -289,6 +289,19 @@ namespace BulletUnity
             vertices[vert + 1] = vertices[nbSides * 2 + 3];
             #endregion
 
+
+            //Apply offset to vertices to shift pivot to center (Bullet default)
+
+            //TODO: User settable offset
+            Vector3 offset = new Vector3(0f, -1f, 0f) * (height / 2);
+
+            for (int ii = 0; ii < vertices.Length; ii++)
+            {
+                vertices[ii] += offset;
+                //offset
+            }
+
+
             #region Normales
 
             // bottom + top + sides

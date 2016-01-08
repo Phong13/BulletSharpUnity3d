@@ -16,23 +16,25 @@ namespace BulletUnity
     [RequireComponent(typeof(MeshRenderer))]
     public class BSoftBodyWMesh : BSoftBody
     {
-        [Tooltip("Mesh for this softbody")]
-        [SerializeField]
-        private Mesh _userMesh;
-        public Mesh UserMesh
-        {
-            get { return _userMesh; }
-            set { _userMesh = value; }
-        }
+        //[Tooltip("Mesh for this softbody")]
+        //[SerializeField]
+        //private Mesh _userMesh;
+        //public Mesh UserMesh
+        //{
+        //    get { return _userMesh; }
+        //    set { _userMesh = value; }
+        //}
 
-        [Header("Mesh post processing")]
-        public bool autoWeldVertices = false;
-        public float autoWeldThreshold = 0.001f; //TODO
-        [Tooltip("Should use this if autoWeldVertices is selected.")]
-        public bool recalculateNormals = false;
-        public bool addBackFaceTriangles = false;
-        public bool recalculateBounds = true;
-        public bool optimize = true;
+        //[Header("Mesh post processing")]
+        //public bool autoWeldVertices = false;
+        //public float autoWeldThreshold = 0.001f; //TODO
+        //[Tooltip("Should use this if autoWeldVertices is selected.")]
+        //public bool recalculateNormals = false;
+        //public bool addBackFaceTriangles = false;
+        //public bool recalculateBounds = true;
+        //public bool optimize = true;
+
+        public BConvexHullMeshSettings meshSettings = new BConvexHullMeshSettings();
 
         private MeshFilter _meshFilter;
         protected MeshFilter meshFilter
@@ -42,20 +44,9 @@ namespace BulletUnity
 
         public override bool BuildSoftBody()
         {
-            if (UserMesh == null) //fill in something
-            {
-                Debug.Log("Must provide a mesh or create one!");
-                return false;
-            }
-
-            Mesh mesh = (Mesh)GameObject.Instantiate(UserMesh);  //create a copy of UserMesh, dont overwrite prefabs
-
-            //For softBody to perfrom properly, it may need processing
-            mesh.ApplyMeshPostProcessing(autoWeldVertices, autoWeldThreshold, addBackFaceTriangles,
-                 recalculateNormals, recalculateBounds, optimize);
+            Mesh mesh = meshSettings.Build();
 
             GetComponent<MeshFilter>().sharedMesh = mesh;
-            //meshFilter.sharedMesh = mesh;
 
             //convert the mesh data to Bullet data and create DoftBody
             BulletSharp.Math.Vector3[] bVerts = new BulletSharp.Math.Vector3[mesh.vertexCount];
@@ -66,7 +57,6 @@ namespace BulletUnity
             }
 
             m_BSoftBody = SoftBodyHelpers.CreateFromTriMesh(World.WorldInfo, bVerts, mesh.triangles);
-
 
             SoftBodySettings.ConfigureSoftBody(m_BSoftBody);         //Set SB settings
 
@@ -94,14 +84,14 @@ namespace BulletUnity
             go.transform.rotation = rotation;
             BSoftBodyWMesh BSoft = go.AddComponent<BSoftBodyWMesh>();
 
-            BSoft.UserMesh = mesh;
+            BSoft.meshSettings.UserMesh = mesh;
             MeshRenderer meshRenderer = go.GetComponent<MeshRenderer>();
             UnityEngine.Material material = new UnityEngine.Material(Shader.Find("Standard"));
             meshRenderer.material = material;
 
             BSoft.SoftBodySettings.ResetToSoftBodyPresets(sBpresetSelect); //Apply SoftBody settings presets
 
-            if (buildNow)  
+            if (buildNow)
                 BSoft.BuildSoftBody();  //Build the SoftBody
             go.name = "BSoftBodyWMesh";
             return go;
