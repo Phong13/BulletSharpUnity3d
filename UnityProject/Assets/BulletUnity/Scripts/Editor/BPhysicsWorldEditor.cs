@@ -2,7 +2,7 @@
 using UnityEngine;
 using BulletUnity;
 
-[CustomEditor(typeof(BDynamicsWorld))]
+[CustomEditor(typeof(BDynamicsWorld), true)]
 public class BDynamicsWorldEditor : Editor
 {
     SerializedProperty doDebugDraw;
@@ -18,7 +18,10 @@ public class BDynamicsWorldEditor : Editor
         BPhysicsWorld pw = (BPhysicsWorld) target;
         serializedObject.Update();
         pw.DoDebugDraw = EditorGUILayout.Toggle("Do Debug Draw",pw.DoDebugDraw);
-        pw.DebugDrawMode = (BulletSharp.DebugDrawModes) EditorGUILayout.EnumPopup("Debug Draw Mode", pw.DebugDrawMode);
+        pw.DebugDrawMode = (BulletSharp.DebugDrawModes)EditorGUILayout.EnumMaskField("Debug Draw Mode", pw.DebugDrawMode);
+
         serializedObject.ApplyModifiedProperties();
+
+
     }
 }

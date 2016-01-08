@@ -16,25 +16,7 @@ namespace BulletUnity
     [RequireComponent(typeof(MeshRenderer))]
     public class BSoftBodyWMesh : BSoftBody
     {
-        //[Tooltip("Mesh for this softbody")]
-        //[SerializeField]
-        //private Mesh _userMesh;
-        //public Mesh UserMesh
-        //{
-        //    get { return _userMesh; }
-        //    set { _userMesh = value; }
-        //}
-
-        //[Header("Mesh post processing")]
-        //public bool autoWeldVertices = false;
-        //public float autoWeldThreshold = 0.001f; //TODO
-        //[Tooltip("Should use this if autoWeldVertices is selected.")]
-        //public bool recalculateNormals = false;
-        //public bool addBackFaceTriangles = false;
-        //public bool recalculateBounds = true;
-        //public bool optimize = true;
-
-        public BConvexHullMeshSettings meshSettings = new BConvexHullMeshSettings();
+        public BUserMeshSettings meshSettings = new BUserMeshSettings();
 
         private MeshFilter _meshFilter;
         protected MeshFilter meshFilter

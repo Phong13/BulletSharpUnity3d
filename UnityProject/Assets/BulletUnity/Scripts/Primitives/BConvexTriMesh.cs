@@ -14,7 +14,7 @@ namespace BulletUnity.Primitives
     [RequireComponent(typeof(BConvexTriangleMeshShape))]
     public class BConvexTriMesh : BPrimitive
     {
-        public BConvexHullMeshSettings meshSettings = new BConvexHullMeshSettings();
+        public BUserMeshSettings meshSettings = new BUserMeshSettings();
 
         public static GameObject CreateNew(Vector3 position, Quaternion rotation)
         {

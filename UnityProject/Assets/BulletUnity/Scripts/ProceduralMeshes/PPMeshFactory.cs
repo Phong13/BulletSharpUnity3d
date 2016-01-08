@@ -17,7 +17,7 @@ namespace BulletUnity
     }
 
     [Serializable]
-    public class BConvexHullMeshSettings : BPrimitiveMeshSettings
+    public class BUserMeshSettings : BPrimitiveMeshSettings
     {
 
         [SerializeField]
