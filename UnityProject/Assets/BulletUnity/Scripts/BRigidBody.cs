@@ -4,6 +4,7 @@ using BulletSharp;
 using BulletSharp.Math;
 using System.Collections;
 
+
 namespace BulletUnity {
     /*
         todo 
@@ -28,23 +29,213 @@ namespace BulletUnity {
             }
         }
 
-        public bool _isTrigger = false;
-        public float friction = .5f;
-        public float rollingFriction = 0f;
-        public float linearDamping = 0f;
-        public float angularDamping = 0f;
-        public float restitution = 0f;
-        public float linearSleepingThreshold = .8f;
-        public float angularSleepingThreshold = 1f;
-        public bool additionalDamping = false;
-        public float additionalDampingFactor = .005f;
-        public float additionalLinearDampingThresholdSqr = .01f;
-        public float additionalAngularDampingThresholdSqr = .01f;
-        public float additionalAngularDampingFactor = .01f;
+        [SerializeField]
+        bool _isTrigger = false;
+        public bool isTrigger
+        {
+            get { return _isTrigger; }
+            set{
+                if (isInWorld && _isTrigger != value)
+                {
+                    Debug.LogError("Cannot set isTrigger on RigidBody that is in the physics world");
+                    return;
+                }    
+                _isTrigger = value;
+            }
+        }
+
+        [SerializeField]
+        float _friction = .5f;
+        public float friction
+        {
+            get { return _friction; }
+            set {
+                if (isInWorld || m_Brigidbody != null && _friction != value)
+                {
+                    m_Brigidbody.Friction = value;
+                }
+                _friction = value;
+            }
+        }
+
+        [SerializeField]
+        float _rollingFriction = 0f;
+        public float rollingFriction
+        {
+            get { return _rollingFriction; }
+            set {
+                if (isInWorld || m_Brigidbody != null && _rollingFriction != value)
+                {
+                    m_Brigidbody.RollingFriction = value;
+                }
+                _rollingFriction = value;
+            }
+        }
+
+        [SerializeField]
+        float _linearDamping = 0f;
+        public float linearDamping
+        {
+            get { return _linearDamping; }
+            set {
+                if (isInWorld || m_Brigidbody != null && _linearDamping != value)
+                {
+                    m_Brigidbody.SetDamping(value,_angularDamping);
+                }
+                _linearDamping = value;
+            }
+        }
+
+        [SerializeField]
+        float _angularDamping = 0f;
+        public float angularDamping
+        {
+            get { return _angularDamping; }
+            set {
+                if (isInWorld || m_Brigidbody != null && _angularDamping != value)
+                {
+                    m_Brigidbody.SetDamping(_linearDamping,value);
+                }
+                _angularDamping = value; }
+        }
+
+        [SerializeField]
+        float _restitution = 0f;
+        public float restitution
+        {
+            get { return _restitution; }
+            set {
+                if (isInWorld || m_Brigidbody != null && _restitution != value)
+                {
+                    m_Brigidbody.Restitution = value;
+                }
+                _restitution = value; }
+        }
+
+        [SerializeField]
+        float _linearSleepingThreshold = .8f;
+        public float linearSleepingThreshold
+        {
+            get { return _linearSleepingThreshold; }
+            set {
+                if (isInWorld || m_Brigidbody != null && _linearSleepingThreshold != value)
+                {
+                    m_Brigidbody.SetSleepingThresholds(value,_angularSleepingThreshold);
+                }
+                _linearSleepingThreshold = value; }
+        }
+
+        [SerializeField]
+        float _angularSleepingThreshold = 1f;
+        public float angularSleepingThreshold
+        {
+            get { return _angularSleepingThreshold; }
+            set {
+                if (isInWorld || m_Brigidbody != null && _angularSleepingThreshold != value)
+                {
+                    m_Brigidbody.SetSleepingThresholds(_linearSleepingThreshold, value);
+                }
+                _angularSleepingThreshold = value; }
+        }
+        
+        [SerializeField]
+        bool _additionalDamping = false;
+        public bool additionalDamping
+        {
+            get { return _additionalDamping; }
+            set {
+                if (isInWorld && _additionalDamping != value)
+                {
+                    Debug.LogError("Need to remove and re-add the rigid body to change additional damping setting");
+                    return;
+                }
+                _additionalDamping = value;
+            }
+        }
+
+        [SerializeField]
+        float _additionalDampingFactor = .005f;
+        public float additionalDampingFactor
+        {
+            get { return _additionalDampingFactor; }
+            set {
+                if (isInWorld && _additionalDampingFactor != value)
+                {
+                    Debug.LogError("Need to remove and re-add the rigid body to change additional damping setting");
+                    return;
+                }
+                _additionalDampingFactor = value; }
+        }
+
+        [SerializeField]
+        float _additionalLinearDampingThresholdSqr = .01f;
+        public float additionalLinearDampingThresholdSqr
+        {
+            get { return _additionalLinearDampingThresholdSqr; }
+            set {
+                if (isInWorld && _additionalLinearDampingThresholdSqr != value)
+                {
+                    Debug.LogError("Need to remove and re-add the rigid body to change additional damping setting");
+                    return;
+                }
+                _additionalLinearDampingThresholdSqr = value; }
+        }
+
+        [SerializeField]
+        float _additionalAngularDampingThresholdSqr = .01f;
+        public float additionalAngularDampingThresholdSqr
+        {
+            get { return _additionalAngularDampingThresholdSqr; }
+            set {
+                if (isInWorld && _additionalAngularDampingThresholdSqr != value)
+                {
+                    Debug.LogError("Need to remove and re-add the rigid body to change additional damping setting");
+                    return;
+                }
+                _additionalAngularDampingThresholdSqr = value; }
+        }
+
+        [SerializeField]
+        float _additionalAngularDampingFactor = .01f;
+        public float additionalAngularDampingFactor
+        {
+            get { return _additionalAngularDampingFactor; }
+            set {
+                if (isInWorld && _additionalAngularDampingFactor != value)
+                {
+                    Debug.LogError("Need to remove and re-add the rigid body to change additional damping setting");
+                    return;
+                }
+                _additionalAngularDampingFactor = value; }
+        }
 
         /* can lock axis with this */
-        public UnityEngine.Vector3 linearFactor = UnityEngine.Vector3.one;
-        public UnityEngine.Vector3 angularFactor = UnityEngine.Vector3.one;
+        [SerializeField]
+        UnityEngine.Vector3 _linearFactor = UnityEngine.Vector3.one;
+        public UnityEngine.Vector3 linearFactor
+        {
+            get { return _linearFactor; }
+            set {
+                if (isInWorld || m_Brigidbody != null && _linearFactor != value)
+                {
+                    m_Brigidbody.LinearFactor = value.ToBullet();
+                }
+                _linearFactor = value;
+            }
+        }
+
+        [SerializeField]
+        UnityEngine.Vector3 _angularFactor = UnityEngine.Vector3.one;
+        public UnityEngine.Vector3 angularFactor
+        {
+            get { return _angularFactor; }
+            set {
+                if (isInWorld || m_Brigidbody != null && _angularFactor != value)
+                {
+                    m_Brigidbody.AngularFactor = value.ToBullet();
+                }
+                _angularFactor = value; }
+        }
 
         [SerializeField]
         float _mass = 1f;
@@ -55,15 +246,17 @@ namespace BulletUnity {
                         Debug.LogError("Dynamic rigid bodies must have positive mass");
                         return;
                     }
-                }
-                if (isInWorld) {
-                    _localInertia = BulletSharp.Math.Vector3.Zero;
-                    if (_type == RBType.dynamic) {
-                        m_collisionShape.GetCollisionShape().CalculateLocalInertia(_mass, out _localInertia);
+                    if (isInWorld)
+                    {
+                        _localInertia = BulletSharp.Math.Vector3.Zero;
+                        if (_type == RBType.dynamic)
+                        {
+                            m_collisionShape.GetCollisionShape().CalculateLocalInertia(_mass, out _localInertia);
+                        }
+                        m_Brigidbody.SetMassProps(_mass, _localInertia);
                     }
-                    m_Brigidbody.SetMassProps(_mass, _localInertia);
+                    _mass = value;
                 }
-                _mass = value;
             }
             get {
                 return _mass;
@@ -74,7 +267,7 @@ namespace BulletUnity {
         RBType _type;
         public RBType type {
             set {
-                if (isInWorld) {
+                if (isInWorld && _type != value) {
                     Debug.LogError("Cannot change the type of a rigid body while it is in the Physics World. Remove, the rigid body, change the type, then re-add the rigid body.");
                     return;
                 }
