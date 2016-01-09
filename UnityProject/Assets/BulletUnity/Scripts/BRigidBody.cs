@@ -376,7 +376,7 @@ namespace BulletUnity {
             }
             m_collisionShape = GetComponent<BCollisionShape>();
             if (m_collisionShape == null) {
-                Debug.LogError("A BRigidBody component must be on an object with a BCollisionShape component." + name);
+                Debug.LogError("A BRigidBody component must be on an object with a BCollisionShape component.");
             }
         }
 

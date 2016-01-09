@@ -8,7 +8,6 @@ namespace BulletUnity
     [Serializable]
     public class BPrimitiveMeshSettings
     {
-
         public virtual Mesh Build()
         {
             Mesh mesh = null;
