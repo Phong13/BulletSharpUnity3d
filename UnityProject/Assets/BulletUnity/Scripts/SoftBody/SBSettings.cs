@@ -36,12 +36,17 @@ namespace BulletUnity
         [Tooltip("int; ???")]
         public int bendingConstraintDistance = 2;
 
+        [Tooltip("Useful for sticks/rigid rope, will generate a bending constraint for each node.")]
+        public bool allNodeBendingConstraints = false;
+
         [Tooltip("???")]
         public bool randomizeConstraints = true;
 
         public SBConfig config = new SBConfig();
 
         public SBMaterial sBMaterial = new SBMaterial();
+
+
 
         [HideInInspector]
         public SBSettingsPresets sBpresetSelect = SBSettingsPresets.Default;
@@ -52,18 +57,36 @@ namespace BulletUnity
         /// <param name="softBody"></param>
         public void ConfigureSoftBody(SoftBody softBody)
         {
-            BulletSharp.SoftBody.Material pm = sBMaterial.SetSBMaterial(softBody);
-
             softBody.Scale(scale.ToBullet());
 
-            softBody.SetTotalMass(totalMass, fromFaces);
+            BulletSharp.SoftBody.Material pm = softBody.Materials[0];
+
+            sBMaterial.SetSBMaterial(pm);
 
             config.SetConfig(softBody.Cfg);
 
-            softBody.GenerateBendingConstraints(bendingConstraintDistance, pm);
+            if (allNodeBendingConstraints)
+            {
+                for (int i = 0; i < softBody.Nodes.Count - 1; ++i)
+                {
+                    softBody.GenerateBendingConstraints(1 + i);
+                }
+            }
+            else
+            {
+                softBody.GenerateBendingConstraints(bendingConstraintDistance, pm);
+            }
 
+            if (randomizeConstraints)
+                softBody.RandomizeConstraints();
+            
             if (generateClusters)
                 softBody.GenerateClusters(0);
+
+            softBody.SetTotalMass(totalMass, fromFaces);
+
+            softBody.SetPose(bvolume, bframe);
+
 
         }
 
@@ -154,6 +177,44 @@ namespace BulletUnity
 
                     break;
 
+
+                case SBSettingsPresets.ropeStick:
+                    config.Ahr = 0.7f;
+                    config.CIterations = 4;
+                    config.Chr = 0.1f;
+                    config.DF = 0.2f;
+                    config.DG = 0f;
+                    config.DIterations = 0;
+                    config.DP = 0.005f;
+                    config.Khr = 0.1f;
+                    config.LF = 0;
+                    config.MT = 0;
+                    config.MaxVolume = 1.0f;
+                    config.PIterations = 1;
+                    config.PR = 0;
+                    config.SKSplitCL = 0.5f;
+                    config.SRSplitCL = 0.5f;
+                    config.SSSplitCL = 0.5f;
+                    config.Shr = 1f;
+                    config.SkhrCL = 1f;
+                    config.SrhrCL = 0.1f;
+                    config.SshrCL = 0.5f;
+                    config.Timescale = 1;
+                    config.VC = 0f;
+                    config.Vcf = 1f;
+                    config.Viterations = 0;
+
+                    sBMaterial.LST = 1.0f;
+                    sBMaterial.AST = 1.0f;
+                    sBMaterial.VST = 1.0f;
+
+                    bframe = false;
+                    fromFaces = false;
+                    bvolume = false;
+                    generateClusters = false;
+                    totalMass = 0.01f;
+
+                    break;
                 default:
                     break;
             }
@@ -183,6 +244,7 @@ namespace BulletUnity
         Aerodynamic,
         Volume,
         ShapeMatching,
+        ropeStick,
 
     }
 
@@ -328,6 +390,7 @@ namespace BulletUnity
 
         public void SetConfig(BulletSharp.SoftBody.Config sBConfig)
         {
+
             sBConfig.DF = DF;
             sBConfig.DP = DP;
             sBConfig.VC = VC;
@@ -389,15 +452,12 @@ namespace BulletUnity
         /// </summary>
         /// <param name="softBody"></param>
         /// <returns></returns>
-        public BulletSharp.SoftBody.Material SetSBMaterial(SoftBody softBody)
+        public void SetSBMaterial(BulletSharp.SoftBody.Material mat)
         {
-            BulletSharp.SoftBody.Material pm = softBody.AppendMaterial();
-            pm.Ast = AST;
-            pm.Lst = LST;
-            pm.Vst = VST;
-            pm.Flags = Flags;
-
-            return pm;
+            mat.Ast = AST;
+            mat.Lst = LST;
+            mat.Vst = VST;
+            mat.Flags = Flags;
         }
 
     }

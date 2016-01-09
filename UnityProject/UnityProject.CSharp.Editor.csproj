@@ -132,5 +132,8 @@
     <Compile Include="Assets\BulletUnity\Scripts\Editor\EditorHelpers.cs" />
     <Compile Include="Assets\BulletUnity\Scripts\Editor\PrimitiveEditor.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\BulletUnity\Resources\LineRenderFix.shader" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

@@ -5,6 +5,36 @@ using BulletSharp;
 
 namespace BulletUnity {
     [System.Serializable]
+    public class BConstraintFrame
+    {
+        public Vector3 pivotPoint = Vector3.zero;
+        public Vector3 forward = Vector3.forward;
+        public Vector3 up = Vector3.up;
+
+        public BulletSharp.Math.Matrix CreateBSMatrix()
+        {
+            return BulletSharp.Math.Matrix.AffineTransformation(1f, Quaternion.LookRotation(forward, up).ToBullet(), pivotPoint.ToBullet());
+        } 
+
+        public void DrawGizmos(Transform t)
+        {
+            Vector3 pivotWorld = t.TransformPoint(pivotPoint);
+            Vector3 forwardWorld = t.TransformDirection(forward).normalized;
+            Vector3 upWorld = t.TransformDirection(up).normalized;
+            Vector3 rightWorld = Vector3.Cross(forwardWorld, upWorld);
+            upWorld = Vector3.Cross(rightWorld, forwardWorld);
+            upWorld.Normalize();
+            forwardWorld.Normalize();
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(pivotWorld, pivotWorld + rightWorld);
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(pivotWorld, pivotWorld + upWorld);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(pivotWorld, pivotWorld + forwardWorld);
+        }
+    }
+
+    [System.Serializable]
     public abstract class BTypedConstraint : MonoBehaviour, IDisposable {
         public enum ConstraintType
         {
