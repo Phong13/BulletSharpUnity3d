@@ -29,7 +29,7 @@ namespace BulletUnity.Primitives
 
         public override void BuildMesh()
         {
-            GetComponent<MeshFilter>().sharedMesh = ProceduralPrimitives.CreateMeshBox(meshSettings.extents.x, meshSettings.extents.y, meshSettings.extents.z);
+            GetComponent<MeshFilter>().sharedMesh = meshSettings.Build();
             GetComponent<BBoxShape>().extents = meshSettings.extents / 2f;
         }
 

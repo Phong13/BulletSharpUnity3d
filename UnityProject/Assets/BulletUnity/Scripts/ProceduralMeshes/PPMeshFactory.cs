@@ -16,6 +16,45 @@ namespace BulletUnity
         }
     }
 
+    [Serializable]
+    public class BUserMeshSettings : BPrimitiveMeshSettings
+    {
+
+        [SerializeField]
+        private Mesh _userMesh;
+        public Mesh UserMesh
+        {
+            get { return _userMesh; }
+            set { _userMesh = value; }
+        }
+
+        [Header("Mesh post processing")]
+        public bool autoWeldVertices = false;
+        public float autoWeldThreshold = 0.001f; //TODO
+        [Tooltip("Should use this if autoWeldVertices is selected.")]
+        public bool recalculateNormals = false;
+        public bool addBackFaceTriangles = false;
+        public bool recalculateBounds = true;
+        public bool optimize = true;
+
+        public override Mesh Build()
+        {
+
+            if (UserMesh == null) //fill in something
+            {
+                Debug.Log("Must provide a mesh or create one!");
+                return null;
+            }
+
+            Mesh mesh = (Mesh)GameObject.Instantiate(UserMesh);  //create a copy of UserMesh, dont overwrite prefabs
+
+            mesh.ApplyMeshPostProcessing(autoWeldVertices, autoWeldThreshold, addBackFaceTriangles,
+                 recalculateNormals, recalculateBounds, optimize);
+
+            return mesh;
+        }
+
+    }
 
     [Serializable]
     public class BBoxMeshSettings : BPrimitiveMeshSettings
@@ -62,10 +101,7 @@ namespace BulletUnity
 
         public Vector3 halfExtent  //Bullet dimensions
         {
-            //TODO: This is wrong, ???
-            //http://bulletphysics.org/Bullet/phpBB3/viewtopic.php?t=6493
-            //http://bulletphysics.com/Bullet/BulletFull/classbtCylinderShape.html
-            get { return new Vector3((height / 2), radius / 2, radius / 2); }
+            get { return new Vector3(radius, height / 2, radius); }
         }
 
         public override Mesh Build()

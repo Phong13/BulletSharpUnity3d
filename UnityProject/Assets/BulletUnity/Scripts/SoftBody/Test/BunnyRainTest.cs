@@ -10,7 +10,7 @@ namespace BulletUnity
 {
     public class BunnyRainTest : MonoBehaviour
     {
-
+         
         public Rect startAreaOfRain = new Rect(new Vector2(0f, 0f), new Vector2(10f, 10f));
         [Range(0.5f, 50f)]
         public float fromHeight = 30f;
@@ -28,17 +28,17 @@ namespace BulletUnity
 
         SBSettingsPresets lastSBPresetSelect;
 
-        const string collisionTooltip = "Collisions flags\n" +
-"SDF_RS Rigid versus soft mask.\n" +
-"CL_RS: SDF based rigid vs soft.\n" +
-"SVSmask: Cluster vs convex rigid vs soft.\n" +
-"VF_SS: Rigid versus soft mask.\n" +
-"CL_SS:Vertex vs face soft vs soft handling.\n" +
-"CL_SELF: Cluster vs cluster soft vs soft handling.\n" +
-"Default: Cluster soft body self collision.";
-        //[HideInInspector]
-        [Tooltip(collisionTooltip)]
-        public Collisions Collisions = Collisions.Default;
+//        const string collisionTooltip = "Collisions flags\n" +
+//"SDF_RS Rigid versus soft mask.\n" +
+//"CL_RS: SDF based rigid vs soft.\n" +
+//"SVSmask: Cluster vs convex rigid vs soft.\n" +
+//"VF_SS: Rigid versus soft mask.\n" +
+//"CL_SS:Vertex vs face soft vs soft handling.\n" +
+//"CL_SELF: Cluster vs cluster soft vs soft handling.\n" +
+//"Default: Cluster soft body self collision.";
+//        //[HideInInspector]
+//        [Tooltip(collisionTooltip)]
+//        public Collisions collisionMask = Collisions.Default;
 
         public SBSettings SoftBodySettings = new SBSettings();
 
@@ -71,14 +71,16 @@ namespace BulletUnity
                 GameObject go = BSoftBodyWMesh.CreateNew(pos, UnityEngine.Random.rotation, anyMeshSettings.Build(), false, SBPresetSelect);
                 BSoftBodyWMesh bSoft = go.GetComponent<BSoftBodyWMesh>();
 
-                bSoft.autoWeldVertices = anyMeshSettings.autoWeldVertices;
-                bSoft.autoWeldThreshold = anyMeshSettings.autoWeldThreshold;
-                bSoft.recalculateNormals = anyMeshSettings.recalculateNormals;
-                bSoft.addBackFaceTriangles = anyMeshSettings.addBackFaceTriangles;
-                bSoft.recalculateBounds = anyMeshSettings.recalculateBounds;
-                bSoft.optimize = anyMeshSettings.optimize;
+                bSoft.meshSettings. autoWeldVertices = anyMeshSettings.autoWeldVertices;
+                bSoft.meshSettings.autoWeldThreshold = anyMeshSettings.autoWeldThreshold;
+                bSoft.meshSettings.recalculateNormals = anyMeshSettings.recalculateNormals;
+                bSoft.meshSettings.addBackFaceTriangles = anyMeshSettings.addBackFaceTriangles;
+                bSoft.meshSettings.recalculateBounds = anyMeshSettings.recalculateBounds;
+                bSoft.meshSettings.optimize = anyMeshSettings.optimize;
 
                 bSoft.SoftBodySettings = SoftBodySettings;  //play with settings
+
+                //bSoft.SoftBodySettings.config.Collisions = collisionMask;
 
                 bSoft.BuildSoftBody();
 

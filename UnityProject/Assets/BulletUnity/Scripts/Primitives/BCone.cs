@@ -30,7 +30,7 @@ namespace BulletUnity.Primitives
 
         public override void BuildMesh()
         {
-            GetComponent<MeshFilter>().sharedMesh = ProceduralPrimitives.CreateMeshCone(meshSettings.height, meshSettings.radius, 0, meshSettings.nbSides);
+            GetComponent<MeshFilter>().sharedMesh = meshSettings.Build();
             BConeShape bCone = GetComponent<BConeShape>();
             bCone.radius = meshSettings.radius;
             bCone.height  = meshSettings.height;
