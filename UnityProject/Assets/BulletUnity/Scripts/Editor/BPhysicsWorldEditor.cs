@@ -6,13 +6,14 @@ using BulletUnity;
 public class BDynamicsWorldEditor : Editor
 {
     GUIContent gcDoDebugDraw = new GUIContent("Do Debug Draw");
+    GUIContent DebugDrawMode = new GUIContent("Debug Draw Mode");
 
     public override void OnInspectorGUI()
     {
         BDynamicsWorld pw = (BDynamicsWorld) target;
         serializedObject.Update();
         pw.DoDebugDraw = EditorGUILayout.Toggle("Do Debug Draw",pw.DoDebugDraw);
-        pw.DebugDrawMode = (BulletSharp.DebugDrawModes) EditorGUILayout.EnumMask("Debug Draw Mode", pw.DebugDrawMode);
+        pw.DebugDrawMode = (BulletSharp.DebugDrawModes) EditorGUILayout.EnumMaskPopup(DebugDrawMode, pw.DebugDrawMode);
 
 
         EditorGUILayout.Separator();
