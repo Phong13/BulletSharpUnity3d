@@ -28,7 +28,7 @@ namespace BulletUnity.Primitives
 
         public override void BuildMesh()
         {
-            GetComponent<MeshFilter>().sharedMesh = ProceduralPrimitives.CreateMeshSphere(meshSettings.radius, meshSettings.numLongitudeLines, meshSettings.numLatitudeLines);
+            GetComponent<MeshFilter>().sharedMesh = meshSettings.Build();
             GetComponent<BSphereShape>().radius = meshSettings.radius;
         }
 

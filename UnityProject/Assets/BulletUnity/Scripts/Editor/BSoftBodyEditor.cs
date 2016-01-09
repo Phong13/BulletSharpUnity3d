@@ -116,16 +116,20 @@ namespace BulletUnity
 
         #endregion
 
+        
         //Hackish method to get past Unity serialization
         void DrawCustomMeshSettingsOptions()
         {
+
+            EditorGUILayout.TextArea("Generate Custom Mesh?");
+
             //Get Instance
             BAnyMeshSettingsForEditor bAny = BAnyMeshSettingsForEditor.Instance;
 
             //Build it!
             if (EditorHelpers.InspectorButton("Update Mesh", 100, 15, GUIBlue, "New/Change mesh"))
             {
-                ((BSoftBodyWMesh)bSoftBodyTarget).UserMesh = bAny.Build();
+                ((BSoftBodyWMesh)bSoftBodyTarget).meshSettings.UserMesh = bAny.Build();
                 bSoftBodyTarget.BuildSoftBody();
             }
 
@@ -183,7 +187,7 @@ namespace BulletUnity
             bAny.numLongitudeLines = Mathf.Clamp(bAny.numLongitudeLines, 2, 100);
             bAny.height = Mathf.Clamp(bAny.height, 0, 100);
             bAny.nbSides = Mathf.Clamp(bAny.nbSides, 2, 100);
-            
+
             bAny.length = Mathf.Clamp(bAny.length, 0, 1000);
             bAny.width = Mathf.Clamp(bAny.width, 0, 1000);
             bAny.resX = Mathf.Clamp(bAny.resX, 2, 100);
@@ -192,11 +196,11 @@ namespace BulletUnity
             //AutoMagickally change settings is edited
             if (GUI.changed && bAny.imediateUpdate) //Can apply settings on editor change
             {
-                ((BSoftBodyWMesh)bSoftBodyTarget).UserMesh = bAny.Build();
+                ((BSoftBodyWMesh)bSoftBodyTarget).meshSettings.UserMesh = bAny.Build();
                 bSoftBodyTarget.BuildSoftBody();
             }
-
-
+            EditorGUILayout.TextArea("Mesh Settings");
+            EditorGUILayout.Space();
         }
 
     }

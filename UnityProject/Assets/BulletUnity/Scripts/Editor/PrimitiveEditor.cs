@@ -10,10 +10,8 @@ namespace BulletUnity.Primitives
 
         public BPrimitive primitiveTarget;
 
-
         static GUIStyle versionStyle = new GUIStyle();
         static string version = "0.1";
-
 
         private static Texture2D editorLogo;
         public static Texture2D EditorLogo
@@ -65,7 +63,7 @@ namespace BulletUnity.Primitives
 
             serializedObject.ApplyModifiedProperties();
 
-     
+
 
             if (GUI.changed)
             {
@@ -114,18 +112,25 @@ namespace BulletUnity.Primitives
             PostCreateObject();
         }
 
-        [MenuItem("BulletForUnity/BSoft")]
-        [MenuItem("GameObject/Create Other/BulletForUnity/BSoft")]  //right click menu
-        static void CreateBSoft()
+        [MenuItem("BulletForUnity/BConvexHull")]
+        [MenuItem("GameObject/Create Other/BulletForUnity/BConvexHull")]  //right click menu
+        static void CreateBConvexHull()
         {
-            Selection.activeObject = BSoft.CreateNew(GetCameraRaycastPosition(), Quaternion.identity);
+            Selection.activeObject = BConvexHull.CreateNew(GetCameraRaycastPosition(), Quaternion.identity);
+            PostCreateObject();
+        }
+
+        [MenuItem("BulletForUnity/BConvexTriMesh")]
+        [MenuItem("GameObject/Create Other/BulletForUnity/BConvexTriMesh")]  //right click menu
+        static void CreateBConvexTriMesh()
+        {
+            Selection.activeObject = BConvexTriMesh.CreateNew(GetCameraRaycastPosition(), Quaternion.identity);
             PostCreateObject();
         }
 
         static void PostCreateObject()
         {
-            BPrimitiveComponentOrderSorter.SortComponents((GameObject )Selection.activeObject);  //order the scripts, looks nicer
-
+            BPrimitiveComponentOrderSorter.SortComponents((GameObject)Selection.activeObject);  //order the scripts, looks nicer
         }
 
 

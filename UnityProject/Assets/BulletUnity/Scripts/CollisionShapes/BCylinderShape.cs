@@ -12,12 +12,12 @@ namespace BulletUnity
 
         public override void OnDrawGizmosSelected()
         {
-            //UnityEngine.Vector3 position = transform.position;
-            //UnityEngine.Quaternion rotation = transform.rotation;
-            //UnityEngine.Vector3 scale = Vector3.one;
-            //BUtility.DebugDrawSphere(position, rotation, scale, Vector3.one * radius, Color.yellow);
+            UnityEngine.Vector3 position = transform.position;
+            UnityEngine.Quaternion rotation = transform.rotation;
+            UnityEngine.Vector3 scale = Vector3.one;
+            BUtility.DebugDrawCylinder(position, rotation, scale, halfExtent.x, halfExtent.y, 1, Color.yellow);
         }
-
+        
         public override CollisionShape GetCollisionShape()
         {
             if (collisionShapePtr == null)
