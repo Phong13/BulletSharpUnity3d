@@ -90,11 +90,10 @@ namespace BulletUnity
             lr.SetColors(meshSettings.startColor, meshSettings.endColor);
 
             //Set SB position to GO position
-            m_BSoftBody.Rotate(transform.rotation.ToBullet());
-            m_BSoftBody.Translate(transform.position.ToBullet());
-            m_BSoftBody.Scale(transform.localScale.ToBullet());
-
-
+            //m_BSoftBody.Rotate(transform.rotation.ToBullet());
+            //m_BSoftBody.Translate(transform.position.ToBullet());
+            //m_BSoftBody.Scale(transform.localScale.ToBullet());
+            
             UpdateMesh();
             return true;
         }
@@ -113,7 +112,9 @@ namespace BulletUnity
             go.transform.rotation = rotation;
             BSoftBodyRope bRope = go.AddComponent<BSoftBodyRope>();
 
-            UnityEngine.Material material = new UnityEngine.Material(Shader.Find("Particles/Multiply (Double)"));
+            UnityEngine.Material material = new UnityEngine.Material(Shader.Find("LineRenderFix"));
+
+          
             bRope.lr.sharedMaterial = material;
 
             bRope.SoftBodySettings.ResetToSoftBodyPresets(SBSettingsPresets.Rope);
