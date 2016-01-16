@@ -271,7 +271,7 @@ namespace BulletUnity {
                     Debug.LogError("Cannot change the type of a rigid body while it is in the Physics World. Remove, the rigid body, change the type, then re-add the rigid body.");
                     return;
                 }
-                _type = type;
+                _type = value;
             }
             get {
                 return _type;
@@ -406,8 +406,8 @@ namespace BulletUnity {
         protected virtual void Dispose(bool isdisposing) {
             if (isInWorld && isdisposing && m_Brigidbody != null) {
                 BPhysicsWorld pw = BPhysicsWorld.Get();
-                if (pw != null && pw.World != null) {
-                    pw.World.RemoveRigidBody(m_Brigidbody);
+                if (pw != null && pw.world != null) {
+                    ((DiscreteDynamicsWorld) pw.world).RemoveRigidBody(m_Brigidbody);
                 }
             }
             if (m_Brigidbody != null) {

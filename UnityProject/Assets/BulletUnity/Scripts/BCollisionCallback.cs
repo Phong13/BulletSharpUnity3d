@@ -140,7 +140,7 @@ namespace BulletUnity {
                 return;
             }
             rigidBody = brb.GetRigidBody();
-            world = BPhysicsWorld.Get().World;
+            world = BPhysicsWorld.Get().world;
             if (contactCallback == null) contactCallback = new ContactResultCallbackUnity(this);
         }
 

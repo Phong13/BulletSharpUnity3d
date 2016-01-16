@@ -16,6 +16,14 @@ namespace BulletUnity {
 
         public override CollisionShape GetCollisionShape() {
             if (collisionShapePtr == null) {
+
+                /*
+                btShapeHull* hull = new btShapeHull(originalConvexShape);
+                btScalar margin = originalConvexShape->getMargin();
+                hull->buildHull(margin);
+                btConvexHullShape* simplifiedConvexShape = new btConvexHullShape(hull->getVertexPointer(), hull->numVertices());
+                */
+
                 Vector3[] verts = hullMesh.vertices;
                 //todo remove duplicate verts
                 //todo use vertex reduction utility
@@ -27,6 +35,17 @@ namespace BulletUnity {
                     points[idx + 2] = verts[i].z;
                 }
                 collisionShapePtr = new ConvexHullShape(points);
+
+                // some of the verts are coming out as 1.23 * e 34 Something is wrong.
+                /*
+                ConvexHullShape chs = (ConvexHullShape)collisionShapePtr;
+                string str = "";
+                for (int i = 0; i < chs.NumPoints; i++  )
+                {
+                    str += chs.GetScaledPoint(i).ToString() + ", ";
+                }
+                Debug.Log(str);
+                */
             }
             return collisionShapePtr;
         }

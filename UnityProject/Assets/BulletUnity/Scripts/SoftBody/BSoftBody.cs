@@ -27,7 +27,7 @@ namespace BulletUnity
         SoftRigidDynamicsWorld _world;
         protected SoftRigidDynamicsWorld World
         {
-            get { return _world = _world ?? (SoftRigidDynamicsWorld)BPhysicsWorld.Get().World; }
+            get { return _world = _world ?? (SoftRigidDynamicsWorld)BPhysicsWorld.Get().world; }
         }
 
         //for converting to/from unity mesh

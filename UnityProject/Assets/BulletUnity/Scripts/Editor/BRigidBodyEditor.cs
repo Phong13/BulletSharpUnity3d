@@ -44,6 +44,7 @@ public class BRigidBodyEditor : Editor
         {
             EditorUtility.SetDirty(rb);
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+            Undo.RecordObject(rb, "Undo Rigid Body");
         }
     }
 }
