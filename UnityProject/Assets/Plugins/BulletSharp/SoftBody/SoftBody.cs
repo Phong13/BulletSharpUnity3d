@@ -6,6 +6,14 @@ using BulletSharp.Math;
 
 namespace BulletSharp.SoftBody
 {
+	public class SoftBodyCollisionShape : ConvexShape
+	{
+		internal SoftBodyCollisionShape(IntPtr native)
+			: base(native, true)
+		{
+		}
+	}
+
 	public class SoftBodyWorldInfo : IDisposable
 	{
 		internal IntPtr _native;
@@ -1439,7 +1447,7 @@ namespace BulletSharp.SoftBody
 
         public override int GetHashCode()
         {
-            return _native.ToInt32();
+            return _native.GetHashCode();
         }
 
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
@@ -3168,21 +3176,20 @@ namespace BulletSharp.SoftBody
 		internal SoftBody(IntPtr native)
 			: base(native)
 		{
-            //_collisionShape = new SoftBodyCollisionShape(CollisionShape);
-            _collisionShape = new CollisionShape(btCollisionObject_getCollisionShape(native), true);
+            _collisionShape = new SoftBodyCollisionShape(btCollisionObject_getCollisionShape(_native));
 		}
 
 		public SoftBody(SoftBodyWorldInfo worldInfo, int nodeCount, Vector3[] x, float[] m)
 			: base(btSoftBody_new(worldInfo._native, nodeCount, x, m))
 		{
-            _collisionShape = new CollisionShape(btCollisionObject_getCollisionShape(_native), true);
+            _collisionShape = new SoftBodyCollisionShape(btCollisionObject_getCollisionShape(_native));
             _worldInfo = worldInfo;
 		}
 
 		public SoftBody(SoftBodyWorldInfo worldInfo)
 			: base(btSoftBody_new2(worldInfo._native))
 		{
-            _collisionShape = new CollisionShape(btCollisionObject_getCollisionShape(_native), true);
+            _collisionShape = new SoftBodyCollisionShape(btCollisionObject_getCollisionShape(_native));
             _worldInfo = worldInfo;
 		}
 
@@ -4016,12 +4023,6 @@ namespace BulletSharp.SoftBody
 			}
 		}
 
-		public bool BUpdateRtCst
-		{
-			get { return btSoftBody_getBUpdateRtCst(_native); }
-			set { btSoftBody_setBUpdateRtCst(_native, value); }
-		}
-
 		public Dbvt ClusterDbvt
 		{
             get
@@ -4248,6 +4249,12 @@ namespace BulletSharp.SoftBody
 			get { return btSoftBody_getTotalMass(_native); }
             set { btSoftBody_setTotalMass(_native, value); }
 		}
+
+        public bool UpdateRuntimeConstants
+        {
+            get { return btSoftBody_getBUpdateRtCst(_native); }
+            set { btSoftBody_setBUpdateRtCst(_native, value); }
+        }
         /*
 		public AlignedObjectArray UserIndexMapping
 		{

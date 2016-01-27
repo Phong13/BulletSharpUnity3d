@@ -203,7 +203,7 @@ namespace BulletSharp
 			set { btPersistentManifold_setNumContacts(_native, value); }
 		}
 
-        		public void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);

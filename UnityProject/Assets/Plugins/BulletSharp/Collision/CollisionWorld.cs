@@ -206,7 +206,7 @@ namespace BulletSharp
         static extern bool btCollisionWorld_ContactResultCallbackWrapper_needsCollision(IntPtr obj, IntPtr proxy0);
 	}
 
-    public abstract class ConvexResultCallback : IDisposable
+	public abstract class ConvexResultCallback : IDisposable
 	{
 		internal IntPtr _native;
 
@@ -229,7 +229,7 @@ namespace BulletSharp
 
         float AddSingleResultUnmanaged(IntPtr convexResult, bool normalInWorldSpace)
         {
-            return AddSingleResult(new LocalConvexResult(convexResult, true), normalInWorldSpace);
+            return AddSingleResult(new LocalConvexResult(convexResult), normalInWorldSpace);
         }
 
         public abstract float AddSingleResult(LocalConvexResult convexResult, bool normalInWorldSpace);
@@ -316,23 +316,33 @@ namespace BulletSharp
 	{
 		internal IntPtr _native;
 		bool _preventDelete;
-        LocalShapeInfo _localShapeInfo;
 
-		internal LocalConvexResult(IntPtr native, bool preventDelete)
+		private CollisionObject _hitCollisionObject;
+		private LocalShapeInfo _localShapeInfo;
+
+		internal LocalConvexResult(IntPtr native)
 		{
 			_native = native;
-			_preventDelete = preventDelete;
+			_preventDelete = true;
+            _hitCollisionObject = CollisionObject.GetManaged(btCollisionWorld_LocalConvexResult_getHitCollisionObject(_native));
+            _localShapeInfo = new LocalShapeInfo(btCollisionWorld_LocalConvexResult_getLocalShapeInfo(_native), true);
 		}
 
 		public LocalConvexResult(CollisionObject hitCollisionObject, LocalShapeInfo localShapeInfo, Vector3 hitNormalLocal, Vector3 hitPointLocal, float hitFraction)
 		{
 			_native = btCollisionWorld_LocalConvexResult_new(hitCollisionObject._native, localShapeInfo._native, ref hitNormalLocal, ref hitPointLocal, hitFraction);
+			_hitCollisionObject = hitCollisionObject;
+			_localShapeInfo = localShapeInfo;
 		}
 
 		public CollisionObject HitCollisionObject
 		{
-			get { return CollisionObject.GetManaged(btCollisionWorld_LocalConvexResult_getHitCollisionObject(_native)); }
-            set { btCollisionWorld_LocalConvexResult_setHitCollisionObject(_native, (value != null) ? value._native : IntPtr.Zero); }
+			get { return _hitCollisionObject; }
+			set
+			{
+				btCollisionWorld_LocalConvexResult_setHitCollisionObject(_native, value._native);
+				_hitCollisionObject = value;
+			}
 		}
 
 		public float HitFraction
@@ -365,25 +375,12 @@ namespace BulletSharp
 
 		public LocalShapeInfo LocalShapeInfo
 		{
-            get
-            {
-                IntPtr localShapeInfoPtr = btCollisionWorld_LocalConvexResult_getLocalShapeInfo(_native);
-                if (_localShapeInfo != null && _localShapeInfo._native == localShapeInfoPtr)
-                {
-                    return _localShapeInfo;
-                }
-                if (localShapeInfoPtr == IntPtr.Zero)
-                {
-                    return null;
-                }
-                _localShapeInfo = new LocalShapeInfo(localShapeInfoPtr, true);
-                return _localShapeInfo;
-            }
-            set
-            {
-                _localShapeInfo = value;
+			get { return _localShapeInfo; }
+			set
+			{
                 btCollisionWorld_LocalConvexResult_setLocalShapeInfo(_native, (value != null) ? value._native : IntPtr.Zero);
-            }
+				_localShapeInfo = value;
+			}
 		}
 
 		public void Dispose()
@@ -439,23 +436,33 @@ namespace BulletSharp
 	{
 		internal IntPtr _native;
 		bool _preventDelete;
-        LocalShapeInfo _localShapeInfo;
 
-		internal LocalRayResult(IntPtr native, bool preventDelete)
+		private CollisionObject _collisionObject;
+		private LocalShapeInfo _localShapeInfo;
+
+		internal LocalRayResult(IntPtr native)
 		{
 			_native = native;
-			_preventDelete = preventDelete;
+			_preventDelete = true;
+            _collisionObject = CollisionObject.GetManaged(btCollisionWorld_LocalRayResult_getCollisionObject(_native));
+            _localShapeInfo = new LocalShapeInfo(btCollisionWorld_LocalRayResult_getLocalShapeInfo(_native), true);
 		}
 
 		public LocalRayResult(CollisionObject collisionObject, LocalShapeInfo localShapeInfo, Vector3 hitNormalLocal, float hitFraction)
 		{
 			_native = btCollisionWorld_LocalRayResult_new(collisionObject._native, localShapeInfo._native, ref hitNormalLocal, hitFraction);
+			_collisionObject = collisionObject;
+			_localShapeInfo = localShapeInfo;
 		}
 
 		public CollisionObject CollisionObject
 		{
-			get { return CollisionObject.GetManaged(btCollisionWorld_LocalRayResult_getCollisionObject(_native)); }
-            set { btCollisionWorld_LocalRayResult_setCollisionObject(_native, (value != null) ? value._native : IntPtr.Zero); }
+			get { return _collisionObject; }
+			set
+			{
+				btCollisionWorld_LocalRayResult_setCollisionObject(_native, value._native);
+				_collisionObject = value;
+			}
 		}
 
 		public float HitFraction
@@ -477,25 +484,12 @@ namespace BulletSharp
 
 		public LocalShapeInfo LocalShapeInfo
 		{
-            get
-            {
-                IntPtr localShapeInfoPtr = btCollisionWorld_LocalRayResult_getLocalShapeInfo(_native);
-                if (_localShapeInfo != null && _localShapeInfo._native == localShapeInfoPtr)
-                {
-                    return _localShapeInfo;
-                }
-                if (localShapeInfoPtr == IntPtr.Zero)
-                {
-                    return null;
-                }
-                _localShapeInfo = new LocalShapeInfo(localShapeInfoPtr, true);
-                return _localShapeInfo;
-            }
-            set
-            {
-                _localShapeInfo = value;
+			get { return _localShapeInfo; }
+			set
+			{
                 btCollisionWorld_LocalRayResult_setLocalShapeInfo(_native, (value != null) ? value._native : IntPtr.Zero);
-            }
+				_localShapeInfo = value;
+			}
 		}
 
 		public void Dispose()
@@ -631,7 +625,7 @@ namespace BulletSharp
 
         float AddSingleResultUnmanaged(IntPtr rayResult, bool normalInWorldSpace)
 		{
-			return AddSingleResult(new LocalRayResult(rayResult, true), normalInWorldSpace);
+			return AddSingleResult(new LocalRayResult(rayResult), normalInWorldSpace);
 		}
 
         public abstract float AddSingleResult(LocalRayResult rayResult, bool normalInWorldSpace);
@@ -738,7 +732,7 @@ namespace BulletSharp
 	{
 		internal IntPtr _native;
 
-        protected BroadphaseInterface _broadphase;
+		protected BroadphaseInterface _broadphase;
 		protected AlignedCollisionObjectArray _collisionObjectArray;
         internal IDebugDraw _debugDrawer;
 		protected Dispatcher _dispatcher;
@@ -932,9 +926,9 @@ namespace BulletSharp
                 {
                     _broadphase._worldRefs.Remove(this);
                 }
-				_broadphase = value;
-                _broadphase._worldRefs.Add(this);
 				btCollisionWorld_setBroadphase(_native, value._native);
+				_broadphase = value;
+                value._worldRefs.Add(this);
 			}
 		}
 
@@ -948,9 +942,9 @@ namespace BulletSharp
 
 		public IDebugDraw DebugDrawer
 		{
-            get { return _debugDrawer; }
-            set
-            {
+			get { return _debugDrawer; }
+			set
+			{
                 if (_debugDrawer != null)
                 {
                     if (_debugDrawer == value) {
@@ -963,7 +957,7 @@ namespace BulletSharp
                     }
                 }
 
-                _debugDrawer = value;
+				_debugDrawer = value;
                 if (value == null) {
                     btCollisionWorld_setDebugDrawer(_native, IntPtr.Zero);
                     return;
@@ -977,7 +971,7 @@ namespace BulletSharp
                     IntPtr wrapper = DebugDraw.CreateWrapper(value, false);
                     btCollisionWorld_setDebugDrawer(_native, wrapper);
                 }
-            }
+			}
 		}
 
 		public Dispatcher Dispatcher

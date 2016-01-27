@@ -5,9 +5,8 @@ using BulletSharp.Math;
 
 namespace BulletSharp
 {
-    public enum BroadphaseNativeType
-    {
-        // polyhedral convex shapes
+	public enum BroadphaseNativeType
+	{
         BoxShape,
         TriangleShape,
         TetrahedralShape,
@@ -15,7 +14,6 @@ namespace BulletSharp
         ConvexHullShape,
         CONVEX_POINT_CLOUD_SHAPE_PROXYTYPE,
         CUSTOM_POLYHEDRAL_SHAPE_TYPE,
-        //implicit convex shapes
         IMPLICIT_CONVEX_SHAPES_START_HERE,
         SphereShape,
         MultiSphereShape,
@@ -29,47 +27,37 @@ namespace BulletSharp
         Box2DShape,
         Convex2DShape,
         CUSTOM_CONVEX_SHAPE_TYPE,
-        //concave shapes
         CONCAVE_SHAPES_START_HERE,
-        //keep all the convex shapetype below here, for the check IsConvexShape in broadphase proxy!
         TriangleMeshShape,
         SCALED_TRIANGLE_MESH_SHAPE_PROXYTYPE,
-        ///used for demo integration FAST/Swift collision library and Bullet
         FAST_CONCAVE_MESH_PROXYTYPE,
-        //terrain
         TerrainShape,
-        ///Used for GIMPACT Trimesh integration
         GImpactShape,
-        ///Multimaterial mesh
         MultiMaterialTriangleMesh,
-
         EmptyShape,
         StaticPlaneShape,
         CUSTOM_CONCAVE_SHAPE_TYPE,
         CONCAVE_SHAPES_END_HERE,
-
         CompoundShape,
-
         SoftBodyShape,
         HFFLUID_SHAPE_PROXYTYPE,
         HFFLUID_BUOYANT_CONVEX_SHAPE_PROXYTYPE,
         INVALID_SHAPE_PROXYTYPE,
-
         MAX_BROADPHASE_COLLISION_TYPES
-    }
+	}
 
-    [Flags]
-    public enum CollisionFilterGroups
-    {
-        None = 0,
-        DefaultFilter = 1,
-        StaticFilter = 2,
-        KinematicFilter = 4,
-        DebrisFilter = 8,
-        SensorTrigger = 16,
-        CharacterFilter = 32,
+	[Flags]
+	public enum CollisionFilterGroups
+	{
+		None = 0,
+		DefaultFilter = 1,
+		StaticFilter = 2,
+		KinematicFilter = 4,
+		DebrisFilter = 8,
+		SensorTrigger = 16,
+		CharacterFilter = 32,
         AllFilter = -1
-    }
+	}
 
 	public class BroadphaseProxy
 	{

@@ -27,12 +27,12 @@ namespace BulletSharp
 
 		public MultiBody MultiBody
 		{
-            get { return _multiBody; }
-            set
-            {
-                btMultiBodyLinkCollider_setMultiBody(_native, value._native);
-                _multiBody = value;
-            }
+			get { return _multiBody; }
+			set
+			{
+				btMultiBodyLinkCollider_setMultiBody(_native, value._native);
+				_multiBody = value;
+			}
 		}
 
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]

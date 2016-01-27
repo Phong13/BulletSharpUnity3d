@@ -18,32 +18,34 @@ namespace BulletSharp
 	[Flags]
 	public enum AnisotropicFrictionFlags
 	{
-        AnisotropicFrictionDisabled = 0,
-        AnisotropicFriction = 1,
-        AnisotropicRollingFriction = 2
+		FrictionDisabled = 0,
+		Friction = 1,
+		RollingFriction = 2
 	}
 
 	[Flags]
 	public enum CollisionFlags
 	{
-        StaticObject = 1,
-        KinematicObject = 2,
-        NoContactResponse = 4,
-        CustomMaterialCallback = 8,
-        CharacterObject = 16,
-        DisableVisualizeObject = 32,
-        DisableSpuCollisionProcessing = 64
+		None = 0,
+		StaticObject = 1,
+		KinematicObject = 2,
+		NoContactResponse = 4,
+		CustomMaterialCallback = 8,
+		CharacterObject = 16,
+		DisableVisualizeObject = 32,
+		DisableSpuCollisionProcessing = 64
 	}
 
-    [Flags]
+	[Flags]
 	public enum CollisionObjectTypes
 	{
-        CollisionObject = 1,
-        RigidBody = 2,
-        GhostObject = 4,
-        SoftBody = 8,
-        HFFluid = 16,
-        UserType = 32,
+		None = 0,
+		CollisionObject = 1,
+		RigidBody = 2,
+		GhostObject = 4,
+		SoftBody = 8,
+		HFFluid = 16,
+		UserType = 32,
 		FeatherstoneLink = 64
 	}
 
@@ -196,12 +198,12 @@ namespace BulletSharp
 
 		public BroadphaseProxy BroadphaseHandle
 		{
-            get { return _broadphaseHandle; }
-            set
-            {
-                _broadphaseHandle = value;
+			get { return _broadphaseHandle; }
+			set
+			{
                 btCollisionObject_setBroadphaseHandle(_native, (value != null) ? value._native : IntPtr.Zero);
-            }
+				_broadphaseHandle = value;
+			}
 		}
 
 		public float CcdMotionThreshold
@@ -229,12 +231,12 @@ namespace BulletSharp
 
 		public CollisionShape CollisionShape
 		{
-            get { return _collisionShape; }
-            set
-            {
-                btCollisionObject_setCollisionShape(_native, value._native);
-                _collisionShape = value;
-            }
+			get { return _collisionShape; }
+			set
+			{
+				btCollisionObject_setCollisionShape(_native, value._native);
+				_collisionShape = value;
+			}
 		}
 
 		public int CompanionId
@@ -379,7 +381,7 @@ namespace BulletSharp
 
         public override int GetHashCode()
         {
-            return _native.ToInt32();
+            return _native.GetHashCode();
         }
 
 		public void Dispose()

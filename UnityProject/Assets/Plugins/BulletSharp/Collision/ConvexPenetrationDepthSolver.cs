@@ -5,7 +5,7 @@ using BulletSharp.Math;
 
 namespace BulletSharp
 {
-	public class ConvexPenetrationDepthSolver : IDisposable
+	public abstract class ConvexPenetrationDepthSolver : IDisposable
 	{
 		internal IntPtr _native;
 

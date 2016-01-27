@@ -7,8 +7,8 @@ namespace BulletSharp
 {
 	public enum DispatchFunc
 	{
-        Discrete = 1,
-        Continuous
+		Discrete = 1,
+		Continuous
 	}
 
 	public class DispatcherInfo
@@ -151,7 +151,7 @@ namespace BulletSharp
 		static extern void btDispatcherInfo_delete(IntPtr obj);
 	}
 
-	public class Dispatcher : IDisposable
+	public abstract class Dispatcher : IDisposable
 	{
 		internal IntPtr _native;
 

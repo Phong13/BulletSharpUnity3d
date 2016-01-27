@@ -7,8 +7,8 @@ namespace BulletSharp
 {
 	public class ConvexShape : CollisionShape
 	{
-		internal ConvexShape(IntPtr native)
-			: base(native)
+        internal ConvexShape(IntPtr native, bool preventDelete = false)
+			: base(native, preventDelete)
 		{
 		}
         /*

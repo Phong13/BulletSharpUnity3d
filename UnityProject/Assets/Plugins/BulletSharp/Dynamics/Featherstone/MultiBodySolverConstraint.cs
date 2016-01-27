@@ -154,11 +154,11 @@ namespace BulletSharp
                 }
                 return _multiBodyA;
             }
-            set
-            {
-                btMultiBodySolverConstraint_setMultiBodyA(_native, value._native);
-                _multiBodyA = value;
-            }
+			set
+			{
+				btMultiBodySolverConstraint_setMultiBodyA(_native, value._native);
+				_multiBodyA = value;
+			}
 		}
 
 		public MultiBody MultiBodyB
@@ -171,12 +171,11 @@ namespace BulletSharp
                 }
                 return _multiBodyB;
             }
-            set
-            {
-                btMultiBodySolverConstraint_setMultiBodyB(_native, value._native);
-                _multiBodyB = value;
-            }
-        
+			set
+			{
+				btMultiBodySolverConstraint_setMultiBodyB(_native, value._native);
+				_multiBodyB = value;
+			}
 		}
         /*
 		public MultiBodyConstraint OrgConstraint

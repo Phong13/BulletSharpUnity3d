@@ -123,7 +123,7 @@ namespace BulletSharp
 		static extern void btJointFeedback_delete(IntPtr obj);
 	}
 
-	public class TypedConstraint : IDisposable
+	public abstract class TypedConstraint : IDisposable
 	{
 		public class ConstraintInfo1 : IDisposable
 		{
@@ -426,11 +426,6 @@ namespace BulletSharp
 			btTypedConstraint_internalSetAppliedImpulse(_native, appliedImpulse);
 		}
 
-		public bool NeedsFeedback()
-		{
-			return btTypedConstraint_needsFeedback(_native);
-		}
-
 		public string Serialize(IntPtr dataBuffer, Serializer serializer)
 		{
 			return Marshal.PtrToStringAnsi(btTypedConstraint_serialize(_native, dataBuffer, serializer._native));
@@ -486,12 +481,17 @@ namespace BulletSharp
 
 		public JointFeedback JointFeedback
 		{
-            get { return _jointFeedback; }
-            set
-            {
+			get { return _jointFeedback; }
+			set
+			{
                 btTypedConstraint_setJointFeedback(_native, (value == null) ? value._native : IntPtr.Zero);
-                _jointFeedback = value;
-            }
+				_jointFeedback = value;
+			}
+		}
+
+		public bool NeedsFeedback
+		{
+			get { return btTypedConstraint_needsFeedback(_native); }
 		}
 
 		public int OverrideNumSolverIterations

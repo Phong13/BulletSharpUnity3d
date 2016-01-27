@@ -5,7 +5,7 @@ using BulletSharp.Math;
 
 namespace BulletSharp
 {
-	public class ConvexInternalShape : ConvexShape
+	public abstract class ConvexInternalShape : ConvexShape
 	{
 		internal ConvexInternalShape(IntPtr native)
 			: base(native)
@@ -86,7 +86,7 @@ namespace BulletSharp
 		static extern void btConvexInternalShape_setSafeMargin4(IntPtr obj, [In] ref Vector3 halfExtents, float defaultMarginMultiplier);
 	}
 
-	public class ConvexInternalAabbCachingShape : ConvexInternalShape
+	public abstract class ConvexInternalAabbCachingShape : ConvexInternalShape
 	{
 		internal ConvexInternalAabbCachingShape(IntPtr native)
 			: base(native)

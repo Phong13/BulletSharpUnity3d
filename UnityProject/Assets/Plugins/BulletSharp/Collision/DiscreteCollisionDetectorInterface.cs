@@ -5,7 +5,7 @@ using BulletSharp.Math;
 
 namespace BulletSharp
 {
-	public class DiscreteCollisionDetectorInterface : IDisposable
+	public abstract class DiscreteCollisionDetectorInterface : IDisposable
 	{
 		public class ClosestPointInput : IDisposable
 		{
@@ -82,7 +82,7 @@ namespace BulletSharp
 			static extern void btDiscreteCollisionDetectorInterface_ClosestPointInput_delete(IntPtr obj);
 		}
 
-		public class Result : IDisposable
+		public abstract class Result : IDisposable
 		{
 			internal IntPtr _native;
 
@@ -181,7 +181,7 @@ namespace BulletSharp
 		static extern void btDiscreteCollisionDetectorInterface_delete(IntPtr obj);
 	}
 
-	public class StorageResult : DiscreteCollisionDetectorInterface.Result
+	public abstract class StorageResult : DiscreteCollisionDetectorInterface.Result
 	{
 		internal StorageResult(IntPtr native)
 			: base(native)

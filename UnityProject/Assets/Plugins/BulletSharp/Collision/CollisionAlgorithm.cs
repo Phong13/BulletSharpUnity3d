@@ -24,22 +24,22 @@ namespace BulletSharp
 
         public Dispatcher Dispatcher
 		{
-            get { return _dispatcher1; }
-            set
-            {
-                _dispatcher1 = value;
+			get { return _dispatcher1; }
+			set
+			{
                 btCollisionAlgorithmConstructionInfo_setDispatcher1(_native, (value != null) ? value._native : IntPtr.Zero);
-            }
+				_dispatcher1 = value;
+			}
 		}
 
 		public PersistentManifold Manifold
 		{
-            get { return _manifold; }
-            set
-            {
-                _manifold = value;
+			get { return _manifold; }
+			set
+			{
                 btCollisionAlgorithmConstructionInfo_setManifold(_native, (value != null) ? value._native : IntPtr.Zero);
-            }
+				_manifold = value;
+			}
 		}
 
 		public void Dispose()

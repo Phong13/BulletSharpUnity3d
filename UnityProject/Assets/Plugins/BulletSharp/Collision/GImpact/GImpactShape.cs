@@ -366,8 +366,8 @@ namespace BulletSharp
             get { return _meshInterface; }
             set
             {
-                _meshInterface = value;
                 btGImpactMeshShapePart_TrimeshPrimitiveManager_setMeshInterface(_native, value._native);
+                _meshInterface = value;
             }
 		}
 

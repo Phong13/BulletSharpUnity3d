@@ -223,7 +223,7 @@ namespace BulletSharp
             {
                 if (_constraintSolver == null)
                 {
-                    _constraintSolver = new ConstraintSolver(btDynamicsWorld_getConstraintSolver(_native), true);
+                    _constraintSolver = new SequentialImpulseConstraintSolver(btDynamicsWorld_getConstraintSolver(_native), true);
                 }
                 return _constraintSolver;
             }

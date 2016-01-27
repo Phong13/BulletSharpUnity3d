@@ -37,22 +37,22 @@ namespace BulletSharp
 
 			public ConvexPenetrationDepthSolver PdSolver
 			{
-                get { return _pdSolver; }
-                set
-                {
-                    _pdSolver = value;
-                    btConvex2dConvex2dAlgorithm_CreateFunc_setPdSolver(_native, value._native);
-                }
+				get { return _pdSolver; }
+				set
+				{
+					btConvex2dConvex2dAlgorithm_CreateFunc_setPdSolver(_native, value._native);
+					_pdSolver = value;
+				}
 			}
 
 			public VoronoiSimplexSolver SimplexSolver
 			{
-                get { return _simplexSolver; }
-                set
-                {
-                    _simplexSolver = value;
-                    btConvex2dConvex2dAlgorithm_CreateFunc_setSimplexSolver(_native, value._native);
-                }
+				get { return _simplexSolver; }
+				set
+				{
+					btConvex2dConvex2dAlgorithm_CreateFunc_setSimplexSolver(_native, value._native);
+					_simplexSolver = value;
+				}
 			}
 
 			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]

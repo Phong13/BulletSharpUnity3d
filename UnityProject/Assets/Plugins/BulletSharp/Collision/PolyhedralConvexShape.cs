@@ -5,7 +5,7 @@ using BulletSharp.Math;
 
 namespace BulletSharp
 {
-	public class PolyhedralConvexShape : ConvexInternalShape
+	public abstract class PolyhedralConvexShape : ConvexInternalShape
 	{
         ConvexPolyhedron _convexPolyhedron;
 

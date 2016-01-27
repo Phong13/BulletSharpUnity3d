@@ -8,8 +8,9 @@ namespace BulletSharp
 	[Flags]
 	public enum DispatcherFlags
 	{
-        StaticStaticReported = 1,
-        UseRelativeContactBreakingThreshold = 2,
+		None = 0,
+		StaticStaticReported = 1,
+		UseRelativeContactBreakingThreshold = 2,
         DisableContactPoolDynamicAllocation = 4
 	}
 
@@ -62,12 +63,12 @@ namespace BulletSharp
 
 		public CollisionConfiguration CollisionConfiguration
 		{
-            get { return _collisionConfiguration; }
-            set
-            {
-                _collisionConfiguration = value;
-                btCollisionDispatcher_setCollisionConfiguration(_native, value._native);
-            }
+			get { return _collisionConfiguration; }
+			set
+			{
+				btCollisionDispatcher_setCollisionConfiguration(_native, value._native);
+				_collisionConfiguration = value;
+			}
 		}
 
         public DispatcherFlags DispatcherFlags
@@ -78,10 +79,10 @@ namespace BulletSharp
 
 		public NearCallback NearCallback
 		{
-            get { return _nearCallback; }
-            set
-            {
-                _nearCallback = value;
+			get { return _nearCallback; }
+			set
+			{
+				_nearCallback = value;
 
                 if (value == null)
                 {
@@ -96,7 +97,7 @@ namespace BulletSharp
                     _nearCallbackUnmanagedPtr = Marshal.GetFunctionPointerForDelegate(_nearCallbackUnmanaged);
                 }
                 btCollisionDispatcher_setNearCallback(_native, _nearCallbackUnmanagedPtr);
-            }
+			}
 		}
 
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]

@@ -8,7 +8,7 @@ namespace BulletSharp
 	[Flags]
 	public enum SliderFlags
 	{
-        None = 0,
+		None = 0,
 		CfmDirLinear = 1,
 		ErpDirLinear = 2,
 		CfmDirAngular = 4,

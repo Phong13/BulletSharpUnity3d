@@ -4,21 +4,21 @@ using System.Security;
 
 namespace BulletSharp
 {
-    [Flags]
+	[Flags]
     public enum SolverModes
-    {
+	{
 		None = 0,
         RandomizeOrder = 1,
-        FrictionSeparate = 2,
+		FrictionSeparate = 2,
         UseWarmStarting = 4,
-        Use2FrictionDirections = 16,
-        EnableFrictionDirectionCaching = 32,
-        DisableVelocityDependentFrictionDirection = 64,
-        CacheFriendly = 128,
-        Simd = 256,
-        InterleaveContactAndFrictionConstraints = 512,
-        AllowZeroLengthFrictionDirections = 1024
-    }
+		Use2FrictionDirections = 16,
+		EnableFrictionDirectionCaching = 32,
+		DisableVelocityDependentFrictionDirection = 64,
+		CacheFriendly = 128,
+		Simd = 256,
+		InterleaveContactAndFrictionConstraints = 512,
+		AllowZeroLengthFrictionDirections = 1024
+	}
 
 	public class ContactSolverInfoData : IDisposable
 	{

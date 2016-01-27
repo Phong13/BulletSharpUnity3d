@@ -18,22 +18,22 @@ namespace BulletSharp
 
 		public BoxShape Box1
 		{
-            get { return _box1; }
-            set
-            {
-                btBoxBoxDetector_setBox1(_native, value._native);
-                _box1 = value;
-            }
+			get { return _box1; }
+			set
+			{
+				btBoxBoxDetector_setBox1(_native, value._native);
+				_box1 = value;
+			}
 		}
 
 		public BoxShape Box2
 		{
-            get { return _box2; }
-            set
-            {
-                btBoxBoxDetector_setBox2(_native, value._native);
-                _box2 = value;
-            }
+			get { return _box2; }
+			set
+			{
+				btBoxBoxDetector_setBox2(_native, value._native);
+				_box2 = value;
+			}
 		}
 
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]

@@ -4,7 +4,7 @@ using System.Security;
 
 namespace BulletSharp
 {
-	public class OverlapCallback : IDisposable
+	public abstract class OverlapCallback : IDisposable
 	{
 		internal IntPtr _native;
 
@@ -40,7 +40,7 @@ namespace BulletSharp
 		static extern void btOverlapCallback_delete(IntPtr obj);
 	}
 
-	public class OverlapFilterCallback : IDisposable
+	public class OverlapFilterCallback : IDisposable // abstract
 	{
 		internal IntPtr _native;
 

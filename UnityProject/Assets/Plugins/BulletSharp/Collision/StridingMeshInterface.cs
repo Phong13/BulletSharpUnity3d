@@ -6,7 +6,7 @@ using BulletSharp.Math;
 
 namespace BulletSharp
 {
-	public class StridingMeshInterface : IDisposable
+    public class StridingMeshInterface : IDisposable // abstract
 	{
 		internal IntPtr _native;
 

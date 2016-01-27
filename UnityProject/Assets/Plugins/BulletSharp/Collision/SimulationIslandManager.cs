@@ -6,7 +6,7 @@ namespace BulletSharp
 {
 	public class SimulationIslandManager : IDisposable
 	{
-		public class IslandCallback : IDisposable
+		public abstract class IslandCallback : IDisposable
 		{
 			internal IntPtr _native;
 

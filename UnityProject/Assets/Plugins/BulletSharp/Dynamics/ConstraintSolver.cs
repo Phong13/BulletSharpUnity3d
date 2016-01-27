@@ -11,7 +11,7 @@ namespace BulletSharp
         Nncg = 4
 	}
 
-	public class ConstraintSolver : IDisposable
+	public abstract class ConstraintSolver : IDisposable
 	{
 		internal IntPtr _native;
 		bool _preventDelete;

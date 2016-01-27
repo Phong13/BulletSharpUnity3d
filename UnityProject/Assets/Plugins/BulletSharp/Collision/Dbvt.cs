@@ -392,7 +392,7 @@ namespace BulletSharp
 			static extern void btDbvt_ICollide_delete(IntPtr obj);
 		}
 
-		public class IWriter : IDisposable
+		public abstract class IWriter : IDisposable
 		{
 			internal IntPtr _native;
 

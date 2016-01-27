@@ -8,12 +8,12 @@ namespace BulletSharp
 	public class Triangle : IDisposable
 	{
 		internal IntPtr _native;
-	    private bool _preventDelete;
+        private bool _preventDelete;
 
 		internal Triangle(IntPtr native, bool preventDelete)
 		{
 			_native = native;
-		    _preventDelete = preventDelete;
+            _preventDelete = preventDelete;
 		}
 
 		public Triangle()
@@ -76,10 +76,10 @@ namespace BulletSharp
 		{
 			if (_native != IntPtr.Zero)
 			{
-			    if (!_preventDelete)
-			    {
+                if (!_preventDelete)
+                {
                     btTriangle_delete(_native);
-			    }
+                }
 				_native = IntPtr.Zero;
 			}
 		}

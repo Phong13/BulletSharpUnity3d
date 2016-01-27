@@ -8,7 +8,7 @@ namespace BulletSharp
 	[Flags]
 	public enum HingeFlags
 	{
-        None = 0,
+		None = 0,
 		CfmStop = 1,
 		ErpStop = 2,
 		CfmNormal = 4,

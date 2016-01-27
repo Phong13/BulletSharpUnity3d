@@ -5,7 +5,7 @@ using BulletSharp.Math;
 
 namespace BulletSharp
 {
-	public class CollisionShape : IDisposable
+	public abstract class CollisionShape : IDisposable
 	{
 		internal IntPtr _native;
 		bool _preventDelete;
@@ -205,7 +205,7 @@ namespace BulletSharp
 
         public override int GetHashCode()
         {
-            return _native.ToInt32();
+            return _native.GetHashCode();
         }
 
 		public void Dispose()

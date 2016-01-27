@@ -25,12 +25,12 @@ namespace BulletSharp
 
 		public CollisionShape ChildShape
 		{
-            get { return _childShape; }
-            set
-            {
-                _childShape = value;
-                btCompoundShapeChild_setChildShape(_native, value._native);
-            }
+			get { return _childShape; }
+			set
+			{
+				btCompoundShapeChild_setChildShape(_native, value._native);
+				_childShape = value;
+			}
 		}
 
         public BroadphaseNativeType ChildShapeType

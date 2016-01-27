@@ -424,12 +424,12 @@ namespace BulletSharp
 
 		public MotionState MotionState
 		{
-            get { return _motionState; }
-            set
-            {
+			get { return _motionState; }
+			set
+			{
                 btRigidBody_setMotionState(_native, (value != null) ? value._native : IntPtr.Zero);
-                _motionState = value;
-            }
+				_motionState = value;
+			}
 		}
 
 		public int NumConstraintRefs
