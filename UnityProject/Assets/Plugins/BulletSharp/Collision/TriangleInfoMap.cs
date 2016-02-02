@@ -178,8 +178,8 @@ namespace BulletSharp
 		static extern IntPtr btTriangleInfoMap_new();
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern int btTriangleInfoMap_calculateSerializeBufferSize(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btTriangleInfoMap_deSerialize(IntPtr obj, IntPtr data);
+		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
+		//static extern void btTriangleInfoMap_deSerialize(IntPtr obj, IntPtr data);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern float btTriangleInfoMap_getConvexEpsilon(IntPtr obj);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]

@@ -43,12 +43,12 @@ namespace BulletSharp
 			Dispose(false);
 		}
 
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		[return: MarshalAs(UnmanagedType.I1)]
-		static extern bool btMLCPSolverInterface_solveMLCP(IntPtr obj, IntPtr A, IntPtr b, IntPtr x, IntPtr lo, IntPtr hi, IntPtr limitDependency, int numIterations);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		[return: MarshalAs(UnmanagedType.I1)]
-		static extern bool btMLCPSolverInterface_solveMLCP2(IntPtr obj, IntPtr A, IntPtr b, IntPtr x, IntPtr lo, IntPtr hi, IntPtr limitDependency, int numIterations, bool useSparsity);
+		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
+		//[return: MarshalAs(UnmanagedType.I1)]
+		//static extern bool btMLCPSolverInterface_solveMLCP(IntPtr obj, IntPtr A, IntPtr b, IntPtr x, IntPtr lo, IntPtr hi, IntPtr limitDependency, int numIterations);
+		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
+		//[return: MarshalAs(UnmanagedType.I1)]
+		//static extern bool btMLCPSolverInterface_solveMLCP2(IntPtr obj, IntPtr A, IntPtr b, IntPtr x, IntPtr lo, IntPtr hi, IntPtr limitDependency, int numIterations, bool useSparsity);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void btMLCPSolverInterface_delete(IntPtr obj);
 	}

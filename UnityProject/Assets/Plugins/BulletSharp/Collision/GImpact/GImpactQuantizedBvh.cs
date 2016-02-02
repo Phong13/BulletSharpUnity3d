@@ -90,7 +90,7 @@ namespace BulletSharp
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern IntPtr BT_QUANTIZED_BVH_NODE_getQuantizedAabbMin(IntPtr obj);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        [return: MarshalAs(UnmanagedType.I1)]
+		[return: MarshalAs(UnmanagedType.I1)]
 		static extern bool BT_QUANTIZED_BVH_NODE_isLeafNode(IntPtr obj);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void BT_QUANTIZED_BVH_NODE_setDataIndex(IntPtr obj, int index);
@@ -99,7 +99,7 @@ namespace BulletSharp
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void BT_QUANTIZED_BVH_NODE_setEscapeIndexOrDataIndex(IntPtr obj, int value);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        [return: MarshalAs(UnmanagedType.I1)]
+		[return: MarshalAs(UnmanagedType.I1)]
 		static extern bool BT_QUANTIZED_BVH_NODE_testQuantizedBoxOverlapp(IntPtr obj, ushort[] quantizedMin, ushort[] quantizedMax);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void BT_QUANTIZED_BVH_NODE_delete(IntPtr obj);
@@ -107,18 +107,18 @@ namespace BulletSharp
 
 	public class GimGImpactQuantizedBvhNodeArray
 	{
-        private IntPtr _native;
+		internal IntPtr _native;
 
 		internal GimGImpactQuantizedBvhNodeArray(IntPtr native)
 		{
-            _native = native;
+			_native = native;
 		}
-
+/*
 		public GimGImpactQuantizedBvhNodeArray()
 		{
-            _native = GIM_QUANTIZED_BVH_NODE_ARRAY_new();
+			_native = GIM_QUANTIZED_BVH_NODE_ARRAY_new();
 		}
-
+*/
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern IntPtr GIM_QUANTIZED_BVH_NODE_ARRAY_new();
 	}
@@ -157,34 +157,34 @@ namespace BulletSharp
 			return btQuantizedBvhTree_get_node_pointer2(_native, index);
 		}
         */
-		public int GetEscapeNodeIndex(int nodeindex)
+		public int GetEscapeNodeIndex(int nodeIndex)
 		{
-			return btQuantizedBvhTree_getEscapeNodeIndex(_native, nodeindex);
+			return btQuantizedBvhTree_getEscapeNodeIndex(_native, nodeIndex);
 		}
 
-		public int GetLeftNode(int nodeindex)
+		public int GetLeftNode(int nodeIndex)
 		{
-			return btQuantizedBvhTree_getLeftNode(_native, nodeindex);
+			return btQuantizedBvhTree_getLeftNode(_native, nodeIndex);
 		}
 
-		public void GetNodeBound(int nodeindex, Aabb bound)
+		public void GetNodeBound(int nodeIndex, Aabb bound)
 		{
-			btQuantizedBvhTree_getNodeBound(_native, nodeindex, bound._native);
+			btQuantizedBvhTree_getNodeBound(_native, nodeIndex, bound._native);
 		}
 
-		public int GetNodeData(int nodeindex)
+		public int GetNodeData(int nodeIndex)
 		{
-			return btQuantizedBvhTree_getNodeData(_native, nodeindex);
+			return btQuantizedBvhTree_getNodeData(_native, nodeIndex);
 		}
 
-		public int GetRightNode(int nodeindex)
+		public int GetRightNode(int nodeIndex)
 		{
-			return btQuantizedBvhTree_getRightNode(_native, nodeindex);
+			return btQuantizedBvhTree_getRightNode(_native, nodeIndex);
 		}
 
-		public bool IsLeafNode(int nodeindex)
+		public bool IsLeafNode(int nodeIndex)
 		{
-			return btQuantizedBvhTree_isLeafNode(_native, nodeindex);
+			return btQuantizedBvhTree_isLeafNode(_native, nodeIndex);
 		}
 
 		public void QuantizePoint(ushort[] quantizedpoint, Vector3 point)
@@ -192,9 +192,9 @@ namespace BulletSharp
 			btQuantizedBvhTree_quantizePoint(_native, quantizedpoint, ref point);
 		}
 
-		public void SetNodeBound(int nodeindex, Aabb bound)
+		public void SetNodeBound(int nodeIndex, Aabb bound)
 		{
-			btQuantizedBvhTree_setNodeBound(_native, nodeindex, bound._native);
+			btQuantizedBvhTree_setNodeBound(_native, nodeIndex, bound._native);
 		}
 
         public bool TestQuantizedBoxOverlap(int nodeIndex, ushort[] quantizedMin, ushort[] quantizedMax)
@@ -250,14 +250,14 @@ namespace BulletSharp
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern int btQuantizedBvhTree_getRightNode(IntPtr obj, int nodeindex);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        [return: MarshalAs(UnmanagedType.I1)]
+		[return: MarshalAs(UnmanagedType.I1)]
 		static extern bool btQuantizedBvhTree_isLeafNode(IntPtr obj, int nodeindex);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void btQuantizedBvhTree_quantizePoint(IntPtr obj, ushort[] quantizedpoint, [In] ref Vector3 point);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void btQuantizedBvhTree_setNodeBound(IntPtr obj, int nodeindex, IntPtr bound);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        [return: MarshalAs(UnmanagedType.I1)]
+		[return: MarshalAs(UnmanagedType.I1)]
         static extern bool btQuantizedBvhTree_testQuantizedBoxOverlapp(IntPtr obj, int node_index, ushort[] quantizedMin, ushort[] quantizedMax);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void btQuantizedBvhTree_delete(IntPtr obj);
@@ -267,7 +267,7 @@ namespace BulletSharp
 	{
 		internal IntPtr _native;
 
-        private PrimitiveManagerBase _primitiveManager;
+		private PrimitiveManagerBase _primitiveManager;
 
 		internal GImpactQuantizedBvh(IntPtr native)
 		{
@@ -281,8 +281,8 @@ namespace BulletSharp
 
 		public GImpactQuantizedBvh(PrimitiveManagerBase primitiveManager)
 		{
-		    _primitiveManager = primitiveManager;
 			_native = btGImpactQuantizedBvh_new2(primitiveManager._native);
+			_primitiveManager = primitiveManager;
 		}
         /*
 		public bool BoxQuery(Aabb box, AlignedIntArray collidedResults)
@@ -315,39 +315,39 @@ namespace BulletSharp
 			return btGImpactQuantizedBvh_get_node_pointer2(_native, index);
 		}
         */
-		public int GetEscapeNodeIndex(int nodeindex)
+		public int GetEscapeNodeIndex(int nodeIndex)
 		{
-			return btGImpactQuantizedBvh_getEscapeNodeIndex(_native, nodeindex);
+			return btGImpactQuantizedBvh_getEscapeNodeIndex(_native, nodeIndex);
 		}
 
-		public int GetLeftNode(int nodeindex)
+		public int GetLeftNode(int nodeIndex)
 		{
-			return btGImpactQuantizedBvh_getLeftNode(_native, nodeindex);
+			return btGImpactQuantizedBvh_getLeftNode(_native, nodeIndex);
 		}
 
-		public void GetNodeBound(int nodeindex, Aabb bound)
+		public void GetNodeBound(int nodeIndex, Aabb bound)
 		{
-			btGImpactQuantizedBvh_getNodeBound(_native, nodeindex, bound._native);
+			btGImpactQuantizedBvh_getNodeBound(_native, nodeIndex, bound._native);
 		}
 
-		public int GetNodeData(int nodeindex)
+		public int GetNodeData(int nodeIndex)
 		{
-			return btGImpactQuantizedBvh_getNodeData(_native, nodeindex);
+			return btGImpactQuantizedBvh_getNodeData(_native, nodeIndex);
 		}
 
-		public void GetNodeTriangle(int nodeindex, PrimitiveTriangle triangle)
+		public void GetNodeTriangle(int nodeIndex, PrimitiveTriangle triangle)
 		{
-			btGImpactQuantizedBvh_getNodeTriangle(_native, nodeindex, triangle._native);
+			btGImpactQuantizedBvh_getNodeTriangle(_native, nodeIndex, triangle._native);
 		}
 
-		public int GetRightNode(int nodeindex)
+		public int GetRightNode(int nodeIndex)
 		{
-			return btGImpactQuantizedBvh_getRightNode(_native, nodeindex);
+			return btGImpactQuantizedBvh_getRightNode(_native, nodeIndex);
 		}
 
-		public bool IsLeafNode(int nodeindex)
+		public bool IsLeafNode(int nodeIndex)
 		{
-			return btGImpactQuantizedBvh_isLeafNode(_native, nodeindex);
+			return btGImpactQuantizedBvh_isLeafNode(_native, nodeIndex);
 		}
         /*
         public bool RayQuery(Vector3 rayDir, Vector3 rayOrigin, AlignedIntArray collidedResults)
@@ -355,9 +355,9 @@ namespace BulletSharp
 			return btGImpactQuantizedBvh_rayQuery(_native, ref rayDir, ref rayOrigin, collidedResults._native);
 		}
         */
-		public void SetNodeBound(int nodeindex, Aabb bound)
+		public void SetNodeBound(int nodeIndex, Aabb bound)
 		{
-			btGImpactQuantizedBvh_setNodeBound(_native, nodeindex, bound._native);
+			btGImpactQuantizedBvh_setNodeBound(_native, nodeIndex, bound._native);
 		}
 
 		public void Update()
@@ -387,12 +387,12 @@ namespace BulletSharp
 
 		public PrimitiveManagerBase PrimitiveManager
 		{
-            get { return _primitiveManager; }
-		    set
-		    {
-		        _primitiveManager = value;
-		        btGImpactQuantizedBvh_setPrimitiveManager(_native, value._native);
-		    }
+			get { return _primitiveManager; }
+			set
+			{
+				btGImpactQuantizedBvh_setPrimitiveManager(_native, value._native);
+				_primitiveManager = value;
+			}
 		}
 
 		public void Dispose()
@@ -420,10 +420,10 @@ namespace BulletSharp
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern IntPtr btGImpactQuantizedBvh_new2(IntPtr primitive_manager);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        [return: MarshalAs(UnmanagedType.I1)]
+		[return: MarshalAs(UnmanagedType.I1)]
 		static extern bool btGImpactQuantizedBvh_boxQuery(IntPtr obj, IntPtr box, IntPtr collided_results);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        [return: MarshalAs(UnmanagedType.I1)]
+		[return: MarshalAs(UnmanagedType.I1)]
 		static extern bool btGImpactQuantizedBvh_boxQueryTrans(IntPtr obj, IntPtr box, [In] ref Matrix transform, IntPtr collided_results);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void btGImpactQuantizedBvh_buildSet(IntPtr obj);
@@ -452,16 +452,16 @@ namespace BulletSharp
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern int btGImpactQuantizedBvh_getRightNode(IntPtr obj, int nodeindex);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        [return: MarshalAs(UnmanagedType.I1)]
+		[return: MarshalAs(UnmanagedType.I1)]
 		static extern bool btGImpactQuantizedBvh_hasHierarchy(IntPtr obj);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        [return: MarshalAs(UnmanagedType.I1)]
+		[return: MarshalAs(UnmanagedType.I1)]
 		static extern bool btGImpactQuantizedBvh_isLeafNode(IntPtr obj, int nodeindex);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        [return: MarshalAs(UnmanagedType.I1)]
+		[return: MarshalAs(UnmanagedType.I1)]
 		static extern bool btGImpactQuantizedBvh_isTrimesh(IntPtr obj);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        [return: MarshalAs(UnmanagedType.I1)]
+		[return: MarshalAs(UnmanagedType.I1)]
 		static extern bool btGImpactQuantizedBvh_rayQuery(IntPtr obj, [In] ref Vector3 ray_dir, [In] ref Vector3 ray_origin, IntPtr collided_results);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void btGImpactQuantizedBvh_setNodeBound(IntPtr obj, int nodeindex, IntPtr bound);

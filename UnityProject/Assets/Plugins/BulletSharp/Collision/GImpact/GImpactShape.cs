@@ -62,9 +62,9 @@ namespace BulletSharp
 
 		public Matrix GetChildTransform(int index)
 		{
-		    Matrix value;
+			Matrix value;
 			btGImpactShapeInterface_getChildTransform(_native, index, out value);
-		    return value;
+			return value;
 		}
 
 		public void GetPrimitiveTriangle(int index, PrimitiveTriangle triangle)
@@ -83,9 +83,9 @@ namespace BulletSharp
 		}
 
         public void ProcessAllTrianglesRay(TriangleCallback cb, ref Vector3 rayFrom, ref Vector3 rayTo)
-        {
+		{
             btGImpactShapeInterface_processAllTrianglesRay(_native, cb._native, ref rayFrom, ref rayTo);
-        }
+		}
 
 		public void RayTest(Vector3 rayFrom, Vector3 rayTo, RayResultCallback resultCallback)
 		{
@@ -113,9 +113,9 @@ namespace BulletSharp
 		}
         */
         public bool ChildrenHasTransform
-		{
-			get{return btGImpactShapeInterface_childrenHasTransform(_native);}
-		}
+        {
+            get{return btGImpactShapeInterface_childrenHasTransform(_native);}
+        }
 
 		public GImpactShapeType GImpactShapeType
 		{
@@ -132,15 +132,15 @@ namespace BulletSharp
             get { return new Aabb(btGImpactShapeInterface_getLocalBox(_native), true); }
 		}
 
-        public bool NeedsRetrieveTetrahedrons
-        {
-            get { return btGImpactShapeInterface_needsRetrieveTetrahedrons(_native); }
-        }
+		public bool NeedsRetrieveTetrahedrons
+		{
+			get { return btGImpactShapeInterface_needsRetrieveTetrahedrons(_native); }
+		}
 
-        public bool NeedsRetrieveTriangles
-        {
-            get { return btGImpactShapeInterface_needsRetrieveTriangles(_native); }
-        }
+		public bool NeedsRetrieveTriangles
+		{
+			get { return btGImpactShapeInterface_needsRetrieveTriangles(_native); }
+		}
 
 		public int NumChildShapes
 		{
@@ -153,7 +153,7 @@ namespace BulletSharp
         }
 
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        [return: MarshalAs(UnmanagedType.I1)]
+		[return: MarshalAs(UnmanagedType.I1)]
 		static extern bool btGImpactShapeInterface_childrenHasTransform(IntPtr obj);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern IntPtr btGImpactShapeInterface_getBoxSet(IntPtr obj);
@@ -178,15 +178,15 @@ namespace BulletSharp
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void btGImpactShapeInterface_getPrimitiveTriangle(IntPtr obj, int index, IntPtr triangle);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        [return: MarshalAs(UnmanagedType.I1)]
+		[return: MarshalAs(UnmanagedType.I1)]
 		static extern bool btGImpactShapeInterface_hasBoxSet(IntPtr obj);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void btGImpactShapeInterface_lockChildShapes(IntPtr obj);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        [return: MarshalAs(UnmanagedType.I1)]
+		[return: MarshalAs(UnmanagedType.I1)]
 		static extern bool btGImpactShapeInterface_needsRetrieveTetrahedrons(IntPtr obj);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        [return: MarshalAs(UnmanagedType.I1)]
+		[return: MarshalAs(UnmanagedType.I1)]
 		static extern bool btGImpactShapeInterface_needsRetrieveTriangles(IntPtr obj);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void btGImpactShapeInterface_postUpdate(IntPtr obj);
@@ -221,7 +221,7 @@ namespace BulletSharp
 		static extern void btGImpactCompoundShape_CompoundPrimitiveManager_setCompoundShape(IntPtr obj, IntPtr value);
 	}
 
-    public class GImpactCompoundShape : GImpactShapeInterface
+	public class GImpactCompoundShape : GImpactShapeInterface
 	{
         private CompoundPrimitiveManager _compoundPrimitiveManager;
 
@@ -283,7 +283,7 @@ namespace BulletSharp
 
 	public class TrimeshPrimitiveManager : PrimitiveManagerBase
 	{
-        StridingMeshInterface _meshInterface;
+		private StridingMeshInterface _meshInterface;
 
 		internal TrimeshPrimitiveManager(IntPtr native)
 			: base(native)
@@ -293,7 +293,7 @@ namespace BulletSharp
 		public TrimeshPrimitiveManager(StridingMeshInterface meshInterface, int part)
 			: base(btGImpactMeshShapePart_TrimeshPrimitiveManager_new(meshInterface._native, part))
 		{
-            _meshInterface = meshInterface;
+			_meshInterface = meshInterface;
 		}
 
 		public TrimeshPrimitiveManager(TrimeshPrimitiveManager manager)
@@ -318,7 +318,7 @@ namespace BulletSharp
 
 		public void GetVertex(uint vertexIndex, out Vector3 vertex)
 		{
-            btGImpactMeshShapePart_TrimeshPrimitiveManager_get_vertex(_native, vertexIndex, out vertex);
+			btGImpactMeshShapePart_TrimeshPrimitiveManager_get_vertex(_native, vertexIndex, out vertex);
 		}
 
 		public void Lock()
@@ -363,12 +363,12 @@ namespace BulletSharp
 
 		public StridingMeshInterface MeshInterface
 		{
-            get { return _meshInterface; }
-            set
-            {
-                btGImpactMeshShapePart_TrimeshPrimitiveManager_setMeshInterface(_native, value._native);
-                _meshInterface = value;
-            }
+			get { return _meshInterface; }
+			set
+			{
+				btGImpactMeshShapePart_TrimeshPrimitiveManager_setMeshInterface(_native, value._native);
+				_meshInterface = value;
+			}
 		}
 
 		public int Numfaces
@@ -495,7 +495,7 @@ namespace BulletSharp
 		static extern void btGImpactMeshShapePart_TrimeshPrimitiveManager_unlock(IntPtr obj);
 	}
 
-    public class GImpactMeshShapePart : GImpactShapeInterface
+	public class GImpactMeshShapePart : GImpactShapeInterface
 	{
         private TrimeshPrimitiveManager _gImpactTrimeshPrimitiveManager;
 
@@ -562,7 +562,7 @@ namespace BulletSharp
 
 	public class GImpactMeshShape : GImpactShapeInterface
 	{
-        StridingMeshInterface _meshInterface;
+		private StridingMeshInterface _meshInterface;
         bool _disposeMeshInterface;
 
 		internal GImpactMeshShape(IntPtr native)
@@ -573,7 +573,7 @@ namespace BulletSharp
 		public GImpactMeshShape(StridingMeshInterface meshInterface)
 			: base(btGImpactMeshShape_new(meshInterface._native))
 		{
-            _meshInterface = meshInterface;
+			_meshInterface = meshInterface;
 		}
 
 		public GImpactMeshShapePart GetMeshPart(int index)

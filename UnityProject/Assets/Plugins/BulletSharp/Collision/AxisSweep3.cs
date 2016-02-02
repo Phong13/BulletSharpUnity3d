@@ -260,9 +260,9 @@ namespace BulletSharp
         static extern uint bt32BitAxisSweep3_getNumHandles(IntPtr obj);
         [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
         static extern IntPtr bt32BitAxisSweep3_getOverlappingPairUserCallback(IntPtr obj);
-        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        //static extern void bt32BitAxisSweep3_processAllOverlappingPairs(IntPtr obj, IntPtr callback);
         //[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
+        //static extern void bt32BitAxisSweep3_processAllOverlappingPairs(IntPtr obj, IntPtr callback);
+        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
         static extern void bt32BitAxisSweep3_quantize(IntPtr obj, [Out] out uint o, [In] ref Vector3 point, int isMax);
         [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
         static extern void bt32BitAxisSweep3_removeHandle(IntPtr obj, uint handle, IntPtr dispatcher);

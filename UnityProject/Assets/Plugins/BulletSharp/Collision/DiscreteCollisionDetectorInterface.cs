@@ -187,12 +187,12 @@ namespace BulletSharp
 			: base(native)
 		{
 		}
-
+        /*
 		public StorageResult()
-			: base(btStorageResult_new())
+            : base(btStorageResultWrapper_new())
 		{
 		}
-
+        */
 		public Vector3 ClosestPointInB
 		{
 			get
@@ -221,8 +221,8 @@ namespace BulletSharp
 			set { btStorageResult_setNormalOnSurfaceB(_native, ref value); }
 		}
 
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btStorageResult_new();
+		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
+		//static extern IntPtr btStorageResultWrapper_new();
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void btStorageResult_getClosestPointInB(IntPtr obj, [Out] out Vector3 value);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]

@@ -1230,7 +1230,7 @@ namespace SoftDemo
                         }
                         else
                         {
-                            res.Dispose();
+                           // res.Dispose();
                         }
                     }
                     if (results.Fraction < 1)

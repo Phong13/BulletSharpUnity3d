@@ -281,10 +281,6 @@ namespace BulletSharp
 		        item.BroadphaseHandle = new AxisSweep3_32Bit::Handle(broadphaseHandle);
 	        }
             */
-            else if (broadphase is SimpleBroadphase)
-            {
-                item.BroadphaseHandle = new SimpleBroadphaseProxy(broadphaseHandle);
-	        }
             else
             {
                 item.BroadphaseHandle = new BroadphaseProxy(broadphaseHandle);
