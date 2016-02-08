@@ -11,7 +11,7 @@ namespace BulletSharp
 			: base(native)
 		{
 		}
-
+		/*
 		public int NextFree
 		{
 			get { return btSimpleBroadphaseProxy_GetNextFree(_native); }
@@ -22,8 +22,9 @@ namespace BulletSharp
 		static extern int btSimpleBroadphaseProxy_GetNextFree(IntPtr obj);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void btSimpleBroadphaseProxy_SetNextFree(IntPtr obj, int next);
+		*/
 	}
-
+	/*
 	public class SimpleBroadphase : BroadphaseInterface
 	{
 		public SimpleBroadphase()
@@ -45,6 +46,7 @@ namespace BulletSharp
                 btBroadphaseInterface_getOverlappingPairCache(_native), true);
 		}
 
+		
 		public static bool AabbOverlap(SimpleBroadphaseProxy proxy0, SimpleBroadphaseProxy proxy1)
 		{
 			return btSimpleBroadphase_aabbOverlap(proxy0._native, proxy1._native);
@@ -66,11 +68,12 @@ namespace BulletSharp
 		static extern IntPtr btSimpleBroadphase_new2(int maxProxies);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern IntPtr btSimpleBroadphase_new3(int maxProxies, IntPtr overlappingPairCache);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		[return: MarshalAs(UnmanagedType.I1)]
-		static extern bool btSimpleBroadphase_aabbOverlap(IntPtr proxy0, IntPtr proxy1);
+		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
+		//[return: MarshalAs(UnmanagedType.I1)]
+		//static extern bool btSimpleBroadphase_aabbOverlap(IntPtr proxy0, IntPtr proxy1);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		[return: MarshalAs(UnmanagedType.I1)]
 		static extern bool btSimpleBroadphase_testAabbOverlap(IntPtr obj, IntPtr proxy0, IntPtr proxy1);
 	}
+	*/
 }

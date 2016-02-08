@@ -2,6 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
+using AOT;
 
 namespace BulletSharp
 {
@@ -10,9 +11,9 @@ namespace BulletSharp
 		internal IntPtr _native;
 
         [UnmanagedFunctionPointer(Native.Conv), SuppressUnmanagedCodeSecurity]
-        delegate void GetWorldTransformUnmanagedDelegate(out Matrix worldTrans);
+        delegate void GetWorldTransformUnmanagedDelegate(IntPtr managedMotionStatePtr, out Matrix worldTrans);
         [UnmanagedFunctionPointer(Native.Conv), SuppressUnmanagedCodeSecurity]
-        delegate void SetWorldTransformUnmanagedDelegate(ref Matrix worldTrans);
+        delegate void SetWorldTransformUnmanagedDelegate(IntPtr managedMotionStatePtr, ref Matrix worldTrans);
 
         GetWorldTransformUnmanagedDelegate _getWorldTransform;
         SetWorldTransformUnmanagedDelegate _setWorldTransform;
@@ -27,19 +28,25 @@ namespace BulletSharp
             _getWorldTransform = new GetWorldTransformUnmanagedDelegate(GetWorldTransformUnmanaged);
             _setWorldTransform = new SetWorldTransformUnmanagedDelegate(SetWorldTransformUnmanaged);
 
+			GCHandle handle = GCHandle.Alloc(this, GCHandleType.Normal);
             _native = btMotionStateWrapper_new(
                 Marshal.GetFunctionPointerForDelegate(_getWorldTransform),
-                Marshal.GetFunctionPointerForDelegate(_setWorldTransform));
+                Marshal.GetFunctionPointerForDelegate(_setWorldTransform),
+				GCHandle.ToIntPtr(handle));
         }
 
-        void GetWorldTransformUnmanaged(out Matrix worldTrans)
+		[MonoPInvokeCallback(typeof(GetWorldTransformUnmanagedDelegate))]
+        static void GetWorldTransformUnmanaged(IntPtr msPtr, out Matrix worldTrans)
         {
-            GetWorldTransform(out worldTrans);
+			MotionState ms = GCHandle.FromIntPtr(msPtr).Target as MotionState;
+            ms.GetWorldTransform(out worldTrans);
         }
 
-        void SetWorldTransformUnmanaged(ref Matrix worldTrans)
+		[MonoPInvokeCallback(typeof(SetWorldTransformUnmanagedDelegate))]
+        static void SetWorldTransformUnmanaged(IntPtr msPtr, ref Matrix worldTrans)
         {
-            SetWorldTransform(ref worldTrans);
+			MotionState ms = GCHandle.FromIntPtr(msPtr).Target as MotionState;
+            ms.SetWorldTransform(ref worldTrans);
         }
 
         public abstract void GetWorldTransform(out Matrix worldTrans);
@@ -84,6 +91,6 @@ namespace BulletSharp
 		static extern void btMotionState_delete(IntPtr obj);
 
         [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        static extern IntPtr btMotionStateWrapper_new(IntPtr getWorldTransformCallback, IntPtr setWorldTransformCallback);
+		static extern IntPtr btMotionStateWrapper_new(IntPtr getWorldTransformCallback, IntPtr setWorldTransformCallback, IntPtr motionStatePtr);
     }
 }

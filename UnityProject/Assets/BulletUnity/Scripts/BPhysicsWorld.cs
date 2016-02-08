@@ -384,7 +384,8 @@ namespace BulletUnity {
                 Broadphase = new AxisSweep3_32Bit(m_axis3SweepBroadphaseMin.ToBullet(), m_axis3SweepBroadphaseMax.ToBullet(), axis3SweepMaxProxies);
             } else
             {
-                Broadphase = new SimpleBroadphase();
+				Broadphase = null;
+                //Broadphase = new SimpleBroadphase();
             }
 
             if (m_worldType == WorldType.CollisionOnly)

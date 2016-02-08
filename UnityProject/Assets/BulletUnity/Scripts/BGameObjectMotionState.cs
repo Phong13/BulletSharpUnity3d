@@ -3,6 +3,8 @@ using System.Collections;
 using BulletSharp;
 using BulletSharp.Math;
 using System;
+using System.Runtime.InteropServices;
+using AOT;
 
 namespace BulletUnity {
     public class BGameObjectMotionState : MotionState, IDisposable {
@@ -14,9 +16,13 @@ namespace BulletUnity {
             transform = t;
         }
 
+		public delegate void GetTransformDelegate(out Matrix worldTrans);
+		public delegate void SetTransformDelegate(ref Matrix m);
+
         //Bullet wants me to fill in worldTrans
         //This is called by bullet once when rigid body is added to the the world
         //For kinematic rigid bodies it is called every simulation step
+		//[MonoPInvokeCallback(typeof(GetTransformDelegate))]
         public override void GetWorldTransform(out Matrix worldTrans) {
             //Matrix4x4 trans = transform.localToWorldMatrix;
             //worldTrans = trans.ToBullet();
@@ -27,6 +33,7 @@ namespace BulletUnity {
         }
 
         //Bullet calls this so I can copy bullet data to unity
+		//[MonoPInvokeCallback(typeof(SetTransformDelegate))]
         public override void SetWorldTransform(ref Matrix m) {
             /*
             BulletSharp.Math.Vector3 pos = m.Origin;

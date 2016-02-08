@@ -120,10 +120,10 @@ namespace BulletSharp.SoftBody
 		//static extern SolverTypes btSoftBodySolver_getSolverType(IntPtr obj);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern float btSoftBodySolver_getTimeScale(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btSoftBodySolver_optimize(IntPtr obj, IntPtr softBodies);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btSoftBodySolver_optimize2(IntPtr obj, IntPtr softBodies, bool forceUpdate);
+		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
+		//static extern void btSoftBodySolver_optimize(IntPtr obj, IntPtr softBodies);
+		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
+		//static extern void btSoftBodySolver_optimize2(IntPtr obj, IntPtr softBodies, bool forceUpdate);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void btSoftBodySolver_predictMotion(IntPtr obj, float solverdt);
 		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
