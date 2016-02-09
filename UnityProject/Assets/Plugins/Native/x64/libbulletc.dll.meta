@@ -56,7 +56,7 @@ PluginImporter:
         DontProcess: False
         PlaceholderPath: 
     Win:
-      enabled: 1
+      enabled: 0
       settings:
         CPU: None
     Win64:
@@ -70,6 +70,7 @@ PluginImporter:
         DontProcess: False
         PlaceholderPath: 
         SDK: AnySDK
+        ScriptingBackend: AnyScriptingBackend
     iOS:
       enabled: 0
       settings:
