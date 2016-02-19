@@ -163,7 +163,7 @@ namespace BulletSharp
 			{
 				if (!_preventDelete)
 				{
-					//btTriangleInfoMap_delete(_native);
+					btTriangleInfoMap_delete(_native);
 				}
 				_native = IntPtr.Zero;
 			}
@@ -206,7 +206,7 @@ namespace BulletSharp
 		static extern void btTriangleInfoMap_setPlanarEpsilon(IntPtr obj, float value);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void btTriangleInfoMap_setZeroAreaThreshold(IntPtr obj, float value);
-		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		//static extern void btTriangleInfoMap_delete(IntPtr obj);
+		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
+		static extern void btTriangleInfoMap_delete(IntPtr obj);
 	}
 }

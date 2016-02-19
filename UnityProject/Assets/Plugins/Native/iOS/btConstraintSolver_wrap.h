@@ -6,6 +6,6 @@ extern "C"
 	EXPORT btConstraintSolverType btConstraintSolver_getSolverType(btConstraintSolver* obj);
 	EXPORT void btConstraintSolver_prepareSolve(btConstraintSolver* obj, int __unnamed0, int __unnamed1);
 	EXPORT void btConstraintSolver_reset(btConstraintSolver* obj);
-	//EXPORT btScalar btConstraintSolver_solveGroup(btConstraintSolver* obj, * bodies, int numBodies, * manifold, int numManifolds, * constraints, int numConstraints, const btContactSolverInfo* info, btIDebugDraw* debugDrawer, btDispatcher* dispatcher);
+	EXPORT btScalar btConstraintSolver_solveGroup(btConstraintSolver* obj, btCollisionObject** bodies, int numBodies, btPersistentManifold** manifold, int numManifolds, btTypedConstraint** constraints, int numConstraints, const btContactSolverInfo* info, btIDebugDraw* debugDrawer, btDispatcher* dispatcher);
 	EXPORT void btConstraintSolver_delete(btConstraintSolver* obj);
 }

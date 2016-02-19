@@ -1,7 +1,5 @@
 #include "main.h"
 
-#define btDefaultCollisionConfiguration_delete(obj) btCollisionConfiguration_delete(obj)
-
 extern "C"
 {
 	EXPORT btDefaultCollisionConstructionInfo* btDefaultCollisionConstructionInfo_new();

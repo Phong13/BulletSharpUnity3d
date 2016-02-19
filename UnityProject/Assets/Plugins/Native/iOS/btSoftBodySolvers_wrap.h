@@ -9,8 +9,8 @@ extern "C"
 	EXPORT int btSoftBodySolver_getNumberOfVelocityIterations(btSoftBodySolver* obj);
 	//EXPORT SolverTypes btSoftBodySolver_getSolverType(btSoftBodySolver* obj);
 	EXPORT float btSoftBodySolver_getTimeScale(btSoftBodySolver* obj);
-	//EXPORT void btSoftBodySolver_optimize(btSoftBodySolver* obj, btAlignedObjectArray* softBodies);
-	//EXPORT void btSoftBodySolver_optimize2(btSoftBodySolver* obj, btAlignedObjectArray* softBodies, bool forceUpdate);
+	//EXPORT void btSoftBodySolver_optimize(btSoftBodySolver* obj, btAlignedObjectArray<btSoftBody*>* softBodies);
+	//EXPORT void btSoftBodySolver_optimize2(btSoftBodySolver* obj, btAlignedObjectArray<btSoftBody*>* softBodies, bool forceUpdate);
 	EXPORT void btSoftBodySolver_predictMotion(btSoftBodySolver* obj, float solverdt);
 	//EXPORT void btSoftBodySolver_processCollision(btSoftBodySolver* obj, btSoftBody* __unnamed0, const btCollisionObjectWrapper* __unnamed1);
 	//EXPORT void btSoftBodySolver_processCollision2(btSoftBodySolver* obj, btSoftBody* __unnamed0, btSoftBody* __unnamed1);

@@ -120,16 +120,16 @@ namespace BulletUnity {
 
         [SerializeField]
         CollisionConfType m_collisionType = CollisionConfType.DefaultDynamicsWorldCollisionConf;
-        public CollisionConfType collisionType{
-            get{return m_collisionType; }
-            set{
+        public CollisionConfType collisionType {
+            get { return m_collisionType; }
+            set {
                 if (value != m_collisionType && m_world != null)
                 {
                     Debug.LogError("Can't modify a Physics World after simulation has started");
                     return;
                 }
-                m_collisionType = value;}
-       }
+                m_collisionType = value; }
+        }
 
         [SerializeField]
         BroadphaseType m_broadphaseType = BroadphaseType.DynamicAABBBroadphase;
@@ -172,8 +172,9 @@ namespace BulletUnity {
                 }
                 m_axis3SweepBroadphaseMax = value; }
         }
+
         [SerializeField]
-        Vector3 m_gravity = new Vector3(0f,-9.8f,0f);
+        Vector3 m_gravity = new Vector3(0f, -9.8f, 0f);
         public Vector3 gravity
         {
             get { return m_gravity; }
@@ -184,6 +185,14 @@ namespace BulletUnity {
                     _ddWorld.SetGravity(ref grav);
                 }
                 m_gravity = value; }
+        }
+
+        [SerializeField]
+        bool m_doCollisionCallbacks = true;
+        public bool doCollisionCallbacks
+        {
+            get { return m_doCollisionCallbacks; }
+            set { m_doCollisionCallbacks = value;}
         }
 
         CollisionConfiguration CollisionConf;
@@ -236,16 +245,24 @@ namespace BulletUnity {
             }
 
             //collisions
-            /*
-            int numManifolds = World.Dispatcher.NumManifolds;
-            for (int i = 0; i < numManifolds; i++)
+            if (m_doCollisionCallbacks)
             {
-                PersistentManifold contactManifold = World.Dispatcher.GetManifoldByIndexInternal(i);
-                CollisionObject a = contactManifold.Body0;
-                CollisionObject b = contactManifold.Body1;
-                Debug.LogFormat("Collision between {0},{1} numContacts={2}",a,b,contactManifold.NumContacts);
+                int numManifolds = m_world.Dispatcher.NumManifolds;
+                for (int i = 0; i < numManifolds; i++)
+                {
+                    PersistentManifold contactManifold = m_world.Dispatcher.GetManifoldByIndexInternal(i);
+                    CollisionObject a = contactManifold.Body0;
+                    CollisionObject b = contactManifold.Body1;
+                    if (a is RigidBody && a.UserObject is BRigidBody && ((BRigidBody)a.UserObject).onCollisionCallback != null)
+                    {
+                        ((BRigidBody)a.UserObject).onCollisionCallback(contactManifold);
+                    }
+                    if (b is RigidBody && b.UserObject is BRigidBody && ((BRigidBody)b.UserObject).onCollisionCallback != null)
+                    {
+                        ((BRigidBody)b.UserObject).onCollisionCallback(contactManifold);
+                    }
+                }
             }
-            */
         }
 
         protected virtual void OnDestroy()

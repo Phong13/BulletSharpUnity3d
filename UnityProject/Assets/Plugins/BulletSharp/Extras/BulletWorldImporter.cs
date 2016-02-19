@@ -22,7 +22,7 @@ namespace BulletSharp
             _shapeMap.Clear();
             _bodyMap.Clear();
 
-            foreach (byte[] bvhData in file._bvhs)
+            foreach (byte[] bvhData in file.Bvhs)
             {
                 OptimizedBvh bvh = CreateOptimizedBvh();
 
@@ -102,7 +102,7 @@ namespace BulletSharp
                 }
             }
 
-            foreach (byte[] shapeData in file._collisionShapes)
+            foreach (byte[] shapeData in file.CollisionShapes)
             {
                 CollisionShape shape = ConvertCollisionShape(shapeData, file.LibPointers);
                 if (shape != null)
@@ -134,7 +134,7 @@ namespace BulletSharp
                 }
             }
 
-            foreach (byte[] solverInfoData in file._dynamicsWorldInfo)
+            foreach (byte[] solverInfoData in file.DynamicsWorldInfo)
             {
                 if ((file.Flags & FileFlags.DoublePrecision) != 0)
                 {
@@ -146,7 +146,7 @@ namespace BulletSharp
                 }
             }
 
-            foreach (byte[] bodyData in file._rigidBodies)
+            foreach (byte[] bodyData in file.RigidBodies)
             {
                 if ((file.Flags & FileFlags.DoublePrecision) != 0)
                 {
@@ -158,7 +158,7 @@ namespace BulletSharp
                 }
             }
 
-            foreach (byte[] colObjData in file._collisionObjects)
+            foreach (byte[] colObjData in file.CollisionObjects)
             {
                 if ((file.Flags & FileFlags.DoublePrecision) != 0)
                 {
@@ -188,7 +188,7 @@ namespace BulletSharp
                 }
             }
 
-            foreach (byte[] constraintData in file._constraints)
+            foreach (byte[] constraintData in file.Constraints)
             {
                 MemoryStream stream = new MemoryStream(constraintData, false);
                 using (BulletReader reader = new BulletReader(stream))

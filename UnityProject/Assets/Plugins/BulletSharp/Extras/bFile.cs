@@ -142,6 +142,9 @@ namespace BulletSharp
             // to the file being loaded. Fill the
             // memory with the file data...
 
+            MemoryStream dataStream = new MemoryStream(_fileBuffer, false);
+            BinaryReader dataReader = new BinaryReader(dataStream);
+
             foreach (Dna.ElementDecl element in dna.Elements)
             {
                 int eleLen = _fileDna.GetElementSize(element);
@@ -157,9 +160,7 @@ namespace BulletSharp
                 {
                     int arrayLen = element.Name.ArraySizeNew;
 
-                    MemoryStream dataStream = new MemoryStream(_fileBuffer, false);
                     dataStream.Position = data;
-                    BinaryReader dataReader = new BinaryReader(dataStream);
 
                     if (element.Name.Name[0] == '*')
                     {
@@ -199,26 +200,20 @@ namespace BulletSharp
                         throw new NotImplementedException();
                         //GetElement(arrayLen, lookupType, type, data, strcData);
                     }
-
-                    dataReader.Dispose();
-                    dataStream.Dispose();
-
                     break;
                 }
                 data += eleLen;
             }
+
+            dataReader.Dispose();
+            dataStream.Dispose();
         }
 
         // buffer offset util
 		protected int GetNextBlock(out ChunkInd dataChunk, BinaryReader reader, FileFlags flags)
         {
-            bool swap = false;
-            bool varies = false;
-
-            if ((flags & FileFlags.EndianSwap) == FileFlags.EndianSwap)
-                swap = true;
-            if ((flags & FileFlags.BitsVaries) == FileFlags.BitsVaries)
-                varies = true;
+            bool swap = (flags & FileFlags.EndianSwap) != 0;
+            bool varies = (flags & FileFlags.BitsVaries) != 0;
 
             if (swap)
             {
@@ -244,7 +239,16 @@ namespace BulletSharp
             {
                 if (varies)
                 {
-                    throw new NotImplementedException();
+                    ChunkPtr8 c = new ChunkPtr8(reader);
+                    if (c.UniqueInt1 == c.UniqueInt2)
+                    {
+                        c.UniqueInt2 = 0;
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
+                    dataChunk = new ChunkInd(ref c);
                 }
                 else
                 {
@@ -811,7 +815,26 @@ namespace BulletSharp
             }
             else if (ptrMem == 4 && ptrFile == 8)
             {
-                throw new NotImplementedException();
+                int uniqueId1 = data.ReadInt32();
+                int uniqueId2 = data.ReadInt32();
+                if (uniqueId1 == uniqueId2)
+                {
+                    strcData.Write(uniqueId1);
+                    data.BaseStream.Position -= 4;
+                }
+                else
+                {
+                    data.BaseStream.Position -= 8;
+                    long longValue = data.ReadInt64();
+                    data.BaseStream.Position -= 4;
+                    if ((Flags & FileFlags.EndianSwap) != 0)
+                    {
+                        throw new NotImplementedException();
+                    }
+                    longValue = longValue >> 3;
+                    int intValue = (int) longValue;
+                    strcData.Write(intValue);
+                }
             }
             else if (ptrMem == 8 && ptrFile == 4)
             {

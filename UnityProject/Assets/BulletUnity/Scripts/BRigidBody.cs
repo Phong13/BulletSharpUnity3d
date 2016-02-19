@@ -17,10 +17,14 @@ namespace BulletUnity {
             isStatic,
         }
 
+        public delegate void OnCollisionCallbackEventHandler(PersistentManifold pm);
+
         protected RigidBody m_Brigidbody;
         BGameObjectMotionState m_motionState;
         protected bool isInWorld = false;
         BCollisionShape m_collisionShape;
+
+
 
         BulletSharp.Math.Vector3 _localInertia = BulletSharp.Math.Vector3.Zero;
         public BulletSharp.Math.Vector3 localInertia {
@@ -278,6 +282,28 @@ namespace BulletUnity {
             }
         }
 
+        OnCollisionCallbackEventHandler m_onCollisionCallback;
+        public OnCollisionCallbackEventHandler onCollisionCallback
+        {
+            get { return m_onCollisionCallback; }
+        }
+        
+
+        public void AddOnCollisionCallbackEventHandler(OnCollisionCallbackEventHandler myCallback)
+        {
+            BPhysicsWorld bhw = BPhysicsWorld.Get();
+            if (bhw.doCollisionCallbacks == false)
+            {
+                Debug.LogErrorFormat("You have added a collision callback to rigid body {0} but the physics world has 'doCollsionCallbacks=false'. Your callback will never be called.");
+            }
+            m_onCollisionCallback += myCallback;
+        }
+
+        public void RemoveOnCollisionCallbackEventHandler(OnCollisionCallbackEventHandler myCallback)
+        {
+            m_onCollisionCallback -= myCallback;
+        }
+
         public UnityEngine.Vector3 velocity {
             get {
                 if (isInWorld) {
@@ -345,6 +371,7 @@ namespace BulletUnity {
                     rbInfo = new RigidBodyConstructionInfo(0, m_motionState, cs, localInertia);
                 }
                 m_Brigidbody = new RigidBody(rbInfo);
+                m_Brigidbody.UserObject = this;
                 rbInfo.Dispose();
             } else {
                 m_Brigidbody.SetMassProps(_mass, localInertia);
@@ -434,6 +461,20 @@ namespace BulletUnity {
             if (isInWorld) {
                 m_Brigidbody.ApplyTorque(torque.ToBullet());
             }
+        }
+
+        public void OnCollisionTestCallback(PersistentManifold pm)
+        {
+            string s = "";
+            for (int i = 0; i < pm.NumContacts; i++)
+            {
+                ManifoldPoint mp = pm.GetContactPoint(i);
+                s += "\n  pointLifetime" + mp.LifeTime;
+            }
+            Debug.Log("Frame " + BPhysicsWorld.Get().frameCount + 
+                      " numContacts" + pm.NumContacts +
+                      " body0" + pm.Body0 +
+                      " body1" + pm.Body1 + s);
         }
     }
 }

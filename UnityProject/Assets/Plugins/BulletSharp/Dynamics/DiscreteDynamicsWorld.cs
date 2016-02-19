@@ -20,11 +20,11 @@ namespace BulletSharp
             pairCache != null ? pairCache._native : IntPtr.Zero,
             constraintSolver != null ? constraintSolver._native : IntPtr.Zero,
             collisionConfiguration != null ? collisionConfiguration._native : IntPtr.Zero))
-        {
+		{
+			_constraintSolver = constraintSolver;
             Dispatcher = dispatcher;
             Broadphase = pairCache;
-            _constraintSolver = constraintSolver;
-        }
+		}
 
 		public void ApplyGravity()
 		{

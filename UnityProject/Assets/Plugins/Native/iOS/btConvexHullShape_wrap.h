@@ -12,5 +12,4 @@ extern "C"
 	EXPORT const btVector3* btConvexHullShape_getPoints(btConvexHullShape* obj);
 	EXPORT void btConvexHullShape_getScaledPoint(btConvexHullShape* obj, int i, btScalar* value);
 	EXPORT const btVector3* btConvexHullShape_getUnscaledPoints(btConvexHullShape* obj);
-	EXPORT void btConvexHullShape_project(btConvexHullShape* obj, const btScalar* trans, const btScalar* dir, btScalar* minProj, btScalar* maxProj, btScalar* witnesPtMin, btScalar* witnesPtMax);
 }

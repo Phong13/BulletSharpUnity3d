@@ -16,6 +16,7 @@ extern "C"
 	EXPORT void BT_QUANTIZED_BVH_NODE_delete(BT_QUANTIZED_BVH_NODE* obj);
 
 	EXPORT GIM_QUANTIZED_BVH_NODE_ARRAY* GIM_QUANTIZED_BVH_NODE_ARRAY_new();
+	EXPORT void GIM_QUANTIZED_BVH_NODE_ARRAY_delete(GIM_QUANTIZED_BVH_NODE_ARRAY* obj);
 
 	EXPORT btQuantizedBvhTree* btQuantizedBvhTree_new();
 	EXPORT void btQuantizedBvhTree_build_tree(btQuantizedBvhTree* obj, GIM_BVH_DATA_ARRAY* primitive_boxes);

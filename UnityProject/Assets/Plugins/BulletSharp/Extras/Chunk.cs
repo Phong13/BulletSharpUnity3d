@@ -64,7 +64,7 @@ namespace BulletSharp
         {
             Code = (DnaID)c.Code;
             Length = c.Length;
-            OldPtr = c.UniqueInt1 + c.UniqueInt2 << 32;
+            OldPtr = c.UniqueInt1 + ((long)c.UniqueInt2 << 32);
             DnaNR = c.DnaNR;
             NR = c.NR;
         }

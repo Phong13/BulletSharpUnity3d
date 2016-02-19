@@ -37,7 +37,6 @@ namespace BulletSharp
             return false;
         }
 
-		/*
         public static event ContactDestroyedEventHandler ContactDestroyed
         {
             add
@@ -59,8 +58,7 @@ namespace BulletSharp
                 }
             }
         }
-        */
-		/*
+
         public static event ContactProcessedEventHandler ContactProcessed
         {
             add
@@ -82,7 +80,6 @@ namespace BulletSharp
                 }
             }
         }
-		*/
 
 		internal PersistentManifold(IntPtr native, bool preventDelete)
 		{
@@ -218,7 +215,7 @@ namespace BulletSharp
 			{
                 if (!_preventDelete)
                 {
-                    //btPersistentManifold_delete(_native);
+                    btPersistentManifold_delete(_native);
                 }
 				_native = IntPtr.Zero;
 			}
@@ -284,15 +281,15 @@ namespace BulletSharp
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		[return: MarshalAs(UnmanagedType.I1)]
 		static extern bool btPersistentManifold_validContactDistance(IntPtr obj, IntPtr pt);
-        //[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        //static extern void btPersistentManifold_delete(IntPtr obj);
+        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
+        static extern void btPersistentManifold_delete(IntPtr obj);
         //[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
         //static extern IntPtr getGContactDestroyedCallback();
         //[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
         //static extern IntPtr getGContactProcessedCallback();
-        //[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        //static extern void setGContactDestroyedCallback(IntPtr value);
-        //[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        //static extern void setGContactProcessedCallback(IntPtr value);
+        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
+        static extern void setGContactDestroyedCallback(IntPtr value);
+        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
+        static extern void setGContactProcessedCallback(IntPtr value);
 	}
 }

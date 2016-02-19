@@ -7,13 +7,13 @@ namespace BulletSharp
 {
 	public class OptimizedBvh : QuantizedBvh
 	{
-		internal OptimizedBvh(IntPtr native)
-			: base(native)
+		internal OptimizedBvh(IntPtr native, bool preventDelete)
+            : base(native, preventDelete)
 		{
 		}
 
 		public OptimizedBvh()
-			: base(btOptimizedBvh_new())
+			: base(btOptimizedBvh_new(), false)
 		{
 		}
 
@@ -24,7 +24,7 @@ namespace BulletSharp
 
 		public static OptimizedBvh DeSerializeInPlace(IntPtr alignedDataBuffer, uint dataBufferSize, bool swapEndian)
 		{
-            return new OptimizedBvh(btOptimizedBvh_deSerializeInPlace(alignedDataBuffer, dataBufferSize, swapEndian));
+            return new OptimizedBvh(btOptimizedBvh_deSerializeInPlace(alignedDataBuffer, dataBufferSize, swapEndian), true);
 		}
 
 		public void Refit(StridingMeshInterface triangles, Vector3 aabbMin, Vector3 aabbMax)

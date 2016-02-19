@@ -17,7 +17,6 @@ extern "C"
 	EXPORT void btOptimizedBvhNode_getAabbMaxOrg(btOptimizedBvhNode* obj, btScalar* value);
 	EXPORT void btOptimizedBvhNode_getAabbMinOrg(btOptimizedBvhNode* obj, btScalar* value);
 	EXPORT int btOptimizedBvhNode_getEscapeIndex(btOptimizedBvhNode* obj);
-	EXPORT char* btOptimizedBvhNode_getPadding(btOptimizedBvhNode* obj);
 	EXPORT int btOptimizedBvhNode_getSubPart(btOptimizedBvhNode* obj);
 	EXPORT int btOptimizedBvhNode_getTriangleIndex(btOptimizedBvhNode* obj);
 	EXPORT void btOptimizedBvhNode_setAabbMaxOrg(btOptimizedBvhNode* obj, const btScalar* value);

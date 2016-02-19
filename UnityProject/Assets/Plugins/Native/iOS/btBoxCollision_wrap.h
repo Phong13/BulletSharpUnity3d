@@ -2,7 +2,6 @@
 
 extern "C"
 {
-
 	EXPORT btAABB* btAABB_new();
 	EXPORT btAABB* btAABB_new2(const btScalar* V1, const btScalar* V2, const btScalar* V3);
 	EXPORT btAABB* btAABB_new3(const btScalar* V1, const btScalar* V2, const btScalar* V3, btScalar margin);

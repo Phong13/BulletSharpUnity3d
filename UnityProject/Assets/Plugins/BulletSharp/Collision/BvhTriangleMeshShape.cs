@@ -42,6 +42,7 @@ namespace BulletSharp
 		public void BuildOptimizedBvh()
 		{
 			btBvhTriangleMeshShape_buildOptimizedBvh(_native);
+            _optimizedBvh = null;
 		}
 
         public void PartialRefitTree(ref Vector3 aabbMin, ref Vector3 aabbMax)
@@ -76,6 +77,7 @@ namespace BulletSharp
 
 		public void SetOptimizedBvh(OptimizedBvh bvh, Vector3 localScaling)
 		{
+            System.Diagnostics.Debug.Assert(!OwnsBvh);
             btBvhTriangleMeshShape_setOptimizedBvh2(_native, (bvh != null) ? bvh._native : IntPtr.Zero, ref localScaling);
             _optimizedBvh = bvh;
 		}
@@ -84,19 +86,18 @@ namespace BulletSharp
 		{
             get
             {
-                if (_optimizedBvh == null)
+                if (_optimizedBvh == null && OwnsBvh)
                 {
                     IntPtr optimizedBvhPtr = btBvhTriangleMeshShape_getOptimizedBvh(_native);
-                    if (optimizedBvhPtr != IntPtr.Zero)
-                    {
-                        _optimizedBvh = new OptimizedBvh(optimizedBvhPtr);
-                    }
+                    _optimizedBvh = new OptimizedBvh(optimizedBvhPtr, true);
                 }
                 return _optimizedBvh;
             }
             set
             {
+                System.Diagnostics.Debug.Assert(!OwnsBvh);
                 btBvhTriangleMeshShape_setOptimizedBvh(_native, (value != null) ? value._native : IntPtr.Zero);
+                _optimizedBvh = value;
             }
 		}
 

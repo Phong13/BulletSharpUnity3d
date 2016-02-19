@@ -143,6 +143,7 @@
 #include "btTriangleMesh_wrap.h"
 #include "btTriangleMeshShape_wrap.h"
 #include "btTriangleShape_wrap.h"
+#include "btTriangleShapeEx_wrap.h"
 #include "btTypedConstraint_wrap.h"
 #include "btUniformScalingShape_wrap.h"
 #include "btUnionFind_wrap.h"

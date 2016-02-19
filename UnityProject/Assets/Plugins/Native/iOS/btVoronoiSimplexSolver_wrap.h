@@ -34,7 +34,7 @@ extern "C"
 	EXPORT void btSubSimplexClosestResult_setBarycentricCoordinates5(btSubSimplexClosestResult* obj, btScalar a, btScalar b, btScalar c, btScalar d);
 	EXPORT void btSubSimplexClosestResult_setClosestPointOnSimplex(btSubSimplexClosestResult* obj, const btScalar* value);
 	EXPORT void btSubSimplexClosestResult_setDegenerate(btSubSimplexClosestResult* obj, bool value);
-	EXPORT void btSubSimplexClosestResult_setUsedVertices(btSubSimplexClosestResult* obj, btUsageBitfield* value);
+	EXPORT void btSubSimplexClosestResult_setUsedVertices(btSubSimplexClosestResult* obj, const btUsageBitfield* value);
 	EXPORT void btSubSimplexClosestResult_delete(btSubSimplexClosestResult* obj);
 
 	EXPORT btVoronoiSimplexSolver* btVoronoiSimplexSolver_new();
@@ -66,7 +66,7 @@ extern "C"
 	EXPORT void btVoronoiSimplexSolver_reduceVertices(btVoronoiSimplexSolver* obj, const btUsageBitfield* usedVerts);
 	EXPORT void btVoronoiSimplexSolver_removeVertex(btVoronoiSimplexSolver* obj, int index);
 	EXPORT void btVoronoiSimplexSolver_reset(btVoronoiSimplexSolver* obj);
-	EXPORT void btVoronoiSimplexSolver_setCachedBC(btVoronoiSimplexSolver* obj, btSubSimplexClosestResult* value);
+	EXPORT void btVoronoiSimplexSolver_setCachedBC(btVoronoiSimplexSolver* obj, const btSubSimplexClosestResult* value);
 	EXPORT void btVoronoiSimplexSolver_setCachedP1(btVoronoiSimplexSolver* obj, const btScalar* value);
 	EXPORT void btVoronoiSimplexSolver_setCachedP2(btVoronoiSimplexSolver* obj, const btScalar* value);
 	EXPORT void btVoronoiSimplexSolver_setCachedV(btVoronoiSimplexSolver* obj, const btScalar* value);

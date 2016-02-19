@@ -179,7 +179,6 @@ extern "C"
 	EXPORT void btSoftBody_Cluster_setNvimpulses(btSoftBody_Cluster* obj, int value);
 	EXPORT void btSoftBody_Cluster_setSelfCollisionImpulseFactor(btSoftBody_Cluster* obj, btScalar value);
 	EXPORT void btSoftBody_Cluster_setVimpulses(btSoftBody_Cluster* obj, btScalar* value);
-	EXPORT void btSoftBody_Cluster_delete(btSoftBody_Cluster* obj);
 
 	EXPORT btSoftBody_eAeroModel btSoftBody_Config_getAeromodel(btSoftBody_Config* obj);
 	EXPORT int btSoftBody_Config_getCiterations(btSoftBody_Config* obj);

@@ -14,6 +14,7 @@ extern "C"
 	EXPORT btPairSet* btPairSet_new();
 	EXPORT void btPairSet_push_pair(btPairSet* obj, int index1, int index2);
 	EXPORT void btPairSet_push_pair_inv(btPairSet* obj, int index1, int index2);
+	EXPORT void btPairSet_delete(btPairSet* obj);
 
 	EXPORT GIM_BVH_DATA* GIM_BVH_DATA_new();
 	EXPORT btAABB* GIM_BVH_DATA_getBound(GIM_BVH_DATA* obj);
@@ -33,8 +34,10 @@ extern "C"
 	EXPORT void GIM_BVH_TREE_NODE_delete(GIM_BVH_TREE_NODE* obj);
 
 	EXPORT GIM_BVH_DATA_ARRAY* GIM_BVH_DATA_ARRAY_new();
+	EXPORT void GIM_BVH_DATA_ARRAY_delete(GIM_BVH_DATA_ARRAY* obj);
 
 	EXPORT GIM_BVH_TREE_NODE_ARRAY* GIM_BVH_TREE_NODE_ARRAY_new();
+	EXPORT void GIM_BVH_TREE_NODE_ARRAY_delete(GIM_BVH_TREE_NODE_ARRAY* obj);
 
 	EXPORT btBvhTree* btBvhTree_new();
 	EXPORT void btBvhTree_build_tree(btBvhTree* obj, GIM_BVH_DATA_ARRAY* primitive_boxes);

@@ -248,10 +248,12 @@ namespace BulletSharp
 		}
 
 		internal IntPtr _native;
+		bool _preventDelete;
 
-		internal QuantizedBvh(IntPtr native)
+		internal QuantizedBvh(IntPtr native, bool preventDelete)
 		{
 			_native = native;
+			_preventDelete = preventDelete;
 		}
 
 		public QuantizedBvh()
@@ -381,7 +383,10 @@ namespace BulletSharp
 		{
 			if (_native != IntPtr.Zero)
 			{
-				btQuantizedBvh_delete(_native);
+				if (!_preventDelete)
+				{
+					btQuantizedBvh_delete(_native);
+				}
 				_native = IntPtr.Zero;
 			}
 		}

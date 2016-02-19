@@ -1,7 +1,5 @@
 #include "main.h"
 
-#define btRigidBody_delete(obj) btCollisionObject_delete(obj)
-
 extern "C"
 {
 	EXPORT btRigidBody_btRigidBodyConstructionInfo* btRigidBody_btRigidBodyConstructionInfo_new(btScalar mass, btMotionState* motionState, btCollisionShape* collisionShape);
@@ -43,8 +41,6 @@ extern "C"
 	EXPORT void btRigidBody_btRigidBodyConstructionInfo_delete(btRigidBody_btRigidBodyConstructionInfo* obj);
 
 	EXPORT btRigidBody* btRigidBody_new(const btRigidBody_btRigidBodyConstructionInfo* constructionInfo);
-	//EXPORT btRigidBody* btRigidBody_new2(btScalar mass, btMotionState* motionState, btCollisionShape* collisionShape);
-	//EXPORT btRigidBody* btRigidBody_new3(btScalar mass, btMotionState* motionState, btCollisionShape* collisionShape, const btScalar* localInertia);
 	EXPORT void btRigidBody_addConstraintRef(btRigidBody* obj, btTypedConstraint* c);
 	EXPORT void btRigidBody_applyCentralForce(btRigidBody* obj, const btScalar* force);
 	EXPORT void btRigidBody_applyCentralImpulse(btRigidBody* obj, const btScalar* impulse);

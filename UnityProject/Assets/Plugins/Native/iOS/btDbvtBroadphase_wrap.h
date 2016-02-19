@@ -1,7 +1,5 @@
 #include "main.h"
 
-#define btDbvtBroadphase_delete(obj) btBroadphaseInterface_delete(obj)
-
 extern "C"
 {
 	EXPORT btDbvtNode* btDbvtProxy_getLeaf(btDbvtProxy* obj);

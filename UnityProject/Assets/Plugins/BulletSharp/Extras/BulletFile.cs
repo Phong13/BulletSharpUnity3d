@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -12,6 +12,7 @@ namespace BulletSharp
         Constraint = 0x534e4f43,
         Dna = 0x31414e44,
         DynamicsWorld = 0x444c5744,
+        MultiBody = 0x5944424d,
         QuantizedBvh = 0x48564251,
         RigidBody = 0x59444252,
         SBMaterial = 0x544d4253,
@@ -32,6 +33,7 @@ namespace BulletSharp
         public static readonly int Constraint = MakeID("CONS");
         public static readonly int Dna = MakeID("DNA1");
         public static readonly int DynamicsWorld = MakeID("DWLD");
+        public static readonly int MultiBody = MakeID("MBDY");
         public static readonly int QuantizedBvh = MakeID("QBVH");
         public static readonly int RigidBody = MakeID("RBDY");
         public static readonly int SBMaterial = MakeID("SBMT");
@@ -54,12 +56,13 @@ namespace BulletSharp
 	{
         protected byte[] _dnaCopy;
 
-        public List<byte[]> _bvhs = new List<byte[]>();
-        public List<byte[]> _collisionObjects = new List<byte[]>();
-        public List<byte[]> _collisionShapes = new List<byte[]>();
-        public List<byte[]> _constraints = new List<byte[]>();
-        public List<byte[]> _dynamicsWorldInfo = new List<byte[]>();
-        public List<byte[]> _rigidBodies = new List<byte[]>();
+        public List<byte[]> Bvhs = new List<byte[]>();
+        public List<byte[]> CollisionObjects = new List<byte[]>();
+        public List<byte[]> CollisionShapes = new List<byte[]>();
+        public List<byte[]> Constraints = new List<byte[]>();
+        public List<byte[]> DynamicsWorldInfo = new List<byte[]>();
+        public List<byte[]> MultiBodies = new List<byte[]>();
+        public List<byte[]> RigidBodies = new List<byte[]>();
 
 		public BulletFile()
 			: base("", "BULLET ")
@@ -150,26 +153,29 @@ namespace BulletSharp
 
                         switch(dataChunk.Code)
                         {
+                            case DnaID.CollisionObject:
+                                CollisionObjects.Add(id);
+                                break;
+                            case DnaID.Constraint:
+                                Constraints.Add(id);
+                                break;
                             case DnaID.DynamicsWorld:
-                                _dynamicsWorldInfo.Add(id);
+                                DynamicsWorldInfo.Add(id);
+                                break;
+                            case DnaID.MultiBody:
+                                MultiBodies.Add(id);
                                 break;
                             case DnaID.SoftBody:
                             case DnaID.TriangleInfoMap:
                                 throw new NotImplementedException();
-                            case DnaID.CollisionObject:
-                                _collisionObjects.Add(id);
-                                break;
-                            case DnaID.Constraint:
-                                _constraints.Add(id);
-                                break;
                             case DnaID.QuantizedBvh:
-                                _bvhs.Add(id);
+                                Bvhs.Add(id);
                                 break;
                             case DnaID.RigidBody:
-                                _rigidBodies.Add(id);
+                                RigidBodies.Add(id);
                                 break;
                             case DnaID.Shape:
-                                _collisionShapes.Add(id);
+                                CollisionShapes.Add(id);
                                 break;
                         }
                     }

@@ -1,7 +1,5 @@
 #include "main.h"
 
-#define btCollisionDispatcher_delete(obj) btDispatcher_delete(obj)
-
 extern "C"
 {
 	EXPORT btCollisionDispatcher* btCollisionDispatcher_new(btCollisionConfiguration* collisionConfiguration);

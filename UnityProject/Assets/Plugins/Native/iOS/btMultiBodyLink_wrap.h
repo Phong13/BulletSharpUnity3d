@@ -63,5 +63,4 @@ extern "C"
 	EXPORT void btMultibodyLink_setZeroRotParentToThis(btMultibodyLink* obj, const btScalar* value);
 	EXPORT void btMultibodyLink_updateCacheMultiDof(btMultibodyLink* obj);
 	EXPORT void btMultibodyLink_updateCacheMultiDof2(btMultibodyLink* obj, btScalar* pq);
-	EXPORT void btMultibodyLink_delete(btMultibodyLink* obj);
 }

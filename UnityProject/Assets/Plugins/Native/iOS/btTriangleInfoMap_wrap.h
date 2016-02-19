@@ -29,4 +29,5 @@ extern "C"
 	EXPORT void btTriangleInfoMap_setMaxEdgeAngleThreshold(btTriangleInfoMap* obj, btScalar value);
 	EXPORT void btTriangleInfoMap_setPlanarEpsilon(btTriangleInfoMap* obj, btScalar value);
 	EXPORT void btTriangleInfoMap_setZeroAreaThreshold(btTriangleInfoMap* obj, btScalar value);
+	EXPORT void btTriangleInfoMap_delete(btTriangleInfoMap* obj);
 }
