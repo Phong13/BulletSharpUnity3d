@@ -200,6 +200,7 @@ namespace BulletUnity {
         BroadphaseInterface Broadphase;
         SoftBodyWorldInfo softBodyWorldInfo;
         SequentialImpulseConstraintSolver Solver;
+        GhostPairCallback ghostPairCallback = null;
 
         CollisionWorld m_world;
         public CollisionWorld world
@@ -282,6 +283,34 @@ namespace BulletUnity {
             GC.SuppressFinalize(this);
         }
 
+        public bool AddCollisionObject(BCollisionObject co)
+        {
+            if (!_isDisposed)
+            {
+                Debug.LogFormat("Adding collision object {0} to world", co);
+                if (co._BuildCollisionObject())
+                {
+                    m_world.AddCollisionObject(co.GetCollisionObject());
+                    if (ghostPairCallback == null && co is BGhostObject && world is DynamicsWorld)
+                    {
+                        ghostPairCallback = new GhostPairCallback();
+                        ((DynamicsWorld) world).PairCache.SetInternalGhostPairCallback(ghostPairCallback);
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public void RemoveCollisionObject(BulletSharp.CollisionObject co)
+        {
+            if (!_isDisposed)
+            {
+                Debug.LogFormat("Removing collisionObject {0} from world", co);
+                m_world.RemoveCollisionObject(co);
+            }
+        }
+
         public bool AddRigidBody(BRigidBody rb)
         {
             if (!_isDisposed)
@@ -291,9 +320,9 @@ namespace BulletUnity {
                     Debug.LogError("World type must not be collision only");
                 }
                 Debug.LogFormat("Adding rigidbody {0} to world", rb);
-                if (rb._BuildRigidBody())
+                if (rb._BuildCollisionObject())
                 {
-                    ((DiscreteDynamicsWorld) m_world).AddRigidBody(rb.GetRigidBody());
+                    ((DiscreteDynamicsWorld) m_world).AddRigidBody((RigidBody) rb.GetCollisionObject());
                 }
                 return true;
             }

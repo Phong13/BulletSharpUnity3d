@@ -47,7 +47,7 @@ namespace BulletUnity
                 BRigidBody bRb = go.GetComponent<BRigidBody>();
                 bRb.mass = mass;
             
-                BulletSharp.RigidBody rb = bRb.GetRigidBody();
+                BulletSharp.RigidBody rb = (BulletSharp.RigidBody) bRb.GetCollisionObject();
 
                 rb.LinearVelocity = (Camera.main.transform.forward * shootBoxInitialSpeed).ToBullet();
                 rb.AngularVelocity = BulletSharp.Math.Vector3.Zero;

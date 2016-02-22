@@ -72,7 +72,7 @@ namespace BulletUnity
                 int node = (int)Mathf.Floor(Mathf.Lerp(0, m_BSoftBody.Nodes.Count - 1, anchor.anchorNodePoint));
 
                 if (anchor.body != null)
-                    m_BSoftBody.AppendAnchor(node, anchor.body.GetRigidBody());
+                    m_BSoftBody.AppendAnchor(node, (BulletSharp.RigidBody) anchor.body.GetCollisionObject());
                 else
                 {
                     m_BSoftBody.SetMass(node, 0);  //setting node mass to 0 fixes it in space apparently

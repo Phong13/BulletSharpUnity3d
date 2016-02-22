@@ -26,7 +26,7 @@ namespace BulletUnity {
                 Debug.LogError("Target Rigid Body A not set.");
                 return false;
             }
-            RigidBody rba = targetRigidBodyA.GetRigidBody();
+            RigidBody rba = (RigidBody)targetRigidBodyA.GetCollisionObject();
             if (rba == null)
             {
                 Debug.LogError("Constraint could not get bullet RigidBody from target rigid body A");
@@ -64,7 +64,7 @@ namespace BulletUnity {
                     Debug.LogError("Frame In B up cannot be zero.");
                     return false;
                 }
-                RigidBody rbb = targetRigidBodyB.GetRigidBody();
+                RigidBody rbb = (RigidBody)targetRigidBodyB.GetCollisionObject();
                 if (rbb == null)
                 {
                     Debug.LogError("Constraint could not get bullet RigidBody from target rigid body B");

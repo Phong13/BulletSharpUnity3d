@@ -28,11 +28,11 @@ namespace BulletUnity {
             {
                 if (constraintType == ConstraintType.constrainToAnotherBody)
                 {
-                    constraintPtr = new ConeTwistConstraint(targetRigidBodyA.GetRigidBody(), targetRigidBodyB.GetRigidBody(), frameInA.CreateBSMatrix(), frameInB.CreateBSMatrix());
+                    constraintPtr = new ConeTwistConstraint((RigidBody)targetRigidBodyA.GetCollisionObject(), (RigidBody)targetRigidBodyB.GetCollisionObject(), frameInA.CreateBSMatrix(), frameInB.CreateBSMatrix());
                 }
                 else
                 {
-                    constraintPtr = new ConeTwistConstraint(targetRigidBodyA.GetRigidBody(), frameInA.CreateBSMatrix());
+                    constraintPtr = new ConeTwistConstraint((RigidBody)targetRigidBodyA.GetCollisionObject(), frameInA.CreateBSMatrix());
                 }
                 ConeTwistConstraint sl = (ConeTwistConstraint)constraintPtr;
 

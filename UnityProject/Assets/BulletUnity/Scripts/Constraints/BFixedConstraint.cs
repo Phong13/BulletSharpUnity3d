@@ -27,13 +27,13 @@ namespace BulletUnity {
                 return false;
             }
  
-            RigidBody rba = targetRigidBodyA.GetRigidBody();
+            RigidBody rba = (RigidBody) targetRigidBodyA.GetCollisionObject();
             if (rba == null) {
                 Debug.LogError("Constraint could not get bullet RigidBody from target rigid body");
                 return false;
             }
 
-            RigidBody rbb = targetRigidBodyB.GetRigidBody();
+            RigidBody rbb = (RigidBody) targetRigidBodyB.GetCollisionObject();
             if (rbb == null)
             {
                 Debug.LogError("Constraint could not get bullet RigidBody from target rigid body");

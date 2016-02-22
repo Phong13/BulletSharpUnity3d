@@ -1,4 +1,12 @@
 Implement:
+
+GhostPairObject to implement callbacks
+
+Manifolds have a maximum of 4 points can use lifetime to find first contact 
+
+SoftBody should inherit from BCollisionObject
+
+On enable on disable
   
 Constraints warning if constraining to static geometry
 

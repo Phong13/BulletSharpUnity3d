@@ -10,20 +10,23 @@ namespace BulletUnity {
         todo 
         continuous collision detection ccd
         */
-    public class BRigidBody : MonoBehaviour, IDisposable {
+    public class BRigidBody : BCollisionObject, IDisposable {
         public enum RBType {
             dynamic,
             kinematic,
             isStatic,
         }
 
-        public delegate void OnCollisionCallbackEventHandler(PersistentManifold pm);
-
-        protected RigidBody m_Brigidbody;
+        //protected RigidBody m_Brigidbody;
         BGameObjectMotionState m_motionState;
-        protected bool isInWorld = false;
-        BCollisionShape m_collisionShape;
+        //protected bool isInWorld = false;
+        //BCollisionShape m_collisionShape;
 
+        RigidBody m_rigidBody
+        {
+            get { return (RigidBody) m_collisionObject; }
+            set { m_collisionObject = value; }
+        }
 
 
         BulletSharp.Math.Vector3 _localInertia = BulletSharp.Math.Vector3.Zero;
@@ -54,9 +57,9 @@ namespace BulletUnity {
         {
             get { return _friction; }
             set {
-                if (isInWorld || m_Brigidbody != null && _friction != value)
+                if (isInWorld || m_collisionObject != null && _friction != value)
                 {
-                    m_Brigidbody.Friction = value;
+                    m_collisionObject.Friction = value;
                 }
                 _friction = value;
             }
@@ -68,9 +71,9 @@ namespace BulletUnity {
         {
             get { return _rollingFriction; }
             set {
-                if (isInWorld || m_Brigidbody != null && _rollingFriction != value)
+                if (isInWorld || m_collisionObject != null && _rollingFriction != value)
                 {
-                    m_Brigidbody.RollingFriction = value;
+                    m_collisionObject.RollingFriction = value;
                 }
                 _rollingFriction = value;
             }
@@ -82,9 +85,9 @@ namespace BulletUnity {
         {
             get { return _linearDamping; }
             set {
-                if (isInWorld || m_Brigidbody != null && _linearDamping != value)
+                if (isInWorld || m_collisionObject != null && _linearDamping != value)
                 {
-                    m_Brigidbody.SetDamping(value,_angularDamping);
+                    m_rigidBody.SetDamping(value,_angularDamping);
                 }
                 _linearDamping = value;
             }
@@ -96,9 +99,9 @@ namespace BulletUnity {
         {
             get { return _angularDamping; }
             set {
-                if (isInWorld || m_Brigidbody != null && _angularDamping != value)
+                if (isInWorld || m_collisionObject != null && _angularDamping != value)
                 {
-                    m_Brigidbody.SetDamping(_linearDamping,value);
+                    m_rigidBody.SetDamping(_linearDamping,value);
                 }
                 _angularDamping = value; }
         }
@@ -109,9 +112,9 @@ namespace BulletUnity {
         {
             get { return _restitution; }
             set {
-                if (isInWorld || m_Brigidbody != null && _restitution != value)
+                if (isInWorld || m_collisionObject != null && _restitution != value)
                 {
-                    m_Brigidbody.Restitution = value;
+                    m_collisionObject.Restitution = value;
                 }
                 _restitution = value; }
         }
@@ -122,9 +125,9 @@ namespace BulletUnity {
         {
             get { return _linearSleepingThreshold; }
             set {
-                if (isInWorld || m_Brigidbody != null && _linearSleepingThreshold != value)
+                if (isInWorld || m_collisionObject != null && _linearSleepingThreshold != value)
                 {
-                    m_Brigidbody.SetSleepingThresholds(value,_angularSleepingThreshold);
+                    m_rigidBody.SetSleepingThresholds(value,_angularSleepingThreshold);
                 }
                 _linearSleepingThreshold = value; }
         }
@@ -135,9 +138,9 @@ namespace BulletUnity {
         {
             get { return _angularSleepingThreshold; }
             set {
-                if (isInWorld || m_Brigidbody != null && _angularSleepingThreshold != value)
+                if (isInWorld || m_collisionObject != null && _angularSleepingThreshold != value)
                 {
-                    m_Brigidbody.SetSleepingThresholds(_linearSleepingThreshold, value);
+                    m_rigidBody.SetSleepingThresholds(_linearSleepingThreshold, value);
                 }
                 _angularSleepingThreshold = value; }
         }
@@ -220,9 +223,9 @@ namespace BulletUnity {
         {
             get { return _linearFactor; }
             set {
-                if (isInWorld || m_Brigidbody != null && _linearFactor != value)
+                if (isInWorld || m_collisionObject != null && _linearFactor != value)
                 {
-                    m_Brigidbody.LinearFactor = value.ToBullet();
+                    m_rigidBody.LinearFactor = value.ToBullet();
                 }
                 _linearFactor = value;
             }
@@ -234,9 +237,9 @@ namespace BulletUnity {
         {
             get { return _angularFactor; }
             set {
-                if (isInWorld || m_Brigidbody != null && _angularFactor != value)
+                if (isInWorld || m_rigidBody != null && _angularFactor != value)
                 {
-                    m_Brigidbody.AngularFactor = value.ToBullet();
+                    m_rigidBody.AngularFactor = value.ToBullet();
                 }
                 _angularFactor = value; }
         }
@@ -257,7 +260,7 @@ namespace BulletUnity {
                         {
                             m_collisionShape.GetCollisionShape().CalculateLocalInertia(_mass, out _localInertia);
                         }
-                        m_Brigidbody.SetMassProps(_mass, _localInertia);
+                        m_rigidBody.SetMassProps(_mass, _localInertia);
                     }
                     _mass = value;
                 }
@@ -282,39 +285,17 @@ namespace BulletUnity {
             }
         }
 
-        OnCollisionCallbackEventHandler m_onCollisionCallback;
-        public OnCollisionCallbackEventHandler onCollisionCallback
-        {
-            get { return m_onCollisionCallback; }
-        }
-        
-
-        public void AddOnCollisionCallbackEventHandler(OnCollisionCallbackEventHandler myCallback)
-        {
-            BPhysicsWorld bhw = BPhysicsWorld.Get();
-            if (bhw.doCollisionCallbacks == false)
-            {
-                Debug.LogErrorFormat("You have added a collision callback to rigid body {0} but the physics world has 'doCollsionCallbacks=false'. Your callback will never be called.");
-            }
-            m_onCollisionCallback += myCallback;
-        }
-
-        public void RemoveOnCollisionCallbackEventHandler(OnCollisionCallbackEventHandler myCallback)
-        {
-            m_onCollisionCallback -= myCallback;
-        }
-
         public UnityEngine.Vector3 velocity {
             get {
                 if (isInWorld) {
-                    return m_Brigidbody.LinearVelocity.ToUnity();
+                    return m_rigidBody.LinearVelocity.ToUnity();
                 } else {
                     return UnityEngine.Vector3.zero;
                 }
             }
             set {
                 if (isInWorld) {
-                    m_Brigidbody.LinearVelocity = value.ToBullet();
+                    m_rigidBody.LinearVelocity = value.ToBullet();
                 }
             }
         }
@@ -322,26 +303,26 @@ namespace BulletUnity {
         public UnityEngine.Vector3 angularVelocity {
             get {
                 if (isInWorld) {
-                    return m_Brigidbody.AngularVelocity.ToUnity();
+                    return m_rigidBody.AngularVelocity.ToUnity();
                 } else {
                     return UnityEngine.Vector3.zero;
                 }
             }
             set {
                 if (isInWorld) {
-                    m_Brigidbody.AngularVelocity = value.ToBullet();
+                    m_rigidBody.AngularVelocity = value.ToBullet();
                 }
             }
         }
 
         //called by Physics World just before rigid body is added to world.
         //the current rigid body properties are used to rebuild the rigid body.
-        internal bool _BuildRigidBody() {
+        internal override bool _BuildCollisionObject() {
             BPhysicsWorld world = BPhysicsWorld.Get();
-            if (m_Brigidbody != null) {
+            if (m_rigidBody != null) {
                 if (isInWorld && world != null) {
                     isInWorld = false;
-                    world.RemoveRigidBody(m_Brigidbody);
+                    world.RemoveRigidBody(m_rigidBody);
                 }
             }
             
@@ -362,7 +343,7 @@ namespace BulletUnity {
                 cs.CalculateLocalInertia(_mass, out _localInertia);
             }
 
-            if (m_Brigidbody == null) {
+            if (m_rigidBody == null) {
                 m_motionState = new BGameObjectMotionState(transform);
                 RigidBodyConstructionInfo rbInfo;
                 if (_type == RBType.dynamic) {
@@ -370,33 +351,26 @@ namespace BulletUnity {
                 } else {
                     rbInfo = new RigidBodyConstructionInfo(0, m_motionState, cs, localInertia);
                 }
-                m_Brigidbody = new RigidBody(rbInfo);
-                m_Brigidbody.UserObject = this;
+                m_rigidBody = new RigidBody(rbInfo);
+                m_rigidBody.UserObject = this;
                 rbInfo.Dispose();
             } else {
-                m_Brigidbody.SetMassProps(_mass, localInertia);
-                m_Brigidbody.CollisionShape = cs;
+                m_rigidBody.SetMassProps(_mass, localInertia);
+                m_rigidBody.CollisionShape = cs;
             }
 
             if (_type == RBType.kinematic) {
-                m_Brigidbody.CollisionFlags = m_Brigidbody.CollisionFlags | BulletSharp.CollisionFlags.KinematicObject;
-                m_Brigidbody.ActivationState = ActivationState.DisableDeactivation;
+                m_rigidBody.CollisionFlags = m_rigidBody.CollisionFlags | BulletSharp.CollisionFlags.KinematicObject;
+                m_rigidBody.ActivationState = ActivationState.DisableDeactivation;
             }
             if (_isTrigger)
             {
-                m_Brigidbody.CollisionFlags = m_Brigidbody.CollisionFlags | BulletSharp.CollisionFlags.NoContactResponse;
+                m_rigidBody.CollisionFlags = m_rigidBody.CollisionFlags | BulletSharp.CollisionFlags.NoContactResponse;
             }
             return true;
         }
 
-        public RigidBody GetRigidBody() {
-            if (m_Brigidbody == null) {
-                _BuildRigidBody();
-            }
-            return m_Brigidbody;
-        }
-
-        void Awake() {
+        protected override void Awake() {
             BRigidBody[] rbs = GetComponentsInParent<BRigidBody>();
             if (rbs.Length != 1) {
                 Debug.LogError("Can't nest rigid bodies. The transforms are updated by Bullet in undefined order which can cause spasing. Object " + name);
@@ -407,74 +381,60 @@ namespace BulletUnity {
             }
         }
 
-        void Start() { 
-        //void OnEnable() {
+        protected override void Start() { 
             if (BPhysicsWorld.Get().AddRigidBody(this)) {
                 isInWorld = true;
             }
         }
 
-        void OnDisable() {
+        protected override void OnEnable()
+        {
+            if (!isInWorld)
+            {
+                BPhysicsWorld.Get().AddRigidBody(this);
+            }
+            isInWorld = true;
+        }
+
+        protected override void OnDisable() {
             if (isInWorld) {
-                BPhysicsWorld.Get().RemoveRigidBody(m_Brigidbody);
+                BPhysicsWorld.Get().RemoveRigidBody(m_rigidBody);
             }
             isInWorld = false;
         }
 
-        void OnDestroy() {
-            Dispose(false);
-        }
-
-        public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool isdisposing) {
-            if (isInWorld && isdisposing && m_Brigidbody != null) {
+        protected override void Dispose(bool isdisposing) {
+            if (isInWorld && isdisposing && m_rigidBody != null) {
                 BPhysicsWorld pw = BPhysicsWorld.Get();
                 if (pw != null && pw.world != null) {
-                    ((DiscreteDynamicsWorld) pw.world).RemoveRigidBody(m_Brigidbody);
+                    ((DiscreteDynamicsWorld) pw.world).RemoveRigidBody(m_rigidBody);
                 }
             }
-            if (m_Brigidbody != null) {
-                if (m_Brigidbody.MotionState != null) m_Brigidbody.MotionState.Dispose();
-                m_Brigidbody.Dispose();
-                m_Brigidbody = null;
+            if (m_rigidBody != null) {
+                if (m_rigidBody.MotionState != null) m_rigidBody.MotionState.Dispose();
+                m_rigidBody.Dispose();
+                m_rigidBody = null;
             }
             Debug.Log("Destroying RigidBody " + name);
         }
 
         public void AddForce(UnityEngine.Vector3 force) {
             if (isInWorld) {
-                m_Brigidbody.ApplyCentralForce(force.ToBullet());
+                m_rigidBody.ApplyCentralForce(force.ToBullet());
             }
         }
 
         public void AddForceAtPosition(UnityEngine.Vector3 force, UnityEngine.Vector3 relativePostion) {
             if (isInWorld) {
-                m_Brigidbody.ApplyForce(force.ToBullet(), relativePostion.ToBullet());
+                m_rigidBody.ApplyForce(force.ToBullet(), relativePostion.ToBullet());
             }
         }
 
         public void AddTorque(UnityEngine.Vector3 torque) {
             if (isInWorld) {
-                m_Brigidbody.ApplyTorque(torque.ToBullet());
+                m_rigidBody.ApplyTorque(torque.ToBullet());
             }
         }
 
-        public void OnCollisionTestCallback(PersistentManifold pm)
-        {
-            string s = "";
-            for (int i = 0; i < pm.NumContacts; i++)
-            {
-                ManifoldPoint mp = pm.GetContactPoint(i);
-                s += "\n  pointLifetime" + mp.LifeTime;
-            }
-            Debug.Log("Frame " + BPhysicsWorld.Get().frameCount + 
-                      " numContacts" + pm.NumContacts +
-                      " body0" + pm.Body0 +
-                      " body1" + pm.Body1 + s);
-        }
     }
 }

@@ -7,7 +7,7 @@ namespace BulletSharp
 #if	UNITY_IOS && !UNITY_EDITOR
         public const string Dll = "__Internal";
 #else
-		public const string Dll = "libbulletc.dll";
+		public const string Dll = "libbulletc";
 #endif
 		public const CallingConvention Conv = CallingConvention.Cdecl;
     }
