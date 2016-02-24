@@ -1,7 +1,9 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using UnityEditor.SceneManagement;
 using BulletUnity;
+#if UNITY_5_3
+using UnityEditor.SceneManagement;
+#endif
 
 [CustomEditor(typeof(BRigidBody))]
 public class BRigidBodyEditor : Editor

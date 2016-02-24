@@ -8,9 +8,9 @@ namespace BulletUnity {
         public Vector3 extents = Vector3.one;
 
         public override void OnDrawGizmosSelected() {
-            UnityEngine.Vector3 position = transform.position;
-            UnityEngine.Quaternion rotation = transform.rotation;
-            UnityEngine.Vector3 scale = Vector3.one;
+            Vector3 position = transform.position;
+            Quaternion rotation = transform.rotation;
+            Vector3 scale = Vector3.one;
             BUtility.DebugDrawBox(position, rotation, scale, extents, Color.yellow);
         }
 
