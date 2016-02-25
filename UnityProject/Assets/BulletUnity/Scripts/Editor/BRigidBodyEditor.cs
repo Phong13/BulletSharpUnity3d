@@ -9,6 +9,7 @@ public class BRigidBodyEditor : Editor
     GUIContent gcIsTrigger = new GUIContent("is trigger");
     GUIContent gcMass = new GUIContent("mass");
     GUIContent gcType = new GUIContent("type");
+    GUIContent gcCollisionFlags = new GUIContent("Collision Flags");
 
     public override void OnInspectorGUI()
     {
@@ -16,8 +17,12 @@ public class BRigidBodyEditor : Editor
         
         EditorGUILayout.LabelField(string.Format("Velocity {0}",rb.velocity));
         EditorGUILayout.LabelField(string.Format("Angular Velocity {0}", rb.angularVelocity));
-        rb.isTrigger = EditorGUILayout.Toggle(gcIsTrigger, rb.isTrigger);
-        rb.type = (BRigidBody.RBType)EditorGUILayout.EnumPopup(gcType, rb.type);
+
+        //rb.isTrigger = EditorGUILayout.Toggle(gcIsTrigger, rb.isTrigger);
+        //rb.type = (BRigidBody.RBType)EditorGUILayout.EnumPopup(gcType, rb.type);
+
+        rb.m_collisionFlags = (BulletSharp.CollisionFlags)EditorGUILayout.EnumMaskField(gcCollisionFlags, rb.m_collisionFlags);
+
         rb.mass = EditorGUILayout.FloatField(gcMass, rb.mass);
 
         EditorGUILayout.LabelField("Limit Movement On Axis", EditorStyles.boldLabel);

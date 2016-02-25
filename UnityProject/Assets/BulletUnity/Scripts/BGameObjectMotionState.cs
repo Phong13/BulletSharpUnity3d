@@ -33,7 +33,6 @@ namespace BulletUnity {
         }
 
         //Bullet calls this so I can copy bullet data to unity
-		//[MonoPInvokeCallback(typeof(SetTransformDelegate))]
         public override void SetWorldTransform(ref Matrix m) {
             /*
             BulletSharp.Math.Vector3 pos = m.Origin;

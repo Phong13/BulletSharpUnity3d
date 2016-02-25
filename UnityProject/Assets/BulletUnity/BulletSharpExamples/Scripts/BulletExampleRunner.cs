@@ -34,8 +34,14 @@ public class BulletExampleRunner : MonoBehaviour {
         //demo = new BasicDemo.BasicDemo();
         //demo = new SoftDemo.SoftDemo();
         //demo = new BenchmarkDemo.BenchmarkDemo();
-        demo = new CharacterDemo.CharacterDemo();
+        //demo = new CharacterDemo.CharacterDemo();
         //demo = new ConstraintDemo.ConstraintDemo();
+        //demo = new FeatherStoneDemo.FeatherStoneDemo();
+        //demo = new CollisionInterfaceDemo.CollisionInterfaceDemo();
+        //demo = new CcdPhysicsDemo.CcdPhysicsDemo();
+        //demo = new Box2DDemo.Box2DDemo();
+        demo = new BspDemo.BspDemo();
+
         demo.DebugDrawMode = DebugDrawModes.DrawWireframe;
         demo.Run();
         demo.IsDebugDrawEnabled = true;

@@ -16,13 +16,13 @@ namespace DemoFramework {
                     CreateCube(shape as BoxShape, mesh);
                     return;
                 case BroadphaseNativeType.Box2DShape:
-                    Debug.LogError("Not Implemented " + shape);
+                    CreateBox2DShape(shape as Box2DShape, mesh);
                     return;
                 case BroadphaseNativeType.CapsuleShape:
                     Debug.LogError("Not Implemented " + shape);
                     return;
                 case BroadphaseNativeType.Convex2DShape:
-                    Debug.LogError("Not Implemented " + shape);
+                    CreateShape((shape as Convex2DShape).ChildShape, mesh);
                     return;
                 case BroadphaseNativeType.ConvexHullShape:
                     CreateConvexHull(shape as ConvexHullShape, mesh);
@@ -57,6 +57,12 @@ namespace DemoFramework {
             throw new NotImplementedException();
         }
 
+        public static void CreateBox2DShape(Box2DShape shape, Mesh mesh)
+        {
+            Vector3Array v = shape.Vertices;
+            MakeUnityCubeMesh(v[0].ToUnity(), v[1].ToUnity(), v[2].ToUnity(), v[3].ToUnity(), v[4].ToUnity(), v[5].ToUnity(), v[6].ToUnity(), v[7].ToUnity(), mesh);
+        }
+
         public static void CreateConvexHull(ConvexHullShape shape, Mesh mesh)
         {
             ShapeHull hull = new ShapeHull(shape);
@@ -74,7 +80,7 @@ namespace DemoFramework {
             int[] tris = new int[indices.Count];
             for (int i = 0; i < indices.Count; i++)
             {
-                tris[i] = (int) indices[i];
+                tris[i] = (int)indices[i];
             }
             mesh.vertices = vertices;
             mesh.triangles = tris;
@@ -221,7 +227,7 @@ namespace DemoFramework {
         }
 
         public static void CreateCube(CollisionShape cs, Mesh mesh) {
-            mesh.Clear();
+
             BulletSharp.Math.Vector3 ext = ((BoxShape)cs).HalfExtentsWithMargin;
             float length = ext.X * 2f;
             float width = ext.Y * 2f;
@@ -238,6 +244,14 @@ namespace DemoFramework {
             UnityEngine.Vector3 p6 = new UnityEngine.Vector3(length * .5f, width * .5f, -height * .5f);
             UnityEngine.Vector3 p7 = new UnityEngine.Vector3(-length * .5f, width * .5f, -height * .5f);
 
+            MakeUnityCubeMesh(p0, p1, p2, p3, p4, p5, p6, p7, mesh);
+        }
+
+        static void MakeUnityCubeMesh(UnityEngine.Vector3 p0, UnityEngine.Vector3 p1, UnityEngine.Vector3 p2, UnityEngine.Vector3 p3,
+                                      UnityEngine.Vector3 p4, UnityEngine.Vector3 p5, UnityEngine.Vector3 p6, UnityEngine.Vector3 p7,
+                                      Mesh mesh)
+        {
+            mesh.Clear();
             UnityEngine.Vector3[] vertices = new UnityEngine.Vector3[]
             {
 	// Bottom

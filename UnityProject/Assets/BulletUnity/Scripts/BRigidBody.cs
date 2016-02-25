@@ -354,18 +354,16 @@ namespace BulletUnity {
                 m_rigidBody = new RigidBody(rbInfo);
                 m_rigidBody.UserObject = this;
                 rbInfo.Dispose();
+                m_rigidBody.CollisionFlags = m_collisionFlags;
             } else {
                 m_rigidBody.SetMassProps(_mass, localInertia);
                 m_rigidBody.CollisionShape = cs;
+                m_rigidBody.CollisionFlags = m_collisionFlags;
             }
 
-            if (_type == RBType.kinematic) {
-                m_rigidBody.CollisionFlags = m_rigidBody.CollisionFlags | BulletSharp.CollisionFlags.KinematicObject;
+            //if kinematic then disable deactivation
+            if ((m_collisionFlags & BulletSharp.CollisionFlags.KinematicObject) != 0) {
                 m_rigidBody.ActivationState = ActivationState.DisableDeactivation;
-            }
-            if (_isTrigger)
-            {
-                m_rigidBody.CollisionFlags = m_rigidBody.CollisionFlags | BulletSharp.CollisionFlags.NoContactResponse;
             }
             return true;
         }

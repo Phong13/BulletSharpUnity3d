@@ -21,7 +21,7 @@ namespace CollisionInterfaceDemo
             Vector3 ptA = cp.PositionWorldOnA;
             Vector3 ptB = cp.PositionWorldOnB;
             UnityEngine.Debug.Log("Contact!");
-            world.DebugDrawer.DrawLine(ref ptA, ref ptB, ref ptA);
+            //world.DebugDrawer.DrawLine(ref ptA, ref ptB, ref ptA);
             return 0;
         }
     };
@@ -104,7 +104,7 @@ namespace CollisionInterfaceDemo
 
             if (IsDebugDrawEnabled)
             {
-                World.DebugDrawer.DrawBox(ref boxMin, ref boxMax, ref t, ref white);
+                //World.DebugDrawer.DrawBox(ref boxMin, ref boxMax, ref t, ref white);
                 World.ContactTest(objects[0], renderCallback);
             }
         }
