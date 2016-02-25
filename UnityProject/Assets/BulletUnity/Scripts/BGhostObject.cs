@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using BulletSharp;
 
 namespace BulletUnity
@@ -7,6 +8,10 @@ namespace BulletUnity
 
     public class BGhostObject : BCollisionObject
     {
+
+        private GhostObject m_ghostObject{
+            get { return (GhostObject) m_collisionObject; }   
+        }
 
         internal override bool _BuildCollisionObject()
         {
@@ -60,12 +65,51 @@ namespace BulletUnity
             return true;
         }
 
+
+        HashSet<CollisionObject> objsIWasInContactWithLastFrame = new HashSet<CollisionObject>();
+        HashSet<CollisionObject> objsCurrentlyInContactWith = new HashSet<CollisionObject>();
         void FixedUpdate()
         {
-            for (int i = 0; i < BPhysicsWorld.Get().world.PairCache.NumOverlappingPairs; i++)
+            //TODO what if objects are destroyed. How will TriggerExit be called for that object? Should be tracking InstanceIDs
+            objsCurrentlyInContactWith.Clear();
+            for (int i = 0; i < m_ghostObject.NumOverlappingObjects; i++)
             {
-                Debug.LogWarning("Overlapping pairs.");
+                CollisionObject otherObj = m_ghostObject.GetOverlappingObject(i);
+                objsCurrentlyInContactWith.Add(otherObj);
+                if (!objsIWasInContactWithLastFrame.Contains(otherObj))
+                {
+                    BOnTriggerEnter(otherObj, null);
+                } else
+                {
+                    BOnTriggerStay(otherObj, null);
+                }
             }
+            objsIWasInContactWithLastFrame.ExceptWith(objsCurrentlyInContactWith);
+
+            foreach(CollisionObject co in objsIWasInContactWithLastFrame)
+            {
+                BOnTriggerExit(co);
+            }
+
+            //swap the hashsets so objsIWasInContactWithLastFrame now contains the list of objs.
+            HashSet<CollisionObject> temp = objsIWasInContactWithLastFrame;
+            objsIWasInContactWithLastFrame = objsCurrentlyInContactWith;
+            objsCurrentlyInContactWith = temp;
+        }
+
+        public virtual void BOnTriggerEnter(CollisionObject other, AlignedManifoldArray details)
+        {
+            Debug.Log("Enter with " + other.UserObject + " fixedFrame " + BPhysicsWorld.Get().frameCount);
+        }
+
+        public virtual void BOnTriggerStay(CollisionObject other, AlignedManifoldArray details)
+        {
+            Debug.Log("Stay with " + other.UserObject + " fixedFrame " + BPhysicsWorld.Get().frameCount);
+        }
+
+        public virtual void BOnTriggerExit(CollisionObject other)
+        {
+            Debug.Log("Exit with " + other.UserObject + " fixedFrame " + BPhysicsWorld.Get().frameCount);
         }
     }
 }

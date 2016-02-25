@@ -290,7 +290,7 @@ namespace BulletUnity {
                 Debug.LogFormat("Adding collision object {0} to world", co);
                 if (co._BuildCollisionObject())
                 {
-                    m_world.AddCollisionObject(co.GetCollisionObject());
+                    m_world.AddCollisionObject(co.GetCollisionObject(),CollisionFilterGroups.AllFilter,CollisionFilterGroups.AllFilter);
                     if (ghostPairCallback == null && co is BGhostObject && world is DynamicsWorld)
                     {
                         ghostPairCallback = new GhostPairCallback();
