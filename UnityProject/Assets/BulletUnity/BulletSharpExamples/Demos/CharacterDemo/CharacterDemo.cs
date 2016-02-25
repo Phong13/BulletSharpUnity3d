@@ -90,8 +90,8 @@ namespace CharacterDemo
             character = new KinematicCharacterController(ghostObject, capsule, stepHeight);
 
             BspLoader bspLoader = new BspLoader();
-            //string filename = UnityEngine.Application.dataPath + "BuletSharpExamples/Demos/CharacterDemo/data/BspDemo.bsp";
-            bspLoader.LoadBspFile(UnityEngine.Application.dataPath + "/BulletSharpExamples/Demos/CharacterDemo/data/BspDemo.bsp");
+            string filename = UnityEngine.Application.dataPath + "/BulletUnity/BulletSharpExamples/Demos/CharacterDemo/data/BspDemo.bsp";
+            bspLoader.LoadBspFile(filename);
             BspConverter bsp2Bullet = new BspToBulletConverter(this);
             bsp2Bullet.ConvertBsp(bspLoader, 0.1f);
 

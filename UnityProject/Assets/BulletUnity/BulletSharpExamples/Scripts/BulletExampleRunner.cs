@@ -32,9 +32,9 @@ public class BulletExampleRunner : MonoBehaviour {
     {
         //demo = new CollisionInterfaceDemo.CollisionInterfaceDemo();
         //demo = new BasicDemo.BasicDemo();
-        demo = new SoftDemo.SoftDemo();
+        //demo = new SoftDemo.SoftDemo();
         //demo = new BenchmarkDemo.BenchmarkDemo();
-        //demo = new CharacterDemo.CharacterDemo();
+        demo = new CharacterDemo.CharacterDemo();
         //demo = new ConstraintDemo.ConstraintDemo();
         demo.DebugDrawMode = DebugDrawModes.DrawWireframe;
         demo.Run();
@@ -118,14 +118,14 @@ public class BulletExampleRunner : MonoBehaviour {
                     ggo.transform.localPosition = Vector3.zero;
                     ggo.transform.localRotation = Quaternion.identity;
                     BulletRigidBodyProxy rbp = go.AddComponent<BulletRigidBodyProxy>();
-                    rbp.target = co as RigidBody;
+                    rbp.target = co;
                 } else { 
                     Debug.Log("Creating " + cs.ShapeType + " for " + co.ToString());
                     go = CreateUnityCollisionObjectProxy(co as CollisionObject);
                 }
             }
             createdObjs.Add(go);
-            Debug.Log("Created Unity Shape for " + co);
+            Debug.Log("Created Unity Shape for shapeType=" + co.CollisionShape.ShapeType + " collisionShape=" + co.ToString());
         }
     }
 
@@ -186,6 +186,10 @@ public class BulletExampleRunner : MonoBehaviour {
     */
 
     public GameObject CreateUnityCollisionObjectProxy(CollisionObject body) {
+        if (body is GhostObject)
+        {
+            Debug.Log("ghost obj");
+        }
         GameObject go = new GameObject(body.ToString());
         MeshFilter mf = go.AddComponent<MeshFilter>();
         Mesh m = mf.mesh;
