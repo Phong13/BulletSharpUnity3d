@@ -290,7 +290,7 @@ namespace BulletUnity {
                 Debug.LogFormat("Adding collision object {0} to world", co);
                 if (co._BuildCollisionObject())
                 {
-                    m_world.AddCollisionObject(co.GetCollisionObject(),CollisionFilterGroups.AllFilter,CollisionFilterGroups.AllFilter);
+                    m_world.AddCollisionObject(co.GetCollisionObject(),co.m_groupsIBelongTo,co.m_collisionMask);
                     if (ghostPairCallback == null && co is BGhostObject && world is DynamicsWorld)
                     {
                         ghostPairCallback = new GhostPairCallback();
@@ -322,7 +322,7 @@ namespace BulletUnity {
                 Debug.LogFormat("Adding rigidbody {0} to world", rb);
                 if (rb._BuildCollisionObject())
                 {
-                    ((DiscreteDynamicsWorld) m_world).AddRigidBody((RigidBody) rb.GetCollisionObject());
+                    ((DiscreteDynamicsWorld) m_world).AddRigidBody((RigidBody) rb.GetCollisionObject(),rb.m_groupsIBelongTo,rb.m_collisionMask);
                 }
                 return true;
             }

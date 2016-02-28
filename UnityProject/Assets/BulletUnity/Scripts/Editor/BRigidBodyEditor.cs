@@ -9,7 +9,6 @@ public class BRigidBodyEditor : Editor
     GUIContent gcIsTrigger = new GUIContent("is trigger");
     GUIContent gcMass = new GUIContent("mass");
     GUIContent gcType = new GUIContent("type");
-    GUIContent gcCollisionFlags = new GUIContent("Collision Flags");
 
     public override void OnInspectorGUI()
     {
@@ -18,10 +17,9 @@ public class BRigidBodyEditor : Editor
         EditorGUILayout.LabelField(string.Format("Velocity {0}",rb.velocity));
         EditorGUILayout.LabelField(string.Format("Angular Velocity {0}", rb.angularVelocity));
 
-        //rb.isTrigger = EditorGUILayout.Toggle(gcIsTrigger, rb.isTrigger);
-        //rb.type = (BRigidBody.RBType)EditorGUILayout.EnumPopup(gcType, rb.type);
-
-        rb.m_collisionFlags = (BulletSharp.CollisionFlags)EditorGUILayout.EnumMaskField(gcCollisionFlags, rb.m_collisionFlags);
+        rb.m_collisionFlags = BCollisionObjectEditor.RenderEnumMaskCollisionFlagsField(BCollisionObjectEditor.gcCollisionFlags, rb.m_collisionFlags);
+        rb.m_groupsIBelongTo = BCollisionObjectEditor.RenderEnumMaskCollisionFilterGroupsField(BCollisionObjectEditor.gcGroupsIBelongTo, rb.m_groupsIBelongTo);
+        rb.m_collisionMask = BCollisionObjectEditor.RenderEnumMaskCollisionFilterGroupsField(BCollisionObjectEditor.gcCollisionMask, rb.m_collisionMask);
 
         rb.mass = EditorGUILayout.FloatField(gcMass, rb.mass);
 

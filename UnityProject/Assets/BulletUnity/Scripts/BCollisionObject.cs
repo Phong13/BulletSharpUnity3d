@@ -7,13 +7,14 @@ namespace BulletUnity
 {
     public class BCollisionObject : MonoBehaviour, IDisposable
     {
-
         public delegate void OnCollisionCallbackEventHandler(PersistentManifold pm);
 
         protected CollisionObject m_collisionObject;
         protected BCollisionShape m_collisionShape;
         protected bool isInWorld = false;
-        public BulletSharp.CollisionFlags m_collisionFlags;
+        public BulletSharp.CollisionFlags m_collisionFlags = BulletSharp.CollisionFlags.StaticObject;
+        public BulletSharp.CollisionFilterGroups m_groupsIBelongTo = BulletSharp.CollisionFilterGroups.DefaultFilter; // A bitmask
+        public BulletSharp.CollisionFilterGroups m_collisionMask = BulletSharp.CollisionFilterGroups.AllFilter; // A colliding object must match this mask in order to collide with me.
 
 
         OnCollisionCallbackEventHandler m_onCollisionCallback;

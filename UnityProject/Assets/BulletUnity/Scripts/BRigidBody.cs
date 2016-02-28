@@ -382,6 +382,7 @@ namespace BulletUnity {
         }
 
         protected override void Awake() {
+            m_collisionFlags = BulletSharp.CollisionFlags.None;
             BRigidBody[] rbs = GetComponentsInParent<BRigidBody>();
             if (rbs.Length != 1) {
                 Debug.LogError("Can't nest rigid bodies. The transforms are updated by Bullet in undefined order which can cause spasing. Object " + name);
