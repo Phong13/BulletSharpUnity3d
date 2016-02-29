@@ -6,12 +6,13 @@ using BulletUnity;
 [CustomEditor(typeof(BPairCachingGhostObject))]
 public class BPairCachingGhostObjectEditor : Editor
 {
-    GUIContent gcCollisionFlags = new GUIContent("Collision Flags");
     public override void OnInspectorGUI()
     {
         BPairCachingGhostObject obj = (BPairCachingGhostObject) target;
 
-        obj.m_collisionFlags = (BulletSharp.CollisionFlags) EditorGUILayout.EnumMaskField(gcCollisionFlags, obj.m_collisionFlags);
+        obj.m_collisionFlags = BCollisionObjectEditor.RenderEnumMaskCollisionFlagsField(BCollisionObjectEditor.gcCollisionFlags, obj.m_collisionFlags);
+        obj.m_groupsIBelongTo = BCollisionObjectEditor.RenderEnumMaskCollisionFilterGroupsField(BCollisionObjectEditor.gcGroupsIBelongTo, obj.m_groupsIBelongTo);
+        obj.m_collisionMask = BCollisionObjectEditor.RenderEnumMaskCollisionFilterGroupsField(BCollisionObjectEditor.gcCollisionMask, obj.m_collisionMask);
 
 
         if (GUI.changed)

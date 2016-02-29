@@ -11,11 +11,13 @@ namespace BulletUnity {
         continuous collision detection ccd
         */
     public class BRigidBody : BCollisionObject, IDisposable {
+        /*
         public enum RBType {
             dynamic,
             kinematic,
             isStatic,
         }
+        */
 
         //protected RigidBody m_Brigidbody;
         BGameObjectMotionState m_motionState;
@@ -36,6 +38,7 @@ namespace BulletUnity {
             }
         }
 
+        /*
         [SerializeField]
         bool _isTrigger = false;
         public bool isTrigger
@@ -49,6 +52,13 @@ namespace BulletUnity {
                 }    
                 _isTrigger = value;
             }
+        }
+        */
+
+        public bool isDynamic()
+        {
+            return (m_collisionFlags & BulletSharp.CollisionFlags.StaticObject) != BulletSharp.CollisionFlags.StaticObject
+                   && (m_collisionFlags & BulletSharp.CollisionFlags.KinematicObject) != BulletSharp.CollisionFlags.StaticObject;
         }
 
         [SerializeField]
@@ -249,14 +259,14 @@ namespace BulletUnity {
         public float mass {
             set {
                 if (_mass != value) {
-                    if (_mass == 0f && _type == RBType.dynamic) {
-                        Debug.LogError("Dynamic rigid bodies must have positive mass");
+                    if (_mass == 0f && isDynamic()) {
+                        Debug.LogError("rigid bodies that are not static or kinematic must have positive mass");
                         return;
                     }
                     if (isInWorld)
                     {
                         _localInertia = BulletSharp.Math.Vector3.Zero;
-                        if (_type == RBType.dynamic)
+                        if (isDynamic())
                         {
                             m_collisionShape.GetCollisionShape().CalculateLocalInertia(_mass, out _localInertia);
                         }
@@ -270,6 +280,7 @@ namespace BulletUnity {
             }
         }
 
+        /*
         [SerializeField]
         RBType _type;
         public RBType type {
@@ -284,6 +295,8 @@ namespace BulletUnity {
                 return _type;
             }
         }
+        */
+        
 
         public UnityEngine.Vector3 velocity {
             get {
@@ -339,14 +352,14 @@ namespace BulletUnity {
             CollisionShape cs = m_collisionShape.GetCollisionShape();
             //rigidbody is dynamic if and only if mass is non zero, otherwise static
             _localInertia = BulletSharp.Math.Vector3.Zero;
-            if (_type == RBType.dynamic) {
+            if (isDynamic()) {
                 cs.CalculateLocalInertia(_mass, out _localInertia);
             }
 
             if (m_rigidBody == null) {
                 m_motionState = new BGameObjectMotionState(transform);
                 RigidBodyConstructionInfo rbInfo;
-                if (_type == RBType.dynamic) {
+                if (isDynamic()) {
                     rbInfo = new RigidBodyConstructionInfo(_mass, m_motionState, cs, _localInertia);
                 } else {
                     rbInfo = new RigidBodyConstructionInfo(0, m_motionState, cs, localInertia);
@@ -369,6 +382,7 @@ namespace BulletUnity {
         }
 
         protected override void Awake() {
+            m_collisionFlags = BulletSharp.CollisionFlags.None;
             BRigidBody[] rbs = GetComponentsInParent<BRigidBody>();
             if (rbs.Length != 1) {
                 Debug.LogError("Can't nest rigid bodies. The transforms are updated by Bullet in undefined order which can cause spasing. Object " + name);
