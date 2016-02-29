@@ -6,9 +6,9 @@ using BulletUnity;
 [CustomEditor(typeof(BRigidBody))]
 public class BRigidBodyEditor : Editor
 {
-    GUIContent gcIsTrigger = new GUIContent("is trigger");
-    GUIContent gcMass = new GUIContent("mass");
-    GUIContent gcType = new GUIContent("type");
+    GUIContent gcIsTrigger = new GUIContent("Is trigger");
+    GUIContent gcMass = new GUIContent("Mass");
+    GUIContent gcType = new GUIContent("Type");
     GUIContent gcCollisionFlags = new GUIContent("Collision Flags");
 
     public override void OnInspectorGUI()
@@ -25,15 +25,22 @@ public class BRigidBodyEditor : Editor
 
         rb.mass = EditorGUILayout.FloatField(gcMass, rb.mass);
 
+        EditorGUILayout.Separator();
+
         EditorGUILayout.LabelField("Limit Movement On Axis", EditorStyles.boldLabel);
         rb.linearFactor = EditorGUILayout.Vector3Field("Linear Factor", rb.linearFactor);
         rb.angularFactor = EditorGUILayout.Vector3Field("Angular Factor", rb.angularFactor);
+
+        EditorGUILayout.Separator();
 
         EditorGUILayout.LabelField("Friction & Damping", EditorStyles.boldLabel);
         rb.friction = EditorGUILayout.FloatField("Friction", rb.friction);
         rb.rollingFriction = EditorGUILayout.FloatField("Rolling Friction", rb.rollingFriction);
         rb.linearDamping = EditorGUILayout.FloatField("Linear Damping", rb.linearDamping);
         rb.angularDamping = EditorGUILayout.FloatField("Angular Damping", rb.angularDamping);
+
+
+        EditorGUILayout.Separator();
 
         EditorGUILayout.LabelField("Other Settings", EditorStyles.boldLabel);
         rb.restitution = EditorGUILayout.FloatField("Restitution", rb.restitution);
@@ -50,6 +57,7 @@ public class BRigidBodyEditor : Editor
             EditorUtility.SetDirty(rb);
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
             Undo.RecordObject(rb, "Undo Rigid Body");
+            Repaint();
         }
     }
 }
