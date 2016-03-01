@@ -283,6 +283,34 @@ namespace BulletUnity {
             GC.SuppressFinalize(this);
         }
 
+        public bool AddAction(IAction action)
+        {
+            if (!_isDisposed)
+            {
+                if (m_worldType < WorldType.RigidBodyDynamics)
+                {
+                    Debug.LogError("World type must not be collision only");
+                } else
+                {
+                    ((DynamicsWorld)world).AddAction(action);
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public void RemoveAction(IAction action)
+        {
+            if (!_isDisposed)
+            {
+                if (m_worldType < WorldType.RigidBodyDynamics)
+                {
+                    Debug.LogError("World type must not be collision only");
+                }
+                ((DiscreteDynamicsWorld)m_world).RemoveAction(action);
+            }
+        }
+
         public bool AddCollisionObject(BCollisionObject co)
         {
             if (!_isDisposed)
@@ -296,6 +324,10 @@ namespace BulletUnity {
                         ghostPairCallback = new GhostPairCallback();
                         ((DynamicsWorld) world).PairCache.SetInternalGhostPairCallback(ghostPairCallback);
                     }
+                    if (co is BCharacterController && world is DynamicsWorld)
+                    {
+                        AddAction(((BCharacterController)co).GetKinematicCharacterController());
+                    }
                 }
                 return true;
             }
@@ -308,6 +340,7 @@ namespace BulletUnity {
             {
                 Debug.LogFormat("Removing collisionObject {0} from world", co);
                 m_world.RemoveCollisionObject(co);
+                //TODO handle removing kinematic character controller action
             }
         }
 

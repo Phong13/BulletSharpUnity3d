@@ -66,7 +66,6 @@ namespace BulletUnity
                 m_collisionObject.CollisionFlags = m_collisionObject.CollisionFlags | BulletSharp.CollisionFlags.KinematicObject;
                 m_collisionObject.CollisionFlags &= ~BulletSharp.CollisionFlags.StaticObject;
             }
-            PrintCollisionFlags(m_collisionObject.CollisionFlags);
             return true;
         }
 
