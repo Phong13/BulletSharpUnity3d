@@ -21,6 +21,10 @@ namespace BulletSharp
                             null);
             dynMethod.Invoke(reader, new System.Object[] { true });
         }
+
+        public static void Dispose(this BinaryWriter writer)
+        {
+        }
     }
 }
 

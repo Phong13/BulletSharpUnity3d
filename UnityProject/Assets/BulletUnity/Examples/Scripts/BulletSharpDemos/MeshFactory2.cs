@@ -47,7 +47,7 @@ namespace DemoFramework {
                     Debug.LogError("Not Implemented " + shape);
                     return;
                 case BroadphaseNativeType.TriangleMeshShape:
-                    Debug.LogError("Not Implemented " + shape);
+                    CreateTriangleMeshShape((shape as TriangleMeshShape).MeshInterface, mesh);
                     return;
             }
             if (shape is PolyhedralConvexShape) {
@@ -86,6 +86,78 @@ namespace DemoFramework {
             mesh.triangles = tris;
             mesh.RecalculateBounds();
             mesh.RecalculateNormals();
+        }
+
+        public static void CreateTriangleMeshShape(StridingMeshInterface meshInterface, Mesh m)
+        {
+            // StridingMeshInterface can only be TriangleIndexVertexArray
+            var meshes = (meshInterface as TriangleIndexVertexArray).IndexedMeshArray;
+            int numTriangles = 0;
+            foreach (var mesh in meshes)
+            {
+                numTriangles += mesh.NumTriangles;
+            }
+            int numVertices = numTriangles * 3;
+            UnityEngine.Vector3[] vertices = new UnityEngine.Vector3[numVertices * 2];
+             
+            int v = 0;
+            List<int> triangles = new List<int>();
+            for (int part = 0; part < meshInterface.NumSubParts; part++)
+            {
+                var mesh = meshes[part];
+
+                var indexStream = mesh.GetTriangleStream();
+                var vertexStream = mesh.GetVertexStream();
+                var indexReader = new BinaryReader(indexStream);
+                var vertexReader = new BinaryReader(vertexStream);
+
+                int vertexStride = mesh.VertexStride;
+                int triangleStrideDelta = mesh.TriangleIndexStride - 3 * sizeof(int);
+                
+                while (indexStream.Position < indexStream.Length)
+                {
+                    uint i = indexReader.ReadUInt32();
+                    vertexStream.Position = vertexStride * i;
+                    float f1 = vertexReader.ReadSingle();
+                    float f2 = vertexReader.ReadSingle();
+                    float f3 = vertexReader.ReadSingle();
+                    UnityEngine.Vector3 v0 = new UnityEngine.Vector3(f1, f2, f3);
+                    i = indexReader.ReadUInt32();
+                    vertexStream.Position = vertexStride * i;
+                    f1 = vertexReader.ReadSingle();
+                    f2 = vertexReader.ReadSingle();
+                    f3 = vertexReader.ReadSingle();
+                    UnityEngine.Vector3 v1 = new UnityEngine.Vector3(f1, f2, f3);
+                    i = indexReader.ReadUInt32();
+                    vertexStream.Position = vertexStride * i;
+                    f1 = vertexReader.ReadSingle();
+                    f2 = vertexReader.ReadSingle();
+                    f3 = vertexReader.ReadSingle();
+                    UnityEngine.Vector3 v2 = new UnityEngine.Vector3(f1, f2, f3);
+
+                    UnityEngine.Vector3 v01 = v0 - v1;
+                    UnityEngine.Vector3 v02 = v0 - v2;
+                    UnityEngine.Vector3 normal = UnityEngine.Vector3.Cross(v01, v02);
+                    normal.Normalize();
+
+                    triangles.Add(v);
+                    triangles.Add(v + 1);
+                    triangles.Add(v + 2);
+                    vertices[v++] = v0;
+                    vertices[v++] = v1;
+                    vertices[v++] = v2;
+
+                    indexStream.Position += triangleStrideDelta;
+                }
+
+                indexStream.Dispose();
+                vertexStream.Dispose();
+            }
+            m.Clear();
+            m.vertices = vertices;
+            m.triangles = triangles.ToArray();
+            m.RecalculateBounds();
+            m.RecalculateNormals();
         }
 
         public static void CreateCylinder(CylinderShape cs, Mesh mesh) {
