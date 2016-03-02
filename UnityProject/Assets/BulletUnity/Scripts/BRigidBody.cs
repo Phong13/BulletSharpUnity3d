@@ -10,6 +10,7 @@ namespace BulletUnity {
         todo 
         continuous collision detection ccd
         */
+	[AddComponentMenu("Physics Bullet/RigidBody")]
     public class BRigidBody : BCollisionObject, IDisposable {
         /*
         public enum RBType {
