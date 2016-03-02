@@ -66,7 +66,7 @@ namespace BspDemo
             //string[] args = Environment.GetCommandLineArgs();
             //if (args.Length == 1)
             //{
-                string filename = UnityEngine.Application.dataPath + "/BulletUnity/BulletSharpExamples/Demos/BspDemo/data/BspDemo.bsp";
+                string filename = UnityEngine.Application.dataPath + "/BulletUnity/Examples/Scripts/BulletSharpDemos/BspDemo/data/BspDemo.bsp";
                 bspLoader.LoadBspFile(filename);
             //}
             //else

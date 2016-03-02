@@ -11,6 +11,7 @@ namespace DemoFramework {
     public class MeshFactory2 {
 
         public static void CreateShape(CollisionShape shape, Mesh mesh) {
+            Debug.Log("Creating Shape " + shape);
             switch (shape.ShapeType) {
                 case BroadphaseNativeType.BoxShape:
                     CreateCube(shape as BoxShape, mesh);
@@ -68,22 +69,25 @@ namespace DemoFramework {
             ShapeHull hull = new ShapeHull(shape);
             hull.BuildHull(shape.Margin);
 
-            int vertexCount = hull.NumIndices;
+            List<UnityEngine.Vector3> verts = new List<UnityEngine.Vector3>();
+            List<int> tris = new List<int>();
+
+            int vertexCount = hull.NumVertices;
             UIntArray indices = hull.Indices;
             Vector3Array points = hull.Vertices;
 
-            UnityEngine.Vector3[] vertices = new UnityEngine.Vector3[vertexCount];
-            for (int i = 0; i < vertexCount; i++)
+            for (int i = 0; i < indices.Count; i+=3)
             {
-                vertices[i] = points[(int)indices[i]].ToUnity();
+                verts.Add(points[(int)indices[i]].ToUnity());
+                verts.Add(points[(int)indices[i+1]].ToUnity());
+                verts.Add(points[(int)indices[i+2]].ToUnity());
+                tris.Add(i);
+                tris.Add(i + 1);
+                tris.Add(i + 2);
             }
-            int[] tris = new int[indices.Count];
-            for (int i = 0; i < indices.Count; i++)
-            {
-                tris[i] = (int)indices[i];
-            }
-            mesh.vertices = vertices;
-            mesh.triangles = tris;
+
+            mesh.vertices = verts.ToArray();
+            mesh.triangles = tris.ToArray();
             mesh.RecalculateBounds();
             mesh.RecalculateNormals();
         }

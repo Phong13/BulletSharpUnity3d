@@ -38,7 +38,9 @@ public class BulletExampleRunner : MonoBehaviour {
         //demo = new ConstraintDemo.ConstraintDemo();
         //demo = new FeatherStoneDemo.FeatherStoneDemo();
         //demo = new CollisionInterfaceDemo.CollisionInterfaceDemo();
-        demo = new ConcaveConvexCastDemo.ConcaveConvexCastDemo();
+        //demo = new ConcaveConvexCastDemo.ConcaveConvexCastDemo();
+        //demo = new ConcaveRaycastDemo.ConcaveRaycastDemo();
+        demo = new ConvexDecompositionDemo.ConvexDecompositionDemo();
         //demo = new CcdPhysicsDemo.CcdPhysicsDemo();
         //demo = new Box2DDemo.Box2DDemo();
         //demo = new BspDemo.BspDemo();
