@@ -2,7 +2,9 @@
 using UnityEngine;
 using System.Collections;
 using BulletSharp;
+
 namespace BulletUnity {
+	[AddComponentMenu("Physics Bullet/Capsule Shape")]
     public class BCapsuleShape : BCollisionShape {
         public float radius = 1f;
         public float height = 2f;

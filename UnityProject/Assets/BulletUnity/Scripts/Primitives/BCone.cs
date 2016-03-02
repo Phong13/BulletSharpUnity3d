@@ -23,7 +23,7 @@ namespace BulletUnity.Primitives
             BCone bCone = go.AddComponent<BCone>();
             CreateNewBase(go, position, rotation);
             bCone.BuildMesh();
-            go.name = "BCylinder";
+            go.name = "BCone";
 
             return go;
         }
