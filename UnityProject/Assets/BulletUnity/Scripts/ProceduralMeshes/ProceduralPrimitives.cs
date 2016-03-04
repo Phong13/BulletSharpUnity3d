@@ -246,6 +246,13 @@ namespace BulletUnity
             Mesh mesh = new Mesh();
             mesh.name = "PPCone";
             mesh.Clear();
+            CreateMeshCone(mesh, height, bottomRadius, topRadius, nbSides);
+            return mesh;
+        }
+
+        public static void CreateMeshCone(Mesh mesh, float height = 1, float bottomRadius = 1f, float topRadius = 0f, int nbSides = 18)
+        {
+
 
             int nbHeightSeg = 1; // Not implemented yet
             int nbVerticesCap = nbSides + 1;
@@ -434,8 +441,6 @@ namespace BulletUnity
             mesh.normals = normales;
             mesh.uv = uvs;
             mesh.triangles = triangles;
-
-            return mesh;
         }
 
         public static Mesh MeshCreateTube(float height = 1f, int nbSides = 24, float bottomRadius1 = .5f,

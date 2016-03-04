@@ -29,23 +29,22 @@ namespace DemoFramework {
                     CreateConvexHull(shape as ConvexHullShape, mesh);
                     return;
                 case BroadphaseNativeType.ConeShape:
-                    Debug.LogError("Not Implemented " + shape);
+                    CreateConeShape((shape as ConeShape), mesh);
                     return;
                 case BroadphaseNativeType.CylinderShape:
                     CreateCylinder(shape as CylinderShape, mesh);
                     return;
                 case BroadphaseNativeType.GImpactShape:
-                    Debug.LogError("Not Implemented " + shape);
+                    CreateTriangleMeshShape((shape as GImpactMeshShape).MeshInterface, mesh);
                     return;
                 case BroadphaseNativeType.MultiSphereShape:
                     Debug.LogError("Not Implemented " + shape);
                     return;
                 case BroadphaseNativeType.SphereShape:
                     CreateSphere(shape as SphereShape, mesh);
-                    Debug.LogError("Not Implemented " + shape);
                     return;
                 case BroadphaseNativeType.StaticPlaneShape:
-                    Debug.LogError("Not Implemented " + shape);
+                    CreateStaticPlane((shape as StaticPlaneShape), mesh);
                     return;
                 case BroadphaseNativeType.TriangleMeshShape:
                     CreateTriangleMeshShape((shape as TriangleMeshShape).MeshInterface, mesh);
@@ -56,6 +55,11 @@ namespace DemoFramework {
             }
             Debug.LogError("Not Implemented " + shape);
             throw new NotImplementedException();
+        }
+
+        public static void CreateConeShape(ConeShape shape, Mesh mesh)
+        {
+            ProceduralPrimitives.CreateMeshCone(mesh, shape.Height, shape.Radius, 0f, 10);
         }
 
         public static void CreateBox2DShape(Box2DShape shape, Mesh mesh)
@@ -90,6 +94,51 @@ namespace DemoFramework {
             mesh.triangles = tris.ToArray();
             mesh.RecalculateBounds();
             mesh.RecalculateNormals();
+        }
+
+        static void PlaneSpace1(UnityEngine.Vector3 n, out UnityEngine.Vector3 p, out UnityEngine.Vector3 q)
+        {
+            if (Math.Abs(n[2]) > (Math.Sqrt(2) / 2))
+            {
+                // choose p in y-z plane
+                float a = n[1] * n[1] + n[2] * n[2];
+                float k = 1.0f / (float)Math.Sqrt(a);
+                p = new UnityEngine.Vector3(0, -n[2] * k, n[1] * k);
+                // set q = n x p
+                q = UnityEngine.Vector3.Cross(n, p);
+            }
+            else
+            {
+                // choose p in x-y plane
+                float a = n[0] * n[0] + n[1] * n[1];
+                float k = 1.0f / (float)Math.Sqrt(a);
+                p = new UnityEngine.Vector3(-n[1] * k, n[0] * k, 0);
+                // set q = n x p
+                q = UnityEngine.Vector3.Cross(n, p);
+            }
+        }
+
+        public static void CreateStaticPlane(StaticPlaneShape shape, Mesh m)
+        {
+            UnityEngine.Vector3 planeOrigin = shape.PlaneNormal.ToUnity() * shape.PlaneConstant;
+            UnityEngine.Vector3 vec0, vec1;
+            PlaneSpace1(shape.PlaneNormal.ToUnity(), out vec0, out vec1);
+            const float size = 1000f;
+
+            int[] indices = new int[] { 0, 2, 1, 0, 1, 3 };
+
+            UnityEngine.Vector3[] verts = new UnityEngine.Vector3[]
+            {
+                planeOrigin + vec0*size,
+                planeOrigin - vec0*size,
+                planeOrigin + vec1*size,
+                planeOrigin - vec1*size,
+            };
+            m.Clear();
+            m.vertices = verts;
+            m.triangles = indices;
+            m.RecalculateBounds();
+            m.RecalculateNormals();
         }
 
         public static void CreateTriangleMeshShape(StridingMeshInterface meshInterface, Mesh m)

@@ -130,6 +130,7 @@ namespace ConcaveRaycastDemo
 				    normal[i].Normalize();
 		    }
 #else
+
             for (int i = 0; i < NUMRAYS_IN_BAR; i++)
             {
                 using (var cb = new ClosestRayResultCallback(ref source[i], ref dest[i]))

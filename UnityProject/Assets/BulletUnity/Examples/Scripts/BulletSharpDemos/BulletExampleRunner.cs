@@ -19,36 +19,134 @@ public class BulletExampleRunner : MonoBehaviour {
     protected static BulletExampleRunner singleton;
     public BulletSharpExamples.Graphics graphics;
     public DemoFramework.Demo demo;
-
     public Material mat;
     public Material groundMat;
     public GameObject cubePrefab;
     public GameObject ropePrefab;
     public GameObject softBodyPrefab;
-
     public List<GameObject> createdObjs = new List<GameObject>();
+    public string[] demoNames = new string[] { "BasicDemo", "BenchmarkDemo", "Box2DDemo", "BspDemo", "CcdPhysicsDemo", "CharacterDemo", "CollisionInterfaceDemo", "ConcaveConvexCastDemo", "ConcaveRaycastDemo",
+                                                "ConstraintDemo", "ConvexDecompositionDemo", "DistanceDemo", "FeatherStoneDemo", "GImpactTestDemo", "MotorDemo", "PendulumDemo", "RagdollDemo", "RollingFrictionDemo",
+                                                "SerializeDemo", "SoftDemo", "VehicleDemo"};
 
     void Start()
     {
-        //demo = new CollisionInterfaceDemo.CollisionInterfaceDemo();
-        //demo = new BasicDemo.BasicDemo();
-        //demo = new SoftDemo.SoftDemo();
-        //demo = new BenchmarkDemo.BenchmarkDemo();
-        //demo = new CharacterDemo.CharacterDemo();
-        //demo = new ConstraintDemo.ConstraintDemo();
-        //demo = new FeatherStoneDemo.FeatherStoneDemo();
-        //demo = new CollisionInterfaceDemo.CollisionInterfaceDemo();
-        //demo = new ConcaveConvexCastDemo.ConcaveConvexCastDemo();
-        //demo = new ConcaveRaycastDemo.ConcaveRaycastDemo();
-        demo = new ConvexDecompositionDemo.ConvexDecompositionDemo();
-        //demo = new CcdPhysicsDemo.CcdPhysicsDemo();
-        //demo = new Box2DDemo.Box2DDemo();
-        //demo = new BspDemo.BspDemo();
+        RunDemo("BasicDemo");
+    }
 
+    void RunDemo(string nm)
+    {
+        if (nm.Equals("BasicDemo")) {
+            demo = new BasicDemo.BasicDemo();
+        }
+        if (nm.Equals("BenchmarkDemo"))
+        {
+            demo = new BenchmarkDemo.BenchmarkDemo();
+        }
+        if (nm.Equals("Box2DDemo"))
+        {
+            demo = new Box2DDemo.Box2DDemo();
+        }
+        if (nm.Equals("BspDemo"))
+        {
+            demo = new BspDemo.BspDemo();
+        }
+        if (nm.Equals("CcdPhysicsDemo"))
+        {
+            demo = new CcdPhysicsDemo.CcdPhysicsDemo();
+        }
+        if (nm.Equals("CharacterDemo"))
+        {
+            demo = new CharacterDemo.CharacterDemo();
+        }
+        if (nm.Equals("CollisionInterfaceDemo"))
+        {
+            demo = new CollisionInterfaceDemo.CollisionInterfaceDemo();
+        }
+        if (nm.Equals("ConcaveConvexCastDemo"))
+        {
+            demo = new ConcaveConvexCastDemo.ConcaveConvexCastDemo();
+        }
+        if (nm.Equals("ConcaveRaycastDemo"))
+        {
+            demo = new ConcaveRaycastDemo.ConcaveRaycastDemo();
+        }
+        if (nm.Equals("ConstraintDemo"))
+        {
+            demo = new ConstraintDemo.ConstraintDemo();
+        }
+        if (nm.Equals("ConvexDecompositionDemo"))
+        {
+            demo = new ConvexDecompositionDemo.ConvexDecompositionDemo();
+        }
+        if (nm.Equals("DistanceDemo"))
+        {
+            demo = new DistanceDemo.DistanceDemo();
+        }
+        if (nm.Equals("FeatherStoneDemo"))
+        {
+            demo = new FeatherStoneDemo.FeatherStoneDemo();
+        }
+        if (nm.Equals("GImpactTestDemo"))
+        {
+            demo = new GImpactTestDemo.GImpactTestDemo();
+        }
+        if (nm.Equals("MotorDemo"))
+        {
+            demo = new MotorDemo.MotorDemo();
+        }
+        if (nm.Equals("PendulumDemo"))
+        {
+            demo = new PendulumDemo.PendulumDemo();
+        }
+        if (nm.Equals("RagdollDemo"))
+        {
+            demo = new RagdollDemo.RagdollDemo();
+        }
+        if (nm.Equals("RollingFrictionDemo"))
+        {
+            demo = new RollingFrictionDemo.RollingFrictionDemo();
+        }
+        if (nm.Equals("SerializeDemo"))
+        {
+            demo = new SerializeDemo.SerializeDemo();
+        }
+        if (nm.Equals("SoftDemo"))
+        {
+            demo = new SoftDemo.SoftDemo();
+        }
+        if (nm.Equals("VehicleDemo"))
+        {
+            demo = new VehicleDemo.VehicleDemo();
+        }
         demo.DebugDrawMode = DebugDrawModes.DrawWireframe;
         demo.Run();
         demo.IsDebugDrawEnabled = true;
     }
+
+    bool showDemoNames = false;
+    void OnGUI()
+    {
+        if (GUILayout.Button("Demo List"))
+        {
+            showDemoNames = !showDemoNames;
+        }
+        if (showDemoNames)
+        {
+            for (int i = 0; i < demoNames.Length; i++)
+            {
+                if (GUILayout.Button(demoNames[i]))
+                {
+                    if (demo != null)
+                    {
+                        demo.ExitPhysics();
+                    }
+                    RunDemo(demoNames[i]);
+                }
+            }
+        }
+    }
+
 
     public void OnDrawGizmos()
     {
@@ -120,12 +218,14 @@ public class BulletExampleRunner : MonoBehaviour {
                         //InitRigidBodyInstance(colObj, child.ChildShape, ref childTransform);
                     }
                 } else if (cs.ShapeType == BroadphaseNativeType.CapsuleShape) {
+                    CapsuleShape css = (CapsuleShape) cs;
                     GameObject ggo = GameObject.CreatePrimitive(PrimitiveType.Capsule);
                     Destroy(ggo.GetComponent<Collider>());
                     go = new GameObject();
                     ggo.transform.parent = go.transform;
                     ggo.transform.localPosition = Vector3.zero;
                     ggo.transform.localRotation = Quaternion.identity;
+                    ggo.transform.localScale = new Vector3(css.Radius * 2f,css.HalfHeight * 2f,css.Radius * 2f);
                     BulletRigidBodyProxy rbp = go.AddComponent<BulletRigidBodyProxy>();
                     rbp.target = co;
                 } else { 
@@ -140,7 +240,11 @@ public class BulletExampleRunner : MonoBehaviour {
 
     void Update() {
         if (demo.Input != null) {
-            demo.Input.ClearKeyCache();
+            demo.Input.KeysReleased.Clear();
+            demo.Input.KeysReleased.AddRange(demo.Input.KeysDown);
+            demo.Input.KeysPressed.Clear();
+            demo.Input.KeysDown.Clear();
+            //demo.Input.ClearKeyCache();
             for (int i = 0; i < BulletSharpExamples.Input.UnityKeys.Length; i++) {
                 KeyCode k = BulletSharpExamples.Input.UnityKeys[i];
                 if (UnityEngine.Input.GetKey(k)) {
@@ -149,6 +253,14 @@ public class BulletExampleRunner : MonoBehaviour {
                 if (UnityEngine.Input.GetKeyDown(k)) {
                     demo.Input.KeysPressed.Add(BulletSharpExamples.Input.BSKeys[i]);
                 }
+            }
+            for (int i = 0; i < demo.Input.KeysPressed.Count; i++)
+            {
+                demo.Input.KeysReleased.Remove(demo.Input.KeysPressed[i]);
+            }
+            for (int i = 0; i < demo.Input.KeysDown.Count; i++)
+            {
+                demo.Input.KeysReleased.Remove(demo.Input.KeysDown[i]);
             }
             demo.OnHandleInput();
         }
@@ -169,30 +281,6 @@ public class BulletExampleRunner : MonoBehaviour {
         createdObjs.Clear();
     }
 
-
-
-    /*
-    public GameObject CreateUnityRigidBodyProxy(BulletSharp.RigidBody body) {
-        CollisionShape cs = body.CollisionShape;
-        if (cs is BoxShape) {
-            BoxShape bxcs = cs as BoxShape;
-            GameObject cube = Instantiate<GameObject>(cubePrefab);
-            BulletSharp.Math.Vector3 s = bxcs.HalfExtentsWithMargin;
-            MeshRenderer mr = cube.GetComponentInChildren<MeshRenderer>();
-            mr.transform.localScale = s.ToUnity() * 2f;
-            Matrix4x4 m = body.WorldTransform.ToUnity();
-            cube.transform.position = BSExtensionMethods.ExtractTranslationFromMatrix(ref m);
-            cube.transform.rotation = BSExtensionMethods.ExtractRotationFromMatrix(ref m);
-            cube.transform.localScale = BSExtensionMethods.ExtractScaleFromMatrix(ref m);
-            BulletRigidBodyProxy p = cube.GetComponent<BulletRigidBodyProxy>();
-            p.target = body;
-            return p.gameObject;
-        } else {
-            Debug.LogError("Unknown collision shape. " + cs);
-        }
-        return null;
-    }
-    */
 
     public GameObject CreateUnityCollisionObjectProxy(CollisionObject body) {
         if (body is GhostObject)

@@ -33,6 +33,7 @@ namespace BulletSharpExamples {
             Down,
             Left,
             Right,
+            OemPeriod,
     }
 
     public enum MouseButtons {
@@ -115,6 +116,8 @@ namespace BulletSharpExamples {
 
         public GraphicsForm Form;
 
+        public float FarPlane = 600f;
+
         public bool IsFullScreen;
 
         //public MouseButtons MousePressed;
@@ -183,6 +186,7 @@ namespace BulletSharpExamples {
             UnityEngine.KeyCode.F,
             UnityEngine.KeyCode.G,
             UnityEngine.KeyCode.P,
+            UnityEngine.KeyCode.T,
             UnityEngine.KeyCode.F3,
             UnityEngine.KeyCode.F8,
             UnityEngine.KeyCode.F11,
@@ -196,6 +200,7 @@ namespace BulletSharpExamples {
             UnityEngine.KeyCode.DownArrow,
             UnityEngine.KeyCode.LeftArrow,
             UnityEngine.KeyCode.RightArrow,
+            UnityEngine.KeyCode.Period,
         };
 
         public static Keys[] BSKeys = new Keys[]{
@@ -206,6 +211,7 @@ namespace BulletSharpExamples {
             Keys.F,
             Keys.G,
             Keys.P,
+            Keys.T,
             Keys.F3,
             Keys.F8,
             Keys.F11,
@@ -219,6 +225,7 @@ namespace BulletSharpExamples {
             Keys.Down,
             Keys.Left,
             Keys.Right,
+            Keys.OemPeriod,
         };
 
         public Point MousePoint;
@@ -228,6 +235,7 @@ namespace BulletSharpExamples {
 
         public List<Keys> KeysPressed = new List<Keys>();
         public List<Keys> KeysDown = new List<Keys>();
+        public List<Keys> KeysReleased = new List<Keys>();
 
         public Input(GraphicsForm f) {
 
@@ -236,6 +244,7 @@ namespace BulletSharpExamples {
         public void ClearKeyCache() {
             KeysPressed.Clear();
             KeysDown.Clear();
+            KeysReleased.Clear();
         }
     }
 
