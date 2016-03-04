@@ -96,8 +96,11 @@ namespace ConvexDecompositionDemo
 
             // Load wavefront file
             var wo = new WavefrontObj();
-            string filename = UnityEngine.Application.dataPath + "/BulletUnity/Examples/Scripts/BulletSharpDemos/ConvexDecompositionDemo/data/file.obj";
-            int tcount = wo.LoadObj(filename);
+            //string filename = UnityEngine.Application.dataPath + "/BulletUnity/Examples/Scripts/BulletSharpDemos/ConvexDecompositionDemo/data/file.obj";
+            UnityEngine.TextAsset bytes = (UnityEngine.TextAsset)UnityEngine.Resources.Load("file.obj");
+            System.IO.Stream byteStream = new System.IO.MemoryStream(bytes.bytes);
+
+            int tcount = wo.LoadObj(byteStream);
             if (tcount == 0)
             {
                 return;

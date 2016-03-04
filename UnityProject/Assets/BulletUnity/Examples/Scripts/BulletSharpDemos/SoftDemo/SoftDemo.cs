@@ -26,7 +26,7 @@ namespace SoftDemo
         Vector3 goal;
         bool drag;
 
-        int demo = 0;
+        public int demo = 0;
 
         SoftBodyWorldInfo softBodyWorldInfo;
 
@@ -42,9 +42,9 @@ namespace SoftDemo
             get { return World as SoftRigidDynamicsWorld; }
         }
 
-        delegate void DemoConstructor();
+        public delegate void DemoConstructor();
 
-        DemoConstructor[] demos;
+        public DemoConstructor[] demos;
 
         public SoftDemo()
         {
@@ -536,8 +536,14 @@ namespace SoftDemo
         void Init_TetraCube()
         {
             String path = System.IO.Path.GetDirectoryName(UnityEngine.Application.dataPath);
-            SoftBody psb = SoftBodyHelpers.CreateFromTetGenFile(softBodyWorldInfo,
-                path + "\\data\\cube.ele", null, path + "\\data\\cube.node", false, true, true);
+            //SoftBody psb = SoftBodyHelpers.CreateFromTetGenFile(softBodyWorldInfo,
+            //    path + "\\data\\cube.ele", null, path + "\\data\\cube.node", false, true, true);
+
+            UnityEngine.TextAsset ele = (UnityEngine.TextAsset) UnityEngine.Resources.Load("Cube.ele");  //(elementFilename != null) ? File.ReadAllText(elementFilename) : null;
+            UnityEngine.TextAsset face = (UnityEngine.TextAsset) UnityEngine.Resources.Load("Cube.ply"); // (faceFilename != null) ? File.ReadAllText(faceFilename) : null;
+            UnityEngine.TextAsset node = (UnityEngine.TextAsset) UnityEngine.Resources.Load("Cube.node");  // File.ReadAllText(nodeFilename)
+            SoftBody psb = SoftBodyHelpers.CreateFromTetGenData(softBodyWorldInfo, ele.text, face.text, node.text, false, true, true);
+
             SoftWorld.AddSoftBody(psb);
             psb.Scale(new Vector3(4, 4, 4));
             psb.Translate(0, 5, 0);

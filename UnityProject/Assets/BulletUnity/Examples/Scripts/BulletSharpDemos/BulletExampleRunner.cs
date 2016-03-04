@@ -125,6 +125,8 @@ public class BulletExampleRunner : MonoBehaviour {
     }
 
     bool showDemoNames = false;
+    public GUILayoutOption w = GUILayout.MinWidth(150);
+    int maxPerCol = 15;
     void OnGUI()
     {
         if (GUILayout.Button("Demo List"))
@@ -133,17 +135,50 @@ public class BulletExampleRunner : MonoBehaviour {
         }
         if (showDemoNames)
         {
-            for (int i = 0; i < demoNames.Length; i++)
+            GUILayout.BeginHorizontal(GUILayout.Width(1000));
+            GUILayout.BeginVertical("box", w);
+            int counter = 0;
+            for (int j = 0; j < demoNames.Length; j++)
             {
-                if (GUILayout.Button(demoNames[i]))
+                if (GUILayout.Button(demoNames[j]))
                 {
                     if (demo != null)
                     {
                         demo.ExitPhysics();
                     }
-                    RunDemo(demoNames[i]);
+                    RunDemo(demoNames[j]);
+                }
+                counter++;
+                if (counter > 0 && counter % maxPerCol == 0)
+                {
+                    GUILayout.EndVertical();
+                    GUILayout.BeginVertical("box", w);
                 }
             }
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical("box", w);
+            if (demo is SoftDemo.SoftDemo)
+            {
+                SoftDemo.SoftDemo sd = (SoftDemo.SoftDemo) demo;
+                SoftDemo.SoftDemo.DemoConstructor[] sdemos = sd.demos;
+                for (int j = 0; j < sdemos.Length; j++)
+                {
+                    string nm = sdemos[j].Method.Name;
+                    if (GUILayout.Button(nm))
+                    {
+                        sd.demo = j;
+                        sd.ClientResetScene();
+                    }
+                    counter++;
+                    if (counter > 0 && counter % maxPerCol == 0)
+                    {
+                        GUILayout.EndVertical();
+                        GUILayout.BeginVertical("box", w);
+                    }
+                }
+            }
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
         }
     }
 

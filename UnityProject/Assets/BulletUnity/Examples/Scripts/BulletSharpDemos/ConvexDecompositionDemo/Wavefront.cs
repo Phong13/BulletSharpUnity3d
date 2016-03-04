@@ -88,6 +88,24 @@ namespace ConvexDecompositionDemo
             }
         }
 
+        public int LoadObj(Stream stream)
+        {
+            indices = new List<int>();
+            normals = new List<Vector3>();
+            //texels = new List<Vector2>();
+            vertices = new List<Vector3>();
+            finalVertices = new List<Vector3>();
+
+            StreamReader reader = new StreamReader(stream);
+            while (!reader.EndOfStream)
+            {
+                ProcessLine(reader.ReadLine());
+            }
+
+            vertices = null;
+            return indices.Count / 3;
+        }
+
         // load a wavefront obj returns number of triangles that were loaded.  Data is persists until the class is destructed.
         public int LoadObj(string fname)
         {

@@ -12,18 +12,7 @@ namespace BulletUnity {
         */
 	[AddComponentMenu("Physics Bullet/RigidBody")]
     public class BRigidBody : BCollisionObject, IDisposable {
-        /*
-        public enum RBType {
-            dynamic,
-            kinematic,
-            isStatic,
-        }
-        */
-
-        //protected RigidBody m_Brigidbody;
         BGameObjectMotionState m_motionState;
-        //protected bool isInWorld = false;
-        //BCollisionShape m_collisionShape;
 
         RigidBody m_rigidBody
         {
@@ -38,23 +27,6 @@ namespace BulletUnity {
                 return _localInertia;
             }
         }
-
-        /*
-        [SerializeField]
-        bool _isTrigger = false;
-        public bool isTrigger
-        {
-            get { return _isTrigger; }
-            set{
-                if (isInWorld && _isTrigger != value)
-                {
-                    Debug.LogError("Cannot set isTrigger on RigidBody that is in the physics world");
-                    return;
-                }    
-                _isTrigger = value;
-            }
-        }
-        */
 
         public bool isDynamic()
         {
@@ -280,23 +252,6 @@ namespace BulletUnity {
                 return _mass;
             }
         }
-
-        /*
-        [SerializeField]
-        RBType _type;
-        public RBType type {
-            set {
-                if (isInWorld && _type != value) {
-                    Debug.LogError("Cannot change the type of a rigid body while it is in the Physics World. Remove, the rigid body, change the type, then re-add the rigid body.");
-                    return;
-                }
-                _type = value;
-            }
-            get {
-                return _type;
-            }
-        }
-        */
         
 
         public UnityEngine.Vector3 velocity {
@@ -370,7 +325,12 @@ namespace BulletUnity {
                 rbInfo.Dispose();
                 m_rigidBody.CollisionFlags = m_collisionFlags;
             } else {
-                m_rigidBody.SetMassProps(_mass, localInertia);
+                float usedMass = 0f;
+                if (isDynamic())
+                {
+                    usedMass = _mass;
+                }
+                m_rigidBody.SetMassProps(usedMass, localInertia);
                 m_rigidBody.CollisionShape = cs;
                 m_rigidBody.CollisionFlags = m_collisionFlags;
             }
