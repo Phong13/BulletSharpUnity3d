@@ -20,17 +20,28 @@ namespace BulletUnity {
             }
         }
 
-        public override void OnDrawGizmosSelected() {
-
+        public override void OnDrawGizmosSelected()
+        {
+            
         }
-        
+
         public override CollisionShape GetCollisionShape() {
             if (collisionShapePtr == null) {
                 Terrain t = GetComponent<Terrain>();
+                if (t == null)
+                {
+                    Debug.LogError("Needs to be attached to a game object with a Terrain component." + name);
+                    return null;
+                }
+                BTerrainCollisionObject tco = GetComponent<BTerrainCollisionObject>();
+                if (tco == null)
+                {
+                    Debug.LogError("Needs to be attached to a game object with a BTerrainCollisionObject." + name);
+                }
                 TerrainData td = t.terrainData;
                 int width = td.heightmapWidth;
                 int length = td.heightmapHeight;
-                float maxHeight = td.size.y / 2f;
+                float maxHeight = td.size.y;
 
                 //generate procedural data
                 byte[] terr = new byte[width * length * sizeof(float)];
@@ -42,41 +53,9 @@ namespace BulletUnity {
                     float[,] row = td.GetHeights(0, i, width, 1);
                     for (int j = 0; j < width; j++)
                     {
-                        writer.Write((float)row[0, j] * 1000f);
+                        writer.Write((float)row[0, j] * maxHeight);
                     }
                 }
-
-                //2nd variation I tried flip x and y axis was wrong
-                /*
-                for (int i = 0; i < width; i++)
-                {
-                    float[,] col = td.GetHeights(i, 0, 1, length);
-                    for (int j = 0; j < length; j++)
-                    {
-                        writer.Write((float) col[j,0] * 1000f);
-                    }
-                }
-                */
-
-
-                /*
-                for (int i = length - 1; i >= 0; i--)
-                {
-                    float[,] row = td.GetHeights(0, i, width, 1);
-                    for (int j = length - 1; j >= 0; j--)
-                    {
-                        writer.Write((float)row[0, j] * 1000f);
-                    }
-                }
-                
-                for (int i = 0; i < width; i++)
-                {
-                    for (int j = 0; j < length; j++)
-                    {
-                        writer.Write((float)(i));
-                    }
-                }
-                */
 
                 writer.Flush();
                 file.Position = 0;
@@ -85,6 +64,7 @@ namespace BulletUnity {
 
                 collisionShapePtr = new HeightfieldTerrainShape(width, length, pinnedTerrainData.AddrOfPinnedObject(), 1f, 0f, maxHeight, upIndex, scalarType, false);
                 ((HeightfieldTerrainShape)collisionShapePtr).SetUseDiamondSubdivision(true);
+                ((HeightfieldTerrainShape)collisionShapePtr).LocalScaling = new BulletSharp.Math.Vector3(td.heightmapScale.x, 1f, td.heightmapScale.z);
                 //just allocated several hundred float arrays. Garbage collect now since 99% likely we just loaded the scene
                 GC.Collect();
             }

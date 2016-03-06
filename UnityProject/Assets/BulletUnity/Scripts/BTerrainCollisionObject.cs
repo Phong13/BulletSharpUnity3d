@@ -59,11 +59,11 @@ namespace BulletUnity
                 Debug.LogError("The collision shape needs to be a BHeightfieldTerrainShape. " + name);
                 return false;
             }
+            BHeightfieldTerrainShape hfts = (BHeightfieldTerrainShape)m_collisionShape;
 
             CollisionShape cs = m_collisionShape.GetCollisionShape();
             //rigidbody is dynamic if and only if mass is non zero, otherwise static
 
-            float originHeight = td.size.y / 4f;
             if (m_collisionObject == null)
             {
                 m_collisionObject = new CollisionObject();
@@ -71,7 +71,7 @@ namespace BulletUnity
                 m_collisionObject.UserObject = this;
 
                 BulletSharp.Math.Matrix worldTrans = BulletSharp.Math.Matrix.Identity;
-                Vector3 pos = transform.position + new Vector3(td.heightmapWidth * .5f, originHeight, td.heightmapHeight * .5f);
+                Vector3 pos = transform.position + new Vector3(td.size.x * .5f, td.size.y * .5f, td.size.z * .5f);
                 worldTrans.Origin = pos.ToBullet();
                 m_collisionObject.WorldTransform = worldTrans;
                 m_collisionObject.CollisionFlags = m_collisionFlags;
@@ -79,7 +79,7 @@ namespace BulletUnity
             else {
                 m_collisionObject.CollisionShape = cs;
                 BulletSharp.Math.Matrix worldTrans = BulletSharp.Math.Matrix.Identity;
-                Vector3 pos = transform.position + new Vector3(td.heightmapWidth * .5f, originHeight, td.heightmapHeight * .5f);
+                Vector3 pos = transform.position + new Vector3(td.size.x * .5f, td.size.y * .5f, td.size.z * .5f);
                 worldTrans.Origin = pos.ToBullet();
                 m_collisionObject.WorldTransform = worldTrans;
                 m_collisionObject.CollisionFlags = m_collisionFlags;
