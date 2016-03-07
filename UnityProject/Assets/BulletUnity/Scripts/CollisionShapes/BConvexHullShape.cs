@@ -4,6 +4,7 @@ using System.Collections;
 using BulletSharp;
 
 namespace BulletUnity {
+	[AddComponentMenu("Physics Bullet/Convex Hull Mesh Shape")]
     public class BConvexHullShape : BCollisionShape {
         public Mesh hullMesh;
 
