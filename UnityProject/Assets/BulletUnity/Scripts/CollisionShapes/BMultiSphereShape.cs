@@ -4,6 +4,8 @@ using System.Collections;
 using BulletSharp;
 
 namespace BulletUnity {
+
+	[AddComponentMenu("Physics Bullet/Multi Sphere Shape")]
     public class BMultiSphereShape : BCollisionShape {
         [Serializable]
         public struct Sphere {
