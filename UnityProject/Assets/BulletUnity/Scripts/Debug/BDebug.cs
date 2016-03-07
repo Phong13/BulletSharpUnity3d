@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-namespace BulletSharp.Debug {
+namespace BulletUnity.Debugging {
     public class BDebug : MonoBehaviour
     {
         [Flags]
