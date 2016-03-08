@@ -99,17 +99,17 @@ namespace BulletUnity
 
         public virtual void BOnTriggerEnter(CollisionObject other, AlignedManifoldArray details)
         {
-            Debug.Log("Enter with " + other.UserObject + " fixedFrame " + BPhysicsWorld.Get().frameCount);
+            
         }
 
         public virtual void BOnTriggerStay(CollisionObject other, AlignedManifoldArray details)
         {
-            Debug.Log("Stay with " + other.UserObject + " fixedFrame " + BPhysicsWorld.Get().frameCount);
+           
         }
 
         public virtual void BOnTriggerExit(CollisionObject other)
         {
-            Debug.Log("Exit with " + other.UserObject + " fixedFrame " + BPhysicsWorld.Get().frameCount);
+            
         }
     }
 }

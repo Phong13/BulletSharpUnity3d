@@ -7,7 +7,14 @@ namespace BulletUnity
 {
     public class BCollisionObject : MonoBehaviour, IDisposable
     {
-        public delegate void OnCollisionCallbackEventHandler(PersistentManifold pm);
+
+        public interface BICollisionCallbackEventHandler
+        {
+            void OnVisitPersistentManifold(PersistentManifold pm);
+            void OnFinishedVisitingManifolds();
+        }
+
+        //public delegate void OnCollisionCallbackEventHandler(PersistentManifold pm);
 
         protected CollisionObject m_collisionObject;
         protected BCollisionShape m_collisionShape;
@@ -17,26 +24,32 @@ namespace BulletUnity
         public BulletSharp.CollisionFilterGroups m_collisionMask = BulletSharp.CollisionFilterGroups.AllFilter; // A colliding object must match this mask in order to collide with me.
 
 
-        OnCollisionCallbackEventHandler m_onCollisionCallback;
-        public virtual OnCollisionCallbackEventHandler onCollisionCallback
+        BICollisionCallbackEventHandler m_onCollisionCallback;
+        public virtual BICollisionCallbackEventHandler collisionCallbackEventHandler
         {
             get { return m_onCollisionCallback; }
         }
 
-
-        public virtual void AddOnCollisionCallbackEventHandler(OnCollisionCallbackEventHandler myCallback)
+        public virtual void AddOnCollisionCallbackEventHandler(BICollisionCallbackEventHandler myCallback)
         {
             BPhysicsWorld bhw = BPhysicsWorld.Get();
-            if (bhw.doCollisionCallbacks == false)
+            if (m_onCollisionCallback != null)
             {
-                Debug.LogErrorFormat("You have added a collision callback to rigid body {0} but the physics world has 'doCollsionCallbacks=false'. Your callback will never be called.");
+                Debug.LogErrorFormat("BCollisionObject {0} already has a collision callback. You must remove it before adding another. ", name);
+                
             }
-            m_onCollisionCallback += myCallback;
+            m_onCollisionCallback = myCallback;
+            bhw.RegisterCollisionCallbackListener(m_onCollisionCallback);
         }
 
-        public virtual void RemoveOnCollisionCallbackEventHandler(OnCollisionCallbackEventHandler myCallback)
+        public virtual void RemoveOnCollisionCallbackEventHandler()
         {
-            m_onCollisionCallback -= myCallback;
+            BPhysicsWorld bhw = BPhysicsWorld.Get();
+            if (m_onCollisionCallback != null)
+            {
+                bhw.DeregisterCollisionCallbackListener(m_onCollisionCallback);
+            }
+            m_onCollisionCallback = null;
         }
 
         //called by Physics World just before rigid body is added to world.

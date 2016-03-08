@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using BulletSharp;
 using BulletSharp.SoftBody;
+using System.Collections.Generic;
 
 
 namespace BulletUnity {
@@ -187,13 +188,15 @@ namespace BulletUnity {
                 m_gravity = value; }
         }
 
+        /*
         [SerializeField]
         bool m_doCollisionCallbacks = true;
         public bool doCollisionCallbacks
         {
             get { return m_doCollisionCallbacks; }
-            set { m_doCollisionCallbacks = value;}
+            set { m_doCollisionCallbacks = value; }
         }
+        */
 
         CollisionConfiguration CollisionConf;
         CollisionDispatcher Dispatcher;
@@ -218,6 +221,17 @@ namespace BulletUnity {
             {
                 return _frameCount;
             }
+        }
+
+        BDefaultCollisionHandler collisionEventHandler = new BDefaultCollisionHandler();
+        public void RegisterCollisionCallbackListener(BCollisionObject.BICollisionCallbackEventHandler toBeAdded)
+        {
+            if (collisionEventHandler != null) collisionEventHandler.RegisterCollisionCallbackListener(toBeAdded);
+        }
+
+        public void DeregisterCollisionCallbackListener(BCollisionObject.BICollisionCallbackEventHandler toBeRemoved)
+        {
+            if (collisionEventHandler != null) collisionEventHandler.DeregisterCollisionCallbackListener(toBeRemoved);
         }
 
         public void OnDrawGizmos()
@@ -246,23 +260,9 @@ namespace BulletUnity {
             }
 
             //collisions
-            if (m_doCollisionCallbacks)
+            if (collisionEventHandler != null)
             {
-                int numManifolds = m_world.Dispatcher.NumManifolds;
-                for (int i = 0; i < numManifolds; i++)
-                {
-                    PersistentManifold contactManifold = m_world.Dispatcher.GetManifoldByIndexInternal(i);
-                    CollisionObject a = contactManifold.Body0;
-                    CollisionObject b = contactManifold.Body1;
-                    if (a is RigidBody && a.UserObject is BRigidBody && ((BRigidBody)a.UserObject).onCollisionCallback != null)
-                    {
-                        ((BRigidBody)a.UserObject).onCollisionCallback(contactManifold);
-                    }
-                    if (b is RigidBody && b.UserObject is BRigidBody && ((BRigidBody)b.UserObject).onCollisionCallback != null)
-                    {
-                        ((BRigidBody)b.UserObject).onCollisionCallback(contactManifold);
-                    }
-                }
+                collisionEventHandler.OnPhysicsStep(world);
             }
         }
 
@@ -318,11 +318,11 @@ namespace BulletUnity {
                 Debug.LogFormat("Adding collision object {0} to world", co);
                 if (co._BuildCollisionObject())
                 {
-                    m_world.AddCollisionObject(co.GetCollisionObject(),co.m_groupsIBelongTo,co.m_collisionMask);
+                    m_world.AddCollisionObject(co.GetCollisionObject(), co.m_groupsIBelongTo, co.m_collisionMask);
                     if (ghostPairCallback == null && co is BGhostObject && world is DynamicsWorld)
                     {
                         ghostPairCallback = new GhostPairCallback();
-                        ((DynamicsWorld) world).PairCache.SetInternalGhostPairCallback(ghostPairCallback);
+                        ((DynamicsWorld)world).PairCache.SetInternalGhostPairCallback(ghostPairCallback);
                     }
                     if (co is BCharacterController && world is DynamicsWorld)
                     {
@@ -355,7 +355,7 @@ namespace BulletUnity {
                 Debug.LogFormat("Adding rigidbody {0} to world", rb);
                 if (rb._BuildCollisionObject())
                 {
-                    ((DiscreteDynamicsWorld) m_world).AddRigidBody((RigidBody) rb.GetCollisionObject(),rb.m_groupsIBelongTo,rb.m_collisionMask);
+                    ((DiscreteDynamicsWorld)m_world).AddRigidBody((RigidBody)rb.GetCollisionObject(), rb.m_groupsIBelongTo, rb.m_collisionMask);
                 }
                 return true;
             }
@@ -463,8 +463,7 @@ namespace BulletUnity {
                 Broadphase = new AxisSweep3_32Bit(m_axis3SweepBroadphaseMin.ToBullet(), m_axis3SweepBroadphaseMax.ToBullet(), axis3SweepMaxProxies);
             } else
             {
-				Broadphase = null;
-                //Broadphase = new SimpleBroadphase();
+                Broadphase = null;
             }
 
             if (m_worldType == WorldType.CollisionOnly)
@@ -475,12 +474,12 @@ namespace BulletUnity {
             else if (m_worldType == WorldType.RigidBodyDynamics)
             {
                 m_world = new DiscreteDynamicsWorld(Dispatcher, Broadphase, null, CollisionConf);
-                _ddWorld = (DiscreteDynamicsWorld) m_world;
+                _ddWorld = (DiscreteDynamicsWorld)m_world;
             }
             else if (m_worldType == WorldType.MultiBodyWorld)
             {
                 m_world = new MultiBodyDynamicsWorld(Dispatcher, Broadphase, null, CollisionConf);
-                _ddWorld = (DiscreteDynamicsWorld) m_world;
+                _ddWorld = (DiscreteDynamicsWorld)m_world;
             }
             else if (m_worldType == WorldType.SoftBodyAndRigidBody)
             {
@@ -592,4 +591,148 @@ namespace BulletUnity {
             _isDisposed = true;
         }
     }
+
+    public class BDefaultCollisionHandler
+    {
+        HashSet<BCollisionObject.BICollisionCallbackEventHandler> collisionCallbackListeners = new HashSet<BCollisionObject.BICollisionCallbackEventHandler>();
+
+        public void RegisterCollisionCallbackListener(BCollisionObject.BICollisionCallbackEventHandler toBeAdded)
+        {
+            collisionCallbackListeners.Add(toBeAdded);
+        }
+
+        public void DeregisterCollisionCallbackListener(BCollisionObject.BICollisionCallbackEventHandler toBeRemoved)
+        {
+            collisionCallbackListeners.Remove(toBeRemoved);
+        }
+
+        public void OnPhysicsStep(CollisionWorld world)
+        {
+            Dispatcher dispatcher = world.Dispatcher;
+            int numManifolds = dispatcher.NumManifolds;
+            for (int i = 0; i < numManifolds; i++)
+            {
+                PersistentManifold contactManifold = dispatcher.GetManifoldByIndexInternal(i);
+                CollisionObject a = contactManifold.Body0;
+                CollisionObject b = contactManifold.Body1;
+                if (a is CollisionObject && a.UserObject is BCollisionObject && ((BCollisionObject)a.UserObject).collisionCallbackEventHandler != null)
+                {
+                    ((BCollisionObject)a.UserObject).collisionCallbackEventHandler.OnVisitPersistentManifold(contactManifold);
+                }
+                if (b is CollisionObject && b.UserObject is BCollisionObject && ((BCollisionObject)b.UserObject).collisionCallbackEventHandler != null)
+                {
+                    ((BCollisionObject)b.UserObject).collisionCallbackEventHandler.OnVisitPersistentManifold(contactManifold);
+                }
+            }
+            foreach (BCollisionObject.BICollisionCallbackEventHandler coeh in collisionCallbackListeners)
+            {
+                if (coeh != null) coeh.OnFinishedVisitingManifolds();
+            }
+        }
+    }
+
+    /*
+    public class BDefaultCollisionHandler{
+        public struct CollisionPair
+        {
+            public int obj0ID;
+            public int obj1ID;
+
+            public CollisionPair(CollisionObject a, CollisionObject b)
+            {
+                int idA = a.BroadphaseHandle.UniqueId;
+                int idB = b.BroadphaseHandle.UniqueId;
+                if (idA < idB) {
+                    obj0ID = idA;
+                    obj1ID = idB;
+                } else
+                {
+                    obj0ID = idB;
+                    obj1ID = idB;
+                }
+            }
+
+            public override int GetHashCode()
+            {
+                return obj0ID ^ obj1ID;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (obj is CollisionPair) return false;
+                else
+                {
+                    if (((CollisionPair) obj).obj0ID == obj0ID &&
+                        ((CollisionPair) obj).obj1ID == obj1ID)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+        }
+
+        public class ManifoldPoints
+        {
+            public int frameLastVisited = 0;
+            public List<PersistentManifold> manifolds = List<PersistentManifold>();
+        }
+
+        CollisionWorld m_world;
+        Dictionary<CollisionPair, ManifoldPoints> pair2ManifoldMap = new Dictionary<CollisionPair, List<ManifoldPoints>>();
+
+        public void OnPhysicsStep()
+        {
+            int numManifolds = m_world.Dispatcher.NumManifolds;
+            // collect manifolds
+            pair2ManifoldMap.Clear();
+            for (int i = 0; i < numManifolds; i++)
+            {
+                PersistentManifold contactManifold = m_world.Dispatcher.GetManifoldByIndexInternal(i);
+                CollisionObject a = contactManifold.Body0;
+                CollisionObject b = contactManifold.Body1;
+                bool hasCallback = false;
+                if (a is CollisionObject && a.UserObject is BCollisionObject && ((BCollisionObject)a.UserObject).onCollisionCallback != null){
+                    hasCallback = true;
+                }
+                if (b is CollisionObject && b.UserObject is BCollisionObject && ((BCollisionObject)b.UserObject).onCollisionCallback != null)
+                {
+                    hasCallback = true;
+                }
+                if (hasCallback)
+                {
+                    CollisionPair pair = new CollisionPair(contactManifold.Body0, contactManifold.Body1);
+                    ManifoldPoints pms;
+                    if (!pair2ManifoldMap.TryGetValue(pair, out pms))
+                    {
+                        //TODO implement pool
+                        pms = new ManifoldPoints();
+                        pair2ManifoldMap.Add(pair, pms);
+                    }
+                    pms.Add(contactManifold);  
+                }
+            }
+
+            //second call the callbacks
+            foreach (CollisionPair p in pair2ManifoldMap.Keys)
+            {
+                List<PersistentManifold> pms = pair2ManifoldMap[p];
+                for (int i = 0; i < pms.Count; i++)
+                {
+
+                    CollisionObject a = pms[i].Body0;
+                    CollisionObject b = pms[i].Body1;
+                    if (a is CollisionObject && a.UserObject is BCollisionObject && ((BCollisionObject)a.UserObject).onCollisionCallback != null)
+                    {
+                        ((BCollisionObject)a.UserObject).onCollisionCallback(pms[i]);
+                    }
+                    if (b is CollisionObject && b.UserObject is BCollisionObject && ((BCollisionObject)b.UserObject).onCollisionCallback != null)
+                    {
+                        ((BCollisionObject)b.UserObject).onCollisionCallback(pms[i]);
+                    }
+                }
+            }
+        }
+    }
+    */
 }
