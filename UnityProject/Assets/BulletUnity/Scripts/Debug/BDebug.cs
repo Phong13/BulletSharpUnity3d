@@ -6,12 +6,10 @@ namespace BulletUnity.Debugging {
     public class BDebug : MonoBehaviour
     {
         [Flags]
-        enum DebugType
+        public enum DebugType
         {
-            None, Log, Warning, Error
+        	Log, Warning, Error
         }
-
-        static DebugType debugType;
 
         public static void Log(object message)
         {

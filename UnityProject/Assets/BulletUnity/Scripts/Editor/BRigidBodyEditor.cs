@@ -57,8 +57,13 @@ public class BRigidBodyEditor : Editor
         rb.additionalAngularDampingThresholdSqr = EditorGUILayout.FloatField("Additional Angular Damping Threshold Sqr",rb.additionalAngularDampingThresholdSqr);
         rb.additionalAngularDampingFactor = EditorGUILayout.FloatField("Additional Angular Damping Factor",rb.additionalAngularDampingFactor);
 
+		EditorGUILayout.Separator();
+
+		rb.debug = EditorInterface.DrawDebug(rb.debug, rb);
+
         if (GUI.changed)
         {
+			serializedObject.ApplyModifiedProperties();
             EditorUtility.SetDirty(rb);
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
             Undo.RecordObject(rb, "Undo Rigid Body");
