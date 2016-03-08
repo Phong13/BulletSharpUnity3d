@@ -3,29 +3,29 @@ using System.Collections;
 using System;
 
 namespace BulletUnity.Debugging {
-    public class BDebug : MonoBehaviour
+    public class BDebug
     {
         [Flags]
-        enum DebugType
+        public enum DebugType
         {
-            None, Log, Warning, Error
+        	Log, Warning, Error
         }
 
-        static DebugType debugType;
+		public DebugType debugType;
 
-        public static void Log(object message)
+        public void Log(object message)
         {
-            UnityEngine.Debug.Log(message);
+            Debug.Log(message);
         }
 
-        public static void LogWarning(object message)
+        public void LogWarning(object message)
         {
-            UnityEngine.Debug.LogWarning(message);
+            Debug.LogWarning(message);
         }
 
-        public static void LogError(object message)
+        public void LogError(object message)
         {
-            UnityEngine.Debug.LogError(message);
+            Debug.LogError(message);
         }
     }
 }
