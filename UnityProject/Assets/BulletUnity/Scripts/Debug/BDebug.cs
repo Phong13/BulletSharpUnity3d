@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 
 namespace BulletUnity.Debugging {
-    public class BDebug : MonoBehaviour
+    public class BDebug
     {
         [Flags]
         public enum DebugType
@@ -11,19 +11,21 @@ namespace BulletUnity.Debugging {
         	Log, Warning, Error
         }
 
-        public static void Log(object message)
+		public DebugType debugType;
+
+        public void Log(object message)
         {
-            UnityEngine.Debug.Log(message);
+            Debug.Log(message);
         }
 
-        public static void LogWarning(object message)
+        public void LogWarning(object message)
         {
-            UnityEngine.Debug.LogWarning(message);
+            Debug.LogWarning(message);
         }
 
-        public static void LogError(object message)
+        public void LogError(object message)
         {
-            UnityEngine.Debug.LogError(message);
+            Debug.LogError(message);
         }
     }
 }

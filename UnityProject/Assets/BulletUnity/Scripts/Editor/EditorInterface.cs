@@ -9,13 +9,13 @@ public class EditorInterface : Editor
 	/// Draw a box for select the debug mode of this object.
 	/// </summary>
 	/// <param name="debug">DebugType</param>
-	public static BDebug.DebugType DrawDebug(BDebug.DebugType debug, MonoBehaviour script) 
+	public static BDebug DrawDebug(BDebug debug, MonoBehaviour script) 
 	{
 		EditorGUILayout.LabelField("Debug", EditorStyles.boldLabel);
 
 		//Check if the interface changed for perform an undo record.
 		EditorGUI.BeginChangeCheck();
-		debug = (BDebug.DebugType)EditorGUILayout.EnumMaskField(debug);
+		debug.debugType = (BDebug.DebugType)EditorGUILayout.EnumMaskField(debug.debugType);
 		if(EditorGUI.EndChangeCheck()) 
 		{
 			Undo.RecordObject(script, "Debug Mode");
