@@ -59,7 +59,6 @@ namespace BulletUnity
                 Debug.LogError("The collision shape needs to be a BHeightfieldTerrainShape. " + name);
                 return false;
             }
-            BHeightfieldTerrainShape hfts = (BHeightfieldTerrainShape)m_collisionShape;
 
             CollisionShape cs = m_collisionShape.GetCollisionShape();
             //rigidbody is dynamic if and only if mass is non zero, otherwise static

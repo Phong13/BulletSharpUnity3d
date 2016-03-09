@@ -9,7 +9,7 @@ namespace ConvexDecompositionDemo
     class ConvexDecomposition
     {
         StreamWriter output;
-        ConvexDecompositionDemo demo;
+        //ConvexDecompositionDemo demo;
         CultureInfo floatFormat = new CultureInfo("en-US");
         int mBaseCount = 0;
 
@@ -21,7 +21,7 @@ namespace ConvexDecompositionDemo
         public ConvexDecomposition(StreamWriter output, ConvexDecompositionDemo demo)
         {
             this.output = output;
-            this.demo = demo;
+            //this.demo = demo;
 
             LocalScaling = new Vector3(1, 1, 1);
         }
@@ -58,16 +58,16 @@ namespace ConvexDecompositionDemo
 
 
             // Create TriangleMesh
-            var trimesh = new TriangleMesh();
+            //var trimesh = new TriangleMesh();
             for (int i = 0; i < hullIndices.Length; i += 3)
             {
                 int index0 = hullIndices[i];
                 int index1 = hullIndices[i + 1];
                 int index2 = hullIndices[i + 2];
 
-                Vector3 vertex0 = hullVertices[index0] * LocalScaling - centroid;
-                Vector3 vertex1 = hullVertices[index1] * LocalScaling - centroid;
-                Vector3 vertex2 = hullVertices[index2] * LocalScaling - centroid;
+                //Vector3 vertex0 = hullVertices[index0] * LocalScaling - centroid;
+                //Vector3 vertex1 = hullVertices[index1] * LocalScaling - centroid;
+                //Vector3 vertex2 = hullVertices[index2] * LocalScaling - centroid;
 
                 index0 += mBaseCount;
                 index1 += mBaseCount;

@@ -49,7 +49,7 @@ namespace PendulumDemo
             const bool canSleep = false;
             const bool selfCollide = false;
             Vector3 linkHalfExtents = new Vector3(0.05f, 0.5f, 0.1f);
-            Vector3 baseHalfExtents = new Vector3(0.05f, 0.5f, 0.1f);
+            //Vector3 baseHalfExtents = new Vector3(0.05f, 0.5f, 0.1f);
 
             Vector3 baseInertiaDiag = Vector3.Zero;
             const float baseMass = 0;
@@ -100,9 +100,9 @@ namespace PendulumDemo
                 CollisionShapes.Add(shape);
                 var col = new MultiBodyLinkCollider(multiBody, i);
                 col.CollisionShape = shape;
-                const bool isDynamic = true;
-                CollisionFilterGroups collisionFilterGroup = isDynamic ? CollisionFilterGroups.DefaultFilter : CollisionFilterGroups.StaticFilter;
-                CollisionFilterGroups collisionFilterMask = isDynamic ? CollisionFilterGroups.AllFilter : CollisionFilterGroups.AllFilter & ~CollisionFilterGroups.StaticFilter;
+                //const bool isDynamic = true;
+                CollisionFilterGroups collisionFilterGroup = CollisionFilterGroups.DefaultFilter; // : CollisionFilterGroups.StaticFilter;
+                CollisionFilterGroups collisionFilterMask = CollisionFilterGroups.AllFilter; // : CollisionFilterGroups.AllFilter & ~CollisionFilterGroups.StaticFilter;
                 World.AddCollisionObject(col, collisionFilterGroup, collisionFilterMask);
                 multiBody.GetLink(i).Collider = col;
             }
@@ -114,13 +114,15 @@ namespace PendulumDemo
 
             multiBody.AddJointTorque(0, 20.0f);
 
+            /*
             if (IsDebugDrawEnabled)
             {
                 Vector3 from = multiBody.BaseWorldTransform.Origin;
                 Vector3 to = multiBody.GetLink(0).Collider.WorldTransform.Origin;
                 Vector3 color = new Vector3(1, 0, 0);
-                //World.DebugDrawer.DrawLine(ref from, ref to, ref color);
+                World.DebugDrawer.DrawLine(ref from, ref to, ref color);
             }
+            */
         }
     }
 

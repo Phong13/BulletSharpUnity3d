@@ -122,8 +122,8 @@ namespace ConstraintDemo
             mass = 1.0f;
 
             RigidBody body0 = LocalCreateRigidBody(mass, Matrix.Translation(0, 20, 0), shape);
-
-            RigidBody body1 = null;//LocalCreateRigidBody(mass, Matrix.Translation(2*CUBE_HALF_EXTENTS,20,0), shape);
+             
+            //RigidBody body1 = null;//LocalCreateRigidBody(mass, Matrix.Translation(2*CUBE_HALF_EXTENTS,20,0), shape);
             //RigidBody body1 = LocalCreateRigidBody(0, Matrix.Translation(2*CUBE_HALF_EXTENTS,20,0), null);
             //body1.ActivationState = ActivationState.DisableDeactivation;
             //body1.SetDamping(0.3f, 0.3f);
@@ -131,6 +131,7 @@ namespace ConstraintDemo
             Vector3 pivotInA = new Vector3(CubeHalfExtents, -CubeHalfExtents, -CubeHalfExtents);
             Vector3 axisInA = new Vector3(0, 0, 1);
 
+            /*
             Vector3 pivotInB;
             if (body1 != null)
             {
@@ -141,7 +142,9 @@ namespace ConstraintDemo
             {
                 pivotInB = pivotInA;
             }
+            */
 
+            /*
             Vector3 axisInB;
             if (body1 != null)
             {
@@ -152,6 +155,7 @@ namespace ConstraintDemo
             {
                 axisInB = Vector3.TransformCoordinate(axisInA, body0.CenterOfMassTransform);
             }
+            */
 
 #if P2P
             {
@@ -265,7 +269,7 @@ namespace ConstraintDemo
             World.AddConstraint(spDoorHinge);
             spDoorHinge.DebugDrawSize = 5;
 
-            RigidBody pDropBody = LocalCreateRigidBody(10.0f, Matrix.Translation(-5.0f, 2.0f, 0.0f), shape);
+            /*RigidBody pDropBody =*/ LocalCreateRigidBody(10.0f, Matrix.Translation(-5.0f, 2.0f, 0.0f), shape);
 
 
 

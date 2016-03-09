@@ -22,8 +22,8 @@ namespace GImpactTestDemo
         TriangleIndexVertexArray indexVertexArrays;
         TriangleIndexVertexArray indexVertexArrays2;
 
-        Vector3 kinTorusTran;
-        Quaternion kinTorusRot;
+        //Vector3 kinTorusTran;
+        //Quaternion kinTorusRot;
         RigidBody kinematicTorus;
 
         const float ShootBoxInitialSpeed = 40.0f;
@@ -90,7 +90,7 @@ namespace GImpactTestDemo
             normal.Normalize();
             CollisionShape staticplaneShape6 = new StaticPlaneShape(normal, 0.5f);// A plane
             CollisionShapes.Add(staticplaneShape6);
-            RigidBody staticBody2 = LocalCreateRigidBody(mass, Matrix.Translation(0, -9, 0), staticplaneShape6);
+            /*RigidBody staticBody2 =*/ LocalCreateRigidBody(mass, Matrix.Translation(0, -9, 0), staticplaneShape6);
 
 
             //another static plane
@@ -99,7 +99,7 @@ namespace GImpactTestDemo
             //normal.Normalize();
             CollisionShape staticplaneShape7 = new StaticPlaneShape(normal, 0.0f);// A plane
             CollisionShapes.Add(staticplaneShape7);
-            staticBody2 = LocalCreateRigidBody(mass, Matrix.Translation(0, -10, 0), staticplaneShape7);
+            /*staticBody2 =*/ LocalCreateRigidBody(mass, Matrix.Translation(0, -10, 0), staticplaneShape7);
 
 
             // Create Static Torus
@@ -124,8 +124,8 @@ namespace GImpactTestDemo
             kinematicTorus.ActivationState = ActivationState.DisableDeactivation;
 
             // Kinematic
-            kinTorusTran = new Vector3(-0.1f, 0, 0);
-            kinTorusRot = Quaternion.RotationYawPitchRoll(0, (float)Math.PI * 0.01f, 0);
+            //kinTorusTran = new Vector3(-0.1f, 0, 0);
+            //kinTorusRot = Quaternion.RotationYawPitchRoll(0, (float)Math.PI * 0.01f, 0);
 
 
 #if TEST_GIMPACT_TORUS
@@ -138,13 +138,13 @@ namespace GImpactTestDemo
                 startTransform =
                     Matrix.RotationQuaternion(Quaternion.RotationYawPitchRoll(0, 0, (float)Math.PI * 0.5f)) *
                     Matrix.Translation(0, height, -5);
-                RigidBody bodyA = LocalCreateRigidBody(massT, startTransform, trimeshShape);
+                /*RigidBody bodyA =*/ LocalCreateRigidBody(massT, startTransform, trimeshShape);
 
                 height -= step;
                 startTransform =
                     Matrix.RotationQuaternion(Quaternion.RotationYawPitchRoll((float)Math.PI * 0.5f, 0, (float)Math.PI * 0.5f)) *
                     Matrix.Translation(0, height, -5);
-                RigidBody bodyB = LocalCreateRigidBody(massT, startTransform, trimeshShape);
+                /*RigidBody bodyB =*/ LocalCreateRigidBody(massT, startTransform, trimeshShape);
             }
 #else
             /*

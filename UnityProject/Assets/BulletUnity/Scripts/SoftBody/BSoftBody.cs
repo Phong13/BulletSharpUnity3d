@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace BulletUnity
 {
 
-    public class BSoftBody : MonoBehaviour, IDisposable
+    public class BSoftBody : BCollisionObject, IDisposable
     {
         //common Soft body settings class used for all softbodies, parameters set based on type of soft body
         [SerializeField]
@@ -20,9 +20,7 @@ namespace BulletUnity
             set { _softBodySettings = value; }
         }
 
-        protected SoftBody m_BSoftBody;
-
-        protected bool isInWorld = false;
+        //protected SoftBody m_BSoftBody;
 
         SoftRigidDynamicsWorld _world;
         protected SoftRigidDynamicsWorld World
@@ -35,8 +33,12 @@ namespace BulletUnity
         protected UnityEngine.Vector3[] norms = new UnityEngine.Vector3[0];
         protected int[] tris = new int[1];
 
-        //void OnEnable()    
-        void Start()  //Need to add in start or SB is not initialized and world may not exist yet
+        protected override void Awake()
+        {
+        }
+
+        protected override void OnEnable()    
+        //void Start()  //Need to add in start or SB is not initialized and world may not exist yet
         {
             if (BPhysicsWorld.Get().AddSoftBody(this))
             {
@@ -44,42 +46,45 @@ namespace BulletUnity
             }
         }
         
-        void OnDisable()
+        protected override void OnDisable()
         {
             if (isInWorld)
             {
-                World.RemoveSoftBody(m_BSoftBody);
+                World.RemoveSoftBody((SoftBody)m_collisionObject);
             }
             isInWorld = false;
         }
 
-        public BulletSharp.SoftBody.SoftBody GetSoftBody()
-        {
-            if (m_BSoftBody == null)
-            {
-                BuildSoftBody();
-            }
-            return m_BSoftBody;
-        }
-
-        public virtual bool BuildSoftBody()
+        internal override bool _BuildCollisionObject()
         {
             return false;
         }
 
-        void OnDestroy()
+        public void BuildSoftBody()
         {
-            Dispose(false);
+            _BuildCollisionObject();
         }
 
-        public void Dispose()
+        /*
+        public BulletSharp.SoftBody.SoftBody GetSoftBody()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            if (m_BSoftBody == null)
+            {
+                _BuildCollisionObject();
+            }
+            return m_BSoftBody;
         }
-
-        protected virtual void Dispose(bool isdisposing)
+        */
+        /*
+        public virtual bool BuildSoftBody()
         {
+            return false;
+        }
+        */
+
+        protected override void Dispose(bool isdisposing)
+        {
+            SoftBody m_BSoftBody = (SoftBody)m_collisionObject;
             if (isInWorld && isdisposing && m_BSoftBody != null)
             {
                 if (m_BSoftBody != null)
@@ -89,7 +94,6 @@ namespace BulletUnity
             }
             if (m_BSoftBody != null)
             {
-                //if (m_BSoftBody.MotionState != null) m_BSoftBody.MotionState.Dispose();
                 m_BSoftBody.Dispose();
                 m_BSoftBody = null;
             }
@@ -100,6 +104,7 @@ namespace BulletUnity
         {
             if (isInWorld)
             {
+                SoftBody m_BSoftBody = (SoftBody)m_collisionObject;
                 if (verts.Length != m_BSoftBody.Nodes.Count)
                 {
                     verts = new Vector3[m_BSoftBody.Nodes.Count];

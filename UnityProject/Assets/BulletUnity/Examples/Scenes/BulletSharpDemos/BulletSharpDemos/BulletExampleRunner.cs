@@ -227,7 +227,7 @@ public class BulletExampleRunner : MonoBehaviour {
             } else {
                 //rigid body
                 if (cs.ShapeType == BroadphaseNativeType.CompoundShape) {
-                    BulletSharp.Math.Matrix transform = co.WorldTransform;
+                    //BulletSharp.Math.Matrix transform = co.WorldTransform;
                     go = new GameObject("Compund Shape");
                     BulletRigidBodyProxy rbp = go.AddComponent<BulletRigidBodyProxy>();
                     rbp.target = co as RigidBody;

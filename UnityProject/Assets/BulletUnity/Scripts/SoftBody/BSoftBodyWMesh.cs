@@ -24,7 +24,7 @@ namespace BulletUnity
             get { return _meshFilter = _meshFilter ?? GetComponent<MeshFilter>(); }
         }
 
-        public override bool BuildSoftBody()
+        internal override bool _BuildCollisionObject()
         {
             Mesh mesh = meshSettings.Build();
 
@@ -38,8 +38,8 @@ namespace BulletUnity
                 bVerts[i] = mesh.vertices[i].ToBullet();
             }
 
-            m_BSoftBody = SoftBodyHelpers.CreateFromTriMesh(World.WorldInfo, bVerts, mesh.triangles);
-
+            SoftBody m_BSoftBody = SoftBodyHelpers.CreateFromTriMesh(World.WorldInfo, bVerts, mesh.triangles);
+            m_collisionObject = m_BSoftBody;
             SoftBodySettings.ConfigureSoftBody(m_BSoftBody);         //Set SB settings
 
             //Set SB position to GO position
@@ -61,7 +61,7 @@ namespace BulletUnity
         /// <returns></returns>
         public static GameObject CreateNew(Vector3 position, Quaternion rotation, Mesh mesh, bool buildNow, SBSettingsPresets sBpresetSelect = SBSettingsPresets.ShapeMatching)
         {
-            GameObject go = new GameObject();
+            GameObject go = new GameObject("SoftBodyWMesh");
             go.transform.position = position;
             go.transform.rotation = rotation;
             BSoftBodyWMesh BSoft = go.AddComponent<BSoftBodyWMesh>();
@@ -74,7 +74,9 @@ namespace BulletUnity
             BSoft.SoftBodySettings.ResetToSoftBodyPresets(sBpresetSelect); //Apply SoftBody settings presets
 
             if (buildNow)
-                BSoft.BuildSoftBody();  //Build the SoftBody
+            {
+                BSoft._BuildCollisionObject();  //Build the SoftBody
+            }
             go.name = "BSoftBodyWMesh";
             return go;
         }
@@ -88,7 +90,7 @@ namespace BulletUnity
             mesh.vertices = verts;
             mesh.normals = norms;
             mesh.RecalculateBounds();
-            transform.SetTransformationFromBulletMatrix(m_BSoftBody.WorldTransform);  //Set SoftBody position, No motionstate    
+            transform.SetTransformationFromBulletMatrix(m_collisionObject.WorldTransform);  //Set SoftBody position, No motionstate    
         }
 
 

@@ -78,10 +78,7 @@ namespace BulletUnity {
                 collisionShapePtr.Dispose();
                 collisionShapePtr = null;
             }
-            if (pinnedTerrainData != null)
-            {
-                pinnedTerrainData.Free();
-            }
+            pinnedTerrainData.Free();
         }
     }
 }

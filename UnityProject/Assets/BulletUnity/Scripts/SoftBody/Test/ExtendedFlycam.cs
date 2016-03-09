@@ -80,7 +80,9 @@ namespace BulletUnity
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Screen.lockCursor = (Screen.lockCursor == false) ? true : false;
+                //Screen.lockCursor = !Screen.lockCursor;
+                Cursor.visible = !Cursor.visible;
+               
             }
         }
     }

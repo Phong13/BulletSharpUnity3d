@@ -11,12 +11,12 @@ namespace DistanceDemo
         Vector3 eye = new Vector3(30, 20, 10);
         Vector3 target = new Vector3(0, 5, -4);
 
-        Vector3 distanceFrom, distanceTo;
-        float distance;
+        //Vector3 distanceFrom, distanceTo;
+        //float distance;
 
         Matrix rotBodyPosition = Matrix.Translation(0, 10, 0);
         Matrix body2Position = Matrix.Translation(0, 5, 0);
-        RigidBody rotBody, body2;
+        RigidBody rotBody /*, body2*/;
         ConvexShape colShape0, colShape1;
 
         VoronoiSimplexSolver sGjkSimplexSolver = new VoronoiSimplexSolver();
@@ -65,14 +65,14 @@ namespace DistanceDemo
             CollisionShapes.Add(colShape0);
             CollisionShapes.Add(colShape1);
 
-            body2 = LocalCreateRigidBody(0, body2Position, colShape1);
+            /*body2 =*/ LocalCreateRigidBody(0, body2Position, colShape1);
 
             rotBody = LocalCreateRigidBody(0, rotBodyPosition, colShape0);
             rotBody.CollisionFlags |= CollisionFlags.KinematicObject;
             rotBody.ActivationState = ActivationState.DisableDeactivation;
         }
 
-        static Vector3 red = new Vector3(1.0f, 0.0f, 0.0f);
+        //static Vector3 red = new Vector3(1.0f, 0.0f, 0.0f);
         public override void OnUpdate()
         {
             base.OnUpdate();
@@ -90,6 +90,7 @@ namespace DistanceDemo
             PointCollector result = new PointCollector();
             detector.GetClosestPoints(input, result, null);
 
+            /*
             if (result.HasResult && IsDebugDrawEnabled)
             {
                 distanceFrom = result.PointInWorld;
@@ -97,6 +98,7 @@ namespace DistanceDemo
                 distance = result.Distance;
                 //World.DebugDrawer.DrawLine(ref distanceFrom, ref distanceTo, ref red);
             }
+            */
         }
     }
 

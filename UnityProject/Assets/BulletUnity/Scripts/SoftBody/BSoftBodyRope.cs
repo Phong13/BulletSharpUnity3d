@@ -38,7 +38,7 @@ namespace BulletUnity
             get { return _lr = _lr ?? GetComponent<LineRenderer>(); }
         }
 
-        public override bool BuildSoftBody()
+        internal override bool _BuildCollisionObject()
         {
             if (meshSettings.numPointsInRope < 2)
             {
@@ -51,8 +51,9 @@ namespace BulletUnity
                 return false;
             }
 
-            m_BSoftBody = SoftBodyHelpers.CreateRope(World.WorldInfo,
+            SoftBody m_BSoftBody = SoftBodyHelpers.CreateRope(World.WorldInfo,
                 meshSettings.startPoint.ToBullet(), meshSettings.endPoint.ToBullet(), meshSettings.numPointsInRope, 0);
+            m_collisionObject = m_BSoftBody;
 
             verts = new Vector3[m_BSoftBody.Nodes.Count];
             norms = new Vector3[m_BSoftBody.Nodes.Count];
@@ -107,7 +108,7 @@ namespace BulletUnity
         /// <returns></returns>
         public static GameObject CreateNew(Vector3 position, Quaternion rotation, bool buildNow = true)
         {
-            GameObject go = new GameObject();
+            GameObject go = new GameObject("SoftBodyRope");
             go.transform.position = position;
             go.transform.rotation = rotation;
             BSoftBodyRope bRope = go.AddComponent<BSoftBodyRope>();
@@ -119,7 +120,7 @@ namespace BulletUnity
 
             bRope.SoftBodySettings.ResetToSoftBodyPresets(SBSettingsPresets.Rope);
             if (buildNow)
-                bRope.BuildSoftBody();
+                bRope._BuildCollisionObject();
             go.name = "BSoftBodyRope";
             return go;
         }

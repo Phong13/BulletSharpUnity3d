@@ -22,6 +22,7 @@ namespace CollisionInterfaceDemo
             Vector3 ptB = cp.PositionWorldOnB;
             UnityEngine.Debug.Log("Contact!");
             //world.DebugDrawer.DrawLine(ref ptA, ref ptB, ref ptA);
+            UnityEngine.Debug.LogFormat("{0}, {1} {2}", ptA, ptB, world);
             return 0;
         }
     };
@@ -34,9 +35,9 @@ namespace CollisionInterfaceDemo
         CollisionObject[] objects = new CollisionObject[2];
         DrawingResult renderCallback;
 
-        Vector3 boxMin = new Vector3(-1, -1, -1);
-        Vector3 boxMax = new Vector3(1, 1, 1);
-        Vector3 white = new Vector3(1, 1, 1);
+        //Vector3 boxMin = new Vector3(-1, -1, -1);
+        //Vector3 boxMax = new Vector3(1, 1, 1);
+        //Vector3 white = new Vector3(1, 1, 1);
 
         protected override void OnInitialize()
         {

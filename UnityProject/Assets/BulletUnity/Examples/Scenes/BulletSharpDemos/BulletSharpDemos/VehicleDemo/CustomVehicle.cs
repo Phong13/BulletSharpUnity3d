@@ -594,10 +594,12 @@ namespace VehicleDemo
             }
 
             // Simulate suspension
+            /*
             for (int i = 0; i < wheelInfo.Count; i++)
             {
                 float depth = RayCast(wheelInfo[i]);
             }
+            */
 
 
             UpdateSuspension(step);
