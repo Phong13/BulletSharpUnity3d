@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 
 namespace BulletUnity.Debugging {
-	public class BDebug : UnityEngine.Object
+	public static class BDebug
     {
         [Flags]
         public enum DebugType
@@ -12,33 +12,26 @@ namespace BulletUnity.Debugging {
 			Warning = 2,
 			Error = 4
         }
-
-		public DebugType debugType;
-
-        public void Log(object message)
+        
+        public static void Log(object message, DebugType debugType)
         {
-			if(IsSet(DebugType.Info, debugType)) {
+			if(EnumExtensions.IsFlagSet(DebugType.Info, debugType)) {
             	Debug.Log(message);
 			}
         }
 
-        public void LogWarning(object message)
+        public static void LogWarning(object message, DebugType debugType)
         {
-			if(IsSet(DebugType.Warning, debugType)) {
+			if(EnumExtensions.IsFlagSet(DebugType.Warning, debugType)) {
             	Debug.LogWarning(message);
 			}
         }
 
-        public void LogError(object message)
+        public static void LogError(object message, DebugType debugType)
         {
-			if(IsSet(DebugType.Error, debugType)) {
+			if(EnumExtensions.IsFlagSet(DebugType.Error, debugType)) {
             	Debug.LogError(message);
 			}
         }
-
-		bool IsSet(DebugType value, DebugType flag)
-		{
-			return (value & flag) == flag;
-		}
     }
 }
