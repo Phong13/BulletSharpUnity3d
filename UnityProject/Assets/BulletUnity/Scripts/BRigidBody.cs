@@ -251,8 +251,7 @@ namespace BulletUnity {
             get {
                 return _mass;
             }
-        }
-        
+        }    
 
         public UnityEngine.Vector3 velocity {
             get {
