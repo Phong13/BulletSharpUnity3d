@@ -63,7 +63,7 @@ namespace BulletUnity
 
             sBMaterial.SetSBMaterial(pm);
 
-            config.SetConfig(softBody.Cfg);
+            config.CopyToBulletSBConfig(softBody.Cfg);
 
             if (allNodeBendingConstraints)
             {
@@ -388,7 +388,7 @@ namespace BulletUnity
         [Range(0f, 1f)]
         public float SSSplitCL = 0.5f;
 
-        public void SetConfig(BulletSharp.SoftBody.Config sBConfig)
+        public void CopyToBulletSBConfig(BulletSharp.SoftBody.Config sBConfig)
         {
 
             sBConfig.DF = DF;

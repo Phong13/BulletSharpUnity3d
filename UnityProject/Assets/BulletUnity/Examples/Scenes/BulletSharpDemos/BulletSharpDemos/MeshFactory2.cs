@@ -76,7 +76,7 @@ namespace DemoFramework {
             List<UnityEngine.Vector3> verts = new List<UnityEngine.Vector3>();
             List<int> tris = new List<int>();
 
-            int vertexCount = hull.NumVertices;
+            //int vertexCount = hull.NumVertices;
             UIntArray indices = hull.Indices;
             Vector3Array points = hull.Vertices;
 
@@ -215,7 +215,7 @@ namespace DemoFramework {
 
         public static void CreateCylinder(CylinderShape cs, Mesh mesh) {
             mesh.Clear();
-            float r = cs.Radius;
+            //float r = cs.Radius;
             //todo this is a cube
             mesh.Clear();
             BulletSharp.Math.Vector3 ext = cs.HalfExtentsWithMargin;

@@ -708,7 +708,7 @@ namespace BulletUnity
                 {
                     int currSide = side == nbSides ? 0 : side;
 
-                    Vector3 normale = Vector3.Cross(r1, Vector3.up);
+                    //Vector3 normale = Vector3.Cross(r1, Vector3.up);
                     float t2 = (float)currSide / nbSides * _2pi;
                     Vector3 r2 = Quaternion.AngleAxis(-t1 * Mathf.Rad2Deg, Vector3.up) * new Vector3(Mathf.Sin(t2) * radius2, Mathf.Cos(t2) * radius2);
 

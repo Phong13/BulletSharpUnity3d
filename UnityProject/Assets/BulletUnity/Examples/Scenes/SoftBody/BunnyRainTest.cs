@@ -82,7 +82,7 @@ namespace BulletUnity
 
                 //bSoft.SoftBodySettings.config.Collisions = collisionMask;
 
-                bSoft.BuildSoftBody();
+                bSoft._BuildCollisionObject();
 
                 //randomize color for effect
                 go.GetComponent<MeshRenderer>().material.color =

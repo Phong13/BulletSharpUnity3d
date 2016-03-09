@@ -53,7 +53,7 @@ namespace BulletUnity
                 return false;
             }
 
-            CollisionShape cs = m_collisionShape.GetCollisionShape();
+            m_collisionShape.GetCollisionShape();
             if (m_collisionObject == null)
             {
                 m_collisionObject = new PairCachingGhostObject();

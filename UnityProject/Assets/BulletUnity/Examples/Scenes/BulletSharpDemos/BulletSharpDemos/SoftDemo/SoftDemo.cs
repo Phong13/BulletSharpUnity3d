@@ -130,7 +130,7 @@ namespace SoftDemo
                         -rowSize * halfCubeSize + halfCubeSize + j * 2.0f * halfCubeSize,
                         halfCubeSize + i * halfCubeSize * 2.0f, zPos);
 
-                    RigidBody body = LocalCreateRigidBody(mass, trans, boxShape);
+                    /*RigidBody body =*/ LocalCreateRigidBody(mass, trans, boxShape);
                 }
             }
         }
@@ -535,9 +535,6 @@ namespace SoftDemo
 
         void Init_TetraCube()
         {
-            String path = System.IO.Path.GetDirectoryName(UnityEngine.Application.dataPath);
-            //SoftBody psb = SoftBodyHelpers.CreateFromTetGenFile(softBodyWorldInfo,
-            //    path + "\\data\\cube.ele", null, path + "\\data\\cube.node", false, true, true);
 
             UnityEngine.TextAsset ele = (UnityEngine.TextAsset) UnityEngine.Resources.Load("Cube.ele");  //(elementFilename != null) ? File.ReadAllText(elementFilename) : null;
             UnityEngine.TextAsset face = (UnityEngine.TextAsset) UnityEngine.Resources.Load("Cube.ply"); // (faceFilename != null) ? File.ReadAllText(faceFilename) : null;
@@ -1061,7 +1058,7 @@ namespace SoftDemo
             ls.Position = psb2.ClusterCom(0); psb2.AppendLinearJoint(ls, prbBody);
 
             BoxShape pbox = new BoxShape(20, 1, 40);
-            RigidBody pgrn = LocalCreateRigidBody(0, Matrix.RotationZ(-(float)Math.PI / 4), pbox);
+            /*RigidBody pgrn =*/ LocalCreateRigidBody(0, Matrix.RotationZ(-(float)Math.PI / 4), pbox);
         }
 
         void Init_ClusterStackSoft()

@@ -19,7 +19,7 @@ namespace BulletUnity
         protected CollisionObject m_collisionObject;
         protected BCollisionShape m_collisionShape;
         protected bool isInWorld = false;
-        public BulletSharp.CollisionFlags m_collisionFlags = BulletSharp.CollisionFlags.StaticObject;
+        public BulletSharp.CollisionFlags m_collisionFlags = BulletSharp.CollisionFlags.None;
         public BulletSharp.CollisionFilterGroups m_groupsIBelongTo = BulletSharp.CollisionFilterGroups.DefaultFilter; // A bitmask
         public BulletSharp.CollisionFilterGroups m_collisionMask = BulletSharp.CollisionFilterGroups.AllFilter; // A colliding object must match this mask in order to collide with me.
 
@@ -128,7 +128,7 @@ namespace BulletUnity
             m_collisionShape = GetComponent<BCollisionShape>();
             if (m_collisionShape == null)
             {
-                Debug.LogError("A BRigidBody component must be on an object with a BCollisionShape component.");
+                Debug.LogError("A BCollisionObject component must be on an object with a BCollisionShape component.");
             }
         }
 

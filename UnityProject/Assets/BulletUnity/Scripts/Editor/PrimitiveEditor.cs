@@ -18,7 +18,11 @@ namespace BulletUnity.Primitives
         {
             get
             {
-                return editorLogo = (Texture2D)LoadAsset(editorLogo, "bulletLogo");
+                if (editorLogo == null)
+                {
+                    editorLogo = (Texture2D)LoadAsset(editorLogo, "bulletLogo");
+                }
+                return editorLogo;
             }
         }
 
@@ -38,23 +42,24 @@ namespace BulletUnity.Primitives
 
             serializedObject.Update();
 
-            EditorGUILayout.BeginHorizontal();
+            //EditorGUILayout.BeginHorizontal();
             //Logo
             GUIStyle logoGUIStyle = new GUIStyle();
             logoGUIStyle.border = new RectOffset(0, 0, 0, 0);
-            GUILayout.Box(EditorLogo, logoGUIStyle);
+            //GUILayout.Box(EditorLogo, GUILayout.Height(64), GUILayout.ExpandWidth(true));
+            EditorGUILayout.LabelField(new GUIContent(EditorLogo), GUILayout.MinHeight(64.0f), GUILayout.ExpandWidth(true));
 
-            Color GUIBlue = new Color32(82, 140, 255, 255);
-            //Color GUIGreen = new Color32(0, 160, 0, 255);
+            Color GUIBlue = new Color32(192, 219, 255, 255);
 
             //Title/Version
+            /*
             GUILayout.Label("Bullet For Unity: " + version, versionStyle);
             EditorGUILayout.Space();
-            EditorGUILayout.EndHorizontal();
+            */
+            //EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.BeginHorizontal();
-            GUI.backgroundColor = GUIBlue;
-            if (InspectorButton("BuildMesh", 100, 40, GUIBlue, "Update size or something\n\n"))
+            if (InspectorButton("Build Mesh", 100, 40, GUIBlue, "Update mesh and Bullet Collision shape settings\n\n"))
             {
                 primitiveTarget.BuildMesh(); //build mesh and resize
             }
@@ -176,18 +181,18 @@ namespace BulletUnity.Primitives
         }
 
 
-        private bool InspectorButton(string label, int width, int height, Color color, string text)
+        private bool InspectorButton(string label, int width, int height, Color c, string text)
         {
             bool clicked = false;
 
             EditorGUILayout.BeginHorizontal();
-            GUI.backgroundColor = color;
+            GUI.backgroundColor = c;
             if (GUILayout.Button(label, GUILayout.Width(width), GUILayout.Height(height)))
             {
                 clicked = true;
             }
             GUI.backgroundColor = Color.white;
-            EditorGUILayout.HelpBox(text, MessageType.None, true);
+            EditorGUILayout.HelpBox(text, MessageType.Info, true);
             EditorGUILayout.EndHorizontal();
 
             return clicked;

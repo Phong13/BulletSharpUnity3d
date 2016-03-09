@@ -15,7 +15,7 @@ namespace BulletUnity
         //BulletSharp.SoftBody.Collisions collisions;  //bitmask field for collisions
 
         GUIContent gcSoftBodySettings = new GUIContent("SoftBodySettings");
-        GUIContent gcSoftBodyMeshSettings = new GUIContent("SoftBodyMeshSettings");
+        //GUIContent gcSoftBodyMeshSettings = new GUIContent("SoftBodyMeshSettings");
 
         //used to hide specific serialized properties in the editor
         //Hide softBody Settings until we want to display it, also script name
@@ -30,7 +30,7 @@ namespace BulletUnity
        "CL_SELF: Cluster vs cluster soft vs soft handling.\n" +
        "Default: Cluster soft body self collision.";
 
-        GUIContent gcCollisionTooltip = new GUIContent("Collision Mask", collisionTooltip);
+        GUIContent gcCollisionTooltip = new GUIContent("Soft vs. Rigid Mask", collisionTooltip);
 
         Color GUIBlue = new Color32(82, 140, 255, 255);
 
@@ -49,6 +49,11 @@ namespace BulletUnity
             //Color GUIBlue = new Color32(82, 140, 255, 255);
 
             EditorHelpers.DrawLogoAndVersion();
+
+            //BSoftBody sb = (BSoftBody)target;
+            //sb.m_collisionFlags = BCollisionObjectEditor.RenderEnumMaskCollisionFlagsField(BCollisionObjectEditor.gcCollisionFlags, sb.m_collisionFlags);
+            //sb.m_groupsIBelongTo = BCollisionObjectEditor.RenderEnumMaskCollisionFilterGroupsField(BCollisionObjectEditor.gcGroupsIBelongTo, sb.m_groupsIBelongTo);
+            //sb.m_collisionMask = BCollisionObjectEditor.RenderEnumMaskCollisionFilterGroupsField(BCollisionObjectEditor.gcCollisionMask, sb.m_collisionMask);
 
             if (bSoftBodyTarget is BSoftBodyWMesh)
             {

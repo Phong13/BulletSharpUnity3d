@@ -59,8 +59,8 @@ namespace ConcaveRaycastDemo
             for (int i = 0; i < NUMRAYS_IN_BAR; i++)
             {
                 float z = (max_z - min_z) / NUMRAYS_IN_BAR * (float)i + min_z;
-                source[i] = new Vector3(min_x, max_y, z);
-                dest[i] = new Vector3(min_x + ray_length, min_y, z);
+                source[i] = new Vector3(min_x, this.max_y, z);
+                dest[i] = new Vector3(min_x + ray_length, this.min_y, z);
                 normal[i] = new Vector3(1.0f, 0.0f, 0.0f);
             }
         }
@@ -167,7 +167,7 @@ namespace ConcaveRaycastDemo
 
         static Vector3 green = new Vector3(0.0f, 1.0f, 0.0f);
         static Vector3 white = new Vector3(1.0f, 1.0f, 1.0f);
-        static Vector3 cyan = new Vector3(0.0f, 1.0f, 1.0f);
+        //static Vector3 cyan = new Vector3(0.0f, 1.0f, 1.0f);
 
         public void Draw(IDebugDraw drawer)
         {

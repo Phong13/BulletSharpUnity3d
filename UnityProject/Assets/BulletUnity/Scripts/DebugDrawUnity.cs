@@ -78,7 +78,6 @@ namespace BulletUnity
         public override void DrawTransform(ref Matrix trans, float orthoLen) {
             UnityEngine.Vector3 pos = BSExtensionMethods2.ExtractTranslationFromMatrix(ref trans);
             UnityEngine.Quaternion rot = BSExtensionMethods2.ExtractRotationFromMatrix(ref trans);
-            UnityEngine.Vector3 scale = BSExtensionMethods2.ExtractScaleFromMatrix(ref trans);
             UnityEngine.Vector3 p1 = pos + rot * UnityEngine.Vector3.up * orthoLen;
             UnityEngine.Vector3 p2 = pos - rot * UnityEngine.Vector3.up * orthoLen;
             UnityEngine.Gizmos.DrawLine(p1, p2);

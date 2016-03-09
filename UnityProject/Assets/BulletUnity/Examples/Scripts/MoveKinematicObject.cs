@@ -3,11 +3,6 @@ using System.Collections;
 using BulletUnity;
 
 public class MoveKinematicObject : MonoBehaviour {
-    BRigidBody brb;
-    void Start()
-    {
-        brb = GetComponent<BRigidBody>();
-    }
 
     void FixedUpdate()
     {
