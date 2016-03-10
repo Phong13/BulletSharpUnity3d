@@ -4,6 +4,7 @@ using System.Collections;
 using BulletSharp;
 using BulletSharp.SoftBody;
 using System.Collections.Generic;
+using BulletUnity.Debugging;
 
 
 namespace BulletUnity {
@@ -46,10 +47,10 @@ namespace BulletUnity {
                 }
                 else if (ws.Length == 0)
                 {
-                    Debug.LogError("Need to add a dynamics world to the scene");
+					Debug.LogError("Need to add a dynamics world to the scene");
                 }
                 else {
-                    Debug.LogError("Found more than one dynamics world.");
+					Debug.LogError("Found more than one dynamics world.");
                     singleton = ws[0];
                     for (int i = 1; i < ws.Length; i++)
                     {
@@ -126,7 +127,7 @@ namespace BulletUnity {
             set {
                 if (value != m_collisionType && m_world != null)
                 {
-                    Debug.LogError("Can't modify a Physics World after simulation has started");
+					BDebug.LogError("Can't modify a Physics World after simulation has started", debugType);
                     return;
                 }
                 m_collisionType = value; }
@@ -140,7 +141,7 @@ namespace BulletUnity {
             set {
                 if (value != m_broadphaseType && m_world != null)
                 {
-                    Debug.LogError("Can't modify a Physics World after simulation has started");
+					BDebug.LogError("Can't modify a Physics World after simulation has started", debugType);
                     return;
                 }
                 m_broadphaseType = value; }
@@ -154,7 +155,7 @@ namespace BulletUnity {
             set {
                 if (value != m_axis3SweepBroadphaseMin && m_world != null)
                 {
-                    Debug.LogError("Can't modify a Physics World after simulation has started");
+					BDebug.LogError("Can't modify a Physics World after simulation has started", debugType);
                     return;
                 }
                 m_axis3SweepBroadphaseMin = value; }
@@ -168,7 +169,7 @@ namespace BulletUnity {
             set {
                 if (value != m_axis3SweepBroadphaseMax && m_world != null)
                 {
-                    Debug.LogError("Can't modify a Physics World after simulation has started");
+					BDebug.LogError("Can't modify a Physics World after simulation has started", debugType);
                     return;
                 }
                 m_axis3SweepBroadphaseMax = value; }
@@ -187,6 +188,8 @@ namespace BulletUnity {
                 }
                 m_gravity = value; }
         }
+
+		public BDebug.DebugType debugType;
 
         /*
         [SerializeField]
@@ -268,7 +271,7 @@ namespace BulletUnity {
 
         protected virtual void OnDestroy()
         {
-            Debug.Log("Destroying Physics World");
+			BDebug.Log("Destroying Physics World", debugType);
             Dispose(false);
         }
 
@@ -305,7 +308,7 @@ namespace BulletUnity {
             {
                 if (m_worldType < WorldType.RigidBodyDynamics)
                 {
-                    Debug.LogError("World type must not be collision only");
+					BDebug.LogError("World type must not be collision only", debugType);
                 }
                 ((DiscreteDynamicsWorld)m_world).RemoveAction(action);
             }
@@ -315,7 +318,7 @@ namespace BulletUnity {
         {
             if (!_isDisposed)
             {
-                Debug.LogFormat("Adding collision object {0} to world", co);
+				BDebug.Log(string.Format("Adding collision object {0} to world", co), debugType);
                 if (co._BuildCollisionObject())
                 {
                     m_world.AddCollisionObject(co.GetCollisionObject(), co.m_groupsIBelongTo, co.m_collisionMask);
@@ -338,7 +341,7 @@ namespace BulletUnity {
         {
             if (!_isDisposed)
             {
-                Debug.LogFormat("Removing collisionObject {0} from world", co);
+				BDebug.Log(string.Format("Removing collisionObject {0} from world", co), debugType);
                 m_world.RemoveCollisionObject(co);
                 //TODO handle removing kinematic character controller action
             }
@@ -350,9 +353,9 @@ namespace BulletUnity {
             {
                 if (m_worldType < WorldType.RigidBodyDynamics)
                 {
-                    Debug.LogError("World type must not be collision only");
+					BDebug.LogError("World type must not be collision only", debugType);
                 }
-                Debug.LogFormat("Adding rigidbody {0} to world", rb);
+				BDebug.Log(string.Format("Adding rigidbody {0} to world", rb), debugType);
                 if (rb._BuildCollisionObject())
                 {
                     ((DiscreteDynamicsWorld)m_world).AddRigidBody((RigidBody)rb.GetCollisionObject(), rb.m_groupsIBelongTo, rb.m_collisionMask);
@@ -368,9 +371,9 @@ namespace BulletUnity {
             {
                 if (m_worldType < WorldType.RigidBodyDynamics)
                 {
-                    Debug.LogError("World type must not be collision only");
+					BDebug.LogError("World type must not be collision only", debugType);
                 }
-                Debug.LogFormat("Removing rigidbody {0} from world", rb);
+				BDebug.Log(string.Format("Removing rigidbody {0} from world", rb), debugType);
                 ((DiscreteDynamicsWorld)m_world).RemoveRigidBody(rb);
             }
         }
@@ -381,9 +384,9 @@ namespace BulletUnity {
             {
                 if (m_worldType < WorldType.RigidBodyDynamics)
                 {
-                    Debug.LogError("World type must not be collision only");
+					BDebug.LogError("World type must not be collision only", debugType);
                 }
-                Debug.LogFormat("Adding constraint {0} to world", c);
+				BDebug.Log(string.Format("Adding constraint {0} to world", c), debugType);
                 if (c._BuildConstraint())
                 {
                     ((DiscreteDynamicsWorld)m_world).AddConstraint(c.GetConstraint(), c.disableCollisionsBetweenConstrainedBodies);
@@ -399,9 +402,9 @@ namespace BulletUnity {
             {
                 if (m_worldType < WorldType.RigidBodyDynamics)
                 {
-                    Debug.LogError("World type must not be collision only");
+					BDebug.LogError("World type must not be collision only", debugType);
                 }
-                Debug.LogFormat("Removing constraint {0} from world", c);
+				BDebug.Log(string.Format("Removing constraint {0} from world", c), debugType);
                 ((DiscreteDynamicsWorld)m_world).RemoveConstraint(c);
             }
         }
@@ -410,12 +413,12 @@ namespace BulletUnity {
         {
             if (!(m_world is BulletSharp.SoftBody.SoftRigidDynamicsWorld))
             {
-                Debug.LogError("The Physics World must be a BSoftBodyWorld for adding soft bodies");
+				BDebug.LogError("The Physics World must be a BSoftBodyWorld for adding soft bodies", debugType);
                 return false;
             }
             if (!_isDisposed)
             {
-                Debug.LogFormat("Adding softbody {0} to world", softBody);
+				BDebug.Log(string.Format("Adding softbody {0} to world", softBody), debugType);
                 if (softBody._BuildCollisionObject())
                 {
                     ((BulletSharp.SoftBody.SoftRigidDynamicsWorld)m_world).AddSoftBody((SoftBody)softBody.GetCollisionObject());
@@ -429,7 +432,7 @@ namespace BulletUnity {
         {
             if (!_isDisposed && m_world is BulletSharp.SoftBody.SoftRigidDynamicsWorld)
             {
-                Debug.LogFormat("Removing softbody {0} from world", softBody);
+				BDebug.Log(string.Format("Removing softbody {0} from world", softBody), debugType);
                 ((BulletSharp.SoftBody.SoftRigidDynamicsWorld)m_world).RemoveSoftBody(softBody);
             }
         }
@@ -438,7 +441,7 @@ namespace BulletUnity {
             _isDisposed = false;
             if (m_worldType == WorldType.SoftBodyAndRigidBody && m_collisionType == CollisionConfType.DefaultDynamicsWorldCollisionConf)
             {
-                Debug.LogError("For World Type = SoftBodyAndRigidBody collisionType must be collisionType=SoftBodyRigidBodyCollisionConf. Switching");
+				BDebug.LogError("For World Type = SoftBodyAndRigidBody collisionType must be collisionType=SoftBodyRigidBodyCollisionConf. Switching", debugType);
                 m_collisionType = CollisionConfType.SoftBodyRigidBodyCollisionConf;
             }
 
@@ -520,7 +523,7 @@ namespace BulletUnity {
         }
 
         protected void Dispose(bool disposing) {
-            Debug.Log("BDynamicsWorld Disposing physics.");
+			BDebug.Log("BDynamicsWorld Disposing physics.", debugType);
 
             if (m_world != null) {
                 //remove/dispose constraints
