@@ -59,7 +59,7 @@ public class BRigidBodyEditor : Editor
 
 		EditorGUILayout.Separator();
 
-		rb.debug = EditorInterface.DrawDebug(rb.debug, rb);
+		rb.debugType = EditorInterface.DrawDebug(rb.debugType, rb);
 
         if (GUI.changed)
         {

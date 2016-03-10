@@ -3,29 +3,35 @@ using System.Collections;
 using System;
 
 namespace BulletUnity.Debugging {
-    public class BDebug
+	public static class BDebug
     {
         [Flags]
         public enum DebugType
         {
-        	Log, Warning, Error
+        	Info = 1,
+			Warning = 2,
+			Error = 4
+        }
+        
+        public static void Log(object message, DebugType debugType)
+        {
+			if(EnumExtensions.IsFlagSet(DebugType.Info, debugType)) {
+            	Debug.Log(message);
+			}
         }
 
-		public DebugType debugType;
-
-        public void Log(object message)
+        public static void LogWarning(object message, DebugType debugType)
         {
-            Debug.Log(message);
+			if(EnumExtensions.IsFlagSet(DebugType.Warning, debugType)) {
+            	Debug.LogWarning(message);
+			}
         }
 
-        public void LogWarning(object message)
+        public static void LogError(object message, DebugType debugType)
         {
-            Debug.LogWarning(message);
-        }
-
-        public void LogError(object message)
-        {
-            Debug.LogError(message);
+			if(EnumExtensions.IsFlagSet(DebugType.Error, debugType)) {
+            	Debug.LogError(message);
+			}
         }
     }
 }
