@@ -11,7 +11,6 @@ namespace BulletUnity.Primitives
         public BPrimitive primitiveTarget;
 
         static GUIStyle versionStyle = new GUIStyle();
-        static string version = "0.1";
 
         private static Texture2D editorLogo;
         public static Texture2D EditorLogo

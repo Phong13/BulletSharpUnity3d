@@ -4,7 +4,6 @@ using BulletSharp;
 using BulletSharp.Math;
 using BulletUnity;
 
-//todo should rename to CollisionObjectProxy
 public class BulletRigidBodyProxy : MonoBehaviour {
     public CollisionObject target;
 	
@@ -13,6 +12,5 @@ public class BulletRigidBodyProxy : MonoBehaviour {
         Matrix4x4 m = target.WorldTransform.ToUnity();
         transform.position = BSExtensionMethods2.ExtractTranslationFromMatrix(ref m);
         transform.rotation = BSExtensionMethods2.ExtractRotationFromMatrix(ref m);
-        transform.localScale = BSExtensionMethods2.ExtractScaleFromMatrix(ref m);
     }
 }

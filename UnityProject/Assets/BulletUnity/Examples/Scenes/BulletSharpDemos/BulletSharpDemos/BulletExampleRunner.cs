@@ -129,7 +129,7 @@ public class BulletExampleRunner : MonoBehaviour {
     int maxPerCol = 15;
     void OnGUI()
     {
-        if (GUILayout.Button("Demo List"))
+        if (GUILayout.Button("Demo List", GUILayout.MinWidth(120), GUILayout.MinHeight(44)))
         {
             showDemoNames = !showDemoNames;
         }
@@ -140,7 +140,7 @@ public class BulletExampleRunner : MonoBehaviour {
             int counter = 0;
             for (int j = 0; j < demoNames.Length; j++)
             {
-                if (GUILayout.Button(demoNames[j]))
+                if (GUILayout.Button(demoNames[j], GUILayout.MinWidth(100), GUILayout.MinHeight(44)))
                 {
                     if (demo != null)
                     {
@@ -164,7 +164,7 @@ public class BulletExampleRunner : MonoBehaviour {
                 for (int j = 0; j < sdemos.Length; j++)
                 {
                     string nm = sdemos[j].Method.Name;
-                    if (GUILayout.Button(nm))
+                    if (GUILayout.Button(nm, GUILayout.MinWidth(100), GUILayout.MinHeight(44)))
                     {
                         sd.demo = j;
                         sd.ClientResetScene();

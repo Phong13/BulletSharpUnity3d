@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
-//using BulletSharp;
-//using BulletSharp.Math;
+
 using System.Collections;
 using BulletUnity;
 
