@@ -27,6 +27,9 @@ public class BDynamicsWorldEditor : Editor
         pw.broadphaseType = (BPhysicsWorld.BroadphaseType) EditorGUILayout.EnumPopup("Broadphase Algorithm", pw.broadphaseType);
         pw.axis3SweepBroadphaseMin = EditorGUILayout.Vector3Field("Broadphase Axis 3 Sweep Min", pw.axis3SweepBroadphaseMin);
         pw.axis3SweepBroadphaseMax = EditorGUILayout.Vector3Field("Broadphase Axis 3 Sweep Max", pw.axis3SweepBroadphaseMax);
+
+		pw.debugType = EditorInterface.DrawDebug(pw.debugType, pw);
+
         if (GUI.changed)
         {
             EditorUtility.SetDirty(pw);
