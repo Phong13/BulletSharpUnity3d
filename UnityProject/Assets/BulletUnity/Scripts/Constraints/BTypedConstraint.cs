@@ -36,6 +36,8 @@ namespace BulletUnity {
 
     [System.Serializable]
     public abstract class BTypedConstraint : MonoBehaviour, IDisposable {
+        protected bool startWasCalled = false;
+
         public enum ConstraintType
         {
             constrainToPointInSpace,
@@ -48,21 +50,40 @@ namespace BulletUnity {
         internal TypedConstraint constraintPtr = null;
         internal bool isInWorld = false;
 
+        protected virtual void AddToBulletWorld()
+        {
+            if (!isInWorld)
+            {
+                BPhysicsWorld.Get().AddConstraint(this);
+            }
+        }
+
+        protected virtual void RemoveFromBulletWorld()
+        {
+            if (isInWorld)
+            {
+                BPhysicsWorld.Get().RemoveConstraint(constraintPtr);
+            }
+        }
+
+        protected virtual void Start()
+        {
+            startWasCalled = true;
+            AddToBulletWorld();
+        }
+
         void OnDestroy() {
             Dispose(false);
         }
 
         public void OnEnable()
         {
-            BPhysicsWorld.Get().AddConstraint(this);
+            AddToBulletWorld();
         }
 
         public void OnDisable()
         {
-            if (isInWorld)
-            {
-                BPhysicsWorld.Get().RemoveConstraint(constraintPtr);
-            }
+            RemoveFromBulletWorld();
         }
 
         //do not override this

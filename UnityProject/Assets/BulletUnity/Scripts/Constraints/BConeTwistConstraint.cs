@@ -45,4 +45,3 @@ namespace BulletUnity {
     }
 }
 
-// DllNotFoundException: Unable to load DLL 'Plugins'. The Specified module could not be found.

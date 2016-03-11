@@ -354,26 +354,14 @@ namespace BulletUnity {
             }
         }
 
-        protected override void Start() { 
-            if (BPhysicsWorld.Get().AddRigidBody(this)) {
-                isInWorld = true;
-            }
-        }
-
-        protected override void OnEnable()
+        protected override void AddObjectToBulletWorld()
         {
-            if (!isInWorld)
-            {
-                BPhysicsWorld.Get().AddRigidBody(this);
-            }
-            isInWorld = true;
+            BPhysicsWorld.Get().AddRigidBody(this);
         }
 
-        protected override void OnDisable() {
-            if (isInWorld) {
-                BPhysicsWorld.Get().RemoveRigidBody(m_rigidBody);
-            }
-            isInWorld = false;
+        protected override void RemoveObjectFromBulletWorld()
+        {
+            BPhysicsWorld.Get().RemoveRigidBody((RigidBody)m_collisionObject);
         }
 
         protected override void Dispose(bool isdisposing) {
@@ -388,7 +376,6 @@ namespace BulletUnity {
                 m_rigidBody.Dispose();
                 m_rigidBody = null;
             }
-			BDebug.Log("Destroying RigidBody " + name, debugType);
         }
 
         public void AddForce(UnityEngine.Vector3 force) {

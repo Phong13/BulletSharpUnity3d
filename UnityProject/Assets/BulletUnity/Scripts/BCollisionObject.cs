@@ -14,7 +14,14 @@ namespace BulletUnity
             void OnFinishedVisitingManifolds();
         }
 
-        //public delegate void OnCollisionCallbackEventHandler(PersistentManifold pm);
+
+        //This is used to handle a design problem. 
+        //We want OnEnable to add physics object to world and OnDisable to remove.
+        //We also want user to be able to in script: AddComponent<CollisionObject>, configure it, add it to world, potentialy disable to delay it being added to world
+        //Problem is OnEnable gets called before Awake and Start so that developer has no chance to configure object before it is added to world or prevent
+        //It from being added.
+        //Solution is not to add object to the world until after Start has been called. Start will do the first add to world. 
+        protected bool m_startHasBeenCalled = false;
 
         protected CollisionObject m_collisionObject;
         protected BCollisionShape m_collisionShape;
@@ -45,7 +52,7 @@ namespace BulletUnity
         public virtual void RemoveOnCollisionCallbackEventHandler()
         {
             BPhysicsWorld bhw = BPhysicsWorld.Get();
-            if (m_onCollisionCallback != null)
+            if (bhw != null && m_onCollisionCallback != null)
             {
                 bhw.DeregisterCollisionCallbackListener(m_onCollisionCallback);
             }
@@ -117,13 +124,6 @@ namespace BulletUnity
 
         protected virtual void Awake()
         {
-            /*
-            BRigidBody[] rbs = GetComponentsInParent<BRigidBody>();
-            if (rbs.Length != 1)
-            {
-                Debug.LogError("Can't nest rigid bodies. The transforms are updated by Bullet in undefined order which can cause spasing. Object " + name);
-            }
-            */
             m_collisionShape = GetComponent<BCollisionShape>();
             if (m_collisionShape == null)
             {
@@ -131,16 +131,27 @@ namespace BulletUnity
             }
         }
 
-        protected virtual void Start()
+        protected virtual void AddObjectToBulletWorld()
         {
             BPhysicsWorld.Get().AddCollisionObject(this);
         }
 
+        protected virtual void RemoveObjectFromBulletWorld()
+        {
+            BPhysicsWorld.Get().RemoveCollisionObject(m_collisionObject);
+        }
+
+        protected virtual void Start()
+        {
+            m_startHasBeenCalled = true;
+            AddObjectToBulletWorld();
+        }
+
         protected virtual void OnEnable()
         {
-            if (!isInWorld)
+            if (!isInWorld && m_startHasBeenCalled)
             {
-                BPhysicsWorld.Get().AddCollisionObject(this);
+                AddObjectToBulletWorld();
             }
         }
 
@@ -148,7 +159,7 @@ namespace BulletUnity
         {
             if (isInWorld)
             {
-                BPhysicsWorld.Get().RemoveCollisionObject(m_collisionObject);
+                RemoveObjectFromBulletWorld();
             }
         }
 
@@ -179,7 +190,6 @@ namespace BulletUnity
                 m_collisionObject.Dispose();
                 m_collisionObject = null;
             }
-            Debug.Log("Destroying CollisionObject " + name);
         }
 
         public virtual void SetPosition(Vector3 position)

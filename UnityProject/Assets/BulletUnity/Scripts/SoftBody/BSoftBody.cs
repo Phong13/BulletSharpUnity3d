@@ -33,27 +33,16 @@ namespace BulletUnity
         protected UnityEngine.Vector3[] norms = new UnityEngine.Vector3[0];
         protected int[] tris = new int[1];
 
-        protected override void Awake()
+        protected override void AddObjectToBulletWorld()
         {
+            BPhysicsWorld.Get().AddSoftBody(this);
         }
 
-        protected override void OnEnable()    
-        //void Start()  //Need to add in start or SB is not initialized and world may not exist yet
+        protected override void RemoveObjectFromBulletWorld()
         {
-            if (BPhysicsWorld.Get().AddSoftBody(this))
-            {
-                isInWorld = true;
-            }
+            BPhysicsWorld.Get().RemoveSoftBody((SoftBody)m_collisionObject);
         }
-        
-        protected override void OnDisable()
-        {
-            if (isInWorld)
-            {
-                World.RemoveSoftBody((SoftBody)m_collisionObject);
-            }
-            isInWorld = false;
-        }
+
 
         internal override bool _BuildCollisionObject()
         {
@@ -64,23 +53,6 @@ namespace BulletUnity
         {
             _BuildCollisionObject();
         }
-
-        /*
-        public BulletSharp.SoftBody.SoftBody GetSoftBody()
-        {
-            if (m_BSoftBody == null)
-            {
-                _BuildCollisionObject();
-            }
-            return m_BSoftBody;
-        }
-        */
-        /*
-        public virtual bool BuildSoftBody()
-        {
-            return false;
-        }
-        */
 
         protected override void Dispose(bool isdisposing)
         {
