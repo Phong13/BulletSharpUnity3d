@@ -37,6 +37,7 @@ namespace BulletUnity {
                 ConeTwistConstraint sl = (ConeTwistConstraint)constraintPtr;
 
                 sl.SetLimit(swingSpan1, swingSpan2, twistSpan, softness, biasFactor, relaxationFactor);
+                constraintPtr.Userobject = this;
                 return true;
             }
             return false;

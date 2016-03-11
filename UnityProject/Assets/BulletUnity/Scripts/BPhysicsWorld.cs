@@ -57,8 +57,9 @@ namespace BulletUnity {
                         GameObject.Destroy(ws[i].gameObject);
                     }
                 }
+                singleton._InitializePhysicsWorld();
             }
-            if (singleton.m_world == null && !singleton.isDisposed) singleton._InitializePhysicsWorld();
+            //if (singleton.m_world == null && !singleton.isDisposed) singleton._InitializePhysicsWorld();
             return singleton;
         }
 
@@ -322,6 +323,7 @@ namespace BulletUnity {
                 if (co._BuildCollisionObject())
                 {
                     m_world.AddCollisionObject(co.GetCollisionObject(), co.m_groupsIBelongTo, co.m_collisionMask);
+                    co.isInWorld = true;
                     if (ghostPairCallback == null && co is BGhostObject && world is DynamicsWorld)
                     {
                         ghostPairCallback = new GhostPairCallback();
@@ -341,8 +343,9 @@ namespace BulletUnity {
         {
             if (!_isDisposed)
             {
-				BDebug.Log(string.Format("Removing collisionObject {0} from world", co), debugType);
+				BDebug.Log(string.Format("Removing collisionObject {0} from world", co.UserObject), debugType);
                 m_world.RemoveCollisionObject(co);
+                if (co.UserObject is BCollisionObject) ((BCollisionObject)co.UserObject).isInWorld = false;
                 //TODO handle removing kinematic character controller action
             }
         }
@@ -359,6 +362,7 @@ namespace BulletUnity {
                 if (rb._BuildCollisionObject())
                 {
                     ((DiscreteDynamicsWorld)m_world).AddRigidBody((RigidBody)rb.GetCollisionObject(), rb.m_groupsIBelongTo, rb.m_collisionMask);
+                    rb.isInWorld = true;
                 }
                 return true;
             }
@@ -373,8 +377,9 @@ namespace BulletUnity {
                 {
 					BDebug.LogError("World type must not be collision only", debugType);
                 }
-				BDebug.Log(string.Format("Removing rigidbody {0} from world", rb), debugType);
+				BDebug.Log(string.Format("Removing rigidbody {0} from world", rb.UserObject), debugType);
                 ((DiscreteDynamicsWorld)m_world).RemoveRigidBody(rb);
+                if (rb.UserObject is BCollisionObject) ((BCollisionObject)rb.UserObject).isInWorld = false;
             }
         }
 
@@ -390,6 +395,7 @@ namespace BulletUnity {
                 if (c._BuildConstraint())
                 {
                     ((DiscreteDynamicsWorld)m_world).AddConstraint(c.GetConstraint(), c.disableCollisionsBetweenConstrainedBodies);
+                    c.isInWorld = true;
                 }
                 return true;
             }
@@ -404,8 +410,9 @@ namespace BulletUnity {
                 {
 					BDebug.LogError("World type must not be collision only", debugType);
                 }
-				BDebug.Log(string.Format("Removing constraint {0} from world", c), debugType);
+				BDebug.Log(string.Format("Removing constraint {0} from world", c.Userobject), debugType);
                 ((DiscreteDynamicsWorld)m_world).RemoveConstraint(c);
+                if (c.Userobject is BTypedConstraint) ((BTypedConstraint)c.Userobject).isInWorld = false;
             }
         }
 
@@ -422,6 +429,7 @@ namespace BulletUnity {
                 if (softBody._BuildCollisionObject())
                 {
                     ((BulletSharp.SoftBody.SoftRigidDynamicsWorld)m_world).AddSoftBody((SoftBody)softBody.GetCollisionObject());
+                    softBody.isInWorld = true;
                 }
                 return true;
             }
@@ -432,8 +440,9 @@ namespace BulletUnity {
         {
             if (!_isDisposed && m_world is BulletSharp.SoftBody.SoftRigidDynamicsWorld)
             {
-				BDebug.Log(string.Format("Removing softbody {0} from world", softBody), debugType);
+				BDebug.Log(string.Format("Removing softbody {0} from world", softBody.UserObject), debugType);
                 ((BulletSharp.SoftBody.SoftRigidDynamicsWorld)m_world).RemoveSoftBody(softBody);
+                if (softBody.UserObject is BCollisionObject) ((BCollisionObject)softBody.UserObject).isInWorld = false;
             }
         }
 
@@ -534,6 +543,8 @@ namespace BulletUnity {
                     {
                         TypedConstraint constraint = _ddWorld.GetConstraint(i);
                         _ddWorld.RemoveConstraint(constraint);
+                        if (constraint.Userobject is BTypedConstraint) ((BTypedConstraint)constraint.Userobject).isInWorld = false;
+                        if ((debugType & BDebug.DebugType.Debug) == BDebug.DebugType.Debug) Debug.LogFormat("Removed Constaint {0}", constraint.Userobject);
                         constraint.Dispose();
                     }
                 }
@@ -546,6 +557,8 @@ namespace BulletUnity {
                         body.MotionState.Dispose();
                     }
                     m_world.RemoveCollisionObject(obj);
+                    if (obj.UserObject is BCollisionObject) ((BCollisionObject)obj.UserObject).isInWorld = false;
+                    if ((debugType & BDebug.DebugType.Debug) == BDebug.DebugType.Debug) Debug.LogFormat("Removed CollisionObject {0}", obj.UserObject);
                     obj.Dispose();
                 }
 
@@ -555,11 +568,6 @@ namespace BulletUnity {
                         dis.Dispose();
                     }
                 }
-
-                //delete collision shapes
-                //foreach (CollisionShape shape in CollisionShapes)
-                //    shape.Dispose();
-                //CollisionShapes.Clear();
 
                 m_world.Dispose();
                 Broadphase.Dispose();
@@ -592,6 +600,7 @@ namespace BulletUnity {
                 softBodyWorldInfo = null;
             }
             _isDisposed = true;
+            singleton = null;
         }
     }
 

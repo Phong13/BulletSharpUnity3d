@@ -42,7 +42,7 @@ namespace BulletUnity {
             BulletSharp.Math.Matrix frameInA = BulletSharp.Math.Matrix.Translation(localPointInA.ToBullet());
             BulletSharp.Math.Matrix frameInB = BulletSharp.Math.Matrix.Translation(localPointInB.ToBullet());
             constraintPtr = new FixedConstraint(rba,rbb,frameInA,frameInB);
-
+            constraintPtr.Userobject = this;
 
             return true;
         }

@@ -18,7 +18,7 @@ namespace BulletUnity
 
         protected CollisionObject m_collisionObject;
         protected BCollisionShape m_collisionShape;
-        protected bool isInWorld = false;
+        internal bool isInWorld = false;
         public BulletSharp.CollisionFlags m_collisionFlags = BulletSharp.CollisionFlags.None;
         public BulletSharp.CollisionFilterGroups m_groupsIBelongTo = BulletSharp.CollisionFilterGroups.DefaultFilter; // A bitmask
         public BulletSharp.CollisionFilterGroups m_collisionMask = BulletSharp.CollisionFilterGroups.AllFilter; // A colliding object must match this mask in order to collide with me.
@@ -61,7 +61,6 @@ namespace BulletUnity
             {
                 if (isInWorld && world != null)
                 {
-                    isInWorld = false;
                     world.RemoveCollisionObject(m_collisionObject);
                 }
             }
@@ -134,10 +133,7 @@ namespace BulletUnity
 
         protected virtual void Start()
         {
-            if (BPhysicsWorld.Get().AddCollisionObject(this))
-            {
-                isInWorld = true;
-            }
+            BPhysicsWorld.Get().AddCollisionObject(this);
         }
 
         protected virtual void OnEnable()
@@ -146,7 +142,6 @@ namespace BulletUnity
             {
                 BPhysicsWorld.Get().AddCollisionObject(this);
             }
-            isInWorld = true;
         }
 
         protected virtual void OnDisable()
@@ -155,7 +150,6 @@ namespace BulletUnity
             {
                 BPhysicsWorld.Get().RemoveCollisionObject(m_collisionObject);
             }
-            isInWorld = false;
         }
 
         protected virtual void OnDestroy()

@@ -71,6 +71,7 @@ namespace BulletUnity {
                     return false;
                 }
             }
+            constraintPtr.Userobject = this;
             return true;
         }
 

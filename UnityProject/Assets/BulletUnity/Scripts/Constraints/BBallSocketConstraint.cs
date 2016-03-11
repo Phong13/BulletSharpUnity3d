@@ -48,6 +48,7 @@ namespace BulletUnity {
             {
                 constraintPtr = new Point2PointConstraint(rba,pivotInA.ToBullet());
             }
+            constraintPtr.Userobject = this;
             return true;
         }
     }

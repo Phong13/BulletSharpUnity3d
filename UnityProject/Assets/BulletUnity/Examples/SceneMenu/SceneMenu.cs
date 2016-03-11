@@ -25,7 +25,7 @@ public class SceneMenu : MonoBehaviour {
 				if (GUILayout.Button(scenes.Scenes[i].Name,w,h)){
 					Debug.Log("=========================================================");
 					Debug.Log("Loading level: " + scenes.Scenes[i].Path);
-                    SceneManager.LoadScene(i);  //LoadScene(scenes.Scenes[i].Path);
+                    SceneManager.LoadScene(i);
 				}
 				i++;
 			}

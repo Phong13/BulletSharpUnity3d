@@ -65,6 +65,7 @@ namespace BulletUnity
                 BulletSharp.Math.Matrix.RotationQuaternion(ref q, out worldTrans);
                 worldTrans.Origin = transform.position.ToBullet();
                 m_collisionObject.WorldTransform = worldTrans;
+                m_collisionObject.UserObject = this;
                 //world.world.AddCollisionObject(m_collisionObject, CollisionFilterGroups.CharacterFilter, CollisionFilterGroups.StaticFilter | CollisionFilterGroups.DefaultFilter);
                 //((DynamicsWorld)world.world).AddAction(m_characterController);
             }
@@ -81,6 +82,7 @@ namespace BulletUnity
                 BulletSharp.Math.Matrix.RotationQuaternion(ref q, out worldTrans);
                 worldTrans.Origin = transform.position.ToBullet();
                 m_collisionObject.WorldTransform = worldTrans;
+                m_collisionObject.UserObject = this;
             }
             return true;
         }

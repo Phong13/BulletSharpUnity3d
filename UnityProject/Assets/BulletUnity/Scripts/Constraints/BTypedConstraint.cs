@@ -46,7 +46,7 @@ namespace BulletUnity {
         public BRigidBody targetRigidBodyB;
 
         internal TypedConstraint constraintPtr = null;
-        internal bool isInWorld;
+        internal bool isInWorld = false;
 
         void OnDestroy() {
             Dispose(false);
@@ -54,10 +54,7 @@ namespace BulletUnity {
 
         public void OnEnable()
         {
-            if (BPhysicsWorld.Get().AddConstraint(this))
-            {
-                isInWorld = true;
-            }
+            BPhysicsWorld.Get().AddConstraint(this);
         }
 
         public void OnDisable()
@@ -66,7 +63,6 @@ namespace BulletUnity {
             {
                 BPhysicsWorld.Get().RemoveConstraint(constraintPtr);
             }
-            isInWorld = false;
         }
 
         //do not override this

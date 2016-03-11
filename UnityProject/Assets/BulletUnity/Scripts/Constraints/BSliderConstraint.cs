@@ -54,10 +54,12 @@ namespace BulletUnity {
                 BulletSharp.Math.Matrix frameInA = BulletSharp.Math.Matrix.AffineTransformation(1f, Quaternion.LookRotation(localForwardInA, localUpInA).ToBullet(), localPointInA.ToBullet());
                 BulletSharp.Math.Matrix frameInB = BulletSharp.Math.Matrix.AffineTransformation(1f, Quaternion.LookRotation(localForwardInB, localUpInB).ToBullet(), localPointInB.ToBullet());
                 constraintPtr = new SliderConstraint(rba,rbb, frameInA, frameInB, false);
+                constraintPtr.Userobject = this;
             } else
             {
                 BulletSharp.Math.Matrix frameInA = BulletSharp.Math.Matrix.AffineTransformation(1f, Quaternion.LookRotation(localForwardInA, localUpInA).ToBullet(), localPointInA.ToBullet());
                 constraintPtr = new SliderConstraint(rba, frameInA, false);
+                constraintPtr.Userobject = this;
             }
             SliderConstraint sl = (SliderConstraint)constraintPtr;  
             sl.LowerLinearLimit = lowerLinearLimit;
@@ -65,7 +67,7 @@ namespace BulletUnity {
 
             sl.LowerAngularLimit = lowerAngularLimit;
             sl.UpperAngularLimit = upperAngularLimit;
-
+            constraintPtr.Userobject = this;
             return true;
         }
     }

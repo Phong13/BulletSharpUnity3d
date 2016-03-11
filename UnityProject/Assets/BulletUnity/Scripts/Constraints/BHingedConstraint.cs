@@ -90,6 +90,7 @@ namespace BulletUnity {
             {
                 ((HingeConstraint)constraintPtr).SetLimit(lowLimitAngleRadians, highLimitAngleRadians, limitSoftness, limitBiasFactor);
             }
+            constraintPtr.Userobject = this;
             return true;
         }
     }

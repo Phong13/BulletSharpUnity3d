@@ -66,6 +66,7 @@ namespace BulletUnity {
                 BulletSharp.Math.Matrix frameInA = BulletSharp.Math.Matrix.AffineTransformation(1f, Quaternion.LookRotation(localForwardInA, localUpInA).ToBullet(), localPointInA.ToBullet());
                 constraintPtr = new Generic6DofConstraint(rba, frameInA, false);
             }
+            constraintPtr.Userobject = this;
             Generic6DofConstraint sl = (Generic6DofConstraint)constraintPtr;
             sl.LinearLowerLimit = linearLimitLower.ToBullet();
             sl.LinearUpperLimit = linearLimitUpper.ToBullet();
