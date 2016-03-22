@@ -24,10 +24,6 @@ namespace RollingFrictionDemo
             Freelook.SetEyeTarget(eye, target);
 
             Graphics.SetFormText("BulletSharp - Rolling Friction Demo");
-            Graphics.SetInfoText("Move using mouse and WASD+shift\n" +
-                "F3 - Toggle debug\n" +
-                //"F11 - Toggle fullscreen\n" +
-                "Space - Shoot box");
         }
 
         protected override void OnInitializePhysics()
@@ -59,8 +55,7 @@ namespace RollingFrictionDemo
             ground.UserObject = "Ground";
 
             // create a few dynamic rigidbodies
-            const int NUM_SHAPES = 10;
-            CollisionShape[] colShapes = new CollisionShape[NUM_SHAPES] {
+            CollisionShape[] colShapes = {
 			    new SphereShape(1),
 			    new CapsuleShape(0.5f,1),
 			    new CapsuleShapeX(0.5f,1),
@@ -83,35 +78,32 @@ namespace RollingFrictionDemo
             CollisionShapes.Add(colShape);
             Vector3 localInertia = colShape.CalculateLocalInertia(mass);
 
-            const float start_x = StartPosX - ArraySizeX / 2;
-            const float start_y = StartPosY;
-            const float start_z = StartPosZ - ArraySizeZ / 2;
+            var rbInfo = new RigidBodyConstructionInfo(mass, null, null, localInertia);
+
+            const float startX = StartPosX - ArraySizeX / 2;
+            const float startY = StartPosY;
+            const float startZ = StartPosZ - ArraySizeZ / 2;
 
             int shapeIndex = 0;
-            int k, i, j;
-            for (k = 0; k < ArraySizeY; k++)
+            for (int k = 0; k < ArraySizeY; k++)
             {
-                for (i = 0; i < ArraySizeX; i++)
+                for (int i = 0; i < ArraySizeX; i++)
                 {
-                    for (j = 0; j < ArraySizeZ; j++)
+                    for (int j = 0; j < ArraySizeZ; j++)
                     {
                         Matrix startTransform = Matrix.Translation(
-                            2 * i + start_x,
-                            2 * k + start_y + 20,
-                            2 * j + start_z
+                            2 * i + startX,
+                            2 * k + startY + 20,
+                            2 * j + startZ
                         );
                         shapeIndex++;
 
                         // using motionstate is recommended, it provides interpolation capabilities
                         // and only synchronizes 'active' objects
-                        DefaultMotionState myMotionState = new DefaultMotionState(startTransform);
-                        RigidBody body;
-                        using (var rbInfo =
-                            new RigidBodyConstructionInfo(mass, myMotionState, colShapes[shapeIndex % NUM_SHAPES], localInertia))
-                        {
-                            body = new RigidBody(rbInfo);
-                        }
+                        rbInfo.MotionState = new DefaultMotionState(startTransform);
+                        rbInfo.CollisionShape = colShapes[shapeIndex % colShapes.Length];
 
+                        RigidBody body = new RigidBody(rbInfo);
                         body.Friction = 1;
                         body.RollingFriction = 0.3f;
                         body.SetAnisotropicFriction(colShape.AnisotropicRollingFrictionDirection, AnisotropicFrictionFlags.RollingFriction);
@@ -120,6 +112,8 @@ namespace RollingFrictionDemo
                     }
                 }
             }
+
+            rbInfo.Dispose();
         }
     }
 

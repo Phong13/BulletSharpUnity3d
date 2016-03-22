@@ -24,10 +24,6 @@ namespace BasicDemo
             Freelook.SetEyeTarget(eye, target);
 
             Graphics.SetFormText("BulletSharp - Basic Demo");
-            Graphics.SetInfoText("Move using mouse and WASD+shift\n" +
-                "F3 - Toggle debug\n" +
-                //"F11 - Toggle fullscreen\n" +
-                "Space - Shoot box");
         }
 
         protected override void OnInitializePhysics()
@@ -64,12 +60,11 @@ namespace BasicDemo
             RigidBodyConstructionInfo rbInfo =
                 new RigidBodyConstructionInfo(mass, null, colShape, localInertia);
 
-            int k, i, j;
-            for (k = 0; k < ArraySizeY; k++)
+            for (int k = 0; k < ArraySizeY; k++)
             {
-                for (i = 0; i < ArraySizeX; i++)
+                for (int i = 0; i < ArraySizeX; i++)
                 {
-                    for (j = 0; j < ArraySizeZ; j++)
+                    for (int j = 0; j < ArraySizeZ; j++)
                     {
                         Matrix startTransform = Matrix.Translation(
                             2 * i + startX,

@@ -33,8 +33,6 @@ namespace BulletSharp
 		}
 
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btTransformUtil_new();
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void btTransformUtil_calculateDiffAxisAngle([In] ref Matrix transform0, [In] ref Matrix transform1, [Out] out Vector3 axis, [Out] out float angle);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
         static extern void btTransformUtil_calculateDiffAxisAngleQuaternion([In] ref Quaternion orn0, [In] ref Quaternion orn1a, [Out] out Vector3 axis, [Out] out float angle);
@@ -44,8 +42,6 @@ namespace BulletSharp
 		static extern void btTransformUtil_calculateVelocityQuaternion([In] ref Vector3 pos0, [In] ref Vector3 pos1, [In] ref Quaternion orn0, [In] ref Quaternion orn1, float timeStep, [Out] out Vector3 linVel, [Out] out Vector3 angVel);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void btTransformUtil_integrateTransform([In] ref Matrix curTrans, [In] ref Vector3 linvel, [In] ref Vector3 angvel, float timeStep, [Out] out Matrix predictedTransform);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btTransformUtil_delete(IntPtr obj);
 	}
 
 	public class ConvexSeparatingDistanceUtil : IDisposable

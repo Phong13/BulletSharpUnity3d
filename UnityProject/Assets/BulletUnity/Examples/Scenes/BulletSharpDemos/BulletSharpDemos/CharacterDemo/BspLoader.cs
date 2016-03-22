@@ -169,16 +169,15 @@ namespace CharacterDemo
         public List<BspShader> Shaders { get; set; }
         public bool IsVbsp { get; private set; }
 
-        
         public bool LoadBspFile(string filename)
         {
             return LoadBspFile(new FileStream(filename, FileMode.Open, FileAccess.Read));
         }
-        
 
         public bool LoadBspFile(Stream buffer)
         {
             BinaryReader reader = new BinaryReader(buffer);
+
 
             // read header
             string id = Encoding.ASCII.GetString(reader.ReadBytes(4), 0, 4);

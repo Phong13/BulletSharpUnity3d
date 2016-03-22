@@ -44,11 +44,12 @@ namespace BulletSharp
 		{
 			btGImpactShapeInterface_getBulletTetrahedron(_native, primIndex, tetrahedron._native);
 		}
-
+		/*
 		public void GetBulletTriangle(int primIndex, TriangleShapeEx triangle)
 		{
 			btGImpactShapeInterface_getBulletTriangle(_native, primIndex, triangle._native);
 		}
+		*/
 
 		public void GetChildAabb(int childIndex, Matrix t, out Vector3 aabbMin, out Vector3 aabbMax)
 		{
@@ -66,11 +67,12 @@ namespace BulletSharp
 			btGImpactShapeInterface_getChildTransform(_native, index, out value);
 			return value;
 		}
-
+		/*
 		public void GetPrimitiveTriangle(int index, PrimitiveTriangle triangle)
 		{
 			btGImpactShapeInterface_getPrimitiveTriangle(_native, index, triangle._native);
 		}
+		*/
 
 		public void LockChildShapes()
 		{
@@ -204,21 +206,18 @@ namespace BulletSharp
 
 	public class CompoundPrimitiveManager : PrimitiveManagerBase
 	{
-		internal CompoundPrimitiveManager(IntPtr native)
+        GImpactCompoundShape _compoundShape;
+
+        internal CompoundPrimitiveManager(IntPtr native, GImpactCompoundShape compoundShape)
 			: base(native)
 		{
+            _compoundShape = compoundShape;
 		}
 
 		public GImpactCompoundShape CompoundShape
 		{
-			get { return CollisionShape.GetManaged(btGImpactCompoundShape_CompoundPrimitiveManager_getCompoundShape(_native)) as GImpactCompoundShape; }
-			set { btGImpactCompoundShape_CompoundPrimitiveManager_setCompoundShape(_native, value._native); }
+			get { return _compoundShape; }
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btGImpactCompoundShape_CompoundPrimitiveManager_getCompoundShape(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGImpactCompoundShape_CompoundPrimitiveManager_setCompoundShape(IntPtr obj, IntPtr value);
 	}
 
 	public class GImpactCompoundShape : GImpactShapeInterface
@@ -263,7 +262,7 @@ namespace BulletSharp
             {
                 if (_compoundPrimitiveManager == null)
                 {
-                    _compoundPrimitiveManager = new CompoundPrimitiveManager(btGImpactCompoundShape_getCompoundPrimitiveManager(_native));
+                    _compoundPrimitiveManager = new CompoundPrimitiveManager(btGImpactCompoundShape_getCompoundPrimitiveManager(_native), this);
                 }
                 return _compoundPrimitiveManager;
             }
@@ -305,11 +304,12 @@ namespace BulletSharp
 			: base(btGImpactMeshShapePart_TrimeshPrimitiveManager_new3())
 		{
 		}
-
+		/*
 		public void GetBulletTriangle(int primIndex, TriangleShapeEx triangle)
 		{
 			btGImpactMeshShapePart_TrimeshPrimitiveManager_get_bullet_triangle(_native, primIndex, triangle._native);
 		}
+		*/
 
         public void GetIndices(int faceIndex, out uint i0, out uint i1, out uint i2)
 		{

@@ -16,47 +16,12 @@ namespace CcdPhysicsDemo
         const float CubeHalfExtents = 1.0f;
         const float ExtraHeight = 1.0f;
 
-        string infoText = "Move using mouse and WASD+shift\n" +
-            "F3 - Toggle debug\n" +
-            //"F11 - Toggle fullscreen\n" +
-            "Space - Shoot box";
-
         void ToggleCcdMode()
         {
             ccdMode = !ccdMode;
 
-            if (ccdMode)
-            {
-                Graphics.SetInfoText(infoText + "\nCCD enabled (P to disable)");
-            }
-            else
-            {
-                Graphics.SetInfoText(infoText + "\nCCD disabled (P to enable)");
-            }
 
             ClientResetScene();
-        }
-
-        void CreateStack(CollisionShape boxShape, int size, float zPos)
-        {
-            Matrix trans;
-            const float mass = 1.0f;
-
-            for (int i = 0; i < size; i++)
-            {
-                // This constructs a row, from left to right
-                int rowSize = size - i;
-                for (int j = 0; j < rowSize; j++)
-                {
-                    trans = Matrix.Translation(
-                        -rowSize * CubeHalfExtents + CubeHalfExtents + j * 2.0f * CubeHalfExtents,
-                        CubeHalfExtents + i * CubeHalfExtents * 2.0f,
-                        zPos);
-
-                    RigidBody body = LocalCreateRigidBody(mass, trans, boxShape);
-                    body.ActivationState = ActivationState.IslandSleeping;
-                }
-            }
         }
 
         protected override void OnInitialize()
@@ -64,7 +29,6 @@ namespace CcdPhysicsDemo
             Freelook.SetEyeTarget(eye, target);
 
             Graphics.SetFormText("BulletSharp - CCD Demo");
-            Graphics.SetInfoText(infoText + "\nCCD enabled (P to disable)");
         }
 
         public override void OnHandleInput()
@@ -150,10 +114,7 @@ namespace CcdPhysicsDemo
 
         public override void ShootBox(Vector3 camPos, Vector3 destination)
         {
-            if (World == null)
-            {
-                return;
-            }
+            if (World == null) return;
 
             const float mass = 1.0f;
 

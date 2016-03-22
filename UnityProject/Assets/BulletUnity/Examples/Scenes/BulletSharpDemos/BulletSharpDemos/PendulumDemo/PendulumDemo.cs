@@ -27,7 +27,7 @@ namespace PendulumDemo
                 //"F11 - Toggle fullscreen\n" +
                 "Space - Shoot box");
 
-            IsDebugDrawEnabled = true;
+            IsDebugDrawEnabled = false;
             DebugDrawMode = DebugDrawModes.DrawWireframe | DebugDrawModes.DrawContactPoints | DebugDrawModes.DrawAabb;
         }
 

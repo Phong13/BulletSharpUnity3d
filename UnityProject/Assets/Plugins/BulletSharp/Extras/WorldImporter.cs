@@ -874,7 +874,7 @@ namespace BulletSharp
                         else
                         {
                             throw new NotImplementedException();
-                            long indices16 = meshReader.ReadPtr(meshOffset + MeshPartData.Offset("Indices16"));
+                            //long indices16 = meshReader.ReadPtr(meshOffset + MeshPartData.Offset("Indices16"));
                         }
 
                         if (vertices3f != 0)

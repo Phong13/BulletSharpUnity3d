@@ -335,10 +335,12 @@ namespace BulletSharp
 			return btGImpactQuantizedBvh_getNodeData(_native, nodeIndex);
 		}
 
+		/*
 		public void GetNodeTriangle(int nodeIndex, PrimitiveTriangle triangle)
 		{
 			btGImpactQuantizedBvh_getNodeTriangle(_native, nodeIndex, triangle._native);
 		}
+		*/
 
 		public int GetRightNode(int nodeIndex)
 		{

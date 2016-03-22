@@ -157,8 +157,6 @@ namespace BulletSharp.SoftBody
             return psb;
 		}
 
-
-
         public static SoftBody CreateFromTetGenFile(SoftBodyWorldInfo worldInfo, string elementFilename, string faceFilename, string nodeFilename, bool faceLinks, bool tetraLinks, bool facesFromTetras)
         {
             string ele = (elementFilename != null) ? File.ReadAllText(elementFilename) : null;
@@ -432,8 +430,8 @@ namespace BulletSharp.SoftBody
 
             foreach (Link link in links)
             {
-                Node ar = link.N[0];
-                Node br = link.N[1];
+                Node ar = link.Nodes[0];
+                Node br = link.Nodes[1];
                 linkBuffer.Add(link, new Link(btSoftBody_Link_new2(link._native)));
 
                 LinkDep linkDep;

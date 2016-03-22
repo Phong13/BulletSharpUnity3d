@@ -56,10 +56,6 @@ namespace CharacterDemo
             Freelook.SetEyeTarget(eye, target);
 
             Graphics.SetFormText("BulletSharp - Character Demo");
-            Graphics.SetInfoText("Move using arrow keys\n" +
-                "F3 - Toggle debug\n" +
-                //"F11 - Toggle fullscreen\n" +
-                "Space - Jump");
         }
 
         protected override void OnInitializePhysics()
@@ -101,8 +97,9 @@ namespace CharacterDemo
 
             World.AddAction(character);
 
-            Vector3 zero = Vector3.Zero;
-            convexResultCallback = new ClosestConvexResultCallback(ref zero, ref zero);
+            Vector3 v1 = new Vector3(0f, 0f, 0f);
+            Vector3 v2 = new Vector3(0f, 0f, 0f);
+            convexResultCallback = new ClosestConvexResultCallback(ref v1,ref v2);
             convexResultCallback.CollisionFilterMask = (short)CollisionFilterGroups.StaticFilter;
             cameraSphere = new SphereShape(0.2f);
         }
@@ -135,17 +132,17 @@ namespace CharacterDemo
             if (Input.KeysDown.Contains(Keys.Left))
             {
                 Matrix orn = xform;
-                orn.Row4 = new Vector4(0, 0, 0, 1);
+                orn.Origin = Vector3.Zero;
                 orn *= Matrix.RotationAxis(upDir, -turnSpeed);
-                orn.Row4 = new Vector4(pos.X, pos.Y, pos.Z, 1);
+                orn.Origin = pos;
                 ghostObject.WorldTransform = orn;
             }
             if (Input.KeysDown.Contains(Keys.Right))
             {
                 Matrix orn = xform;
-                orn.Row4 = new Vector4(0, 0, 0, 1);
+                orn.Origin = Vector3.Zero;
                 orn *= Matrix.RotationAxis(upDir, turnSpeed);
-                orn.Row4 = new Vector4(pos.X, pos.Y, pos.Z, 1);
+                orn.Origin = pos;
                 ghostObject.WorldTransform = orn;
             }
 

@@ -25,6 +25,7 @@ public class BulletExampleRunner : MonoBehaviour {
     public GameObject ropePrefab;
     public GameObject softBodyPrefab;
     public List<GameObject> createdObjs = new List<GameObject>();
+    public bool IsDebugDrawEnabled = false;
     public string[] demoNames = new string[] { "BasicDemo", "BenchmarkDemo", "Box2DDemo", "BspDemo", "CcdPhysicsDemo", "CharacterDemo", "CollisionInterfaceDemo", "ConcaveConvexCastDemo", "ConcaveRaycastDemo",
                                                 "ConstraintDemo", "ConvexDecompositionDemo", "DistanceDemo", "FeatherStoneDemo", "GImpactTestDemo", "MotorDemo", "PendulumDemo", "RagdollDemo", "RollingFrictionDemo",
                                                 "SerializeDemo", "SoftDemo", "VehicleDemo"};
@@ -121,7 +122,7 @@ public class BulletExampleRunner : MonoBehaviour {
         }
         demo.DebugDrawMode = DebugDrawModes.DrawWireframe;
         demo.Run();
-        demo.IsDebugDrawEnabled = true;
+        IsDebugDrawEnabled = false;
     }
 
     bool showDemoNames = false;
@@ -187,7 +188,7 @@ public class BulletExampleRunner : MonoBehaviour {
     {
         if (demo != null && demo.World != null)
         {
-            demo.IsDebugDrawEnabled = true;
+            IsDebugDrawEnabled = false;
             demo.World.DebugDrawWorld();
         }
     }
@@ -264,12 +265,12 @@ public class BulletExampleRunner : MonoBehaviour {
                     BulletRigidBodyProxy rbp = go.AddComponent<BulletRigidBodyProxy>();
                     rbp.target = co;
                 } else { 
-                    Debug.Log("Creating " + cs.ShapeType + " for " + co.ToString());
+                    //Debug.Log("Creating " + cs.ShapeType + " for " + co.ToString());
                     go = CreateUnityCollisionObjectProxy(co as CollisionObject);
                 }
             }
             createdObjs.Add(go);
-            Debug.Log("Created Unity Shape for shapeType=" + co.CollisionShape.ShapeType + " collisionShape=" + co.ToString());
+            //Debug.Log("Created Unity Shape for shapeType=" + co.CollisionShape.ShapeType + " collisionShape=" + co.ToString());
         }
     }
 
@@ -356,12 +357,12 @@ public class BulletExampleRunner : MonoBehaviour {
         List<int> tris = new List<int>();
         for (int i = 0; i < body.Faces.Count; i++) {
             BulletSharp.SoftBody.Face f = body.Faces[i];
-            if (f.N.Count != 3) {
+            if (f.Nodes.Count != 3) {
                 Debug.LogError("Face was not a triangle");
                 continue;
             }
-            for (int j = 0; j < f.N.Count; j++) { 
-                tris.Add( node2vertIdx[f.N[j]]);
+            for (int j = 0; j < f.Nodes.Count; j++) { 
+                tris.Add( node2vertIdx[f.Nodes[j]]);
             }
         }
         GameObject go = Instantiate<GameObject>(softBodyPrefab);

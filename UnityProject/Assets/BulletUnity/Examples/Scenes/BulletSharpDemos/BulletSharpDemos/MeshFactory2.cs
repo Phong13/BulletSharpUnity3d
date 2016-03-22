@@ -11,7 +11,7 @@ namespace DemoFramework {
     public class MeshFactory2 {
 
         public static void CreateShape(CollisionShape shape, Mesh mesh) {
-            Debug.Log("Creating Shape " + shape);
+            //Debug.Log("Creating Shape " + shape);
             switch (shape.ShapeType) {
                 case BroadphaseNativeType.BoxShape:
                     CreateCube(shape as BoxShape, mesh);

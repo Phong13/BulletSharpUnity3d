@@ -34,7 +34,7 @@ namespace ConstraintDemo
                 //"F11 - Toggle fullscreen\n" +
                 "Space - Shoot box");
 
-            IsDebugDrawEnabled = true;
+            IsDebugDrawEnabled = false;
             DebugDrawMode = debugMode;
         }
 

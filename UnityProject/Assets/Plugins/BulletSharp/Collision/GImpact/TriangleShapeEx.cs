@@ -5,6 +5,7 @@ using BulletSharp.Math;
 
 namespace BulletSharp
 {
+	/*
 	public class GimTriangleContact : IDisposable
 	{
 		internal IntPtr _native;
@@ -28,12 +29,7 @@ namespace BulletSharp
 		{
 			GIM_TRIANGLE_CONTACT_copy_from(_native, other._native);
 		}
-        /*
-		public void MergePoints(Vector4 plane, float margin, Vector3 points, int pointCount)
-		{
-			GIM_TRIANGLE_CONTACT_merge_points(_native, ref plane, margin, ref points, pointCount);
-		}
-        */
+        
 		public float PenetrationDepth
 		{
 			get { return GIM_TRIANGLE_CONTACT_getPenetration_depth(_native); }
@@ -107,7 +103,8 @@ namespace BulletSharp
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void GIM_TRIANGLE_CONTACT_delete(IntPtr obj);
 	}
-
+	*/
+	/*
 	public class PrimitiveTriangle : IDisposable
 	{
 		internal IntPtr _native;
@@ -131,12 +128,7 @@ namespace BulletSharp
 		{
 			btPrimitiveTriangle_buildTriPlane(_native);
 		}
-        /*
-		public int ClipTriangle(PrimitiveTriangle other, Vector3 clippedPoints)
-		{
-			return btPrimitiveTriangle_clip_triangle(_native, other._native, ref clippedPoints);
-		}
-        */
+        
 		public bool FindTriangleCollisionClipMethod(PrimitiveTriangle other, GimTriangleContact contacts)
 		{
 			return btPrimitiveTriangle_find_triangle_collision_clip_method(_native, other._native, contacts._native);
@@ -206,8 +198,8 @@ namespace BulletSharp
 		static extern void btPrimitiveTriangle_applyTransform(IntPtr obj, [In] ref Matrix t);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void btPrimitiveTriangle_buildTriPlane(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btPrimitiveTriangle_clip_triangle(IntPtr obj, IntPtr other, [Out] out Vector3 clipped_points);
+		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
+		//static extern int btPrimitiveTriangle_clip_triangle(IntPtr obj, IntPtr other, [Out] out Vector3 clipped_points);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		[return: MarshalAs(UnmanagedType.I1)]
 		static extern bool btPrimitiveTriangle_find_triangle_collision_clip_method(IntPtr obj, IntPtr other, IntPtr contacts);
@@ -232,6 +224,7 @@ namespace BulletSharp
 		static extern void btPrimitiveTriangle_setPlane(IntPtr obj, [In] ref Vector4 value);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void btPrimitiveTriangle_delete(IntPtr obj);
+
 	}
 
 	public class TriangleShapeEx : TriangleShape
@@ -270,14 +263,15 @@ namespace BulletSharp
 		static extern IntPtr btTriangleShapeEx_new();
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern IntPtr btTriangleShapeEx_new2([In] ref Vector3 p0, [In] ref Vector3 p1, [In] ref Vector3 p2);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btTriangleShapeEx_new3(IntPtr other);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btTriangleShapeEx_applyTransform(IntPtr obj, [In] ref Matrix t);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btTriangleShapeEx_buildTriPlane(IntPtr obj, [Out] out Vector4 plane);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		[return: MarshalAs(UnmanagedType.I1)]
-		static extern bool btTriangleShapeEx_overlap_test_conservative(IntPtr obj, IntPtr other);
+		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
+		//static extern IntPtr btTriangleShapeEx_new3(IntPtr other);
+		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
+		//static extern void btTriangleShapeEx_applyTransform(IntPtr obj, [In] ref Matrix t);
+		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
+		//static extern void btTriangleShapeEx_buildTriPlane(IntPtr obj, [Out] out Vector4 plane);
+		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
+		//[return: MarshalAs(UnmanagedType.I1)]
+		//static extern bool btTriangleShapeEx_overlap_test_conservative(IntPtr obj, IntPtr other);
 	}
+*/
 }

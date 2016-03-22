@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
+using AOT;
 
 namespace BulletSharp
 {
@@ -121,9 +122,9 @@ namespace BulletSharp
 		internal IntPtr _native;
 
         [UnmanagedFunctionPointer(Native.Conv), SuppressUnmanagedCodeSecurity]
-        delegate float AddSingleResultUnmanagedDelegate(IntPtr cp, IntPtr colObj0Wrap, int partId0, int index0, IntPtr colObj1Wrap, int partId1, int index1);
+        delegate float AddSingleResultUnmanagedDelegate(IntPtr thisPtr, IntPtr cp, IntPtr colObj0Wrap, int partId0, int index0, IntPtr colObj1Wrap, int partId1, int index1);
         [UnmanagedFunctionPointer(Native.Conv), SuppressUnmanagedCodeSecurity]
-        delegate bool NeedsCollisionUnmanagedDelegate(IntPtr proxy0);
+        delegate bool NeedsCollisionUnmanagedDelegate(IntPtr thisPtr, IntPtr proxy0);
 
         AddSingleResultUnmanagedDelegate _addSingleResult;
         NeedsCollisionUnmanagedDelegate _needsCollision;
@@ -132,23 +133,29 @@ namespace BulletSharp
         {
             _addSingleResult = AddSingleResultUnmanaged;
             _needsCollision = NeedsCollisionUnmanaged;
+			GCHandle handle = GCHandle.Alloc(this, GCHandleType.Normal);
             _native = btCollisionWorld_ContactResultCallbackWrapper_new(
                 Marshal.GetFunctionPointerForDelegate(_addSingleResult),
-                Marshal.GetFunctionPointerForDelegate(_needsCollision));
+                Marshal.GetFunctionPointerForDelegate(_needsCollision),
+				GCHandle.ToIntPtr(handle));
         }
 
-        float AddSingleResultUnmanaged(IntPtr cp, IntPtr colObj0Wrap, int partId0, int index0, IntPtr colObj1Wrap, int partId1, int index1)
+		[MonoPInvokeCallback(typeof(AddSingleResultUnmanagedDelegate))]
+		static float AddSingleResultUnmanaged(IntPtr thisPtr, IntPtr cp, IntPtr colObj0Wrap, int partId0, int index0, IntPtr colObj1Wrap, int partId1, int index1)
         {
-            return AddSingleResult(new ManifoldPoint(cp, true),
+			ContactResultCallback ai = GCHandle.FromIntPtr(thisPtr).Target as ContactResultCallback;
+            return ai.AddSingleResult(new ManifoldPoint(cp, true),
                 new CollisionObjectWrapper(colObj0Wrap), partId0, index0,
                 new CollisionObjectWrapper(colObj1Wrap), partId1, index1);
         }
 
         public abstract float AddSingleResult(ManifoldPoint cp, CollisionObjectWrapper colObj0Wrap, int partId0, int index0, CollisionObjectWrapper colObj1Wrap, int partId1, int index1);
 
-        bool NeedsCollisionUnmanaged(IntPtr proxy0)
+		[MonoPInvokeCallback(typeof(NeedsCollisionUnmanagedDelegate))]
+        static bool NeedsCollisionUnmanaged(IntPtr thisPtr, IntPtr proxy0)
         {
-            return NeedsCollision(BroadphaseProxy.GetManaged(proxy0));
+			ContactResultCallback ai = GCHandle.FromIntPtr(thisPtr).Target as ContactResultCallback;
+            return ai.NeedsCollision(BroadphaseProxy.GetManaged(proxy0));
         }
 
         public virtual bool NeedsCollision(BroadphaseProxy proxy0)
@@ -200,7 +207,7 @@ namespace BulletSharp
 		static extern void btCollisionWorld_ContactResultCallback_delete(IntPtr obj);
         [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 
-        static extern IntPtr btCollisionWorld_ContactResultCallbackWrapper_new(IntPtr addSingleResult, IntPtr needsCollision);
+		static extern IntPtr btCollisionWorld_ContactResultCallbackWrapper_new(IntPtr addSingleResult, IntPtr needsCollision, IntPtr thisPtr);
         [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
         [return: MarshalAs(UnmanagedType.I1)]
         static extern bool btCollisionWorld_ContactResultCallbackWrapper_needsCollision(IntPtr obj, IntPtr proxy0);
@@ -211,9 +218,9 @@ namespace BulletSharp
 		internal IntPtr _native;
 
         [UnmanagedFunctionPointer(Native.Conv), SuppressUnmanagedCodeSecurity]
-        delegate float AddSingleResultUnmanagedDelegate(IntPtr convexResult, bool normalInWorldSpace);
+        delegate float AddSingleResultUnmanagedDelegate(IntPtr thisPtr, IntPtr convexResult, bool normalInWorldSpace);
         [UnmanagedFunctionPointer(Native.Conv), SuppressUnmanagedCodeSecurity]
-        delegate bool NeedsCollisionUnmanagedDelegate(IntPtr proxy0);
+        delegate bool NeedsCollisionUnmanagedDelegate(IntPtr thisPtr, IntPtr proxy0);
 
         AddSingleResultUnmanagedDelegate _addSingleResult;
         NeedsCollisionUnmanagedDelegate _needsCollision;
@@ -222,21 +229,27 @@ namespace BulletSharp
         {
             _addSingleResult = AddSingleResultUnmanaged;
             _needsCollision = NeedsCollisionUnmanaged;
+			GCHandle handle = GCHandle.Alloc(this, GCHandleType.Normal);
             _native = btCollisionWorld_ConvexResultCallbackWrapper_new(
                 Marshal.GetFunctionPointerForDelegate(_addSingleResult),
-                Marshal.GetFunctionPointerForDelegate(_needsCollision));
+                Marshal.GetFunctionPointerForDelegate(_needsCollision),
+				GCHandle.ToIntPtr(handle));
         }
 
-        float AddSingleResultUnmanaged(IntPtr convexResult, bool normalInWorldSpace)
+		[MonoPInvokeCallback(typeof(AddSingleResultUnmanagedDelegate))]
+		static float AddSingleResultUnmanaged(IntPtr ptrThis, IntPtr convexResult, bool normalInWorldSpace)
         {
-            return AddSingleResult(new LocalConvexResult(convexResult), normalInWorldSpace);
+			ConvexResultCallback ptr = GCHandle.FromIntPtr(ptrThis).Target as ConvexResultCallback;
+            return ptr.AddSingleResult(new LocalConvexResult(convexResult), normalInWorldSpace);
         }
 
         public abstract float AddSingleResult(LocalConvexResult convexResult, bool normalInWorldSpace);
 
-        bool NeedsCollisionUnmanaged(IntPtr proxy0)
+		[MonoPInvokeCallback(typeof(NeedsCollisionUnmanagedDelegate))]
+		static bool NeedsCollisionUnmanaged(IntPtr ptrThis, IntPtr proxy0)
         {
-            return NeedsCollision(BroadphaseProxy.GetManaged(proxy0));
+			ConvexResultCallback ptr = GCHandle.FromIntPtr(ptrThis).Target as ConvexResultCallback;
+            return ptr.NeedsCollision(BroadphaseProxy.GetManaged(proxy0));
         }
 
         public virtual bool NeedsCollision(BroadphaseProxy proxy0)
@@ -306,7 +319,7 @@ namespace BulletSharp
 		static extern void btCollisionWorld_ConvexResultCallback_delete(IntPtr obj);
 
         [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        static extern IntPtr btCollisionWorld_ConvexResultCallbackWrapper_new(IntPtr addSingleResult, IntPtr needsCollision);
+		static extern IntPtr btCollisionWorld_ConvexResultCallbackWrapper_new(IntPtr addSingleResult, IntPtr needsCollision, IntPtr thisPtr);
         [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
         [return: MarshalAs(UnmanagedType.I1)]
         static extern bool btCollisionWorld_ConvexResultCallbackWrapper_needsCollision(IntPtr obj, IntPtr proxy0);
@@ -607,9 +620,9 @@ namespace BulletSharp
 		internal IntPtr _native;
 
         [UnmanagedFunctionPointer(Native.Conv), SuppressUnmanagedCodeSecurity]
-        delegate float AddSingleResultUnmanagedDelegate(IntPtr rayResult, bool normalInWorldSpace);
+        delegate float AddSingleResultUnmanagedDelegate(IntPtr thisPtr, IntPtr rayResult, bool normalInWorldSpace);
         [UnmanagedFunctionPointer(Native.Conv), SuppressUnmanagedCodeSecurity]
-		delegate bool NeedsCollisionUnmanagedDelegate(IntPtr proxy0);
+		delegate bool NeedsCollisionUnmanagedDelegate(IntPtr thisPtr, IntPtr proxy0);
 
 		AddSingleResultUnmanagedDelegate _addSingleResult;
 		NeedsCollisionUnmanagedDelegate _needsCollision;
@@ -618,21 +631,27 @@ namespace BulletSharp
 		{
 			_addSingleResult = AddSingleResultUnmanaged;
 			_needsCollision = NeedsCollisionUnmanaged;
+			GCHandle handle = GCHandle.Alloc(this, GCHandleType.Normal);
 			_native = btCollisionWorld_RayResultCallbackWrapper_new(
 				Marshal.GetFunctionPointerForDelegate(_addSingleResult),
-				Marshal.GetFunctionPointerForDelegate(_needsCollision));
+				Marshal.GetFunctionPointerForDelegate(_needsCollision),
+				GCHandle.ToIntPtr(handle));
 		}
 
-        float AddSingleResultUnmanaged(IntPtr rayResult, bool normalInWorldSpace)
+		[MonoPInvokeCallback(typeof(AddSingleResultUnmanagedDelegate))]
+        static float AddSingleResultUnmanaged(IntPtr thisPtr, IntPtr rayResult, bool normalInWorldSpace)
 		{
-			return AddSingleResult(new LocalRayResult(rayResult), normalInWorldSpace);
+			RayResultCallback ai = GCHandle.FromIntPtr(thisPtr).Target as RayResultCallback;
+			return ai.AddSingleResult(new LocalRayResult(rayResult), normalInWorldSpace);
 		}
 
         public abstract float AddSingleResult(LocalRayResult rayResult, bool normalInWorldSpace);
 
-		bool NeedsCollisionUnmanaged(IntPtr proxy0)
+		[MonoPInvokeCallback(typeof(NeedsCollisionUnmanagedDelegate))]
+		static bool NeedsCollisionUnmanaged(IntPtr thisPtr, IntPtr proxy0)
 		{
-			return NeedsCollision(BroadphaseProxy.GetManaged(proxy0));
+			RayResultCallback ai = GCHandle.FromIntPtr(thisPtr).Target as RayResultCallback;
+			return ai.NeedsCollision(BroadphaseProxy.GetManaged(proxy0));
 		}
 
 		public virtual bool NeedsCollision(BroadphaseProxy proxy0)
@@ -722,7 +741,7 @@ namespace BulletSharp
 		static extern void btCollisionWorld_RayResultCallback_delete(IntPtr obj);
 
         [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        static extern IntPtr btCollisionWorld_RayResultCallbackWrapper_new(IntPtr addSingleResult, IntPtr needsCollision);
+		static extern IntPtr btCollisionWorld_RayResultCallbackWrapper_new(IntPtr addSingleResult, IntPtr needsCollision, IntPtr thisPtr);
         [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
         [return: MarshalAs(UnmanagedType.I1)]
         static extern bool btCollisionWorld_RayResultCallbackWrapper_needsCollision(IntPtr obj, IntPtr proxy0);

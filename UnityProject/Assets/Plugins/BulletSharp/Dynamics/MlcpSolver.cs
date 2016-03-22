@@ -20,12 +20,6 @@ namespace BulletSharp
             _mlcpSolver = solver;
 		}
 
-		public float Cfm
-		{
-			get { return btMLCPSolver_getCfm(_native); }
-			set { btMLCPSolver_setCfm(_native, value); }
-		}
-
 		public int NumFallbacks
 		{
 			get { return btMLCPSolver_getNumFallbacks(_native); }
@@ -35,11 +29,7 @@ namespace BulletSharp
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern IntPtr btMLCPSolver_new(IntPtr solver);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern float btMLCPSolver_getCfm(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern int btMLCPSolver_getNumFallbacks(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btMLCPSolver_setCfm(IntPtr obj, float cfm);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
 		static extern void btMLCPSolver_setMLCPSolver(IntPtr obj, IntPtr solver);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]

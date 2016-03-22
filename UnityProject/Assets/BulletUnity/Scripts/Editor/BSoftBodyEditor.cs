@@ -77,7 +77,7 @@ namespace BulletUnity
             EditorGUILayout.Space();
 
             //bitmask field for collisions
-            bSoftBodyTarget.SoftBodySettings.config.Collisions = (BulletSharp.SoftBody.Collisions)EditorGUILayout.EnumMaskField(gcCollisionTooltip, bSoftBodyTarget.SoftBodySettings.config.Collisions);
+            bSoftBodyTarget.SoftBodySettings.config.Collisions = (BulletSharp.SoftBody.CollisionFlags) EditorGUILayout.EnumMaskField(gcCollisionTooltip, bSoftBodyTarget.SoftBodySettings.config.Collisions);
 
             EditorGUILayout.PropertyField(softBodySettings, gcSoftBodySettings, true);
 

@@ -49,7 +49,7 @@ namespace CollisionInterfaceDemo
                 //"F11 - Toggle fullscreen\n" +
                 "Space - Shoot box");
 
-            IsDebugDrawEnabled = true;
+            IsDebugDrawEnabled = false;
         }
 
         protected override void OnInitializePhysics()

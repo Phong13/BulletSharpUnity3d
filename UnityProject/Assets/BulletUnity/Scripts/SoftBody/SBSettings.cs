@@ -121,12 +121,12 @@ namespace BulletUnity
                     fromFaces = false;
                     bvolume = false;
                     bframe = false;
-                    sBMaterial.LST = 0.5f;
+                    sBMaterial.LinearStiffness = 0.5f;
 
                     break;
                 case SBSettingsPresets.Rope:
-                    config.PIterations = 20;
-                    sBMaterial.LST = 0.5f;
+                    config.PositionIterations = 20;
+                    sBMaterial.LinearStiffness = 0.5f;
                     bendingConstraintDistance = 0;
                     randomizeConstraints = false;
                     fromFaces = false;
@@ -139,22 +139,22 @@ namespace BulletUnity
                     break;
 
                 case SBSettingsPresets.Pressurized:
-                    sBMaterial.LST = 0.1f;
-                    config.DF = 1;
-                    config.DP = 0.001f; // fun factor...
-                    config.PR = 2500;
+                    sBMaterial.LinearStiffness = 0.1f;
+                    config.DynamicFriction = 1;
+                    config.Damping = 0.001f; // fun factor...
+                    config.Pressure = 2500;
                     fromFaces = true;
                     break;
 
                 case SBSettingsPresets.Aerodynamic:
-                    config.LF = 0.004f;
-                    config.DG = 0.0003f;
-                    config.aeroModel = AeroModel.VTwoSided;
+                    config.Lift = 0.004f;
+                    config.Drag = 0.0003f;
+                    config.aeroModel = AeroModel.VertexTwoSided;
                     break;
                 case SBSettingsPresets.Volume:
 
-                    sBMaterial.LST = 0.45f;
-                    config.VC = 20;
+                    sBMaterial.LinearStiffness = 0.45f;
+                    config.VolumeConversation = 20;
                     totalMass = 50f;
                     fromFaces = true;
                     bvolume = true;
@@ -164,10 +164,10 @@ namespace BulletUnity
 
                     break;
                 case SBSettingsPresets.ShapeMatching:
-                    sBMaterial.LST = 0.5f;
-                    config.DF = 0.5f;
-                    config.MT = 0.05f;
-                    config.PIterations = 10;
+                    sBMaterial.LinearStiffness = 0.5f;
+                    config.DynamicFriction = 0.5f;
+                    config.PoseMatching = 0.05f;
+                    config.PositionIterations = 10;
 
                     randomizeConstraints = true;
                     totalMass = 100f;
@@ -179,34 +179,34 @@ namespace BulletUnity
 
 
                 case SBSettingsPresets.ropeStick:
-                    config.Ahr = 0.7f;
-                    config.CIterations = 4;
-                    config.Chr = 0.1f;
-                    config.DF = 0.2f;
-                    config.DG = 0f;
-                    config.DIterations = 0;
-                    config.DP = 0.005f;
-                    config.Khr = 0.1f;
-                    config.LF = 0;
-                    config.MT = 0;
+                    config.AnchorHardness = 0.7f;
+                    config.ClusterIterations = 4;
+                    config.RigidContactHardness = 0.1f;
+                    config.DynamicFriction = 0.2f;
+                    config.Drag = 0f;
+                    config.DriftIterations = 0;
+                    config.Damping = 0.005f;
+                    config.KineticContactHardness = 0.1f;
+                    config.Lift = 0;
+                    config.PoseMatching = 0;
                     config.MaxVolume = 1.0f;
-                    config.PIterations = 1;
-                    config.PR = 0;
-                    config.SKSplitCL = 0.5f;
-                    config.SRSplitCL = 0.5f;
-                    config.SSSplitCL = 0.5f;
+                    config.PositionIterations = 1;
+                    config.Pressure = 0;
+                    config.SoftKineticImpulseSplit = 0.5f;
+                    config.SoftRigidImpulseSplit = 0.5f;
+                    config.SoftSoftImpulseSplit = 0.5f;
                     config.Shr = 1f;
-                    config.SkhrCL = 1f;
-                    config.SrhrCL = 0.1f;
-                    config.SshrCL = 0.5f;
+                    config.SoftKineticHardness = 1f;
+                    config.SoftRigidHardness = 0.1f;
+                    config.SoftSoftHardness = 0.5f;
                     config.Timescale = 1;
-                    config.VC = 0f;
-                    config.Vcf = 1f;
-                    config.Viterations = 0;
+                    config.VolumeConversation = 0f;
+                    config.VelocityCorrectionFactor = 1f;
+                    config.VelocityIterations = 0;
 
-                    sBMaterial.LST = 1.0f;
-                    sBMaterial.AST = 1.0f;
-                    sBMaterial.VST = 1.0f;
+                    sBMaterial.LinearStiffness = 1.0f;
+                    sBMaterial.AngularStiffness = 1.0f;
+                    sBMaterial.VolumeStiffness = 1.0f;
 
                     bframe = false;
                     fromFaces = false;
@@ -261,23 +261,23 @@ namespace BulletUnity
 
         [Tooltip("Dynamic friction coefficient; Same as rigid body friction. 0 = slides, 1 = sticks. ")]
         [Range(0f, 1f)]
-        public float DF = 0.2f;
+        public float DynamicFriction = 0.2f;
 
         [Tooltip("Damping coefficient; (Velocity?) damping.")]
         [Range(0f, 1f)]
-        public float DP = 0f;
+        public float Damping = 0f;
 
         [Tooltip("Volume conservation coefficient; Volume conservation. Also, when setPose(true, ...)*** has been called, defines magnitude of the force used to conserve volume. (?)")]
         [Range(0f, float.PositiveInfinity)]
-        public float VC = 0f;
+        public float VolumeConversation = 0f;
 
         [Tooltip("Pressure coefficient; Affects aerodynamics computations. Also, when setPose(true, ...)*** has been called, defines pressure used to conserve volume.")]
         //[Range(float.NegativeInfinity, float.PositiveInfinity)]
-        public float PR = 0f;
+        public float Pressure = 0f;
 
         [Tooltip("Anchors hardness; Defines how “soft” anchor constraints (joints) are. 0 = no drift correction, 1 = full correction.")]
         [Range(0f, 1f)]
-        public float Ahr = 0.7f;
+        public float AnchorHardness = 0.7f;
 
 
         const string collisionTooltip = "Collisions flags\n\n" +
@@ -288,9 +288,11 @@ namespace BulletUnity
              "CL_SS:Vertex vs face soft vs soft handling.\n\n" +
              "CL_SELF: Cluster vs cluster soft vs soft handling.\n\n" +
              "Default: Cluster soft body self collision.\n\n";
+
         [HideInInspector]
         [Tooltip(collisionTooltip)]
-        public Collisions Collisions = Collisions.Default;
+        public BulletSharp.SoftBody.CollisionFlags Collisions = BulletSharp.SoftBody.CollisionFlags.Default;
+
 
 
         [Tooltip("Maximum volume ratio for pose.")]
@@ -299,11 +301,11 @@ namespace BulletUnity
 
         [Tooltip("Pose matching coefficient; When setPose(..., true)*** has been called, defines the factor used for pose matching. (enforcing relative vertex positions)")]
         [Range(0f, 1f)]
-        public float MT = 0f;
+        public float PoseMatching = 0f;
 
         [Tooltip("Velocities correction factor (Baumgarte); Define the amount of correction per time step for drift solver (sometimes referred to as ERP in rigid bodies solvers).")]
         [Range(0f, 1f)]
-        public float Vcf = 1.0f;
+        public float VelocityCorrectionFactor = 1.0f;
 
         [Tooltip("Time scale; Factor of time step. Can be used to speed up or slow down simulation of a specific soft body.")]
         [Range(0f, float.PositiveInfinity)]
@@ -313,11 +315,11 @@ namespace BulletUnity
 
         [Tooltip("Rigid contacts hardness; Defines how “soft” contact with rigid bodies are. 0 = no penetration correction, 1 = full correction.")]
         [Range(0f, 1f)]
-        public float Chr = 1.0f;
+        public float RigidContactHardness = 1.0f;
 
         [Tooltip("Kinetic contacts hardness; Defines how “soft” contact with kinetic/static bodies are. 0 = no penetration correction, 1 = full correction.")]
         [Range(0f, 1f)]
-        public float Khr = 0.1f;
+        public float KineticContactHardness = 0.1f;
 
         [Tooltip("Soft contacts hardness; Defines how “soft” contact with other soft bodies are. 0 = no penetration correction, 1 = full correction.")]
         [Range(0f, 1f)]
@@ -327,24 +329,24 @@ namespace BulletUnity
 
         [Tooltip("Positions solver iterations")]
         [Range(0, 1000)] //int.MaxValue)]
-        public int PIterations = 1;
+        public int PositionIterations = 1;
 
         [Tooltip("Drift solver iterations; Number of iterations for drift solvers (if any, can be 0).")]
         [Range(0, 1000)]
-        public int DIterations = 0;
+        public int DriftIterations = 0;
 
         [Tooltip("Velocities solver iterations; Number of iterations for velocities solvers (if any).")]
         [Range(0, 1000)]
-        public int Viterations = 0;
+        public int VelocityIterations = 0;
 
         [Tooltip("Cluster solver iterations; Number of iterations for cluster solvers (if any).")]
         [Range(0, 1000)]
-        public int CIterations = 0;
+        public int ClusterIterations = 0;
 
         [Header("Aerodynamics Settings")]
 
         [Tooltip("Aerodynamic model; Define what kind of feature is used to compute aerodynamic forces (specifies orientation of vertex or face normals for aeurodynamics).")]
-        public AeroModel aeroModel = AeroModel.VPoint;
+        public AeroModel aeroModel = AeroModel.VertexPoint;
 
         // V_Point,			///Vertex normals are oriented toward velocity
         //V_TwoSided,			///Vertex normals are flipped to match velocity	
@@ -356,66 +358,66 @@ namespace BulletUnity
 
         [Tooltip("Drag coefficient; For aerodynamics computations. See wikipedia “Drag coefficient”. 0 = no drag.")]
         [Range(0f, 10f)]
-        public float DG = 0f;
+        public float Drag = 0f;
 
         [Tooltip("Lift coefficient; For aerodynamics computations. See wikipedia “Lift (force)”. 0 = no lift.")]
         [Range(0f, 1f)]
-        public float LF = 0f;
+        public float Lift = 0f;
 
         [Header("Cluster Settings")]
 
         [Tooltip("Soft vs rigid hardness; Used with clusters only. Presumably similar function as kCHR.")]
         [Range(0f, 1f)]
-        public float SrhrCL = 0.1f;
+        public float SoftRigidHardness = 0.1f;
 
         [Tooltip("Soft vs kinetic hardness, Used with clusters only. Presumably similar function as kKHR.")]
         [Range(0f, 1f)]
-        public float SkhrCL = 1.0f;
+        public float SoftKineticHardness = 1.0f;
 
         [Tooltip("Soft vs soft hardness; Used with clusters only. Presumably similar function as kSHR.")]
         [Range(0f, 1f)]
-        public float SshrCL = 0.5f;
+        public float SoftSoftHardness = 0.5f;
 
         [Tooltip("Soft vs rigid impulse split; Used with clusters only. What proportion to split impulse with a rigid body after collision.")]
         [Range(0f, 1f)]
-        public float SRSplitCL = 0.5f;
+        public float SoftRigidImpulseSplit = 0.5f;
 
         [Tooltip("Soft vs kinetic impulse split; Used with clusters only. What proportion to split impulse with a kinetic/static body after collision.")]
         [Range(0f, 1f)]
-        public float SKSplitCL = 0.5f;
+        public float SoftKineticImpulseSplit = 0.5f;
 
         [Tooltip("Soft vs soft impulse split; Used with clusters only. What proportion to split impulse with another soft body after collision.")]
         [Range(0f, 1f)]
-        public float SSSplitCL = 0.5f;
+        public float SoftSoftImpulseSplit = 0.5f;
 
         public void CopyToBulletSBConfig(BulletSharp.SoftBody.Config sBConfig)
         {
 
-            sBConfig.DF = DF;
-            sBConfig.DP = DP;
-            sBConfig.VC = VC;
-            sBConfig.PR = PR;
-            sBConfig.Ahr = Ahr;
+            sBConfig.DynamicFriction = DynamicFriction;
+            sBConfig.Damping = Damping;
+            sBConfig.VolumeConversation = VolumeConversation;
+            sBConfig.Pressure = Pressure;
+            sBConfig.AnchorHardness = AnchorHardness;    
             sBConfig.Collisions = Collisions;
             sBConfig.MaxVolume = MaxVolume;
-            sBConfig.MT = MT;
-            sBConfig.Vcf = Vcf;
+            sBConfig.PoseMatching = PoseMatching;
+            sBConfig.VelocityCorrectionFactor = VelocityCorrectionFactor;
             sBConfig.Timescale = Timescale;
-            sBConfig.Chr = Chr;
-            sBConfig.Khr = Khr;
-            sBConfig.PIterations = PIterations;
-            sBConfig.DIterations = DIterations;
-            sBConfig.Viterations = Viterations;
-            sBConfig.CIterations = CIterations;
+            sBConfig.RigidContactHardness = RigidContactHardness; 
+            sBConfig.KineticContactHardness = KineticContactHardness;   
+            sBConfig.PositionIterations = PositionIterations;
+            sBConfig.DriftIterations = DriftIterations;
+            sBConfig.VelocityIterations = VelocityIterations;
+            sBConfig.ClusterIterations = ClusterIterations;
             sBConfig.AeroModel = aeroModel;
-            sBConfig.DG = DG;
-            sBConfig.LF = LF;
-            sBConfig.SrhrCL = SrhrCL;
-            sBConfig.SkhrCL = SkhrCL;
-            sBConfig.SshrCL = SshrCL;
-            sBConfig.SRSplitCL = SRSplitCL;
-            sBConfig.SKSplitCL = SKSplitCL;
-            sBConfig.SSSplitCL = SSSplitCL;
+            sBConfig.Drag = Drag;
+            sBConfig.Lift = Lift;
+            sBConfig.SoftRigidHardness = SoftRigidHardness;
+            sBConfig.SoftKineticHardness = SoftKineticHardness;
+            sBConfig.SoftSoftHardness = SoftSoftHardness; 
+            sBConfig.SoftRigidImpulseSplit = SoftRigidImpulseSplit;
+            sBConfig.SoftKineticImpulseSplit = SoftKineticImpulseSplit; 
+            sBConfig.SoftSoftImpulseSplit = SoftSoftImpulseSplit;
 
 
 
@@ -434,18 +436,19 @@ namespace BulletUnity
     {
         [Tooltip("Linear stiffness coefficient")]
         [Range(0f, 1f)]
-        public float LST = 1f;
+        public float LinearStiffness = 1f;
 
         [Tooltip("Angular stiffness coefficient")]
         [Range(0f, 1f)]
-        public float AST = 1f;
+        public float AngularStiffness = 1f;
 
         [Tooltip("Volume stiffness coefficient")]
         [Range(0f, 1f)]
-        public float VST = 1f;
+        public float VolumeStiffness = 1f;
 
         [Tooltip("See: fMaterial::Default")]
-        public FMaterial Flags = FMaterial.Default;
+        public BulletSharp.SoftBody.MaterialFlags Flags = MaterialFlags.Default;
+       
 
         /// <summary>
         /// Set SoftBody material properties
@@ -454,9 +457,9 @@ namespace BulletUnity
         /// <returns></returns>
         public void SetSBMaterial(BulletSharp.SoftBody.Material mat)
         {
-            mat.Ast = AST;
-            mat.Lst = LST;
-            mat.Vst = VST;
+            mat.AngularStiffness = AngularStiffness;
+            mat.LinearStiffness = LinearStiffness;
+            mat.VolumeStiffness = VolumeStiffness;
             mat.Flags = Flags;
         }
 

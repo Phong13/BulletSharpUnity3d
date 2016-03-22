@@ -507,7 +507,7 @@ namespace BulletSharp
 
         protected byte[] ReadStruct(BinaryReader head, ChunkInd dataChunk)
         {
-            bool ignoreEndianFlag = false;
+            //bool ignoreEndianFlag = false;
 
             if ((_flags & FileFlags.EndianSwap) == FileFlags.EndianSwap)
             {
