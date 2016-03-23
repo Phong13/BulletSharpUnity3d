@@ -20,18 +20,9 @@ namespace BulletUnity
         //Draw the UnityBullet Logo and version on scripts that need it
         public static void DrawLogoAndVersion()
         {
-            versionStyle.fontSize = 15;
-            
-            EditorGUILayout.BeginHorizontal();
-            GUIStyle logoGUIStyle = new GUIStyle();
-            logoGUIStyle.border = new RectOffset(0, 0, 0, 0);
-            GUILayout.Box(EditorHelpers.EditorLogo, logoGUIStyle);
-
-            //Title/Version
-            GUILayout.Label("Bullet For Unity Ver: " + EditorHelpers.version, EditorHelpers.versionStyle);
-            EditorGUILayout.Space();
-            EditorGUILayout.EndHorizontal();
-
+			EditorGUILayout.LabelField(new GUIContent(EditorLogo), GUILayout.MinHeight(64.0f), GUILayout.ExpandWidth(false));
+			EditorGUILayout.LabelField(string.Format("Bullet Version: {0}", version));
+			EditorGUILayout.Separator();
         }
 
 

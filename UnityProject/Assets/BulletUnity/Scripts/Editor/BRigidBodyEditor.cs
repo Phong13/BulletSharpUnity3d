@@ -12,9 +12,6 @@ public class BRigidBodyEditor : Editor
     {
         BRigidBody rb = (BRigidBody)target;
         
-        EditorGUILayout.LabelField(string.Format("Velocity {0}",rb.velocity));
-        EditorGUILayout.LabelField(string.Format("Angular Velocity {0}", rb.angularVelocity));
-
         rb.m_collisionFlags = BCollisionObjectEditor.RenderEnumMaskCollisionFlagsField(BCollisionObjectEditor.gcCollisionFlags, rb.m_collisionFlags);
         rb.m_groupsIBelongTo = BCollisionObjectEditor.RenderEnumMaskCollisionFilterGroupsField(BCollisionObjectEditor.gcGroupsIBelongTo, rb.m_groupsIBelongTo);
         rb.m_collisionMask = BCollisionObjectEditor.RenderEnumMaskCollisionFilterGroupsField(BCollisionObjectEditor.gcCollisionMask, rb.m_collisionMask);
@@ -60,6 +57,9 @@ public class BRigidBodyEditor : Editor
 		EditorGUILayout.Separator();
 
 		rb.debugType = EditorInterface.DrawDebug(rb.debugType, rb);
+
+		EditorGUILayout.LabelField(string.Format("Velocity {0}",rb.velocity));
+		EditorGUILayout.LabelField(string.Format("Angular Velocity {0}", rb.angularVelocity));
 
         if (GUI.changed)
         {
