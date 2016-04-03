@@ -225,5 +225,22 @@ namespace BulletUnity
             }
         }
 
+        public virtual void SetRotation(Quaternion rotation)
+        {
+            if (isInWorld)
+            {
+                BulletSharp.Math.Matrix newTrans = m_collisionObject.WorldTransform;
+                BulletSharp.Math.Quaternion q = rotation.ToBullet();
+                BulletSharp.Math.Matrix.RotationQuaternion(ref q, out newTrans);
+                newTrans.Origin = transform.position.ToBullet();
+                m_collisionObject.WorldTransform = newTrans;
+                transform.rotation = rotation;
+            }
+            else
+            {
+                transform.rotation = rotation;
+            }
+        }
+
     }
 }
