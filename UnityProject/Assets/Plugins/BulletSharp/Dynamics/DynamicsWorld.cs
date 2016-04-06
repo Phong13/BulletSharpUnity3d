@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
+using AOT;
 
 namespace BulletSharp
 {
@@ -17,6 +18,8 @@ namespace BulletSharp
 
 	public abstract class DynamicsWorld : CollisionWorld
 	{
+        protected static Dictionary<IntPtr, CollisionWorld> _native2ManagedMap = new Dictionary<IntPtr, CollisionWorld>();
+
         public delegate void InternalTickCallback(DynamicsWorld world, float timeStep);
         
         [UnmanagedFunctionPointer(CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
@@ -33,7 +36,11 @@ namespace BulletSharp
 		internal DynamicsWorld(IntPtr native)
 			: base(native)
 		{
-		}
+            if (native != IntPtr.Zero)
+            {
+                _native2ManagedMap.Add(native, this);
+            }
+        }
 
 		public void AddAction(IAction action)
 		{
@@ -158,12 +165,21 @@ namespace BulletSharp
             btDynamicsWorld_setGravity(_native, ref gravity);
         }
 
+        /*
         private void InternalTickCallbackNative(IntPtr world, float timeStep)
         {
             _callback(this, timeStep);
         }
+        */
 
-		public void SetInternalTickCallback(InternalTickCallback cb)
+        [MonoPInvokeCallback(typeof(InternalTickCallbackUnmanaged))]
+        static private void InternalTickCallbackNative(IntPtr world, float timeStep)
+        {
+            CollisionWorld cw = _native2ManagedMap[world];
+            ((DynamicsWorld) cw)._callback((DynamicsWorld)cw, timeStep);
+        }
+
+        public void SetInternalTickCallback(InternalTickCallback cb)
 		{
             SetInternalTickCallback(cb, WorldUserInfo, false);
 		}
@@ -278,7 +294,13 @@ namespace BulletSharp
                     wrapper.Dispose();
                 }
             }
-
+            if (_native != IntPtr.Zero)
+            {
+                if (_native2ManagedMap.ContainsKey(_native))
+                {
+                    _native2ManagedMap.Remove(_native);
+                }
+            }
             base.Dispose(disposing);
         }
 

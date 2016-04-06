@@ -29,7 +29,8 @@ namespace BulletSharp.SoftBody
             _worldInfo = new SoftBodyWorldInfo(btSoftRigidDynamicsWorld_getWorldInfo(_native), true);
             _worldInfo.Dispatcher = dispatcher;
             _worldInfo.Broadphase = pairCache;
-		}
+            _native2ManagedMap.Add(_native, this);
+        }
 
 		public SoftRigidDynamicsWorld(Dispatcher dispatcher, BroadphaseInterface pairCache, ConstraintSolver constraintSolver, CollisionConfiguration collisionConfiguration, SoftBodySolver softBodySolver)
 			: base(IntPtr.Zero)
@@ -54,7 +55,8 @@ namespace BulletSharp.SoftBody
             _worldInfo = new SoftBodyWorldInfo(btSoftRigidDynamicsWorld_getWorldInfo(_native), true);
             _worldInfo.Dispatcher = dispatcher;
             _worldInfo.Broadphase = pairCache;
-		}
+            _native2ManagedMap.Add(_native, this);
+        }
 
 		public void AddSoftBody(SoftBody body)
 		{

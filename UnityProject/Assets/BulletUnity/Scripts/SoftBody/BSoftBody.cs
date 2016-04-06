@@ -33,6 +33,11 @@ namespace BulletUnity
         protected UnityEngine.Vector3[] norms = new UnityEngine.Vector3[0];
         protected int[] tris = new int[1];
 
+        protected override void Awake()
+        {
+            //disable warning
+        }
+
         protected override void AddObjectToBulletWorld()
         {
             BPhysicsWorld.Get().AddSoftBody(this);
@@ -40,7 +45,11 @@ namespace BulletUnity
 
         protected override void RemoveObjectFromBulletWorld()
         {
-            BPhysicsWorld.Get().RemoveSoftBody((SoftBody)m_collisionObject);
+            BPhysicsWorld world = BPhysicsWorld.Get();
+            if (world && isInWorld)
+            {
+                world.RemoveSoftBody((SoftBody)m_collisionObject);
+            }
         }
 
 
