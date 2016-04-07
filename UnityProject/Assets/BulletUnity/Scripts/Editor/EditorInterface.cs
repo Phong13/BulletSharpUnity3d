@@ -23,4 +23,73 @@ public class EditorInterface : Editor
 
 		return debugType;
 	}
+
+    public static class Layout
+    {
+        public static Vector3 DrawVector3(string label, Vector3 value, Object undoObject)
+        {
+            EditorGUI.BeginChangeCheck();
+            value = EditorGUILayout.Vector3Field(label, value);
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(undoObject, label);
+            }
+            return value;
+        }
+
+        public static Vector3 DrawVector3(string label, Vector3 value, string undoName, Object undoObject)
+        {
+            EditorGUI.BeginChangeCheck();
+            value = EditorGUILayout.Vector3Field(label, value);
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(undoObject, undoName);
+            }
+            return value;
+        }
+
+        public static float DrawFloat(string label, float value, Object undoObject)
+        {
+            EditorGUI.BeginChangeCheck();
+            value = EditorGUILayout.FloatField(label, value);
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(undoObject, label);
+            }
+            return value;
+        }
+
+        public static float DrawFloat(string label, float value, string undoName, Object undoObject)
+        {
+            EditorGUI.BeginChangeCheck();
+            value = EditorGUILayout.FloatField(label, value);
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(undoObject, undoName);
+            }
+            return value;
+        }
+
+        public static bool DrawToggle(string label, bool value, Object undoObject)
+        {
+            EditorGUI.BeginChangeCheck();
+            value = EditorGUILayout.Toggle(label, value);
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(undoObject, label);
+            }
+            return value;
+        }
+
+        public static bool DrawToggle(string label, bool value, string undoName, Object undoObject)
+        {
+            EditorGUI.BeginChangeCheck();
+            value = EditorGUILayout.Toggle(label, value);
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(undoObject, undoName);
+            }
+            return value;
+        }
+    }
 }
