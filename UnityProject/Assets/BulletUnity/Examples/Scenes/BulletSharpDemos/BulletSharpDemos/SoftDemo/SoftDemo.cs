@@ -259,6 +259,7 @@ namespace SoftDemo
 
         void Init_Ropes()
         {
+			UnityEngine.Debug.Log("");
             const int n = 15;
             for (int i = 0; i < n; i++)
             {

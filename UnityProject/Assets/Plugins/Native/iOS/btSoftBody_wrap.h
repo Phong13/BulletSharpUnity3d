@@ -7,8 +7,8 @@
 #define btSoftBody_AJoint_IControlWrapper void
 #define btSoftBody_ImplicitFnWrapper void
 #else
-typedef void (*pIControl_Prepare)(btSoftBody_AJoint* aJoint);
-typedef btScalar (*pIControl_Speed)(btSoftBody_AJoint* aJoint, btScalar current);
+typedef void (*pIControl_Prepare)(void* managedWrapper, btSoftBody_AJoint* aJoint);
+typedef btScalar (*pIControl_Speed)(void* managedWrapper, btSoftBody_AJoint* aJoint, btScalar current);
 
 class btSoftBody_AJoint_IControlWrapper : public btSoftBody_AJoint_IControl
 {
@@ -179,6 +179,7 @@ extern "C"
 	EXPORT void btSoftBody_Cluster_setNvimpulses(btSoftBody_Cluster* obj, int value);
 	EXPORT void btSoftBody_Cluster_setSelfCollisionImpulseFactor(btSoftBody_Cluster* obj, btScalar value);
 	EXPORT void btSoftBody_Cluster_setVimpulses(btSoftBody_Cluster* obj, btScalar* value);
+	EXPORT void btSoftBody_Cluster_delete(btSoftBody_Cluster* obj);
 
 	EXPORT btSoftBody_eAeroModel btSoftBody_Config_getAeromodel(btSoftBody_Config* obj);
 	EXPORT int btSoftBody_Config_getCiterations(btSoftBody_Config* obj);

@@ -6,24 +6,28 @@ using BulletUnity;
 public class BulletRopeProxy : MonoBehaviour {
     public SoftBody target;
     int numVerts = 0;
-    public BulletSharp.Math.Vector3[] nodes = new BulletSharp.Math.Vector3[0];
-    LineRenderer line;
+    //public BulletSharp.Math.Vector3[] linkVerts = new BulletSharp.Math.Vector3[0];
+	public float[] linkVerts = new float[0];
+	LineRenderer line;
 
     void Start() {
         line = GetComponent<LineRenderer>();
     }
 
     void Update() {
-        target.GetLinkVertexData(ref nodes);
-        if (numVerts != target.Nodes.Count) {
-            numVerts = target.Nodes.Count;
+        target.GetLinkVertexData(ref linkVerts);
+		if (numVerts != linkVerts.Length / (3 * 2)) {
+			numVerts = linkVerts.Length / (3 * 2) + 1;
             line.SetVertexCount(numVerts);
         }
-        line.SetPosition(0, nodes[0].ToUnity());
-        for (int i = 0; i < numVerts-1; i++) {
-            line.SetPosition(i+1, nodes[i * 2 + 1].ToUnity());
-        }
-        
+		if (linkVerts.Length > 0){
+			//link verts are in pairs marking the ends of the links.
+			line.SetPosition(0, new Vector3(linkVerts[0],linkVerts[1], linkVerts[2]));
+	        for (int i = 0; i < numVerts-1; i++) {
+					int idx = (i * 2 + 1)* 3;
+				line.SetPosition(i+1, new Vector3(linkVerts[idx],linkVerts[idx+1], linkVerts[idx+2]));
+	        }
+		}
     }
     
 	

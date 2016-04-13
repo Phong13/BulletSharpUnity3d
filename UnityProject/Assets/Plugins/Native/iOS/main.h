@@ -112,6 +112,7 @@
 #define btCapsuleShape void
 #define btCapsuleShapeX void
 #define btCapsuleShapeZ void
+#define btCapsuleShapeData void
 #endif
 
 #ifndef BT_CHARACTER_CONTROLLER_INTERFACE_H

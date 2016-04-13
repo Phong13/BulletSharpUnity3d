@@ -1,23 +1,42 @@
+INCLUDE_DIRECTORIES(
+ ${BULLET_PHYSICS_SOURCE_DIR}/Extras/ConvexDecomposition ${BULLET_PHYSICS_SOURCE_DIR}/src
+)
 
-IF(BUILD_BULLET3)
-	SUBDIRS(  Bullet3OpenCL Bullet3Serialize/Bullet2FileLoader Bullet3Dynamics Bullet3Collision Bullet3Geometry Bullet3Common )
-	SUBDIRS(  BulletInverseDynamics  )
-ENDIF(BUILD_BULLET3)
+SET(ConvexDecomposition_SRCS
+	bestfitobb.cpp
+	ConvexBuilder.cpp
+	cd_wavefront.cpp
+	fitsphere.cpp
+	meshvolume.cpp
+	raytri.cpp
+	vlookup.cpp
+	bestfit.cpp
+	cd_hull.cpp
+	ConvexDecomposition.cpp
+	concavity.cpp
+	float_math.cpp
+	planetri.cpp
+	splitplane.cpp
+)
 
-SUBDIRS(  BulletSoftBody BulletCollision BulletDynamics LinearMath )
+SET(ConvexDecomposition_HDRS
+	ConvexDecomposition.h
+	cd_vector.h
+	concavity.h
+	bestfitobb.h
+	ConvexBuilder.h
+	cd_wavefront.h
+	fitsphere.h
+	meshvolume.h
+	raytri.h
+	vlookup.h
+	bestfit.h
+	cd_hull.h
+)
 
-
-IF(INSTALL_LIBS)
-	#INSTALL of other files requires CMake 2.6
-	IF (${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 2.5)
-		IF (APPLE AND BUILD_SHARED_LIBS AND FRAMEWORK)
-			# Don't actually need to install any common files, the frameworks include everything
-		ELSE (APPLE AND BUILD_SHARED_LIBS AND FRAMEWORK)
-			INSTALL(FILES btBulletCollisionCommon.h btBulletDynamicsCommon.h  DESTINATION ${INCLUDE_INSTALL_DIR})
-		ENDIF (APPLE AND BUILD_SHARED_LIBS AND FRAMEWORK)
-	ENDIF (${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 2.5)
-ENDIF(INSTALL_LIBS)
-ON})
+ADD_LIBRARY(ConvexDecomposition ${ConvexDecomposition_SRCS} ${ConvexDecomposition_HDRS})
+SET_TARGET_PROPERTIES(ConvexDecomposition PROPERTIES VERSION ${BULLET_VERSION})
+SET_TARGET_PROPERTIES(ConvexDecomposition PROPERTIES SOVERSION ${BULLET_VERSION})
 
 IF (BUILD_SHARED_LIBS)
   TARGET_LINK_LIBRARIES(ConvexDecomposition BulletCollision LinearMath)
