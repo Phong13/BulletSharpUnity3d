@@ -208,6 +208,7 @@ namespace BulletUnity {
         SoftBodyWorldInfo softBodyWorldInfo;
         SequentialImpulseConstraintSolver Solver;
         GhostPairCallback ghostPairCallback = null;
+        float lastSimulationStepTime;
 
         CollisionWorld m_world;
         public CollisionWorld world
@@ -252,6 +253,7 @@ namespace BulletUnity {
         {
             _frameCount = 0;
             _isDisposed = false;
+            lastSimulationStepTime = UnityEngine.Time.time;
             singleton = BPhysicsWorld.Get();
         }
 
@@ -260,13 +262,29 @@ namespace BulletUnity {
             _frameCount++;
             if (_ddWorld != null)
             {
-                _ddWorld.StepSimulation(UnityEngine.Time.fixedTime);
+                float deltaTime = UnityEngine.Time.fixedTime - lastSimulationStepTime;
+                if (deltaTime > 0f)
+                {
+                    _ddWorld.StepSimulation(UnityEngine.Time.fixedTime);
+                    lastSimulationStepTime = UnityEngine.Time.fixedTime;
+                }
             }
 
             //collisions
             if (collisionEventHandler != null)
             {
                 collisionEventHandler.OnPhysicsStep(world);
+            }
+        }
+
+        //This is needed for rigidBody interpolation. The motion states will update the positions of the rigidbodies
+        protected virtual void Update()
+        {
+            float deltaTime = UnityEngine.Time.time - lastSimulationStepTime;
+            if (deltaTime > 0f)
+            {
+                _ddWorld.StepSimulation(UnityEngine.Time.fixedTime);
+                lastSimulationStepTime = UnityEngine.Time.time;
             }
         }
 
