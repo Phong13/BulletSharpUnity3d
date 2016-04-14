@@ -1,10 +1,8 @@
-	project "BulletSoftBody"
+	project "HACD"
 		
 	kind "StaticLib"
 	
-	includedirs {
-		"..",
-	}
+	includedirs {"."}
 	files {
 		"**.cpp",
 		"**.h"
