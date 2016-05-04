@@ -56,7 +56,11 @@ namespace BulletUnity.Primitives
             EditorGUILayout.Space();
             */
             //EditorGUILayout.EndHorizontal();
-
+            MonoBehaviour mb = (MonoBehaviour)target;
+            if (mb.transform.localScale != Vector3.one)
+            {
+                EditorGUILayout.HelpBox("Transform Scale must be 1,1,1. Use the Mesh Settings to scale the object.",MessageType.Error);
+            }
             EditorGUILayout.BeginHorizontal();
             if (InspectorButton("Build Mesh", 100, 40, GUIBlue, "Update mesh and Bullet Collision shape settings\n\n"))
             {
@@ -105,6 +109,14 @@ namespace BulletUnity.Primitives
         static void CreateBCylinder()
         {
             Selection.activeObject = BCylinder.CreateNew(GetCameraRaycastPosition(), Quaternion.identity);
+            PostCreateObject();
+        }
+
+        [MenuItem("BulletForUnity/BCapsule")]
+        [MenuItem("GameObject/Create Other/BulletForUnity/BCapsule")]  //right click menu
+        static void CreateBCapsule()
+        {
+            Selection.activeObject = BCapsule.CreateNew(GetCameraRaycastPosition(), Quaternion.identity);
             PostCreateObject();
         }
 

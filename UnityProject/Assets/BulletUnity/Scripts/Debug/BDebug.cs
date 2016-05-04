@@ -8,11 +8,11 @@ namespace BulletUnity.Debugging {
         [Flags]
         public enum DebugType
         {
-            Trace = 1,
-            Debug = 2,
+			Error = 1,
+            Warning = 2,
+            Debug = 8,
             Info = 4,
-			Warning = 8,
-			Error = 16,
+            Trace = 16,
         }
         
 		public static void Log(DebugType debugType, object message)

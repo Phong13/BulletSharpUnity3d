@@ -88,6 +88,30 @@ namespace BulletUnity
     }
 
     [Serializable]
+    public class BCapsuleMeshSettings : BPrimitiveMeshSettings
+    {
+        [Header("Capsule Mesh settings:")]
+        [Range(0, 1000)]
+        public float height = 1f;
+        [Range(0, 1000)]
+        public float radius = 0.5f;
+        [Range(2, 100)]
+        public int nbSides = 18;
+
+        public Vector3 halfExtent  //Bullet dimensions
+        {
+            get { return new Vector3(radius, height / 2, radius); }
+        }
+
+        public override Mesh Build()
+        {
+            Mesh mesh = ProceduralPrimitives.CreateMeshCapsule(height, radius, nbSides);
+            return mesh;
+        }
+
+    }
+
+    [Serializable]
     public class BCylinderMeshSettings : BPrimitiveMeshSettings
     {
         [Header("Cylinder Mesh settings:")]
