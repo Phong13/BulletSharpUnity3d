@@ -2,72 +2,101 @@
 using UnityEngine;
 using System.Collections;
 using BulletSharp;
+using BM = BulletSharp.Math;
 
 namespace BulletUnity {
     [System.Serializable]
     public class BSliderConstraint : BTypedConstraint {
-        //todo should be properties so can capture changes and propagate to scene
-        public ConstraintType constraintType;
-        [Header("Local Reference Frame For Rigid Body A")]
-        public Vector3 localPointInA = Vector3.zero;
-        public Vector3 localForwardInA = Vector3.forward;
-        public Vector3 localUpInA = Vector3.up;
-        [Header("Local Reference Frame For Rigid Body B")]
-        public Vector3 localPointInB = Vector3.zero;
-        public Vector3 localForwardInB = Vector3.forward;
-        public Vector3 localUpInB = Vector3.up;
+
+        [Header("Reference Frame Local To This Object")]
+        public Vector3 m_localConstraintPoint = Vector3.zero;
+        public Vector3 m_localConstraintForwardDir = Vector3.forward;
+        public Vector3 m_localConstraintUpDir = Vector3.up;
+
         [Header("Limits")]
-        public float lowerLinearLimit = -10f;
-        public float upperLinearLimit = 10f;
-        public float lowerAngularLimit = -Mathf.PI;
-        public float upperAngularLimit = Mathf.PI;
+        public float m_lowerLinearLimit = -10f;
+        public float m_upperLinearLimit = 10f;
+        public float m_lowerAngularLimitRadians = -Mathf.PI;
+        public float m_upperAngularLimitRadians = Mathf.PI;
+
+        public void OnDrawGizmosSelected()
+        {
+            DrawTransformGizmos(transform, m_localConstraintPoint, m_localConstraintForwardDir, m_localConstraintUpDir);
+        }
 
         //called by Physics World just before constraint is added to world.
         //the current constraint properties are used to rebuild the constraint.
         internal override bool _BuildConstraint() {
             BPhysicsWorld world = BPhysicsWorld.Get();
-            if (constraintPtr != null) {
-                if (isInWorld && world != null) {
-                    isInWorld = false;
-                    world.RemoveConstraint(constraintPtr);
+            if (m_constraintPtr != null) {
+                if (m_isInWorld && world != null) {
+                    m_isInWorld = false;
+                    world.RemoveConstraint(m_constraintPtr);
                 }
             }
-            if (targetRigidBodyA == null) {
-                Debug.LogError("Constraint target rigid body was not set.");
+            BRigidBody targetRigidBodyA = GetComponent<BRigidBody>();
+            if (targetRigidBodyA == null)
+            {
+                Debug.LogError("BSliderConstraint needs to be added to a component with a BRigidBody.");
                 return false;
             }
-            
+            if (!targetRigidBodyA.isInWorld)
+            {
+                world.AddRigidBody(targetRigidBodyA);
+            }
             RigidBody rba = (RigidBody) targetRigidBodyA.GetCollisionObject();
             if (rba == null) {
                 Debug.LogError("Constraint could not get bullet RigidBody from target rigid body");
                 return false;
             }
-            if (constraintType == ConstraintType.constrainToAnotherBody)
+            if (m_constraintType == ConstraintType.constrainToAnotherBody)
             {
-                RigidBody rbb = (RigidBody) targetRigidBodyB.GetCollisionObject();
+                if (m_otherRigidBody == null)
+                {
+                    Debug.LogError("Other rigid body was not set");
+                    return false;
+                }
+                if (!m_otherRigidBody.isInWorld)
+                {
+                    world.AddRigidBody(m_otherRigidBody);
+                }
+                RigidBody rbb = (RigidBody) m_otherRigidBody.GetCollisionObject();
                 if (rbb == null)
                 {
                     Debug.LogError("Constraint could not get bullet RigidBody from target rigid body");
                     return false;
                 }
-                
-                BulletSharp.Math.Matrix frameInA = BulletSharp.Math.Matrix.AffineTransformation(1f, Quaternion.LookRotation(localForwardInA, localUpInA).ToBullet(), localPointInA.ToBullet());
-                BulletSharp.Math.Matrix frameInB = BulletSharp.Math.Matrix.AffineTransformation(1f, Quaternion.LookRotation(localForwardInB, localUpInB).ToBullet(), localPointInB.ToBullet());
-                constraintPtr = new SliderConstraint(rba,rbb, frameInA, frameInB, false);
-                constraintPtr.Userobject = this;
+
+                BM.Matrix frameInA, frameInOther;
+                string errormsg = "";
+                if (CreateFramesA_B(m_localConstraintForwardDir, m_localConstraintUpDir, m_localConstraintPoint, out frameInA, out frameInOther, ref errormsg))
+                {
+                    m_constraintPtr = new SliderConstraint(rbb, rba, frameInOther, frameInA, true);
+                } else
+                {
+                    Debug.LogError(errormsg);
+                    return false;
+                }
             } else
             {
-                BulletSharp.Math.Matrix frameInA = BulletSharp.Math.Matrix.AffineTransformation(1f, Quaternion.LookRotation(localForwardInA, localUpInA).ToBullet(), localPointInA.ToBullet());
-                constraintPtr = new SliderConstraint(rba, frameInA, false);
-                constraintPtr.Userobject = this;
+                BulletSharp.Math.Matrix frameInA = BM.Matrix.Identity;
+                string errormsg = "";
+                if (CreateFrame(m_localConstraintForwardDir, m_localConstraintUpDir, m_localConstraintPoint, ref frameInA, ref errormsg))
+                {
+                    m_constraintPtr = new SliderConstraint(rba, frameInA, true);
+                } else
+                {
+                    Debug.LogError(errormsg);
+                    return false;
+                }
             }
-            SliderConstraint sl = (SliderConstraint)constraintPtr;  
-            sl.LowerLinearLimit = lowerLinearLimit;
-            sl.UpperLinearLimit = upperLinearLimit;
+            SliderConstraint sl = (SliderConstraint)m_constraintPtr;  
+            sl.LowerLinearLimit = m_lowerLinearLimit;
+            sl.UpperLinearLimit = m_upperLinearLimit;
 
-            sl.LowerAngularLimit = lowerAngularLimit;
-            sl.UpperAngularLimit = upperAngularLimit;
-            constraintPtr.Userobject = this;
+            sl.LowerAngularLimit = m_lowerAngularLimitRadians;
+            sl.UpperAngularLimit = m_upperAngularLimitRadians;
+            m_constraintPtr.Userobject = this;
             return true;
         }
     }

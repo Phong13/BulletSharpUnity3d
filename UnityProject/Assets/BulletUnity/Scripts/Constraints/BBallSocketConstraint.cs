@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using BulletSharp;
+using BM = BulletSharp.Math;
 
 namespace BulletUnity {
     [System.Serializable]
@@ -9,25 +10,29 @@ namespace BulletUnity {
 
 
         //todo should be properties so can capture changes and propagate to scene
-        public ConstraintType constraintType;
 
-        
-        public Vector3 pivotInA;
-        public Vector3 pivotInB;
+        [Header("Constraint Point Local To This Object")]
+        public Vector3 m_localConstraintPoint = Vector3.zero;
 
         //called by Physics World just before constraint is added to world.
         //the current constraint properties are used to rebuild the constraint.
         internal override bool _BuildConstraint() {
             BPhysicsWorld world = BPhysicsWorld.Get();
-            if (constraintPtr != null) {
-                if (isInWorld && world != null) {
-                    isInWorld = false;
-                    world.RemoveConstraint(constraintPtr);
+            if (m_constraintPtr != null) {
+                if (m_isInWorld && world != null) {
+                    m_isInWorld = false;
+                    world.RemoveConstraint(m_constraintPtr);
                 }
             }
-            if (targetRigidBodyA == null) {
-                Debug.LogError("Constraint target rigid body was not set.");
+            BRigidBody targetRigidBodyA = GetComponent<BRigidBody>();
+            if (targetRigidBodyA == null)
+            {
+                Debug.LogError("BallSocketConstraint needs to be added to a component with a BRigidBody.");
                 return false;
+            }
+            if (!targetRigidBodyA.isInWorld)
+            {
+                world.AddRigidBody(targetRigidBodyA);
             }
             RigidBody rba = (RigidBody) targetRigidBodyA.GetCollisionObject();
             if (rba == null)
@@ -35,20 +40,30 @@ namespace BulletUnity {
                 Debug.LogError("Constraint could not get bullet RigidBody from target rigid body A");
                 return false;
             }
-            if (constraintType == ConstraintType.constrainToAnotherBody)
+            if (m_constraintType == ConstraintType.constrainToAnotherBody)
             {
-                RigidBody rbb = (RigidBody) targetRigidBodyB.GetCollisionObject();
+                if (m_otherRigidBody == null)
+                {
+                    Debug.LogError("Other rigid body was not set");
+                    return false;
+                }
+                if (!m_otherRigidBody.isInWorld)
+                {
+                    world.AddRigidBody(m_otherRigidBody);
+                }
+                RigidBody rbb = (RigidBody) m_otherRigidBody.GetCollisionObject();
                 if (rbb == null)
                 {
                     Debug.LogError("Constraint could not get bullet RigidBody from target rigid body B");
                     return false;
                 }
-                constraintPtr = new Point2PointConstraint(rba, rbb, pivotInA.ToBullet(), pivotInB.ToBullet());
+                Vector3 pivotInOther = m_otherRigidBody.transform.InverseTransformPoint(targetRigidBodyA.transform.TransformPoint(m_localConstraintPoint));
+                m_constraintPtr = new Point2PointConstraint(rbb, rba, pivotInOther.ToBullet(), m_localConstraintPoint.ToBullet());
             } else
             {
-                constraintPtr = new Point2PointConstraint(rba,pivotInA.ToBullet());
+                m_constraintPtr = new Point2PointConstraint(rba, m_localConstraintPoint.ToBullet());
             }
-            constraintPtr.Userobject = this;
+            m_constraintPtr.Userobject = this;
             return true;
         }
     }

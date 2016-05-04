@@ -2,46 +2,48 @@
 using UnityEngine;
 using System.Collections;
 using BulletSharp;
+using BM = BulletSharp.Math;
 
 namespace BulletUnity {
     [System.Serializable]
     public class B6DOFConstraint : BTypedConstraint {
+        //Todo not sure if this is working
+        //Todo breaking strength
         //todo should be properties so can capture changes and propagate to scene
-        public ConstraintType constraintType;
 
-        [Header("Local Reference Frame For Rigid Body A")]
-        public Vector3 localPointInA = Vector3.zero;
-        public Vector3 localForwardInA = Vector3.forward;
-        public Vector3 localUpInA = Vector3.up;
-
-        [Header("Local Reference Frame For Rigid Body B")]
-        public Vector3 localPointInB = Vector3.zero;
-        public Vector3 localForwardInB = Vector3.forward;
-        public Vector3 localUpInB = Vector3.up;
+        [Header("Reference Frame Local To This Object")]
+        public Vector3 m_localConstraintPoint = Vector3.zero;
+        public Vector3 m_localConstraintForwardDir = Vector3.forward;
+        public Vector3 m_localConstraintUpDir = Vector3.up;
 
         [Header("Limits")]
-        public Vector3 linearLimitLower;
-        public Vector3 linearLimitUpper;
-        public Vector3 angularLimitLower;
-        public Vector3 angularLimitUpper;
+        public Vector3 m_linearLimitLower;
+        public Vector3 m_linearLimitUpper;
+        public Vector3 m_angularLimitLowerRadians;
+        public Vector3 m_angularLimitUpperRadians;
 
         [Header("Motor")]
-        public Vector3 motorLinearTargetVelocity;
-        public Vector3 motorLinearMaxMotorForce;
+        public Vector3 m_motorLinearTargetVelocity;
+        public Vector3 m_motorLinearMaxMotorForce;
 
         //called by Physics World just before constraint is added to world.
         //the current constraint properties are used to rebuild the constraint.
         internal override bool _BuildConstraint() {
             BPhysicsWorld world = BPhysicsWorld.Get();
-            if (constraintPtr != null) {
-                if (isInWorld && world != null) {
-                    isInWorld = false;
-                    world.RemoveConstraint(constraintPtr);
+            if (m_constraintPtr != null) {
+                if (m_isInWorld && world != null) {
+                    m_isInWorld = false;
+                    world.RemoveConstraint(m_constraintPtr);
                 }
             }
+            BRigidBody targetRigidBodyA = GetComponent<BRigidBody>();
             if (targetRigidBodyA == null) {
-                Debug.LogError("Constraint target rigid body was not set.");
+                Debug.LogError("B6DOFConstraint needs to be added to a component with a BRigidBody.");
                 return false;
+            }
+            if (!targetRigidBodyA.isInWorld)
+            {
+                world.AddRigidBody(targetRigidBodyA);
             }
             
             RigidBody rba = (RigidBody) targetRigidBodyA.GetCollisionObject();
@@ -49,31 +51,49 @@ namespace BulletUnity {
                 Debug.LogError("Constraint could not get bullet RigidBody from target rigid body");
                 return false;
             }
-            if (constraintType == ConstraintType.constrainToAnotherBody)
+            if (m_constraintType == ConstraintType.constrainToAnotherBody)
             {
-                RigidBody rbb = (RigidBody) targetRigidBodyB.GetCollisionObject();
+                if (m_otherRigidBody == null)
+                {
+                    Debug.LogError("Other Rigid Body is not set.");
+                    return false;
+                }
+                if (!m_otherRigidBody.isInWorld)
+                {
+                    world.AddRigidBody(m_otherRigidBody);
+                    return false;
+                }
+                RigidBody rbb = (RigidBody) m_otherRigidBody.GetCollisionObject();
                 if (rbb == null)
                 {
                     Debug.LogError("Constraint could not get bullet RigidBody from target rigid body");
                     return false;
                 }
-                
-                BulletSharp.Math.Matrix frameInA = BulletSharp.Math.Matrix.AffineTransformation(1f, Quaternion.LookRotation(localForwardInA, localUpInA).ToBullet(), localPointInA.ToBullet());
-                BulletSharp.Math.Matrix frameInB = BulletSharp.Math.Matrix.AffineTransformation(1f, Quaternion.LookRotation(localForwardInB, localUpInB).ToBullet(), localPointInB.ToBullet());
-                constraintPtr = new Generic6DofConstraint(rba,rbb, frameInA, frameInB, false);
+
+                BM.Matrix frameInA, frameInOther;
+                string errormsg = "";
+                if (CreateFramesA_B(m_localConstraintForwardDir, m_localConstraintUpDir, m_localConstraintPoint, out frameInA, out frameInOther, ref errormsg))
+                {
+                    m_constraintPtr = new Generic6DofConstraint(rbb, rba, frameInOther, frameInA, true);
+                } else
+                {
+                    Debug.LogError(errormsg);
+                    return false;
+                }
             } else
             {
-                BulletSharp.Math.Matrix frameInA = BulletSharp.Math.Matrix.AffineTransformation(1f, Quaternion.LookRotation(localForwardInA, localUpInA).ToBullet(), localPointInA.ToBullet());
-                constraintPtr = new Generic6DofConstraint(rba, frameInA, false);
+                //TODO think about this
+                BM.Matrix frameInA = BulletSharp.Math.Matrix.Identity;
+                m_constraintPtr = new Generic6DofConstraint(rba, frameInA, false);
             }
-            constraintPtr.Userobject = this;
-            Generic6DofConstraint sl = (Generic6DofConstraint)constraintPtr;
-            sl.LinearLowerLimit = linearLimitLower.ToBullet();
-            sl.LinearUpperLimit = linearLimitUpper.ToBullet();
-            sl.AngularLowerLimit = angularLimitLower.ToBullet();
-            sl.AngularUpperLimit = angularLimitUpper.ToBullet();
-            sl.TranslationalLimitMotor.TargetVelocity = motorLinearTargetVelocity.ToBullet();
-            sl.TranslationalLimitMotor.MaxMotorForce = motorLinearMaxMotorForce.ToBullet();
+            m_constraintPtr.Userobject = this;
+            Generic6DofConstraint sl = (Generic6DofConstraint)m_constraintPtr;
+            sl.LinearLowerLimit = m_linearLimitLower.ToBullet();
+            sl.LinearUpperLimit = m_linearLimitUpper.ToBullet();
+            sl.AngularLowerLimit = m_angularLimitLowerRadians.ToBullet();
+            sl.AngularUpperLimit = m_angularLimitUpperRadians.ToBullet();
+            sl.TranslationalLimitMotor.TargetVelocity = m_motorLinearTargetVelocity.ToBullet();
+            sl.TranslationalLimitMotor.MaxMotorForce = m_motorLinearMaxMotorForce.ToBullet();
             return true;
         }
     }

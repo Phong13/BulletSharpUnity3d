@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using BulletSharp;
+using BM = BulletSharp.Math;
 
 namespace BulletUnity {
     [System.Serializable]
@@ -11,55 +12,49 @@ namespace BulletUnity {
         /// <summary>
         /// In targetRigidbody local coordinates
         /// </summary>
-        public Vector3 localPointOnHingeOffsetA;
-        /// <summary>
-        /// In targetRigidbody local coordinates
-        /// </summary>
-        public Vector3 localPivotAxisA;
+        [Header("Reference Frame Local To This Object")]
+        public Vector3 m_localConstraintPoint = Vector3.zero;
+        public Vector3 m_localConstraintForwardDir = Vector3.forward;
+        public Vector3 m_localConstraintUpDir = Vector3.up;
 
-        /// <summary>
-        /// In targetRigidbody local coordinates
-        /// </summary>
-        public Vector3 localPointOnHingeOffsetB;
-        /// <summary>
-        /// In targetRigidbody local coordinates
-        /// </summary>
-        public Vector3 localPivotAxisB;
+        public bool m_enableMotor;
+        public float m_targetMotorAngularVelocity = 0f;
+        public float m_maxMotorImpulse = 0f;
 
-        public ConstraintType constraintType;
-
-        public bool enableMotor;
-        public float targetMotorAngularVelocity = 0f;
-        public float maxMotorImpulse = 0f;
-
-        public bool setLimit;
-        public float lowLimitAngleRadians;
-        public float highLimitAngleRadians;
-        public float limitSoftness = .9f;
-        public float limitBiasFactor = .3f;
+        public bool m_setLimit;
+        public float m_lowLimitAngleRadians;
+        public float m_highLimitAngleRadians;
+        public float m_limitSoftness = .9f;
+        public float m_limitBiasFactor = .3f;
 
         public float GetAngle() {
-            if (constraintPtr == null) {
+            if (m_constraintPtr == null) {
                 return 0;
             }
-            return ((HingeConstraint)constraintPtr).HingeAngle;
+            return ((HingeConstraint)m_constraintPtr).HingeAngle;
         }
 
         //called by Physics World just before constraint is added to world.
         //the current constraint properties are used to rebuild the constraint.
         internal override bool _BuildConstraint() {
             BPhysicsWorld world = BPhysicsWorld.Get();
-            if (constraintPtr != null) {
-                if (isInWorld && world != null) {
-                    isInWorld = false;
-                    world.RemoveConstraint(constraintPtr);
+            if (m_constraintPtr != null) {
+                if (m_isInWorld && world != null) {
+                    m_isInWorld = false;
+                    world.RemoveConstraint(m_constraintPtr);
                 }
             }
-            if (targetRigidBodyA == null) {
-                Debug.LogError("Constraint target rigid body was not set.");
+            BRigidBody targetRigidBodyA = GetComponent<BRigidBody>();
+            if (targetRigidBodyA == null)
+            {
+                Debug.LogError("BHingedConstraint needs to be added to a component with a BRigidBody.");
                 return false;
             }
-            if (localPivotAxisA == Vector3.zero)
+            if (!targetRigidBodyA.isInWorld)
+            {
+                world.AddRigidBody(targetRigidBodyA);
+            }
+            if (m_localConstraintForwardDir == Vector3.zero)
             {
                 Debug.LogError("Constaint axis cannot be zero vector");
                 return false;
@@ -69,28 +64,49 @@ namespace BulletUnity {
                 Debug.LogError("Constraint could not get bullet RigidBody from target rigid body");
                 return false;
             }
-            if (constraintType == ConstraintType.constrainToAnotherBody)
+            if (m_constraintType == ConstraintType.constrainToAnotherBody)
             {
-                RigidBody rbb = (RigidBody) targetRigidBodyB.GetCollisionObject();
+                if (m_otherRigidBody == null)
+                {
+                    Debug.LogError("Other rigid body must not be null");
+                    return false;
+                }
+                if (!m_otherRigidBody.isInWorld)
+                {
+                    world.AddRigidBody(m_otherRigidBody);
+                }
+                RigidBody rbb = (RigidBody) m_otherRigidBody.GetCollisionObject();
                 if (rbb == null)
                 {
                     Debug.LogError("Constraint could not get bullet RigidBody from target rigid body");
                     return false;
                 }
-                constraintPtr = new HingeConstraint(rba,rbb,localPointOnHingeOffsetA.ToBullet(),localPointOnHingeOffsetB.ToBullet(),localPivotAxisA.ToBullet(),localPivotAxisB.ToBullet());
+                BM.Matrix frameInA, frameInOther;
+                string errormsg = "";
+                if (CreateFramesA_B(m_localConstraintForwardDir, m_localConstraintUpDir, m_localConstraintPoint, out frameInA, out frameInOther, ref errormsg))
+                {
+                    //warning the frameInA, frameInB version of the constructor is broken
+                    m_constraintPtr = new HingeConstraint(rbb, rba, frameInOther.Origin, frameInA.Origin, (BM.Vector3)frameInOther.Basis.Column1, (BM.Vector3)frameInA.Basis.Column1);
+                } else
+                {
+                    Debug.LogError(errormsg);
+                    return false;
+                }
             }
             else {
-                constraintPtr = new HingeConstraint(rba, localPointOnHingeOffsetA.ToBullet(), localPivotAxisA.ToBullet());
+                //BM.Matrix frameInA = BM.Matrix.Identity;
+                //CreateFrame(m_localConstraintForwardDir, m_localConstraintUpDir, m_localConstraintPoint, ref frameInA);
+                m_constraintPtr = new HingeConstraint(rba, m_localConstraintPoint.ToBullet(),m_localConstraintForwardDir.ToBullet(), false);
             }
-            if (enableMotor)
+            if (m_enableMotor)
             {
-                ((HingeConstraint)constraintPtr).EnableAngularMotor(true, targetMotorAngularVelocity, maxMotorImpulse);
+                ((HingeConstraint)m_constraintPtr).EnableAngularMotor(true, m_targetMotorAngularVelocity, m_maxMotorImpulse);
             }
-            if (setLimit)
+            if (m_setLimit)
             {
-                ((HingeConstraint)constraintPtr).SetLimit(lowLimitAngleRadians, highLimitAngleRadians, limitSoftness, limitBiasFactor);
+                ((HingeConstraint)m_constraintPtr).SetLimit(m_lowLimitAngleRadians, m_highLimitAngleRadians, m_limitSoftness, m_limitBiasFactor);
             }
-            constraintPtr.Userobject = this;
+            m_constraintPtr.Userobject = this;
             return true;
         }
     }

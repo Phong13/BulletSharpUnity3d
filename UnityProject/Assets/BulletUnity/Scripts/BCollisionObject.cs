@@ -141,7 +141,7 @@ namespace BulletUnity
             BPhysicsWorld.Get().RemoveCollisionObject(m_collisionObject);
         }
 
-        protected virtual void Start()
+        internal virtual void Start()
         {
             m_startHasBeenCalled = true;
             AddObjectToBulletWorld();

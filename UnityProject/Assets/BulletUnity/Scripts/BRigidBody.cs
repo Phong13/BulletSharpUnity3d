@@ -354,6 +354,20 @@ namespace BulletUnity {
             }
         }
 
+        protected override void OnDisable()
+        {
+            if (m_rigidBody != null && isInWorld) {
+                //all constraints using RB must be disabled before rigid body is disabled
+                for (int i = m_rigidBody.NumConstraintRefs - 1; i >= 0; i--)
+                {
+                    BTypedConstraint btc = (BTypedConstraint) m_rigidBody.GetConstraintRef(i).Userobject;
+                    Debug.Assert(btc != null);
+                    btc.enabled = false; //should remove it from the scene
+                }
+            }
+            base.OnDisable();
+        }
+
         protected override void AddObjectToBulletWorld()
         {
             BPhysicsWorld.Get().AddRigidBody(this);
@@ -361,13 +375,25 @@ namespace BulletUnity {
 
         protected override void RemoveObjectFromBulletWorld()
         {
-            BPhysicsWorld.Get().RemoveRigidBody((RigidBody)m_collisionObject);
+            BPhysicsWorld pw = BPhysicsWorld.Get();
+            if (pw != null && m_rigidBody != null && isInWorld)
+            {
+                Debug.Assert(m_rigidBody.NumConstraintRefs == 0, "Removing rigid body that still had constraints. Remove constraints first.");
+                //constraints must be removed before rigid body is removed
+                pw.RemoveRigidBody((RigidBody)m_collisionObject);
+            }
         }
 
         protected override void Dispose(bool isdisposing) {
             if (isInWorld && isdisposing && m_rigidBody != null) {
                 BPhysicsWorld pw = BPhysicsWorld.Get();
                 if (pw != null && pw.world != null) {
+                    //constraints must be removed before rigid body is removed
+                    for (int i = m_rigidBody.NumConstraintRefs; i > 0; i--)
+                    {
+                        BTypedConstraint tc = (BTypedConstraint) m_rigidBody.GetConstraintRef(i - 1).Userobject;
+                        ((DiscreteDynamicsWorld)pw.world).RemoveConstraint(tc.GetConstraint());
+                    }
                     ((DiscreteDynamicsWorld) pw.world).RemoveRigidBody(m_rigidBody);
                 }
             }
