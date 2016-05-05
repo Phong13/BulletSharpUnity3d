@@ -5,7 +5,6 @@ using BulletSharp;
 using BM = BulletSharp.Math;
 
 namespace BulletUnity {
-    //TODO script execution order, rigid bodies before constraints & other stuff that might use them
     [System.Serializable]
     public class BConeTwistConstraint : BTypedConstraint {
         public static string HelpMessage = "btConeTwistConstraint can be used to simulate ragdoll joints (upper arm, leg etc)." +
@@ -14,14 +13,14 @@ namespace BulletUnity {
                                             "Swing is divided into swing1 and swing2 which can have different limits, giving an elliptical shape."+
                                             "(Note: the cone's base isn't flat, so this ellipse is 'embedded' on the surface of a sphere.)\n\n"+
                                             "In the contraint's frame of reference:\n"+
-                                            "  - twist is along the forward\n"+
-                                            "  - and swing 1 and 2 are along the right and up axes respectively.\n";
+                                            "  - twist is along the X (blue) twist limit is about Y (green) \n"+
+                                            "  - and swing 1 and 2 are along the Y (green) and Z (red) axes respectively.\n" +
+                                            "\nTIP: To see constraint limits:\n" + 
+                                            "  - In BulletPhysicsWorld turn on 'Do Debug Draw' and set 'Debug Draw Mode' flags\n" +
+                                            "  - On Constraint set 'Debug Draw Size'\n" +
+                                            "  - Press play";
 
 
-        [Header("Reference Frame Local To This Object")]
-        public Vector3 m_localConstraintPoint = Vector3.zero;
-        public Vector3 m_localConstraintForwardDir = Vector3.forward;
-        public Vector3 m_localConstraintUpDir = Vector3.up;
 
         [Header("Limits")]
         public float m_swingSpan1Radians = Mathf.PI;
@@ -66,7 +65,7 @@ namespace BulletUnity {
                 }
                 BM.Matrix frameInA, frameInOther;
                 string errormsg = "";
-                if (CreateFramesA_B(m_localConstraintForwardDir, m_localConstraintUpDir, m_localConstraintPoint, out frameInA, out frameInOther, ref errormsg))
+                if (CreateFramesA_B(m_localConstraintAxisX, m_localConstraintAxisY, m_localConstraintPoint, out frameInA, out frameInOther, ref errormsg))
                 {
                     m_constraintPtr = new ConeTwistConstraint((RigidBody)m_otherRigidBody.GetCollisionObject(), (RigidBody)targetRigidBodyA.GetCollisionObject(), frameInOther, frameInA);
                 } else
@@ -81,7 +80,7 @@ namespace BulletUnity {
                 //TODO this is broken
                 string errormsg = "";
                 BM.Matrix frameInB = BM.Matrix.Identity;
-                if (CreateFrame(m_localConstraintForwardDir, m_localConstraintUpDir, m_localConstraintPoint, ref frameInB, ref errormsg))
+                if (CreateFrame(m_localConstraintAxisX, m_localConstraintAxisY, m_localConstraintPoint, ref frameInB, ref errormsg))
                 {
                     m_constraintPtr = new ConeTwistConstraint((RigidBody)targetRigidBodyA.GetCollisionObject(), frameInB);
                 } else

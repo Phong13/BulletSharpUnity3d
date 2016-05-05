@@ -16,6 +16,13 @@ namespace BulletUnity {
             constrainToAnotherBody
         }
 
+        [Header("Reference Frame Local To This Object")]
+        public Vector3 m_localConstraintPoint = Vector3.zero;
+        public Vector3 m_localConstraintAxisX = Vector3.forward;
+        public Vector3 m_localConstraintAxisY = Vector3.up;
+
+
+
         public float m_breakingImpulseThreshold = Mathf.Infinity;
         public bool m_disableCollisionsBetweenConstrainedBodies = true;
         public ConstraintType m_constraintType;
@@ -30,18 +37,18 @@ namespace BulletUnity {
         public void DrawTransformGizmos(Transform t, Vector3 pivotPoint, Vector3 forward, Vector3 up)
         {
             Vector3 pivotWorld = t.TransformPoint(pivotPoint);
-            Vector3 forwardWorld = t.TransformDirection(forward).normalized;
-            Vector3 upWorld = t.TransformDirection(up).normalized;
-            Vector3 rightWorld = Vector3.Cross(forwardWorld, upWorld);
-            upWorld = Vector3.Cross(rightWorld, forwardWorld);
-            upWorld.Normalize();
-            forwardWorld.Normalize();
+            Vector3 xWorld = t.TransformDirection(forward).normalized;
+            Vector3 yWorld = t.TransformDirection(up).normalized;
+            Vector3 zWorld = Vector3.Cross(xWorld, yWorld);
+            yWorld = Vector3.Cross(zWorld, xWorld);
+            yWorld.Normalize();
+            xWorld.Normalize();
             Gizmos.color = Color.red;
-            Gizmos.DrawLine(pivotWorld, pivotWorld + rightWorld);
+            Gizmos.DrawLine(pivotWorld, pivotWorld + xWorld);
             Gizmos.color = Color.green;
-            Gizmos.DrawLine(pivotWorld, pivotWorld + upWorld);
+            Gizmos.DrawLine(pivotWorld, pivotWorld + yWorld);
             Gizmos.color = Color.blue;
-            Gizmos.DrawLine(pivotWorld, pivotWorld + forwardWorld);
+            Gizmos.DrawLine(pivotWorld, pivotWorld + zWorld);
         }
 
         public bool CreateFrame(UnityEngine.Vector3 forward, UnityEngine.Vector3 up, UnityEngine.Vector3 constraintPoint, ref BulletSharp.Math.Matrix m, ref string errorMsg)
@@ -108,6 +115,13 @@ namespace BulletUnity {
             frameInB.Origin = m_otherRigidBody.transform.InverseTransformPoint(transform.TransformPoint(constraintPivotInA)).ToBullet();
             return true;
         }
+
+        public virtual void OnDrawGizmosSelected()
+        {
+            DrawTransformGizmos(transform, m_localConstraintPoint, m_localConstraintAxisX, m_localConstraintAxisY);
+        }
+
+
 
         protected virtual void AddToBulletWorld()
         {

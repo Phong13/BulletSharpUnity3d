@@ -9,10 +9,6 @@ namespace BulletUnity {
     public class BFixedConstraint : BTypedConstraint {
 
         //todo should be properties so can capture changes and propagate to scene
-        [Header("Reference Frame Local To This Object")]
-        public Vector3 m_localConstraintPoint = Vector3.zero;
-        public Vector3 m_localConstraintForwardDir = Vector3.forward;
-        public Vector3 m_localConstraintUpDir = Vector3.up;
 
         //called by Physics World just before constraint is added to world.
         //the current constraint properties are used to rebuild the constraint.
@@ -62,7 +58,7 @@ namespace BulletUnity {
             }
             BM.Matrix frameInA, frameInOther;
             string errormsg = "";
-            if (CreateFramesA_B(m_localConstraintForwardDir, m_localConstraintUpDir, m_localConstraintPoint, out frameInA, out frameInOther, ref errormsg))
+            if (CreateFramesA_B(m_localConstraintAxisX, m_localConstraintAxisY, m_localConstraintPoint, out frameInA, out frameInOther, ref errormsg))
             {
                 m_constraintPtr = new FixedConstraint(rbb, rba, frameInOther, frameInA);
             } else

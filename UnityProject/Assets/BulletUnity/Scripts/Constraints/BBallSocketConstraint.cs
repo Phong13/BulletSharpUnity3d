@@ -10,9 +10,11 @@ namespace BulletUnity {
 
 
         //todo should be properties so can capture changes and propagate to scene
-
-        [Header("Constraint Point Local To This Object")]
-        public Vector3 m_localConstraintPoint = Vector3.zero;
+        public static string HelpMessage =  "Only the 'Local Constraint Point' is used. X and Y are ignored.\n" +
+                                            "\nTIP: To see constraint limits:\n" +
+                                            "  - In BulletPhysicsWorld turn on 'Do Debug Draw' and set 'Debug Draw Mode' flags\n" +
+                                            "  - On Constraint set 'Debug Draw Size'\n" +
+                                            "  - Press play";
 
         //called by Physics World just before constraint is added to world.
         //the current constraint properties are used to rebuild the constraint.

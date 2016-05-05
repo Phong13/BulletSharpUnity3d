@@ -7,22 +7,17 @@ using BM = BulletSharp.Math;
 namespace BulletUnity {
     [System.Serializable]
     public class BSliderConstraint : BTypedConstraint {
-
-        [Header("Reference Frame Local To This Object")]
-        public Vector3 m_localConstraintPoint = Vector3.zero;
-        public Vector3 m_localConstraintForwardDir = Vector3.forward;
-        public Vector3 m_localConstraintUpDir = Vector3.up;
+        public static string HelpMessage = "X (red) is slide axis. Angular limits are measured from Y (green) toward Z. \n" +
+                                            "\nTIP: To see constraint limits:\n" +
+                                            "  - In BulletPhysicsWorld turn on 'Do Debug Draw' and set 'Debug Draw Mode' flags\n" +
+                                            "  - On Constraint set 'Debug Draw Size'\n" +
+                                            "  - Press play";
 
         [Header("Limits")]
         public float m_lowerLinearLimit = -10f;
         public float m_upperLinearLimit = 10f;
         public float m_lowerAngularLimitRadians = -Mathf.PI;
         public float m_upperAngularLimitRadians = Mathf.PI;
-
-        public void OnDrawGizmosSelected()
-        {
-            DrawTransformGizmos(transform, m_localConstraintPoint, m_localConstraintForwardDir, m_localConstraintUpDir);
-        }
 
         //called by Physics World just before constraint is added to world.
         //the current constraint properties are used to rebuild the constraint.
@@ -69,7 +64,7 @@ namespace BulletUnity {
 
                 BM.Matrix frameInA, frameInOther;
                 string errormsg = "";
-                if (CreateFramesA_B(m_localConstraintForwardDir, m_localConstraintUpDir, m_localConstraintPoint, out frameInA, out frameInOther, ref errormsg))
+                if (CreateFramesA_B(m_localConstraintAxisX, m_localConstraintAxisY, m_localConstraintPoint, out frameInA, out frameInOther, ref errormsg))
                 {
                     m_constraintPtr = new SliderConstraint(rbb, rba, frameInOther, frameInA, true);
                 } else
@@ -81,7 +76,7 @@ namespace BulletUnity {
             {
                 BulletSharp.Math.Matrix frameInA = BM.Matrix.Identity;
                 string errormsg = "";
-                if (CreateFrame(m_localConstraintForwardDir, m_localConstraintUpDir, m_localConstraintPoint, ref frameInA, ref errormsg))
+                if (CreateFrame(m_localConstraintAxisX, m_localConstraintAxisY, m_localConstraintPoint, ref frameInA, ref errormsg))
                 {
                     m_constraintPtr = new SliderConstraint(rba, frameInA, true);
                 } else

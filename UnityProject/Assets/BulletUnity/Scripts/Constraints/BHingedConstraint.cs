@@ -9,13 +9,11 @@ namespace BulletUnity {
     public class BHingedConstraint : BTypedConstraint {
 
         //todo should be properties so can capture changes and propagate to scene
-        /// <summary>
-        /// In targetRigidbody local coordinates
-        /// </summary>
-        [Header("Reference Frame Local To This Object")]
-        public Vector3 m_localConstraintPoint = Vector3.zero;
-        public Vector3 m_localConstraintForwardDir = Vector3.forward;
-        public Vector3 m_localConstraintUpDir = Vector3.up;
+        public static string HelpMessage = "X (red) is axis of the hinge.\n" +
+                                            "\nTIP: To see constraint limits:\n" +
+                                            "  - In BulletPhysicsWorld turn on 'Do Debug Draw' and set 'Debug Draw Mode' flags\n" +
+                                            "  - On Constraint set 'Debug Draw Size'\n" +
+                                            "  - Press play";
 
         public bool m_enableMotor;
         public float m_targetMotorAngularVelocity = 0f;
@@ -54,7 +52,7 @@ namespace BulletUnity {
             {
                 world.AddRigidBody(targetRigidBodyA);
             }
-            if (m_localConstraintForwardDir == Vector3.zero)
+            if (m_localConstraintAxisX == Vector3.zero)
             {
                 Debug.LogError("Constaint axis cannot be zero vector");
                 return false;
@@ -83,7 +81,7 @@ namespace BulletUnity {
                 }
                 BM.Matrix frameInA, frameInOther;
                 string errormsg = "";
-                if (CreateFramesA_B(m_localConstraintForwardDir, m_localConstraintUpDir, m_localConstraintPoint, out frameInA, out frameInOther, ref errormsg))
+                if (CreateFramesA_B(m_localConstraintAxisX, m_localConstraintAxisY, m_localConstraintPoint, out frameInA, out frameInOther, ref errormsg))
                 {
                     //warning the frameInA, frameInB version of the constructor is broken
                     m_constraintPtr = new HingeConstraint(rbb, rba, frameInOther.Origin, frameInA.Origin, (BM.Vector3)frameInOther.Basis.Column1, (BM.Vector3)frameInA.Basis.Column1);
@@ -96,7 +94,7 @@ namespace BulletUnity {
             else {
                 //BM.Matrix frameInA = BM.Matrix.Identity;
                 //CreateFrame(m_localConstraintForwardDir, m_localConstraintUpDir, m_localConstraintPoint, ref frameInA);
-                m_constraintPtr = new HingeConstraint(rba, m_localConstraintPoint.ToBullet(),m_localConstraintForwardDir.ToBullet(), false);
+                m_constraintPtr = new HingeConstraint(rba, m_localConstraintPoint.ToBullet(),m_localConstraintAxisX.ToBullet(), false);
             }
             if (m_enableMotor)
             {
