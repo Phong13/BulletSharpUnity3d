@@ -8,7 +8,6 @@ namespace BulletUnity {
     [System.Serializable]
     public class B6DOFConstraint : BTypedConstraint {
         //Todo not sure if this is working
-        //Todo breaking strength
         //todo should be properties so can capture changes and propagate to scene
         public static string HelpMessage = "\n" +
                                             "\nTIP: To see constraint limits:\n" +
@@ -95,6 +94,8 @@ namespace BulletUnity {
             sl.AngularUpperLimit = m_angularLimitUpperRadians.ToBullet();
             sl.TranslationalLimitMotor.TargetVelocity = m_motorLinearTargetVelocity.ToBullet();
             sl.TranslationalLimitMotor.MaxMotorForce = m_motorLinearMaxMotorForce.ToBullet();
+            sl.BreakingImpulseThreshold = m_breakingImpulseThreshold;
+            sl.DebugDrawSize = m_debugDrawSize;
             return true;
         }
     }

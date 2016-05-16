@@ -117,7 +117,7 @@ namespace BulletUnity
             transform.rotation = BSExtensionMethods2.ExtractRotationFromMatrix(ref trans);
             transform.localScale = BSExtensionMethods2.ExtractScaleFromMatrix(ref trans);
         }
-
+        /*
         public void OldUpdate()
         {
             float FrameDelta = Time.fixedDeltaTime; // todo put a variable in the physics world for this.
@@ -177,5 +177,6 @@ namespace BulletUnity
             transform.position = trans.Origin.ToUnity();
 
         }
+        */
     }
 }

@@ -122,6 +122,7 @@ namespace BulletUnity
             return m_collisionObject;
         }
 
+        //Don't try to call functions on other objects such as the Physics world since they may not exit.
         protected virtual void Awake()
         {
             m_collisionShape = GetComponent<BCollisionShape>();
@@ -141,12 +142,22 @@ namespace BulletUnity
             BPhysicsWorld.Get().RemoveCollisionObject(m_collisionObject);
         }
 
+        
+        //Add this object to the world on Start. We are doing this so that scripts which add this componnet to 
+        //game objects have a chance to configure them before the object is added to the bullet world.
+        //Be aware that Start is not affected by script execution order so objects such as constraints should
+        //make sure that objects they depend on have been added to the world before they add themselves.
         internal virtual void Start()
         {
             m_startHasBeenCalled = true;
             AddObjectToBulletWorld();
         }
 
+        //OnEnable and OnDisable are called when a game object is Activated and Deactivated. 
+        //Unfortunately the first call comes before Awake and Start. We suppress this call so that the component
+        //has a chance to initialize itself. Objects that depend on other objects such as constraints should make
+        //sure those objects have been added to the world first.
+        //don't try to call functions on world before Start is called. It may not exist.
         protected virtual void OnEnable()
         {
             if (!isInWorld && m_startHasBeenCalled)
@@ -155,6 +166,9 @@ namespace BulletUnity
             }
         }
 
+        // when scene is closed objects, including the physics world, are destroyed in random order. 
+        // There is no way to distinquish between scene close destruction and normal gameplay destruction.
+        // Objects cannot depend on world existing when they Dispose of themselves. World may have been destroyed first.
         protected virtual void OnDisable()
         {
             if (isInWorld)

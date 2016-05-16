@@ -66,6 +66,8 @@ namespace BulletUnity {
                 m_constraintPtr = new Point2PointConstraint(rba, m_localConstraintPoint.ToBullet());
             }
             m_constraintPtr.Userobject = this;
+            m_constraintPtr.BreakingImpulseThreshold = m_breakingImpulseThreshold;
+            m_constraintPtr.DebugDrawSize = m_debugDrawSize;
             return true;
         }
     }

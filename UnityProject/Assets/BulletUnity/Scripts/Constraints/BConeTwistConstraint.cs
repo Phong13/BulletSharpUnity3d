@@ -94,6 +94,7 @@ namespace BulletUnity {
             sl.SetLimit(m_swingSpan1Radians, m_swingSpan2Radians, m_twistSpanRadians, m_softness, m_biasFactor, m_relaxationFactor);
             m_constraintPtr.Userobject = this;
             m_constraintPtr.DebugDrawSize = m_debugDrawSize;
+            m_constraintPtr.BreakingImpulseThreshold = m_breakingImpulseThreshold;
             return true;
         }
     }

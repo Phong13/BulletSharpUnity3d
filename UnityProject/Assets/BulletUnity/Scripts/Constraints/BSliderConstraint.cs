@@ -92,6 +92,8 @@ namespace BulletUnity {
             sl.LowerAngularLimit = m_lowerAngularLimitRadians;
             sl.UpperAngularLimit = m_upperAngularLimitRadians;
             m_constraintPtr.Userobject = this;
+            m_constraintPtr.DebugDrawSize = m_debugDrawSize;
+            m_constraintPtr.BreakingImpulseThreshold = m_breakingImpulseThreshold;
             return true;
         }
     }

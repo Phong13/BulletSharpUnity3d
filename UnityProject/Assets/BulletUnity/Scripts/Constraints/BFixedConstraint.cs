@@ -67,6 +67,8 @@ namespace BulletUnity {
                 return false;
             }
             m_constraintPtr.Userobject = this;
+            m_constraintPtr.DebugDrawSize = m_debugDrawSize;
+            m_constraintPtr.BreakingImpulseThreshold = m_breakingImpulseThreshold;
 
             return true;
         }

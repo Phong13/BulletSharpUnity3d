@@ -105,6 +105,8 @@ namespace BulletUnity {
                 ((HingeConstraint)m_constraintPtr).SetLimit(m_lowLimitAngleRadians, m_highLimitAngleRadians, m_limitSoftness, m_limitBiasFactor);
             }
             m_constraintPtr.Userobject = this;
+            m_constraintPtr.DebugDrawSize = m_debugDrawSize;
+            m_constraintPtr.BreakingImpulseThreshold = m_breakingImpulseThreshold;
             return true;
         }
     }

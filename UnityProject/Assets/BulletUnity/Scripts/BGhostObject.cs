@@ -69,7 +69,7 @@ namespace BulletUnity
         HashSet<CollisionObject> objsCurrentlyInContactWith = new HashSet<CollisionObject>();
         void FixedUpdate()
         {
-            //TODO what if objects are destroyed. How will TriggerExit be called for that object? Should be tracking InstanceIDs
+            //TODO should do two passes like with collisions
             objsCurrentlyInContactWith.Clear();
             for (int i = 0; i < m_ghostObject.NumOverlappingObjects; i++)
             {

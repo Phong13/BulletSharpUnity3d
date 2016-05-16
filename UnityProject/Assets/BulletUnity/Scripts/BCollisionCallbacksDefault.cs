@@ -18,7 +18,7 @@ namespace BulletUnity
         List<PersistentManifoldList> newContacts = new List<PersistentManifoldList>();
         List<CollisionObject> objectsToRemove = new List<CollisionObject>();
 
-        public void Start()
+        public virtual void Start()
         {
 
             BCollisionObject co = GetComponent<BCollisionObject>();
@@ -32,6 +32,10 @@ namespace BulletUnity
 
         public override void OnVisitPersistentManifold(PersistentManifold pm)
         {
+            if (pm.NumContacts == 0)
+            {
+                return;
+            }
             CollisionObject other;
             if (pm.Body0 == myCollisionObject)
             {

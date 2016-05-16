@@ -7,9 +7,6 @@ using System.Collections.Generic;
 using BulletUnity.Debugging;
 
 
-// TODO order of destruction is an issue
-// TODO all constraints need to be removed from a rigid body before the rigid body is destroyed / removed
-
 namespace BulletUnity {
     public class BPhysicsWorld : MonoBehaviour, IDisposable {
 
@@ -667,109 +664,4 @@ namespace BulletUnity {
             }
         }
     }
-
-    /*
-    public class BDefaultCollisionHandler{
-        public struct CollisionPair
-        {
-            public int obj0ID;
-            public int obj1ID;
-
-            public CollisionPair(CollisionObject a, CollisionObject b)
-            {
-                int idA = a.BroadphaseHandle.UniqueId;
-                int idB = b.BroadphaseHandle.UniqueId;
-                if (idA < idB) {
-                    obj0ID = idA;
-                    obj1ID = idB;
-                } else
-                {
-                    obj0ID = idB;
-                    obj1ID = idB;
-                }
-            }
-
-            public override int GetHashCode()
-            {
-                return obj0ID ^ obj1ID;
-            }
-
-            public override bool Equals(object obj)
-            {
-                if (obj is CollisionPair) return false;
-                else
-                {
-                    if (((CollisionPair) obj).obj0ID == obj0ID &&
-                        ((CollisionPair) obj).obj1ID == obj1ID)
-                    {
-                        return true;
-                    }
-                    return false;
-                }
-            }
-        }
-
-        public class ManifoldPoints
-        {
-            public int frameLastVisited = 0;
-            public List<PersistentManifold> manifolds = List<PersistentManifold>();
-        }
-
-        CollisionWorld m_world;
-        Dictionary<CollisionPair, ManifoldPoints> pair2ManifoldMap = new Dictionary<CollisionPair, List<ManifoldPoints>>();
-
-        public void OnPhysicsStep()
-        {
-            int numManifolds = m_world.Dispatcher.NumManifolds;
-            // collect manifolds
-            pair2ManifoldMap.Clear();
-            for (int i = 0; i < numManifolds; i++)
-            {
-                PersistentManifold contactManifold = m_world.Dispatcher.GetManifoldByIndexInternal(i);
-                CollisionObject a = contactManifold.Body0;
-                CollisionObject b = contactManifold.Body1;
-                bool hasCallback = false;
-                if (a is CollisionObject && a.UserObject is BCollisionObject && ((BCollisionObject)a.UserObject).onCollisionCallback != null){
-                    hasCallback = true;
-                }
-                if (b is CollisionObject && b.UserObject is BCollisionObject && ((BCollisionObject)b.UserObject).onCollisionCallback != null)
-                {
-                    hasCallback = true;
-                }
-                if (hasCallback)
-                {
-                    CollisionPair pair = new CollisionPair(contactManifold.Body0, contactManifold.Body1);
-                    ManifoldPoints pms;
-                    if (!pair2ManifoldMap.TryGetValue(pair, out pms))
-                    {
-                        //TODO implement pool
-                        pms = new ManifoldPoints();
-                        pair2ManifoldMap.Add(pair, pms);
-                    }
-                    pms.Add(contactManifold);  
-                }
-            }
-
-            //second call the callbacks
-            foreach (CollisionPair p in pair2ManifoldMap.Keys)
-            {
-                List<PersistentManifold> pms = pair2ManifoldMap[p];
-                for (int i = 0; i < pms.Count; i++)
-                {
-
-                    CollisionObject a = pms[i].Body0;
-                    CollisionObject b = pms[i].Body1;
-                    if (a is CollisionObject && a.UserObject is BCollisionObject && ((BCollisionObject)a.UserObject).onCollisionCallback != null)
-                    {
-                        ((BCollisionObject)a.UserObject).onCollisionCallback(pms[i]);
-                    }
-                    if (b is CollisionObject && b.UserObject is BCollisionObject && ((BCollisionObject)b.UserObject).onCollisionCallback != null)
-                    {
-                        ((BCollisionObject)b.UserObject).onCollisionCallback(pms[i]);
-                    }
-                }
-            }
-        }
-    }
-    */
 }
