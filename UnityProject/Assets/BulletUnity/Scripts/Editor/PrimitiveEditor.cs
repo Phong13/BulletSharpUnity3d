@@ -86,7 +86,7 @@ namespace BulletUnity.Primitives
 
         #region MenuBulletForUnity
 
-        //[AddComponentMenu("BulletForUnity/Primitives/BCube")]
+        [AddComponentMenu("BulletForUnity/Primitives/BCube")]
         [MenuItem("BulletForUnity/BBox")]
         [MenuItem("GameObject/Create Other/BulletForUnity/BBox")]  //right click menu
         static void CreateBCube()
@@ -182,8 +182,14 @@ namespace BulletUnity.Primitives
         //Get a ray in the world from editor camera to middle of the screen
         public static Ray GetCenterRay()
         {
-            Camera camera = SceneView.lastActiveSceneView.camera;
-            return GetScreenRay(camera, new Vector2(camera.pixelWidth / 2, camera.pixelHeight / 2));
+            if (SceneView.lastActiveSceneView != null && SceneView.lastActiveSceneView.camera != null)
+            {
+                Camera camera = SceneView.lastActiveSceneView.camera;
+                return GetScreenRay(camera, new Vector2(camera.pixelWidth / 2, camera.pixelHeight / 2));
+            } else
+            {
+                return new Ray(Vector3.zero, -Vector3.forward);
+            }
         }
 
         public static Ray GetScreenRay(Camera camera, Vector2 pos)

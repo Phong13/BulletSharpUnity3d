@@ -9,6 +9,7 @@ public class BCapsuleShapeEditor : Editor {
 	BCapsuleShape script;
 	SerializedProperty radius;
 	SerializedProperty height;
+    SerializedProperty upAxis;
 
 	void OnEnable() {
 		script = (BCapsuleShape)target;
@@ -18,6 +19,7 @@ public class BCapsuleShapeEditor : Editor {
 	void GetSerializedProperties() {
 		radius = serializedObject.FindProperty("radius");
 		height = serializedObject.FindProperty("height");
+        upAxis = serializedObject.FindProperty("upAxis");
 	}
 
 	public override void OnInspectorGUI() {
@@ -26,6 +28,7 @@ public class BCapsuleShapeEditor : Editor {
 		}
 		EditorGUILayout.PropertyField(radius);
 		EditorGUILayout.PropertyField(height);
+        EditorGUILayout.PropertyField(upAxis);
 		serializedObject.ApplyModifiedProperties();
 	}
 }

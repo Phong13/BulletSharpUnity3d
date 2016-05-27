@@ -33,6 +33,7 @@ namespace BulletUnity.Primitives
             BCapsuleShape cs = GetComponent<BCapsuleShape>();
             cs.height = meshSettings.height;
             cs.radius = meshSettings.radius;
+            cs.upAxis = meshSettings.upAxis;
         }
 
 

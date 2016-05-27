@@ -225,10 +225,10 @@ namespace BulletUnity
             return mesh;
         }
 
-        public static Mesh CreateMeshCapsule(float height = 1f, float radius = 1f, int nbSides = 18)
+        public static Mesh CreateMeshCapsule(float height = 1f, float radius = 1f, int nbSides = 18, int axis = 1)
         {
             Mesh mesh = new Mesh();
-            CreateMeshCapsule(mesh, height, radius, radius, nbSides);
+            CreateMeshCapsule(mesh, height, radius, radius, nbSides, axis);
             mesh.name = "PPCapsule";
             return mesh;
         }
@@ -258,7 +258,7 @@ namespace BulletUnity
             return mesh;
         }
 
-        public static void CreateMeshCapsule(Mesh mesh, float height = 1, float bottomRadius = 1f, float topRadius = 0f, int nbSides = 18)
+        public static void CreateMeshCapsule(Mesh mesh, float height = 1, float bottomRadius = 1f, float topRadius = 0f, int nbSides = 18, int axis=1)
         {
 
 
@@ -352,6 +352,26 @@ namespace BulletUnity
             normales[vert] = normales[nbSides * 2 + 2];
             normales[vert + 1] = normales[nbSides * 2 + 3];
             #endregion
+
+            Quaternion q = Quaternion.identity;
+            if (axis == 0)
+            {
+                q = Quaternion.AngleAxis(90, UnityEngine.Vector3.forward);
+            } else if (axis == 2)
+            {
+                q = Quaternion.AngleAxis(90, UnityEngine.Vector3.right);
+            }
+            if (axis == 0 || axis == 2)
+            {
+                for (int ii = 0; ii < vertices.Length; ii++)
+                {
+                    vertices[ii] = q * vertices[ii];
+                }
+                for (int ii = 0; ii < normales.Length; ii++)
+                {
+                    normales[ii] = q * normales[ii];
+                }
+            }
 
             #region UVs
             Vector2[] uvs = new Vector2[vertices.Length];

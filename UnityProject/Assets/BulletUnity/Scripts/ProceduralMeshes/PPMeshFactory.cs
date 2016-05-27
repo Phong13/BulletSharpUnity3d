@@ -97,6 +97,7 @@ namespace BulletUnity
         public float radius = 0.5f;
         [Range(2, 100)]
         public int nbSides = 18;
+        public BCapsuleShape.CapsuleAxis upAxis = BCapsuleShape.CapsuleAxis.y;
 
         public Vector3 halfExtent  //Bullet dimensions
         {
@@ -105,7 +106,7 @@ namespace BulletUnity
 
         public override Mesh Build()
         {
-            Mesh mesh = ProceduralPrimitives.CreateMeshCapsule(height, radius, nbSides);
+            Mesh mesh = ProceduralPrimitives.CreateMeshCapsule(height, radius, nbSides, (int) upAxis);
             return mesh;
         }
 

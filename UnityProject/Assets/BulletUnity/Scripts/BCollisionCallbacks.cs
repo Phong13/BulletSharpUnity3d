@@ -7,6 +7,8 @@ namespace BulletUnity
 {
     public abstract class BCollisionCallbacks : MonoBehaviour, BCollisionObject.BICollisionCallbackEventHandler
     {
+        public abstract void Start();
+
         public void OnEnable()
         {
             BCollisionObject co = GetComponent<BCollisionObject>();
