@@ -5,7 +5,7 @@ using BulletSharp;
 using BM = BulletSharp.Math;
 
 namespace BulletUnity {
-    [System.Serializable]
+    [AddComponentMenu("Physics Bullet/Constraints/Cone Twist")]
     public class BConeTwistConstraint : BTypedConstraint {
         public static string HelpMessage = "btConeTwistConstraint can be used to simulate ragdoll joints (upper arm, leg etc)." +
                                             "It is a fixed translation, 3 degree-of-freedom (DOF) rotational 'joint'."+

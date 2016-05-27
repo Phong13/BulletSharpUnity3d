@@ -4,7 +4,7 @@ using System.Collections;
 using BulletSharp;
 
 namespace BulletUnity {
-	[AddComponentMenu("Physics Bullet/Sphere Shape")]
+	[AddComponentMenu("Physics Bullet/Shapes/Sphere")]
     public class BSphereShape : BCollisionShape {
         public float radius = 1f;
 

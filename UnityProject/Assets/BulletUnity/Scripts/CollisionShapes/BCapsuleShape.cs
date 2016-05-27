@@ -5,7 +5,7 @@ using BulletSharp;
 
 namespace BulletUnity {
 
-	[AddComponentMenu("Physics Bullet/Capsule Shape")]
+	[AddComponentMenu("Physics Bullet/Shapes/Capsule")]
     public class BCapsuleShape : BCollisionShape {
         public enum CapsuleAxis
         {

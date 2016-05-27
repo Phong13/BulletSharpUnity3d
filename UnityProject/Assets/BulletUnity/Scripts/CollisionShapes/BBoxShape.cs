@@ -4,7 +4,7 @@ using System.Collections;
 using BulletSharp;
 
 namespace BulletUnity {
-	[AddComponentMenu("Physics Bullet/Box Shape")]
+	[AddComponentMenu("Physics Bullet/Shapes/Box")]
     public class BBoxShape : BCollisionShape {
         public Vector3 extents = Vector3.one;
 

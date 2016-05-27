@@ -5,7 +5,7 @@ using BulletSharp;
 using BM = BulletSharp.Math;
 
 namespace BulletUnity {
-    [System.Serializable]
+    [AddComponentMenu("Physics Bullet/Constraints/Slider")]
     public class BSliderConstraint : BTypedConstraint {
         public static string HelpMessage = "X (red) is slide axis. Angular limits are measured from Y (green) toward Z. \n" +
                                             "\nTIP: To see constraint limits:\n" +

@@ -5,7 +5,7 @@ using BulletSharp;
 using BM = BulletSharp.Math;
 
 namespace BulletUnity {
-    [System.Serializable]
+    [AddComponentMenu("Physics Bullet/Constraints/6 Degree Of Freedom")]
     public class B6DOFConstraint : BTypedConstraint {
         //Todo not sure if this is working
         //todo should be properties so can capture changes and propagate to scene

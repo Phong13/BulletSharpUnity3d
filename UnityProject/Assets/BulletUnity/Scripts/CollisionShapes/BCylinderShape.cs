@@ -5,7 +5,7 @@ using BulletSharp;
 
 namespace BulletUnity
 {
-
+    [AddComponentMenu("Physics Bullet/Shapes/Cylinder")]
     public class BCylinderShape : BCollisionShape
     {
         public Vector3 halfExtent = new Vector3(0.5f, 0.5f, 0.5f);

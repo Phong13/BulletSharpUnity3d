@@ -5,7 +5,7 @@ using BulletSharp;
 
 namespace BulletUnity {
 
-	[AddComponentMenu("Physics Bullet/Multi Sphere Shape")]
+	[AddComponentMenu("Physics Bullet/Shapes/Multi Sphere")]
     public class BMultiSphereShape : BCollisionShape {
         [Serializable]
         public struct Sphere {

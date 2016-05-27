@@ -5,7 +5,7 @@ using BulletSharp;
 using BM = BulletSharp.Math;
 
 namespace BulletUnity {
-    [System.Serializable]
+    [AddComponentMenu("Physics Bullet/Constraints/Hinge")]
     public class BHingedConstraint : BTypedConstraint {
 
         //todo should be properties so can capture changes and propagate to scene

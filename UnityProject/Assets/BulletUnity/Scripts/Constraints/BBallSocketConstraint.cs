@@ -5,7 +5,7 @@ using BulletSharp;
 using BM = BulletSharp.Math;
 
 namespace BulletUnity {
-    [System.Serializable]
+    [AddComponentMenu("Physics Bullet/Constraints/Ball Socket")]
     public class BBallSocketConstraint : BTypedConstraint {
 
 

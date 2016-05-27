@@ -5,6 +5,7 @@ using BulletSharp;
 using System.Runtime.InteropServices;
 
 namespace BulletUnity {
+    [AddComponentMenu("Physics Bullet/Shapes/Heightfield Terrain")]
     public class BHeightfieldTerrainShape : BCollisionShape {
 
         public int upIndex;

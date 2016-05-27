@@ -15,6 +15,7 @@ namespace BulletUnity {
         - children being removed, destroyed
         - children being moved to different possibly invalid locations in hierarchy 
     */
+    [AddComponentMenu("Physics Bullet/Shapes/Compund")]
     public class BCompoundCollider : BCollisionShape {
         BCollisionShape[] colliders;
 
