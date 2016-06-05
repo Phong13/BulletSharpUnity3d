@@ -15,9 +15,26 @@ namespace BulletUnity {
 
         public Sphere[] spheres = new Sphere[0];
 
+        [SerializeField]
+        protected Vector3 m_localScaling = Vector3.one;
+        public Vector3 LocalScaling
+        {
+            get { return m_localScaling; }
+            set
+            {
+                m_localScaling = value;
+                if (collisionShapePtr != null)
+                {
+                    ((MultiSphereShape)collisionShapePtr).LocalScaling = value.ToBullet();
+                }
+            }
+        }
+
         public override void OnDrawGizmosSelected() {
             for (int i = 0; i < spheres.Length; i++) {
-                BUtility.DebugDrawSphere(transform.TransformPoint(spheres[i].position), Quaternion.identity, Vector3.one, Vector3.one * spheres[i].radius, Gizmos.color);
+                Vector3 v = spheres[i].position;
+                v.x *= m_localScaling.x; v.y *= m_localScaling.y; v.z *= m_localScaling.z;
+                BUtility.DebugDrawSphere(transform.TransformPoint(v), Quaternion.identity, Vector3.one, Vector3.one * spheres[i].radius, Gizmos.color);
             }
         }
 
@@ -30,6 +47,7 @@ namespace BulletUnity {
                     radius[i] = spheres[i].radius;
                 }
                 collisionShapePtr = new MultiSphereShape(positions, radius);
+                ((MultiSphereShape)collisionShapePtr).LocalScaling = m_localScaling.ToBullet();
             }
             return collisionShapePtr;
         }

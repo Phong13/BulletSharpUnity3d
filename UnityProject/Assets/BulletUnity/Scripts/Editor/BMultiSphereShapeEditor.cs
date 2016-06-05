@@ -1,4 +1,4 @@
-﻿/*using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
 using BulletUnity;
@@ -8,6 +8,7 @@ public class BMultiSphereShapeEditor : Editor {
 
 	BMultiSphereShape script;
 	SerializedProperty spheres;
+    SerializedProperty localScale;
 
 	void OnEnable() {
 		script = (BMultiSphereShape)target;
@@ -23,8 +24,9 @@ public class BMultiSphereShapeEditor : Editor {
 			EditorGUILayout.HelpBox("This shape doesn't support scale of the object.\nThe scale must be one", MessageType.Warning);
 		}
 		EditorGUIUtility.wideMode = false;
-		EditorGUILayout.PropertyField(spheres);
+		EditorGUILayout.PropertyField(spheres,true);
 		EditorGUIUtility.wideMode = true;
+        script.LocalScaling = EditorGUILayout.Vector3Field("Local Scaling", script.LocalScaling);
 		serializedObject.ApplyModifiedProperties();
 	}
-}*/
+}

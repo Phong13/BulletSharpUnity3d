@@ -30,7 +30,7 @@ namespace BulletUnity.Primitives
         public override void BuildMesh()
         {
             GetComponent<MeshFilter>().sharedMesh = meshSettings.Build();
-            GetComponent<BCylinderShape>().halfExtent = meshSettings.halfExtent;
+            GetComponent<BCylinderShape>().HalfExtent = meshSettings.halfExtent;
         }
 
 

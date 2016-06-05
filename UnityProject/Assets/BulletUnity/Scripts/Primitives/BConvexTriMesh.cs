@@ -29,7 +29,7 @@ namespace BulletUnity.Primitives
         {
             Mesh mesh = meshSettings.Build();
             GetComponent<MeshFilter>().sharedMesh = mesh;
-            GetComponent<BConvexTriangleMeshShape>().hullMesh = mesh;
+            GetComponent<BConvexTriangleMeshShape>().HullMesh = mesh;
 
         }
     }

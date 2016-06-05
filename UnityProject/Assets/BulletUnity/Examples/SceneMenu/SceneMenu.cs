@@ -25,7 +25,14 @@ public class SceneMenu : MonoBehaviour {
 				if (GUILayout.Button(scenes.Scenes[i].Name,w,h)){
 					Debug.Log("=========================================================");
 					Debug.Log("Loading level: " + scenes.Scenes[i].Path);
-                    SceneManager.LoadScene(i);
+                    UnityEngine.SceneManagement.Scene sc = SceneManager.GetSceneByName(scenes.Scenes[i].Path);
+                    if (sc.IsValid())
+                    {
+                        SceneManager.LoadScene(i);
+                    } else
+                    {
+                        Debug.LogErrorFormat("The scene {0} needs to be added in the Build Settings before it can be accessed from the ExampleMenu. Try opening the scene in the editor.", scenes.Scenes[i].Path);
+                    }
 				}
 				i++;
 			}

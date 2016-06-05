@@ -7,18 +7,19 @@ using BulletUnity;
 public class BConvexHullShapeEditor : Editor {
 
     BConvexHullShape script;
-    SerializedProperty hullMesh;
+    //SerializedProperty hullMesh;
 
     void OnEnable()
     {
         script = (BConvexHullShape)target;
-        GetSerializedProperties();
+        //GetSerializedProperties();
     }
-
+    /*
     void GetSerializedProperties()
     {
         hullMesh = serializedObject.FindProperty("hullMesh");
     }
+    */
 
     public override void OnInspectorGUI()
     {
@@ -26,7 +27,9 @@ public class BConvexHullShapeEditor : Editor {
         {
             EditorGUILayout.HelpBox("This shape doesn't support scale of the object.\nThe scale must be one", MessageType.Warning);
         }
-        EditorGUILayout.PropertyField(hullMesh);
+        //EditorGUILayout.PropertyField(hullMesh);
+        script.HullMesh = (Mesh) EditorGUILayout.ObjectField("Hull Mesh", script.HullMesh, typeof(Mesh), true);
+        script.LocalScaling = EditorGUILayout.Vector3Field("Local Scaling", script.LocalScaling);
         serializedObject.ApplyModifiedProperties();
     }
 }

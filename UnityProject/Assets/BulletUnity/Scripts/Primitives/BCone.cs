@@ -32,8 +32,8 @@ namespace BulletUnity.Primitives
         {
             GetComponent<MeshFilter>().sharedMesh = meshSettings.Build();
             BConeShape bCone = GetComponent<BConeShape>();
-            bCone.radius = meshSettings.radius;
-            bCone.height  = meshSettings.height;
+            bCone.Radius = meshSettings.radius;
+            bCone.Height  = meshSettings.height;
         }
 
 

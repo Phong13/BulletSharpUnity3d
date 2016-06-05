@@ -7,19 +7,20 @@ using BulletUnity;
 public class BSphereShapeEditor : Editor
 {
     BSphereShape script;
-    SerializedProperty radius;
-    SerializedProperty height;
+    //SerializedProperty radius;
 
     void OnEnable()
     {
         script = (BSphereShape)target;
-        GetSerializedProperties();
+        //GetSerializedProperties();
     }
 
+    /*
     void GetSerializedProperties()
     {
         radius = serializedObject.FindProperty("radius");
     }
+    */
 
     public override void OnInspectorGUI()
     {
@@ -27,7 +28,8 @@ public class BSphereShapeEditor : Editor
         {
             EditorGUILayout.HelpBox("This shape doesn't support scale of the object.\nThe scale must be one", MessageType.Warning);
         }
-        EditorGUILayout.PropertyField(radius);
+        script.Radius = EditorGUILayout.FloatField("Radius", script.Radius);
+        script.LocalScaling = EditorGUILayout.Vector3Field("Local Scaling", script.LocalScaling);
         serializedObject.ApplyModifiedProperties();
     }
 }

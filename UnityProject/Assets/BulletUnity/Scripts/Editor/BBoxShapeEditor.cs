@@ -7,22 +7,25 @@ using BulletUnity;
 public class BBoxShapeEditor : Editor {
 
 	BBoxShape script;
-	SerializedProperty extents;
+	//SerializedProperty extents;
+    //SerializedProperty localScaling;
 
-	void OnEnable() {
+    void OnEnable() {
 		script = (BBoxShape)target;
-		GetSerializedProperties();
+		//GetSerializedProperties();
 	}
 
-	void GetSerializedProperties() {
-		extents = serializedObject.FindProperty("extents");
-	}
+	//void GetSerializedProperties() {
+	//	extents = serializedObject.FindProperty("extents");
+    //    localScaling = serializedObject.FindProperty("m_localScaling");
+	//}
 
 	public override void OnInspectorGUI() {
 		if(script.transform.localScale != Vector3.one) {
-			EditorGUILayout.HelpBox("This shape doesn't support scale of the object.\nThe scale must be one", MessageType.Warning);
+			EditorGUILayout.HelpBox("This shape doesn't support transform.scale.\nThe scale must be one. Use 'LocalScaling'", MessageType.Warning);
 		}
-		EditorGUILayout.PropertyField(extents);
+        script.Extents = EditorGUILayout.Vector3Field("Extents", script.Extents);
+        script.LocalScaling = EditorGUILayout.Vector3Field("Local Scaling", script.LocalScaling);
 		serializedObject.ApplyModifiedProperties();
 	}
 }

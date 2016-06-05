@@ -225,7 +225,7 @@ namespace BulletUnity {
 
         public static void DebugDrawCapsule(Vector3 position, Quaternion rotation, Vector3 scale, float radius, float halfHeight, int upAxis, Color color) {
 
-            Matrix4x4 matrix = Matrix4x4.TRS(position, rotation, new Vector3(1, 1, 1));
+            Matrix4x4 matrix = Matrix4x4.TRS(position, rotation, scale);
 
             Gizmos.color = color;
 
@@ -269,6 +269,10 @@ namespace BulletUnity {
             offsetHeight[upAxis] = halfHeight;
             Vector3 offsetRadius = new Vector3(0, 0, 0);
             offsetRadius[(upAxis + 1) % 3] = radius;
+
+            offsetHeight.x *= scale.x; offsetHeight.y *= scale.y; offsetHeight.z *= scale.z;
+            offsetRadius.x *= scale.x; offsetRadius.y *= scale.y; offsetRadius.z *= scale.z;
+
             Gizmos.DrawLine(start + rotation * (offsetHeight + offsetRadius), start + rotation * (-offsetHeight + offsetRadius));
             Gizmos.DrawLine(start + rotation * (offsetHeight - offsetRadius), start + rotation * (-offsetHeight - offsetRadius));
 
@@ -277,8 +281,10 @@ namespace BulletUnity {
             yaxis[upAxis] = 1.0f;
             Vector3 xaxis = new Vector3(0, 0, 0);
             xaxis[(upAxis + 1) % 3] = 1.0f;
-            DebugDrawArc(start - rotation * (offsetHeight), rotation * yaxis, rotation * xaxis, radius, radius, 0, Two_PI, color, false, 10.0f);
-            DebugDrawArc(start + rotation * (offsetHeight), rotation * yaxis, rotation * xaxis, radius, radius, 0, Two_PI, color, false, 10.0f);
+
+            float r = offsetRadius.magnitude;
+            DebugDrawArc(start - rotation * (offsetHeight), rotation * yaxis, rotation * xaxis, r, r, 0, Two_PI, color, false, 10.0f);
+            DebugDrawArc(start + rotation * (offsetHeight), rotation * yaxis, rotation * xaxis, r, r, 0, Two_PI, color, false, 10.0f);
         }
 
         public static void DebugDrawCone(Vector3 position, Quaternion rotation, Vector3 scale, float radius, float height, int upAxis, Color color) {
@@ -293,6 +299,10 @@ namespace BulletUnity {
             Vector3 offset2Radius = new Vector3(0, 0, 0);
             offset2Radius[(upAxis + 2) % 3] = radius;
 
+            offsetHeight.x *= scale.x; offsetHeight.y *= scale.y; offsetHeight.z *= scale.z;
+            offsetRadius.x *= scale.x; offsetRadius.y *= scale.y; offsetRadius.z *= scale.z;
+            offset2Radius.x *= scale.x; offset2Radius.y *= scale.y; offset2Radius.z *= scale.z;
+
             Gizmos.DrawLine(start + rotation * (offsetHeight), start + rotation * (-offsetHeight + offsetRadius));
             Gizmos.DrawLine(start + rotation * (offsetHeight), start + rotation * (-offsetHeight - offsetRadius));
             Gizmos.DrawLine(start + rotation * (offsetHeight), start + rotation * (-offsetHeight + offset2Radius));
@@ -303,7 +313,7 @@ namespace BulletUnity {
             yaxis[upAxis] = 1.0f;
             Vector3 xaxis = new Vector3(0, 0, 0);
             xaxis[(upAxis + 1) % 3] = 1.0f;
-            DebugDrawArc(start - rotation * (offsetHeight), rotation * yaxis, rotation * xaxis, radius, radius, 0, Two_PI, color, false, 10.0f);
+            DebugDrawArc(start - rotation * (offsetHeight), rotation * yaxis, rotation * xaxis, offsetRadius.magnitude, offset2Radius.magnitude, 0, Two_PI, color, false, 10.0f);
         }
 
         public static void DebugDrawPlane(Vector3 position, Quaternion rotation, Vector3 scale, Vector3 planeNormal, float planeConst, Color color) {

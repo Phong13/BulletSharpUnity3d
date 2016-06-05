@@ -6,7 +6,38 @@ using BulletSharp;
 namespace BulletUnity {
 	[AddComponentMenu("Physics Bullet/Shapes/Convex Triangle Mesh")]
     public class BConvexTriangleMeshShape : BCollisionShape {
-        public Mesh hullMesh;
+        [SerializeField]
+        protected Mesh hullMesh;
+        public Mesh HullMesh
+        {
+            get { return hullMesh; }
+            set
+            {
+                if (collisionShapePtr != null && value != hullMesh)
+                {
+                    Debug.LogError("Cannot change the Hull Mesh after the bullet shape has been created. This is only the initial value " +
+                                    "Use LocalScaling to change the shape of a bullet shape.");
+                }
+                else {
+                    hullMesh = value;
+                }
+            }
+        }
+
+        [SerializeField]
+        protected Vector3 m_localScaling = Vector3.one;
+        public Vector3 LocalScaling
+        {
+            get { return m_localScaling; }
+            set
+            {
+                m_localScaling = value;
+                if (collisionShapePtr != null)
+                {
+                    ((ConvexHullShape)collisionShapePtr).LocalScaling = value.ToBullet();
+                }
+            }
+        }
 
         //todo draw the hull when not in the world
         //todo can this be used with Dynamic objects? The manual hints that it is for static only.
@@ -28,6 +59,8 @@ namespace BulletUnity {
                                    true);
                 }
                 collisionShapePtr = new ConvexTriangleMeshShape(tm);
+                ((ConvexTriangleMeshShape)collisionShapePtr).LocalScaling = m_localScaling.ToBullet();
+                
             }
             return collisionShapePtr;
         }

@@ -31,9 +31,9 @@ namespace BulletUnity.Primitives
         {
             GetComponent<MeshFilter>().sharedMesh = meshSettings.Build();
             BCapsuleShape cs = GetComponent<BCapsuleShape>();
-            cs.height = meshSettings.height;
-            cs.radius = meshSettings.radius;
-            cs.upAxis = meshSettings.upAxis;
+            cs.Height = meshSettings.height;
+            cs.Radius = meshSettings.radius;
+            cs.UpAxis = meshSettings.upAxis;
         }
 
 

@@ -1,5 +1,14 @@
 GETTING STARTED WITH BULLET PHYSICS
 ===================================
+INSTALLATION
+
+Bullet Physics For Unity uses unsafe code. There must be a file "smcs.rsp" in the root asset folder that contains:
+
+-unsafe
+
+Sometimes this file is not included
+
+===================================
 
 BULLET UNITY CONTAINS TWO API'S
 
