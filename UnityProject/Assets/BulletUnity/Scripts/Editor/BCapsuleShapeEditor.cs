@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using BulletUnity;
 
 [CustomEditor(typeof(BCapsuleShape))]
@@ -33,6 +34,12 @@ public class BCapsuleShapeEditor : Editor {
 		script.Height = EditorGUILayout.FloatField("Height",script.Height);
         script.UpAxis = (BCapsuleShape.CapsuleAxis) EditorGUILayout.EnumPopup("Up Axis", script.UpAxis);
         script.LocalScaling = EditorGUILayout.Vector3Field("Local Scaling", script.LocalScaling);
-        serializedObject.ApplyModifiedProperties();
-	}
+        if (GUI.changed)
+        {
+            serializedObject.ApplyModifiedProperties();
+            EditorUtility.SetDirty(script);
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+            Repaint();
+        }
+    }
 }

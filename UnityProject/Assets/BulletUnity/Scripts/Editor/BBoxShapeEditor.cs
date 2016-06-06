@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEditor;
 using BulletUnity;
+using UnityEditor.SceneManagement;
 
 [CustomEditor(typeof(BBoxShape))]
 public class BBoxShapeEditor : Editor {
@@ -26,6 +27,12 @@ public class BBoxShapeEditor : Editor {
 		}
         script.Extents = EditorGUILayout.Vector3Field("Extents", script.Extents);
         script.LocalScaling = EditorGUILayout.Vector3Field("Local Scaling", script.LocalScaling);
-		serializedObject.ApplyModifiedProperties();
-	}
+        if (GUI.changed)
+        {
+            serializedObject.ApplyModifiedProperties();
+            EditorUtility.SetDirty(script);
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+            Repaint();
+        }
+    }
 }

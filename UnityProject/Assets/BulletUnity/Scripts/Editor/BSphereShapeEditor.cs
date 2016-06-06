@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using BulletUnity;
 
 [CustomEditor(typeof(BSphereShape))]
@@ -30,6 +31,12 @@ public class BSphereShapeEditor : Editor
         }
         script.Radius = EditorGUILayout.FloatField("Radius", script.Radius);
         script.LocalScaling = EditorGUILayout.Vector3Field("Local Scaling", script.LocalScaling);
-        serializedObject.ApplyModifiedProperties();
+        if (GUI.changed)
+        {
+            serializedObject.ApplyModifiedProperties();
+            EditorUtility.SetDirty(script);
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+            Repaint();
+        }
     }
 }

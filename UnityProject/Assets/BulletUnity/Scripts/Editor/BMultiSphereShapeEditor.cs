@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using BulletUnity;
 
 [CustomEditor(typeof(BMultiSphereShape))]

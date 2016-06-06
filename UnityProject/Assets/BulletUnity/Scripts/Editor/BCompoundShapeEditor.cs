@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using BulletUnity;
 
 [CustomEditor(typeof(BCompoundShape))]
@@ -24,6 +25,12 @@ public class BCompoundShapeEditor : Editor {
 		}
 		EditorGUILayout.PropertyField(shapes, true);
         script.LocalScaling = EditorGUILayout.Vector3Field("Local Scaling", script.LocalScaling);
-		serializedObject.ApplyModifiedProperties();
-	}
+        if (GUI.changed)
+        {
+            serializedObject.ApplyModifiedProperties();
+            EditorUtility.SetDirty(script);
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+            Repaint();
+        }
+    }
 }

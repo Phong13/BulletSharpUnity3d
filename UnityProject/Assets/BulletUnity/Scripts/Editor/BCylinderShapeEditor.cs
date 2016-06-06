@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using BulletUnity;
 
 [CustomEditor(typeof(BCylinderShape))]
@@ -32,8 +33,14 @@ public class BCylinderShapeEditor : Editor {
         }
         script.HalfExtent = EditorGUILayout.Vector3Field("Extents", script.HalfExtent);
         script.LocalScaling = EditorGUILayout.Vector3Field("Local Scaling", script.LocalScaling);
-        serializedObject.ApplyModifiedProperties();
-	}
+        if (GUI.changed)
+        {
+            serializedObject.ApplyModifiedProperties();
+            EditorUtility.SetDirty(script);
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+            Repaint();
+        }
+    }
 }
 
 
