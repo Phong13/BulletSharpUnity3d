@@ -17,19 +17,170 @@ namespace BulletUnity {
         }
 
         [Header("Reference Frame Local To This Object")]
-        public Vector3 m_localConstraintPoint = Vector3.zero;
-        public Vector3 m_localConstraintAxisX = Vector3.forward;
-        public Vector3 m_localConstraintAxisY = Vector3.up;
+        [SerializeField]
+        protected Vector3 m_localConstraintPoint = Vector3.zero;
+        public Vector3 localConstraintPoint
+        {
+            get { return m_localConstraintPoint; }
+            set
+            {
+                if (m_constraintPtr != null && m_localConstraintPoint != value)
+                {
+                    Debug.LogError("Cannot change the local constraint point once the constraint has been created");
+                }
+                else
+                {
+                    m_localConstraintPoint = value;
+                }
+
+            }
+        }
+
+        [SerializeField]
+        protected Vector3 m_localConstraintAxisX = Vector3.forward;
+        public Vector3 localConstraintAxisX
+        {
+            get { return m_localConstraintAxisX; }
+            set
+            {
+                if (m_constraintPtr != null && m_localConstraintAxisX != value)
+                {
+                    Debug.LogError("Cannot change the local constraint axis once the constraint has been created");
+                }
+                else
+                {
+                    m_localConstraintAxisX = value;
+                }
+
+            }
+        }
+
+        [SerializeField]
+        protected Vector3 m_localConstraintAxisY = Vector3.up;
+        public Vector3 localConstraintAxisY
+        {
+            get { return m_localConstraintAxisY; }
+            set
+            {
+                if (m_constraintPtr != null && m_localConstraintAxisY != value)
+                {
+                    Debug.LogError("Cannot change the local constraint axis once the constraint has been created");
+                }
+                else
+                {
+                    m_localConstraintAxisY = value;
+                }
+
+            }
+        }
 
 
+        [SerializeField]
+        protected float m_breakingImpulseThreshold = Mathf.Infinity;
+        public float breakingImpulseThreshold
+        {
+            get { return m_breakingImpulseThreshold; }
+            set
+            {
+                if (m_constraintPtr != null)
+                {
+                    m_constraintPtr.BreakingImpulseThreshold = value;
+                }
+                m_breakingImpulseThreshold = value;
 
-        public float m_breakingImpulseThreshold = Mathf.Infinity;
-        public bool m_disableCollisionsBetweenConstrainedBodies = true;
-        public ConstraintType m_constraintType;
+            }
+        }
+
+        [SerializeField]
+        protected bool m_disableCollisionsBetweenConstrainedBodies = true;
+        public bool disableCollisionsBetweenConstrainedBodies
+        {
+            get { return m_disableCollisionsBetweenConstrainedBodies; }
+            set
+            {
+                if (m_constraintPtr != null && m_disableCollisionsBetweenConstrainedBodies != value)
+                {
+                    Debug.LogError("Cannot only set disableCollisionsBetweenConstrainedBodies before the constraint has been created");
+                } else
+                {
+                    m_disableCollisionsBetweenConstrainedBodies = value;
+                }
+
+            }
+        }
+
+        [SerializeField]
+        protected ConstraintType m_constraintType;
+        public ConstraintType constraintType
+        {
+            get { return m_constraintType; }
+            set
+            {
+                if (m_constraintPtr != null && m_constraintType != value)
+                {
+                    Debug.LogError("Cannot set the constraint type once the constraint has been created");
+                }
+                else
+                {
+                    m_constraintType = value;
+                }
+            }
+        }
+
         [HideInInspector]
-        public BRigidBody m_thisRigidBody;
-        public BRigidBody m_otherRigidBody;
-        public float m_debugDrawSize;
+        [SerializeField]
+        protected BRigidBody m_thisRigidBody;
+        public BRigidBody thisRigidBody
+        {
+            get { return m_thisRigidBody; }
+            set
+            {
+                if (m_constraintPtr != null && m_thisRigidBody != value)
+                {
+                    Debug.LogError("Cannot change the rigidbody once once the constraint has been created");
+                }
+                else
+                {
+                    m_thisRigidBody = value;
+                }
+            }
+        }
+
+        [SerializeField]
+        protected BRigidBody m_otherRigidBody;
+        public BRigidBody otherRigidBody
+        {
+            get { return m_otherRigidBody; }
+            set
+            {
+                if (m_constraintPtr != null && m_otherRigidBody != value)
+                {
+                    Debug.LogError("Cannot change the rigidbody once once the constraint has been created");
+                }
+                else
+                {
+                    m_otherRigidBody = value;
+                }
+            }
+        }
+
+        [SerializeField]
+        protected float m_debugDrawSize;
+        public float debugDrawSize
+        {
+            get { return m_debugDrawSize; }
+            set
+            {
+                if (m_constraintPtr != null)
+                {
+                    m_constraintPtr.DebugDrawSize = value;
+                }
+                else
+                {
+                    m_debugDrawSize = value;
+                }
+            }
+        }
 
         internal TypedConstraint m_constraintPtr = null;
         internal bool m_isInWorld = false;

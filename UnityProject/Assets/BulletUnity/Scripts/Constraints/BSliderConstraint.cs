@@ -14,10 +14,69 @@ namespace BulletUnity {
                                             "  - Press play";
 
         [Header("Limits")]
-        public float m_lowerLinearLimit = -10f;
-        public float m_upperLinearLimit = 10f;
-        public float m_lowerAngularLimitRadians = -Mathf.PI;
-        public float m_upperAngularLimitRadians = Mathf.PI;
+        [SerializeField]
+        protected float m_lowerLinearLimit = -10f;
+        public float lowerLinearLimit
+        {
+            get { return m_lowerLinearLimit; }
+            set
+            {
+                
+                if (m_constraintPtr != null)
+                {
+                    ((SliderConstraint)m_constraintPtr).LowerLinearLimit = value;
+                }
+                m_lowerLinearLimit = value;
+            }
+        }
+
+        [SerializeField]
+        protected float m_upperLinearLimit = 10f;
+        public float upperLinearLimit
+        {
+            get { return m_upperLinearLimit; }
+            set
+            {
+
+                if (m_constraintPtr != null)
+                {
+                    ((SliderConstraint)m_constraintPtr).UpperLinearLimit = value;
+                }
+                m_upperLinearLimit = value;
+            }
+        }
+
+        [SerializeField]
+        protected float m_lowerAngularLimitRadians = -Mathf.PI;
+        public float lowerAngularLimitRadians
+        {
+            get { return m_lowerAngularLimitRadians; }
+            set
+            {
+
+                if (m_constraintPtr != null)
+                {
+                    ((SliderConstraint)m_constraintPtr).LowerAngularLimit = value;
+                }
+                m_lowerAngularLimitRadians = value;
+            }
+        }
+
+        [SerializeField]
+        protected float m_upperAngularLimitRadians = Mathf.PI;
+        public float upperAngularLimitRadians
+        {
+            get { return m_upperAngularLimitRadians; }
+            set
+            {
+
+                if (m_constraintPtr != null)
+                {
+                    ((SliderConstraint)m_constraintPtr).UpperAngularLimit = value;
+                }
+                m_upperAngularLimitRadians = value;
+            }
+        }
 
         //called by Physics World just before constraint is added to world.
         //the current constraint properties are used to rebuild the constraint.

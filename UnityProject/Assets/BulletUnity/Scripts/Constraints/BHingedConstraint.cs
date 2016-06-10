@@ -14,16 +14,122 @@ namespace BulletUnity {
                                             "  - In BulletPhysicsWorld turn on 'Do Debug Draw' and set 'Debug Draw Mode' flags\n" +
                                             "  - On Constraint set 'Debug Draw Size'\n" +
                                             "  - Press play";
+        [SerializeField]
+        protected bool m_enableMotor;
+        public bool enableMotor
+        {
+            get { return m_enableMotor; }
+            set
+            {
 
-        public bool m_enableMotor;
-        public float m_targetMotorAngularVelocity = 0f;
-        public float m_maxMotorImpulse = 0f;
+                if (m_constraintPtr != null)
+                {
+                    ((HingeConstraint)m_constraintPtr).EnableMotor = value;
+                }
+                m_enableMotor = value;
+            }
+        }
 
-        public bool m_setLimit;
-        public float m_lowLimitAngleRadians;
-        public float m_highLimitAngleRadians;
-        public float m_limitSoftness = .9f;
-        public float m_limitBiasFactor = .3f;
+        [SerializeField]
+        protected float m_targetMotorAngularVelocity = 0f;
+        public float targetMotorAngularVelocity
+        {
+            get { return m_targetMotorAngularVelocity; }
+            set
+            {
+                m_targetMotorAngularVelocity = value;
+                if (m_constraintPtr != null)
+                {
+                    ((HingeConstraint)m_constraintPtr).EnableAngularMotor(m_enableMotor,m_targetMotorAngularVelocity,m_maxMotorImpulse);
+                }
+            }
+        }
+
+
+        [SerializeField]
+        protected float m_maxMotorImpulse = 0f;
+        public float maxMotorImpulse
+        {
+            get { return m_maxMotorImpulse; }
+            set
+            {
+
+                if (m_constraintPtr != null)
+                {
+                    ((HingeConstraint)m_constraintPtr).MaxMotorImpulse = value;
+                }
+                m_maxMotorImpulse = value;
+            }
+        }
+
+        [SerializeField]
+        protected bool m_setLimit;
+        public bool setLimit
+        {
+            get { return m_setLimit; }
+            set { m_setLimit = value; }
+        }
+
+        [SerializeField]
+        protected float m_lowLimitAngleRadians;
+        public float lowLimitAngleRadians
+        {
+            get { return m_lowLimitAngleRadians; }
+            set
+            {
+                m_lowLimitAngleRadians = value;
+                if (m_constraintPtr != null)
+                {
+                    ((HingeConstraint)m_constraintPtr).SetLimit(m_lowLimitAngleRadians,m_highLimitAngleRadians,m_limitSoftness,m_limitBiasFactor);
+                }
+            }
+        }
+
+        [SerializeField]
+        protected float m_highLimitAngleRadians;
+        public float highLimitAngleRadians
+        {
+            get { return m_highLimitAngleRadians; }
+            set
+            {
+                m_highLimitAngleRadians = value;
+                if (m_constraintPtr != null)
+                {
+                    ((HingeConstraint)m_constraintPtr).SetLimit(m_lowLimitAngleRadians, m_highLimitAngleRadians, m_limitSoftness, m_limitBiasFactor);
+                }
+            }
+        }
+
+        [SerializeField]
+        protected float m_limitSoftness = .9f;
+        public float limitSoftness
+        {
+            get { return m_limitSoftness; }
+            set
+            {
+                m_limitSoftness = value;
+                if (m_constraintPtr != null)
+                {
+                    ((HingeConstraint)m_constraintPtr).SetLimit(m_lowLimitAngleRadians, m_highLimitAngleRadians, m_limitSoftness, m_limitBiasFactor);
+                }
+            }
+        }
+
+        [SerializeField]
+        protected float m_limitBiasFactor = .3f;
+        public float limitBiasFactor
+        {
+            get { return m_limitBiasFactor; }
+            set
+            {
+                m_limitBiasFactor = value;
+                if (m_constraintPtr != null)
+                {
+                    ((HingeConstraint)m_constraintPtr).SetLimit(m_lowLimitAngleRadians, m_highLimitAngleRadians, m_limitSoftness, m_limitBiasFactor);
+                }
+            }
+        }
+
 
         public float GetAngle() {
             if (m_constraintPtr == null) {

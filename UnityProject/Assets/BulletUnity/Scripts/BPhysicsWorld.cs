@@ -209,6 +209,10 @@ namespace BulletUnity {
         SequentialImpulseConstraintSolver Solver;
         GhostPairCallback ghostPairCallback = null;
         float lastSimulationStepTime;
+        ulong sequentialImpulseConstraintSolverRandomSeed = 12345;
+        float fixedTimeStep = 1f / 60f;
+        int maxSubsteps = 3;
+
 
         CollisionWorld m_world;
         public CollisionWorld world
@@ -227,6 +231,8 @@ namespace BulletUnity {
                 return _frameCount;
             }
         }
+
+        public float timeStr;
 
         BDefaultCollisionHandler collisionEventHandler = new BDefaultCollisionHandler();
         public void RegisterCollisionCallbackListener(BCollisionObject.BICollisionCallbackEventHandler toBeAdded)
@@ -262,11 +268,15 @@ namespace BulletUnity {
             _frameCount++;
             if (_ddWorld != null)
             {
-                float deltaTime = UnityEngine.Time.fixedTime - lastSimulationStepTime;
+                float deltaTime = UnityEngine.Time.time - lastSimulationStepTime;
                 if (deltaTime > 0f)
                 {
-                    _ddWorld.StepSimulation(UnityEngine.Time.fixedTime);
-                    lastSimulationStepTime = UnityEngine.Time.fixedTime;
+                    ///stepSimulation proceeds the simulation over 'timeStep', units in preferably in seconds.
+                    ///By default, Bullet will subdivide the timestep in constant substeps of each 'fixedTimeStep'.
+                    ///in order to keep the simulation real-time, the maximum number of substeps can be clamped to 'maxSubSteps'.
+                    ///You can disable subdividing the timestep/substepping by passing maxSubSteps=0 as second argument to stepSimulation, but in that case you have to keep the timeStep constant.
+                    int numSteps = _ddWorld.StepSimulation(deltaTime,maxSubsteps, fixedTimeStep);
+                    lastSimulationStepTime = UnityEngine.Time.time;
                 }
             }
 
@@ -283,7 +293,7 @@ namespace BulletUnity {
             float deltaTime = UnityEngine.Time.time - lastSimulationStepTime;
             if (deltaTime > 0f)
             {
-                _ddWorld.StepSimulation(UnityEngine.Time.fixedTime);
+                int numSteps = _ddWorld.StepSimulation(deltaTime, maxSubsteps, fixedTimeStep);
                 lastSimulationStepTime = UnityEngine.Time.time;
             }
         }
@@ -413,7 +423,7 @@ namespace BulletUnity {
 				if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Adding constraint {0} to world", c);
                 if (c._BuildConstraint())
                 {
-                    ((DiscreteDynamicsWorld)m_world).AddConstraint(c.GetConstraint(), c.m_disableCollisionsBetweenConstrainedBodies);
+                    ((DiscreteDynamicsWorld)m_world).AddConstraint(c.GetConstraint(), c.disableCollisionsBetweenConstrainedBodies);
                     c.m_isInWorld = true;
                 }
                 return true;
@@ -515,7 +525,7 @@ namespace BulletUnity {
             else if (m_worldType == WorldType.SoftBodyAndRigidBody)
             {
                 Solver = new SequentialImpulseConstraintSolver();
-
+                Solver.RandSeed = sequentialImpulseConstraintSolverRandomSeed;
                 softBodyWorldInfo = new SoftBodyWorldInfo
                 {
                     AirDensity = 1.2f,

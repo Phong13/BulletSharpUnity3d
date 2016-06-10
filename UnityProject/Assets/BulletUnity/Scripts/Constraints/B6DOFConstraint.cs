@@ -17,14 +17,96 @@ namespace BulletUnity {
 
 
         [Header("Limits")]
-        public Vector3 m_linearLimitLower;
-        public Vector3 m_linearLimitUpper;
-        public Vector3 m_angularLimitLowerRadians;
-        public Vector3 m_angularLimitUpperRadians;
+        [SerializeField]
+        protected Vector3 m_linearLimitLower;
+        public Vector3 linearLimitLower
+        {
+            get { return m_linearLimitLower; }
+            set
+            {
+                m_linearLimitLower = value;
+                if (m_constraintPtr != null)
+                {
+                    ((Generic6DofConstraint)m_constraintPtr).LinearLowerLimit = m_linearLimitLower.ToBullet();
+                }
+            }
+        }
+
+        [SerializeField]
+        protected Vector3 m_linearLimitUpper;
+        public Vector3 linearLimitUpper
+        {
+            get { return m_linearLimitUpper; }
+            set
+            {
+                m_linearLimitUpper = value;
+                if (m_constraintPtr != null)
+                {
+                    ((Generic6DofConstraint)m_constraintPtr).LinearUpperLimit = m_linearLimitUpper.ToBullet();
+                }
+            }
+        }
+
+        [SerializeField]
+        protected Vector3 m_angularLimitLowerRadians;
+        public Vector3 angularLimitLowerRadians
+        {
+            get { return m_angularLimitLowerRadians; }
+            set
+            {
+                m_angularLimitLowerRadians = value;
+                if (m_constraintPtr != null)
+                {
+                    ((Generic6DofConstraint)m_constraintPtr).AngularLowerLimit = m_angularLimitLowerRadians.ToBullet();
+                }
+            }
+        }
+
+        [SerializeField]
+        protected Vector3 m_angularLimitUpperRadians;
+        public Vector3 angularLimitUpperRadians
+        {
+            get { return m_angularLimitUpperRadians; }
+            set
+            {
+                m_angularLimitUpperRadians = value;
+                if (m_constraintPtr != null)
+                {
+                    ((Generic6DofConstraint)m_constraintPtr).AngularUpperLimit = m_angularLimitUpperRadians.ToBullet();
+                }
+            }
+        }
 
         [Header("Motor")]
-        public Vector3 m_motorLinearTargetVelocity;
-        public Vector3 m_motorLinearMaxMotorForce;
+        [SerializeField]
+        protected Vector3 m_motorLinearTargetVelocity;
+        public Vector3 motorLinearTargetVelocity
+        {
+            get { return m_motorLinearTargetVelocity; }
+            set
+            {
+                m_motorLinearTargetVelocity = value;
+                if (m_constraintPtr != null)
+                {
+                    ((Generic6DofConstraint)m_constraintPtr).TranslationalLimitMotor.TargetVelocity = m_motorLinearTargetVelocity.ToBullet();
+                }
+            }
+        }
+
+        [SerializeField]
+        protected Vector3 m_motorLinearMaxMotorForce;
+        public Vector3 motorLinearMaxMotorForce
+        {
+            get { return m_motorLinearMaxMotorForce; }
+            set
+            {
+                m_motorLinearMaxMotorForce = value;
+                if (m_constraintPtr != null)
+                {
+                    ((Generic6DofConstraint)m_constraintPtr).TranslationalLimitMotor.MaxMotorForce = m_motorLinearMaxMotorForce.ToBullet();
+                }
+            }
+        }
 
         //called by Physics World just before constraint is added to world.
         //the current constraint properties are used to rebuild the constraint.

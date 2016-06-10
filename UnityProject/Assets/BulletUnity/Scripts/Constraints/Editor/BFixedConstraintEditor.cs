@@ -3,14 +3,11 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using BulletUnity;
 
-[CustomEditor(typeof(BBallSocketConstraint))]
-public class BBallSocketConstraintEditor : Editor {
-
-
-
+[CustomEditor(typeof(BFixedConstraint))]
+public class BFixedConstraintEditor : Editor {
     public override void OnInspectorGUI() {
-        BBallSocketConstraint hc = (BBallSocketConstraint)target;
-        EditorGUILayout.HelpBox(BBallSocketConstraint.HelpMessage, MessageType.Info);
+        BFixedConstraint hc = (BFixedConstraint)target;
+        EditorGUILayout.HelpBox(BFixedConstraint.HelpMessage, MessageType.Info);
         BTypedConstraintEditor.DrawTypedConstraint(hc);
         if (GUI.changed)
         {

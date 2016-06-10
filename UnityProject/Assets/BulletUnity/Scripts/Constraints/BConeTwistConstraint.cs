@@ -23,12 +23,95 @@ namespace BulletUnity {
 
 
         [Header("Limits")]
-        public float m_swingSpan1Radians = Mathf.PI;
-        public float m_swingSpan2Radians = Mathf.PI;
-        public float m_twistSpanRadians = Mathf.PI;
-        public float m_softness = .5f;
-        public float m_biasFactor = .3f;
-        public float m_relaxationFactor = 1f;
+        [SerializeField]
+        protected float m_swingSpan1Radians = Mathf.PI;
+        public float swingSpan1Radians
+        {
+            get { return m_swingSpan1Radians; }
+            set
+            {
+                m_swingSpan1Radians = value;
+                if (m_constraintPtr != null)
+                {
+                    ((ConeTwistConstraint)m_constraintPtr).SetLimit(m_swingSpan1Radians, m_swingSpan2Radians, m_twistSpanRadians,m_softness,m_biasFactor,m_relaxationFactor);
+                }
+            }
+        }
+
+        [SerializeField]
+        protected float m_swingSpan2Radians = Mathf.PI;
+        public float swingSpan2Radians
+        {
+            get { return m_swingSpan2Radians; }
+            set
+            {
+                m_swingSpan2Radians = value;
+                if (m_constraintPtr != null)
+                {
+                    ((ConeTwistConstraint)m_constraintPtr).SetLimit(m_swingSpan1Radians, m_swingSpan2Radians, m_twistSpanRadians,m_softness,m_biasFactor,m_relaxationFactor);
+                }
+            }
+        }
+
+        [SerializeField]
+        protected float m_twistSpanRadians = Mathf.PI;
+        public float twistSpanRadians
+        {
+            get { return m_twistSpanRadians; }
+            set
+            {
+                m_twistSpanRadians = value;
+                if (m_constraintPtr != null)
+                {
+                    ((ConeTwistConstraint)m_constraintPtr).SetLimit(m_swingSpan1Radians, m_swingSpan2Radians, m_twistSpanRadians,m_softness,m_biasFactor,m_relaxationFactor);
+                }
+            }
+        }
+
+        [SerializeField]
+        protected float m_softness = .5f;
+        public float softness
+        {
+            get { return m_softness; }
+            set
+            {
+                m_softness = value;
+                if (m_constraintPtr != null)
+                {
+                    ((ConeTwistConstraint)m_constraintPtr).SetLimit(m_swingSpan1Radians, m_swingSpan2Radians, m_twistSpanRadians, m_softness, m_biasFactor,m_relaxationFactor);
+                }
+            }
+        }
+
+        [SerializeField]
+        protected float m_biasFactor = .3f;
+        public float biasFactor
+        {
+            get { return m_biasFactor; }
+            set
+            {
+                m_biasFactor = value;
+                if (m_constraintPtr != null)
+                {
+                    ((ConeTwistConstraint)m_constraintPtr).SetLimit(m_swingSpan1Radians, m_swingSpan2Radians, m_twistSpanRadians, m_softness, m_biasFactor,m_relaxationFactor);
+                }
+            }
+        }
+
+        [SerializeField]
+        protected float m_relaxationFactor = 1f;
+        public float relaxationFactor
+        {
+            get { return m_relaxationFactor; }
+            set
+            {
+                m_relaxationFactor = value;
+                if (m_constraintPtr != null)
+                {
+                    ((ConeTwistConstraint)m_constraintPtr).SetLimit(m_swingSpan1Radians, m_swingSpan2Radians, m_twistSpanRadians, m_softness, m_biasFactor, m_relaxationFactor);
+                }
+            }
+        }
 
         //called by Physics World just before constraint is added to world.
         //the current constraint properties are used to rebuild the constraint.
