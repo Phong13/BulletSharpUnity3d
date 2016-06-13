@@ -350,7 +350,7 @@ namespace BulletUnity {
                 if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Adding collision object {0} to world", co);
                 if (co._BuildCollisionObject())
                 {
-                    m_world.AddCollisionObject(co.GetCollisionObject(), co.m_groupsIBelongTo, co.m_collisionMask);
+                    m_world.AddCollisionObject(co.GetCollisionObject(), co.groupsIBelongTo, co.collisionMask);
                     co.isInWorld = true;
                     if (ghostPairCallback == null && co is BGhostObject && world is DynamicsWorld)
                     {
@@ -389,7 +389,7 @@ namespace BulletUnity {
                 if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Adding rigidbody {0} to world", rb);
                 if (rb._BuildCollisionObject())
                 {
-                    ((DiscreteDynamicsWorld)m_world).AddRigidBody((RigidBody)rb.GetCollisionObject(), rb.m_groupsIBelongTo, rb.m_collisionMask);
+                    ((DiscreteDynamicsWorld)m_world).AddRigidBody((RigidBody)rb.GetCollisionObject(), rb.groupsIBelongTo, rb.collisionMask);
                     rb.isInWorld = true;
                 }
                 return true;

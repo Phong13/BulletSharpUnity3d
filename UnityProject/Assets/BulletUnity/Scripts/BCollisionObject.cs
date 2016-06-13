@@ -26,10 +26,53 @@ namespace BulletUnity
         protected CollisionObject m_collisionObject;
         protected BCollisionShape m_collisionShape;
         internal bool isInWorld = false;
-        public BulletSharp.CollisionFlags m_collisionFlags = BulletSharp.CollisionFlags.None;
-        public BulletSharp.CollisionFilterGroups m_groupsIBelongTo = BulletSharp.CollisionFilterGroups.DefaultFilter; // A bitmask
-        public BulletSharp.CollisionFilterGroups m_collisionMask = BulletSharp.CollisionFilterGroups.AllFilter; // A colliding object must match this mask in order to collide with me.
+        [SerializeField]
+        protected BulletSharp.CollisionFlags m_collisionFlags = BulletSharp.CollisionFlags.None;
+        [SerializeField]
+        protected BulletSharp.CollisionFilterGroups m_groupsIBelongTo = BulletSharp.CollisionFilterGroups.DefaultFilter; // A bitmask
+        [SerializeField]
+        protected BulletSharp.CollisionFilterGroups m_collisionMask = BulletSharp.CollisionFilterGroups.AllFilter; // A colliding object must match this mask in order to collide with me.
 
+        public BulletSharp.CollisionFlags collisionFlags
+        {
+            get { return m_collisionFlags; }
+            set { if (m_collisionObject != null && value != m_collisionFlags)
+                m_collisionFlags = value;
+                {
+                    m_collisionObject.CollisionFlags = value;
+                }
+            }
+        }
+
+        public BulletSharp.CollisionFilterGroups groupsIBelongTo
+        {
+            get { return m_groupsIBelongTo; }
+            set
+            {
+                if (m_collisionObject != null && value != m_groupsIBelongTo)
+                {
+                    Debug.LogError("Cannot change the collision group once a collision object has been created");
+                } else 
+                {
+                    m_groupsIBelongTo = value;
+                }
+            }
+        }
+
+        public BulletSharp.CollisionFilterGroups collisionMask
+        {
+            get { return m_collisionMask; }
+            set
+            {
+                if (m_collisionObject != null && value != m_collisionMask)
+                {
+                    Debug.LogError("Cannot change the collision mask once a collision object has been created");
+                } else
+                {
+                    m_collisionMask = value;
+                }
+            }
+        }
 
         BICollisionCallbackEventHandler m_onCollisionCallback;
         public virtual BICollisionCallbackEventHandler collisionCallbackEventHandler

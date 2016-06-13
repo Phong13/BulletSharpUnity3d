@@ -116,9 +116,9 @@ public class BCollisionObjectEditor : Editor
     {
         BCollisionObject obj = (BCollisionObject) target;
 
-        obj.m_collisionFlags = BCollisionObjectEditor.RenderEnumMaskCollisionFlagsField(gcCollisionFlags, obj.m_collisionFlags);
-        obj.m_groupsIBelongTo = BCollisionObjectEditor.RenderEnumMaskCollisionFilterGroupsField(gcGroupsIBelongTo, obj.m_groupsIBelongTo);
-        obj.m_collisionMask = BCollisionObjectEditor.RenderEnumMaskCollisionFilterGroupsField(gcCollisionMask, obj.m_collisionMask);
+        obj.collisionFlags = BCollisionObjectEditor.RenderEnumMaskCollisionFlagsField(gcCollisionFlags, obj.collisionFlags);
+        obj.groupsIBelongTo = BCollisionObjectEditor.RenderEnumMaskCollisionFilterGroupsField(gcGroupsIBelongTo, obj.groupsIBelongTo);
+        obj.collisionMask = BCollisionObjectEditor.RenderEnumMaskCollisionFilterGroupsField(gcCollisionMask, obj.collisionMask);
 
         if (GUI.changed)
         {

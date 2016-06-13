@@ -25,8 +25,7 @@ namespace BulletUnity {
 		//[MonoPInvokeCallback(typeof(GetTransformDelegate))]
         public override void GetWorldTransform(out BM.Matrix worldTrans) {
             //Matrix4x4 trans = transform.localToWorldMatrix;
-            //worldTrans = trans.ToBullet();
-
+            //worldTrans = trans.ToBullet();         
             BulletSharp.Math.Quaternion q = transform.rotation.ToBullet();
             BulletSharp.Math.Matrix.RotationQuaternion(ref q, out worldTrans);
             worldTrans.Origin = transform.position.ToBullet();
