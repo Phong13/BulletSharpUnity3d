@@ -17,7 +17,7 @@ namespace BulletSharp
 		}
 
         public ConvexHullShape(float[] points)
-            : this(points, points.Length, 3 * sizeof(float))
+            : this(points, points.Length/3, 3 * sizeof(float))
         {
         }
 

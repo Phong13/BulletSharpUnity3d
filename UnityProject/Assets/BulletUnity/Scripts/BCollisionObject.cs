@@ -36,10 +36,11 @@ namespace BulletUnity
         public BulletSharp.CollisionFlags collisionFlags
         {
             get { return m_collisionFlags; }
-            set { if (m_collisionObject != null && value != m_collisionFlags)
+            set {
                 m_collisionFlags = value;
+                if (m_collisionObject != null && value != m_collisionFlags)
                 {
-                    m_collisionObject.CollisionFlags = value;
+                     m_collisionObject.CollisionFlags = value;
                 }
             }
         }
