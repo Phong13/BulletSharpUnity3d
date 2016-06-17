@@ -40,7 +40,7 @@ namespace BulletUnity {
         {
             get { return _friction; }
             set {
-                if (isInWorld || m_collisionObject != null && _friction != value)
+                if (m_collisionObject != null && _friction != value)
                 {
                     m_collisionObject.Friction = value;
                 }
@@ -54,7 +54,7 @@ namespace BulletUnity {
         {
             get { return _rollingFriction; }
             set {
-                if (isInWorld || m_collisionObject != null && _rollingFriction != value)
+                if (m_collisionObject != null && _rollingFriction != value)
                 {
                     m_collisionObject.RollingFriction = value;
                 }
@@ -68,7 +68,7 @@ namespace BulletUnity {
         {
             get { return _linearDamping; }
             set {
-                if (isInWorld || m_collisionObject != null && _linearDamping != value)
+                if (m_collisionObject != null && _linearDamping != value)
                 {
                     m_rigidBody.SetDamping(value,_angularDamping);
                 }
@@ -82,7 +82,7 @@ namespace BulletUnity {
         {
             get { return _angularDamping; }
             set {
-                if (isInWorld || m_collisionObject != null && _angularDamping != value)
+                if (m_collisionObject != null && _angularDamping != value)
                 {
                     m_rigidBody.SetDamping(_linearDamping,value);
                 }
@@ -95,7 +95,7 @@ namespace BulletUnity {
         {
             get { return _restitution; }
             set {
-                if (isInWorld || m_collisionObject != null && _restitution != value)
+                if (m_collisionObject != null && _restitution != value)
                 {
                     m_collisionObject.Restitution = value;
                 }
@@ -108,7 +108,7 @@ namespace BulletUnity {
         {
             get { return _linearSleepingThreshold; }
             set {
-                if (isInWorld || m_collisionObject != null && _linearSleepingThreshold != value)
+                if (m_collisionObject != null && _linearSleepingThreshold != value)
                 {
                     m_rigidBody.SetSleepingThresholds(value,_angularSleepingThreshold);
                 }
@@ -121,7 +121,7 @@ namespace BulletUnity {
         {
             get { return _angularSleepingThreshold; }
             set {
-                if (isInWorld || m_collisionObject != null && _angularSleepingThreshold != value)
+                if (m_collisionObject != null && _angularSleepingThreshold != value)
                 {
                     m_rigidBody.SetSleepingThresholds(_linearSleepingThreshold, value);
                 }
@@ -149,9 +149,9 @@ namespace BulletUnity {
         {
             get { return _additionalDampingFactor; }
             set {
-                if (isInWorld && _additionalDampingFactor != value)
+                if (m_collisionObject != null && _additionalDampingFactor != value)
                 {
-					BDebug.LogError(debugType, "Need to remove and re-add the rigid body to change additional damping setting");
+					BDebug.LogError(debugType, "Additional Damping settings cannot be changed once the Rigid Body has been created");
                     return;
                 }
                 _additionalDampingFactor = value; }
@@ -163,9 +163,9 @@ namespace BulletUnity {
         {
             get { return _additionalLinearDampingThresholdSqr; }
             set {
-                if (isInWorld && _additionalLinearDampingThresholdSqr != value)
+                if (m_collisionObject != null && _additionalLinearDampingThresholdSqr != value)
                 {
-					BDebug.LogError(debugType, "Need to remove and re-add the rigid body to change additional damping setting");
+					BDebug.LogError(debugType, "Additional Damping settings cannot be changed once the Rigid Body has been created");
                     return;
                 }
                 _additionalLinearDampingThresholdSqr = value; }
@@ -177,9 +177,9 @@ namespace BulletUnity {
         {
             get { return _additionalAngularDampingThresholdSqr; }
             set {
-                if (isInWorld && _additionalAngularDampingThresholdSqr != value)
+                if (m_collisionObject != null && _additionalAngularDampingThresholdSqr != value)
                 {
-					BDebug.LogError(debugType, "Need to remove and re-add the rigid body to change additional damping setting");
+					BDebug.LogError(debugType, "Additional Damping settings cannot be changed once the Rigid Body has been created");
                     return;
                 }
                 _additionalAngularDampingThresholdSqr = value; }
@@ -191,9 +191,9 @@ namespace BulletUnity {
         {
             get { return _additionalAngularDampingFactor; }
             set {
-                if (isInWorld && _additionalAngularDampingFactor != value)
+                if (m_collisionObject != null && _additionalAngularDampingFactor != value)
                 {
-					BDebug.LogError(debugType, "Need to remove and re-add the rigid body to change additional damping setting");
+					BDebug.LogError(debugType, "Additional Damping settings cannot be changed once the Rigid Body has been created");
                     return;
                 }
                 _additionalAngularDampingFactor = value; }
@@ -206,7 +206,7 @@ namespace BulletUnity {
         {
             get { return _linearFactor; }
             set {
-                if (isInWorld || m_collisionObject != null && _linearFactor != value)
+                if (m_collisionObject != null && _linearFactor != value)
                 {
                     m_rigidBody.LinearFactor = value.ToBullet();
                 }
@@ -220,7 +220,7 @@ namespace BulletUnity {
         {
             get { return _angularFactor; }
             set {
-                if (isInWorld || m_rigidBody != null && _angularFactor != value)
+                if (m_rigidBody != null && _angularFactor != value)
                 {
                     m_rigidBody.AngularFactor = value.ToBullet();
                 }
@@ -236,7 +236,7 @@ namespace BulletUnity {
 						BDebug.LogError(debugType, "Rigid bodies that are not static or kinematic must have positive mass");
                         return;
                     }
-                    if (isInWorld)
+                    if (m_rigidBody != null)
                     {
                         _localInertia = BulletSharp.Math.Vector3.Zero;
                         if (isDynamic())
@@ -251,35 +251,41 @@ namespace BulletUnity {
             get {
                 return _mass;
             }
-        }    
+        }
 
+        [SerializeField]
+        protected UnityEngine.Vector3 _linearVelocity;
         public UnityEngine.Vector3 velocity {
             get {
                 if (isInWorld) {
                     return m_rigidBody.LinearVelocity.ToUnity();
                 } else {
-                    return UnityEngine.Vector3.zero;
+                    return _linearVelocity;
                 }
             }
             set {
                 if (isInWorld) {
                     m_rigidBody.LinearVelocity = value.ToBullet();
                 }
+                _linearVelocity = value;
             }
         }
 
+        [SerializeField]
+        protected UnityEngine.Vector3 _angularVelocity;
         public UnityEngine.Vector3 angularVelocity {
             get {
                 if (isInWorld) {
                     return m_rigidBody.AngularVelocity.ToUnity();
                 } else {
-                    return UnityEngine.Vector3.zero;
+                    return _angularVelocity;
                 }
             }
             set {
                 if (isInWorld) {
                     m_rigidBody.AngularVelocity = value.ToBullet();
                 }
+                _angularVelocity = value;
             }
         }
 
@@ -315,26 +321,50 @@ namespace BulletUnity {
 
             if (m_rigidBody == null) {
                 m_motionState = new BGameObjectMotionState(transform);
-                RigidBodyConstructionInfo rbInfo;
-                if (isDynamic()) {
-                    rbInfo = new RigidBodyConstructionInfo(_mass, m_motionState, cs, _localInertia);
-                } else {
-                    rbInfo = new RigidBodyConstructionInfo(0, m_motionState, cs, localInertia);
+                float bulletMass = _mass;
+                if (!isDynamic())
+                {
+                    bulletMass = 0f;
                 }
+
+                RigidBodyConstructionInfo rbInfo = new RigidBodyConstructionInfo(bulletMass, m_motionState, cs, _localInertia);
+                rbInfo.Friction = _friction;
+                rbInfo.RollingFriction = _rollingFriction;
+                rbInfo.LinearDamping = _linearDamping;
+                rbInfo.AngularDamping = _angularDamping;
+                rbInfo.Restitution = _restitution;
+                rbInfo.LinearSleepingThreshold = _linearSleepingThreshold;
+                rbInfo.AngularSleepingThreshold = _angularSleepingThreshold;
+                rbInfo.AdditionalDamping = _additionalDamping;
+                rbInfo.AdditionalAngularDampingFactor = _additionalAngularDampingFactor;
+                rbInfo.AdditionalAngularDampingThresholdSqr = _additionalAngularDampingThresholdSqr;
+                rbInfo.AdditionalDampingFactor = _additionalDampingFactor;
+                rbInfo.AdditionalLinearDampingThresholdSqr = _additionalLinearDampingThresholdSqr;
                 m_rigidBody = new RigidBody(rbInfo);
                 m_rigidBody.UserObject = this;
+                m_rigidBody.AngularVelocity = _angularVelocity.ToBullet();
+                m_rigidBody.LinearVelocity = _linearVelocity.ToBullet();
                 rbInfo.Dispose();
-                m_rigidBody.CollisionFlags = m_collisionFlags;
             } else {
                 float usedMass = 0f;
                 if (isDynamic())
                 {
                     usedMass = _mass;
                 }
-                m_rigidBody.SetMassProps(usedMass, localInertia);
+                m_rigidBody.SetMassProps(usedMass, _localInertia);
+                m_rigidBody.Friction = _friction;
+                m_rigidBody.RollingFriction = _rollingFriction;
+                m_rigidBody.SetDamping(_linearDamping,_angularDamping);
+                m_rigidBody.Restitution = _restitution;
+                m_rigidBody.SetSleepingThresholds(_linearSleepingThreshold, _angularSleepingThreshold);
+                m_rigidBody.AngularVelocity = _angularVelocity.ToBullet();
+                m_rigidBody.LinearVelocity = _linearVelocity.ToBullet();
                 m_rigidBody.CollisionShape = cs;
-                m_rigidBody.CollisionFlags = m_collisionFlags;
+                
             }
+            m_rigidBody.CollisionFlags = m_collisionFlags;
+            m_rigidBody.LinearFactor = _linearFactor.ToBullet();
+            m_rigidBody.AngularFactor = _angularFactor.ToBullet();
 
             //if kinematic then disable deactivation
             if ((m_collisionFlags & BulletSharp.CollisionFlags.KinematicObject) != 0) {
