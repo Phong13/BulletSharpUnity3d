@@ -434,18 +434,58 @@ namespace BulletUnity {
             }
         }
 
+        public void AddImpulse(UnityEngine.Vector3 impulse)
+        {
+            if (isInWorld)
+            {
+                m_rigidBody.ApplyCentralImpulse(impulse.ToBullet());
+            }
+        }
+
+
+        public void AddImpulseAtPosition(UnityEngine.Vector3 impulse, UnityEngine.Vector3 relativePostion)
+        {
+            if (isInWorld)
+            {
+                m_rigidBody.ApplyImpulse(impulse.ToBullet(), relativePostion.ToBullet());
+            }
+        }
+
+        public void AddTorqueImpulse(UnityEngine.Vector3 impulseTorque)
+        {
+            if (isInWorld)
+            {
+                m_rigidBody.ApplyTorqueImpulse(impulseTorque.ToBullet());
+            }
+        }
+
+        /**
+        Warning for single pulses use AddImpulse. AddForce should only be used over a period of time (several fixedTimeSteps or longer)
+        The force accumulator is cleared after every StepSimulation call including interpolation StepSimulation calls which clear the force
+        accumulator and do nothing. 
+        */
         public void AddForce(UnityEngine.Vector3 force) {
             if (isInWorld) {
                 m_rigidBody.ApplyCentralForce(force.ToBullet());
             }
         }
 
+        /**
+         Warning for single pulses use AddImpulse. AddForce should only be used over a period of time (several fixedTimeSteps or longer)
+         The force accumulator is cleared after every StepSimulation call including interpolation StepSimulation calls which clear the force
+         accumulator and do nothing. 
+         */
         public void AddForceAtPosition(UnityEngine.Vector3 force, UnityEngine.Vector3 relativePostion) {
             if (isInWorld) {
                 m_rigidBody.ApplyForce(force.ToBullet(), relativePostion.ToBullet());
             }
         }
 
+        /**
+         Warning for single pulses use AddImpulse. AddForce should only be used over a period of time (several fixedTimeSteps or longer)
+         The force accumulator is cleared after every StepSimulation call including interpolation StepSimulation calls which clear the force
+         accumulator and do nothing. 
+         */
         public void AddTorque(UnityEngine.Vector3 torque) {
             if (isInWorld) {
                 m_rigidBody.ApplyTorque(torque.ToBullet());
