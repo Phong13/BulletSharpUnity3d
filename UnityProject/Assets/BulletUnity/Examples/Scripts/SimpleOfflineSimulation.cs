@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using BulletSharp;
 using BulletSharp.Math;
 
-public class BulletHelloWorld : MonoBehaviour {
-
-    //Create a World
-    //Add a single cube
-    //Step the simulation 300 steps
-    //Clean up.  
+/* 
+A simple physics simulation that is not connected in any way to the Unity scene 
+*/
+public class SimpleOfflineSimulation : MonoBehaviour {
+  
     void Start () {
+        //Create a World
+        Debug.Log("Initialize physics");
         List<CollisionShape> CollisionShapes = new List<CollisionShape>();
 
         DefaultCollisionConfiguration CollisionConf = new DefaultCollisionConfiguration();
@@ -24,7 +25,7 @@ public class BulletHelloWorld : MonoBehaviour {
 
         // create a few dynamic rigidbodies
         const float mass = 1.0f;
-
+        //Add a single cube
         RigidBody fallRigidBody;
         BoxShape shape = new BoxShape(1f, 1f, 1f);
         BulletSharp.Math.Vector3 localInertia = BulletSharp.Math.Vector3.Zero;
@@ -36,6 +37,7 @@ public class BulletHelloWorld : MonoBehaviour {
         fallRigidBody.WorldTransform = st;
         World.AddRigidBody(fallRigidBody);
 
+        //Step the simulation 300 steps
         for (int i = 0; i < 300; i++)
         {
             World.StepSimulation(1f / 60f, 10);
@@ -46,6 +48,7 @@ public class BulletHelloWorld : MonoBehaviour {
             Debug.Log("box height: " + trans.Origin);
         }
 
+        //Clean up.
         World.RemoveRigidBody(fallRigidBody);
         fallRigidBody.Dispose();
 
@@ -98,5 +101,4 @@ public class BulletHelloWorld : MonoBehaviour {
             CollisionConf.Dispose();
         }
     }
-	
 }
