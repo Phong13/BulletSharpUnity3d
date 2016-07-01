@@ -257,14 +257,14 @@ namespace BulletUnity {
         protected UnityEngine.Vector3 _linearVelocity;
         public UnityEngine.Vector3 velocity {
             get {
-                if (isInWorld) {
+                if (m_rigidBody != null) {
                     return m_rigidBody.LinearVelocity.ToUnity();
                 } else {
                     return _linearVelocity;
                 }
             }
             set {
-                if (isInWorld) {
+                if (m_rigidBody != null) {
                     m_rigidBody.LinearVelocity = value.ToBullet();
                 }
                 _linearVelocity = value;
@@ -275,14 +275,14 @@ namespace BulletUnity {
         protected UnityEngine.Vector3 _angularVelocity;
         public UnityEngine.Vector3 angularVelocity {
             get {
-                if (isInWorld) {
+                if (m_rigidBody != null) {
                     return m_rigidBody.AngularVelocity.ToUnity();
                 } else {
                     return _angularVelocity;
                 }
             }
             set {
-                if (isInWorld) {
+                if (m_rigidBody != null) {
                     m_rigidBody.AngularVelocity = value.ToBullet();
                 }
                 _angularVelocity = value;
@@ -291,15 +291,86 @@ namespace BulletUnity {
 
         public BDebug.DebugType debugType;
 
+        /**
+        Creates or configures a RigidBody based on the current settings. Does not alter the internal state of this component in any way. 
+        Can be used to create copies of this BRigidBody for use in other physics simulations.
+        */
+        public bool CreateOrConfigureRigidBody(ref RigidBody rb, ref BulletSharp.Math.Vector3 localInertia, CollisionShape cs, MotionState motionState)
+        {
+            //rigidbody is dynamic if and only if mass is non zero, otherwise static
+            localInertia = BulletSharp.Math.Vector3.Zero;
+            if (isDynamic())
+            {
+                cs.CalculateLocalInertia(_mass, out localInertia);
+            }
+
+            if (rb == null)
+            {
+                float bulletMass = _mass;
+                if (!isDynamic())
+                {
+                    bulletMass = 0f;
+                }
+                RigidBodyConstructionInfo rbInfo = new RigidBodyConstructionInfo(bulletMass, motionState, cs, localInertia);
+                rbInfo.Friction = _friction;
+                rbInfo.RollingFriction = _rollingFriction;
+                rbInfo.LinearDamping = _linearDamping;
+                rbInfo.AngularDamping = _angularDamping;
+                rbInfo.Restitution = _restitution;
+                rbInfo.LinearSleepingThreshold = _linearSleepingThreshold;
+                rbInfo.AngularSleepingThreshold = _angularSleepingThreshold;
+                rbInfo.AdditionalDamping = _additionalDamping;
+                rbInfo.AdditionalAngularDampingFactor = _additionalAngularDampingFactor;
+                rbInfo.AdditionalAngularDampingThresholdSqr = _additionalAngularDampingThresholdSqr;
+                rbInfo.AdditionalDampingFactor = _additionalDampingFactor;
+                rbInfo.AdditionalLinearDampingThresholdSqr = _additionalLinearDampingThresholdSqr;
+                rb = new RigidBody(rbInfo);
+                rbInfo.Dispose();
+            }
+            else {
+                float usedMass = 0f;
+                if (isDynamic())
+                {
+                    usedMass = _mass;
+                }
+                rb.SetMassProps(usedMass, localInertia);
+                rb.Friction = _friction;
+                rb.RollingFriction = _rollingFriction;
+                rb.SetDamping(_linearDamping, _angularDamping);
+                rb.Restitution = _restitution;
+                rb.SetSleepingThresholds(_linearSleepingThreshold, _angularSleepingThreshold);
+                rb.CollisionShape = cs;
+            }
+
+            rb.AngularVelocity = angularVelocity.ToBullet();
+            rb.LinearVelocity = velocity.ToBullet();
+            
+            rb.CollisionFlags = m_collisionFlags;
+            rb.LinearFactor = _linearFactor.ToBullet();
+            rb.AngularFactor = _angularFactor.ToBullet();
+            if (m_rigidBody != null)
+            {
+                rb.DeactivationTime = m_rigidBody.DeactivationTime;
+                rb.InterpolationLinearVelocity = m_rigidBody.InterpolationLinearVelocity;
+                rb.InterpolationAngularVelocity = m_rigidBody.InterpolationAngularVelocity;
+                rb.InterpolationWorldTransform = m_rigidBody.InterpolationWorldTransform;
+            }
+
+            //if kinematic then disable deactivation
+            if ((m_collisionFlags & BulletSharp.CollisionFlags.KinematicObject) != 0)
+            {
+                rb.ActivationState = ActivationState.DisableDeactivation;
+            }
+            return true;
+        }
+
         //called by Physics World just before rigid body is added to world.
         //the current rigid body properties are used to rebuild the rigid body.
         internal override bool _BuildCollisionObject() {
             BPhysicsWorld world = BPhysicsWorld.Get();
-            if (m_rigidBody != null) {
-                if (isInWorld && world != null) {
-                    isInWorld = false;
-                    world.RemoveRigidBody(m_rigidBody);
-                }
+            if (m_rigidBody != null && isInWorld && world != null) {
+                isInWorld = false;
+                world.RemoveRigidBody(m_rigidBody);
             }
             
             if (transform.localScale != UnityEngine.Vector3.one) {
@@ -313,63 +384,16 @@ namespace BulletUnity {
             }
 
             CollisionShape cs = m_collisionShape.GetCollisionShape();
-            //rigidbody is dynamic if and only if mass is non zero, otherwise static
-            _localInertia = BulletSharp.Math.Vector3.Zero;
-            if (isDynamic()) {
-                cs.CalculateLocalInertia(_mass, out _localInertia);
-            }
-
-            if (m_rigidBody == null) {
+            if (m_motionState == null)
+            {
                 m_motionState = new BGameObjectMotionState(transform);
-                float bulletMass = _mass;
-                if (!isDynamic())
-                {
-                    bulletMass = 0f;
-                }
-
-                RigidBodyConstructionInfo rbInfo = new RigidBodyConstructionInfo(bulletMass, m_motionState, cs, _localInertia);
-                rbInfo.Friction = _friction;
-                rbInfo.RollingFriction = _rollingFriction;
-                rbInfo.LinearDamping = _linearDamping;
-                rbInfo.AngularDamping = _angularDamping;
-                rbInfo.Restitution = _restitution;
-                rbInfo.LinearSleepingThreshold = _linearSleepingThreshold;
-                rbInfo.AngularSleepingThreshold = _angularSleepingThreshold;
-                rbInfo.AdditionalDamping = _additionalDamping;
-                rbInfo.AdditionalAngularDampingFactor = _additionalAngularDampingFactor;
-                rbInfo.AdditionalAngularDampingThresholdSqr = _additionalAngularDampingThresholdSqr;
-                rbInfo.AdditionalDampingFactor = _additionalDampingFactor;
-                rbInfo.AdditionalLinearDampingThresholdSqr = _additionalLinearDampingThresholdSqr;
-                m_rigidBody = new RigidBody(rbInfo);
-                m_rigidBody.UserObject = this;
-                m_rigidBody.AngularVelocity = _angularVelocity.ToBullet();
-                m_rigidBody.LinearVelocity = _linearVelocity.ToBullet();
-                rbInfo.Dispose();
-            } else {
-                float usedMass = 0f;
-                if (isDynamic())
-                {
-                    usedMass = _mass;
-                }
-                m_rigidBody.SetMassProps(usedMass, _localInertia);
-                m_rigidBody.Friction = _friction;
-                m_rigidBody.RollingFriction = _rollingFriction;
-                m_rigidBody.SetDamping(_linearDamping,_angularDamping);
-                m_rigidBody.Restitution = _restitution;
-                m_rigidBody.SetSleepingThresholds(_linearSleepingThreshold, _angularSleepingThreshold);
-                m_rigidBody.AngularVelocity = _angularVelocity.ToBullet();
-                m_rigidBody.LinearVelocity = _linearVelocity.ToBullet();
-                m_rigidBody.CollisionShape = cs;
-                
             }
-            m_rigidBody.CollisionFlags = m_collisionFlags;
-            m_rigidBody.LinearFactor = _linearFactor.ToBullet();
-            m_rigidBody.AngularFactor = _angularFactor.ToBullet();
 
-            //if kinematic then disable deactivation
-            if ((m_collisionFlags & BulletSharp.CollisionFlags.KinematicObject) != 0) {
-                m_rigidBody.ActivationState = ActivationState.DisableDeactivation;
-            }
+            BulletSharp.RigidBody rb = (BulletSharp.RigidBody) m_collisionObject;
+            CreateOrConfigureRigidBody(ref rb, ref _localInertia, cs, m_motionState);
+            m_collisionObject = rb;
+            m_collisionObject.UserObject = this;
+
             return true;
         }
 

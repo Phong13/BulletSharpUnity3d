@@ -496,59 +496,89 @@ namespace BulletUnity
         protected virtual void _InitializePhysicsWorld()
         {
             _isDisposed = false;
+            CreatePhysicsWorld(out m_world, out CollisionConf, out Dispatcher, out Broadphase, out Solver, out softBodyWorldInfo);
+            if (m_world is DiscreteDynamicsWorld)
+            {
+                _ddWorld = (DiscreteDynamicsWorld)m_world;
+            }
+            //Add a BPhysicsWorldLateHelper component to call FixedUpdate
+            lateUpdateHelper = GetComponent<BPhysicsWorldLateHelper>();
+            if (lateUpdateHelper == null)
+            {
+                lateUpdateHelper = gameObject.AddComponent<BPhysicsWorldLateHelper>();
+            }
+            lateUpdateHelper.m_world = world;
+            lateUpdateHelper.m_ddWorld = _ddWorld;
+            lateUpdateHelper.m_physicsWorld = this;
+            lateUpdateHelper.m__frameCount = 0;
+            lateUpdateHelper.m_lastSimulationStepTime = 0;
+        }
+
+        /*
+        Does not set any local variables. Is safe to use to create duplicate physics worlds for independant simulation.
+        */
+        public bool CreatePhysicsWorld( out CollisionWorld world, 
+                                        out CollisionConfiguration collisionConfig, 
+                                        out CollisionDispatcher dispatcher, 
+                                        out BroadphaseInterface broadphase, 
+                                        out SequentialImpulseConstraintSolver solver,
+                                        out SoftBodyWorldInfo softBodyWorldInfo)
+        {
+            bool success = true;
             if (m_worldType == WorldType.SoftBodyAndRigidBody && m_collisionType == CollisionConfType.DefaultDynamicsWorldCollisionConf)
             {
                 BDebug.LogError(debugType, "For World Type = SoftBodyAndRigidBody collisionType must be collisionType=SoftBodyRigidBodyCollisionConf. Switching");
                 m_collisionType = CollisionConfType.SoftBodyRigidBodyCollisionConf;
+                success = false;
             }
 
+            collisionConfig = null;
             if (m_collisionType == CollisionConfType.DefaultDynamicsWorldCollisionConf)
             {
-                CollisionConf = new DefaultCollisionConfiguration();
+                collisionConfig = new DefaultCollisionConfiguration();
             }
             else if (m_collisionType == CollisionConfType.SoftBodyRigidBodyCollisionConf)
             {
-                CollisionConf = new SoftBodyRigidBodyCollisionConfiguration();
+                collisionConfig = new SoftBodyRigidBodyCollisionConfiguration();
             }
 
-            Dispatcher = new CollisionDispatcher(CollisionConf);
+            dispatcher = new CollisionDispatcher(collisionConfig);
 
             if (m_broadphaseType == BroadphaseType.DynamicAABBBroadphase)
             {
-                Broadphase = new DbvtBroadphase();
+                broadphase = new DbvtBroadphase();
             }
             else if (m_broadphaseType == BroadphaseType.Axis3SweepBroadphase)
             {
-                Broadphase = new AxisSweep3(m_axis3SweepBroadphaseMin.ToBullet(), m_axis3SweepBroadphaseMax.ToBullet(), axis3SweepMaxProxies);
+                broadphase = new AxisSweep3(m_axis3SweepBroadphaseMin.ToBullet(), m_axis3SweepBroadphaseMax.ToBullet(), axis3SweepMaxProxies);
             }
             else if (m_broadphaseType == BroadphaseType.Axis3SweepBroadphase_32bit)
             {
-                Broadphase = new AxisSweep3_32Bit(m_axis3SweepBroadphaseMin.ToBullet(), m_axis3SweepBroadphaseMax.ToBullet(), axis3SweepMaxProxies);
+                broadphase = new AxisSweep3_32Bit(m_axis3SweepBroadphaseMin.ToBullet(), m_axis3SweepBroadphaseMax.ToBullet(), axis3SweepMaxProxies);
             }
             else
             {
-                Broadphase = null;
+                broadphase = null;
             }
-
+            world = null;
+            softBodyWorldInfo = null;
+            solver = null;
             if (m_worldType == WorldType.CollisionOnly)
             {
-                m_world = new CollisionWorld(Dispatcher, Broadphase, CollisionConf);
-                _ddWorld = null;
+                world = new CollisionWorld(dispatcher, broadphase, collisionConfig);
             }
             else if (m_worldType == WorldType.RigidBodyDynamics)
             {
-                m_world = new DiscreteDynamicsWorld(Dispatcher, Broadphase, null, CollisionConf);
-                _ddWorld = (DiscreteDynamicsWorld)m_world;
+                world = new DiscreteDynamicsWorld(dispatcher, broadphase, null, collisionConfig);
             }
             else if (m_worldType == WorldType.MultiBodyWorld)
             {
-                m_world = new MultiBodyDynamicsWorld(Dispatcher, Broadphase, null, CollisionConf);
-                _ddWorld = (DiscreteDynamicsWorld)m_world;
+                world = new MultiBodyDynamicsWorld(dispatcher, broadphase, null, collisionConfig);
             }
             else if (m_worldType == WorldType.SoftBodyAndRigidBody)
             {
-                Solver = new SequentialImpulseConstraintSolver();
-                Solver.RandSeed = sequentialImpulseConstraintSolverRandomSeed;
+                solver = new SequentialImpulseConstraintSolver();
+                solver.RandSeed = sequentialImpulseConstraintSolverRandomSeed;
                 softBodyWorldInfo = new SoftBodyWorldInfo
                 {
                     AirDensity = 1.2f,
@@ -556,15 +586,14 @@ namespace BulletUnity
                     WaterOffset = 0,
                     WaterNormal = BulletSharp.Math.Vector3.Zero,
                     Gravity = UnityEngine.Physics.gravity.ToBullet(),
-                    Dispatcher = Dispatcher,
-                    Broadphase = Broadphase
+                    Dispatcher = dispatcher,
+                    Broadphase = broadphase
                 };
                 softBodyWorldInfo.SparseSdf.Initialize();
 
-                m_world = new SoftRigidDynamicsWorld(Dispatcher, Broadphase, Solver, CollisionConf);
-                _ddWorld = (DiscreteDynamicsWorld)m_world;
+                world = new SoftRigidDynamicsWorld(dispatcher, broadphase, solver, collisionConfig);
 
-                m_world.DispatchInfo.EnableSpu = true;
+                world.DispatchInfo.EnableSpu = true;
                 softBodyWorldInfo.SparseSdf.Reset();
                 softBodyWorldInfo.AirDensity = 1.2f;
                 softBodyWorldInfo.WaterDensity = 0;
@@ -572,28 +601,17 @@ namespace BulletUnity
                 softBodyWorldInfo.WaterNormal = BulletSharp.Math.Vector3.Zero;
                 softBodyWorldInfo.Gravity = m_gravity.ToBullet();
             }
-            if (_ddWorld != null)
+            if (world is DiscreteDynamicsWorld)
             {
-                _ddWorld.Gravity = m_gravity.ToBullet();
+                ((DiscreteDynamicsWorld)world).Gravity = m_gravity.ToBullet();
             }
             if (_doDebugDraw)
             {
                 DebugDrawUnity db = new DebugDrawUnity();
                 db.DebugMode = _debugDrawMode;
-                m_world.DebugDrawer = db;
+                world.DebugDrawer = db;
             }
-
-            //Add a BPhysicsWorldLateHelper component to call FixedUpdate
-            lateUpdateHelper = GetComponent<BPhysicsWorldLateHelper>();
-            if (lateUpdateHelper == null)
-            {
-                lateUpdateHelper = gameObject.AddComponent<BPhysicsWorldLateHelper>();
-            }
-            lateUpdateHelper.m_world = m_world;
-            lateUpdateHelper.m_ddWorld = _ddWorld;
-            lateUpdateHelper.m_physicsWorld = this;
-            lateUpdateHelper.m__frameCount = 0;
-            lateUpdateHelper.m_lastSimulationStepTime = 0;
+            return success;
         }
 
         protected void Dispose(bool disposing)

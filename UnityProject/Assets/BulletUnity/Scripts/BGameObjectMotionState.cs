@@ -24,18 +24,15 @@ namespace BulletUnity {
         //For kinematic rigid bodies it is called every simulation step
 		//[MonoPInvokeCallback(typeof(GetTransformDelegate))]
         public override void GetWorldTransform(out BM.Matrix worldTrans) {
-            //Matrix4x4 trans = transform.localToWorldMatrix;
-            //worldTrans = trans.ToBullet();         
-            BulletSharp.Math.Quaternion q = transform.rotation.ToBullet();
-            BulletSharp.Math.Matrix.RotationQuaternion(ref q, out worldTrans);
-            worldTrans.Origin = transform.position.ToBullet();
+            BulletSharp.Math.Vector3 pos = transform.position.ToBullet();
+            BulletSharp.Math.Quaternion rot = transform.rotation.ToBullet();
+            BulletSharp.Math.Matrix.AffineTransformation(1f, ref rot, ref pos, out worldTrans);
         }
 
         //Bullet calls this so I can copy bullet data to unity
         public override void SetWorldTransform(ref BM.Matrix m) {
             transform.position = BSExtensionMethods2.ExtractTranslationFromMatrix(ref m);
             transform.rotation = BSExtensionMethods2.ExtractRotationFromMatrix(ref m);
-            transform.localScale = BSExtensionMethods2.ExtractScaleFromMatrix(ref m);
         }
     }
 }

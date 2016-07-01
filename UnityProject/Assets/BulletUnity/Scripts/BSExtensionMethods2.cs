@@ -47,6 +47,153 @@ namespace BulletUnity {
             return um;
         }
 
+
+        public static BulletSharp.Math.Quaternion GetOrientation(this BulletSharp.Math.Matrix bm)
+        {
+                /*
+                float trace = M11 + M22 + M33;
+
+                float[] temp = new float[4];
+
+                if (trace > 0.0f)
+                {
+                    float s = UnityEngine.Mathf.Sqrt(trace + (1.0f));
+                    temp[3] = (s * (0.5f));
+                    s = (0.5f) / s;
+
+                    temp[0] = ((M32 - M23) * s);
+                    temp[1] = ((M13 - M31) * s);
+                    temp[2] = ((M21 - M12) * s);
+
+                    temp[0] = ((M23 - M32) * s);
+                    temp[1] = ((M31 - M13) * s);
+                    temp[2] = ((M12 - M21) * s);
+                }
+                else
+                {
+                    int i =  M11 < M22 ?
+                            (M22 < M33 ? 2 : 1) :
+                            (M11 < M33 ? 2 : 0);
+                    int j = (i + 1) % 3;
+                    int k = (i + 2) % 3;
+
+                    float s = UnityEngine.Mathf.Sqrt(this[i,i] - this[j,j] - this[k,k] + 1.0f);
+                    temp[i] = s * 0.5f;
+                    s = 0.5f / s;
+
+                    temp[3] = (this[j,k] - this[k,j]) * s;
+                    temp[j] = (this[i,j] + this[j,i]) * s;
+                    temp[k] = (this[i,k] + this[k,i]) * s;
+                }
+                return new BulletSharp.Math.Quaternion(temp[0], temp[1], temp[2], temp[3]);
+                */
+
+                //Scaling is the length of the rows.
+                BulletSharp.Math.Vector3 scale;
+                scale.X = (float)System.Math.Sqrt((bm.M11 * bm.M11) + (bm.M12 * bm.M12) + (bm.M13 * bm.M13));
+                scale.Y = (float)System.Math.Sqrt((bm.M21 * bm.M21) + (bm.M22 * bm.M22) + (bm.M23 * bm.M23));
+                scale.Z = (float)System.Math.Sqrt((bm.M31 * bm.M31) + (bm.M32 * bm.M32) + (bm.M33 * bm.M33));
+
+                //The rotation is the left over matrix after dividing out the scaling.
+                float mm11 = bm.M11 / scale.X;
+                float mm12 = bm.M12 / scale.X;
+                float mm13 = bm.M13 / scale.X;
+
+                float mm21 = bm.M21 / scale.Y;
+                float mm22 = bm.M22 / scale.Y;
+                float mm23 = bm.M23 / scale.Y;
+
+                float mm31 = bm.M31 / scale.Z;
+                float mm32 = bm.M32 / scale.Z;
+                float mm33 = bm.M33 / scale.Z;
+
+
+                //------------------------
+                float sqrt;
+                float half;
+                float trace = mm11 + mm22 + mm33;
+                BulletSharp.Math.Quaternion result = new BulletSharp.Math.Quaternion();
+                if (trace > 0.0f)
+                {
+                    sqrt = (float)UnityEngine.Mathf.Sqrt(trace + 1.0f);
+                    result.W = sqrt * 0.5f;
+                    sqrt = 0.5f / sqrt;
+
+                    result.X = (mm23 - mm32) * sqrt;
+                    result.Y = (mm31 - mm13) * sqrt;
+                    result.Z = (mm12 - mm21) * sqrt;
+                }
+                else if ((mm11 >= mm22) && (mm11 >= mm33))
+                {
+                    sqrt = (float)UnityEngine.Mathf.Sqrt(1.0f + mm11 - mm22 - mm33);
+                    half = 0.5f / sqrt;
+
+                    result.X = 0.5f * sqrt;
+                    result.Y = (mm12 + mm21) * half;
+                    result.Z = (mm13 + mm31) * half;
+                    result.W = (mm23 - mm32) * half;
+                }
+                else if (mm22 > mm33)
+                {
+                    sqrt = (float)UnityEngine.Mathf.Sqrt(1.0f + mm22 - mm11 - mm33);
+                    half = 0.5f / sqrt;
+
+                    result.X = (mm21 + mm12) * half;
+                    result.Y = 0.5f * sqrt;
+                    result.Z = (mm32 + mm23) * half;
+                    result.W = (mm31 - mm13) * half;
+                }
+                else
+                {
+                    sqrt = (float)UnityEngine.Mathf.Sqrt(1.0f + mm33 - mm11 - mm22);
+                    half = 0.5f / sqrt;
+
+                    result.X = (mm31 + mm13) * half;
+                    result.Y = (mm32 + mm23) * half;
+                    result.Z = 0.5f * sqrt;
+                    result.W = (mm12 - mm21) * half;
+                }
+                //------------------------
+                return result;
+        }
+
+
+
+        public static void SetOrientation(this BulletSharp.Math.Matrix bm, BulletSharp.Math.Quaternion q)
+        {
+                /*
+                float d = value.X * value.X + value.Y * value.Y + value.Z * value.Z + value.W * value.W;
+                UnityEngine.Debug.Assert(d != 0.0f);
+                float s = 2.0f / d;
+                float xs = value.X * s, ys = value.Y * s, zs = value.Z * s;
+                float wx = value.W * xs, wy = value.W * ys, wz = value.W * zs;
+                float xx = value.X * xs, xy = value.X * ys, xz = value.X * zs;
+                float yy = value.Y * ys, yz = value.Y * zs, zz = value.Z * zs;
+                M11 = 1.0f - (yy + zz); M12 = xy - wz; M13 = xz + wy;
+                M21 = xy + wz;   M22 = 1.0f - (xx + zz); M23 = yz - wx;
+                M31 = xz - wy;   M32 = yz + wx; M33 = 1.0f - (xx + yy);
+                */
+                float xx = q.X * q.X;
+                float yy = q.Y * q.Y;
+                float zz = q.Z * q.Z;
+                float xy = q.X * q.Y;
+                float zw = q.Z * q.W;
+                float zx = q.Z * q.X;
+                float yw = q.Y * q.W;
+                float yz = q.Y * q.Z;
+                float xw = q.X * q.W;
+
+                bm.M11 = 1.0f - (2.0f * (yy + zz));
+                bm.M12 = 2.0f * (xy + zw);
+                bm.M13 = 2.0f * (zx - yw);
+                bm.M21 = 2.0f * (xy - zw);
+                bm.M22 = 1.0f - (2.0f * (zz + xx));
+                bm.M23 = 2.0f * (yz + xw);
+                bm.M31 = 2.0f * (zx + yw);
+                bm.M32 = 2.0f * (yz - xw);
+                bm.M33 = 1.0f - (2.0f * (yy + xx));
+        }
+
         public static BulletSharp.Math.Matrix ToBullet(this UnityEngine.Matrix4x4 um) {
             BulletSharp.Math.Matrix bm = new BulletSharp.Math.Matrix();
             um.ToBullet(ref bm);

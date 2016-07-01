@@ -46,6 +46,13 @@ namespace BulletUnity {
             BUtility.DebugDrawSphere(position, rotation, scale, Vector3.one * radius, Color.yellow);
         }
 
+        public CollisionShape CopyCollisionShape()
+        {
+            SphereShape ss = new SphereShape(radius);
+            ss.LocalScaling = m_localScaling.ToBullet();
+            return ss;
+        }
+
         public override CollisionShape GetCollisionShape() {
             if (collisionShapePtr == null) {
                 collisionShapePtr = new SphereShape(radius);
