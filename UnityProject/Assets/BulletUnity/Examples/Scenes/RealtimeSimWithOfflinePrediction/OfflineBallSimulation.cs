@@ -7,7 +7,8 @@ using BulletSharp.Math;
 public static class OfflineBallSimulation {
     public static DiscreteDynamicsWorld World;
 
-    public static List<UnityEngine.Vector3> SimulateBall(BRigidBody ballRb, UnityEngine.Vector3 ballThrowForce, int numberOfSimulationSteps)
+    //IMPORTANT Time.fixedTime must match the timestep being used here.
+    public static List<UnityEngine.Vector3> SimulateBall(BRigidBody ballRb, UnityEngine.Vector3 ballThrowForce, int numberOfSimulationSteps, bool reverseOrder)
 	{
 		var ballPositions = new List<UnityEngine.Vector3>(numberOfSimulationSteps);
 
@@ -21,41 +22,48 @@ public static class OfflineBallSimulation {
         SequentialImpulseConstraintSolver Solver;
         BulletSharp.SoftBody.SoftBodyWorldInfo softBodyWorldInfo;
 
+        //This should create a copy of the BPhysicsWorld with the same settings
         BPhysicsWorld bw = BPhysicsWorld.Get();
         bw.CreatePhysicsWorld(out cw, out CollisionConf, out Dispatcher, out Broadphase, out Solver, out softBodyWorldInfo);
         World = (DiscreteDynamicsWorld) cw;
 
-        //Find all existing rigidbodies in scene
-        var rbs = Object.FindObjectsOfType<BRigidBody>();
-		var bulletRbs = new List<BulletSharp.RigidBody>(rbs.Length);
+        //Copy all existing rigidbodies in scene
+        // IMPORTANT rigidbodies must be added to the offline world in the same order that they are in the source world
+        // this is because collisions must be resolved in the same order for the sim to be deterministic
+        DiscreteDynamicsWorld sourceWorld = (DiscreteDynamicsWorld) bw.world;
 		BulletSharp.RigidBody bulletBallRb = null;
         BulletSharp.Math.Matrix mm = BulletSharp.Math.Matrix.Identity;
-		foreach(var rb in rbs)
+		for(int i = 0; i < sourceWorld.NumCollisionObjects; i++)
 		{
-			float mass = rb.isDynamic() ? rb.mass : 0f;
-            BCollisionShape existingShape = rb.GetComponent<BCollisionShape>();
-            CollisionShape shape = null;
-            if (existingShape is BSphereShape)
-			{
-				shape = ((BSphereShape) existingShape).CopyCollisionShape();
-			}
-			else if(existingShape is BBoxShape)
-			{
-				shape = ((BBoxShape)existingShape).CopyCollisionShape();
-            }
-
-            RigidBody bulletRB = null;
-            BulletSharp.Math.Vector3 localInertia = new BulletSharp.Math.Vector3();
-            rb.CreateOrConfigureRigidBody(ref bulletRB, ref localInertia, shape, null);
-            BulletSharp.Math.Vector3 pos = rb.GetCollisionObject().WorldTransform.Origin;
-            BulletSharp.Math.Quaternion rot = rb.GetCollisionObject().WorldTransform.GetOrientation();
-            BulletSharp.Math.Matrix.AffineTransformation(1f, ref rot, ref pos, out mm);
-            bulletRB.WorldTransform = mm;
-			World.AddRigidBody(bulletRB, rb.groupsIBelongTo, rb.collisionMask);
-            if (rb == ballRb)
+            CollisionObject co = sourceWorld.CollisionObjectArray[i];
+            if (co != null && co.UserObject is BRigidBody)
             {
-                bulletBallRb = bulletRB;
-                bulletRB.ApplyCentralImpulse(ballThrowForce.ToBullet());
+                BRigidBody rb = (BRigidBody) co.UserObject;
+                float mass = rb.isDynamic() ? rb.mass : 0f;
+                BCollisionShape existingShape = rb.GetComponent<BCollisionShape>();
+                CollisionShape shape = null;
+                if (existingShape is BSphereShape)
+                {
+                    shape = ((BSphereShape)existingShape).CopyCollisionShape();
+                }
+                else if (existingShape is BBoxShape)
+                {
+                    shape = ((BBoxShape)existingShape).CopyCollisionShape();
+                }
+
+                RigidBody bulletRB = null;
+                BulletSharp.Math.Vector3 localInertia = new BulletSharp.Math.Vector3();
+                rb.CreateOrConfigureRigidBody(ref bulletRB, ref localInertia, shape, null);
+                BulletSharp.Math.Vector3 pos = rb.GetCollisionObject().WorldTransform.Origin;
+                BulletSharp.Math.Quaternion rot = rb.GetCollisionObject().WorldTransform.GetOrientation();
+                BulletSharp.Math.Matrix.AffineTransformation(1f, ref rot, ref pos, out mm);
+                bulletRB.WorldTransform = mm;
+                World.AddRigidBody(bulletRB, rb.groupsIBelongTo, rb.collisionMask);
+                if (rb == ballRb)
+                {
+                    bulletBallRb = bulletRB;
+                    bulletRB.ApplyCentralImpulse(ballThrowForce.ToBullet());
+                }
             }
         }
 
@@ -65,13 +73,6 @@ public static class OfflineBallSimulation {
 			int numSteps = World.StepSimulation(1f / 60f, 10, 1f / 60f);
 			ballPositions.Add(bulletBallRb.WorldTransform.Origin.ToUnity());
         }
-
-		//Clean up.
-		foreach(var rb in bulletRbs)
-		{
-			World.RemoveRigidBody(rb);
-			rb.Dispose();
-		}
 
 		UnityEngine.Debug.Log("ExitPhysics");
 		if (World != null)

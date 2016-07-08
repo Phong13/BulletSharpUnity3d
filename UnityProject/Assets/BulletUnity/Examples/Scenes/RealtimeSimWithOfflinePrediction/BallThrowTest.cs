@@ -5,10 +5,7 @@ using BulletSharp;
 using System.Collections;
 using System.Collections.Generic;
 
-/**
- Saddly this is not quite deterministic the positions of the balls diverge slightly after several
- collisions. Not sure why yet. 
-*/
+
 public class BallThrowTest : MonoBehaviour
 {
 
@@ -46,27 +43,21 @@ public class BallThrowTest : MonoBehaviour
     {
         if (Time.frameCount == 50 && !simulationStarted)
         {
+            bulletWorld.AddRigidBody(ballRigidbody);
             simulationStarted = true;
             startFrame = BPhysicsWorld.Get().frameCount;
 
             //first simulation ==============================
-            ballPositionsOfflineSim = OfflineBallSimulation.SimulateBall(ballRigidbody, ballThrowImpulse, numberOfSimulationSteps);
+            ballPositionsOfflineSim = OfflineBallSimulation.SimulateBall(ballRigidbody, ballThrowImpulse, numberOfSimulationSteps,false);
 
             //Second simulation =====================
-            bulletWorld.AddRigidBody(ballRigidbody);
             ballRigidbody.AddImpulse(ballThrowImpulse);
-
-            /*
-            for (int i = 0; i < 500; i++)
-            {
-                ((DiscreteDynamicsWorld)bulletWorld.world).StepSimulation(1f / 60f, 10, 1f / 60f);
-                ballPositionsRealtime.Add(ballRigidbody.GetCollisionObject().WorldTransform.Origin.ToUnity());
-            }
-            */
+            
             for (int i = 0; i < ballPositionsOfflineSim.Count; i++)
             {
                 Instantiate<GameObject>(ballGhostPrefab).transform.position = ballPositionsOfflineSim[i];
             }
+            
         }
         else if (simulationStarted && ballPositionsRealtime.Count < 500)
         {
