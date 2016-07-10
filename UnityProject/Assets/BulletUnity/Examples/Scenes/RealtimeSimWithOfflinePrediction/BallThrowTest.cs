@@ -28,21 +28,18 @@ public class BallThrowTest : MonoBehaviour
     List<Vector3> ballPositionsOfflineSim = new List<Vector3>();
 
     // Use this for initialization
-    IEnumerator Start()
+    void Awake()
     {
-        while (!ballRigidbody.isInWorld)
-        {
-            yield return null;
-        }
-        //Remove the rigidbody from the world until we need it
-        bulletWorld.RemoveRigidBody(ballRigidbody.GetCollisionObject() as BulletSharp.RigidBody);
+        startFrame = Time.frameCount;
+        ballRigidbody.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Time.frameCount == 50 && !simulationStarted)
+        if (Time.frameCount - startFrame == 50 && !simulationStarted)
         {
+            ballRigidbody.gameObject.SetActive(true);
             bulletWorld.AddRigidBody(ballRigidbody);
             simulationStarted = true;
             startFrame = BPhysicsWorld.Get().frameCount;
