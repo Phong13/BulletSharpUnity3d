@@ -1,8 +1,13 @@
-	project "HACD"
+	project "BulletXmlWorldImporter"
 		
 	kind "StaticLib"
-	
-	includedirs {"."}
+	targetdir "../../lib"
+	includedirs {
+		"../BulletWorldImporter",
+		"../BulletFileLoader",
+		"../../../src"
+	}
+	 
 	files {
 		"**.cpp",
 		"**.h"
