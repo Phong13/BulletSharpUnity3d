@@ -577,29 +577,20 @@ namespace BulletUnity
             }
             else if (m_worldType == WorldType.SoftBodyAndRigidBody)
             {
-                solver = new SequentialImpulseConstraintSolver();
-                solver.RandSeed = sequentialImpulseConstraintSolverRandomSeed;
-                softBodyWorldInfo = new SoftBodyWorldInfo
-                {
-                    AirDensity = 1.2f,
-                    WaterDensity = 0,
-                    WaterOffset = 0,
-                    WaterNormal = BulletSharp.Math.Vector3.Zero,
-                    Gravity = UnityEngine.Physics.gravity.ToBullet(),
-                    Dispatcher = dispatcher,
-                    Broadphase = broadphase
-                };
-                softBodyWorldInfo.SparseSdf.Initialize();
+                Solver = new SequentialImpulseConstraintSolver();
+                Solver.RandSeed = sequentialImpulseConstraintSolverRandomSeed;
+                m_world = new SoftRigidDynamicsWorld(Dispatcher, Broadphase, Solver, CollisionConf);
+                _ddWorld = (DiscreteDynamicsWorld)m_world;
+                SoftRigidDynamicsWorld _sworld = (SoftRigidDynamicsWorld)m_world;
 
-                world = new SoftRigidDynamicsWorld(dispatcher, broadphase, solver, collisionConfig);
-
-                world.DispatchInfo.EnableSpu = true;
-                softBodyWorldInfo.SparseSdf.Reset();
-                softBodyWorldInfo.AirDensity = 1.2f;
-                softBodyWorldInfo.WaterDensity = 0;
-                softBodyWorldInfo.WaterOffset = 0;
-                softBodyWorldInfo.WaterNormal = BulletSharp.Math.Vector3.Zero;
-                softBodyWorldInfo.Gravity = m_gravity.ToBullet();
+                m_world.DispatchInfo.EnableSpu = true;
+                _sworld.WorldInfo.SparseSdf.Initialize();
+                _sworld.WorldInfo.SparseSdf.Reset();
+                _sworld.WorldInfo.AirDensity = 1.2f;
+                _sworld.WorldInfo.WaterDensity = 0;
+                _sworld.WorldInfo.WaterOffset = 0;
+                _sworld.WorldInfo.WaterNormal = BulletSharp.Math.Vector3.Zero;
+                _sworld.WorldInfo.Gravity = m_gravity.ToBullet();
             }
             if (world is DiscreteDynamicsWorld)
             {
