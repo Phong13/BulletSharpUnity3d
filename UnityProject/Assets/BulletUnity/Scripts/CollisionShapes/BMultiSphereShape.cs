@@ -38,16 +38,28 @@ namespace BulletUnity {
             }
         }
 
+        MultiSphereShape _CreateMultiSphereShape()
+        {
+            BulletSharp.Math.Vector3[] positions = new BulletSharp.Math.Vector3[spheres.Length];
+            float[] radius = new float[spheres.Length];
+            for (int i = 0; i < spheres.Length; i++)
+            {
+                positions[i] = spheres[i].position.ToBullet();
+                radius[i] = spheres[i].radius;
+            }
+            MultiSphereShape mss = new MultiSphereShape(positions, radius);
+            mss.LocalScaling = m_localScaling.ToBullet();
+            return mss;
+        }
+
+        public override CollisionShape CopyCollisionShape()
+        {
+            return _CreateMultiSphereShape();
+        }
+
         public override CollisionShape GetCollisionShape() {
             if (collisionShapePtr == null) {
-                BulletSharp.Math.Vector3[] positions = new BulletSharp.Math.Vector3[spheres.Length];
-                float[] radius = new float[spheres.Length];
-                for (int i = 0; i < spheres.Length; i++) {
-                    positions[i] = spheres[i].position.ToBullet();
-                    radius[i] = spheres[i].radius;
-                }
-                collisionShapePtr = new MultiSphereShape(positions, radius);
-                ((MultiSphereShape)collisionShapePtr).LocalScaling = m_localScaling.ToBullet();
+                collisionShapePtr = _CreateMultiSphereShape();
             }
             return collisionShapePtr;
         }

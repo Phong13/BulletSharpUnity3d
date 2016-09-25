@@ -67,6 +67,13 @@ namespace BulletUnity
             BUtility.DebugDrawCone(position, rotation, scale, radius, height, 1, Color.yellow);
         }
 
+        public override CollisionShape CopyCollisionShape()
+        {
+            ConeShape cs = new ConeShape(radius, height);
+            cs.LocalScaling = m_localScaling.ToBullet();
+            return cs;
+        }
+
         public override CollisionShape GetCollisionShape()
         {
             if (collisionShapePtr == null)

@@ -98,25 +98,37 @@ namespace BulletUnity {
 
         }
 
+        CapsuleShape _CreateCapsuleShape()
+        {
+            CapsuleShape cs = null;
+            if (upAxis == CapsuleAxis.x)
+            {
+                cs = new CapsuleShapeX(radius, height);
+            }
+            else if (upAxis == CapsuleAxis.y)
+            {
+                cs = new CapsuleShape(radius, height);
+            }
+            else if (upAxis == CapsuleAxis.z)
+            {
+                cs = new CapsuleShapeZ(radius, height);
+            }
+            else
+            {
+                Debug.LogError("invalid axis value");
+            }
+            cs.LocalScaling = m_localScaling.ToBullet();
+            return cs;
+        }
+
+        public override CollisionShape CopyCollisionShape()
+        {
+            return _CreateCapsuleShape();
+        }
+
         public override CollisionShape GetCollisionShape() {
             if (collisionShapePtr == null) {
-                CapsuleShape cs = null;
-                if (upAxis == CapsuleAxis.x)
-                {
-                    cs = new CapsuleShapeX(radius, height);
-                } else if (upAxis == CapsuleAxis.y)
-                {
-                    cs = new CapsuleShape(radius, height);
-                } else if (upAxis == CapsuleAxis.z)
-                {
-                    cs = new CapsuleShapeZ(radius, height);
-                } else
-                {
-                    Debug.LogError("invalid axis value");
-                }
-                cs.LocalScaling = m_localScaling.ToBullet();
-                collisionShapePtr = cs;
-
+                collisionShapePtr = _CreateCapsuleShape();
             }
             return collisionShapePtr;
         }

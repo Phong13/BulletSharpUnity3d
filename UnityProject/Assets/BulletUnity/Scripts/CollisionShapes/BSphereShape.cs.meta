@@ -1,11 +1,38 @@
-fileFormatVersion: 2
-guid: 4ddcba5e958f76d4dac4a789ccc63eaa
-timeCreated: 1457178156
-licenseType: Free
-MonoImporter:
-  serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+
+  public  const int RB_NOT_IMPORTANT			=	1;
+  public  const int RB_RB						=	2;
+  public  const int RB_END_RB					=	3;
+  public  const int RB_ARB					=		4;
+  public  const int RB_MESH_NAME				=	5;
+  public  const int RB_MASS					=		6;
+  public  const int RB_MOI					=		7;
+  public  const int RB_COLOUR					=	8;
+  public  const int RB_ROOT					=		9;
+  public  const int RB_ARTICULATED_FIGURE		=	10;
+  public  const int RB_CHILD					=	11;
+  public  const int RB_PARENT					=	12;
+  public  const int RB_END_ARTICULATED_FIGURE	=	13;
+  public  const int RB_NAME					=		14;
+  public  const int RB_JOINT					=	15;
+  public  const int RB_END_JOINT				=	16;
+  public  const int RB_PPOS					=		17;
+  public  const int RB_CPOS					=		18;
+  public  const int RB_SPHERE					=	19;
+  public  const int RB_CAPSULE				=		20;
+  public  const int RB_PLANE					=	21;
+  public  const int RB_LOCKED					=	22;
+  public  const int RB_POSITION				=		23;
+  public  const int RB_ORIENTATION			=		24;
+  public  const int RB_VELOCITY				=		25;
+  public  const int RB_ANGULAR_VELOCITY		=		26;
+  public  const int RB_FRICTION_COEFF			=	27;
+  public  const int RB_RESTITUTION_COEFF		=	28;
+  public  const int RB_MIN_BDG_SPHERE			=	29;
+  public  const int RB_JOINT_TYPE_HINGE		=		30;
+  public  const int RB_JOINT_LIMITS			=		31;
+  public  const int RB_JOINT_TYPE_UNIVERSAL	=		32;
+  public  const int RB_JOINT_TYPE_BALL_IN_SOCKET =	33;
+  public  const int RB_BOX						=	34;
+  public  const int RB_ODE_GROUND_COEFFS		=	35;
+  public  const int RB_PLANAR					=	36;
+  public  const int RB_SOFT_BODY				=	37;

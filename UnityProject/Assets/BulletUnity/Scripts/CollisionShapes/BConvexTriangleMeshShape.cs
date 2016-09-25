@@ -45,22 +45,33 @@ namespace BulletUnity {
         public override void OnDrawGizmosSelected() {
             //BUtility.DebugDrawCapsule(position, rotation, scale, radius, height / 2f, 1, Gizmos.color);  
         }
-        
+
+        ConvexTriangleMeshShape _CreateConvexTriangleMeshShape()
+        {
+            Vector3[] verts = hullMesh.vertices;
+            int[] tris = hullMesh.triangles;
+            //todo test for convex. Make convex if not.
+            TriangleMesh tm = new TriangleMesh();
+            for (int i = 0; i < tris.Length; i += 3)
+            {
+                tm.AddTriangle(verts[tris[i]].ToBullet(),
+                               verts[tris[i + 1]].ToBullet(),
+                               verts[tris[i + 2]].ToBullet(),
+                               true);
+            }
+            ConvexTriangleMeshShape ms = new ConvexTriangleMeshShape(tm);
+            ms.LocalScaling = m_localScaling.ToBullet();
+            return ms;
+        }
+
+        public override CollisionShape CopyCollisionShape()
+        {
+            return _CreateConvexTriangleMeshShape();
+        }
+
         public override CollisionShape GetCollisionShape() {
             if (collisionShapePtr == null) {
-                Vector3[] verts = hullMesh.vertices;
-                int[] tris = hullMesh.triangles;
-                //todo test for convex. Make convex if not.
-                TriangleMesh tm = new TriangleMesh();
-                for (int i = 0; i < tris.Length; i += 3) {
-                    tm.AddTriangle(verts[tris[i]].ToBullet(),
-                                   verts[tris[i + 1]].ToBullet(),
-                                   verts[tris[i + 2]].ToBullet(),
-                                   true);
-                }
-                collisionShapePtr = new ConvexTriangleMeshShape(tm);
-                ((ConvexTriangleMeshShape)collisionShapePtr).LocalScaling = m_localScaling.ToBullet();
-                
+                collisionShapePtr = _CreateConvexTriangleMeshShape();              
             }
             return collisionShapePtr;
         }

@@ -48,7 +48,14 @@ namespace BulletUnity
             UnityEngine.Vector3 scale = m_localScaling;
             BUtility.DebugDrawCylinder(position, rotation, scale, halfExtent.x, halfExtent.y, 1, Color.yellow);
         }
-        
+
+        public override CollisionShape CopyCollisionShape()
+        {
+            CylinderShape cs = new CylinderShape(halfExtent.ToBullet());
+            cs.LocalScaling = m_localScaling.ToBullet();
+            return cs;
+        }
+
         public override CollisionShape GetCollisionShape()
         {
             if (collisionShapePtr == null)

@@ -47,7 +47,7 @@ namespace BulletUnity {
             BUtility.DebugDrawBox(position, rotation, scale, extents, Color.yellow);
         }
 
-        public CollisionShape CopyCollisionShape()
+        public override CollisionShape CopyCollisionShape()
         {
             BoxShape bs = new BoxShape(extents.ToBullet());
             bs.LocalScaling = m_localScaling.ToBullet();

@@ -44,29 +44,32 @@ namespace BulletUnity {
               
         }
 
+        ConvexHullShape _CreateConvexHullShape()
+        {
+            Vector3[] verts = hullMesh.vertices;
+            //todo remove duplicate verts
+            //todo use vertex reduction utility
+            float[] points = new float[verts.Length * 3];
+            for (int i = 0; i < verts.Length; i++)
+            {
+                int idx = i * 3;
+                points[idx] = verts[i].x;
+                points[idx + 1] = verts[i].y;
+                points[idx + 2] = verts[i].z;
+            }
+            ConvexHullShape cs = new ConvexHullShape(points);
+            cs.LocalScaling = m_localScaling.ToBullet();
+            return cs;
+        }
+
+        public override CollisionShape CopyCollisionShape()
+        {
+            return _CreateConvexHullShape();
+        }
 
         public override CollisionShape GetCollisionShape() {
             if (collisionShapePtr == null) {
-
-                /*
-                btShapeHull* hull = new btShapeHull(originalConvexShape);
-                btScalar margin = originalConvexShape->getMargin();
-                hull->buildHull(margin);
-                btConvexHullShape* simplifiedConvexShape = new btConvexHullShape(hull->getVertexPointer(), hull->numVertices());
-                */
-
-                Vector3[] verts = hullMesh.vertices;
-                //todo remove duplicate verts
-                //todo use vertex reduction utility
-                float[] points = new float[verts.Length * 3];
-                for (int i = 0; i < verts.Length; i++) {
-                    int idx = i * 3;
-                    points[idx] = verts[i].x;
-                    points[idx + 1] = verts[i].y;
-                    points[idx + 2] = verts[i].z;
-                }
-                collisionShapePtr = new ConvexHullShape(points);
-                ((ConvexHullShape)collisionShapePtr).LocalScaling = m_localScaling.ToBullet();
+                collisionShapePtr = _CreateConvexHullShape();
             }
             return collisionShapePtr;
         }
