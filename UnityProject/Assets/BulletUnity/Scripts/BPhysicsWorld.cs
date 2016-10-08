@@ -42,6 +42,10 @@ namespace BulletUnity
         {
             if (singleton == null && !_isDisposed)
             {
+                if (!Application.isPlaying)
+                {
+                    return null;
+                }
                 BPhysicsWorld[] ws = FindObjectsOfType<BPhysicsWorld>();
                 if (ws.Length == 1)
                 {

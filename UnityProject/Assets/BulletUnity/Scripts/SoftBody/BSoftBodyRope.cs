@@ -40,6 +40,10 @@ namespace BulletUnity
 
         internal override bool _BuildCollisionObject()
         {
+            if (World == null)
+            {
+                return false;
+            }
             if (meshSettings.numPointsInRope < 2)
             {
                 Debug.LogError("There must be at least two points in the rope");

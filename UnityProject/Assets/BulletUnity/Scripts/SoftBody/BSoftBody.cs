@@ -25,7 +25,23 @@ namespace BulletUnity
         SoftRigidDynamicsWorld _world;
         protected SoftRigidDynamicsWorld World
         {
-            get { return _world = _world ?? (SoftRigidDynamicsWorld)BPhysicsWorld.Get().world; }
+            get {
+                if (_world != null) {
+                    return _world;
+                } else {
+                    BPhysicsWorld w = BPhysicsWorld.Get();
+                    if (w == null) {
+                        return null;
+                    } else if (w.world is SoftRigidDynamicsWorld)
+                    {
+                        _world = (SoftRigidDynamicsWorld)w.world;
+                        return _world;
+                    } else
+                    {
+                        return null;
+                    }
+                }
+            }
         }
 
         //for converting to/from unity mesh
@@ -50,12 +66,6 @@ namespace BulletUnity
             {
                 world.RemoveSoftBody((SoftBody)m_collisionObject);
             }
-        }
-
-
-        internal override bool _BuildCollisionObject()
-        {
-            return false;
         }
 
         public void BuildSoftBody()
@@ -103,7 +113,7 @@ namespace BulletUnity
         }
 
 
-        void Update()
+        public virtual void Update()
         {
             DumpDataFromBullet();  //Get Bullet data
             UpdateMesh(); //Update mesh based on bullet data

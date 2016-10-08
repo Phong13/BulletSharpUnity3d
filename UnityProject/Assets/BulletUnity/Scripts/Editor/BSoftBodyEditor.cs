@@ -34,10 +34,16 @@ namespace BulletUnity
 
         Color GUIBlue = new Color32(82, 140, 255, 255);
 
+        BAnyMeshSettingsForEditor inspectorMeshSettings;
+
         public void OnEnable()
         {
             bSoftBodyTarget = (BSoftBody)target;
             softBodySettings = serializedObject.FindProperty("_softBodySettings");
+            if (inspectorMeshSettings == null)
+            {
+                inspectorMeshSettings = new BAnyMeshSettingsForEditor();
+            }
         }
 
 
@@ -88,7 +94,7 @@ namespace BulletUnity
                 bSoftBodyTarget.BuildSoftBody();
             }
 
-
+            serializedObject.ApplyModifiedProperties();
 
         }
 
@@ -97,9 +103,9 @@ namespace BulletUnity
 
         [MenuItem("BulletForUnity/BSoftBody/Rope")]
         [MenuItem("GameObject/Create Other/BulletForUnity/BSoftBody/Rope")]  //right click menu
-        static void CreateBCube()
+        static void CreateBSoftBodyRope()
         {
-            Selection.activeObject = BSoftBodyRope.CreateNew(EditorHelpers.GetCameraRaycastPosition(), Quaternion.identity);
+            Selection.activeObject = BSoftBodyRope.CreateNew(EditorHelpers.GetCameraRaycastPosition(), Quaternion.identity, false);
             PostCreateObject();
         }
 
@@ -107,7 +113,9 @@ namespace BulletUnity
         [MenuItem("GameObject/Create Other/BulletForUnity/BSoftBody/BSoftBodyWMesh")]  //right click menu
         static void CreateBSoftWithMesh()
         {
-            Selection.activeObject = BSoftBodyWMesh.CreateNew(EditorHelpers.GetCameraRaycastPosition(), Quaternion.identity, BAnyMeshSettingsForEditor.Instance.Build(), true);
+            BAnyMeshSettings settings = new BAnyMeshSettings();
+            settings.meshType = PrimitiveMeshOptions.Bunny;
+            Selection.activeObject = BSoftBodyWMesh.CreateNew(EditorHelpers.GetCameraRaycastPosition(), Quaternion.identity, settings.Build(), true);
             PostCreateObject();
         }
 
@@ -126,10 +134,10 @@ namespace BulletUnity
         void DrawCustomMeshSettingsOptions()
         {
 
-            EditorGUILayout.TextArea("Generate Custom Mesh?");
+            EditorGUILayout.LabelField("Generate Custom Mesh?",EditorStyles.boldLabel);
 
             //Get Instance
-            BAnyMeshSettingsForEditor bAny = BAnyMeshSettingsForEditor.Instance;
+            BAnyMeshSettingsForEditor bAny = inspectorMeshSettings; //BAnyMeshSettingsForEditor.Instance;
 
             //Build it!
             if (EditorHelpers.InspectorButton("Update Mesh", 100, 15, GUIBlue, "New/Change mesh"))
@@ -146,7 +154,7 @@ namespace BulletUnity
             switch (bAny.meshType)
             {
                 case PrimitiveMeshOptions.UserDefinedMesh:
-
+                    bAny.userMesh = (Mesh) EditorGUILayout.ObjectField(bAny.userMesh, typeof(Mesh),false);
                     break;
                 case PrimitiveMeshOptions.Box:
                     bAny.extents = EditorGUILayout.Vector3Field("Extents", bAny.extents);
@@ -204,7 +212,7 @@ namespace BulletUnity
                 ((BSoftBodyWMesh)bSoftBodyTarget).meshSettings.UserMesh = bAny.Build();
                 bSoftBodyTarget.BuildSoftBody();
             }
-            EditorGUILayout.TextArea("Mesh Settings");
+            EditorGUILayout.LabelField("Mesh Settings", EditorStyles.boldLabel);
             EditorGUILayout.Space();
         }
 

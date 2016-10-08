@@ -108,6 +108,7 @@ namespace BulletUnity
         internal virtual bool _BuildCollisionObject()
         {
             BPhysicsWorld world = BPhysicsWorld.Get();
+
             if (m_collisionObject != null)
             {
                 if (isInWorld && world != null)

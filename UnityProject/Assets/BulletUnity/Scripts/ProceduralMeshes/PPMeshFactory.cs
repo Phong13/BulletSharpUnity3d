@@ -6,13 +6,10 @@ using UnityEngine;
 namespace BulletUnity
 {
     [Serializable]
-    public class BPrimitiveMeshSettings
+    public abstract class BPrimitiveMeshSettings
     {
-        public virtual Mesh Build()
-        {
-            Mesh mesh = null;
-            return mesh;
-        }
+
+        public abstract Mesh Build();
     }
 
     [Serializable]
@@ -204,39 +201,40 @@ namespace BulletUnity
 
         public override Mesh Build()
         {
+            BAnyMeshSettings settings = this;
             Mesh mesh = null;
-            switch (meshType)
+            switch (settings.meshType)
             {
                 case PrimitiveMeshOptions.UserDefinedMesh:
                     //Need to copy mesh from sharedMesh or we cant modify the mesh!
-                    if (userMesh == null) //fill in something
+                    if (settings.userMesh == null) //fill in something
                     {
-                        mesh = ProceduralPrimitives.CreateMeshBox(extents.x, extents.x, extents.x);
+                        settings.userMesh = ProceduralPrimitives.CreateMeshBox(settings.extents.x, settings.extents.x, settings.extents.x);
                         Debug.Log("Must provide a mesh for UserDefinedMesh setting.");
                     }
 
-                    mesh = (Mesh)GameObject.Instantiate(userMesh);
+                    mesh = (Mesh)GameObject.Instantiate(settings.userMesh);
                     break;
                 case PrimitiveMeshOptions.Box:
-                    mesh = ProceduralPrimitives.CreateMeshBox(extents.x, extents.y, extents.z);
+                    mesh = ProceduralPrimitives.CreateMeshBox(settings.extents.x, settings.extents.y, settings.extents.z);
                     break;
                 case PrimitiveMeshOptions.Sphere:
-                    mesh = ProceduralPrimitives.CreateMeshSphere(radius, numLongitudeLines, numLatitudeLines);
+                    mesh = ProceduralPrimitives.CreateMeshSphere(settings.radius, settings.numLongitudeLines, settings.numLatitudeLines);
                     break;
                 case PrimitiveMeshOptions.Cylinder:
-                    mesh = ProceduralPrimitives.CreateMeshCylinder(height, radius, nbSides);
+                    mesh = ProceduralPrimitives.CreateMeshCylinder(settings.height, settings.radius, settings.nbSides);
                     break;
                 case PrimitiveMeshOptions.Cone:
-                    mesh = ProceduralPrimitives.CreateMeshCone(height, radius, 0f, nbSides);
+                    mesh = ProceduralPrimitives.CreateMeshCone(settings.height, settings.radius, 0f, settings.nbSides);
                     break;
                 case PrimitiveMeshOptions.Pyramid:
-                    mesh = ProceduralPrimitives.CreateMeshPyramid(height, radius);
+                    mesh = ProceduralPrimitives.CreateMeshPyramid(settings.height, settings.radius);
                     break;
                 case PrimitiveMeshOptions.Bunny:
                     mesh = ProceduralPrimitives.BuildMeshFromData(SoftDemo.BunnyMesh.Vertices, SoftDemo.BunnyMesh.Indices);
                     break;
                 case PrimitiveMeshOptions.Plane:
-                    mesh = ProceduralPrimitives.CreateMeshPlane(length, width, resX, resZ);
+                    mesh = ProceduralPrimitives.CreateMeshPlane(settings.length, settings.width, settings.resX, settings.resZ);
                     break;
                 default:
                     break;

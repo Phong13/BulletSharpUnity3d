@@ -12,8 +12,8 @@ namespace BulletUnity
     /// <summary>
     /// Used base for any(most) softbodies needing a mesh and meshrenderer.
     /// </summary>
-    [RequireComponent(typeof(MeshFilter))]
-    [RequireComponent(typeof(MeshRenderer))]
+    //[RequireComponent(typeof(MeshFilter))]
+    //[RequireComponent(typeof(MeshRenderer))]
     public class BSoftBodyWMesh : BSoftBody
     {
         public BUserMeshSettings meshSettings = new BUserMeshSettings();
@@ -26,16 +26,21 @@ namespace BulletUnity
 
         internal override bool _BuildCollisionObject()
         {
+
             Mesh mesh = meshSettings.Build();
 
             GetComponent<MeshFilter>().sharedMesh = mesh;
 
+            if (World == null)
+            {
+                return false;
+            }
             //convert the mesh data to Bullet data and create DoftBody
             BulletSharp.Math.Vector3[] bVerts = new BulletSharp.Math.Vector3[mesh.vertexCount];
-
+            Vector3[] verts = mesh.vertices;
             for (int i = 0; i < mesh.vertexCount; i++)
             {
-                bVerts[i] = mesh.vertices[i].ToBullet();
+                bVerts[i] = verts[i].ToBullet();
             }
 
             SoftBody m_BSoftBody = SoftBodyHelpers.CreateFromTriMesh(World.WorldInfo, bVerts, mesh.triangles);
