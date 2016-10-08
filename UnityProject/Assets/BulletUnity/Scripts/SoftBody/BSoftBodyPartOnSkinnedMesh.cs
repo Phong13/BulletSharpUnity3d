@@ -12,10 +12,21 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
     SkinnedMeshRenderer skinnedMesh;
 
     [Serializable]
+    public class BAnchor
+    {
+        public BRigidBody anchorRigidBody;
+        public float uvRangeFrom = 0f;
+        public float uvRangeTo = 1f;
+        public List<int> anchorNodeIndexes = new List<int>();
+        public List<float> anchorNodeStrength = new List<float>();
+    }
+
+    [Serializable]
     public class BoneAndNode
     {
         public Transform bone;
         public int nodeIdx;
+
         //vertex bind normal
         public Vector3 bindNormal;
         public Quaternion bindBoneRotation;
@@ -24,15 +35,13 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
     [Header("Mapping Bones To Physics Sim Mesh Verts Settings")]
     public float radius = .0001f;
     public MeshFilter physicsSimMesh;
-    public BRigidBody anchorRigidBody;
+    public BAnchor[] anchors;
 
     public bool debugDisplaySimulatedMesh;
     public bool debugShowMappedBoneGizmos;
 
     [SerializeField]
     BoneAndNode[] bone2idxMap;
-    [SerializeField]
-    int[] anchorNodeIndexes;
 
     Vector3[] bindPoseNormal;
 
@@ -57,14 +66,16 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
         //get bones and mesh verts
         //compare these in world space to see which ones line up
         //TODO warn if physicsSimMesh has split vertices
+        //TODO validate anchors
         Transform[] bones = skinnedMesh.bones;
         Mesh m = physicsSimMesh.sharedMesh;
         Vector3[] verts = m.vertices;
         Vector3[] norms = m.normals;
-        Color[] cols = m.colors;
-        if (cols.Length != verts.Length)
+        //todo make list of which UV map
+        Vector2[] uvs = m.uv;
+        if (uvs.Length != verts.Length)
         {
-            Debug.LogError("The physics sim mesh had no vertex colors. Vertex colors are needed to identify the anchor bones.");
+            Debug.LogError("The physics sim mesh had no uvs. UVs are needed to identify the anchor bones.");
         }
         List<BoneAndNode> foundMatches = new List<BoneAndNode>();
         for (int i = 0; i < verts.Length; i++)
@@ -85,16 +96,20 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
         }
         bone2idxMap = foundMatches.ToArray();
         List<int> foundMatchesNodes = new List<int>();
-        for (int i = 0; i < cols.Length; i++)
+        for (int i = 0; i < uvs.Length; i++)
         {
-            if (cols[i].r < .2f && cols[i].g < .2f && cols[i].b < .2f)
+            for (int j = 0; j < anchors.Length; j++)
             {
-                foundMatchesNodes.Add(i);
+                if (uvs[i].x > anchors[j].uvRangeFrom &&
+                    uvs[i].x < anchors[j].uvRangeTo)
+                {
+                    anchors[j].anchorNodeIndexes.Add(i);
+                    anchors[j].anchorNodeStrength.Add(uvs[i].y);
+                }
             }
         }
-        anchorNodeIndexes = foundMatchesNodes.ToArray();
 
-        Debug.LogFormat("Done Building Bone To Node Index Map. Found: {0} bones and {1} anchor nodes", bone2idxMap.Length, anchorNodeIndexes.Length);
+        Debug.LogFormat("Done Building Bone To Node Index Map. Found: {0} bones and", bone2idxMap.Length);
 	}
 
     public void OnDrawGizmosSelected()
@@ -121,13 +136,16 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
         {
             Debug.LogError("No bones have been mapped to soft body nodes for object " + name);
         }
-        if (anchorNodeIndexes == null || anchorNodeIndexes.Length == 0)
+        for (int i = 0; i < anchors.Length; i++)
         {
-            Debug.LogError("No nodes have been identified as anchors. Soft body will not be attached to rigidBodyAnchor anywhere " + name);
-        }
-        if (anchorRigidBody == null)
-        {
-            Debug.LogError("No anchor rigid body has been set for object " + name);
+            if (anchors[i].anchorRigidBody == null)
+            {
+                Debug.LogError("No anchor rigid body has been set for anchor " + i);
+            }
+            if (anchors[i].anchorNodeIndexes == null || anchors[i].anchorNodeIndexes.Count == 0)
+            {
+                Debug.LogError("No nodes have been identified as anchors. Soft body will not be attached to RigidBody anchor " + anchors[i].anchorRigidBody);
+            }
         }
 
         Mesh mesh = physicsSimMesh.sharedMesh;
@@ -149,11 +167,12 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
         m_BSoftBody.Translate(physicsSimMesh.transform.position.ToBullet());
         m_BSoftBody.Scale(physicsSimMesh.transform.localScale.ToBullet());
 
-        if (anchorRigidBody != null)
+        for (int i = 0; i < anchors.Length; i++)
         {
-            for (int i = 0; i < anchorNodeIndexes.Length; i++)
+            BAnchor a = anchors[i];
+            for (int j = 0; j < a.anchorNodeIndexes.Count; j++)
             {
-                m_BSoftBody.AppendAnchor(anchorNodeIndexes[i], (RigidBody)anchorRigidBody.GetCollisionObject(), false);
+                m_BSoftBody.AppendAnchor(a.anchorNodeIndexes[j], (RigidBody) a.anchorRigidBody.GetCollisionObject(), false, a.anchorNodeStrength[j]);
             }
         }
 
