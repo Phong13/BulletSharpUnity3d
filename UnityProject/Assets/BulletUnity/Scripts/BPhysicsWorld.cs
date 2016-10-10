@@ -471,7 +471,7 @@ namespace BulletUnity
         {
             if (!(m_world is BulletSharp.SoftBody.SoftRigidDynamicsWorld))
             {
-                if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("The Physics World must be a BSoftBodyWorld for adding soft bodies");
+                if (debugType <= BDebug.DebugType.Trace) Debug.LogErrorFormat("The Physics World must be a BSoftBodyWorld for adding soft bodies");
                 return false;
             }
             if (!_isDisposed)
