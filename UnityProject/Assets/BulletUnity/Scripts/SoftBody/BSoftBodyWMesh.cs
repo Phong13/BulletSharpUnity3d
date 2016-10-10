@@ -28,6 +28,11 @@ namespace BulletUnity
         {
 
             Mesh mesh = meshSettings.Build();
+            if (mesh == null)
+            {
+                Debug.LogError("Could not build mesh from meshSettings for " + this);
+                return false;
+            }
 
             GetComponent<MeshFilter>().sharedMesh = mesh;
 
@@ -35,7 +40,7 @@ namespace BulletUnity
             {
                 return false;
             }
-            //convert the mesh data to Bullet data and create DoftBody
+            //convert the mesh data to Bullet data and create SoftBody
             BulletSharp.Math.Vector3[] bVerts = new BulletSharp.Math.Vector3[mesh.vertexCount];
             Vector3[] verts = mesh.vertices;
             for (int i = 0; i < mesh.vertexCount; i++)
@@ -92,11 +97,13 @@ namespace BulletUnity
         public override void UpdateMesh()
         {
             Mesh mesh = meshFilter.sharedMesh;
-            //mesh.Clear();
-            mesh.vertices = verts;
-            mesh.normals = norms;
-            mesh.RecalculateBounds();
-            transform.SetTransformationFromBulletMatrix(m_collisionObject.WorldTransform);  //Set SoftBody position, No motionstate    
+            if (verts != null && verts.Length > 0)
+            {
+                mesh.vertices = verts;
+                mesh.normals = norms;
+                mesh.RecalculateBounds();
+                transform.SetTransformationFromBulletMatrix(m_collisionObject.WorldTransform);  //Set SoftBody position, No motionstate    
+            }
         }
     }
 }
