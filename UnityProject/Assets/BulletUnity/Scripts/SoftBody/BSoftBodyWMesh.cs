@@ -70,9 +70,9 @@ namespace BulletUnity
             go.transform.position = position;
             go.transform.rotation = rotation;
             BSoftBodyWMesh BSoft = go.AddComponent<BSoftBodyWMesh>();
-
+            MeshFilter meshFilter = go.AddComponent<MeshFilter>();
+            MeshRenderer meshRenderer = go.AddComponent<MeshRenderer>();
             BSoft.meshSettings.UserMesh = mesh;
-            MeshRenderer meshRenderer = go.GetComponent<MeshRenderer>();
             UnityEngine.Material material = new UnityEngine.Material(Shader.Find("Standard"));
             meshRenderer.material = material;
 
@@ -92,13 +92,11 @@ namespace BulletUnity
         public override void UpdateMesh()
         {
             Mesh mesh = meshFilter.sharedMesh;
+            //mesh.Clear();
             mesh.vertices = verts;
             mesh.normals = norms;
             mesh.RecalculateBounds();
             transform.SetTransformationFromBulletMatrix(m_collisionObject.WorldTransform);  //Set SoftBody position, No motionstate    
         }
-
-
-
     }
 }

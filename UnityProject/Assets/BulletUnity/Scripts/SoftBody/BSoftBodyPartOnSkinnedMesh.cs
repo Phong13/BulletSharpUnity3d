@@ -9,16 +9,17 @@ using BulletSharp.SoftBody;
 [Serializable]
 public class BSoftBodyPartOnSkinnedMesh : BSoftBody
 {
-    SkinnedMeshRenderer skinnedMesh;
+    public SkinnedMeshRenderer skinnedMesh;
 
     [Serializable]
     public class BAnchor
     {
         public BRigidBody anchorRigidBody;
-        public float uvRangeFrom = 0f;
-        public float uvRangeTo = 1f;
+        public float colRangeFrom = 0f;
+        public float colRangeTo = 1f;
         public List<int> anchorNodeIndexes = new List<int>();
         public List<float> anchorNodeStrength = new List<float>();
+        public List<Vector3> anchorPosition = new List<Vector3>();
     }
 
     [Serializable]
@@ -34,11 +35,12 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
 
     [Header("Mapping Bones To Physics Sim Mesh Verts Settings")]
     public float radius = .0001f;
-    public MeshFilter physicsSimMesh;
+    MeshFilter physicsSimMesh;
     public BAnchor[] anchors;
 
     public bool debugDisplaySimulatedMesh;
     public bool debugShowMappedBoneGizmos;
+    public bool debugShowMappedAnchors;
 
     [SerializeField]
     BoneAndNode[] bone2idxMap;
@@ -52,10 +54,15 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
     [ContextMenu("Build Bone 2 Node Map")]
     // Use this for initialization
     void BuildBoneToNodeIdxMap() {
-        skinnedMesh = GetComponent<SkinnedMeshRenderer>();
         if (skinnedMesh == null)
         {
             Debug.LogError("must be attached to a skinned mesh");
+        }
+
+        physicsSimMesh = GetComponent<MeshFilter>();
+        if (physicsSimMesh == null)
+        {
+            Debug.LogError("Must be attached to an object with a MeshRenderer");
         }
 
         if (physicsSimMesh == null)
@@ -67,16 +74,34 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
         //compare these in world space to see which ones line up
         //TODO warn if physicsSimMesh has split vertices
         //TODO validate anchors
+        //TODO why does other mesh shape work better than mine.
         Transform[] bones = skinnedMesh.bones;
         Mesh m = physicsSimMesh.sharedMesh;
         Vector3[] verts = m.vertices;
         Vector3[] norms = m.normals;
         //todo make list of which UV map
-        Vector2[] uvs = m.uv;
-        if (uvs.Length != verts.Length)
+        Color[] cols = m.colors;
+        if (cols.Length != verts.Length)
         {
-            Debug.LogError("The physics sim mesh had no uvs. UVs are needed to identify the anchor bones.");
+            Debug.LogError("The physics sim mesh had no colors. Colors are needed to identify the anchor bones.");
         }
+        //check for duplicate verts
+        int numDuplicated = 0;
+        for (int i = 0; i < verts.Length; i++)
+        {
+            for (int j = i+1; j < verts.Length; j++)
+            {
+                if (verts[i] == verts[j])
+                {
+                    numDuplicated++;
+                }
+            }
+        }
+        if (numDuplicated > 0)
+        {
+            Debug.LogError("The physics sim mesh has " + numDuplicated + " duplicated vertices. Check that the mesh does not have hard edges and that there are no UVs.");
+        }
+
         List<BoneAndNode> foundMatches = new List<BoneAndNode>();
         for (int i = 0; i < verts.Length; i++)
         {
@@ -95,32 +120,52 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
             }
         }
         bone2idxMap = foundMatches.ToArray();
+        int numAnchorNodes = 0;
         List<int> foundMatchesNodes = new List<int>();
-        for (int i = 0; i < uvs.Length; i++)
+        for (int i = 0; i < cols.Length; i++)
         {
             for (int j = 0; j < anchors.Length; j++)
             {
-                if (uvs[i].x > anchors[j].uvRangeFrom &&
-                    uvs[i].x < anchors[j].uvRangeTo)
+                if (cols[i].g > anchors[j].colRangeFrom &&
+                    cols[i].g < anchors[j].colRangeTo)
                 {
                     anchors[j].anchorNodeIndexes.Add(i);
-                    anchors[j].anchorNodeStrength.Add(uvs[i].y);
+                    anchors[j].anchorNodeStrength.Add(cols[i].r);
+                    anchors[j].anchorPosition.Add(verts[i]);
+                    numAnchorNodes++;
                 }
             }
         }
 
-        Debug.LogFormat("Done Building Bone To Node Index Map. Found: {0} bones and", bone2idxMap.Length);
+        Debug.LogFormat("Done Building Bone To Node Index Map. Found: {0} bones and {1} anchor nodes.", bone2idxMap.Length, numAnchorNodes);
 	}
 
     public void OnDrawGizmosSelected()
     {
+        
         if (debugShowMappedBoneGizmos)
         {
+            if (norms.Length > 0 && bone2idxMap.Length > 0) {
+                Gizmos.color = Color.blue;
+                for (int i = 0; i < bone2idxMap.Length; i++)
+                {
+                    if (bone2idxMap[i].bone != null) {
+                        //Gizmos.DrawWireSphere(bone2idxMap[i].bone.transform.position, .1f);
+                        Gizmos.DrawRay(bone2idxMap[i].bone.position, bone2idxMap[i].bindNormal);
+                        Gizmos.DrawRay(bone2idxMap[i].bone.position, norms[bone2idxMap[i].nodeIdx]);
+                    }
+                }
+            }
+        }
+        if (debugShowMappedAnchors)
+        {
             Gizmos.color = Color.blue;
-            for (int i = 0; i < bone2idxMap.Length; i++)
+            for (int i = 0; i < anchors.Length; i++)
             {
-                if (bone2idxMap[i].bone != null) {
-                    Gizmos.DrawWireSphere(bone2idxMap[i].bone.transform.position, .1f);
+                for (int j = 0; j < anchors[i].anchorNodeIndexes.Count; j++)
+                {
+                    Vector3 pos = transform.TransformPoint(anchors[i].anchorPosition[j]);
+                    Gizmos.DrawWireSphere(pos, .1f);
                 }
             }
         }
@@ -148,6 +193,7 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
             }
         }
 
+        if (physicsSimMesh == null) physicsSimMesh = GetComponent<MeshFilter>();
         Mesh mesh = physicsSimMesh.sharedMesh;
 
         //convert the mesh data to Bullet data and create DoftBody
@@ -179,7 +225,14 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
         MeshRenderer mr = physicsSimMesh.GetComponent<MeshRenderer>();
         if (mr != null)
         {
-            mr.enabled = false;
+            if (debugDisplaySimulatedMesh)
+            {
+                mr.enabled = true;
+            }
+            else
+            {
+                mr.enabled = false;
+            }
         }
 
         if (norms.Length == 0 || norms.Length != verts.Length)
@@ -201,38 +254,40 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
 
     public void LateUpdate()
     {
-
-        // read the positions of the bones from the physics simulation
-        DumpDataFromBullet(); 
-        //Update bone positions based on bullet data
-        for (int i = 0; i < bone2idxMap.Length; i++)
+        if (isInWorld)
         {
-            bone2idxMap[i].bone.position = verts[bone2idxMap[i].nodeIdx];
-            Quaternion q = Quaternion.FromToRotation(bone2idxMap[i].bindNormal, norms[bone2idxMap[i].nodeIdx]);
-            bone2idxMap[i].bone.rotation = bone2idxMap[i].bindBoneRotation * q;
-        }
+            // read the positions of the bones from the physics simulation
+            DumpDataFromBullet();
+            //Update bone positions based on bullet data
+            for (int i = 0; i < bone2idxMap.Length; i++)
+            {
+                bone2idxMap[i].bone.position = verts[bone2idxMap[i].nodeIdx];
+                Quaternion q = Quaternion.FromToRotation(bone2idxMap[i].bindNormal, norms[bone2idxMap[i].nodeIdx]);
+                bone2idxMap[i].bone.rotation = bone2idxMap[i].bindBoneRotation * q;
+            }
 
-        if (debugDisplaySimulatedMesh)
-        {
-            if (myMesh == null)
+            if (debugDisplaySimulatedMesh)
             {
-                myMesh = GameObject.Instantiate<Mesh>(physicsSimMesh.sharedMesh);
-                MeshFilter mf = physicsSimMesh.GetComponent<MeshFilter>();
-                mf.sharedMesh = myMesh;
+                if (myMesh == null)
+                {
+                    myMesh = GameObject.Instantiate<Mesh>(physicsSimMesh.sharedMesh);
+                    MeshFilter mf = physicsSimMesh.GetComponent<MeshFilter>();
+                    mf.sharedMesh = myMesh;
+                }
+                if (localVerts == null || localVerts.Length != verts.Length)
+                {
+                    localVerts = new Vector3[verts.Length];
+                    localNorms = new Vector3[norms.Length];
+                }
+                for (int i = 0; i < verts.Length; i++)
+                {
+                    localVerts[i] = physicsSimMesh.transform.InverseTransformPoint(verts[i]);
+                    localNorms[i] = physicsSimMesh.transform.InverseTransformDirection(norms[i]);
+                }
+                myMesh.vertices = localVerts;
+                myMesh.normals = localVerts;
+                myMesh.RecalculateBounds();
             }
-            if (localVerts == null || localVerts.Length != verts.Length)
-            {
-                localVerts = new Vector3[verts.Length];
-                localNorms = new Vector3[norms.Length];
-            }
-            for (int i = 0; i < verts.Length; i++)
-            {
-                localVerts[i] = physicsSimMesh.transform.InverseTransformPoint(verts[i]);
-                localNorms[i] = physicsSimMesh.transform.InverseTransformDirection(norms[i]);
-            }
-            myMesh.vertices = localVerts;
-            myMesh.normals = localVerts;
-            myMesh.RecalculateBounds();
         }
     }
 
