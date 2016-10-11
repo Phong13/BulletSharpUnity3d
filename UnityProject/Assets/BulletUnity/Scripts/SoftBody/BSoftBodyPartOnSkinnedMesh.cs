@@ -6,6 +6,7 @@ using BulletUnity;
 using BulletSharp;
 using BulletSharp.SoftBody;
 
+//TODO preset must be shapeMatching
 [Serializable]
 public class BSoftBodyPartOnSkinnedMesh : BSoftBody
 {
@@ -31,6 +32,63 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
         //vertex bind normal
         public Vector3 bindNormal;
         public Quaternion bindBoneRotation;
+
+        //we need to track the edges leaving this node so we can fully orient the bone
+        public Edge[] edges;
+    }
+
+    [Serializable]
+    public class Edge: IComparable<Edge>
+    {
+        public int nodeIdx;
+        public float r_angleFromPlane;
+        public Vector3 edgeXnorm; //normalized cross product of edge with normal
+        public Vector3 bindEdgeXnorm; //in world space,
+
+        public Edge(int p1, int p2, Vector3[] normals, Vector3[] verts)
+        {
+            nodeIdx = p2;
+            Vector3 e = verts[p2] - verts[p1];
+            edgeXnorm = Vector3.Cross(e, normals[p1]);
+            float sinTheta;
+            if (e.magnitude < 10e-8f)
+            {
+                sinTheta = 0;
+                r_angleFromPlane = Mathf.PI / 2f;
+            } else {
+                sinTheta = Mathf.Clamp(edgeXnorm.magnitude / (e.magnitude * normals[p1].magnitude), -1f, 1f);
+                if (sinTheta > 1 || sinTheta < -1)
+                {
+                    Debug.LogError("Should never get here " + sinTheta.ToString("f15"));
+                }
+                r_angleFromPlane = Mathf.Abs(Mathf.Asin(sinTheta) - Mathf.PI/2);
+            }
+            edgeXnorm.Normalize();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Edge)
+            {
+                Edge o = (Edge)obj;
+                if (o.nodeIdx == nodeIdx)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return nodeIdx;
+        }
+
+        //want to choose edges that are closest to 90 degrees with Normal first
+        public int CompareTo(Edge e)
+        {
+            return (int) Mathf.Sign(r_angleFromPlane - e.r_angleFromPlane);
+        }
     }
 
     [Header("Mapping Bones To Physics Sim Mesh Verts Settings")]
@@ -51,23 +109,44 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
     Vector3[] localVerts;
     Vector3[] localNorms;
 
+
+    [ContextMenu("Debug set data to other")]
+    void DebugRemove()
+    {
+        //todo remove
+        for (int i = 0; i < bone2idxMap.Length; i++)
+        {
+            if (bone2idxMap[i].bone.GetComponentInChildren<MeshRenderer>() != null)
+            {
+                MatchWithNormalExp mat = FindObjectOfType<MatchWithNormalExp>();
+                mat.bindNormal = bone2idxMap[i].bindNormal;
+                mat.normal = norms[bone2idxMap[i].nodeIdx];
+                mat.rot = bone2idxMap[i].bone.rotation;
+                mat.bindRotation = bone2idxMap[i].bindBoneRotation;
+            }
+        }
+    }
+
     [ContextMenu("Build Bone 2 Node Map")]
     // Use this for initialization
     void BuildBoneToNodeIdxMap() {
         if (skinnedMesh == null)
         {
-            Debug.LogError("must be attached to a skinned mesh");
+            Debug.LogError("The Skinned Mesh field has not been assigned.");
+            return;
         }
 
         physicsSimMesh = GetComponent<MeshFilter>();
         if (physicsSimMesh == null)
         {
             Debug.LogError("Must be attached to an object with a MeshRenderer");
+            return;
         }
 
         if (physicsSimMesh == null)
         {
             Debug.LogError("must add the physics sim mesh bone");
+            return;
         }
 
         //get bones and mesh verts
@@ -81,6 +160,7 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
         Vector3[] norms = m.normals;
         //todo make list of which UV map
         Color[] cols = m.colors;
+        int[] triangles = m.triangles;
         if (cols.Length != verts.Length)
         {
             Debug.LogError("The physics sim mesh had no colors. Colors are needed to identify the anchor bones.");
@@ -137,12 +217,54 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
             }
         }
 
+        for (int i = 0; i < bone2idxMap.Length; i++)
+        {
+            int idx = bone2idxMap[i].nodeIdx;
+            List<Edge> edges = new List<Edge>();
+            for (int j = 0; j < triangles.Length; j+=3)
+            {
+                if (triangles[j] == idx)
+                {
+                    _addEdges(idx, triangles[j + 1], triangles[j + 2], edges, norms, verts);
+                } else if (triangles[j+1] == idx)
+                {
+                    _addEdges(idx, triangles[j], triangles[j + 2], edges, norms, verts);
+                } else if (triangles[j+2] == idx)
+                {
+                    _addEdges(idx, triangles[j], triangles[j + 1], edges, norms, verts);
+                }
+            }
+            edges.Sort();
+            bone2idxMap[i].edges = edges.ToArray();
+        }
+
         Debug.LogFormat("Done Building Bone To Node Index Map. Found: {0} bones and {1} anchor nodes.", bone2idxMap.Length, numAnchorNodes);
 	}
 
+    void _addEdges(int p, int a, int b, List<Edge> edges, Vector3[] ns, Vector3[] vs)
+    {
+        Edge aa = new Edge(p, a, ns, vs);
+        Edge bb = new Edge(p, b, ns, vs);
+        if (!edges.Contains(aa)) edges.Add(aa);
+        if (!edges.Contains(bb)) edges.Add(bb);
+    }
+
     public void OnDrawGizmosSelected()
     {
-        
+        /*
+        for (int i = 0; i < bone2idxMap.Length; i++)
+        {
+            if (i == 1 && verts != null && verts.Length > 0)
+            {
+                Gizmos.color = Color.magenta;
+                for (int j = 0; j < bone2idxMap[i].edges.Length; j++)
+                {
+                    Gizmos.DrawLine(verts[bone2idxMap[i].nodeIdx], verts[bone2idxMap[i].edges[j].nodeIdx]);
+                    Gizmos.color = Gizmos.color * .75f;
+                }
+            }
+        }
+        */
         if (debugShowMappedBoneGizmos)
         {
             if (norms.Length > 0 && bone2idxMap.Length > 0) {
@@ -150,9 +272,39 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
                 for (int i = 0; i < bone2idxMap.Length; i++)
                 {
                     if (bone2idxMap[i].bone != null) {
+                        BoneAndNode bn = bone2idxMap[i];
+                        Gizmos.color = Color.magenta;
                         //Gizmos.DrawWireSphere(bone2idxMap[i].bone.transform.position, .1f);
+
                         Gizmos.DrawRay(bone2idxMap[i].bone.position, bone2idxMap[i].bindNormal);
+                        Gizmos.color = Color.magenta * .6f;
+                        Gizmos.DrawRay(bone2idxMap[i].bone.position, bone2idxMap[i].edges[0].bindEdgeXnorm);
+                        Gizmos.color = Color.green;
                         Gizmos.DrawRay(bone2idxMap[i].bone.position, norms[bone2idxMap[i].nodeIdx]);
+                        Vector3 edgeXnorm = Vector3.Cross(verts[bn.edges[0].nodeIdx] - verts[bn.nodeIdx], norms[bn.nodeIdx]);
+                        edgeXnorm.Normalize();
+                        Gizmos.color = Color.green * .6f;
+                        Gizmos.DrawRay(bone2idxMap[i].bone.position, edgeXnorm);
+                        
+
+
+                        /*
+                        Gizmos.color = Color.red;
+                        Gizmos.DrawRay(bone2idxMap[i].bone.position, bone2idxMap[i].bone.right);
+                        Gizmos.color = Color.green;
+                        Gizmos.DrawRay(bone2idxMap[i].bone.position, bone2idxMap[i].bone.up);
+                        Gizmos.color = Color.blue;
+                        Gizmos.DrawRay(bone2idxMap[i].bone.position, bone2idxMap[i].bone.forward);
+                        
+                        Gizmos.color = Color.red * .6f;
+                        Gizmos.DrawRay(bone2idxMap[i].bone.position, bone2idxMap[i].bindBoneRotation * Vector3.forward);
+                        Gizmos.color = Color.green * .6f; ;
+                        Gizmos.DrawRay(bone2idxMap[i].bone.position, bone2idxMap[i].bindBoneRotation * Vector3.up);
+                        Gizmos.color = Color.blue * .6f;
+                        Gizmos.DrawRay(bone2idxMap[i].bone.position, bone2idxMap[i].bindBoneRotation * Vector3.right);
+                        */
+                        
+                        
                     }
                 }
             }
@@ -238,15 +390,22 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
         if (norms.Length == 0 || norms.Length != verts.Length)
         {
             norms = new Vector3[m_BSoftBody.Nodes.Count];
+            verts = new Vector3[m_BSoftBody.Nodes.Count];
         }
         for (int i = 0; i < m_BSoftBody.Nodes.Count; i++)
         {
             norms[i] = m_BSoftBody.Nodes[i].Normal.ToUnity();
+            verts[i] = m_BSoftBody.Nodes[i].Position.ToUnity();
         }
         for (int i = 0; i < bone2idxMap.Length; i++)
         {
             bone2idxMap[i].bindNormal = norms[bone2idxMap[i].nodeIdx];
             bone2idxMap[i].bindBoneRotation = bone2idxMap[i].bone.rotation;
+            
+            for (int j = 0; j < bone2idxMap[i].edges.Length; j++)
+            {
+                bone2idxMap[i].edges[j].bindEdgeXnorm = Vector3.Cross(verts[bone2idxMap[i].edges[j].nodeIdx] - verts[bone2idxMap[i].nodeIdx], norms[bone2idxMap[i].nodeIdx]).normalized;
+            }
         }
 
         return true;
@@ -258,16 +417,25 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
         {
             // read the positions of the bones from the physics simulation
             DumpDataFromBullet();
-            //Update bone positions based on bullet data
+            //Update bone positions and orientaion based on bullet data
             for (int i = 0; i < bone2idxMap.Length; i++)
             {
-                bone2idxMap[i].bone.position = verts[bone2idxMap[i].nodeIdx];
-                Quaternion q = Quaternion.FromToRotation(bone2idxMap[i].bindNormal, norms[bone2idxMap[i].nodeIdx]);
-                bone2idxMap[i].bone.rotation = bone2idxMap[i].bindBoneRotation * q;
+                BoneAndNode bn = bone2idxMap[i];
+                bn.bone.position = verts[bn.nodeIdx];
+                // to update the orientation we need to see how the normal and one vertex moved
+                //todo check magnitude and loop over edges if first doesn't work
+                Vector3 edgeXnorm = Vector3.Cross(verts[bn.edges[0].nodeIdx] - verts[bn.nodeIdx], norms[bn.nodeIdx]);
+                edgeXnorm.Normalize();
+                Quaternion q = WahbasSolution(bn.bindNormal, bn.edges[0].bindEdgeXnorm,
+                                              norms[bn.nodeIdx], edgeXnorm);
+            
+                bone2idxMap[i].bone.rotation = q * bn.bindBoneRotation;
             }
 
             if (debugDisplaySimulatedMesh)
             {
+                //todo
+                Vector3 offset = new Vector3(5f, 5f, 0f);
                 if (myMesh == null)
                 {
                     myMesh = GameObject.Instantiate<Mesh>(physicsSimMesh.sharedMesh);
@@ -281,7 +449,7 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
                 }
                 for (int i = 0; i < verts.Length; i++)
                 {
-                    localVerts[i] = physicsSimMesh.transform.InverseTransformPoint(verts[i]);
+                    localVerts[i] = physicsSimMesh.transform.InverseTransformPoint(verts[i]) + offset;
                     localNorms[i] = physicsSimMesh.transform.InverseTransformDirection(norms[i]);
                 }
                 myMesh.vertices = localVerts;
@@ -308,5 +476,50 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
         {
             Destroy(myMesh);
         }
+    }
+
+    Quaternion WahbasSolution(Vector3 b1, Vector3 b2, Vector3 r1, Vector3 r2)
+    {
+        Vector3 r1Xr2 = Vector3.Cross(r1, r2);
+        Vector3 b1Xb2 = Vector3.Cross(b1, b2);
+        float b1Dotr1 = Vector3.Dot(b1, r1);
+        Vector3 b1Xr1 = Vector3.Cross(b1, r1);
+        float mu = (1 + b1Dotr1) *
+                    Vector3.Dot(b1Xb2, r1Xr2) -
+                    Vector3.Dot(b1, r1Xr2) *
+                    Vector3.Dot(r1, b1Xb2);
+        float v = Vector3.Dot((b1 + r1),Vector3.Cross(b1Xb2,r1Xr2));
+        float p = Mathf.Sqrt(mu * mu + v * v);
+        Vector3 qV;
+        float qs;
+        if (mu >= 0)
+        {
+            float a = 1 / (2 * Mathf.Sqrt(p * (p + mu) * (1 + b1Dotr1)));
+            qV = a * ((p + mu) * b1Xr1 + v * (b1 + r1));
+            qs = a * ((p + mu) * (1 + b1Dotr1));
+        } else
+        {
+            float a = 1 / (2 * Mathf.Sqrt(p * (p - mu) * (1 + b1Dotr1)));
+            qV = a * ((v) * b1Xr1 + (p - mu) * (b1 + r1));
+            qs = a * (v * (1 + b1Dotr1));
+        }
+        Quaternion q = new Quaternion(qV.x, qV.y, qV.z, qs);
+        return q;
+    }
+
+    [ContextMenu("Unit Test Wahbas")]
+    void UnitTestWahbas()
+    {
+
+        //pick two random rotations
+        //grab some unit vectors in each rotation
+        //see if WahbasSolution works
+
+        Vector3 b1 = new Vector3(0,1,0); 
+        Vector3 b2 = new Vector3(1,0, 0);
+        Vector3 r1 = new Vector3(0, 1, 0);
+        Vector3 r2 = new Vector3(-1, 0, -1).normalized;
+        Quaternion q = WahbasSolution(b1, b2, r1, r2);
+        Debug.Log(q.eulerAngles);
     }
 }
