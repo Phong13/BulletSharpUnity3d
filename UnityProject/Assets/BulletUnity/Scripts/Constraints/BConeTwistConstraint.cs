@@ -178,6 +178,7 @@ namespace BulletUnity {
             m_constraintPtr.Userobject = this;
             m_constraintPtr.DebugDrawSize = m_debugDrawSize;
             m_constraintPtr.BreakingImpulseThreshold = m_breakingImpulseThreshold;
+            m_constraintPtr.OverrideNumSolverIterations = m_overrideNumSolverIterations;
             return true;
         }
     }

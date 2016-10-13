@@ -178,6 +178,7 @@ namespace BulletUnity {
             sl.TranslationalLimitMotor.MaxMotorForce = m_motorLinearMaxMotorForce.ToBullet();
             sl.BreakingImpulseThreshold = m_breakingImpulseThreshold;
             sl.DebugDrawSize = m_debugDrawSize;
+            sl.OverrideNumSolverIterations = m_overrideNumSolverIterations;
             return true;
         }
     }

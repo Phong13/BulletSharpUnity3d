@@ -69,7 +69,7 @@ namespace BulletUnity
         /// <param name="buildNow">Build now or configure properties and call BuildSoftBody() after</param>
         /// <param name="sBpresetSelect">Use a particular softBody configuration pre select values</param>
         /// <returns></returns>
-        public static GameObject CreateNew(Vector3 position, Quaternion rotation, Mesh mesh, bool buildNow, SBSettingsPresets sBpresetSelect = SBSettingsPresets.ShapeMatching)
+        public static GameObject CreateNew(Vector3 position, Quaternion rotation, Mesh mesh, bool buildNow, SBSettingsPresets sBpresetSelect)
         {
             GameObject go = new GameObject("SoftBodyWMesh");
             go.transform.position = position;

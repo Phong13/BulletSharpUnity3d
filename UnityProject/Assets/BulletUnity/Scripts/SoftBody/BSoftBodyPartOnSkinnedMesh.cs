@@ -15,11 +15,17 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
     [Serializable]
     public class BAnchor
     {
+        [Tooltip("A Bullet Physics rigid body")]
         public BRigidBody anchorRigidBody;
+        [Tooltip("A range in the green channel. Vertices with a vertex color green value in this range will be bound to this anchor")]
         public float colRangeFrom = 0f;
+        [Tooltip("A range in the green channel. Vertices with a vertex color green value in this range will be bound to this anchor")]
         public float colRangeTo = 1f;
+        [HideInInspector]
         public List<int> anchorNodeIndexes = new List<int>();
+        [HideInInspector]
         public List<float> anchorNodeStrength = new List<float>();
+        [HideInInspector]
         public List<Vector3> anchorPosition = new List<Vector3>();
     }
 
@@ -91,16 +97,25 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
         }
     }
 
-    [Header("Mapping Bones To Physics Sim Mesh Verts Settings")]
+    [Header("Debug Display")]
+    [Tooltip("Render low poly soft body mesh in scene")]
+    public bool debugDisplaySimulatedMesh;
+    [Tooltip("Show bones that have been bound to the soft body mesh")]
+    public bool debugDisplayMappedBoneGizmos;
+    [Tooltip("Show anchor nodes in the soft body mesh")]
+    public bool debugDisplayMappedAnchors;
+
+    [Header("Binding Bones To Soft Body Mesh Nodes Settings")]
+    [Tooltip("Bones that are within 'radius' of soft body mesh vertices will be bound to those vertices")]
     public float radius = .0001f;
     MeshFilter physicsSimMesh;
+    [Tooltip("Anchors are Bullet rigid bodies that some soft body nodes/vertices have been bound to. Vertex colors in the Soft Body mesh are used " +
+             " to map the nodes/vertices to the anchors. The red channel defines the strength of the anchor. The green channel defines which anchor a" +
+              " vertex will be bound to.")]
     public BAnchor[] anchors;
 
-    public bool debugDisplaySimulatedMesh;
-    public bool debugShowMappedBoneGizmos;
-    public bool debugShowMappedAnchors;
-
     [SerializeField]
+    [HideInInspector]
     BoneAndNode[] bone2idxMap;
 
     //used for debugging if I want to display the the mesh distortions
@@ -109,9 +124,8 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
     Vector3[] localVerts;
     Vector3[] localNorms;
 
-    [ContextMenu("Build Bone 2 Node Map")]
     // Use this for initialization
-    void BuildBoneToNodeIdxMap() {
+    public void BindBonesToSoftBodyAndNodesToAnchors() {
         if (skinnedMesh == null)
         {
             Debug.LogError("The Skinned Mesh field has not been assigned.");
@@ -237,7 +251,7 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
             }
         }
 
-        Debug.LogFormat("Done Building Bone To Node Index Map. Found: {0} bones and {1} anchor nodes.", bone2idxMap.Length, numAnchorNodes);
+        Debug.LogFormat("Done binding bones to nodes and nodes to anchors. Found: {0} bones and {1} anchor nodes.", bone2idxMap.Length, numAnchorNodes);
 	}
 
     void _addEdges(int p, int a, int b, List<Edge> edges, Vector3[] ns, Vector3[] vs)
@@ -246,6 +260,25 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
         Edge bb = new Edge(p, b, ns, vs);
         if (!edges.Contains(aa)) edges.Add(aa);
         if (!edges.Contains(bb)) edges.Add(bb);
+    }
+
+    public string DescribeBonesAndAnchors()
+    {
+        int numMappedBones = 0;
+        int numAnchorNodes = 0;
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+        if (bone2idxMap != null)
+        {
+            numMappedBones = bone2idxMap.Length;
+        }
+        for (int i = 0; i < anchors.Length; i++)
+        {
+            if (anchors[i].anchorNodeIndexes != null)
+            {
+                numAnchorNodes += anchors[i].anchorNodeIndexes.Count;
+            }
+        }
+        return String.Format("{0} bones have been bound\n{1} anchors have been bound",numMappedBones,numAnchorNodes);
     }
 
     public void OnDrawGizmosSelected()
@@ -264,16 +297,15 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
             }
         }
         */
-        if (debugShowMappedBoneGizmos)
+        if (debugDisplayMappedBoneGizmos)
         {
-            if (norms.Length > 0 && bone2idxMap.Length > 0) {
                 Gizmos.color = Color.blue;
                 for (int i = 0; i < bone2idxMap.Length; i++)
                 {
                     if (bone2idxMap[i].bone != null) {
                         BoneAndNode bn = bone2idxMap[i];
                         Gizmos.color = Color.blue;
-                        Gizmos.DrawWireSphere(bn.bone.transform.position, .1f);
+                        Gizmos.DrawWireSphere(bn.bone.transform.position, .01f);
 
                         /*
                         Gizmos.DrawRay(bone2idxMap[i].bone.position, bone2idxMap[i].bindNormal);
@@ -305,9 +337,8 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
                         
                     }
                 }
-            }
         }
-        if (debugShowMappedAnchors)
+        if (debugDisplayMappedAnchors)
         {
             Gizmos.color = Color.blue;
             for (int i = 0; i < anchors.Length; i++)

@@ -67,7 +67,20 @@ namespace BulletUnity
             }
 
             DrawPropertiesExcluding(serializedObject, hideMe); //Draw settings after the default inspector
-            //DrawDefaultInspector();//Items custom to this type of SoftBody
+            
+            if (target is BSoftBodyPartOnSkinnedMesh)
+            {
+                BSoftBodyPartOnSkinnedMesh sb = (BSoftBodyPartOnSkinnedMesh)target;
+                if (EditorHelpers.InspectorButton("Bind Bones To Soft Body & Nodes To Anchors", 300, 15, GUIBlue))
+                {
+                    sb.BindBonesToSoftBodyAndNodesToAnchors();
+                }
+                EditorGUILayout.HelpBox(sb.DescribeBonesAndAnchors(), MessageType.Info);
+                if (sb.SoftBodySettings.sBpresetSelect != SBSettingsPresets.ShapeMatching)
+                {
+                    EditorGUILayout.HelpBox("For a soft body mesh the preset should probably be 'shape matching'", MessageType.Warning);
+                }
+            }
 
             EditorGUILayout.BeginHorizontal();
             if (EditorHelpers.InspectorButton("Apply Preset", 100, 15, GUIBlue))
@@ -115,7 +128,7 @@ namespace BulletUnity
         {
             BAnyMeshSettings settings = new BAnyMeshSettings();
             settings.meshType = PrimitiveMeshOptions.Bunny;
-            Selection.activeObject = BSoftBodyWMesh.CreateNew(EditorHelpers.GetCameraRaycastPosition(), Quaternion.identity, settings.Build(), true);
+            Selection.activeObject = BSoftBodyWMesh.CreateNew(EditorHelpers.GetCameraRaycastPosition(), Quaternion.identity, settings.Build(), true, SBSettingsPresets.ShapeMatching);
             PostCreateObject();
         }
 

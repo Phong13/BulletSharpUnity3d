@@ -89,10 +89,10 @@ namespace BulletUnity {
             UnityEngine.Vector3 scale = m_localScaling;
             if (upAxis == CapsuleAxis.x)
             {
-                rotation = Quaternion.AngleAxis(90, Vector3.forward) * rotation;
+                rotation = Quaternion.AngleAxis(90, transform.forward) * rotation;
             } else if (upAxis == CapsuleAxis.z)
             {
-                rotation = Quaternion.AngleAxis(90, Vector3.right) * rotation;
+                rotation = Quaternion.AngleAxis(90, transform.right) * rotation;
             }
             BUtility.DebugDrawCapsule(position, rotation, scale, radius, height / 2f, 1, Gizmos.color);
 

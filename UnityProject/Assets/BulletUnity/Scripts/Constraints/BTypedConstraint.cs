@@ -182,6 +182,25 @@ namespace BulletUnity {
             }
         }
 
+        [SerializeField]
+        protected int m_overrideNumSolverIterations = 20;
+        public int overrideNumSolverIterations
+        {
+            get { return m_overrideNumSolverIterations; }
+            set
+            {
+                if (value < 1) value = 1;
+                if (m_constraintPtr != null)
+                {
+                    m_constraintPtr.OverrideNumSolverIterations = value;
+                }
+                else
+                {
+                    m_overrideNumSolverIterations = value;
+                }
+            }
+        }
+
         internal TypedConstraint m_constraintPtr = null;
         internal bool m_isInWorld = false;
 

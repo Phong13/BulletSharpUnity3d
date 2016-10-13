@@ -16,6 +16,7 @@ public class BTypedConstraintEditor {
 
         EditorGUILayout.Separator();
         btc.breakingImpulseThreshold = EditorGUILayout.FloatField("Breaking Impulse Threshold", btc.breakingImpulseThreshold);
+        btc.overrideNumSolverIterations = EditorGUILayout.IntField("Num Solver Iterations", btc.overrideNumSolverIterations);
         btc.disableCollisionsBetweenConstrainedBodies = EditorGUILayout.Toggle("Disable Collisions Between Bodies", btc.disableCollisionsBetweenConstrainedBodies);
         btc.otherRigidBody = (BRigidBody)EditorGUILayout.ObjectField("Other Rigid Body", btc.otherRigidBody, typeof(BRigidBody), true);
         btc.debugDrawSize = EditorGUILayout.FloatField("Debug Draw Size", btc.debugDrawSize);
