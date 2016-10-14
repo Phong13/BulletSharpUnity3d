@@ -271,11 +271,14 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
         {
             numMappedBones = bone2idxMap.Length;
         }
-        for (int i = 0; i < anchors.Length; i++)
+        if (anchors != null)
         {
-            if (anchors[i].anchorNodeIndexes != null)
+            for (int i = 0; i < anchors.Length; i++)
             {
-                numAnchorNodes += anchors[i].anchorNodeIndexes.Count;
+                if (anchors[i].anchorNodeIndexes != null)
+                {
+                    numAnchorNodes += anchors[i].anchorNodeIndexes.Count;
+                }
             }
         }
         return String.Format("{0} bones have been bound\n{1} anchors have been bound",numMappedBones,numAnchorNodes);

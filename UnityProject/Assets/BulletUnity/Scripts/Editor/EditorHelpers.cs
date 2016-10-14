@@ -21,7 +21,7 @@ namespace BulletUnity
         public static void DrawLogoAndVersion()
         {
 			EditorGUILayout.LabelField(new GUIContent(EditorLogo), GUILayout.MinHeight(64.0f), GUILayout.ExpandWidth(false));
-			EditorGUILayout.LabelField(string.Format("Bullet Version: {0}", version));
+			//EditorGUILayout.LabelField(string.Format("Bullet Version: {0}", version));
 			EditorGUILayout.Separator();
         }
 
