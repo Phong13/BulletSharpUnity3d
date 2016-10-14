@@ -381,6 +381,7 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
         Mesh mesh = physicsSimMesh.sharedMesh;
 
         //convert the mesh data to Bullet data and create DoftBody
+        //todo should these be in world coordinates
         BulletSharp.Math.Vector3[] bVerts = new BulletSharp.Math.Vector3[mesh.vertexCount];
         Vector3[] verts = mesh.vertices;
         for (int i = 0; i < mesh.vertexCount; i++)
@@ -441,6 +442,30 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
         }
 
         return true;
+    }
+
+    /**
+    moves soft body nodes and restores shape to modeled shape in current location,rotation
+    */
+    public void ResetNodesAfterTeleportJump(Vector3 jumpOffset)
+    {
+        if (m_collisionObject != null)
+        {
+            if (physicsSimMesh == null)
+            {
+                Debug.LogError("MeshFilter was null trying ResetNodesAfterTeleportJump.");
+                return;
+            }
+            SoftBody sb = (SoftBody)m_collisionObject;
+            for (int i = 0; i < sb.Nodes.Count; i++)
+            {
+                sb.Nodes[i].Position += jumpOffset.ToBullet(); //verts[i].ToBullet();
+                //sb.Nodes[i].Normal = norms[i].ToBullet();
+                //TODO deal with rotation
+            }
+            //sb.Rotate(physicsSimMesh.transform.rotation.ToBullet());
+            //sb.Translate(physicsSimMesh.transform.position.ToBullet());
+        }
     }
 
     public void LateUpdate()
