@@ -317,7 +317,7 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
                     if (bone2idxMap[i].bone != null) {
                         BoneAndNode bn = bone2idxMap[i];
                         Gizmos.color = Color.blue;
-                        Gizmos.DrawWireSphere(bn.bone.transform.position, .01f);
+                        Gizmos.DrawWireSphere(bn.bone.transform.position, .1f);
 
                         /*
                         Gizmos.DrawRay(bone2idxMap[i].bone.position, bone2idxMap[i].bindNormal);
