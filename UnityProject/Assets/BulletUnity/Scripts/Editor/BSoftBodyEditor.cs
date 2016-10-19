@@ -78,7 +78,7 @@ namespace BulletUnity
                 EditorGUILayout.HelpBox(sb.DescribeBonesAndAnchors(), MessageType.Info);
                 if (sb.SoftBodySettings.sBpresetSelect != SBSettingsPresets.ShapeMatching)
                 {
-                    EditorGUILayout.HelpBox("For a soft body mesh the preset should probably be 'shape matching'", MessageType.Warning);
+                    EditorGUILayout.HelpBox("For a soft body mesh the preset should probably be 'shape matching' or 'Volume'", MessageType.Warning);
                 }
             }
 

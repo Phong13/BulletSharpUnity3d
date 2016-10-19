@@ -37,6 +37,10 @@ namespace BulletUnity {
 
         //TODO the gizmos do not draw correctly when collision shape is scaled
         public override void OnDrawGizmosSelected() {
+            if (drawGizmo == false)
+            {
+                return;
+            }
             if (colliders != null) {
                 for (int i = 0; i < colliders.Length; i++) {
                     colliders[i].OnDrawGizmosSelected();

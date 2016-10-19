@@ -31,6 +31,10 @@ namespace BulletUnity {
         }
 
         public override void OnDrawGizmosSelected() {
+            if (drawGizmo == false)
+            {
+                return;
+            }
             for (int i = 0; i < spheres.Length; i++) {
                 Vector3 v = spheres[i].position;
                 v.x *= m_localScaling.x; v.y *= m_localScaling.y; v.z *= m_localScaling.z;

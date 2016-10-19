@@ -105,6 +105,8 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
     [Tooltip("Show anchor nodes in the soft body mesh")]
     public bool debugDisplayMappedAnchors;
 
+    public Vector3 debugSimMeshOffset = Vector3.zero;
+
     [Header("Binding Bones To Soft Body Mesh Nodes Settings")]
     [Tooltip("Bones that are within 'radius' of soft body mesh vertices will be bound to those vertices")]
     public float radius = .0001f;
@@ -233,6 +235,13 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
             }
             edges.Sort();
             bone2idxMap[i].edges = edges.ToArray();
+        }
+        // clear old values
+        for (int j = 0; j < anchors.Length; j++)
+        {
+            anchors[j].anchorNodeIndexes.Clear();
+            anchors[j].anchorNodeStrength.Clear();
+            anchors[j].anchorPosition.Clear();
         }
 
         int numAnchorNodes = 0;
@@ -504,11 +513,11 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
                 }
                 for (int i = 0; i < verts.Length; i++)
                 {
-                    localVerts[i] = physicsSimMesh.transform.InverseTransformPoint(verts[i]);
+                    localVerts[i] = physicsSimMesh.transform.InverseTransformPoint(verts[i]) + debugSimMeshOffset;
                     localNorms[i] = physicsSimMesh.transform.InverseTransformDirection(norms[i]);
                 }
                 myMesh.vertices = localVerts;
-                myMesh.normals = localVerts;
+                myMesh.normals = localNorms;
                 myMesh.RecalculateBounds();
             }
         }

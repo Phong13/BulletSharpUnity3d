@@ -25,6 +25,7 @@ public class BBoxShapeEditor : Editor {
 		if(script.transform.localScale != Vector3.one) {
 			EditorGUILayout.HelpBox("This shape doesn't support transform.scale.\nThe scale must be one. Use 'LocalScaling'", MessageType.Warning);
 		}
+        script.drawGizmo = EditorGUILayout.Toggle("Draw Shape", script.drawGizmo);
         script.Extents = EditorGUILayout.Vector3Field("Extents", script.Extents);
         script.LocalScaling = EditorGUILayout.Vector3Field("Local Scaling", script.LocalScaling);
         if (GUI.changed)

@@ -41,6 +41,10 @@ namespace BulletUnity {
         }
 
         public override void OnDrawGizmosSelected() {
+            if (drawGizmo == false)
+            {
+                return;
+            }
             Vector3 position = transform.position;
             Quaternion rotation = transform.rotation;
             Vector3 scale = m_localScaling;

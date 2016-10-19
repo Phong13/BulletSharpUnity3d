@@ -23,6 +23,7 @@ namespace BulletUnity {
         };
 
         protected CollisionShape collisionShapePtr = null;
+        public bool drawGizmo = true;
 
         void OnDestroy() {
             Dispose(false);

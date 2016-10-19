@@ -29,6 +29,7 @@ public class BSphereShapeEditor : Editor
         {
             EditorGUILayout.HelpBox("This shape doesn't support scale of the object.\nThe scale must be one", MessageType.Warning);
         }
+        script.drawGizmo = EditorGUILayout.Toggle("Draw Shape", script.drawGizmo);
         script.Radius = EditorGUILayout.FloatField("Radius", script.Radius);
         script.LocalScaling = EditorGUILayout.Vector3Field("Local Scaling", script.LocalScaling);
         if (GUI.changed)
