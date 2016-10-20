@@ -297,10 +297,10 @@ namespace BulletUnity {
         {
             if (!m_isInWorld)
             {
-                Debug.Assert(m_thisRigidBody.isInWorld, "Constrained bodies must be added to world before constraints");
+                Debug.Assert(m_thisRigidBody.isInWorld, "Constrained bodies must be added to world before constraints " + this);
                 if (m_constraintType == ConstraintType.constrainToAnotherBody)
                 {
-                    Debug.Assert(m_otherRigidBody.isInWorld, "Constrained bodies must be added to world before constraints");
+                    Debug.Assert(m_otherRigidBody.isInWorld, "Constrained bodies must be added to world before constraints " + this);
                 }
                 BPhysicsWorld.Get().AddConstraint(this);
             }

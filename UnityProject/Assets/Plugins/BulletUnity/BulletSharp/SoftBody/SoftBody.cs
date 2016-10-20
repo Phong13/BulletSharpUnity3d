@@ -4734,11 +4734,11 @@ namespace BulletSharp.SoftBody
         [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
         static extern int btSoftBody_getFaceVertexData(IntPtr obj, [In,Out] Vector3[] vertices);
         [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        static extern int btSoftBody_getFaceVertexNormalData(IntPtr obj, [In,Out] float[] data);
+        public static extern int btSoftBody_getFaceVertexNormalData(IntPtr obj, [In,Out] float[] data);
         [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
         static extern int btSoftBody_getFaceVertexNormalData2(IntPtr obj, [In,Out] float[] vertices, [In,Out] float[] normals);
         [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        static extern int btSoftBody_getFaceVertexNormalData(IntPtr obj, [In,Out] Vector3[] data);
+        public static extern int btSoftBody_getFaceVertexNormalData(IntPtr obj, [In,Out] Vector3[] data);
         [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
         static extern int btSoftBody_getFaceVertexNormalData2(IntPtr obj, [In,Out] Vector3[] vertices, [In,Out] Vector3[] normals);
         [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]

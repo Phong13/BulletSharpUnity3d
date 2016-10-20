@@ -136,7 +136,7 @@ namespace BulletUnity {
             set {
                 if (isInWorld && _additionalDamping != value)
                 {
-					BDebug.LogError(debugType, "Need to remove and re-add the rigid body to change additional damping setting");
+					Debug.LogError("Need to remove and re-add the rigid body to change additional damping setting");
                     return;
                 }
                 _additionalDamping = value;
@@ -151,7 +151,7 @@ namespace BulletUnity {
             set {
                 if (m_collisionObject != null && _additionalDampingFactor != value)
                 {
-					BDebug.LogError(debugType, "Additional Damping settings cannot be changed once the Rigid Body has been created");
+					Debug.LogError("Additional Damping settings cannot be changed once the Rigid Body has been created");
                     return;
                 }
                 _additionalDampingFactor = value; }
@@ -165,7 +165,7 @@ namespace BulletUnity {
             set {
                 if (m_collisionObject != null && _additionalLinearDampingThresholdSqr != value)
                 {
-					BDebug.LogError(debugType, "Additional Damping settings cannot be changed once the Rigid Body has been created");
+					Debug.LogError("Additional Damping settings cannot be changed once the Rigid Body has been created");
                     return;
                 }
                 _additionalLinearDampingThresholdSqr = value; }
@@ -179,7 +179,7 @@ namespace BulletUnity {
             set {
                 if (m_collisionObject != null && _additionalAngularDampingThresholdSqr != value)
                 {
-					BDebug.LogError(debugType, "Additional Damping settings cannot be changed once the Rigid Body has been created");
+					Debug.LogError("Additional Damping settings cannot be changed once the Rigid Body has been created");
                     return;
                 }
                 _additionalAngularDampingThresholdSqr = value; }
@@ -193,7 +193,7 @@ namespace BulletUnity {
             set {
                 if (m_collisionObject != null && _additionalAngularDampingFactor != value)
                 {
-					BDebug.LogError(debugType, "Additional Damping settings cannot be changed once the Rigid Body has been created");
+					Debug.LogError("Additional Damping settings cannot be changed once the Rigid Body has been created");
                     return;
                 }
                 _additionalAngularDampingFactor = value; }
@@ -233,7 +233,7 @@ namespace BulletUnity {
             set {
                 if (_mass != value) {
                     if (_mass == 0f && isDynamic()) {
-						BDebug.LogError(debugType, "Rigid bodies that are not static or kinematic must have positive mass");
+						Debug.LogError("Rigid bodies that are not static or kinematic must have positive mass");
                         return;
                     }
                     if (m_rigidBody != null)
@@ -374,12 +374,12 @@ namespace BulletUnity {
             }
             
             if (transform.localScale != UnityEngine.Vector3.one) {
-				BDebug.LogError(debugType, "The local scale on this rigid body is not one. Bullet physics does not support scaling on a rigid body world transform. Instead alter the dimensions of the CollisionShape.");
+				Debug.LogErrorFormat("The local scale on {0} rigid body is not one. Bullet physics does not support scaling on a rigid body world transform. Instead alter the dimensions of the CollisionShape.", name);
             }
 
             m_collisionShape = GetComponent<BCollisionShape>();
             if (m_collisionShape == null) {
-				BDebug.LogError(debugType, "There was no collision shape component attached to this BRigidBody. {0}", name);
+				Debug.LogErrorFormat("There was no collision shape component attached to this BRigidBody. {0}", name);
                 return false;
             }
 
@@ -400,11 +400,11 @@ namespace BulletUnity {
         protected override void Awake() {
             BRigidBody[] rbs = GetComponentsInParent<BRigidBody>();
             if (rbs.Length != 1) {
-				BDebug.LogError(debugType, "Can't nest rigid bodies. The transforms are updated by Bullet in undefined order which can cause spasing. Object {0}", name);
+				Debug.LogErrorFormat("Can't nest rigid bodies. The transforms are updated by Bullet in undefined order which can cause spasing. Object {0}", name);
             }
             m_collisionShape = GetComponent<BCollisionShape>();
             if (m_collisionShape == null) {
-				BDebug.LogError(debugType, "A BRigidBody component must be on an object with a BCollisionShape component.");
+				Debug.LogErrorFormat("BRigidBody component {0} does not have a BCollisionShape component.", name);
             }
         }
 

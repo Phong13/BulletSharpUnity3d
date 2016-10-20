@@ -18,7 +18,7 @@ namespace BulletUnity
         //This is used to handle a design problem. 
         //We want OnEnable to add physics object to world and OnDisable to remove.
         //We also want user to be able to in script: AddComponent<CollisionObject>, configure it, add it to world, potentialy disable to delay it being added to world
-        //Problem is OnEnable gets called before Awake and Start so that developer has no chance to configure object before it is added to world or prevent
+        //Problem is OnEnable gets called before Start so that developer has no chance to configure object before it is added to world or prevent
         //It from being added.
         //Solution is not to add object to the world until after Start has been called. Start will do the first add to world. 
         protected bool m_startHasBeenCalled = false;
@@ -188,14 +188,18 @@ namespace BulletUnity
         }
 
         
-        //Add this object to the world on Start. We are doing this so that scripts which add this componnet to 
-        //game objects have a chance to configure them before the object is added to the bullet world.
-        //Be aware that Start is not affected by script execution order so objects such as constraints should
-        //make sure that objects they depend on have been added to the world before they add themselves.
+        // Add this object to the world on Start. We are doing this so that scripts which add this componnet to 
+        // game objects have a chance to configure them before the object is added to the bullet world.
+        // Be aware that Start is not affected by script execution order so objects such as constraints should
+        // make sure that objects they depend on have been added to the world before they add themselves.
+        // This can be called more than once
         internal virtual void Start()
         {
-            m_startHasBeenCalled = true;
-            AddObjectToBulletWorld();
+            if (m_startHasBeenCalled == false)
+            {
+                m_startHasBeenCalled = true;
+                AddObjectToBulletWorld();
+            }
         }
 
         //OnEnable and OnDisable are called when a game object is Activated and Deactivated. 

@@ -29,12 +29,14 @@ namespace BulletUnity.Debugging {
 			}
         }
 
+        /*
 		public static void LogError(DebugType debugType, object message)
         {
 			if(EnumExtensions.IsFlagSet(DebugType.Error, debugType)) {
             	Debug.LogError(message);
 			}
         }
+        */
 
 		public static void Log(DebugType debugType, object message, params object[] arguments) {
 			if(EnumExtensions.IsFlagSet(DebugType.Info, debugType)) {
@@ -48,10 +50,12 @@ namespace BulletUnity.Debugging {
 			}
 		}
 
+        /*
 		public static void LogError(DebugType debugType, object message, params object[] arguments) {
 			if(EnumExtensions.IsFlagSet(DebugType.Error, debugType)) {
 				Debug.LogError(string.Format(message.ToString(), arguments));
 			}
 		}
+        */
     }
 }
