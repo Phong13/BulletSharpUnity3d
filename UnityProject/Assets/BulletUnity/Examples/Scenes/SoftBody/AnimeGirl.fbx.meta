@@ -1,0 +1,1018 @@
+fileFormatVersion: 2
+guid: 5c1738f4a0525a243858c474752568c5
+timeCreated: 1477096352
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: BodySkinnedMesh
+    100004: BodySkinnedMesh_MeshPart0
+    100006: BodySkinnedMesh_MeshPart1
+    100008: Bone.001
+    100010: Bone.001_end
+    100012: Bone.002
+    100014: Bone.002_end
+    100016: Bone.003
+    100018: Bone.003_end
+    100020: Bone.004
+    100022: Bone.004_end
+    100024: Bone.005
+    100026: Bone.005_end
+    100028: Bone.006
+    100030: Bone.006_end
+    100032: Bone.007
+    100034: Bone.007_end
+    100036: Bone.008
+    100038: Bone.008_end
+    100040: Bone.009
+    100042: Bone.009_end
+    100044: Bone.010
+    100046: Bone.010_end
+    100048: Bone.011
+    100050: Bone.011_end
+    100052: Bone.012
+    100054: Bone.012_end
+    100056: Bone.013
+    100058: Bone.013_end
+    100060: Bone.014
+    100062: Bone.014_end
+    100064: Bone.015
+    100066: Bone.015_end
+    100068: Bone.016
+    100070: Bone.017
+    100072: Bone.017_end
+    100074: chest
+    100076: ChestPhysicsMesh
+    100078: foot.L
+    100080: foot.R
+    100082: forearm.L
+    100084: forearm.R
+    100086: HairBone
+    100088: HairBone.001
+    100090: HairBone.001_end
+    100092: HairBone.003
+    100094: HairBone.003_end
+    100096: HairBone.004
+    100098: HairBone.004_end
+    100100: HairBone.005
+    100102: HairBone.005_end
+    100104: HairBone.006
+    100106: HairBone.006_end
+    100108: HairBone.007
+    100110: HairBone.007_end
+    100112: HairBone.008
+    100114: HairBone.008_end
+    100116: HairBone.009
+    100118: HairBone.009_end
+    100120: HairBone.010
+    100122: HairBone.010_end
+    100124: HairBone.011
+    100126: HairBone.011_end
+    100128: HairBone.012
+    100130: HairBone.012_end
+    100132: HairBone.013
+    100134: HairBone.013_end
+    100136: HairBone.014
+    100138: HairBone.014_end
+    100140: HairBone.015
+    100142: HairBone.015_end
+    100144: HairBone_end
+    100146: HairPhysicsMesh
+    100148: HairSkinnedMesh
+    100150: hand.L
+    100152: hand.L_end
+    100154: hand.R
+    100156: hand.R_end
+    100158: head
+    100160: heel.02.L
+    100162: heel.02.L_end
+    100164: heel.02.R
+    100166: heel.02.R_end
+    100168: heel.L
+    100170: heel.R
+    100172: HiarBone.002
+    100174: HiarBone.002_end
+    100176: hips
+    100178: metarig
+    100180: neck
+    100182: shin.L
+    100184: shin.R
+    100186: shoulder.L
+    100188: shoulder.R
+    100190: SkirtPhysicsMesh
+    100192: spine
+    100194: thigh.L
+    100196: thigh.R
+    100198: toe.L
+    100200: toe.L_end
+    100202: toe.R
+    100204: toe.R_end
+    100206: upper_arm.L
+    100208: upper_arm.R
+    400000: //RootNode
+    400002: BodySkinnedMesh
+    400004: BodySkinnedMesh_MeshPart0
+    400006: BodySkinnedMesh_MeshPart1
+    400008: Bone.001
+    400010: Bone.001_end
+    400012: Bone.002
+    400014: Bone.002_end
+    400016: Bone.003
+    400018: Bone.003_end
+    400020: Bone.004
+    400022: Bone.004_end
+    400024: Bone.005
+    400026: Bone.005_end
+    400028: Bone.006
+    400030: Bone.006_end
+    400032: Bone.007
+    400034: Bone.007_end
+    400036: Bone.008
+    400038: Bone.008_end
+    400040: Bone.009
+    400042: Bone.009_end
+    400044: Bone.010
+    400046: Bone.010_end
+    400048: Bone.011
+    400050: Bone.011_end
+    400052: Bone.012
+    400054: Bone.012_end
+    400056: Bone.013
+    400058: Bone.013_end
+    400060: Bone.014
+    400062: Bone.014_end
+    400064: Bone.015
+    400066: Bone.015_end
+    400068: Bone.016
+    400070: Bone.017
+    400072: Bone.017_end
+    400074: chest
+    400076: ChestPhysicsMesh
+    400078: foot.L
+    400080: foot.R
+    400082: forearm.L
+    400084: forearm.R
+    400086: HairBone
+    400088: HairBone.001
+    400090: HairBone.001_end
+    400092: HairBone.003
+    400094: HairBone.003_end
+    400096: HairBone.004
+    400098: HairBone.004_end
+    400100: HairBone.005
+    400102: HairBone.005_end
+    400104: HairBone.006
+    400106: HairBone.006_end
+    400108: HairBone.007
+    400110: HairBone.007_end
+    400112: HairBone.008
+    400114: HairBone.008_end
+    400116: HairBone.009
+    400118: HairBone.009_end
+    400120: HairBone.010
+    400122: HairBone.010_end
+    400124: HairBone.011
+    400126: HairBone.011_end
+    400128: HairBone.012
+    400130: HairBone.012_end
+    400132: HairBone.013
+    400134: HairBone.013_end
+    400136: HairBone.014
+    400138: HairBone.014_end
+    400140: HairBone.015
+    400142: HairBone.015_end
+    400144: HairBone_end
+    400146: HairPhysicsMesh
+    400148: HairSkinnedMesh
+    400150: hand.L
+    400152: hand.L_end
+    400154: hand.R
+    400156: hand.R_end
+    400158: head
+    400160: heel.02.L
+    400162: heel.02.L_end
+    400164: heel.02.R
+    400166: heel.02.R_end
+    400168: heel.L
+    400170: heel.R
+    400172: HiarBone.002
+    400174: HiarBone.002_end
+    400176: hips
+    400178: metarig
+    400180: neck
+    400182: shin.L
+    400184: shin.R
+    400186: shoulder.L
+    400188: shoulder.R
+    400190: SkirtPhysicsMesh
+    400192: spine
+    400194: thigh.L
+    400196: thigh.R
+    400198: toe.L
+    400200: toe.L_end
+    400202: toe.R
+    400204: toe.R_end
+    400206: upper_arm.L
+    400208: upper_arm.R
+    2300000: ChestPhysicsMesh
+    2300002: HairPhysicsMesh
+    2300004: SkirtPhysicsMesh
+    3300000: ChestPhysicsMesh
+    3300002: HairPhysicsMesh
+    3300004: SkirtPhysicsMesh
+    4300000: SkirtPhysicsMesh
+    4300002: HairPhysicsMesh
+    4300004: HairSkinnedMesh
+    4300006: BodySkinnedMesh_MeshPart0
+    4300008: BodySkinnedMesh_MeshPart1
+    4300010: ChestPhysicsMesh
+    4300012: BodySkinnedMesh
+    7400000: metarig|metarigAction.001
+    7400002: metarig|Run
+    7400004: metarig|Spin
+    7400006: metarig|Spin0
+    7400008: metarig|Run0
+    9500000: //RootNode
+    13700000: BodySkinnedMesh_MeshPart0
+    13700002: BodySkinnedMesh_MeshPart1
+    13700004: HairSkinnedMesh
+    13700006: BodySkinnedMesh
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: metarig|Run0
+      takeName: metarig|Run
+      firstFrame: 0
+      lastFrame: 28
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: BodySkinnedMesh
+        weight: 1
+      - path: BodySkinnedMesh/BodySkinnedMesh_MeshPart0
+        weight: 1
+      - path: BodySkinnedMesh/BodySkinnedMesh_MeshPart1
+        weight: 1
+      - path: ChestPhysicsMesh
+        weight: 1
+      - path: HairPhysicsMesh
+        weight: 1
+      - path: HairSkinnedMesh
+        weight: 1
+      - path: metarig
+        weight: 1
+      - path: metarig/Bone.016
+        weight: 1
+      - path: metarig/Bone.016/hips
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.008
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.008/Bone.008_end
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.009
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.009/Bone.009_end
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.010
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.010/Bone.010_end
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.011
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.011/Bone.011_end
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.012
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.012/Bone.012_end
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.013
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.013/Bone.013_end
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.014
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.014/Bone.014_end
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.015
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.015/Bone.015_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.001
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.001/Bone.001_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.002
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.002/Bone.002_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.003
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.003/Bone.003_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.004
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.004/Bone.004_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.005
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.005/Bone.005_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.006
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.006/Bone.006_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.007
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.007/Bone.007_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.017
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.017/Bone.017_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone/HairBone_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.001
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.001/HairBone.001_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.003
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.003/HairBone.003_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.004
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.004/HairBone.004_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.005
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.005/HairBone.005_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.006
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.006/HairBone.006_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.007
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.007/HairBone.007_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.008
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.008/HairBone.008_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.009
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.009/HairBone.009_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.010
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.010/HairBone.010_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.011
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.011/HairBone.011_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.012
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.012/HairBone.012_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.013
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.013/HairBone.013_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.014
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.014/HairBone.014_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.015
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.015/HairBone.015_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HiarBone.002
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HiarBone.002/HiarBone.002_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.L
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.L/upper_arm.L
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.L/upper_arm.L/forearm.L
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.L/upper_arm.L/forearm.L/hand.L
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/hand.L_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.R
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.R/upper_arm.R
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.R/upper_arm.R/forearm.R
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.R/upper_arm.R/forearm.R/hand.R
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/hand.R_end
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L/shin.L
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L/shin.L/foot.L
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L/shin.L/foot.L/toe.L
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L/shin.L/foot.L/toe.L/toe.L_end
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L/shin.L/heel.L
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L/shin.L/heel.L/heel.02.L
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L/shin.L/heel.L/heel.02.L/heel.02.L_end
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R/shin.R
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R/shin.R/foot.R
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R/shin.R/foot.R/toe.R
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R/shin.R/foot.R/toe.R/toe.R_end
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R/shin.R/heel.R
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R/shin.R/heel.R/heel.02.R
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R/shin.R/heel.R/heel.02.R/heel.02.R_end
+        weight: 1
+      - path: SkirtPhysicsMesh
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: metarig|Run
+      takeName: metarig|Run
+      firstFrame: 0
+      lastFrame: 28
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: BodySkinnedMesh
+        weight: 1
+      - path: BodySkinnedMesh/BodySkinnedMesh_MeshPart0
+        weight: 1
+      - path: BodySkinnedMesh/BodySkinnedMesh_MeshPart1
+        weight: 1
+      - path: ChestPhysicsMesh
+        weight: 1
+      - path: HairPhysicsMesh
+        weight: 1
+      - path: HairSkinnedMesh
+        weight: 1
+      - path: metarig
+        weight: 1
+      - path: metarig/Bone.016
+        weight: 1
+      - path: metarig/Bone.016/hips
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.008
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.008/Bone.008_end
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.009
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.009/Bone.009_end
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.010
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.010/Bone.010_end
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.011
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.011/Bone.011_end
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.012
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.012/Bone.012_end
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.013
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.013/Bone.013_end
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.014
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.014/Bone.014_end
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.015
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.015/Bone.015_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.001
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.001/Bone.001_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.002
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.002/Bone.002_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.003
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.003/Bone.003_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.004
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.004/Bone.004_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.005
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.005/Bone.005_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.006
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.006/Bone.006_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.007
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.007/Bone.007_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.017
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.017/Bone.017_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone/HairBone_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.001
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.001/HairBone.001_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.003
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.003/HairBone.003_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.004
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.004/HairBone.004_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.005
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.005/HairBone.005_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.006
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.006/HairBone.006_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.007
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.007/HairBone.007_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.008
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.008/HairBone.008_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.009
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.009/HairBone.009_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.010
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.010/HairBone.010_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.011
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.011/HairBone.011_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.012
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.012/HairBone.012_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.013
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.013/HairBone.013_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.014
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.014/HairBone.014_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.015
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.015/HairBone.015_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HiarBone.002
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HiarBone.002/HiarBone.002_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.L
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.L/upper_arm.L
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.L/upper_arm.L/forearm.L
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.L/upper_arm.L/forearm.L/hand.L
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/hand.L_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.R
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.R/upper_arm.R
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.R/upper_arm.R/forearm.R
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.R/upper_arm.R/forearm.R/hand.R
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/hand.R_end
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L/shin.L
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L/shin.L/foot.L
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L/shin.L/foot.L/toe.L
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L/shin.L/foot.L/toe.L/toe.L_end
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L/shin.L/heel.L
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L/shin.L/heel.L/heel.02.L
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L/shin.L/heel.L/heel.02.L/heel.02.L_end
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R/shin.R
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R/shin.R/foot.R
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R/shin.R/foot.R/toe.R
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R/shin.R/foot.R/toe.R/toe.R_end
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R/shin.R/heel.R
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R/shin.R/heel.R/heel.02.R
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R/shin.R/heel.R/heel.02.R/heel.02.R_end
+        weight: 1
+      - path: SkirtPhysicsMesh
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: metarig|Spin
+      takeName: metarig|Spin
+      firstFrame: 0
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: BodySkinnedMesh
+        weight: 1
+      - path: BodySkinnedMesh/BodySkinnedMesh_MeshPart0
+        weight: 1
+      - path: BodySkinnedMesh/BodySkinnedMesh_MeshPart1
+        weight: 1
+      - path: ChestPhysicsMesh
+        weight: 1
+      - path: HairPhysicsMesh
+        weight: 1
+      - path: HairSkinnedMesh
+        weight: 1
+      - path: metarig
+        weight: 1
+      - path: metarig/Bone.016
+        weight: 1
+      - path: metarig/Bone.016/hips
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.008
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.008/Bone.008_end
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.009
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.009/Bone.009_end
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.010
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.010/Bone.010_end
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.011
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.011/Bone.011_end
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.012
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.012/Bone.012_end
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.013
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.013/Bone.013_end
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.014
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.014/Bone.014_end
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.015
+        weight: 1
+      - path: metarig/Bone.016/hips/Bone.015/Bone.015_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.001
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.001/Bone.001_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.002
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.002/Bone.002_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.003
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.003/Bone.003_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.004
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.004/Bone.004_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.005
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.005/Bone.005_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.006
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.006/Bone.006_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.007
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.007/Bone.007_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.017
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/Bone.017/Bone.017_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone/HairBone_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.001
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.001/HairBone.001_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.003
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.003/HairBone.003_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.004
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.004/HairBone.004_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.005
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.005/HairBone.005_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.006
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.006/HairBone.006_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.007
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.007/HairBone.007_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.008
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.008/HairBone.008_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.009
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.009/HairBone.009_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.010
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.010/HairBone.010_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.011
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.011/HairBone.011_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.012
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.012/HairBone.012_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.013
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.013/HairBone.013_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.014
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.014/HairBone.014_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.015
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HairBone.015/HairBone.015_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HiarBone.002
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/neck/head/HiarBone.002/HiarBone.002_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.L
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.L/upper_arm.L
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.L/upper_arm.L/forearm.L
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.L/upper_arm.L/forearm.L/hand.L
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.L/upper_arm.L/forearm.L/hand.L/hand.L_end
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.R
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.R/upper_arm.R
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.R/upper_arm.R/forearm.R
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.R/upper_arm.R/forearm.R/hand.R
+        weight: 1
+      - path: metarig/Bone.016/hips/spine/chest/shoulder.R/upper_arm.R/forearm.R/hand.R/hand.R_end
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L/shin.L
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L/shin.L/foot.L
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L/shin.L/foot.L/toe.L
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L/shin.L/foot.L/toe.L/toe.L_end
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L/shin.L/heel.L
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L/shin.L/heel.L/heel.02.L
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.L/shin.L/heel.L/heel.02.L/heel.02.L_end
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R/shin.R
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R/shin.R/foot.R
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R/shin.R/foot.R/toe.R
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R/shin.R/foot.R/toe.R/toe.R_end
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R/shin.R/heel.R
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R/shin.R/heel.R/heel.02.R
+        weight: 1
+      - path: metarig/Bone.016/hips/thigh.R/shin.R/heel.R/heel.02.R/heel.02.R_end
+        weight: 1
+      - path: SkirtPhysicsMesh
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

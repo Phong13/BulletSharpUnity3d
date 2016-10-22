@@ -1,0 +1,1188 @@
+fileFormatVersion: 2
+guid: ebb68b7ff1fed254082603374b2e24cb
+timeCreated: 1475308818
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Bone
+    100002: Bone_001
+    100004: Bone_002
+    100006: Bone_003
+    100008: Bone_004
+    100010: Bone_005
+    100012: Bone_006
+    100014: Bone_007
+    100016: chest
+    100018: f_index_01_L
+    100020: f_index_01_R
+    100022: f_index_02_L
+    100024: f_index_02_R
+    100026: f_index_03_L
+    100028: f_index_03_R
+    100030: f_middle_01_L
+    100032: f_middle_01_R
+    100034: f_middle_02_L
+    100036: f_middle_02_R
+    100038: f_middle_03_L
+    100040: f_middle_03_R
+    100042: f_pinky_01_L
+    100044: f_pinky_01_R
+    100046: f_pinky_02_L
+    100048: f_pinky_02_R
+    100050: f_pinky_03_L
+    100052: f_pinky_03_R
+    100054: f_ring_01_L
+    100056: f_ring_01_R
+    100058: f_ring_02_L
+    100060: f_ring_02_R
+    100062: f_ring_03_L
+    100064: f_ring_03_R
+    100066: female_body_basemesh
+    100068: foot_L
+    100070: foot_R
+    100072: forearm_L
+    100074: forearm_R
+    100076: hair
+    100078: hair2
+    100080: hand_L
+    100082: hand_R
+    100084: head
+    100086: heel_02_L
+    100088: heel_02_R
+    100090: heel_L
+    100092: heel_R
+    100094: hips
+    100096: metarig
+    100098: neck
+    100100: palm_01_L
+    100102: palm_01_R
+    100104: palm_02_L
+    100106: palm_02_R
+    100108: palm_03_L
+    100110: palm_03_R
+    100112: palm_04_L
+    100114: palm_04_R
+    100116: shin_L
+    100118: shin_R
+    100120: shoulder_L
+    100122: shoulder_R
+    100124: spine
+    100126: //RootNode
+    100128: thigh_L
+    100130: thigh_R
+    100132: thumb_01_L
+    100134: thumb_01_R
+    100136: thumb_02_L
+    100138: thumb_02_R
+    100140: thumb_03_L
+    100142: thumb_03_R
+    100144: toe_L
+    100146: toe_R
+    100148: upper_arm_L
+    100150: upper_arm_R
+    100152: body
+    100154: BrestLeft
+    100156: BrestRight
+    100158: HairBone
+    100160: HairBone_001
+    100162: HairBone_003
+    100164: HairBone_004
+    100166: HairBone_005
+    100168: HairBone_006
+    100170: HairBone_007
+    100172: HiarBone_002
+    100174: Plane
+    100176: hair_001
+    100178: _BezierCircle_Bevel
+    100180: _BezierCircle_Bevel_001
+    100182: _BezierCircle_Bevel_002
+    100184: _BezierCurve_Hairlock
+    100186: _BezierCurve_Hairlock_017
+    100188: _BezierCurve_Hairlock_018
+    100190: _BezierCurve_Hairlock_019
+    100192: _BezierCurve_Hairlock_020
+    100194: _BezierCurve_Hairlock_021
+    100196: _BezierCurve_Hairlock_022
+    100198: _BezierCurve_Hairlock_023
+    100200: _BezierCurve_Hairlock_024
+    100202: _BezierCurve_Hairlock_025
+    100204: _BezierCurve_Hairlock_026
+    100206: _BezierCurve_Hairlock_027
+    100208: _BezierCurve_Hairlock_028
+    100210: _BezierCurve_Hairlock_029
+    100212: _BezierCurve_Hairlock_030
+    100214: _BezierCurve_Hairlock_031
+    100216: _BezierCurve_Hairlock_032
+    100218: _BezierCurve_Taper
+    100220: _BezierCurve_Taper_001
+    100222: AnimeHair2
+    100224: AnimeHair2_RopeMesh
+    100226: BezierCurve_001_bevel
+    100228: BezierCurve_001_bevel_001
+    100230: BezierCurve_001_bevel_002
+    100232: BezierCurve_002_bevel
+    100234: BezierCurve_003_bevel
+    100236: BezierCurve_004_bevel
+    100238: BezierCurve_005_bevel
+    100240: BezierCurve_006_bevel
+    100242: BezierCurve_007_bevel
+    100244: BezierCurve_008_bevel
+    100246: BezierCurve_011
+    100248: BezierCurve_012
+    100250: BezierCurve_013
+    100252: BezierCurve_014
+    100254: BezierCurve_015
+    100256: BezierCurve_016
+    100258: BezierCurve_017
+    100260: BezierCurve_018
+    100262: BezierCurve_019
+    100264: BezierCurve_020
+    100266: BezierCurve_021
+    100268: BezierCurve_bevel
+    100270: BezierCurve_bevel_001
+    100272: hair2_lowPoly
+    100274: hair2_lowPoly_backup
+    100276: HairBone_008
+    100278: HairBone_009
+    100280: HairBone_010
+    100282: HairBone_011
+    100284: HairBone_012
+    100286: HairBone_013
+    100288: HairOcopusRopes
+    100290: Plane_001
+    100292: wCorner
+    100294: wFinger
+    100296: wHand
+    100298: wHead
+    100300: wHip
+    100302: wJaw
+    100304: wLeg
+    100306: wLip
+    100308: wMaster_001
+    100310: wRoll
+    100312: wShoulder
+    100314: wTarget
+    100316: wThumb
+    100318: wToe
+    100320: wTorso
+    100322: Hair2SoftBody
+    100324: HairBone_014
+    100326: HairBone_015
+    100328: BraPiece
+    100330: female_body_basemesh_backup
+    100332: female_body_basemesh_backup_BAD
+    100334: Skirt
+    100336: Circle
+    100338: Bone_008
+    100340: Bone_009
+    100342: Bone_010
+    100344: Bone_011
+    100346: Bone_012
+    100348: Bone_013
+    100350: Bone_014
+    100352: Bone_015
+    100354: Bone_016
+    100356: Chest
+    100358: Bone_017
+    100360: chest2
+    100362: BodySkinnedMesh
+    100364: ChestPhysicsMesh
+    100366: HairPhysicsMesh
+    100368: HairSkinnedMesh
+    100370: SkirtPhysicsMesh
+    400000: Bone
+    400002: Bone_001
+    400004: Bone_002
+    400006: Bone_003
+    400008: Bone_004
+    400010: Bone_005
+    400012: Bone_006
+    400014: Bone_007
+    400016: chest
+    400018: f_index_01_L
+    400020: f_index_01_R
+    400022: f_index_02_L
+    400024: f_index_02_R
+    400026: f_index_03_L
+    400028: f_index_03_R
+    400030: f_middle_01_L
+    400032: f_middle_01_R
+    400034: f_middle_02_L
+    400036: f_middle_02_R
+    400038: f_middle_03_L
+    400040: f_middle_03_R
+    400042: f_pinky_01_L
+    400044: f_pinky_01_R
+    400046: f_pinky_02_L
+    400048: f_pinky_02_R
+    400050: f_pinky_03_L
+    400052: f_pinky_03_R
+    400054: f_ring_01_L
+    400056: f_ring_01_R
+    400058: f_ring_02_L
+    400060: f_ring_02_R
+    400062: f_ring_03_L
+    400064: f_ring_03_R
+    400066: female_body_basemesh
+    400068: foot_L
+    400070: foot_R
+    400072: forearm_L
+    400074: forearm_R
+    400076: hair
+    400078: hair2
+    400080: hand_L
+    400082: hand_R
+    400084: head
+    400086: heel_02_L
+    400088: heel_02_R
+    400090: heel_L
+    400092: heel_R
+    400094: hips
+    400096: metarig
+    400098: neck
+    400100: palm_01_L
+    400102: palm_01_R
+    400104: palm_02_L
+    400106: palm_02_R
+    400108: palm_03_L
+    400110: palm_03_R
+    400112: palm_04_L
+    400114: palm_04_R
+    400116: shin_L
+    400118: shin_R
+    400120: shoulder_L
+    400122: shoulder_R
+    400124: spine
+    400126: //RootNode
+    400128: thigh_L
+    400130: thigh_R
+    400132: thumb_01_L
+    400134: thumb_01_R
+    400136: thumb_02_L
+    400138: thumb_02_R
+    400140: thumb_03_L
+    400142: thumb_03_R
+    400144: toe_L
+    400146: toe_R
+    400148: upper_arm_L
+    400150: upper_arm_R
+    400152: body
+    400154: BrestLeft
+    400156: BrestRight
+    400158: HairBone
+    400160: HairBone_001
+    400162: HairBone_003
+    400164: HairBone_004
+    400166: HairBone_005
+    400168: HairBone_006
+    400170: HairBone_007
+    400172: HiarBone_002
+    400174: Plane
+    400176: hair_001
+    400178: _BezierCircle_Bevel
+    400180: _BezierCircle_Bevel_001
+    400182: _BezierCircle_Bevel_002
+    400184: _BezierCurve_Hairlock
+    400186: _BezierCurve_Hairlock_017
+    400188: _BezierCurve_Hairlock_018
+    400190: _BezierCurve_Hairlock_019
+    400192: _BezierCurve_Hairlock_020
+    400194: _BezierCurve_Hairlock_021
+    400196: _BezierCurve_Hairlock_022
+    400198: _BezierCurve_Hairlock_023
+    400200: _BezierCurve_Hairlock_024
+    400202: _BezierCurve_Hairlock_025
+    400204: _BezierCurve_Hairlock_026
+    400206: _BezierCurve_Hairlock_027
+    400208: _BezierCurve_Hairlock_028
+    400210: _BezierCurve_Hairlock_029
+    400212: _BezierCurve_Hairlock_030
+    400214: _BezierCurve_Hairlock_031
+    400216: _BezierCurve_Hairlock_032
+    400218: _BezierCurve_Taper
+    400220: _BezierCurve_Taper_001
+    400222: AnimeHair2
+    400224: AnimeHair2_RopeMesh
+    400226: BezierCurve_001_bevel
+    400228: BezierCurve_001_bevel_001
+    400230: BezierCurve_001_bevel_002
+    400232: BezierCurve_002_bevel
+    400234: BezierCurve_003_bevel
+    400236: BezierCurve_004_bevel
+    400238: BezierCurve_005_bevel
+    400240: BezierCurve_006_bevel
+    400242: BezierCurve_007_bevel
+    400244: BezierCurve_008_bevel
+    400246: BezierCurve_011
+    400248: BezierCurve_012
+    400250: BezierCurve_013
+    400252: BezierCurve_014
+    400254: BezierCurve_015
+    400256: BezierCurve_016
+    400258: BezierCurve_017
+    400260: BezierCurve_018
+    400262: BezierCurve_019
+    400264: BezierCurve_020
+    400266: BezierCurve_021
+    400268: BezierCurve_bevel
+    400270: BezierCurve_bevel_001
+    400272: hair2_lowPoly
+    400274: hair2_lowPoly_backup
+    400276: HairBone_008
+    400278: HairBone_009
+    400280: HairBone_010
+    400282: HairBone_011
+    400284: HairBone_012
+    400286: HairBone_013
+    400288: HairOcopusRopes
+    400290: Plane_001
+    400292: wCorner
+    400294: wFinger
+    400296: wHand
+    400298: wHead
+    400300: wHip
+    400302: wJaw
+    400304: wLeg
+    400306: wLip
+    400308: wMaster_001
+    400310: wRoll
+    400312: wShoulder
+    400314: wTarget
+    400316: wThumb
+    400318: wToe
+    400320: wTorso
+    400322: Hair2SoftBody
+    400324: HairBone_014
+    400326: HairBone_015
+    400328: BraPiece
+    400330: female_body_basemesh_backup
+    400332: female_body_basemesh_backup_BAD
+    400334: Skirt
+    400336: Circle
+    400338: Bone_008
+    400340: Bone_009
+    400342: Bone_010
+    400344: Bone_011
+    400346: Bone_012
+    400348: Bone_013
+    400350: Bone_014
+    400352: Bone_015
+    400354: Bone_016
+    400356: Chest
+    400358: Bone_017
+    400360: chest2
+    400362: BodySkinnedMesh
+    400364: ChestPhysicsMesh
+    400366: HairPhysicsMesh
+    400368: HairSkinnedMesh
+    400370: SkirtPhysicsMesh
+    2300000: hair
+    2300002: BrestLeft
+    2300004: BrestRight
+    2300006: Plane
+    2300008: hair_001
+    2300010: _BezierCircle_Bevel
+    2300012: _BezierCircle_Bevel_001
+    2300014: _BezierCircle_Bevel_002
+    2300016: _BezierCurve_Hairlock
+    2300018: _BezierCurve_Hairlock_017
+    2300020: _BezierCurve_Hairlock_018
+    2300022: _BezierCurve_Hairlock_019
+    2300024: _BezierCurve_Hairlock_020
+    2300026: _BezierCurve_Hairlock_021
+    2300028: _BezierCurve_Hairlock_022
+    2300030: _BezierCurve_Hairlock_023
+    2300032: _BezierCurve_Hairlock_024
+    2300034: _BezierCurve_Hairlock_025
+    2300036: _BezierCurve_Hairlock_026
+    2300038: _BezierCurve_Hairlock_027
+    2300040: _BezierCurve_Hairlock_028
+    2300042: _BezierCurve_Hairlock_029
+    2300044: _BezierCurve_Hairlock_030
+    2300046: _BezierCurve_Hairlock_031
+    2300048: _BezierCurve_Hairlock_032
+    2300050: _BezierCurve_Taper
+    2300052: _BezierCurve_Taper_001
+    2300054: BezierCurve_001_bevel
+    2300056: BezierCurve_001_bevel_001
+    2300058: BezierCurve_001_bevel_002
+    2300060: BezierCurve_002_bevel
+    2300062: BezierCurve_003_bevel
+    2300064: BezierCurve_004_bevel
+    2300066: BezierCurve_005_bevel
+    2300068: BezierCurve_006_bevel
+    2300070: BezierCurve_007_bevel
+    2300072: BezierCurve_008_bevel
+    2300074: BezierCurve_011
+    2300076: BezierCurve_012
+    2300078: BezierCurve_013
+    2300080: BezierCurve_014
+    2300082: BezierCurve_015
+    2300084: BezierCurve_016
+    2300086: BezierCurve_017
+    2300088: BezierCurve_018
+    2300090: BezierCurve_019
+    2300092: BezierCurve_020
+    2300094: BezierCurve_021
+    2300096: BezierCurve_bevel
+    2300098: BezierCurve_bevel_001
+    2300100: hair2_lowPoly
+    2300102: hair2_lowPoly_backup
+    2300104: HairOcopusRopes
+    2300106: Plane_001
+    2300108: wCorner
+    2300110: wFinger
+    2300112: wHand
+    2300114: wHead
+    2300116: wHip
+    2300118: wJaw
+    2300120: wLeg
+    2300122: wLip
+    2300124: wMaster_001
+    2300126: wRoll
+    2300128: wShoulder
+    2300130: wTarget
+    2300132: wThumb
+    2300134: wToe
+    2300136: wTorso
+    2300138: AnimeHair2_RopeMesh
+    2300140: Hair2SoftBody
+    2300142: Circle
+    2300144: Skirt
+    2300146: Chest
+    2300148: chest2
+    2300150: ChestPhysicsMesh
+    2300152: HairPhysicsMesh
+    2300154: SkirtPhysicsMesh
+    3300000: hair
+    3300002: BrestLeft
+    3300004: BrestRight
+    3300006: Plane
+    3300008: hair_001
+    3300010: _BezierCircle_Bevel
+    3300012: _BezierCircle_Bevel_001
+    3300014: _BezierCircle_Bevel_002
+    3300016: _BezierCurve_Hairlock
+    3300018: _BezierCurve_Hairlock_017
+    3300020: _BezierCurve_Hairlock_018
+    3300022: _BezierCurve_Hairlock_019
+    3300024: _BezierCurve_Hairlock_020
+    3300026: _BezierCurve_Hairlock_021
+    3300028: _BezierCurve_Hairlock_022
+    3300030: _BezierCurve_Hairlock_023
+    3300032: _BezierCurve_Hairlock_024
+    3300034: _BezierCurve_Hairlock_025
+    3300036: _BezierCurve_Hairlock_026
+    3300038: _BezierCurve_Hairlock_027
+    3300040: _BezierCurve_Hairlock_028
+    3300042: _BezierCurve_Hairlock_029
+    3300044: _BezierCurve_Hairlock_030
+    3300046: _BezierCurve_Hairlock_031
+    3300048: _BezierCurve_Hairlock_032
+    3300050: _BezierCurve_Taper
+    3300052: _BezierCurve_Taper_001
+    3300054: BezierCurve_001_bevel
+    3300056: BezierCurve_001_bevel_001
+    3300058: BezierCurve_001_bevel_002
+    3300060: BezierCurve_002_bevel
+    3300062: BezierCurve_003_bevel
+    3300064: BezierCurve_004_bevel
+    3300066: BezierCurve_005_bevel
+    3300068: BezierCurve_006_bevel
+    3300070: BezierCurve_007_bevel
+    3300072: BezierCurve_008_bevel
+    3300074: BezierCurve_011
+    3300076: BezierCurve_012
+    3300078: BezierCurve_013
+    3300080: BezierCurve_014
+    3300082: BezierCurve_015
+    3300084: BezierCurve_016
+    3300086: BezierCurve_017
+    3300088: BezierCurve_018
+    3300090: BezierCurve_019
+    3300092: BezierCurve_020
+    3300094: BezierCurve_021
+    3300096: BezierCurve_bevel
+    3300098: BezierCurve_bevel_001
+    3300100: hair2_lowPoly
+    3300102: hair2_lowPoly_backup
+    3300104: HairOcopusRopes
+    3300106: Plane_001
+    3300108: wCorner
+    3300110: wFinger
+    3300112: wHand
+    3300114: wHead
+    3300116: wHip
+    3300118: wJaw
+    3300120: wLeg
+    3300122: wLip
+    3300124: wMaster_001
+    3300126: wRoll
+    3300128: wShoulder
+    3300130: wTarget
+    3300132: wThumb
+    3300134: wToe
+    3300136: wTorso
+    3300138: AnimeHair2_RopeMesh
+    3300140: Hair2SoftBody
+    3300142: Circle
+    3300144: Skirt
+    3300146: Chest
+    3300148: chest2
+    3300150: ChestPhysicsMesh
+    3300152: HairPhysicsMesh
+    3300154: SkirtPhysicsMesh
+    4300000: hair2
+    4300002: hair
+    4300004: female_body_basemesh
+    4300006: body
+    4300008: BrestRight
+    4300010: BrestLeft
+    4300012: Plane
+    4300014: hair_001
+    4300016: _BezierCircle_Bevel_002
+    4300018: _BezierCurve_Taper_001
+    4300020: _BezierCurve_Hairlock_018
+    4300022: _BezierCurve_Hairlock_017
+    4300024: _BezierCircle_Bevel_001
+    4300026: _BezierCircle_Bevel
+    4300028: _BezierCurve_Taper
+    4300030: _BezierCurve_Hairlock_032
+    4300032: _BezierCurve_Hairlock_031
+    4300034: _BezierCurve_Hairlock_030
+    4300036: _BezierCurve_Hairlock_029
+    4300038: _BezierCurve_Hairlock_028
+    4300040: _BezierCurve_Hairlock_027
+    4300042: _BezierCurve_Hairlock_026
+    4300044: _BezierCurve_Hairlock_025
+    4300046: _BezierCurve_Hairlock_024
+    4300048: _BezierCurve_Hairlock_023
+    4300050: _BezierCurve_Hairlock_022
+    4300052: _BezierCurve_Hairlock_021
+    4300054: _BezierCurve_Hairlock_020
+    4300056: _BezierCurve_Hairlock_019
+    4300058: _BezierCurve_Hairlock
+    4300060: HairOcopusRopes
+    4300062: Plane_001
+    4300064: BezierCurve_008_bevel
+    4300066: BezierCurve_013
+    4300068: BezierCurve_012
+    4300070: BezierCurve_011
+    4300072: BezierCurve_003_bevel
+    4300074: BezierCurve_018
+    4300076: BezierCurve_005_bevel
+    4300078: BezierCurve_016
+    4300080: BezierCurve_004_bevel
+    4300082: BezierCurve_017
+    4300084: BezierCurve_006_bevel
+    4300086: BezierCurve_015
+    4300088: BezierCurve_007_bevel
+    4300090: BezierCurve_014
+    4300092: BezierCurve_001_bevel_002
+    4300094: BezierCurve_020
+    4300096: BezierCurve_002_bevel
+    4300098: BezierCurve_019
+    4300100: BezierCurve_001_bevel_001
+    4300102: BezierCurve_001_bevel
+    4300104: BezierCurve_bevel_001
+    4300106: BezierCurve_021
+    4300108: BezierCurve_bevel
+    4300110: hair2_lowPoly_backup
+    4300112: hair2_lowPoly
+    4300114: AnimeHair2_RopeMesh
+    4300116: AnimeHair2
+    4300118: wMaster_001
+    4300120: wLeg
+    4300122: wThumb
+    4300124: wTarget
+    4300126: wHand
+    4300128: wHip
+    4300130: wToe
+    4300132: wTorso
+    4300134: wHead
+    4300136: wJaw
+    4300138: wLip
+    4300140: wCorner
+    4300142: wShoulder
+    4300144: wFinger
+    4300146: wRoll
+    4300148: Hair2SoftBody
+    4300150: Skirt
+    4300152: BraPiece
+    4300154: female_body_basemesh_backup
+    4300156: female_body_basemesh_backup_BAD
+    4300158: Circle
+    4300160: Chest
+    4300162: chest2
+    4300164: SkirtPhysicsMesh
+    4300166: HairPhysicsMesh
+    4300168: HairSkinnedMesh
+    4300170: BodySkinnedMesh
+    4300172: ChestPhysicsMesh
+    7400000: Default Take
+    7400002: metarigAction
+    7400004: metarigAction_001
+    7400006: metarigAction0
+    7400008: Spin
+    7400010: Run
+    9500000: //RootNode
+    13700000: female_body_basemesh
+    13700002: hair
+    13700004: hair2
+    13700006: body
+    13700008: BrestLeft
+    13700010: BrestRight
+    13700012: AnimeHair2
+    13700014: AnimeHair2_RopeMesh
+    13700016: BraPiece
+    13700018: female_body_basemesh_backup
+    13700020: female_body_basemesh_backup_BAD
+    13700022: Skirt
+    13700024: chest2
+    13700026: BodySkinnedMesh
+    13700028: HairSkinnedMesh
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: metarigAction_001
+      takeName: metarigAction_001
+      firstFrame: 0
+      lastFrame: 28
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: AnimeHair2
+        weight: 1
+      - path: BrestLeft
+        weight: 1
+      - path: BrestRight
+        weight: 1
+      - path: female_body_basemesh
+        weight: 1
+      - path: female_body_basemesh_backup
+        weight: 1
+      - path: female_body_basemesh_backup_BAD
+        weight: 1
+      - path: Hair2SoftBody
+        weight: 1
+      - path: metarig
+        weight: 1
+      - path: metarig/Bone_016
+        weight: 1
+      - path: metarig/Bone_016/hips
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_008
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_009
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_010
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_011
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_012
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_013
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_014
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_015
+        weight: 1
+      - path: metarig/Bone_016/hips/spine
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_001
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_002
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_003
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_004
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_005
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_006
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_007
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_001
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_003
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_004
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_005
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_006
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_007
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_008
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_009
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_010
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_011
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_012
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_013
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_014
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_015
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HiarBone_002
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_L
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_L/upper_arm_L
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_L/upper_arm_L/forearm_L
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_L/upper_arm_L/forearm_L/hand_L
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_R
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_R/upper_arm_R
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_R/upper_arm_R/forearm_R
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_L
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_L/shin_L
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_L/shin_L/foot_L
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_L/shin_L/foot_L/toe_L
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_L/shin_L/heel_L
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_L/shin_L/heel_L/heel_02_L
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_R
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_R/shin_R
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_R/shin_R/foot_R
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_R/shin_R/foot_R/toe_R
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_R/shin_R/heel_R
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_R/shin_R/heel_R/heel_02_R
+        weight: 1
+      - path: Skirt
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Spin
+      takeName: Spin
+      firstFrame: 0
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: AnimeHair2
+        weight: 1
+      - path: Chest
+        weight: 1
+      - path: female_body_basemesh
+        weight: 1
+      - path: Hair2SoftBody
+        weight: 1
+      - path: metarig
+        weight: 1
+      - path: metarig/Bone_016
+        weight: 1
+      - path: metarig/Bone_016/hips
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_008
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_009
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_010
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_011
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_012
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_013
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_014
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_015
+        weight: 1
+      - path: metarig/Bone_016/hips/spine
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_001
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_002
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_003
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_004
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_005
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_006
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_007
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_017
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_001
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_003
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_004
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_005
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_006
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_007
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_008
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_009
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_010
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_011
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_012
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_013
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_014
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_015
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HiarBone_002
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_L
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_L/upper_arm_L
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_L/upper_arm_L/forearm_L
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_L/upper_arm_L/forearm_L/hand_L
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_R
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_R/upper_arm_R
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_R/upper_arm_R/forearm_R
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_L
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_L/shin_L
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_L/shin_L/foot_L
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_L/shin_L/foot_L/toe_L
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_L/shin_L/heel_L
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_L/shin_L/heel_L/heel_02_L
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_R
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_R/shin_R
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_R/shin_R/foot_R
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_R/shin_R/foot_R/toe_R
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_R/shin_R/heel_R
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_R/shin_R/heel_R/heel_02_R
+        weight: 1
+      - path: Skirt
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Run
+      takeName: Run
+      firstFrame: 0
+      lastFrame: 28
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: AnimeHair2
+        weight: 1
+      - path: Chest
+        weight: 1
+      - path: female_body_basemesh
+        weight: 1
+      - path: Hair2SoftBody
+        weight: 1
+      - path: metarig
+        weight: 1
+      - path: metarig/Bone_016
+        weight: 1
+      - path: metarig/Bone_016/hips
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_008
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_009
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_010
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_011
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_012
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_013
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_014
+        weight: 1
+      - path: metarig/Bone_016/hips/Bone_015
+        weight: 1
+      - path: metarig/Bone_016/hips/spine
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_001
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_002
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_003
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_004
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_005
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_006
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_007
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/Bone_017
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_001
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_003
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_004
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_005
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_006
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_007
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_008
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_009
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_010
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_011
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_012
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_013
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_014
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HairBone_015
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/neck/head/HiarBone_002
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_L
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_L/upper_arm_L
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_L/upper_arm_L/forearm_L
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_L/upper_arm_L/forearm_L/hand_L
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_R
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_R/upper_arm_R
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_R/upper_arm_R/forearm_R
+        weight: 1
+      - path: metarig/Bone_016/hips/spine/chest/shoulder_R/upper_arm_R/forearm_R/hand_R
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_L
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_L/shin_L
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_L/shin_L/foot_L
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_L/shin_L/foot_L/toe_L
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_L/shin_L/heel_L
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_L/shin_L/heel_L/heel_02_L
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_R
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_R/shin_R
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_R/shin_R/foot_R
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_R/shin_R/foot_R/toe_R
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_R/shin_R/heel_R
+        weight: 1
+      - path: metarig/Bone_016/hips/thigh_R/shin_R/heel_R/heel_02_R
+        weight: 1
+      - path: Skirt
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 0
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
