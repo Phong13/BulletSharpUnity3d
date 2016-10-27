@@ -19,6 +19,7 @@ namespace BulletUnity.Primitives
         public static GameObject CreateNew(Vector3 position, Quaternion rotation)
         {
             GameObject go = new GameObject();
+            go.AddComponent<BSphereShape>();
             BSphere bSphere = go.AddComponent<BSphere>();
             CreateNewBase(go, position, rotation);
             bSphere.BuildMesh();

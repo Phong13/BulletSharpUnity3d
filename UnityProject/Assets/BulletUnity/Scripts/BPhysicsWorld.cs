@@ -367,6 +367,15 @@ namespace BulletUnity
 
         public bool AddCollisionObject(BCollisionObject co)
         {
+            if (co is BRigidBody)
+            {
+                return AddRigidBody((BRigidBody) co);
+            }
+            if (co is BSoftBody)
+            {
+                return AddSoftBody((BSoftBody)co);
+            }
+
             if (!_isDisposed)
             {
                 if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Adding collision object {0} to world", co);
@@ -391,6 +400,16 @@ namespace BulletUnity
 
         public void RemoveCollisionObject(BulletSharp.CollisionObject co)
         {
+            if (co is RigidBody)
+            {
+                RemoveRigidBody((RigidBody)co);
+                return;
+            }
+            if (co is SoftBody)
+            {
+                RemoveSoftBody((SoftBody)co);
+                return;
+            }
             if (!_isDisposed)
             {
                 if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Removing collisionObject {0} from world", co.UserObject);

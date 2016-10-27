@@ -33,14 +33,43 @@ namespace BulletUnity
         [SerializeField]
         protected BulletSharp.CollisionFilterGroups m_collisionMask = BulletSharp.CollisionFilterGroups.AllFilter; // A colliding object must match this mask in order to collide with me.
 
+        protected bool RemoveIfInWorld()
+        {
+            bool removed = false;
+            BPhysicsWorld world = BPhysicsWorld.Get();
+            if (isInWorld && world != null)
+            {
+                removed = true;
+                world.RemoveCollisionObject(m_collisionObject);
+            }
+            return removed;
+        }
+        
+        protected void ReAddToWorld(bool shouldReAdd)
+        {
+            if (shouldReAdd && !isInWorld)
+            {
+                BPhysicsWorld world = BPhysicsWorld.Get();
+                if (world != null)
+                {
+                    world.AddCollisionObject(this);
+                }
+            }
+        }
+
         public BulletSharp.CollisionFlags collisionFlags
         {
             get { return m_collisionFlags; }
             set {
-                m_collisionFlags = value;
                 if (m_collisionObject != null && value != m_collisionFlags)
                 {
-                     m_collisionObject.CollisionFlags = value;
+                    bool didRemove = RemoveIfInWorld();
+                    m_collisionObject.CollisionFlags = value;
+                    m_collisionFlags = value;
+                    ReAddToWorld(didRemove);
+                } else
+                {
+                    m_collisionFlags = value;
                 }
             }
         }
