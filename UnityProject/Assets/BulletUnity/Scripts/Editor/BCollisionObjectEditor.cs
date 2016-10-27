@@ -35,22 +35,6 @@ public class BCollisionObjectEditor : Editor
         AllFilter = 64,
     }
 
-    public static BulletSharp.CollisionFilterGroups ConvertGUIEnumToBulletSharpEnum_CollisionFilterGroups(GUICollisionFilterGroups v)
-    {
-        BulletSharp.CollisionFilterGroups vout = BulletSharp.CollisionFilterGroups.None;
-        if ((v & GUICollisionFilterGroups.DefaultFilter) != 0) vout = vout | BulletSharp.CollisionFilterGroups.DefaultFilter;
-        if ((v & GUICollisionFilterGroups.StaticFilter) != 0) vout = vout | BulletSharp.CollisionFilterGroups.StaticFilter;
-        if ((v & GUICollisionFilterGroups.KinematicFilter) != 0) vout = vout | BulletSharp.CollisionFilterGroups.KinematicFilter;
-        if ((v & GUICollisionFilterGroups.DebrisFilter) != 0) vout = vout | BulletSharp.CollisionFilterGroups.DebrisFilter;
-        if ((v & GUICollisionFilterGroups.SensorTrigger) != 0) vout = vout | BulletSharp.CollisionFilterGroups.SensorTrigger;
-        if ((v & GUICollisionFilterGroups.CharacterFilter) != 0) vout = vout | BulletSharp.CollisionFilterGroups.CharacterFilter;
-        if ((v & GUICollisionFilterGroups.AllFilter) != 0)
-        {
-            vout = BulletSharp.CollisionFilterGroups.AllFilter;
-        }
-        return vout;
-    }
-
     static string PrintBits(int num)
     {
         byte[] bytes = BitConverter.GetBytes(num);
@@ -71,24 +55,43 @@ public class BCollisionObjectEditor : Editor
         return s;
     }
 
+    public static BulletSharp.CollisionFilterGroups ConvertGUIEnumToBulletSharpEnum_CollisionFilterGroups(GUICollisionFilterGroups v)
+    {
+        BulletSharp.CollisionFilterGroups vout = BulletSharp.CollisionFilterGroups.None;
+        if ((v & GUICollisionFilterGroups.DefaultFilter) != 0) vout = vout | BulletSharp.CollisionFilterGroups.DefaultFilter;
+        if ((v & GUICollisionFilterGroups.StaticFilter) != 0) vout = vout | BulletSharp.CollisionFilterGroups.StaticFilter;
+        if ((v & GUICollisionFilterGroups.KinematicFilter) != 0) vout = vout | BulletSharp.CollisionFilterGroups.KinematicFilter;
+        if ((v & GUICollisionFilterGroups.DebrisFilter) != 0) vout = vout | BulletSharp.CollisionFilterGroups.DebrisFilter;
+        if ((v & GUICollisionFilterGroups.SensorTrigger) != 0) vout = vout | BulletSharp.CollisionFilterGroups.SensorTrigger;
+        if ((v & GUICollisionFilterGroups.CharacterFilter) != 0) vout = vout | BulletSharp.CollisionFilterGroups.CharacterFilter;
+        if ((v & GUICollisionFilterGroups.AllFilter) != 0)
+        {
+            vout = BulletSharp.CollisionFilterGroups.AllFilter;
+        }
+        return vout;
+    }
+
     public static GUICollisionFilterGroups ConvertBulletSharpEnumToGUIEnum_CollisionFilterGroups(BulletSharp.CollisionFilterGroups v)
     {
-        GUICollisionFilterGroups vout = 0;
-        if ((v & BulletSharp.CollisionFilterGroups.DefaultFilter) != 0) vout = vout | GUICollisionFilterGroups.DefaultFilter;
-        if ((v & BulletSharp.CollisionFilterGroups.StaticFilter) != 0) vout = vout | GUICollisionFilterGroups.StaticFilter;
-        if ((v & BulletSharp.CollisionFilterGroups.KinematicFilter) != 0) vout = vout | GUICollisionFilterGroups.KinematicFilter;
-        if ((v & BulletSharp.CollisionFilterGroups.DebrisFilter) != 0) vout = vout | GUICollisionFilterGroups.DebrisFilter;
-        if ((v & BulletSharp.CollisionFilterGroups.SensorTrigger) != 0) vout = vout | GUICollisionFilterGroups.SensorTrigger;
-        if ((v & BulletSharp.CollisionFilterGroups.CharacterFilter) != 0) vout = vout | GUICollisionFilterGroups.CharacterFilter;
-
+        int vout = 0;
         if (v == BulletSharp.CollisionFilterGroups.AllFilter)
         {
-
-            vout = (GUICollisionFilterGroups.DefaultFilter | GUICollisionFilterGroups.StaticFilter | GUICollisionFilterGroups.KinematicFilter |
-                 GUICollisionFilterGroups.DebrisFilter | GUICollisionFilterGroups.SensorTrigger | GUICollisionFilterGroups.CharacterFilter);
+            vout = (int)GUICollisionFilterGroups.AllFilter;
         }
-
-        return vout;
+        else {
+            if ((v & BulletSharp.CollisionFilterGroups.DefaultFilter) != 0) vout = vout | (int)GUICollisionFilterGroups.DefaultFilter;
+            if ((v & BulletSharp.CollisionFilterGroups.StaticFilter) != 0) vout = vout | (int)GUICollisionFilterGroups.StaticFilter;
+            if ((v & BulletSharp.CollisionFilterGroups.KinematicFilter) != 0) vout = vout | (int)GUICollisionFilterGroups.KinematicFilter;
+            if ((v & BulletSharp.CollisionFilterGroups.DebrisFilter) != 0) vout = vout | (int)GUICollisionFilterGroups.DebrisFilter;
+            if ((v & BulletSharp.CollisionFilterGroups.SensorTrigger) != 0) vout = vout | (int)GUICollisionFilterGroups.SensorTrigger;
+            if ((v & BulletSharp.CollisionFilterGroups.CharacterFilter) != 0) vout = vout | (int)GUICollisionFilterGroups.CharacterFilter;
+        }
+        if (vout == 0)
+        {
+            vout = (int)GUICollisionFilterGroups.DefaultFilter;
+        }
+        
+        return (GUICollisionFilterGroups) vout;
     }
 
     public static BulletSharp.CollisionFlags RenderEnumMaskCollisionFlagsField(GUIContent guiContent, BulletSharp.CollisionFlags enumVal)
