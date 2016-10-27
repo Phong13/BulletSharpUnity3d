@@ -34,6 +34,33 @@ namespace BulletUnity {
 				&& (m_collisionFlags & BulletSharp.CollisionFlags.KinematicObject) != BulletSharp.CollisionFlags.KinematicObject;
         }
 
+        public override BulletSharp.CollisionFlags collisionFlags
+        {
+            get { return m_collisionFlags; }
+            set
+            {
+                if (m_collisionObject != null && value != m_collisionFlags)
+                {
+                    bool wasDynamic = isDynamic();
+                    m_collisionObject.CollisionFlags = value;
+                    m_collisionFlags = value;
+                    if (wasDynamic && !isDynamic())
+                    {
+                        //need to set mass to zero for kinematic and static
+                        m_rigidBody.SetMassProps(0f, BulletSharp.Math.Vector3.Zero);
+                    } else if (!wasDynamic && isDynamic())
+                    {
+                        //need to set mass to mass
+                        m_rigidBody.SetMassProps(_mass,_localInertia);
+                    }
+                }
+                else
+                {
+                    m_collisionFlags = value;
+                }
+            }
+        }
+
         [SerializeField]
         float _friction = .5f;
         public float friction
