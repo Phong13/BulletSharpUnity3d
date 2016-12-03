@@ -32,7 +32,7 @@ namespace BulletUnity
                 if (isInWorld && world != null)
                 {
                     isInWorld = false;
-                    world.RemoveCollisionObject(m_collisionObject);
+                    world.RemoveCollisionObject(this);
                 }
             }
 
@@ -117,66 +117,5 @@ namespace BulletUnity
             transform.rotation = BSExtensionMethods2.ExtractRotationFromMatrix(ref trans);
             transform.localScale = BSExtensionMethods2.ExtractScaleFromMatrix(ref trans);
         }
-        /*
-        public void OldUpdate()
-        {
-            float FrameDelta = Time.fixedDeltaTime; // todo put a variable in the physics world for this.
-            BulletSharp.Math.Matrix xform = m_collisionObject.WorldTransform;
-
-            BulletSharp.Math.Vector3 forwardDir = new BulletSharp.Math.Vector3(xform.M31, xform.M32, xform.M33);
-            BulletSharp.Math.Vector3 upDir = new BulletSharp.Math.Vector3(xform.M21, xform.M22, xform.M23);
-            forwardDir.Normalize();
-            upDir.Normalize();
-            BulletSharp.Math.Vector3 pos = xform.Origin;
-
-            BulletSharp.Math.Vector3 walkDirection = BulletSharp.Math.Vector3.Zero;
-            const float walkVelocity = 1.1f * 4.0f;
-            float walkSpeed = walkVelocity * FrameDelta * 10;// * 0.0001f;
-            float turnSpeed = FrameDelta * 3;
-
-            //TODO should not be grabbing input here, control should happen elsewhere
-
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                BulletSharp.Math.Matrix orn = xform;
-                orn.Row4 = new BulletSharp.Math.Vector4(0, 0, 0, 1);
-                orn *= BulletSharp.Math.Matrix.RotationAxis(upDir, -turnSpeed);
-                orn.Row4 = new BulletSharp.Math.Vector4(pos.X, pos.Y, pos.Z, 1);
-                m_collisionObject.WorldTransform = orn;
-            }
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                BulletSharp.Math.Matrix orn = xform;
-                orn.Row4 = new BulletSharp.Math.Vector4(0, 0, 0, 1);
-                orn *= BulletSharp.Math.Matrix.RotationAxis(upDir, turnSpeed);
-                orn.Row4 = new BulletSharp.Math.Vector4(pos.X, pos.Y, pos.Z, 1);
-                m_collisionObject.WorldTransform = orn;
-            }
-
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                walkDirection += forwardDir;
-            }
-            if (Input.GetKey(KeyCode.DownArrow))
-            {
-                walkDirection -= forwardDir;
-            }
-
-            m_characterController.SetWalkDirection(walkDirection * walkSpeed);
-
-            if (Input.GetKey(KeyCode.Space))
-            {
-                m_characterController.Jump();
-                return;
-            }
-
-
-            //TODO fixme
-            BulletSharp.Math.Matrix trans;
-            m_collisionObject.GetWorldTransform(out trans);
-            transform.position = trans.Origin.ToUnity();
-
-        }
-        */
     }
 }

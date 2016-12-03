@@ -116,7 +116,7 @@ namespace BulletUnity
             {
                 if (isInWorld && world != null)
                 {
-                    world.RemoveCollisionObject(m_collisionObject);
+                    world.RemoveCollisionObject(this);
                 }
             }
 
@@ -187,7 +187,7 @@ namespace BulletUnity
 
         protected virtual void RemoveObjectFromBulletWorld()
         {
-            BPhysicsWorld.Get().RemoveCollisionObject(m_collisionObject);
+            BPhysicsWorld.Get().RemoveCollisionObject(this);
         }
 
         

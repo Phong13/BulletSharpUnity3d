@@ -39,7 +39,7 @@ namespace BulletUnity
                 if (isInWorld && world != null)
                 {
                     isInWorld = false;
-                    world.RemoveCollisionObject(m_collisionObject);
+                    world.RemoveCollisionObject(this);
                 }
             }
 

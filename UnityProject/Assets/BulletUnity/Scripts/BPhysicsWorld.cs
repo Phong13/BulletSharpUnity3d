@@ -392,30 +392,34 @@ namespace BulletUnity
                     {
                         AddAction(((BCharacterController)co).GetKinematicCharacterController());
                     }
+                    
                 }
                 return true;
             }
             return false;
         }
 
-        public void RemoveCollisionObject(BulletSharp.CollisionObject co)
+        public void RemoveCollisionObject(BCollisionObject co)
         {
-            if (co is RigidBody)
+            if (co is BRigidBody)
             {
-                RemoveRigidBody((RigidBody)co);
+                RemoveRigidBody((RigidBody)co.GetCollisionObject());
                 return;
             }
-            if (co is SoftBody)
+            if (co is BSoftBody)
             {
-                RemoveSoftBody((SoftBody)co);
+                RemoveSoftBody((SoftBody)co.GetCollisionObject());
                 return;
             }
             if (!_isDisposed)
             {
-                if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Removing collisionObject {0} from world", co.UserObject);
-                m_world.RemoveCollisionObject(co);
-                if (co.UserObject is BCollisionObject) ((BCollisionObject)co.UserObject).isInWorld = false;
-                //TODO handle removing kinematic character controller action
+                if (co is BCharacterController && world is DynamicsWorld)
+                {
+                    RemoveAction(((BCharacterController)co).GetKinematicCharacterController());
+                }
+                if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Removing collisionObject {0} from world", co);
+                m_world.RemoveCollisionObject(co.GetCollisionObject());
+                co.isInWorld = false;
             }
         }
 

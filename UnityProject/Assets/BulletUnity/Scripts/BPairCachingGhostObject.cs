@@ -22,7 +22,7 @@ namespace BulletUnity
             {
                 if (isInWorld && world != null)
                 {
-                    world.RemoveCollisionObject(m_collisionObject);
+                    world.RemoveCollisionObject(this);
                 }
             }
 
