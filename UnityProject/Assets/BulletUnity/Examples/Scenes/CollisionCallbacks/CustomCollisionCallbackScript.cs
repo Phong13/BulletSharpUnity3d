@@ -21,17 +21,17 @@ public class CustomCollisionCallbackScript : BCollisionCallbacksDefault  {
 
     public override void BOnCollisionEnter(CollisionObject other, PersistentManifoldList manifoldList)
     {
-        Debug.Log("On Collision Enter");
+        Debug.Log("On Collision Enter " + BPhysicsWorld.Get().frameCount);
     }
 
     public override void BOnCollisionStay(CollisionObject other, PersistentManifoldList manifoldList)
     {
-        Debug.Log("On Collision Stay");
+        Debug.Log("On Collision Stay " + BPhysicsWorld.Get().frameCount);
     }
 
     public override void BOnCollisionExit(CollisionObject other)
     {
-        Debug.Log("On Collision Exit");
+        Debug.Log("On Collision Exit " + BPhysicsWorld.Get().frameCount);
     }
 
     public override void OnFinishedVisitingManifolds()

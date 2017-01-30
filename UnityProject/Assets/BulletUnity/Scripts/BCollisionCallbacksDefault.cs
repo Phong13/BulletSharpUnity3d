@@ -33,21 +33,46 @@ namespace BulletUnity
         public override void OnVisitPersistentManifold(PersistentManifold pm)
         {
             CollisionObject other;
+            if (pm.NumContacts > 0)
+            {
+                
             if (pm.Body0 == myCollisionObject)
             {
                 other = pm.Body1;
-            } else
+                }
+                else
             {
                 other = pm.Body0;
             }
             PersistentManifoldList pml;
             if (!otherObjs2ManifoldMap.TryGetValue(other,out pml))
             {
-                //todo get from object pool
+                    //todo get PersistentManifoldList from object pool
+                    //this is first contact with this other object
+                    //might have multiple new contacts with same object stored in separate persistent manifolds
+                    //don't add two different lists to new contacts
+                    bool foundExisting = false;
+                    for (int i = 0; i < newContacts.Count; i++)
+                    {
+                        if (newContacts[i].manifolds[0].Body0 == other ||
+                            newContacts[i].manifolds[0].Body1 == other)
+                        {
+                            foundExisting = true;
+                            newContacts[i].manifolds.Add(pm);
+                        }
+                    }
+                    if (!foundExisting)
+                    {
                 pml = new PersistentManifoldList();
                 newContacts.Add(pml);
+                        pml.manifolds.Add(pm);
+                        //don't add to otherObjs2ManifoldMap here. It messes up onStay do it after all pm's have been visited.
             }
+                } else
+                {
             pml.manifolds.Add(pm);
+                }
+            }
         }
 
         public override void OnFinishedVisitingManifolds()

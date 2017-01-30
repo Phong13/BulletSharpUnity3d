@@ -43,7 +43,10 @@ namespace BulletUnity {
             }
             if (colliders != null) {
                 for (int i = 0; i < colliders.Length; i++) {
-                    colliders[i].OnDrawGizmosSelected();
+                    if (colliders[i] != null)
+                    {
+                        colliders[i].OnDrawGizmosSelected();
+                    }
                 }
             }
         }

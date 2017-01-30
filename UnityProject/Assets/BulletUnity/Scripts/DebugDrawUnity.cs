@@ -57,7 +57,8 @@ namespace BulletUnity
             UnityEngine.Gizmos.DrawLine(v2.ToUnity(), v0.ToUnity());
         }
         public override void DrawContactPoint(ref BM.Vector3 pointOnB, ref BM.Vector3 normalOnB, float distance, int lifeTime, ref BM.Vector3 color) {
-            UnityEngine.Debug.LogError("Not implemented");
+            UnityEngine.Gizmos.color = new UnityEngine.Color(color.X, color.Y, color.Z);
+            UnityEngine.Gizmos.DrawWireSphere(pointOnB.ToUnity(), .2f);
         }
         public override void ReportErrorWarning(String warningString) {
             UnityEngine.Debug.LogError(warningString);
