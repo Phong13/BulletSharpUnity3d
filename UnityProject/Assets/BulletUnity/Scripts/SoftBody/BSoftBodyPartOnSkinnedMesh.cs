@@ -128,6 +128,12 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
 
     // Use this for initialization
     public void BindBonesToSoftBodyAndNodesToAnchors() {
+        if (transform.localScale != Vector3.one)
+        {
+            Debug.LogError("The scale must be 1,1,1");
+            return;
+        }
+
         if (skinnedMesh == null)
         {
             Debug.LogError("The Skinned Mesh field has not been assigned.");
@@ -260,6 +266,7 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
             }
         }
 
+        SoftBody sb = (SoftBody)m_collisionObject;
         Debug.LogFormat("Done binding bones to nodes and nodes to anchors. Found: {0} bones and {1} anchor nodes.", bone2idxMap.Length, numAnchorNodes);
 	}
 
@@ -369,6 +376,10 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
         if (World == null)
         {
             return false;
+        }
+        if (transform.localScale != Vector3.one)
+        {
+            Debug.LogError("The scale must be 1,1,1");
         }
         if (bone2idxMap == null || bone2idxMap.Length == 0)
         {
