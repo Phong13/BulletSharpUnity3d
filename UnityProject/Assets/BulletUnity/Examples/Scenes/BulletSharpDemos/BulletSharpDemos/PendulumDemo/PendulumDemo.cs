@@ -102,7 +102,7 @@ namespace PendulumDemo
                 col.CollisionShape = shape;
                 //const bool isDynamic = true;
                 CollisionFilterGroups collisionFilterGroup = CollisionFilterGroups.DefaultFilter; // : CollisionFilterGroups.StaticFilter;
-                CollisionFilterGroups collisionFilterMask = CollisionFilterGroups.AllFilter; // : CollisionFilterGroups.AllFilter & ~CollisionFilterGroups.StaticFilter;
+                CollisionFilterGroups collisionFilterMask = CollisionFilterGroups.Everything; // : CollisionFilterGroups.AllFilter & ~CollisionFilterGroups.StaticFilter;
                 World.AddCollisionObject(col, collisionFilterGroup, collisionFilterMask);
                 multiBody.GetLink(i).Collider = col;
             }

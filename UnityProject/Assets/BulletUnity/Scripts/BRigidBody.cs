@@ -20,6 +20,13 @@ namespace BulletUnity {
             set { m_collisionObject = value; }
         }
 
+        public RigidBody RigidBody
+        {
+            get
+            {
+                return (RigidBody)m_collisionObject;
+            }
+        }
 
         BulletSharp.Math.Vector3 _localInertia = BulletSharp.Math.Vector3.Zero;
         public BulletSharp.Math.Vector3 localInertia {
