@@ -38,6 +38,18 @@ namespace BulletUnity {
             }
         }
 
+        void Awake()
+        {
+            if (hullMesh == null)
+            {
+                var meshFilter = GetComponent<MeshFilter>();
+                if (meshFilter != null)
+                {
+                    hullMesh = meshFilter.mesh;
+                }
+            }
+        }
+
         //todo draw the hull when not in the world
         //todo can this be used with Dynamic objects? The manual hints that it is for static only.
 
