@@ -35,18 +35,18 @@ namespace BulletUnity
             CollisionObject other;
             if (pm.NumContacts > 0)
             {
-                
-            if (pm.Body0 == myCollisionObject)
-            {
-                other = pm.Body1;
+
+                if (pm.Body0 == myCollisionObject)
+                {
+                    other = pm.Body1;
                 }
                 else
-            {
-                other = pm.Body0;
-            }
-            PersistentManifoldList pml;
-            if (!otherObjs2ManifoldMap.TryGetValue(other,out pml))
-            {
+                {
+                    other = pm.Body0;
+                }
+                PersistentManifoldList pml;
+                if (!otherObjs2ManifoldMap.TryGetValue(other, out pml))
+                {
                     //todo get PersistentManifoldList from object pool
                     //this is first contact with this other object
                     //might have multiple new contacts with same object stored in separate persistent manifolds
@@ -63,14 +63,15 @@ namespace BulletUnity
                     }
                     if (!foundExisting)
                     {
-                pml = new PersistentManifoldList();
-                newContacts.Add(pml);
+                        pml = new PersistentManifoldList();
+                        newContacts.Add(pml);
                         pml.manifolds.Add(pm);
                         //don't add to otherObjs2ManifoldMap here. It messes up onStay do it after all pm's have been visited.
-            }
-                } else
+                    }
+                }
+                else
                 {
-            pml.manifolds.Add(pm);
+                    pml.manifolds.Add(pm);
                 }
             }
         }
@@ -83,7 +84,7 @@ namespace BulletUnity
                 PersistentManifoldList pml = otherObjs2ManifoldMap[co];
                 if (pml.manifolds.Count > 0)
                 {
-                    BOnCollisionStay(co,pml);
+                    BOnCollisionStay(co, pml);
                 }
                 else
                 {
@@ -137,17 +138,17 @@ namespace BulletUnity
 
         public virtual void BOnCollisionEnter(CollisionObject other, PersistentManifoldList manifoldList)
         {
-           
+
         }
 
         public virtual void BOnCollisionStay(CollisionObject other, PersistentManifoldList manifoldList)
         {
-           
+
         }
 
         public virtual void BOnCollisionExit(CollisionObject other)
         {
-            
+
         }
     }
 }

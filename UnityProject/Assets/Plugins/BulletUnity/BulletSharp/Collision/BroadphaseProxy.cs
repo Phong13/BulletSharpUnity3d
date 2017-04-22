@@ -49,15 +49,18 @@ namespace BulletSharp
 	[Flags]
 	public enum CollisionFilterGroups
 	{
-		None = 0,
+        Everything = -1,
 		DefaultFilter = 1,
 		StaticFilter = 2,
 		KinematicFilter = 4,
 		DebrisFilter = 8,
 		SensorTrigger = 16,
 		CharacterFilter = 32,
-        AllFilter = -1
-	}
+        BallFilter = 64,
+        BallCollisionFilter = 128,
+        ItemBoxCollisionFilter = 256,
+        ObstacleCollisionFilter = 512,
+    }
 
 	public class BroadphaseProxy
 	{
