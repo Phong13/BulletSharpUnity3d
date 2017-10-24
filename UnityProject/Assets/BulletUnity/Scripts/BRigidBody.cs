@@ -263,6 +263,18 @@ namespace BulletUnity {
 
         [SerializeField]
         float _mass = 1f;
+        public float mass
+        {
+            set
+            {
+                _mass = value;
+            }
+            get
+            {
+                return _mass;
+            }
+        }
+        /*
         public float mass {
             set {
                 if (_mass != value) {
@@ -286,6 +298,7 @@ namespace BulletUnity {
                 return _mass;
             }
         }
+        */
 
         [SerializeField]
         protected UnityEngine.Vector3 _linearVelocity;
