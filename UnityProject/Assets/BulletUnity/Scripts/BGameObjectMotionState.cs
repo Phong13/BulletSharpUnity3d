@@ -10,7 +10,7 @@ namespace BulletUnity {
     public class BGameObjectMotionState : MotionState, IDisposable {
 
         public Transform transform;
-        BM.Matrix wt;
+        //BM.Matrix wt;
 
         public BGameObjectMotionState(Transform t) {
             transform = t;

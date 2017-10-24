@@ -19,8 +19,8 @@ public class BallThrowTest : MonoBehaviour
     public GameObject ballGhostPrefab;
     bool simulationStarted = false;
     public int startFrame = 0;
-    float fixedTimeStep = 1f / 60f;
-    int maxSubsteps = 3;
+    //float fixedTimeStep = 1.0F / 60F;
+    //int maxSubsteps = 3;
     List<Vector3> ballPositionsRealtime = new List<Vector3>();
     List<Vector3> ballPositionsOfflineSim = new List<Vector3>();
 
