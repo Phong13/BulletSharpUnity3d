@@ -1,8 +1,8 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -19,7 +19,7 @@ namespace BulletSharp
 		{
 			_processTriangle = new ProcessTriangleDelegate(ProcessTriangleUnmanaged);
 
-			Native = btTriangleCallbackWrapper_new(
+			Native = UnsafeNativeMethods.btTriangleCallbackWrapper_new(
 				Marshal.GetFunctionPointerForDelegate(_processTriangle));
 		}
 
@@ -45,7 +45,7 @@ namespace BulletSharp
 		{
 			if (Native != IntPtr.Zero)
 			{
-				btTriangleCallback_delete(Native);
+				UnsafeNativeMethods.btTriangleCallback_delete(Native);
 				Native = IntPtr.Zero;
 			}
 		}
@@ -69,7 +69,7 @@ namespace BulletSharp
 		{
 			_internalProcessTriangleIndex = new InternalProcessTriangleIndexDelegate(InternalProcessTriangleIndexUnmanaged);
 
-			_native = btInternalTriangleIndexCallbackWrapper_new(
+			_native = UnsafeNativeMethods.btInternalTriangleIndexCallbackWrapper_new(
 				Marshal.GetFunctionPointerForDelegate(_internalProcessTriangleIndex));
 		}
 
@@ -95,7 +95,7 @@ namespace BulletSharp
 		{
 			if (_native != IntPtr.Zero)
 			{
-				btInternalTriangleIndexCallback_delete(_native);
+				UnsafeNativeMethods.btInternalTriangleIndexCallback_delete(_native);
 				_native = IntPtr.Zero;
 			}
 		}

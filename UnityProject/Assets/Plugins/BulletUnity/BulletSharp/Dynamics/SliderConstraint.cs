@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -27,7 +27,7 @@ namespace BulletSharp
 	{
 		public SliderConstraint(RigidBody rigidBodyA, RigidBody rigidBodyB, Matrix frameInA,
 			Matrix frameInB, bool useLinearReferenceFrameA)
-			: base(btSliderConstraint_new(rigidBodyA.Native, rigidBodyB.Native,
+			: base(UnsafeNativeMethods.btSliderConstraint_new(rigidBodyA.Native, rigidBodyB.Native,
 				ref frameInA, ref frameInB, useLinearReferenceFrameA))
 		{
 			_rigidBodyA = rigidBodyA;
@@ -35,7 +35,7 @@ namespace BulletSharp
 		}
 
 		public SliderConstraint(RigidBody rigidBodyB, Matrix frameInB, bool useLinearReferenceFrameA)
-			: base(btSliderConstraint_new2(rigidBodyB.Native, ref frameInB, useLinearReferenceFrameA))
+			: base(UnsafeNativeMethods.btSliderConstraint_new2(rigidBodyB.Native, ref frameInB, useLinearReferenceFrameA))
 		{
 			_rigidBodyA = GetFixedBody();
 			_rigidBodyB = rigidBodyB;
@@ -43,44 +43,44 @@ namespace BulletSharp
 
 		public void CalculateTransformsRef(ref Matrix transA, ref Matrix transB)
 		{
-			btSliderConstraint_calculateTransforms(Native, ref transA, ref transB);
+			UnsafeNativeMethods.btSliderConstraint_calculateTransforms(Native, ref transA, ref transB);
 		}
 
 		public void CalculateTransforms(Matrix transA, Matrix transB)
 		{
-			btSliderConstraint_calculateTransforms(Native, ref transA, ref transB);
+			UnsafeNativeMethods.btSliderConstraint_calculateTransforms(Native, ref transA, ref transB);
 		}
 
 		public void GetInfo1NonVirtual(ConstraintInfo1 info)
 		{
-			btSliderConstraint_getInfo1NonVirtual(Native, info._native);
+			UnsafeNativeMethods.btSliderConstraint_getInfo1NonVirtual(Native, info._native);
 		}
 
 		public void GetInfo2NonVirtual(ConstraintInfo2 info, Matrix transA, Matrix transB,
 			Vector3 linVelA, Vector3 linVelB, float rbAinvMass, float rbBinvMass)
 		{
-			btSliderConstraint_getInfo2NonVirtual(Native, info._native, ref transA,
+			UnsafeNativeMethods.btSliderConstraint_getInfo2NonVirtual(Native, info._native, ref transA,
 				ref transB, ref linVelA, ref linVelB, rbAinvMass, rbBinvMass);
 		}
 
 		public void SetFramesRef(ref Matrix frameA, ref Matrix frameB)
 		{
-			btSliderConstraint_setFrames(Native, ref frameA, ref frameB);
+			UnsafeNativeMethods.btSliderConstraint_setFrames(Native, ref frameA, ref frameB);
 		}
 
 		public void SetFrames(Matrix frameA, Matrix frameB)
 		{
-			btSliderConstraint_setFrames(Native, ref frameA, ref frameB);
+			UnsafeNativeMethods.btSliderConstraint_setFrames(Native, ref frameA, ref frameB);
 		}
 
 		public void TestAngularLimits()
 		{
-			btSliderConstraint_testAngLimits(Native);
+			UnsafeNativeMethods.btSliderConstraint_testAngLimits(Native);
 		}
 
 		public void TestLinearLimits()
 		{
-			btSliderConstraint_testLinLimits(Native);
+			UnsafeNativeMethods.btSliderConstraint_testLinLimits(Native);
 		}
 
 		public Vector3 AncorInA
@@ -88,7 +88,7 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btSliderConstraint_getAncorInA(Native, out value);
+				UnsafeNativeMethods.btSliderConstraint_getAncorInA(Native, out value);
 				return value;
 			}
 		}
@@ -98,21 +98,21 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btSliderConstraint_getAncorInB(Native, out value);
+				UnsafeNativeMethods.btSliderConstraint_getAncorInB(Native, out value);
 				return value;
 			}
 		}
 
-		public float AngularDepth => btSliderConstraint_getAngDepth(Native);
+		public float AngularDepth => UnsafeNativeMethods.btSliderConstraint_getAngDepth(Native);
 
-		public float AngularPosition => btSliderConstraint_getAngularPos(Native);
+		public float AngularPosition => UnsafeNativeMethods.btSliderConstraint_getAngularPos(Native);
 
 		public Matrix CalculatedTransformA
 		{
 			get
 			{
 				Matrix value;
-				btSliderConstraint_getCalculatedTransformA(Native, out value);
+				UnsafeNativeMethods.btSliderConstraint_getCalculatedTransformA(Native, out value);
 				return value;
 			}
 		}
@@ -122,54 +122,54 @@ namespace BulletSharp
 			get
 			{
 				Matrix value;
-				btSliderConstraint_getCalculatedTransformB(Native, out value);
+				UnsafeNativeMethods.btSliderConstraint_getCalculatedTransformB(Native, out value);
 				return value;
 			}
 		}
 
 		public float DampingDirAngular
 		{
-			get => btSliderConstraint_getDampingDirAng(Native);
-			set => btSliderConstraint_setDampingDirAng(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getDampingDirAng(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setDampingDirAng(Native, value);
 		}
 
 		public float DampingDirLinear
 		{
-			get => btSliderConstraint_getDampingDirLin(Native);
-			set => btSliderConstraint_setDampingDirLin(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getDampingDirLin(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setDampingDirLin(Native, value);
 		}
 
 		public float DampingLimAngular
 		{
-			get => btSliderConstraint_getDampingLimAng(Native);
-			set => btSliderConstraint_setDampingLimAng(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getDampingLimAng(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setDampingLimAng(Native, value);
 		}
 
 		public float DampingLimLinear
 		{
-			get => btSliderConstraint_getDampingLimLin(Native);
-			set => btSliderConstraint_setDampingLimLin(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getDampingLimLin(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setDampingLimLin(Native, value);
 		}
 
 		public float DampingOrthoAngular
 		{
-			get => btSliderConstraint_getDampingOrthoAng(Native);
-			set => btSliderConstraint_setDampingOrthoAng(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getDampingOrthoAng(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setDampingOrthoAng(Native, value);
 		}
 
 		public float DampingOrthoLinear
 		{
-			get => btSliderConstraint_getDampingOrthoLin(Native);
-			set => btSliderConstraint_setDampingOrthoLin(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getDampingOrthoLin(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setDampingOrthoLin(Native, value);
 		}
 
-		public SliderFlags Flags => btSliderConstraint_getFlags(Native);
+		public SliderFlags Flags => UnsafeNativeMethods.btSliderConstraint_getFlags(Native);
 		public Matrix FrameOffsetA
 		{
 			get
 			{
 				Matrix value;
-				btSliderConstraint_getFrameOffsetA(Native, out value);
+				UnsafeNativeMethods.btSliderConstraint_getFrameOffsetA(Native, out value);
 				return value;
 			}
 		}
@@ -179,158 +179,158 @@ namespace BulletSharp
 			get
 			{
 				Matrix value;
-				btSliderConstraint_getFrameOffsetB(Native, out value);
+				UnsafeNativeMethods.btSliderConstraint_getFrameOffsetB(Native, out value);
 				return value;
 			}
 		}
 
-		public float LinearDepth => btSliderConstraint_getLinDepth(Native);
+		public float LinearDepth => UnsafeNativeMethods.btSliderConstraint_getLinDepth(Native);
 
-		public float LinearPosition => btSliderConstraint_getLinearPos(Native);
+		public float LinearPosition => UnsafeNativeMethods.btSliderConstraint_getLinearPos(Native);
 
 		public float LowerAngularLimit
 		{
-			get => btSliderConstraint_getLowerAngLimit(Native);
-			set => btSliderConstraint_setLowerAngLimit(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getLowerAngLimit(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setLowerAngLimit(Native, value);
 		}
 
 		public float LowerLinearLimit
 		{
-			get => btSliderConstraint_getLowerLinLimit(Native);
-			set => btSliderConstraint_setLowerLinLimit(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getLowerLinLimit(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setLowerLinLimit(Native, value);
 		}
 
 		public float MaxAngMotorForce
 		{
-			get => btSliderConstraint_getMaxAngMotorForce(Native);
-			set => btSliderConstraint_setMaxAngMotorForce(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getMaxAngMotorForce(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setMaxAngMotorForce(Native, value);
 		}
 
 		public float MaxLinearMotorForce
 		{
-			get => btSliderConstraint_getMaxLinMotorForce(Native);
-			set => btSliderConstraint_setMaxLinMotorForce(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getMaxLinMotorForce(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setMaxLinMotorForce(Native, value);
 		}
 
 		public bool PoweredAngularMotor
 		{
-			get => btSliderConstraint_getPoweredAngMotor(Native);
-			set => btSliderConstraint_setPoweredAngMotor(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getPoweredAngMotor(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setPoweredAngMotor(Native, value);
 		}
 
 		public bool PoweredLinearMotor
 		{
-			get => btSliderConstraint_getPoweredLinMotor(Native);
-			set => btSliderConstraint_setPoweredLinMotor(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getPoweredLinMotor(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setPoweredLinMotor(Native, value);
 		}
 
 		public float RestitutionDirAngular
 		{
-			get => btSliderConstraint_getRestitutionDirAng(Native);
-			set => btSliderConstraint_setRestitutionDirAng(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getRestitutionDirAng(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setRestitutionDirAng(Native, value);
 		}
 
 		public float RestitutionDirLinear
 		{
-			get => btSliderConstraint_getRestitutionDirLin(Native);
-			set => btSliderConstraint_setRestitutionDirLin(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getRestitutionDirLin(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setRestitutionDirLin(Native, value);
 		}
 
 		public float RestitutionLimAngular
 		{
-			get => btSliderConstraint_getRestitutionLimAng(Native);
-			set => btSliderConstraint_setRestitutionLimAng(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getRestitutionLimAng(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setRestitutionLimAng(Native, value);
 		}
 
 		public float RestitutionLimLinear
 		{
-			get => btSliderConstraint_getRestitutionLimLin(Native);
-			set => btSliderConstraint_setRestitutionLimLin(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getRestitutionLimLin(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setRestitutionLimLin(Native, value);
 		}
 
 		public float RestitutionOrthoAngular
 		{
-			get => btSliderConstraint_getRestitutionOrthoAng(Native);
-			set => btSliderConstraint_setRestitutionOrthoAng(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getRestitutionOrthoAng(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setRestitutionOrthoAng(Native, value);
 		}
 
 		public float RestitutionOrthoLinear
 		{
-			get => btSliderConstraint_getRestitutionOrthoLin(Native);
-			set => btSliderConstraint_setRestitutionOrthoLin(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getRestitutionOrthoLin(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setRestitutionOrthoLin(Native, value);
 		}
 
 		public float SoftnessDirAngular
 		{
-			get => btSliderConstraint_getSoftnessDirAng(Native);
-			set => btSliderConstraint_setSoftnessDirAng(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getSoftnessDirAng(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setSoftnessDirAng(Native, value);
 		}
 
 		public float SoftnessDirLinear
 		{
-			get => btSliderConstraint_getSoftnessDirLin(Native);
-			set => btSliderConstraint_setSoftnessDirLin(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getSoftnessDirLin(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setSoftnessDirLin(Native, value);
 		}
 
 		public float SoftnessLimAngular
 		{
-			get => btSliderConstraint_getSoftnessLimAng(Native);
-			set => btSliderConstraint_setSoftnessLimAng(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getSoftnessLimAng(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setSoftnessLimAng(Native, value);
 		}
 
 		public float SoftnessLimLinear
 		{
-			get => btSliderConstraint_getSoftnessLimLin(Native);
-			set => btSliderConstraint_setSoftnessLimLin(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getSoftnessLimLin(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setSoftnessLimLin(Native, value);
 		}
 
 		public float SoftnessOrthoAngular
 		{
-			get => btSliderConstraint_getSoftnessOrthoAng(Native);
-			set => btSliderConstraint_setSoftnessOrthoAng(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getSoftnessOrthoAng(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setSoftnessOrthoAng(Native, value);
 		}
 
 		public float SoftnessOrthoLinear
 		{
-			get => btSliderConstraint_getSoftnessOrthoLin(Native);
-			set => btSliderConstraint_setSoftnessOrthoLin(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getSoftnessOrthoLin(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setSoftnessOrthoLin(Native, value);
 		}
 
-		public bool SolveAngularLimit => btSliderConstraint_getSolveAngLimit(Native);
+		public bool SolveAngularLimit => UnsafeNativeMethods.btSliderConstraint_getSolveAngLimit(Native);
 
-		public bool SolveLinearLimit => btSliderConstraint_getSolveLinLimit(Native);
+		public bool SolveLinearLimit => UnsafeNativeMethods.btSliderConstraint_getSolveLinLimit(Native);
 
 		public float TargetAngularMotorVelocity
 		{
-			get => btSliderConstraint_getTargetAngMotorVelocity(Native);
-			set => btSliderConstraint_setTargetAngMotorVelocity(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getTargetAngMotorVelocity(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setTargetAngMotorVelocity(Native, value);
 		}
 
 		public float TargetLinearMotorVelocity
 		{
-			get => btSliderConstraint_getTargetLinMotorVelocity(Native);
-			set => btSliderConstraint_setTargetLinMotorVelocity(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getTargetLinMotorVelocity(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setTargetLinMotorVelocity(Native, value);
 		}
 
 		public float UpperAngularLimit
 		{
-			get => btSliderConstraint_getUpperAngLimit(Native);
-			set => btSliderConstraint_setUpperAngLimit(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getUpperAngLimit(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setUpperAngLimit(Native, value);
 		}
 
 		public float UpperLinearLimit
 		{
-			get => btSliderConstraint_getUpperLinLimit(Native);
-			set => btSliderConstraint_setUpperLinLimit(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getUpperLinLimit(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setUpperLinLimit(Native, value);
 		}
 
 		public bool UseFrameOffset
 		{
-			get => btSliderConstraint_getUseFrameOffset(Native);
-			set => btSliderConstraint_setUseFrameOffset(Native, value);
+			get => UnsafeNativeMethods.btSliderConstraint_getUseFrameOffset(Native);
+			set => UnsafeNativeMethods.btSliderConstraint_setUseFrameOffset(Native, value);
 		}
 
-		public bool UseLinearReferenceFrameA => btSliderConstraint_getUseLinearReferenceFrameA(Native);
+		public bool UseLinearReferenceFrameA => UnsafeNativeMethods.btSliderConstraint_getUseLinearReferenceFrameA(Native);
 	}
 
 	[StructLayout(LayoutKind.Sequential)]

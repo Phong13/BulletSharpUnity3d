@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -17,40 +17,40 @@ namespace BulletSharp
 
 			public CastResult()
 			{
-				Native = btConvexCast_CastResult_new();
+				Native = UnsafeNativeMethods.btConvexCast_CastResult_new();
 			}
 
 			public void DebugDraw(float fraction)
 			{
-				btConvexCast_CastResult_DebugDraw(Native, fraction);
+				UnsafeNativeMethods.btConvexCast_CastResult_DebugDraw(Native, fraction);
 			}
 
 			public void DrawCoordSystem(Matrix trans)
 			{
-				btConvexCast_CastResult_drawCoordSystem(Native, ref trans);
+				UnsafeNativeMethods.btConvexCast_CastResult_drawCoordSystem(Native, ref trans);
 			}
 
 			public void ReportFailure(int errNo, int numIterations)
 			{
-				btConvexCast_CastResult_reportFailure(Native, errNo, numIterations);
+				UnsafeNativeMethods.btConvexCast_CastResult_reportFailure(Native, errNo, numIterations);
 			}
 
 			public float AllowedPenetration
 			{
-				get => btConvexCast_CastResult_getAllowedPenetration(Native);
-				set => btConvexCast_CastResult_setAllowedPenetration(Native, value);
+				get => UnsafeNativeMethods.btConvexCast_CastResult_getAllowedPenetration(Native);
+				set => UnsafeNativeMethods.btConvexCast_CastResult_setAllowedPenetration(Native, value);
 			}
 
 			public IDebugDraw DebugDrawer
 			{
-				get => BulletSharp.DebugDraw.GetManaged(btConvexCast_CastResult_getDebugDrawer(Native));
-				set => btConvexCast_CastResult_setDebugDrawer(Native, BulletSharp.DebugDraw.GetUnmanaged(value));
+				get => BulletSharp.DebugDraw.GetManaged(UnsafeNativeMethods.btConvexCast_CastResult_getDebugDrawer(Native));
+				set => UnsafeNativeMethods.btConvexCast_CastResult_setDebugDrawer(Native, BulletSharp.DebugDraw.GetUnmanaged(value));
 			}
 
 			public float Fraction
 			{
-				get => btConvexCast_CastResult_getFraction(Native);
-				set => btConvexCast_CastResult_setFraction(Native, value);
+				get => UnsafeNativeMethods.btConvexCast_CastResult_getFraction(Native);
+				set => UnsafeNativeMethods.btConvexCast_CastResult_setFraction(Native, value);
 			}
 
 			public Vector3 HitPoint
@@ -58,10 +58,10 @@ namespace BulletSharp
 				get
 				{
 					Vector3 value;
-					btConvexCast_CastResult_getHitPoint(Native, out value);
+					UnsafeNativeMethods.btConvexCast_CastResult_getHitPoint(Native, out value);
 					return value;
 				}
-				set => btConvexCast_CastResult_setHitPoint(Native, ref value);
+				set => UnsafeNativeMethods.btConvexCast_CastResult_setHitPoint(Native, ref value);
 			}
 
 			public Matrix HitTransformA
@@ -69,10 +69,10 @@ namespace BulletSharp
 				get
 				{
 					Matrix value;
-					btConvexCast_CastResult_getHitTransformA(Native, out value);
+					UnsafeNativeMethods.btConvexCast_CastResult_getHitTransformA(Native, out value);
 					return value;
 				}
-				set => btConvexCast_CastResult_setHitTransformA(Native, ref value);
+				set => UnsafeNativeMethods.btConvexCast_CastResult_setHitTransformA(Native, ref value);
 			}
 
 			public Matrix HitTransformB
@@ -80,10 +80,10 @@ namespace BulletSharp
 				get
 				{
 					Matrix value;
-					btConvexCast_CastResult_getHitTransformB(Native, out value);
+					UnsafeNativeMethods.btConvexCast_CastResult_getHitTransformB(Native, out value);
 					return value;
 				}
-				set => btConvexCast_CastResult_setHitTransformB(Native, ref value);
+				set => UnsafeNativeMethods.btConvexCast_CastResult_setHitTransformB(Native, ref value);
 			}
 
 			public Vector3 Normal
@@ -91,10 +91,10 @@ namespace BulletSharp
 				get
 				{
 					Vector3 value;
-					btConvexCast_CastResult_getNormal(Native, out value);
+					UnsafeNativeMethods.btConvexCast_CastResult_getNormal(Native, out value);
 					return value;
 				}
-				set => btConvexCast_CastResult_setNormal(Native, ref value);
+				set => UnsafeNativeMethods.btConvexCast_CastResult_setNormal(Native, ref value);
 			}
 
 			public void Dispose()
@@ -107,7 +107,7 @@ namespace BulletSharp
 			{
 				if (Native != IntPtr.Zero)
 				{
-					btConvexCast_CastResult_delete(Native);
+					UnsafeNativeMethods.btConvexCast_CastResult_delete(Native);
 					Native = IntPtr.Zero;
 				}
 			}
@@ -128,7 +128,7 @@ namespace BulletSharp
 		public bool CalcTimeOfImpact(Matrix fromA, Matrix toA, Matrix fromB, Matrix toB,
 			CastResult result)
 		{
-			return btConvexCast_calcTimeOfImpact(Native, ref fromA, ref toA, ref fromB,
+			return UnsafeNativeMethods.btConvexCast_calcTimeOfImpact(Native, ref fromA, ref toA, ref fromB,
 				ref toB, result.Native);
 		}
 
@@ -142,7 +142,7 @@ namespace BulletSharp
 		{
 			if (Native != IntPtr.Zero)
 			{
-				btConvexCast_delete(Native);
+				UnsafeNativeMethods.btConvexCast_delete(Native);
 				Native = IntPtr.Zero;
 			}
 		}

@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp
 {
@@ -31,7 +31,7 @@ namespace BulletSharp
 		{
 			if (Native != IntPtr.Zero)
 			{
-				btMLCPSolverInterface_delete(Native);
+				UnsafeNativeMethods.btMLCPSolverInterface_delete(Native);
 				Native = IntPtr.Zero;
 			}
 		}

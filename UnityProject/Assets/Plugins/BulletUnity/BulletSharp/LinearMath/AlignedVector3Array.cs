@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -21,7 +21,7 @@ namespace BulletSharp
 
 		public AlignedVector3Array()
 		{
-			_native = btAlignedObjectArray_btVector3_new();
+			_native = UnsafeNativeMethods.btAlignedObjectArray_btVector3_new();
 		}
 
 		public void Dispose()
@@ -36,7 +36,7 @@ namespace BulletSharp
 			{
 				if (!_preventDelete)
 				{
-					btAlignedObjectArray_btVector3_delete(_native);
+					UnsafeNativeMethods.btAlignedObjectArray_btVector3_delete(_native);
 				}
 				_native = IntPtr.Zero;
 			}
@@ -71,7 +71,7 @@ namespace BulletSharp
 					throw new ArgumentOutOfRangeException(nameof(index));
 				}
 				Vector3 value;
-				btAlignedObjectArray_btVector3_at(_native, index, out value);
+				UnsafeNativeMethods.btAlignedObjectArray_btVector3_at(_native, index, out value);
 				return value;
 			}
 			set
@@ -80,13 +80,13 @@ namespace BulletSharp
 				{
 					throw new ArgumentOutOfRangeException(nameof(index));
 				}
-				btAlignedObjectArray_btVector3_set(_native, index, ref value);
+				UnsafeNativeMethods.btAlignedObjectArray_btVector3_set(_native, index, ref value);
 			}
 		}
 
 		public void Add(Vector3 item)
 		{
-			btAlignedObjectArray_btVector3_push_back(_native, ref item);
+			UnsafeNativeMethods.btAlignedObjectArray_btVector3_push_back(_native, ref item);
 		}
 
 		public void Clear()
@@ -117,7 +117,7 @@ namespace BulletSharp
 			}
 		}
 
-		public int Count => btAlignedObjectArray_btVector3_size(_native);
+		public int Count => UnsafeNativeMethods.btAlignedObjectArray_btVector3_size(_native);
 
 		public bool IsReadOnly => false;
 

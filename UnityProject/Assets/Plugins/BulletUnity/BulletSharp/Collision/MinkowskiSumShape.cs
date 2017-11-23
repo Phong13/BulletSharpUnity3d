@@ -1,12 +1,12 @@
-using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using BulletSharp.Math;
+
 
 namespace BulletSharp
 {
 	public class MinkowskiSumShape : ConvexInternalShape
 	{
 		public MinkowskiSumShape(ConvexShape shapeA, ConvexShape shapeB)
-			: base(btMinkowskiSumShape_new(shapeA.Native, shapeB.Native))
+			: base(UnsafeNativeMethods.btMinkowskiSumShape_new(shapeA.Native, shapeB.Native))
 		{
 			ShapeA = shapeA;
 			ShapeB = shapeB;
@@ -21,10 +21,10 @@ namespace BulletSharp
 			get
 			{
 				Matrix value;
-				btMinkowskiSumShape_getTransformA(Native, out value);
+				UnsafeNativeMethods.btMinkowskiSumShape_getTransformA(Native, out value);
 				return value;
 			}
-			set => btMinkowskiSumShape_setTransformA(Native, ref value);
+			set => UnsafeNativeMethods.btMinkowskiSumShape_setTransformA(Native, ref value);
 		}
 
 		public Matrix TransformB
@@ -32,10 +32,10 @@ namespace BulletSharp
 			get
 			{
 				Matrix value;
-				btMinkowskiSumShape_GetTransformB(Native, out value);
+				UnsafeNativeMethods.btMinkowskiSumShape_GetTransformB(Native, out value);
 				return value;
 			}
-			set => btMinkowskiSumShape_setTransformB(Native, ref value);
+			set => UnsafeNativeMethods.btMinkowskiSumShape_setTransformB(Native, ref value);
 		}
 	}
 }

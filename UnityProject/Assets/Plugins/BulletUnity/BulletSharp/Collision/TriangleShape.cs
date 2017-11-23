@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -14,28 +14,28 @@ namespace BulletSharp
 		}
 
 		public TriangleShape()
-			: base(btTriangleShape_new())
+			: base(UnsafeNativeMethods.btTriangleShape_new())
 		{
 		}
 
 		public TriangleShape(Vector3 p0, Vector3 p1, Vector3 p2)
-			: base(btTriangleShape_new2(ref p0, ref p1, ref p2))
+			: base(UnsafeNativeMethods.btTriangleShape_new2(ref p0, ref p1, ref p2))
 		{
 		}
 
 		public void CalcNormal(out Vector3 normal)
 		{
-			btTriangleShape_calcNormal(Native, out normal);
+			UnsafeNativeMethods.btTriangleShape_calcNormal(Native, out normal);
 		}
 
 		public void GetPlaneEquation(int i, out Vector3 planeNormal, out Vector3 planeSupport)
 		{
-			btTriangleShape_getPlaneEquation(Native, i, out planeNormal, out planeSupport);
+			UnsafeNativeMethods.btTriangleShape_getPlaneEquation(Native, i, out planeNormal, out planeSupport);
 		}
 
 		public IntPtr GetVertexPtr(int index)
 		{
-			return btTriangleShape_getVertexPtr(Native, index);
+			return UnsafeNativeMethods.btTriangleShape_getVertexPtr(Native, index);
 		}
 
 		public Vector3Array Vertices
@@ -44,7 +44,7 @@ namespace BulletSharp
 			{
 				if (_vertices == null)
 				{
-					_vertices = new Vector3Array(btTriangleShape_getVertices1(Native), 3);
+					_vertices = new Vector3Array(UnsafeNativeMethods.btTriangleShape_getVertices1(Native), 3);
 				}
 				return _vertices;
 			}

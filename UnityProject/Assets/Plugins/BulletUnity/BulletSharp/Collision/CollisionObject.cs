@@ -1,7 +1,6 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -67,7 +66,7 @@ namespace BulletSharp
 				return null;
 			}
 
-			IntPtr userPtr = btCollisionObject_getUserPointer(obj);
+			IntPtr userPtr = UnsafeNativeMethods.btCollisionObject_getUserPointer(obj);
 			if (userPtr != IntPtr.Zero)
 			{
 				return GCHandle.FromIntPtr(userPtr).Target as CollisionObject;
@@ -80,116 +79,116 @@ namespace BulletSharp
 		{
 			Native = native;
 			GCHandle handle = GCHandle.Alloc(this, GCHandleType.Weak);
-			btCollisionObject_setUserPointer(Native, GCHandle.ToIntPtr(handle));
+            UnsafeNativeMethods.btCollisionObject_setUserPointer(Native, GCHandle.ToIntPtr(handle));
 		}
 
 		public CollisionObject()
-			: this(btCollisionObject_new())
+			: this(UnsafeNativeMethods.btCollisionObject_new())
 		{
 		}
 
 		public void Activate(bool forceActivation = false)
 		{
-			btCollisionObject_activate(Native, forceActivation);
+            UnsafeNativeMethods.btCollisionObject_activate(Native, forceActivation);
 		}
 
 		public int CalculateSerializeBufferSize()
 		{
-			return btCollisionObject_calculateSerializeBufferSize(Native);
+			return UnsafeNativeMethods.btCollisionObject_calculateSerializeBufferSize(Native);
 		}
 
 		public bool CheckCollideWith(CollisionObject co)
 		{
-			return btCollisionObject_checkCollideWith(Native, co.Native);
+			return UnsafeNativeMethods.btCollisionObject_checkCollideWith(Native, co.Native);
 		}
 
 		public bool CheckCollideWithOverride(CollisionObject co)
 		{
-			return btCollisionObject_checkCollideWithOverride(Native, co.Native);
+			return UnsafeNativeMethods.btCollisionObject_checkCollideWithOverride(Native, co.Native);
 		}
 
 		public void ForceActivationState(ActivationState newState)
 		{
-			btCollisionObject_forceActivationState(Native, newState);
+            UnsafeNativeMethods.btCollisionObject_forceActivationState(Native, newState);
 		}
 
 		public bool GetCustomDebugColor(out Vector3 colorRgb)
 		{
-			return btCollisionObject_getCustomDebugColor(Native, out colorRgb);
+			return UnsafeNativeMethods.btCollisionObject_getCustomDebugColor(Native, out colorRgb);
 		}
 
 		public void GetWorldTransform(out Matrix transform)
 		{
-			btCollisionObject_getWorldTransform(Native, out transform);
+            UnsafeNativeMethods.btCollisionObject_getWorldTransform(Native, out transform);
 		}
 
 		public bool HasAnisotropicFriction(AnisotropicFrictionFlags frictionMode = AnisotropicFrictionFlags.Friction)
 		{
-			return btCollisionObject_hasAnisotropicFriction(Native, frictionMode);
+			return UnsafeNativeMethods.btCollisionObject_hasAnisotropicFriction(Native, frictionMode);
 		}
 
 		public IntPtr InternalGetExtensionPointer()
 		{
-			return btCollisionObject_internalGetExtensionPointer(Native);
+			return UnsafeNativeMethods.btCollisionObject_internalGetExtensionPointer(Native);
 		}
 
 		public void InternalSetExtensionPointer(IntPtr pointer)
 		{
-			btCollisionObject_internalSetExtensionPointer(Native, pointer);
+            UnsafeNativeMethods.btCollisionObject_internalSetExtensionPointer(Native, pointer);
 		}
 
 		public bool MergesSimulationIslands()
 		{
-			return btCollisionObject_mergesSimulationIslands(Native);
+			return UnsafeNativeMethods.btCollisionObject_mergesSimulationIslands(Native);
 		}
 
 		public void RemoveCustomDebugColor()
 		{
-			btCollisionObject_removeCustomDebugColor(Native);
+            UnsafeNativeMethods.btCollisionObject_removeCustomDebugColor(Native);
 		}
 
 		public string Serialize(IntPtr dataBuffer, Serializer serializer)
 		{
-			return Marshal.PtrToStringAnsi(btCollisionObject_serialize(Native, dataBuffer, serializer._native));
+			return Marshal.PtrToStringAnsi(UnsafeNativeMethods.btCollisionObject_serialize(Native, dataBuffer, serializer._native));
 		}
 
 		public void SerializeSingleObject(Serializer serializer)
 		{
-			btCollisionObject_serializeSingleObject(Native, serializer._native);
+            UnsafeNativeMethods.btCollisionObject_serializeSingleObject(Native, serializer._native);
 		}
 
 		public void SetAnisotropicFrictionRef(ref Vector3 anisotropicFriction,
 			AnisotropicFrictionFlags frictionMode = AnisotropicFrictionFlags.Friction)
 		{
-			btCollisionObject_setAnisotropicFriction(Native, ref anisotropicFriction, frictionMode);
+            UnsafeNativeMethods.btCollisionObject_setAnisotropicFriction(Native, ref anisotropicFriction, frictionMode);
 		}
 
 		public void SetAnisotropicFriction(Vector3 anisotropicFriction,
 			AnisotropicFrictionFlags frictionMode = AnisotropicFrictionFlags.Friction)
 		{
-			btCollisionObject_setAnisotropicFriction(Native, ref anisotropicFriction,
+            UnsafeNativeMethods.btCollisionObject_setAnisotropicFriction(Native, ref anisotropicFriction,
 				frictionMode);
 		}
 
 		public void SetContactStiffnessAndDamping(float stiffness, float damping)
 		{
-			btCollisionObject_setContactStiffnessAndDamping(Native, stiffness, damping);
+            UnsafeNativeMethods.btCollisionObject_setContactStiffnessAndDamping(Native, stiffness, damping);
 		}
 
 		public void SetCustomDebugColor(Vector3 colorRgb)
 		{
-			btCollisionObject_setCustomDebugColor(Native, ref colorRgb);
+            UnsafeNativeMethods.btCollisionObject_setCustomDebugColor(Native, ref colorRgb);
 		}
 
 		public void SetIgnoreCollisionCheck(CollisionObject co, bool ignoreCollisionCheck)
 		{
-			btCollisionObject_setIgnoreCollisionCheck(Native, co.Native, ignoreCollisionCheck);
+            UnsafeNativeMethods.btCollisionObject_setIgnoreCollisionCheck(Native, co.Native, ignoreCollisionCheck);
 		}
 
 		public ActivationState ActivationState
 		{
-			get => btCollisionObject_getActivationState(Native);
-			set => btCollisionObject_setActivationState(Native, value);
+			get { return UnsafeNativeMethods.btCollisionObject_getActivationState(Native); }
+			set { UnsafeNativeMethods.btCollisionObject_setActivationState(Native, value); }
 		}
 
 		public Vector3 AnisotropicFriction
@@ -197,99 +196,99 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btCollisionObject_getAnisotropicFriction(Native, out value);
+                UnsafeNativeMethods.btCollisionObject_getAnisotropicFriction(Native, out value);
 				return value;
 			}
-			set => btCollisionObject_setAnisotropicFriction(Native, ref value, AnisotropicFrictionFlags.Friction);
+			set { UnsafeNativeMethods.btCollisionObject_setAnisotropicFriction(Native, ref value, AnisotropicFrictionFlags.Friction); }
 		}
 
 		public BroadphaseProxy BroadphaseHandle
 		{
-			get => _broadphaseHandle;
+			get { return _broadphaseHandle; }
 			set
 			{
-				btCollisionObject_setBroadphaseHandle(Native, (value != null) ? value.Native : IntPtr.Zero);
+                UnsafeNativeMethods.btCollisionObject_setBroadphaseHandle(Native, (value != null) ? value.Native : IntPtr.Zero);
 				_broadphaseHandle = value;
 			}
 		}
 
 		public float CcdMotionThreshold
 		{
-			get => btCollisionObject_getCcdMotionThreshold(Native);
-			set => btCollisionObject_setCcdMotionThreshold(Native, value);
+			get { return UnsafeNativeMethods.btCollisionObject_getCcdMotionThreshold(Native); }
+			set { UnsafeNativeMethods.btCollisionObject_setCcdMotionThreshold(Native, value); }
 		}
 
-		public float CcdSquareMotionThreshold => btCollisionObject_getCcdSquareMotionThreshold(Native);
+		public float CcdSquareMotionThreshold { get { return UnsafeNativeMethods.btCollisionObject_getCcdSquareMotionThreshold(Native); } }
 
 		public float CcdSweptSphereRadius
 		{
-			get => btCollisionObject_getCcdSweptSphereRadius(Native);
-			set => btCollisionObject_setCcdSweptSphereRadius(Native, value);
+			get { return UnsafeNativeMethods.btCollisionObject_getCcdSweptSphereRadius(Native); }
+			set { UnsafeNativeMethods.btCollisionObject_setCcdSweptSphereRadius(Native, value); }
 		}
 
 		public CollisionFlags CollisionFlags
 		{
-			get => btCollisionObject_getCollisionFlags(Native);
-			set => btCollisionObject_setCollisionFlags(Native, value);
+			get { return UnsafeNativeMethods.btCollisionObject_getCollisionFlags(Native); }
+			set { UnsafeNativeMethods.btCollisionObject_setCollisionFlags(Native, value); }
 		}
 
 		public CollisionShape CollisionShape
 		{
-			get => _collisionShape;
+			get { return _collisionShape; }
 			set
 			{
-				btCollisionObject_setCollisionShape(Native, value.Native);
+                UnsafeNativeMethods.btCollisionObject_setCollisionShape(Native, value.Native);
 				_collisionShape = value;
 			}
 		}
 
 		public int CompanionId
 		{
-			get => btCollisionObject_getCompanionId(Native);
-			set => btCollisionObject_setCompanionId(Native, value);
+			get { return UnsafeNativeMethods.btCollisionObject_getCompanionId(Native); }
+			set { UnsafeNativeMethods.btCollisionObject_setCompanionId(Native, value); }
 		}
 
-		public float ContactDamping => btCollisionObject_getContactDamping(Native);
+		public float ContactDamping { get { return UnsafeNativeMethods.btCollisionObject_getContactDamping(Native); } }
 
 		public float ContactProcessingThreshold
 		{
-			get => btCollisionObject_getContactProcessingThreshold(Native);
-			set => btCollisionObject_setContactProcessingThreshold(Native, value);
+			get { return UnsafeNativeMethods.btCollisionObject_getContactProcessingThreshold(Native); }
+			set { UnsafeNativeMethods.btCollisionObject_setContactProcessingThreshold(Native, value); }
 		}
 
-		public float ContactStiffness => btCollisionObject_getContactStiffness(Native);
+		public float ContactStiffness { get { return UnsafeNativeMethods.btCollisionObject_getContactStiffness(Native); } }
 
 		public float DeactivationTime
 		{
-			get => btCollisionObject_getDeactivationTime(Native);
-			set => btCollisionObject_setDeactivationTime(Native, value);
+			get { return UnsafeNativeMethods.btCollisionObject_getDeactivationTime(Native); }
+			set { UnsafeNativeMethods.btCollisionObject_setDeactivationTime(Native, value); }
 		}
 
 		public float Friction
 		{
-			get => btCollisionObject_getFriction(Native);
-			set => btCollisionObject_setFriction(Native, value);
+			get { return UnsafeNativeMethods.btCollisionObject_getFriction(Native); }
+			set { UnsafeNativeMethods.btCollisionObject_setFriction(Native, value); }
 		}
 
-		public bool HasContactResponse => btCollisionObject_hasContactResponse(Native);
+		public bool HasContactResponse { get { return UnsafeNativeMethods.btCollisionObject_hasContactResponse(Native); } }
 
 		public float HitFraction
 		{
-			get => btCollisionObject_getHitFraction(Native);
-			set => btCollisionObject_setHitFraction(Native, value);
+			get { return UnsafeNativeMethods.btCollisionObject_getHitFraction(Native); }
+			set { UnsafeNativeMethods.btCollisionObject_setHitFraction(Native, value); }
 		}
 
-		public CollisionObjectTypes InternalType => btCollisionObject_getInternalType(Native);
+		public CollisionObjectTypes InternalType { get { return UnsafeNativeMethods.btCollisionObject_getInternalType(Native); } }
 
 		public Vector3 InterpolationAngularVelocity
 		{
 			get
 			{
 				Vector3 value;
-				btCollisionObject_getInterpolationAngularVelocity(Native, out value);
+                UnsafeNativeMethods.btCollisionObject_getInterpolationAngularVelocity(Native, out value);
 				return value;
 			}
-			set => btCollisionObject_setInterpolationAngularVelocity(Native, ref value);
+			set { UnsafeNativeMethods.btCollisionObject_setInterpolationAngularVelocity(Native, ref value); }
 		}
 
 		public Vector3 InterpolationLinearVelocity
@@ -297,10 +296,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btCollisionObject_getInterpolationLinearVelocity(Native, out value);
+                UnsafeNativeMethods.btCollisionObject_getInterpolationLinearVelocity(Native, out value);
 				return value;
 			}
-			set => btCollisionObject_setInterpolationLinearVelocity(Native, ref value);
+			set { UnsafeNativeMethods.btCollisionObject_setInterpolationLinearVelocity(Native, ref value); }
 		}
 
 		public Matrix InterpolationWorldTransform
@@ -308,62 +307,62 @@ namespace BulletSharp
 			get
 			{
 				Matrix value;
-				btCollisionObject_getInterpolationWorldTransform(Native, out value);
+                UnsafeNativeMethods.btCollisionObject_getInterpolationWorldTransform(Native, out value);
 				return value;
 			}
-			set => btCollisionObject_setInterpolationWorldTransform(Native, ref value);
+			set { UnsafeNativeMethods.btCollisionObject_setInterpolationWorldTransform(Native, ref value); }
 		}
 
-		public bool IsActive => btCollisionObject_isActive(Native);
+		public bool IsActive { get { return UnsafeNativeMethods.btCollisionObject_isActive(Native); } }
 
-		public bool IsKinematicObject => btCollisionObject_isKinematicObject(Native);
+		public bool IsKinematicObject { get { return UnsafeNativeMethods.btCollisionObject_isKinematicObject(Native); } }
 
 		public int IslandTag
 		{
-			get => btCollisionObject_getIslandTag(Native);
-			set => btCollisionObject_setIslandTag(Native, value);
+			get { return UnsafeNativeMethods.btCollisionObject_getIslandTag(Native); }
+			set { UnsafeNativeMethods.btCollisionObject_setIslandTag(Native, value); }
 		}
 
-		public bool IsStaticObject => btCollisionObject_isStaticObject(Native);
+		public bool IsStaticObject { get { return UnsafeNativeMethods.btCollisionObject_isStaticObject(Native); } }
 
-		public bool IsStaticOrKinematicObject => btCollisionObject_isStaticOrKinematicObject(Native);
+		public bool IsStaticOrKinematicObject { get { return UnsafeNativeMethods.btCollisionObject_isStaticOrKinematicObject(Native); } }
 
 		public float Restitution
 		{
-			get => btCollisionObject_getRestitution(Native);
-			set => btCollisionObject_setRestitution(Native, value);
+			get { return UnsafeNativeMethods.btCollisionObject_getRestitution(Native); }
+			set { UnsafeNativeMethods.btCollisionObject_setRestitution(Native, value); }
 		}
 
 		public float RollingFriction
 		{
-			get => btCollisionObject_getRollingFriction(Native);
-			set => btCollisionObject_setRollingFriction(Native, value);
+			get { return UnsafeNativeMethods.btCollisionObject_getRollingFriction(Native); }
+			set { UnsafeNativeMethods.btCollisionObject_setRollingFriction(Native, value); }
 		}
 
 		public float SpinningFriction
 		{
-			get => btCollisionObject_getSpinningFriction(Native);
-			set => btCollisionObject_setSpinningFriction(Native, value);
+			get { return UnsafeNativeMethods.btCollisionObject_getSpinningFriction(Native); }
+			set { UnsafeNativeMethods.btCollisionObject_setSpinningFriction(Native, value); }
 		}
 
 		public object UserObject { get; set; }
 
 		public int UserIndex
 		{
-			get => btCollisionObject_getUserIndex(Native);
-			set => btCollisionObject_setUserIndex(Native, value);
+			get { return UnsafeNativeMethods.btCollisionObject_getUserIndex(Native); }
+			set { UnsafeNativeMethods.btCollisionObject_setUserIndex(Native, value); }
 		}
 
 		public int UserIndex2
 		{
-			get => btCollisionObject_getUserIndex2(Native);
-			set => btCollisionObject_setUserIndex2(Native, value);
+			get { return UnsafeNativeMethods.btCollisionObject_getUserIndex2(Native); }
+			set { UnsafeNativeMethods.btCollisionObject_setUserIndex2(Native, value); }
 		}
 
 		public int WorldArrayIndex
 		{
-			get => btCollisionObject_getWorldArrayIndex(Native);
-			set => btCollisionObject_setWorldArrayIndex(Native, value);
+			get { return UnsafeNativeMethods.btCollisionObject_getWorldArrayIndex(Native); }
+			set { UnsafeNativeMethods.btCollisionObject_setWorldArrayIndex(Native, value); }
 		}
 
 		public Matrix WorldTransform
@@ -371,10 +370,10 @@ namespace BulletSharp
 			get
 			{
 				Matrix value;
-				btCollisionObject_getWorldTransform(Native, out value);
+                UnsafeNativeMethods.btCollisionObject_getWorldTransform(Native, out value);
 				return value;
 			}
-			set => btCollisionObject_setWorldTransform(Native, ref value);
+			set { UnsafeNativeMethods.btCollisionObject_setWorldTransform(Native, ref value); }
 		}
 
 		public override bool Equals(object obj)
@@ -403,7 +402,7 @@ namespace BulletSharp
 			if (!_isDisposed)
 			{
 				// Is the object added to a world?
-				if (btCollisionObject_getBroadphaseHandle(Native) != IntPtr.Zero)
+				if (UnsafeNativeMethods.btCollisionObject_getBroadphaseHandle(Native) != IntPtr.Zero)
 				{
 					BroadphaseHandle = null;
 					//System.Diagnostics.Debugger.Break();
@@ -412,9 +411,9 @@ namespace BulletSharp
 
 				_isDisposed = true;
 
-				IntPtr userPtr = btCollisionObject_getUserPointer(Native);
+				IntPtr userPtr = UnsafeNativeMethods.btCollisionObject_getUserPointer(Native);
 				GCHandle.FromIntPtr(userPtr).Free();
-				btCollisionObject_delete(Native);
+                UnsafeNativeMethods.btCollisionObject_delete(Native);
 			}
 		}
 

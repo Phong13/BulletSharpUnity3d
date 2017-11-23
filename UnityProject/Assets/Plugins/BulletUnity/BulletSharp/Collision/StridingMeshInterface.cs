@@ -1,8 +1,8 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.IO;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -21,7 +21,7 @@ namespace BulletSharp
 			int numVerts, numFaces;
 			PhyScalarType vertsType, indicesType;
 			int vertexStride, indexStride;
-			btStridingMeshInterface_getLockedReadOnlyVertexIndexBase(Native, out vertexBase, out numVerts, out vertsType, out vertexStride, out indexBase, out indexStride, out numFaces, out indicesType, subpart);
+			UnsafeNativeMethods.btStridingMeshInterface_getLockedReadOnlyVertexIndexBase(Native, out vertexBase, out numVerts, out vertsType, out vertexStride, out indexBase, out indexStride, out numFaces, out indicesType, subpart);
 
 			int length = numFaces * indexStride;
 			return new UnmanagedMemoryStream((byte*)indexBase.ToPointer(), length, length, FileAccess.ReadWrite);
@@ -33,7 +33,7 @@ namespace BulletSharp
 			int numVerts, numFaces;
 			PhyScalarType vertsType, indicesType;
 			int vertexStride, indexStride;
-			btStridingMeshInterface_getLockedReadOnlyVertexIndexBase(Native, out vertexBase, out numVerts, out vertsType, out vertexStride, out indexBase, out indexStride, out numFaces, out indicesType, subpart);
+			UnsafeNativeMethods.btStridingMeshInterface_getLockedReadOnlyVertexIndexBase(Native, out vertexBase, out numVerts, out vertsType, out vertexStride, out indexBase, out indexStride, out numFaces, out indicesType, subpart);
 
 			int length = numVerts * vertexStride;
 			return new UnmanagedMemoryStream((byte*)vertexBase.ToPointer(), length, length, FileAccess.ReadWrite);
@@ -41,20 +41,20 @@ namespace BulletSharp
 
 		public void CalculateAabbBruteForce(out Vector3 aabbMin, out Vector3 aabbMax)
 		{
-			btStridingMeshInterface_calculateAabbBruteForce(Native, out aabbMin,
+			UnsafeNativeMethods.btStridingMeshInterface_calculateAabbBruteForce(Native, out aabbMin,
 				out aabbMax);
 		}
 
 		public int CalculateSerializeBufferSize()
 		{
-			return btStridingMeshInterface_calculateSerializeBufferSize(Native);
+			return UnsafeNativeMethods.btStridingMeshInterface_calculateSerializeBufferSize(Native);
 		}
 
 		public void GetLockedReadOnlyVertexIndexBase(out IntPtr vertexBase, out int numVerts,
 			out PhyScalarType type, out int vertexStride, out IntPtr indexbase, out int indexStride,
 			out int numFaces, out PhyScalarType indicesType, int subpart = 0)
 		{
-			btStridingMeshInterface_getLockedReadOnlyVertexIndexBase(Native, out vertexBase,
+			UnsafeNativeMethods.btStridingMeshInterface_getLockedReadOnlyVertexIndexBase(Native, out vertexBase,
 				out numVerts, out type, out vertexStride, out indexbase, out indexStride,
 				out numFaces, out indicesType, subpart);
 		}
@@ -63,71 +63,71 @@ namespace BulletSharp
 			out PhyScalarType type, out int vertexStride, out IntPtr indexbase, out int indexStride,
 			out int numFaces, out PhyScalarType indicesType, int subpart = 0)
 		{
-			btStridingMeshInterface_getLockedVertexIndexBase(Native, out vertexBase,
+			UnsafeNativeMethods.btStridingMeshInterface_getLockedVertexIndexBase(Native, out vertexBase,
 				out numVerts, out type, out vertexStride, out indexbase, out indexStride,
 				out numFaces, out indicesType, subpart);
 		}
 
 		public void GetPremadeAabb(out Vector3 aabbMin, out Vector3 aabbMax)
 		{
-			btStridingMeshInterface_getPremadeAabb(Native, out aabbMin, out aabbMax);
+			UnsafeNativeMethods.btStridingMeshInterface_getPremadeAabb(Native, out aabbMin, out aabbMax);
 		}
 
 		public void InternalProcessAllTriangles(InternalTriangleIndexCallback callback,
 			Vector3 aabbMin, Vector3 aabbMax)
 		{
-			btStridingMeshInterface_InternalProcessAllTriangles(Native, callback._native,
+			UnsafeNativeMethods.btStridingMeshInterface_InternalProcessAllTriangles(Native, callback._native,
 				ref aabbMin, ref aabbMax);
 		}
 
 		public void PreallocateIndices(int numIndices)
 		{
-			btStridingMeshInterface_preallocateIndices(Native, numIndices);
+			UnsafeNativeMethods.btStridingMeshInterface_preallocateIndices(Native, numIndices);
 		}
 
 		public void PreallocateVertices(int numVerts)
 		{
-			btStridingMeshInterface_preallocateVertices(Native, numVerts);
+			UnsafeNativeMethods.btStridingMeshInterface_preallocateVertices(Native, numVerts);
 		}
 
 		public string Serialize(IntPtr dataBuffer, Serializer serializer)
 		{
-			return Marshal.PtrToStringAnsi(btStridingMeshInterface_serialize(Native, dataBuffer, serializer._native));
+			return Marshal.PtrToStringAnsi(UnsafeNativeMethods.btStridingMeshInterface_serialize(Native, dataBuffer, serializer._native));
 		}
 
 		public void SetPremadeAabb(ref Vector3 aabbMin, ref Vector3 aabbMax)
 		{
-			btStridingMeshInterface_setPremadeAabb(Native, ref aabbMin, ref aabbMax);
+			UnsafeNativeMethods.btStridingMeshInterface_setPremadeAabb(Native, ref aabbMin, ref aabbMax);
 		}
 
 		public void SetPremadeAabb(Vector3 aabbMin, Vector3 aabbMax)
 		{
-			btStridingMeshInterface_setPremadeAabb(Native, ref aabbMin, ref aabbMax);
+			UnsafeNativeMethods.btStridingMeshInterface_setPremadeAabb(Native, ref aabbMin, ref aabbMax);
 		}
 
 		public void UnLockReadOnlyVertexBase(int subpart)
 		{
-			btStridingMeshInterface_unLockReadOnlyVertexBase(Native, subpart);
+			UnsafeNativeMethods.btStridingMeshInterface_unLockReadOnlyVertexBase(Native, subpart);
 		}
 
 		public void UnLockVertexBase(int subpart)
 		{
-			btStridingMeshInterface_unLockVertexBase(Native, subpart);
+			UnsafeNativeMethods.btStridingMeshInterface_unLockVertexBase(Native, subpart);
 		}
 
-		public bool HasPremadeAabb => btStridingMeshInterface_hasPremadeAabb(Native);
+		public bool HasPremadeAabb => UnsafeNativeMethods.btStridingMeshInterface_hasPremadeAabb(Native);
 
-		public int NumSubParts => btStridingMeshInterface_getNumSubParts(Native);
+		public int NumSubParts => UnsafeNativeMethods.btStridingMeshInterface_getNumSubParts(Native);
 
 		public Vector3 Scaling
 		{
 			get
 			{
 				Vector3 value;
-				btStridingMeshInterface_getScaling(Native, out value);
+				UnsafeNativeMethods.btStridingMeshInterface_getScaling(Native, out value);
 				return value;
 			}
-            set => btStridingMeshInterface_setScaling(Native, ref value);
+            set => UnsafeNativeMethods.btStridingMeshInterface_setScaling(Native, ref value);
         }
 
 		public void Dispose()
@@ -140,7 +140,7 @@ namespace BulletSharp
 		{
 			if (Native != IntPtr.Zero)
 			{
-				btStridingMeshInterface_delete(Native);
+				UnsafeNativeMethods.btStridingMeshInterface_delete(Native);
 				Native = IntPtr.Zero;
 			}
 		}

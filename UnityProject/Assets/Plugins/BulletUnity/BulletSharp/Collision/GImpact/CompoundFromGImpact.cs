@@ -1,4 +1,4 @@
-using BulletSharp.Math;
+﻿using BulletSharp.Math;
 
 namespace BulletSharp
 {

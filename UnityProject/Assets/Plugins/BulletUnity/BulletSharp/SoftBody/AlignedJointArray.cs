@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp.SoftBody
 {
@@ -96,7 +96,7 @@ namespace BulletSharp.SoftBody
 				{
 					throw new ArgumentOutOfRangeException(nameof(index));
 				}
-				return Joint.GetManaged(btAlignedObjectArray_btSoftBody_JointPtr_at(_native, index));
+				return Joint.GetManaged(UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_JointPtr_at(_native, index));
 			}
 			set
 			{
@@ -106,12 +106,12 @@ namespace BulletSharp.SoftBody
 
 		public void Add(Joint item)
 		{
-			btAlignedObjectArray_btSoftBody_JointPtr_push_back(_native, item.Native);
+			UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_JointPtr_push_back(_native, item.Native);
 		}
 
 		public void Clear()
 		{
-			btAlignedObjectArray_btSoftBody_JointPtr_resizeNoInitialize(_native, 0);
+			UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_JointPtr_resizeNoInitialize(_native, 0);
 		}
 
 		public bool Contains(Joint item)
@@ -124,7 +124,7 @@ namespace BulletSharp.SoftBody
 			throw new NotImplementedException();
 		}
 
-		public int Count => btAlignedObjectArray_btSoftBody_JointPtr_size(_native);
+		public int Count => UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_JointPtr_size(_native);
 
 		public bool IsReadOnly => false;
 

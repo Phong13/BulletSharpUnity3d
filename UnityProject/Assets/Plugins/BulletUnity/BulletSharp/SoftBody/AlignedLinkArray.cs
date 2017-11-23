@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp.SoftBody
 {
@@ -96,22 +96,22 @@ namespace BulletSharp.SoftBody
 				{
 					throw new ArgumentOutOfRangeException(nameof(index));
 				}
-				return new Link(btAlignedObjectArray_btSoftBody_Link_at(_native, index));
+				return new Link(UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_Link_at(_native, index));
 			}
 			set
 			{
-				btAlignedObjectArray_btSoftBody_Link_set(_native, value.Native, index);
+				UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_Link_set(_native, value.Native, index);
 			}
 		}
 
 		public void Add(Link item)
 		{
-			btAlignedObjectArray_btSoftBody_Link_push_back(_native, item.Native);
+			UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_Link_push_back(_native, item.Native);
 		}
 
 		public void Clear()
 		{
-			btAlignedObjectArray_btSoftBody_Link_resizeNoInitialize(_native, 0);
+			UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_Link_resizeNoInitialize(_native, 0);
 		}
 
 		public bool Contains(Link item)
@@ -137,11 +137,11 @@ namespace BulletSharp.SoftBody
 
 			for (int i = 0; i < count; i++)
 			{
-				array.SetValue(new Link(btAlignedObjectArray_btSoftBody_Link_at(_native, i)), i + arrayIndex);
+				array.SetValue(new Link(UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_Link_at(_native, i)), i + arrayIndex);
 			}
 		}
 
-		public int Count => btAlignedObjectArray_btSoftBody_Link_size(_native);
+		public int Count => UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_Link_size(_native);
 
 		public bool IsReadOnly => false;
 

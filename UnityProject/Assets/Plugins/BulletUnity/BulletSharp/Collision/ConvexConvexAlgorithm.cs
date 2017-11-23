@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp
 {
@@ -15,7 +15,7 @@ namespace BulletSharp
 			}
 
 			public CreateFunc(ConvexPenetrationDepthSolver pdSolver)
-				: base(btConvexConvexAlgorithm_CreateFunc_new(pdSolver.Native), false)
+				: base(UnsafeNativeMethods.btConvexConvexAlgorithm_CreateFunc_new(pdSolver.Native), false)
 			{
 				_pdSolver = pdSolver;
 			}
@@ -23,20 +23,20 @@ namespace BulletSharp
 			public override CollisionAlgorithm CreateCollisionAlgorithm(CollisionAlgorithmConstructionInfo __unnamed0, 
 				CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap)
 			{
-				return new ConvexConvexAlgorithm(btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
+				return new ConvexConvexAlgorithm(UnsafeNativeMethods.btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
 					Native, __unnamed0.Native, body0Wrap.Native, body1Wrap.Native));
 			}
 
 			public int MinimumPointsPerturbationThreshold
 			{
-				get => btConvexConvexAlgorithm_CreateFunc_getMinimumPointsPerturbationThreshold(Native);
-				set => btConvexConvexAlgorithm_CreateFunc_setMinimumPointsPerturbationThreshold(Native, value);
+				get => UnsafeNativeMethods.btConvexConvexAlgorithm_CreateFunc_getMinimumPointsPerturbationThreshold(Native);
+				set => UnsafeNativeMethods.btConvexConvexAlgorithm_CreateFunc_setMinimumPointsPerturbationThreshold(Native, value);
 			}
 
 			public int NumPerturbationIterations
 			{
-				get => btConvexConvexAlgorithm_CreateFunc_getNumPerturbationIterations(Native);
-				set => btConvexConvexAlgorithm_CreateFunc_setNumPerturbationIterations(Native, value);
+				get => UnsafeNativeMethods.btConvexConvexAlgorithm_CreateFunc_getNumPerturbationIterations(Native);
+				set => UnsafeNativeMethods.btConvexConvexAlgorithm_CreateFunc_setNumPerturbationIterations(Native, value);
 			}
 
 			public ConvexPenetrationDepthSolver PdSolver
@@ -44,7 +44,7 @@ namespace BulletSharp
 				get => _pdSolver;
 				set
 				{
-					btConvexConvexAlgorithm_CreateFunc_setPdSolver(Native, value.Native);
+					UnsafeNativeMethods.btConvexConvexAlgorithm_CreateFunc_setPdSolver(Native, value.Native);
 					_pdSolver = value;
 				}
 			}
@@ -58,7 +58,7 @@ namespace BulletSharp
 		public ConvexConvexAlgorithm(PersistentManifold mf, CollisionAlgorithmConstructionInfo ci,
 			CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap, VoronoiSimplexSolver simplexSolver,
 			ConvexPenetrationDepthSolver pdSolver, int numPerturbationIterations, int minimumPointsPerturbationThreshold)
-			: base(btConvexConvexAlgorithm_new(mf.Native, ci.Native, body0Wrap.Native,
+			: base(UnsafeNativeMethods.btConvexConvexAlgorithm_new(mf.Native, ci.Native, body0Wrap.Native,
 				body1Wrap.Native, simplexSolver.Native, pdSolver.Native, numPerturbationIterations,
 				minimumPointsPerturbationThreshold))
 		{
@@ -66,9 +66,9 @@ namespace BulletSharp
 
 		public void SetLowLevelOfDetail(bool useLowLevel)
 		{
-			btConvexConvexAlgorithm_setLowLevelOfDetail(Native, useLowLevel);
+			UnsafeNativeMethods.btConvexConvexAlgorithm_setLowLevelOfDetail(Native, useLowLevel);
 		}
 
-		public PersistentManifold Manifold => new PersistentManifold(btConvexConvexAlgorithm_getManifold(Native), true);
+		public PersistentManifold Manifold => new PersistentManifold(UnsafeNativeMethods.btConvexConvexAlgorithm_getManifold(Native), true);
 	}
 }

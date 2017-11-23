@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp
 {
@@ -16,78 +16,78 @@ namespace BulletSharp
 
 		public void AllocateJacobiansMultiDof()
 		{
-			btMultiBodyConstraint_allocateJacobiansMultiDof(Native);
+			UnsafeNativeMethods.btMultiBodyConstraint_allocateJacobiansMultiDof(Native);
 		}
 		/*
 		public void CreateConstraintRows(MultiBodyConstraintArray constraintRows,
 			MultiBodyJacobianData data, ContactSolverInfo infoGlobal)
 		{
-			btMultiBodyConstraint_createConstraintRows(Native, constraintRows.Native,
+			UnsafeNativeMethods.btMultiBodyConstraint_createConstraintRows(Native, constraintRows.Native,
 				data.Native, infoGlobal.Native);
 		}
 		*/
 		public void DebugDraw(IDebugDraw drawer)
 		{
-			btMultiBodyConstraint_debugDraw(Native, BulletSharp.DebugDraw.GetUnmanaged(drawer));
+			UnsafeNativeMethods.btMultiBodyConstraint_debugDraw(Native, BulletSharp.DebugDraw.GetUnmanaged(drawer));
 		}
 
 		public void FinalizeMultiDof()
 		{
-			btMultiBodyConstraint_finalizeMultiDof(Native);
+			UnsafeNativeMethods.btMultiBodyConstraint_finalizeMultiDof(Native);
 		}
 
 		public float GetAppliedImpulse(int dof)
 		{
-			return btMultiBodyConstraint_getAppliedImpulse(Native, dof);
+			return UnsafeNativeMethods.btMultiBodyConstraint_getAppliedImpulse(Native, dof);
 		}
 
 		public float GetPosition(int row)
 		{
-			return btMultiBodyConstraint_getPosition(Native, row);
+			return UnsafeNativeMethods.btMultiBodyConstraint_getPosition(Native, row);
 		}
 
 		public void InternalSetAppliedImpulse(int dof, float appliedImpulse)
 		{
-			btMultiBodyConstraint_internalSetAppliedImpulse(Native, dof, appliedImpulse);
+			UnsafeNativeMethods.btMultiBodyConstraint_internalSetAppliedImpulse(Native, dof, appliedImpulse);
 		}
 		/*
 		public float JacobianA(int row)
 		{
-			return btMultiBodyConstraint_jacobianA(Native, row);
+			return UnsafeNativeMethods.btMultiBodyConstraint_jacobianA(Native, row);
 		}
 
 		public float JacobianB(int row)
 		{
-			return btMultiBodyConstraint_jacobianB(Native, row);
+			return UnsafeNativeMethods.btMultiBodyConstraint_jacobianB(Native, row);
 		}
 		*/
 		public void SetPosition(int row, float pos)
 		{
-			btMultiBodyConstraint_setPosition(Native, row, pos);
+			UnsafeNativeMethods.btMultiBodyConstraint_setPosition(Native, row, pos);
 		}
 
 		public void UpdateJacobianSizes()
 		{
-			btMultiBodyConstraint_updateJacobianSizes(Native);
+			UnsafeNativeMethods.btMultiBodyConstraint_updateJacobianSizes(Native);
 		}
 
-		public int IslandIdA => btMultiBodyConstraint_getIslandIdA(Native);
+		public int IslandIdA => UnsafeNativeMethods.btMultiBodyConstraint_getIslandIdA(Native);
 
-		public int IslandIdB => btMultiBodyConstraint_getIslandIdB(Native);
+		public int IslandIdB => UnsafeNativeMethods.btMultiBodyConstraint_getIslandIdB(Native);
 
-		public bool IsUnilateral => btMultiBodyConstraint_isUnilateral(Native);
+		public bool IsUnilateral => UnsafeNativeMethods.btMultiBodyConstraint_isUnilateral(Native);
 
 		public float MaxAppliedImpulse
 		{
-			get => btMultiBodyConstraint_getMaxAppliedImpulse(Native);
-			set => btMultiBodyConstraint_setMaxAppliedImpulse(Native, value);
+			get => UnsafeNativeMethods.btMultiBodyConstraint_getMaxAppliedImpulse(Native);
+			set => UnsafeNativeMethods.btMultiBodyConstraint_setMaxAppliedImpulse(Native, value);
 		}
 
 		public MultiBody MultiBodyA { get; }
 
 		public MultiBody MultiBodyB { get; }
 
-		public int NumRows => btMultiBodyConstraint_getNumRows(Native);
+		public int NumRows => UnsafeNativeMethods.btMultiBodyConstraint_getNumRows(Native);
 
 		public void Dispose()
 		{
@@ -99,7 +99,7 @@ namespace BulletSharp
 		{
 			if (Native != IntPtr.Zero)
 			{
-				btMultiBodyConstraint_delete(Native);
+				UnsafeNativeMethods.btMultiBodyConstraint_delete(Native);
 				Native = IntPtr.Zero;
 			}
 		}

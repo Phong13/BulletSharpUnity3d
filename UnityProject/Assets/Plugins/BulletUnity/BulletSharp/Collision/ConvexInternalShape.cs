@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -14,17 +14,17 @@ namespace BulletSharp
 
 		public void SetSafeMargin(float minDimension, float defaultMarginMultiplier = 0.1f)
 		{
-			btConvexInternalShape_setSafeMargin(Native, minDimension, defaultMarginMultiplier);
+			UnsafeNativeMethods.btConvexInternalShape_setSafeMargin(Native, minDimension, defaultMarginMultiplier);
 		}
 
 		public void SetSafeMarginRef(ref Vector3 halfExtents, float defaultMarginMultiplier = 0.1f)
 		{
-			btConvexInternalShape_setSafeMargin2(Native, ref halfExtents, defaultMarginMultiplier);
+			UnsafeNativeMethods.btConvexInternalShape_setSafeMargin2(Native, ref halfExtents, defaultMarginMultiplier);
 		}
 
 		public void SetSafeMargin(Vector3 halfExtents, float defaultMarginMultiplier = 0.1f)
 		{
-			btConvexInternalShape_setSafeMargin2(Native, ref halfExtents, defaultMarginMultiplier);
+			UnsafeNativeMethods.btConvexInternalShape_setSafeMargin2(Native, ref halfExtents, defaultMarginMultiplier);
 		}
 
 		public Vector3 ImplicitShapeDimensions
@@ -32,10 +32,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btConvexInternalShape_getImplicitShapeDimensions(Native, out value);
+				UnsafeNativeMethods.btConvexInternalShape_getImplicitShapeDimensions(Native, out value);
 				return value;
 			}
-			set { btConvexInternalShape_setImplicitShapeDimensions(Native, ref value); }
+			set { UnsafeNativeMethods.btConvexInternalShape_setImplicitShapeDimensions(Native, ref value); }
 		}
 
 		public Vector3 LocalScalingNV
@@ -43,12 +43,12 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btConvexInternalShape_getLocalScalingNV(Native, out value);
+				UnsafeNativeMethods.btConvexInternalShape_getLocalScalingNV(Native, out value);
 				return value;
 			}
 		}
 
-		public float MarginNV => btConvexInternalShape_getMarginNV(Native);
+		public float MarginNV => UnsafeNativeMethods.btConvexInternalShape_getMarginNV(Native);
 	}
 
 	public abstract class ConvexInternalAabbCachingShape : ConvexInternalShape
@@ -60,7 +60,7 @@ namespace BulletSharp
 
 		public void RecalcLocalAabb()
 		{
-			btConvexInternalAabbCachingShape_recalcLocalAabb(Native);
+			UnsafeNativeMethods.btConvexInternalAabbCachingShape_recalcLocalAabb(Native);
 		}
 	}
 

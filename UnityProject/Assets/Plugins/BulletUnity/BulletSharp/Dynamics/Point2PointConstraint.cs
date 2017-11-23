@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -24,20 +24,20 @@ namespace BulletSharp
 
 		public float Damping
 		{
-			get => btConstraintSetting_getDamping(Native);
-			set => btConstraintSetting_setDamping(Native, value);
+			get => UnsafeNativeMethods.btConstraintSetting_getDamping(Native);
+			set => UnsafeNativeMethods.btConstraintSetting_setDamping(Native, value);
 		}
 
 		public float ImpulseClamp
 		{
-			get => btConstraintSetting_getImpulseClamp(Native);
-			set => btConstraintSetting_setImpulseClamp(Native, value);
+			get => UnsafeNativeMethods.btConstraintSetting_getImpulseClamp(Native);
+			set => UnsafeNativeMethods.btConstraintSetting_setImpulseClamp(Native, value);
 		}
 
 		public float Tau
 		{
-			get => btConstraintSetting_getTau(Native);
-			set => btConstraintSetting_setTau(Native, value);
+			get => UnsafeNativeMethods.btConstraintSetting_getTau(Native);
+			set => UnsafeNativeMethods.btConstraintSetting_setTau(Native, value);
 		}
 	}
 
@@ -45,7 +45,7 @@ namespace BulletSharp
 	{
 		public Point2PointConstraint(RigidBody rigidBodyA, RigidBody rigidBodyB,
 			Vector3 pivotInA, Vector3 pivotInB)
-			: base(btPoint2PointConstraint_new(rigidBodyA.Native, rigidBodyB.Native,
+			: base(UnsafeNativeMethods.btPoint2PointConstraint_new(rigidBodyA.Native, rigidBodyB.Native,
 				ref pivotInA, ref pivotInB))
 		{
 			_rigidBodyA = rigidBodyA;
@@ -53,7 +53,7 @@ namespace BulletSharp
 		}
 
 		public Point2PointConstraint(RigidBody rigidBodyA, Vector3 pivotInA)
-			: base(btPoint2PointConstraint_new2(rigidBodyA.Native, ref pivotInA))
+			: base(UnsafeNativeMethods.btPoint2PointConstraint_new2(rigidBodyA.Native, ref pivotInA))
 		{
 			_rigidBodyA = rigidBodyA;
 			_rigidBodyB = GetFixedBody();
@@ -61,31 +61,31 @@ namespace BulletSharp
 
 		public void GetInfo1NonVirtual(ConstraintInfo1 info)
 		{
-			btPoint2PointConstraint_getInfo1NonVirtual(Native, info._native);
+			UnsafeNativeMethods.btPoint2PointConstraint_getInfo1NonVirtual(Native, info._native);
 		}
 
 		public void GetInfo2NonVirtual(ConstraintInfo2 info, Matrix body0Trans, Matrix body1Trans)
 		{
-			btPoint2PointConstraint_getInfo2NonVirtual(Native, info._native, ref body0Trans,
+			UnsafeNativeMethods.btPoint2PointConstraint_getInfo2NonVirtual(Native, info._native, ref body0Trans,
 				ref body1Trans);
 		}
 
 		public void UpdateRhs(float timeStep)
 		{
-			btPoint2PointConstraint_updateRHS(Native, timeStep);
+			UnsafeNativeMethods.btPoint2PointConstraint_updateRHS(Native, timeStep);
 		}
 
-		public Point2PointFlags Flags => btPoint2PointConstraint_getFlags(Native);
+		public Point2PointFlags Flags => UnsafeNativeMethods.btPoint2PointConstraint_getFlags(Native);
 
 		public Vector3 PivotInA
 		{
 			get
 			{
 				Vector3 value;
-				btPoint2PointConstraint_getPivotInA(Native, out value);
+				UnsafeNativeMethods.btPoint2PointConstraint_getPivotInA(Native, out value);
 				return value;
 			}
-			set => btPoint2PointConstraint_setPivotA(Native, ref value);
+			set => UnsafeNativeMethods.btPoint2PointConstraint_setPivotA(Native, ref value);
 		}
 
 		public Vector3 PivotInB
@@ -93,18 +93,18 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btPoint2PointConstraint_getPivotInB(Native, out value);
+				UnsafeNativeMethods.btPoint2PointConstraint_getPivotInB(Native, out value);
 				return value;
 			}
-			set => btPoint2PointConstraint_setPivotB(Native, ref value);
+			set => UnsafeNativeMethods.btPoint2PointConstraint_setPivotB(Native, ref value);
 		}
 
-		public ConstraintSetting Setting => new ConstraintSetting(btPoint2PointConstraint_getSetting(Native));
+		public ConstraintSetting Setting => new ConstraintSetting(UnsafeNativeMethods.btPoint2PointConstraint_getSetting(Native));
 
 		public bool UseSolveConstraintObsolete
 		{
-			get => btPoint2PointConstraint_getUseSolveConstraintObsolete(Native);
-			set => btPoint2PointConstraint_setUseSolveConstraintObsolete(Native, value);
+			get => UnsafeNativeMethods.btPoint2PointConstraint_getUseSolveConstraintObsolete(Native);
+			set => UnsafeNativeMethods.btPoint2PointConstraint_setUseSolveConstraintObsolete(Native, value);
 		}
 	}
 

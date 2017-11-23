@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp
 {
@@ -9,55 +9,55 @@ namespace BulletSharp
 
 		public MaterialProperties()
 		{
-			Native = btMaterialProperties_new();
+			Native = UnsafeNativeMethods.btMaterialProperties_new();
 		}
 
 		public IntPtr MaterialBase
 		{
-			get => btMaterialProperties_getMaterialBase(Native);
-			set => btMaterialProperties_setMaterialBase(Native, value);
+			get => UnsafeNativeMethods.btMaterialProperties_getMaterialBase(Native);
+			set => UnsafeNativeMethods.btMaterialProperties_setMaterialBase(Native, value);
 		}
 
 		public int MaterialStride
 		{
-			get => btMaterialProperties_getMaterialStride(Native);
-			set => btMaterialProperties_setMaterialStride(Native, value);
+			get => UnsafeNativeMethods.btMaterialProperties_getMaterialStride(Native);
+			set => UnsafeNativeMethods.btMaterialProperties_setMaterialStride(Native, value);
 		}
 
 		public PhyScalarType MaterialType
 		{
-			get => btMaterialProperties_getMaterialType(Native);
-			set => btMaterialProperties_setMaterialType(Native, value);
+			get => UnsafeNativeMethods.btMaterialProperties_getMaterialType(Native);
+			set => UnsafeNativeMethods.btMaterialProperties_setMaterialType(Native, value);
 		}
 
 		public int NumMaterials
 		{
-			get => btMaterialProperties_getNumMaterials(Native);
-			set => btMaterialProperties_setNumMaterials(Native, value);
+			get => UnsafeNativeMethods.btMaterialProperties_getNumMaterials(Native);
+			set => UnsafeNativeMethods.btMaterialProperties_setNumMaterials(Native, value);
 		}
 
 		public int NumTriangles
 		{
-			get => btMaterialProperties_getNumTriangles(Native);
-			set => btMaterialProperties_setNumTriangles(Native, value);
+			get => UnsafeNativeMethods.btMaterialProperties_getNumTriangles(Native);
+			set => UnsafeNativeMethods.btMaterialProperties_setNumTriangles(Native, value);
 		}
 
 		public IntPtr TriangleMaterialsBase
 		{
-			get => btMaterialProperties_getTriangleMaterialsBase(Native);
-			set => btMaterialProperties_setTriangleMaterialsBase(Native, value);
+			get => UnsafeNativeMethods.btMaterialProperties_getTriangleMaterialsBase(Native);
+			set => UnsafeNativeMethods.btMaterialProperties_setTriangleMaterialsBase(Native, value);
 		}
 
 		public int TriangleMaterialStride
 		{
-			get => btMaterialProperties_getTriangleMaterialStride(Native);
-			set => btMaterialProperties_setTriangleMaterialStride(Native, value);
+			get => UnsafeNativeMethods.btMaterialProperties_getTriangleMaterialStride(Native);
+			set => UnsafeNativeMethods.btMaterialProperties_setTriangleMaterialStride(Native, value);
 		}
 
 		public PhyScalarType TriangleType
 		{
-			get => btMaterialProperties_getTriangleType(Native);
-			set => btMaterialProperties_setTriangleType(Native, value);
+			get => UnsafeNativeMethods.btMaterialProperties_getTriangleType(Native);
+			set => UnsafeNativeMethods.btMaterialProperties_setTriangleType(Native, value);
 		}
 
 		public void Dispose()
@@ -70,7 +70,7 @@ namespace BulletSharp
 		{
 			if (Native != IntPtr.Zero)
 			{
-				btMaterialProperties_delete(Native);
+				UnsafeNativeMethods.btMaterialProperties_delete(Native);
 				Native = IntPtr.Zero;
 			}
 		}
@@ -89,7 +89,7 @@ namespace BulletSharp
 		}
 
 		public TriangleIndexVertexMaterialArray()
-			: base(btTriangleIndexVertexMaterialArray_new())
+			: base(UnsafeNativeMethods.btTriangleIndexVertexMaterialArray_new())
 		{
 		}
 
@@ -97,7 +97,7 @@ namespace BulletSharp
 			int triangleIndexStride, int numVertices, IntPtr vertexBase, int vertexStride,
 			int numMaterials, IntPtr materialBase, int materialStride, IntPtr triangleMaterialsBase,
 			int materialIndexStride)
-			: base(btTriangleIndexVertexMaterialArray_new2(numTriangles, triangleIndexBase,
+			: base(UnsafeNativeMethods.btTriangleIndexVertexMaterialArray_new2(numTriangles, triangleIndexBase,
 				triangleIndexStride, numVertices, vertexBase, vertexStride,
 				numMaterials, materialBase, materialStride, triangleMaterialsBase,
 				materialIndexStride))
@@ -106,7 +106,7 @@ namespace BulletSharp
 
 		public void AddMaterialProperties(MaterialProperties mat, PhyScalarType triangleType = PhyScalarType.Int32)
 		{
-			btTriangleIndexVertexMaterialArray_addMaterialProperties(Native, mat.Native,
+			UnsafeNativeMethods.btTriangleIndexVertexMaterialArray_addMaterialProperties(Native, mat.Native,
 				triangleType);
 		}
 
@@ -115,7 +115,7 @@ namespace BulletSharp
 			out int numTriangles, out int triangleMaterialStride, out PhyScalarType triangleType,
 			int subpart = 0)
 		{
-			btTriangleIndexVertexMaterialArray_getLockedMaterialBase(Native, out materialBase,
+			UnsafeNativeMethods.btTriangleIndexVertexMaterialArray_getLockedMaterialBase(Native, out materialBase,
 				out numMaterials, out materialType, out materialStride, out triangleMaterialBase,
 				out numTriangles, out triangleMaterialStride, out triangleType, subpart);
 		}
@@ -125,7 +125,7 @@ namespace BulletSharp
 			out int numTriangles, out int triangleMaterialStride, out PhyScalarType triangleType,
 			int subpart = 0)
 		{
-			btTriangleIndexVertexMaterialArray_getLockedReadOnlyMaterialBase(Native,
+			UnsafeNativeMethods.btTriangleIndexVertexMaterialArray_getLockedReadOnlyMaterialBase(Native,
 				out materialBase, out numMaterials, out materialType, out materialStride,
 				out triangleMaterialBase, out numTriangles, out triangleMaterialStride,
 				out triangleType, subpart);

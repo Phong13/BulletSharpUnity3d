@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -13,12 +13,12 @@ namespace BulletSharp
 		}
 
 		public CylinderShape(Vector3 halfExtents)
-			: base(btCylinderShape_new(ref halfExtents))
+			: base(UnsafeNativeMethods.btCylinderShape_new(ref halfExtents))
 		{
 		}
 
 		public CylinderShape(float halfExtentX, float halfExtentY, float halfExtentZ)
-			: base(btCylinderShape_new2(halfExtentX, halfExtentY, halfExtentZ))
+			: base(UnsafeNativeMethods.btCylinderShape_new2(halfExtentX, halfExtentY, halfExtentZ))
 		{
 		}
 
@@ -27,7 +27,7 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btCylinderShape_getHalfExtentsWithMargin(Native, out value);
+				UnsafeNativeMethods.btCylinderShape_getHalfExtentsWithMargin(Native, out value);
 				return value;
 			}
 		}
@@ -37,25 +37,25 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btCylinderShape_getHalfExtentsWithoutMargin(Native, out value);
+				UnsafeNativeMethods.btCylinderShape_getHalfExtentsWithoutMargin(Native, out value);
 				return value;
 			}
 		}
 
-		public float Radius => btCylinderShape_getRadius(Native);
+		public float Radius => UnsafeNativeMethods.btCylinderShape_getRadius(Native);
 
-		public int UpAxis => btCylinderShape_getUpAxis(Native);
+		public int UpAxis => UnsafeNativeMethods.btCylinderShape_getUpAxis(Native);
 	}
 
 	public class CylinderShapeX : CylinderShape
 	{
 		public CylinderShapeX(Vector3 halfExtents)
-			: base(btCylinderShapeX_new(ref halfExtents))
+			: base(UnsafeNativeMethods.btCylinderShapeX_new(ref halfExtents))
 		{
 		}
 
 		public CylinderShapeX(float halfExtentX, float halfExtentY, float halfExtentZ)
-			: base(btCylinderShapeX_new2(halfExtentX, halfExtentY, halfExtentZ))
+			: base(UnsafeNativeMethods.btCylinderShapeX_new2(halfExtentX, halfExtentY, halfExtentZ))
 		{
 		}
 	}
@@ -63,12 +63,12 @@ namespace BulletSharp
 	public class CylinderShapeZ : CylinderShape
 	{
 		public CylinderShapeZ(Vector3 halfExtents)
-			: base(btCylinderShapeZ_new(ref halfExtents))
+			: base(UnsafeNativeMethods.btCylinderShapeZ_new(ref halfExtents))
 		{
 		}
 
 		public CylinderShapeZ(float halfExtentX, float halfExtentY, float halfExtentZ)
-			: base(btCylinderShapeZ_new2(halfExtentX, halfExtentY, halfExtentZ))
+			: base(UnsafeNativeMethods.btCylinderShapeZ_new2(halfExtentX, halfExtentY, halfExtentZ))
 		{
 		}
 	}

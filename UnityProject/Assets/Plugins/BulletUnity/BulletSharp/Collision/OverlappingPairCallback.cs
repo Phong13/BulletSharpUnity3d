@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp
 {
@@ -35,7 +35,7 @@ namespace BulletSharp
 			{
 				if (!_preventDelete)
 				{
-					btOverlappingPairCallback_delete(Native);
+					UnsafeNativeMethods.btOverlappingPairCallback_delete(Native);
 				}
 				Native = IntPtr.Zero;
 			}

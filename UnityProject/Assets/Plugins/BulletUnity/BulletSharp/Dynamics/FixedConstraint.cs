@@ -1,5 +1,5 @@
-using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using BulletSharp.Math;
+
 
 namespace BulletSharp
 {
@@ -7,7 +7,7 @@ namespace BulletSharp
 	{
 		public FixedConstraint(RigidBody rigidBodyA, RigidBody rigidBodyB, Matrix frameInA,
 			Matrix frameInB)
-			: base(btFixedConstraint_new(rigidBodyA.Native, rigidBodyB.Native,
+			: base(UnsafeNativeMethods.btFixedConstraint_new(rigidBodyA.Native, rigidBodyB.Native,
 				ref frameInA, ref frameInB))
 		{
 			_rigidBodyA = rigidBodyA;

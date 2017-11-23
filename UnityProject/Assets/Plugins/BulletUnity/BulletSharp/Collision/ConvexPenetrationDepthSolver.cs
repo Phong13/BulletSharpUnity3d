@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -17,7 +17,7 @@ namespace BulletSharp
 			ConvexShape convexB, Matrix transA, Matrix transB, out Vector3 v, out Vector3 pa,
 			out Vector3 pb, IDebugDraw debugDraw)
 		{
-			return btConvexPenetrationDepthSolver_calcPenDepth(Native, simplexSolver.Native,
+			return UnsafeNativeMethods.btConvexPenetrationDepthSolver_calcPenDepth(Native, simplexSolver.Native,
 				convexA.Native, convexB.Native, ref transA, ref transB, out v, out pa,
 				out pb, DebugDraw.GetUnmanaged(debugDraw));
 		}
@@ -32,7 +32,7 @@ namespace BulletSharp
 		{
 			if (Native != IntPtr.Zero)
 			{
-				btConvexPenetrationDepthSolver_delete(Native);
+				UnsafeNativeMethods.btConvexPenetrationDepthSolver_delete(Native);
 				Native = IntPtr.Zero;
 			}
 		}

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -95,7 +95,7 @@ namespace BulletSharp
 				{
 					throw new ArgumentOutOfRangeException(nameof(index));
 				}
-				return new IndexedMesh(btAlignedObjectArray_btIndexedMesh_at(_native, index), true);
+				return new IndexedMesh(UnsafeNativeMethods.btAlignedObjectArray_btIndexedMesh_at(_native, index), true);
 			}
 			set
 			{
@@ -105,12 +105,12 @@ namespace BulletSharp
 
 		public void Add(IndexedMesh item)
 		{
-			btAlignedObjectArray_btIndexedMesh_push_back(_native, item.Native);
+			UnsafeNativeMethods.btAlignedObjectArray_btIndexedMesh_push_back(_native, item.Native);
 		}
 
 		public void Clear()
 		{
-			btAlignedObjectArray_btIndexedMesh_resizeNoInitialize(_native, 0);
+			UnsafeNativeMethods.btAlignedObjectArray_btIndexedMesh_resizeNoInitialize(_native, 0);
 		}
 
 		public bool Contains(IndexedMesh item)
@@ -136,7 +136,7 @@ namespace BulletSharp
 			}
 		}
 
-		public int Count => btAlignedObjectArray_btIndexedMesh_size(_native);
+		public int Count => UnsafeNativeMethods.btAlignedObjectArray_btIndexedMesh_size(_native);
 
 		public bool IsReadOnly => false;
 

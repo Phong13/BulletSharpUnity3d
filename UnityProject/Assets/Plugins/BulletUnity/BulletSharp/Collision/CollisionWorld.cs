@@ -1,10 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -137,7 +136,7 @@ namespace BulletSharp
 		{
 			_addSingleResult = AddSingleResultUnmanaged;
 			_needsCollision = NeedsCollisionUnmanaged;
-			Native = btCollisionWorld_ContactResultCallbackWrapper_new(
+			Native = UnsafeNativeMethods.btCollisionWorld_ContactResultCallbackWrapper_new(
 				Marshal.GetFunctionPointerForDelegate(_addSingleResult),
 				Marshal.GetFunctionPointerForDelegate(_needsCollision));
 		}
@@ -158,25 +157,25 @@ namespace BulletSharp
 
 		public virtual bool NeedsCollision(BroadphaseProxy proxy0)
 		{
-			return btCollisionWorld_ContactResultCallbackWrapper_needsCollision(Native, proxy0.Native);
+			return UnsafeNativeMethods.btCollisionWorld_ContactResultCallbackWrapper_needsCollision(Native, proxy0.Native);
 		}
 
 		public float ClosestDistanceThreshold
 		{
-			get => btCollisionWorld_ContactResultCallback_getClosestDistanceThreshold(Native);
-			set => btCollisionWorld_ContactResultCallback_setClosestDistanceThreshold(Native, value);
+			get { return UnsafeNativeMethods.btCollisionWorld_ContactResultCallback_getClosestDistanceThreshold(Native); } 
+			set { UnsafeNativeMethods.btCollisionWorld_ContactResultCallback_setClosestDistanceThreshold(Native, value); }
 		}
 
 		public int CollisionFilterGroup
 		{
-			get => btCollisionWorld_ContactResultCallback_getCollisionFilterGroup(Native);
-			set => btCollisionWorld_ContactResultCallback_setCollisionFilterGroup(Native, value);
+			get { return UnsafeNativeMethods.btCollisionWorld_ContactResultCallback_getCollisionFilterGroup(Native); } 
+			set { UnsafeNativeMethods.btCollisionWorld_ContactResultCallback_setCollisionFilterGroup(Native, value); }
 		}
 
 		public int CollisionFilterMask
 		{
-			get => btCollisionWorld_ContactResultCallback_getCollisionFilterMask(Native);
-			set => btCollisionWorld_ContactResultCallback_setCollisionFilterMask(Native, value);
+			get { return UnsafeNativeMethods.btCollisionWorld_ContactResultCallback_getCollisionFilterMask(Native); } 
+			set { UnsafeNativeMethods.btCollisionWorld_ContactResultCallback_setCollisionFilterMask(Native, value); }
 		}
 
 		public void Dispose()
@@ -189,7 +188,7 @@ namespace BulletSharp
 		{
 			if (Native != IntPtr.Zero)
 			{
-				btCollisionWorld_ContactResultCallback_delete(Native);
+                UnsafeNativeMethods.btCollisionWorld_ContactResultCallback_delete(Native);
 				Native = IntPtr.Zero;
 			}
 		}
@@ -216,7 +215,7 @@ namespace BulletSharp
 		{
 			_addSingleResult = AddSingleResultUnmanaged;
 			_needsCollision = NeedsCollisionUnmanaged;
-			Native = btCollisionWorld_ConvexResultCallbackWrapper_new(
+			Native = UnsafeNativeMethods.btCollisionWorld_ConvexResultCallbackWrapper_new(
 				Marshal.GetFunctionPointerForDelegate(_addSingleResult),
 				Marshal.GetFunctionPointerForDelegate(_needsCollision));
 		}
@@ -235,29 +234,29 @@ namespace BulletSharp
 
 		public virtual bool NeedsCollision(BroadphaseProxy proxy0)
 		{
-			return btCollisionWorld_ConvexResultCallbackWrapper_needsCollision(Native,
+			return UnsafeNativeMethods.btCollisionWorld_ConvexResultCallbackWrapper_needsCollision(Native,
 				proxy0.Native);
 		}
 
 		public float ClosestHitFraction
 		{
-			get => btCollisionWorld_ConvexResultCallback_getClosestHitFraction(Native);
-			set => btCollisionWorld_ConvexResultCallback_setClosestHitFraction(Native, value);
+			get { return UnsafeNativeMethods.btCollisionWorld_ConvexResultCallback_getClosestHitFraction(Native); } 
+			set { UnsafeNativeMethods.btCollisionWorld_ConvexResultCallback_setClosestHitFraction(Native, value); }
 		}
 
 		public int CollisionFilterGroup
 		{
-			get => btCollisionWorld_ConvexResultCallback_getCollisionFilterGroup(Native);
-			set => btCollisionWorld_ConvexResultCallback_setCollisionFilterGroup(Native, value);
+			get { return UnsafeNativeMethods.btCollisionWorld_ConvexResultCallback_getCollisionFilterGroup(Native); } 
+			set { UnsafeNativeMethods.btCollisionWorld_ConvexResultCallback_setCollisionFilterGroup(Native, value); }
 		}
 
 		public int CollisionFilterMask
 		{
-			get => btCollisionWorld_ConvexResultCallback_getCollisionFilterMask(Native);
-			set => btCollisionWorld_ConvexResultCallback_setCollisionFilterMask(Native, value);
+			get { return UnsafeNativeMethods.btCollisionWorld_ConvexResultCallback_getCollisionFilterMask(Native); } 
+			set { UnsafeNativeMethods.btCollisionWorld_ConvexResultCallback_setCollisionFilterMask(Native, value); }
 		}
 
-		public bool HasHit => btCollisionWorld_ConvexResultCallback_hasHit(Native);
+		public bool HasHit { get { return UnsafeNativeMethods.btCollisionWorld_ConvexResultCallback_hasHit(Native); } }
 
 		public void Dispose()
 		{
@@ -269,7 +268,7 @@ namespace BulletSharp
 		{
 			if (Native != IntPtr.Zero)
 			{
-				btCollisionWorld_ConvexResultCallback_delete(Native);
+                UnsafeNativeMethods.btCollisionWorld_ConvexResultCallback_delete(Native);
 				Native = IntPtr.Zero;
 			}
 		}
@@ -292,14 +291,14 @@ namespace BulletSharp
 		{
 			Native = native;
 			_preventDelete = true;
-			_hitCollisionObject = CollisionObject.GetManaged(btCollisionWorld_LocalConvexResult_getHitCollisionObject(Native));
-			_localShapeInfo = new LocalShapeInfo(btCollisionWorld_LocalConvexResult_getLocalShapeInfo(Native), true);
+			_hitCollisionObject = CollisionObject.GetManaged(UnsafeNativeMethods.btCollisionWorld_LocalConvexResult_getHitCollisionObject(Native));
+			_localShapeInfo = new LocalShapeInfo(UnsafeNativeMethods.btCollisionWorld_LocalConvexResult_getLocalShapeInfo(Native), true);
 		}
 
 		public LocalConvexResult(CollisionObject hitCollisionObject, LocalShapeInfo localShapeInfo,
 			Vector3 hitNormalLocal, Vector3 hitPointLocal, float hitFraction)
 		{
-			Native = btCollisionWorld_LocalConvexResult_new(hitCollisionObject.Native,
+			Native = UnsafeNativeMethods.btCollisionWorld_LocalConvexResult_new(hitCollisionObject.Native,
 				localShapeInfo.Native, ref hitNormalLocal, ref hitPointLocal,
 				hitFraction);
 			_hitCollisionObject = hitCollisionObject;
@@ -308,18 +307,18 @@ namespace BulletSharp
 
 		public CollisionObject HitCollisionObject
 		{
-			get => _hitCollisionObject;
+			get { return _hitCollisionObject; } 
 			set
 			{
-				btCollisionWorld_LocalConvexResult_setHitCollisionObject(Native, value.Native);
+                        UnsafeNativeMethods.btCollisionWorld_LocalConvexResult_setHitCollisionObject(Native, value.Native);
 				_hitCollisionObject = value;
 			}
 		}
 
 		public float HitFraction
 		{
-			get => btCollisionWorld_LocalConvexResult_getHitFraction(Native);
-			set => btCollisionWorld_LocalConvexResult_setHitFraction(Native, value);
+			get { return UnsafeNativeMethods.btCollisionWorld_LocalConvexResult_getHitFraction(Native); }
+			set { UnsafeNativeMethods.btCollisionWorld_LocalConvexResult_setHitFraction(Native, value); }
 		}
 
 		public Vector3 HitNormalLocal
@@ -327,10 +326,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btCollisionWorld_LocalConvexResult_getHitNormalLocal(Native, out value);
+				UnsafeNativeMethods.btCollisionWorld_LocalConvexResult_getHitNormalLocal(Native, out value);
 				return value;
 			}
-			set => btCollisionWorld_LocalConvexResult_setHitNormalLocal(Native, ref value);
+			set { UnsafeNativeMethods.btCollisionWorld_LocalConvexResult_setHitNormalLocal(Native, ref value); }
 		}
 
 		public Vector3 HitPointLocal
@@ -338,18 +337,18 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btCollisionWorld_LocalConvexResult_getHitPointLocal(Native, out value);
+				UnsafeNativeMethods.btCollisionWorld_LocalConvexResult_getHitPointLocal(Native, out value);
 				return value;
 			}
-			set => btCollisionWorld_LocalConvexResult_setHitPointLocal(Native, ref value);
+			set { UnsafeNativeMethods.btCollisionWorld_LocalConvexResult_setHitPointLocal(Native, ref value); }
 		}
 
 		public LocalShapeInfo LocalShapeInfo
 		{
-			get => _localShapeInfo;
+			get { return _localShapeInfo; }
 			set
 			{
-				btCollisionWorld_LocalConvexResult_setLocalShapeInfo(Native, (value != null) ? value.Native : IntPtr.Zero);
+				UnsafeNativeMethods.btCollisionWorld_LocalConvexResult_setLocalShapeInfo(Native, (value != null) ? value.Native : IntPtr.Zero);
 				_localShapeInfo = value;
 			}
 		}
@@ -366,7 +365,7 @@ namespace BulletSharp
 			{
 				if (!_preventDelete)
 				{
-					btCollisionWorld_LocalConvexResult_delete(Native);
+					UnsafeNativeMethods.btCollisionWorld_LocalConvexResult_delete(Native);
 				}
 				Native = IntPtr.Zero;
 			}
@@ -390,14 +389,14 @@ namespace BulletSharp
 		{
 			Native = native;
 			_preventDelete = true;
-			_collisionObject = CollisionObject.GetManaged(btCollisionWorld_LocalRayResult_getCollisionObject(Native));
-			_localShapeInfo = new LocalShapeInfo(btCollisionWorld_LocalRayResult_getLocalShapeInfo(Native), true);
+			_collisionObject = CollisionObject.GetManaged(UnsafeNativeMethods.btCollisionWorld_LocalRayResult_getCollisionObject(Native));
+			_localShapeInfo = new LocalShapeInfo(UnsafeNativeMethods.btCollisionWorld_LocalRayResult_getLocalShapeInfo(Native), true);
 		}
 
 		public LocalRayResult(CollisionObject collisionObject, LocalShapeInfo localShapeInfo,
 			Vector3 hitNormalLocal, float hitFraction)
 		{
-			Native = btCollisionWorld_LocalRayResult_new(collisionObject.Native,
+			Native = UnsafeNativeMethods.btCollisionWorld_LocalRayResult_new(collisionObject.Native,
 				localShapeInfo.Native, ref hitNormalLocal, hitFraction);
 			_collisionObject = collisionObject;
 			_localShapeInfo = localShapeInfo;
@@ -405,18 +404,18 @@ namespace BulletSharp
 
 		public CollisionObject CollisionObject
 		{
-			get => _collisionObject;
+			get { return _collisionObject; }
 			set
 			{
-				btCollisionWorld_LocalRayResult_setCollisionObject(Native, value.Native);
+				UnsafeNativeMethods.btCollisionWorld_LocalRayResult_setCollisionObject(Native, value.Native);
 				_collisionObject = value;
 			}
 		}
 
 		public float HitFraction
 		{
-			get => btCollisionWorld_LocalRayResult_getHitFraction(Native);
-			set => btCollisionWorld_LocalRayResult_setHitFraction(Native, value);
+			get { return UnsafeNativeMethods.btCollisionWorld_LocalRayResult_getHitFraction(Native); }
+			set { UnsafeNativeMethods.btCollisionWorld_LocalRayResult_setHitFraction(Native, value); }
 		}
 
 		public Vector3 HitNormalLocal
@@ -424,18 +423,18 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btCollisionWorld_LocalRayResult_getHitNormalLocal(Native, out value);
+				UnsafeNativeMethods.btCollisionWorld_LocalRayResult_getHitNormalLocal(Native, out value);
 				return value;
 			}
-			set => btCollisionWorld_LocalRayResult_setHitNormalLocal(Native, ref value);
+			set { UnsafeNativeMethods.btCollisionWorld_LocalRayResult_setHitNormalLocal(Native, ref value); }
 		}
 
 		public LocalShapeInfo LocalShapeInfo
 		{
-			get => _localShapeInfo;
+			get { return _localShapeInfo; }
 			set
 			{
-				btCollisionWorld_LocalRayResult_setLocalShapeInfo(Native, (value != null) ? value.Native : IntPtr.Zero);
+				UnsafeNativeMethods.btCollisionWorld_LocalRayResult_setLocalShapeInfo(Native, (value != null) ? value.Native : IntPtr.Zero);
 				_localShapeInfo = value;
 			}
 		}
@@ -452,7 +451,7 @@ namespace BulletSharp
 			{
 				if (!_preventDelete)
 				{
-					btCollisionWorld_LocalRayResult_delete(Native);
+					UnsafeNativeMethods.btCollisionWorld_LocalRayResult_delete(Native);
 				}
 				Native = IntPtr.Zero;
 			}
@@ -477,19 +476,19 @@ namespace BulletSharp
 
 		public LocalShapeInfo()
 		{
-			Native = btCollisionWorld_LocalShapeInfo_new();
+			Native = UnsafeNativeMethods.btCollisionWorld_LocalShapeInfo_new();
 		}
 
 		public int ShapePart
 		{
-			get => btCollisionWorld_LocalShapeInfo_getShapePart(Native);
-			set => btCollisionWorld_LocalShapeInfo_setShapePart(Native, value);
+			get { return UnsafeNativeMethods.btCollisionWorld_LocalShapeInfo_getShapePart(Native); }
+			set { UnsafeNativeMethods.btCollisionWorld_LocalShapeInfo_setShapePart(Native, value); }
 		}
 
 		public int TriangleIndex
 		{
-			get => btCollisionWorld_LocalShapeInfo_getTriangleIndex(Native);
-			set => btCollisionWorld_LocalShapeInfo_setTriangleIndex(Native, value);
+			get { return UnsafeNativeMethods.btCollisionWorld_LocalShapeInfo_getTriangleIndex(Native); }
+			set { UnsafeNativeMethods.btCollisionWorld_LocalShapeInfo_setTriangleIndex(Native, value); }
 		}
 
 		public void Dispose()
@@ -504,7 +503,7 @@ namespace BulletSharp
 			{
 				if (!_preventDelete)
 				{
-					btCollisionWorld_LocalShapeInfo_delete(Native);
+					UnsafeNativeMethods.btCollisionWorld_LocalShapeInfo_delete(Native);
 				}
 				Native = IntPtr.Zero;
 			}
@@ -532,7 +531,7 @@ namespace BulletSharp
 		{
 			_addSingleResult = AddSingleResultUnmanaged;
 			_needsCollision = NeedsCollisionUnmanaged;
-			Native = btCollisionWorld_RayResultCallbackWrapper_new(
+			Native = UnsafeNativeMethods.btCollisionWorld_RayResultCallbackWrapper_new(
 				Marshal.GetFunctionPointerForDelegate(_addSingleResult),
 				Marshal.GetFunctionPointerForDelegate(_needsCollision));
 		}
@@ -551,40 +550,40 @@ namespace BulletSharp
 
 		public virtual bool NeedsCollision(BroadphaseProxy proxy0)
 		{
-			return btCollisionWorld_RayResultCallbackWrapper_needsCollision(Native, proxy0.Native);
+			return UnsafeNativeMethods.btCollisionWorld_RayResultCallbackWrapper_needsCollision(Native, proxy0.Native);
 		}
 
 		public float ClosestHitFraction
 		{
-			get => btCollisionWorld_RayResultCallback_getClosestHitFraction(Native);
-			set => btCollisionWorld_RayResultCallback_setClosestHitFraction(Native, value);
+			get { return UnsafeNativeMethods.btCollisionWorld_RayResultCallback_getClosestHitFraction(Native); }
+			set { UnsafeNativeMethods.btCollisionWorld_RayResultCallback_setClosestHitFraction(Native, value); }
 		}
 
 		public int CollisionFilterGroup
 		{
-			get => btCollisionWorld_RayResultCallback_getCollisionFilterGroup(Native);
-			set => btCollisionWorld_RayResultCallback_setCollisionFilterGroup(Native, value);
+			get { return UnsafeNativeMethods.btCollisionWorld_RayResultCallback_getCollisionFilterGroup(Native); }
+			set { UnsafeNativeMethods.btCollisionWorld_RayResultCallback_setCollisionFilterGroup(Native, value); }
 		}
 
 		public int CollisionFilterMask
 		{
-			get => btCollisionWorld_RayResultCallback_getCollisionFilterMask(Native);
-			set => btCollisionWorld_RayResultCallback_setCollisionFilterMask(Native, value);
+			get { return UnsafeNativeMethods.btCollisionWorld_RayResultCallback_getCollisionFilterMask(Native); }
+			set { UnsafeNativeMethods.btCollisionWorld_RayResultCallback_setCollisionFilterMask(Native, value); }
 		}
 
 		public CollisionObject CollisionObject
 		{
-			get => CollisionObject.GetManaged(btCollisionWorld_RayResultCallback_getCollisionObject(Native));
-			set => btCollisionWorld_RayResultCallback_setCollisionObject(Native, (value != null) ? value.Native : IntPtr.Zero);
+			get { return CollisionObject.GetManaged(UnsafeNativeMethods.btCollisionWorld_RayResultCallback_getCollisionObject(Native)); }
+			set { UnsafeNativeMethods.btCollisionWorld_RayResultCallback_setCollisionObject(Native, (value != null) ? value.Native : IntPtr.Zero); }
 		}
 
 		public uint Flags
 		{
-			get => btCollisionWorld_RayResultCallback_getFlags(Native);
-			set => btCollisionWorld_RayResultCallback_setFlags(Native, value);
+			get { return UnsafeNativeMethods.btCollisionWorld_RayResultCallback_getFlags(Native); }
+			set { UnsafeNativeMethods.btCollisionWorld_RayResultCallback_setFlags(Native, value); }
 		}
 
-		public bool HasHit => btCollisionWorld_RayResultCallback_hasHit(Native);
+		public bool HasHit { get { return UnsafeNativeMethods.btCollisionWorld_RayResultCallback_hasHit(Native); } }
 
 		public void Dispose()
 		{
@@ -596,7 +595,7 @@ namespace BulletSharp
 		{
 			if (Native != IntPtr.Zero)
 			{
-				btCollisionWorld_RayResultCallback_delete(Native);
+				UnsafeNativeMethods.btCollisionWorld_RayResultCallback_delete(Native);
 				Native = IntPtr.Zero;
 			}
 		}
@@ -626,12 +625,12 @@ namespace BulletSharp
 				return;
 			}
 			Native = native;
-			CollisionObjectArray = new AlignedCollisionObjectArray(btCollisionWorld_getCollisionObjectArray(native), this);
+			CollisionObjectArray = new AlignedCollisionObjectArray( UnsafeNativeMethods.btCollisionWorld_getCollisionObjectArray(native), this);
 		}
 
 		public CollisionWorld(Dispatcher dispatcher, BroadphaseInterface broadphasePairCache,
 			CollisionConfiguration collisionConfiguration)
-			: this(btCollisionWorld_new(dispatcher.Native, broadphasePairCache.Native,
+			: this(UnsafeNativeMethods.btCollisionWorld_new(dispatcher.Native, broadphasePairCache.Native,
 				collisionConfiguration.Native), dispatcher, broadphasePairCache)
 		{
 		}
@@ -655,56 +654,56 @@ namespace BulletSharp
 
 		public void ComputeOverlappingPairs()
 		{
-			btCollisionWorld_computeOverlappingPairs(Native);
+			UnsafeNativeMethods.btCollisionWorld_computeOverlappingPairs(Native);
 		}
 
 		public void ContactPairTest(CollisionObject colObjA, CollisionObject colObjB,
 			ContactResultCallback resultCallback)
 		{
-			btCollisionWorld_contactPairTest(Native, colObjA.Native, colObjB.Native,
+			UnsafeNativeMethods.btCollisionWorld_contactPairTest(Native, colObjA.Native, colObjB.Native,
 				resultCallback.Native);
 		}
 
 		public void ContactTest(CollisionObject colObj, ContactResultCallback resultCallback)
 		{
-			btCollisionWorld_contactTest(Native, colObj.Native, resultCallback.Native);
+			UnsafeNativeMethods.btCollisionWorld_contactTest(Native, colObj.Native, resultCallback.Native);
 		}
 
 		public void ConvexSweepTestRef(ConvexShape castShape, ref Matrix from, ref Matrix to,
 			ConvexResultCallback resultCallback, float allowedCcdPenetration = 0)
 		{
-			btCollisionWorld_convexSweepTest(Native, castShape.Native, ref from, ref to, resultCallback.Native, allowedCcdPenetration);
+			UnsafeNativeMethods.btCollisionWorld_convexSweepTest(Native, castShape.Native, ref from, ref to, resultCallback.Native, allowedCcdPenetration);
 		}
 
 		public void ConvexSweepTest(ConvexShape castShape, Matrix from, Matrix to,
 			ConvexResultCallback resultCallback, float allowedCcdPenetration = 0)
 		{
-			btCollisionWorld_convexSweepTest(Native, castShape.Native, ref from,
+			UnsafeNativeMethods.btCollisionWorld_convexSweepTest(Native, castShape.Native, ref from,
 				ref to, resultCallback.Native, allowedCcdPenetration);
 		}
 
 		public void DebugDrawObjectRef(ref Matrix worldTransform, CollisionShape shape, ref Vector3 color)
 		{
-			btCollisionWorld_debugDrawObject(Native, ref worldTransform, shape.Native, ref color);
+			UnsafeNativeMethods.btCollisionWorld_debugDrawObject(Native, ref worldTransform, shape.Native, ref color);
 		}
 
 		public void DebugDrawObject(Matrix worldTransform, CollisionShape shape,
 			Vector3 color)
 		{
-			btCollisionWorld_debugDrawObject(Native, ref worldTransform, shape.Native,
+			UnsafeNativeMethods.btCollisionWorld_debugDrawObject(Native, ref worldTransform, shape.Native,
 				ref color);
 		}
 
 		public void DebugDrawWorld()
 		{
-			btCollisionWorld_debugDrawWorld(Native);
+			UnsafeNativeMethods.btCollisionWorld_debugDrawWorld(Native);
 		}
 
 		public static void ObjectQuerySingleRef(ConvexShape castShape, ref Matrix rayFromTrans,
 			ref Matrix rayToTrans, CollisionObject collisionObject, CollisionShape collisionShape,
 			ref Matrix colObjWorldTransform, ConvexResultCallback resultCallback, float allowedPenetration)
 		{
-			btCollisionWorld_objectQuerySingle(castShape.Native, ref rayFromTrans,
+			UnsafeNativeMethods.btCollisionWorld_objectQuerySingle(castShape.Native, ref rayFromTrans,
 				ref rayToTrans, collisionObject.Native, collisionShape.Native, ref colObjWorldTransform,
 				resultCallback.Native, allowedPenetration);
 		}
@@ -713,7 +712,7 @@ namespace BulletSharp
 			Matrix rayToTrans, CollisionObject collisionObject, CollisionShape collisionShape,
 			Matrix colObjWorldTransform, ConvexResultCallback resultCallback, float allowedPenetration)
 		{
-			btCollisionWorld_objectQuerySingle(castShape.Native, ref rayFromTrans,
+			UnsafeNativeMethods.btCollisionWorld_objectQuerySingle(castShape.Native, ref rayFromTrans,
 				ref rayToTrans, collisionObject.Native, collisionShape.Native, ref colObjWorldTransform,
 				resultCallback.Native, allowedPenetration);
 		}
@@ -722,7 +721,7 @@ namespace BulletSharp
 			ref Matrix convexToTrans, CollisionObjectWrapper colObjWrap, ConvexResultCallback resultCallback,
 			float allowedPenetration)
 		{
-			btCollisionWorld_objectQuerySingleInternal(castShape.Native, ref convexFromTrans,
+			UnsafeNativeMethods.btCollisionWorld_objectQuerySingleInternal(castShape.Native, ref convexFromTrans,
 				ref convexToTrans, colObjWrap.Native, resultCallback.Native, allowedPenetration);
 		}
 
@@ -730,51 +729,51 @@ namespace BulletSharp
 			Matrix convexToTrans, CollisionObjectWrapper colObjWrap, ConvexResultCallback resultCallback,
 			float allowedPenetration)
 		{
-			btCollisionWorld_objectQuerySingleInternal(castShape.Native, ref convexFromTrans,
+			UnsafeNativeMethods.btCollisionWorld_objectQuerySingleInternal(castShape.Native, ref convexFromTrans,
 				ref convexToTrans, colObjWrap.Native, resultCallback.Native, allowedPenetration);
 		}
 
 		public void PerformDiscreteCollisionDetection()
 		{
-			btCollisionWorld_performDiscreteCollisionDetection(Native);
+			UnsafeNativeMethods.btCollisionWorld_performDiscreteCollisionDetection(Native);
 		}
 
 		public void RayTestRef(ref Vector3 rayFromWorld, ref Vector3 rayToWorld, RayResultCallback resultCallback)
 		{
-			btCollisionWorld_rayTest(Native, ref rayFromWorld, ref rayToWorld, resultCallback.Native);
+			UnsafeNativeMethods.btCollisionWorld_rayTest(Native, ref rayFromWorld, ref rayToWorld, resultCallback.Native);
 		}
 
 		public void RayTest(Vector3 rayFromWorld, Vector3 rayToWorld, RayResultCallback resultCallback)
 		{
-			btCollisionWorld_rayTest(Native, ref rayFromWorld, ref rayToWorld, resultCallback.Native);
+			UnsafeNativeMethods.btCollisionWorld_rayTest(Native, ref rayFromWorld, ref rayToWorld, resultCallback.Native);
 		}
 
 		public static void RayTestSingleRef(ref Matrix rayFromTrans, ref Matrix rayToTrans,
 			CollisionObject collisionObject, CollisionShape collisionShape, ref Matrix colObjWorldTransform,
 			RayResultCallback resultCallback)
 		{
-			btCollisionWorld_rayTestSingle(ref rayFromTrans, ref rayToTrans, collisionObject.Native, collisionShape.Native, ref colObjWorldTransform, resultCallback.Native);
+			UnsafeNativeMethods.btCollisionWorld_rayTestSingle(ref rayFromTrans, ref rayToTrans, collisionObject.Native, collisionShape.Native, ref colObjWorldTransform, resultCallback.Native);
 		}
 
 		public static void RayTestSingle(Matrix rayFromTrans, Matrix rayToTrans,
 			CollisionObject collisionObject, CollisionShape collisionShape, Matrix colObjWorldTransform,
 			RayResultCallback resultCallback)
 		{
-			btCollisionWorld_rayTestSingle(ref rayFromTrans, ref rayToTrans, collisionObject.Native,
+			UnsafeNativeMethods.btCollisionWorld_rayTestSingle(ref rayFromTrans, ref rayToTrans, collisionObject.Native,
 				collisionShape.Native, ref colObjWorldTransform, resultCallback.Native);
 		}
 
 		public static void RayTestSingleInternalRef(ref Matrix rayFromTrans, ref Matrix rayToTrans,
 			CollisionObjectWrapper collisionObjectWrap, RayResultCallback resultCallback)
 		{
-			btCollisionWorld_rayTestSingleInternal(ref rayFromTrans, ref rayToTrans,
+			UnsafeNativeMethods.btCollisionWorld_rayTestSingleInternal(ref rayFromTrans, ref rayToTrans,
 				collisionObjectWrap.Native, resultCallback.Native);
 		}
 
 		public static void RayTestSingleInternal(Matrix rayFromTrans, Matrix rayToTrans,
 			CollisionObjectWrapper collisionObjectWrap, RayResultCallback resultCallback)
 		{
-			btCollisionWorld_rayTestSingleInternal(ref rayFromTrans, ref rayToTrans,
+			UnsafeNativeMethods.btCollisionWorld_rayTestSingleInternal(ref rayFromTrans, ref rayToTrans,
 				collisionObjectWrap.Native, resultCallback.Native);
 		}
 
@@ -817,17 +816,17 @@ namespace BulletSharp
 
 		public void UpdateAabbs()
 		{
-			btCollisionWorld_updateAabbs(Native);
+			UnsafeNativeMethods.btCollisionWorld_updateAabbs(Native);
 		}
 
 		public void UpdateSingleAabb(CollisionObject colObj)
 		{
-			btCollisionWorld_updateSingleAabb(Native, colObj.Native);
+			UnsafeNativeMethods.btCollisionWorld_updateSingleAabb(Native, colObj.Native);
 		}
 
 		public BroadphaseInterface Broadphase
 		{
-			get => _broadphase;
+			get { return _broadphase; }
 			set
 			{
 				if (_broadphase != null)
@@ -837,7 +836,7 @@ namespace BulletSharp
 				// Native can be zero from a constructor argument
 				if (Native != IntPtr.Zero)
 				{
-					btCollisionWorld_setBroadphase(Native, value.Native);
+					UnsafeNativeMethods.btCollisionWorld_setBroadphase(Native, value.Native);
 				}
 				_broadphase = value;
 				value._worldRefs.Add(this);
@@ -848,7 +847,7 @@ namespace BulletSharp
 
 		public IDebugDraw DebugDrawer
 		{
-			get => _debugDrawer;
+			get { return _debugDrawer; }
 			set
 			{
 				if (_debugDrawer != null)
@@ -859,30 +858,30 @@ namespace BulletSharp
 
 					// Clear IDebugDraw wrapper
 					if (!(_debugDrawer is DebugDraw)) {
-						//btIDebugDrawer_delete(btCollisionWorld_getDebugDrawer(Native));
+						//btIDebugDrawer_delete(UnsafeNativeMethods.btCollisionWorld_getDebugDrawer(Native));
 					}
 				}
 
 				_debugDrawer = value;
 				if (value == null) {
-					btCollisionWorld_setDebugDrawer(Native, IntPtr.Zero);
+					UnsafeNativeMethods.btCollisionWorld_setDebugDrawer(Native, IntPtr.Zero);
 					return;
 				}
 
 				DebugDraw cast = value as DebugDraw;
 				if (cast != null) {
-					btCollisionWorld_setDebugDrawer(Native, cast._native);
+					UnsafeNativeMethods.btCollisionWorld_setDebugDrawer(Native, cast._native);
 				} else {
 					// Create IDebugDraw wrapper, remember to delete it
 					IntPtr wrapper = DebugDraw.CreateWrapper(value, false);
-					btCollisionWorld_setDebugDrawer(Native, wrapper);
+					UnsafeNativeMethods.btCollisionWorld_setDebugDrawer(Native, wrapper);
 				}
 			}
 		}
 
 		public Dispatcher Dispatcher
 		{
-			get => _dispatcher;
+			get { return _dispatcher; }
 			internal set
 			{
 				_dispatcher = value;
@@ -896,7 +895,7 @@ namespace BulletSharp
 			{
 				if (_dispatchInfo == null)
 				{
-					_dispatchInfo = new DispatcherInfo(btCollisionWorld_getDispatchInfo(Native));
+					_dispatchInfo = new DispatcherInfo(UnsafeNativeMethods.btCollisionWorld_getDispatchInfo(Native));
 				}
 				return _dispatchInfo;
 			}
@@ -904,13 +903,13 @@ namespace BulletSharp
 
 		public bool ForceUpdateAllAabbs
 		{
-			get => btCollisionWorld_getForceUpdateAllAabbs(Native);
-			set => btCollisionWorld_setForceUpdateAllAabbs(Native, value);
+			get { return UnsafeNativeMethods.btCollisionWorld_getForceUpdateAllAabbs(Native); }
+			set { UnsafeNativeMethods.btCollisionWorld_setForceUpdateAllAabbs(Native, value); }
 		}
 
-		public int NumCollisionObjects => btCollisionWorld_getNumCollisionObjects(Native);
+		public int NumCollisionObjects { get { return UnsafeNativeMethods.btCollisionWorld_getNumCollisionObjects(Native); } }
 
-		public OverlappingPairCache PairCache => Broadphase.OverlappingPairCache;
+		public OverlappingPairCache PairCache { get { return Broadphase.OverlappingPairCache; } }
 
 		public void Dispose()
 		{
@@ -922,7 +921,7 @@ namespace BulletSharp
 		{
 			if (Native != IntPtr.Zero)
 			{
-				btCollisionWorld_delete(Native);
+				UnsafeNativeMethods.btCollisionWorld_delete(Native);
 				Native = IntPtr.Zero;
 
 				_broadphase._worldRefs.Remove(this);

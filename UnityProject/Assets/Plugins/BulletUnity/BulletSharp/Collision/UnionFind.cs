@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp
 {
@@ -14,14 +14,14 @@ namespace BulletSharp
 
 		public int Id
 		{
-			get => btElement_getId(Native);
-			set => btElement_setId(Native, value);
+			get => UnsafeNativeMethods.btElement_getId(Native);
+			set => UnsafeNativeMethods.btElement_setId(Native, value);
 		}
 
 		public int Sz
 		{
-			get => btElement_getSz(Native);
-			set => btElement_setSz(Native, value);
+			get => UnsafeNativeMethods.btElement_getSz(Native);
+			set => UnsafeNativeMethods.btElement_setSz(Native, value);
 		}
 	}
 
@@ -36,49 +36,49 @@ namespace BulletSharp
 
 		public void Allocate(int n)
 		{
-			btUnionFind_allocate(Native, n);
+			UnsafeNativeMethods.btUnionFind_allocate(Native, n);
 		}
 
 		public int Find(int p, int q)
 		{
-			return btUnionFind_find(Native, p, q);
+			return UnsafeNativeMethods.btUnionFind_find(Native, p, q);
 		}
 
 		public int Find(int x)
 		{
-			return btUnionFind_find2(Native, x);
+			return UnsafeNativeMethods.btUnionFind_find2(Native, x);
 		}
 
 		public void Free()
 		{
-			btUnionFind_Free(Native);
+			UnsafeNativeMethods.btUnionFind_Free(Native);
 		}
 
 		public Element GetElement(int index)
 		{
-			return new Element(btUnionFind_getElement(Native, index));
+			return new Element(UnsafeNativeMethods.btUnionFind_getElement(Native, index));
 		}
 
 		public bool IsRoot(int x)
 		{
-			return btUnionFind_isRoot(Native, x);
+			return UnsafeNativeMethods.btUnionFind_isRoot(Native, x);
 		}
 
 		public void Reset(int n)
 		{
-			btUnionFind_reset(Native, n);
+			UnsafeNativeMethods.btUnionFind_reset(Native, n);
 		}
 
 		public void SortIslands()
 		{
-			btUnionFind_sortIslands(Native);
+			UnsafeNativeMethods.btUnionFind_sortIslands(Native);
 		}
 
 		public void Unite(int p, int q)
 		{
-			btUnionFind_unite(Native, p, q);
+			UnsafeNativeMethods.btUnionFind_unite(Native, p, q);
 		}
 
-		public int NumElements => btUnionFind_getNumElements(Native);
+		public int NumElements => UnsafeNativeMethods.btUnionFind_getNumElements(Native);
 	}
 }

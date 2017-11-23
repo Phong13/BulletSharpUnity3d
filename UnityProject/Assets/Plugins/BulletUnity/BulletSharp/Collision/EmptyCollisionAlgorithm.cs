@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp
 {
@@ -13,13 +13,13 @@ namespace BulletSharp
 			}
 
 			public CreateFunc()
-				: base(btEmptyAlgorithm_CreateFunc_new(), false)
+				: base(UnsafeNativeMethods.btEmptyAlgorithm_CreateFunc_new(), false)
 			{
 			}
 
 			public override CollisionAlgorithm CreateCollisionAlgorithm(CollisionAlgorithmConstructionInfo __unnamed0, CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap)
 			{
-				return new EmptyAlgorithm(btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
+				return new EmptyAlgorithm(UnsafeNativeMethods.btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
 					Native, __unnamed0.Native, body0Wrap.Native, body1Wrap.Native));
 			}
 		}
@@ -30,7 +30,7 @@ namespace BulletSharp
 		}
 
 		public EmptyAlgorithm(CollisionAlgorithmConstructionInfo ci)
-			: base(btEmptyAlgorithm_new(ci.Native))
+			: base(UnsafeNativeMethods.btEmptyAlgorithm_new(ci.Native))
 		{
 		}
 	}

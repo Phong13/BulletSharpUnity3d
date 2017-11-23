@@ -1,8 +1,8 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -28,7 +28,7 @@ namespace BulletSharp
 			_getWorldTransform = new GetWorldTransformUnmanagedDelegate(GetWorldTransformUnmanaged);
 			_setWorldTransform = new SetWorldTransformUnmanagedDelegate(SetWorldTransformUnmanaged);
 
-			_native = btMotionStateWrapper_new(
+			_native = UnsafeNativeMethods.btMotionStateWrapper_new(
 				Marshal.GetFunctionPointerForDelegate(_getWorldTransform),
 				Marshal.GetFunctionPointerForDelegate(_setWorldTransform));
 		}
@@ -67,7 +67,7 @@ namespace BulletSharp
 		{
 			if (_native != IntPtr.Zero)
 			{
-				btMotionState_delete(_native);
+				UnsafeNativeMethods.btMotionState_delete(_native);
 				_native = IntPtr.Zero;
 			}
 		}

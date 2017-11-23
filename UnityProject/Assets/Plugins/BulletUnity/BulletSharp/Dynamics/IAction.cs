@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Security;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -33,7 +33,7 @@ namespace BulletSharp
 			_debugDraw = new DebugDrawUnmanagedDelegate(DebugDrawUnmanaged);
 			_updateAction = new UpdateActionUnmanagedDelegate(UpdateActionUnmanaged);
 
-			_native = btActionInterfaceWrapper_new(
+			_native = UnsafeNativeMethods.btActionInterfaceWrapper_new(
 				Marshal.GetFunctionPointerForDelegate(_debugDraw),
 				Marshal.GetFunctionPointerForDelegate(_updateAction));
 		}
@@ -58,7 +58,7 @@ namespace BulletSharp
 		{
 			if (_native != IntPtr.Zero)
 			{
-				btActionInterface_delete(_native);
+				UnsafeNativeMethods.btActionInterface_delete(_native);
 				_native = IntPtr.Zero;
 			}
 		}

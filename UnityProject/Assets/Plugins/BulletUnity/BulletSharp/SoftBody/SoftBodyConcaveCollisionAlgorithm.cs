@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp
 {
@@ -13,14 +13,14 @@ namespace BulletSharp
 			}
 
 			public CreateFunc()
-				: base(btSoftBodyConcaveCollisionAlgorithm_CreateFunc_new(), false)
+				: base(UnsafeNativeMethods.btSoftBodyConcaveCollisionAlgorithm_CreateFunc_new(), false)
 			{
 			}
 
 			public override CollisionAlgorithm CreateCollisionAlgorithm(CollisionAlgorithmConstructionInfo __unnamed0,
 				CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap)
 			{
-				return new SoftBodyConcaveCollisionAlgorithm(btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
+				return new SoftBodyConcaveCollisionAlgorithm(UnsafeNativeMethods.btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
 					Native, __unnamed0.Native, body0Wrap.Native, body1Wrap.Native));
 			}
 		}
@@ -33,14 +33,14 @@ namespace BulletSharp
 			}
 
 			public SwappedCreateFunc()
-				: base(btSoftBodyConcaveCollisionAlgorithm_SwappedCreateFunc_new(), false)
+				: base(UnsafeNativeMethods.btSoftBodyConcaveCollisionAlgorithm_SwappedCreateFunc_new(), false)
 			{
 			}
 
 			public override CollisionAlgorithm CreateCollisionAlgorithm(CollisionAlgorithmConstructionInfo __unnamed0,
 				CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap)
 			{
-				return new SoftBodyConcaveCollisionAlgorithm(btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
+				return new SoftBodyConcaveCollisionAlgorithm(UnsafeNativeMethods.btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
 					Native, __unnamed0.Native, body0Wrap.Native, body1Wrap.Native));
 			}
 		}
@@ -52,14 +52,14 @@ namespace BulletSharp
 
 		public SoftBodyConcaveCollisionAlgorithm(CollisionAlgorithmConstructionInfo ci,
 			CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap, bool isSwapped)
-			: base(btSoftBodyConcaveCollisionAlgorithm_new(ci.Native, body0Wrap.Native,
+			: base(UnsafeNativeMethods.btSoftBodyConcaveCollisionAlgorithm_new(ci.Native, body0Wrap.Native,
 				body1Wrap.Native, isSwapped))
 		{
 		}
 
 		public void ClearCache()
 		{
-			btSoftBodyConcaveCollisionAlgorithm_clearCache(Native);
+			UnsafeNativeMethods.btSoftBodyConcaveCollisionAlgorithm_clearCache(Native);
 		}
 	}
 }

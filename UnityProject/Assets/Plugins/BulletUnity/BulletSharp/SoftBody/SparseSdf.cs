@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp.SoftBody
 {
@@ -14,22 +14,22 @@ namespace BulletSharp.SoftBody
 
 		public void GarbageCollect(int lifetime = 256)
 		{
-			btSparseSdf3_GarbageCollect(_native, lifetime);
+			UnsafeNativeMethods.btSparseSdf3_GarbageCollect(_native, lifetime);
 		}
 
 		public void Initialize(int hashSize = 2383, int clampCells = 256 * 1024)
 		{
-			btSparseSdf3_Initialize(_native, hashSize, clampCells);
+			UnsafeNativeMethods.btSparseSdf3_Initialize(_native, hashSize, clampCells);
 		}
 
 		public int RemoveReferences(CollisionShape pcs)
 		{
-			return btSparseSdf3_RemoveReferences(_native, (pcs != null) ? pcs.Native : IntPtr.Zero);
+			return UnsafeNativeMethods.btSparseSdf3_RemoveReferences(_native, (pcs != null) ? pcs.Native : IntPtr.Zero);
 		}
 
 		public void Reset()
 		{
-			btSparseSdf3_Reset(_native);
+			UnsafeNativeMethods.btSparseSdf3_Reset(_native);
 		}
 	}
 }

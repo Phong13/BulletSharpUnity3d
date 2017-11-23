@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp
 {
@@ -11,18 +11,18 @@ namespace BulletSharp
 		}
 
 		public SequentialImpulseConstraintSolver()
-			: base(btSequentialImpulseConstraintSolver_new(), false)
+			: base(UnsafeNativeMethods.btSequentialImpulseConstraintSolver_new(), false)
 		{
 		}
 
 		public ulong BtRand2()
 		{
-			return btSequentialImpulseConstraintSolver_btRand2(Native);
+			return UnsafeNativeMethods.btSequentialImpulseConstraintSolver_btRand2(Native);
 		}
 
 		public int BtRandInt2(int n)
 		{
-			return btSequentialImpulseConstraintSolver_btRandInt2(Native, n);
+			return UnsafeNativeMethods.btSequentialImpulseConstraintSolver_btRandInt2(Native, n);
 		}
 /*
 		public void SetConstraintRowSolverGeneric(SingleConstraintRowSolver rowSolver)
@@ -58,8 +58,8 @@ namespace BulletSharp
 */
 		public ulong RandSeed
 		{
-			get => btSequentialImpulseConstraintSolver_getRandSeed(Native);
-			set => btSequentialImpulseConstraintSolver_setRandSeed(Native, value);
+			get => UnsafeNativeMethods.btSequentialImpulseConstraintSolver_getRandSeed(Native);
+			set => UnsafeNativeMethods.btSequentialImpulseConstraintSolver_setRandSeed(Native, value);
 		}
 /*
 		public SingleConstraintRowSolver ScalarConstraintRowSolverGeneric

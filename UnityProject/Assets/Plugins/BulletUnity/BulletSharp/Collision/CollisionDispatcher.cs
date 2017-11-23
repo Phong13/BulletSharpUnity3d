@@ -1,8 +1,7 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Collections.Generic;
-using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -34,7 +33,7 @@ namespace BulletSharp
 		}
 
 		public CollisionDispatcher(CollisionConfiguration collisionConfiguration)
-			: base(btCollisionDispatcher_new(collisionConfiguration.Native))
+			: base(UnsafeNativeMethods.btCollisionDispatcher_new(collisionConfiguration.Native))
 		{
 			_collisionConfiguration = collisionConfiguration;
 		}
@@ -42,7 +41,7 @@ namespace BulletSharp
 		public static void DefaultNearCallback(BroadphasePair collisionPair, CollisionDispatcher dispatcher,
 			DispatcherInfo dispatchInfo)
 		{
-			btCollisionDispatcher_defaultNearCallback(collisionPair.Native, dispatcher.Native,
+            UnsafeNativeMethods.btCollisionDispatcher_defaultNearCallback(collisionPair.Native, dispatcher.Native,
 				dispatchInfo.Native);
 		}
 
@@ -61,7 +60,7 @@ namespace BulletSharp
 			}
 			_collisionCreateFuncs.Add(createFunc);
 
-			btCollisionDispatcher_registerCollisionCreateFunc(Native, proxyType0,
+            UnsafeNativeMethods.btCollisionDispatcher_registerCollisionCreateFunc(Native, proxyType0,
 				proxyType1, createFunc.Native);
 		}
 
@@ -73,36 +72,36 @@ namespace BulletSharp
 			}
 			_collisionCreateFuncs.Add(createFunc);
 
-			btCollisionDispatcher_registerClosestPointsCreateFunc(Native, proxyType0,
+            UnsafeNativeMethods.btCollisionDispatcher_registerClosestPointsCreateFunc(Native, proxyType0,
 				proxyType1, createFunc.Native);
 		}
 
 		public CollisionConfiguration CollisionConfiguration
 		{
-			get => _collisionConfiguration;
+			get { return _collisionConfiguration; }
 			set
 			{
-				btCollisionDispatcher_setCollisionConfiguration(Native, value.Native);
+                UnsafeNativeMethods.btCollisionDispatcher_setCollisionConfiguration(Native, value.Native);
 				_collisionConfiguration = value;
 			}
 		}
 
 		public DispatcherFlags DispatcherFlags
 		{
-			get => btCollisionDispatcher_getDispatcherFlags(Native);
-			set => btCollisionDispatcher_setDispatcherFlags(Native, value);
+			get { return UnsafeNativeMethods.btCollisionDispatcher_getDispatcherFlags(Native); }
+			set { UnsafeNativeMethods.btCollisionDispatcher_setDispatcherFlags(Native, value); }
 		}
 
 		public NearCallback NearCallback
 		{
-			get => _nearCallback;
+			get { return _nearCallback; }
 			set
 			{
 				_nearCallback = value;
 
 				if (value == null)
 				{
-					btCollisionDispatcher_setNearCallback(Native, IntPtr.Zero);
+                    UnsafeNativeMethods.btCollisionDispatcher_setNearCallback(Native, IntPtr.Zero);
 					_nearCallbackUnmanaged = null;
 					return;
 				}
@@ -112,7 +111,7 @@ namespace BulletSharp
 					_nearCallbackUnmanaged = new NearCallbackUnmanagedDelegate(NearCallbackUnmanaged);
 					_nearCallbackUnmanagedPtr = Marshal.GetFunctionPointerForDelegate(_nearCallbackUnmanaged);
 				}
-				btCollisionDispatcher_setNearCallback(Native, _nearCallbackUnmanagedPtr);
+                UnsafeNativeMethods.btCollisionDispatcher_setNearCallback(Native, _nearCallbackUnmanagedPtr);
 			}
 		}
 	}

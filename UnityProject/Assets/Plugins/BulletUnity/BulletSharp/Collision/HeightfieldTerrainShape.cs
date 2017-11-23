@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp
 {
@@ -8,7 +8,7 @@ namespace BulletSharp
 		public HeightfieldTerrainShape(int heightStickWidth, int heightStickLength,
 			IntPtr heightfieldData, float heightScale, float minHeight, float maxHeight,
 			int upAxis, PhyScalarType heightDataType, bool flipQuadEdges)
-			: base(btHeightfieldTerrainShape_new(heightStickWidth, heightStickLength,
+			: base(UnsafeNativeMethods.btHeightfieldTerrainShape_new(heightStickWidth, heightStickLength,
 				heightfieldData, heightScale, minHeight, maxHeight, upAxis, heightDataType,
 				flipQuadEdges))
 		{
@@ -16,22 +16,22 @@ namespace BulletSharp
 
 		public void SetUseDiamondSubdivision()
 		{
-			btHeightfieldTerrainShape_setUseDiamondSubdivision(Native);
+			UnsafeNativeMethods.btHeightfieldTerrainShape_setUseDiamondSubdivision(Native);
 		}
 
 		public void SetUseDiamondSubdivision(bool useDiamondSubdivision)
 		{
-			btHeightfieldTerrainShape_setUseDiamondSubdivision2(Native, useDiamondSubdivision);
+			UnsafeNativeMethods.btHeightfieldTerrainShape_setUseDiamondSubdivision2(Native, useDiamondSubdivision);
 		}
 
 		public void SetUseZigzagSubdivision()
 		{
-			btHeightfieldTerrainShape_setUseZigzagSubdivision(Native);
+			UnsafeNativeMethods.btHeightfieldTerrainShape_setUseZigzagSubdivision(Native);
 		}
 
 		public void SetUseZigzagSubdivision(bool useZigzagSubdivision)
 		{
-			btHeightfieldTerrainShape_setUseZigzagSubdivision2(Native, useZigzagSubdivision);
+			UnsafeNativeMethods.btHeightfieldTerrainShape_setUseZigzagSubdivision2(Native, useZigzagSubdivision);
 		}
 	}
 }

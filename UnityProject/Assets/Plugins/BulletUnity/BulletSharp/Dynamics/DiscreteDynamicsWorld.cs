@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 using System.IO;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -15,7 +15,7 @@ namespace BulletSharp
 
 		public DiscreteDynamicsWorld(Dispatcher dispatcher, BroadphaseInterface pairCache,
 			ConstraintSolver constraintSolver, CollisionConfiguration collisionConfiguration)
-			: this(btDiscreteDynamicsWorld_new(dispatcher != null ? dispatcher.Native : IntPtr.Zero, pairCache != null ? pairCache.Native : IntPtr.Zero,
+			: this(UnsafeNativeMethods.btDiscreteDynamicsWorld_new(dispatcher != null ? dispatcher.Native : IntPtr.Zero, pairCache != null ? pairCache.Native : IntPtr.Zero,
 				constraintSolver != null ? constraintSolver.Native : IntPtr.Zero, collisionConfiguration != null ? collisionConfiguration.Native : IntPtr.Zero),
 				  dispatcher, pairCache)
 		{
@@ -24,12 +24,12 @@ namespace BulletSharp
 
 		public void ApplyGravity()
 		{
-			btDiscreteDynamicsWorld_applyGravity(Native);
+			UnsafeNativeMethods.btDiscreteDynamicsWorld_applyGravity(Native);
 		}
 
 		public void DebugDrawConstraint(TypedConstraint constraint)
 		{
-			btDiscreteDynamicsWorld_debugDrawConstraint(Native, constraint.Native);
+			UnsafeNativeMethods.btDiscreteDynamicsWorld_debugDrawConstraint(Native, constraint.Native);
 		}
 
 		private unsafe void SerializeDynamicsWorldInfo(Serializer serializer)
@@ -109,29 +109,29 @@ namespace BulletSharp
 
 		public void SetNumTasks(int numTasks)
 		{
-			btDiscreteDynamicsWorld_setNumTasks(Native, numTasks);
+			UnsafeNativeMethods.btDiscreteDynamicsWorld_setNumTasks(Native, numTasks);
 		}
 
 		public void SynchronizeSingleMotionState(RigidBody body)
 		{
-			btDiscreteDynamicsWorld_synchronizeSingleMotionState(Native, body.Native);
+			UnsafeNativeMethods.btDiscreteDynamicsWorld_synchronizeSingleMotionState(Native, body.Native);
 		}
 
 		public void UpdateVehicles(float timeStep)
 		{
-			btDiscreteDynamicsWorld_updateVehicles(Native, timeStep);
+			UnsafeNativeMethods.btDiscreteDynamicsWorld_updateVehicles(Native, timeStep);
 		}
 
 		public bool ApplySpeculativeContactRestitution
 		{
-			get => btDiscreteDynamicsWorld_getApplySpeculativeContactRestitution(Native);
-			set => btDiscreteDynamicsWorld_setApplySpeculativeContactRestitution(Native, value);
+			get => UnsafeNativeMethods.btDiscreteDynamicsWorld_getApplySpeculativeContactRestitution(Native);
+			set => UnsafeNativeMethods.btDiscreteDynamicsWorld_setApplySpeculativeContactRestitution(Native, value);
 		}
 
 		public bool LatencyMotionStateInterpolation
 		{
-			get => btDiscreteDynamicsWorld_getLatencyMotionStateInterpolation(Native);
-			set => btDiscreteDynamicsWorld_setLatencyMotionStateInterpolation(Native, value);
+			get => UnsafeNativeMethods.btDiscreteDynamicsWorld_getLatencyMotionStateInterpolation(Native);
+			set => UnsafeNativeMethods.btDiscreteDynamicsWorld_setLatencyMotionStateInterpolation(Native, value);
 		}
 
 		public SimulationIslandManager SimulationIslandManager
@@ -140,7 +140,7 @@ namespace BulletSharp
 			{
 				if (_simulationIslandManager == null)
 				{
-					_simulationIslandManager = new SimulationIslandManager(btDiscreteDynamicsWorld_getSimulationIslandManager(Native), true);
+					_simulationIslandManager = new SimulationIslandManager(UnsafeNativeMethods.btDiscreteDynamicsWorld_getSimulationIslandManager(Native), true);
 				}
 				return _simulationIslandManager;
 			}
@@ -148,8 +148,8 @@ namespace BulletSharp
 
 		public bool SynchronizeAllMotionStates
 		{
-			get => btDiscreteDynamicsWorld_getSynchronizeAllMotionStates(Native);
-			set => btDiscreteDynamicsWorld_setSynchronizeAllMotionStates(Native, value);
+			get => UnsafeNativeMethods.btDiscreteDynamicsWorld_getSynchronizeAllMotionStates(Native);
+			set => UnsafeNativeMethods.btDiscreteDynamicsWorld_setSynchronizeAllMotionStates(Native, value);
 		}
 	}
 }

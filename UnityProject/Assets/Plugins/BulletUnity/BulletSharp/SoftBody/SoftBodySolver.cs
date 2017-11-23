@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp.SoftBody
 {
@@ -14,22 +14,22 @@ namespace BulletSharp.SoftBody
 
 		public bool CheckInitialized()
 		{
-			return btSoftBodySolver_checkInitialized(_native);
+			return UnsafeNativeMethods.btSoftBodySolver_checkInitialized(_native);
 		}
 
 		public void CopyBackToSoftBodies(bool bMove = true)
 		{
-			btSoftBodySolver_copyBackToSoftBodies(_native, bMove);
+			UnsafeNativeMethods.btSoftBodySolver_copyBackToSoftBodies(_native, bMove);
 		}
 		/*
 		public void Optimize(AlignedObjectArray softBodies, bool forceUpdate = false)
 		{
-			btSoftBodySolver_optimize(_native, softBodies._native, forceUpdate);
+			UnsafeNativeMethods.btSoftBodySolver_optimize(_native, softBodies._native, forceUpdate);
 		}
 		*/
 		public void PredictMotion(float solverdt)
 		{
-			btSoftBodySolver_predictMotion(_native, solverdt);
+			UnsafeNativeMethods.btSoftBodySolver_predictMotion(_native, solverdt);
 		}
 		/*
 		public void ProcessCollision(SoftBody __unnamed0, CollisionObjectWrapper __unnamed1)
@@ -44,24 +44,24 @@ namespace BulletSharp.SoftBody
 		*/
 		public void SolveConstraints(float solverdt)
 		{
-			btSoftBodySolver_solveConstraints(_native, solverdt);
+			UnsafeNativeMethods.btSoftBodySolver_solveConstraints(_native, solverdt);
 		}
 
 		public void UpdateSoftBodies()
 		{
-			btSoftBodySolver_updateSoftBodies(_native);
+			UnsafeNativeMethods.btSoftBodySolver_updateSoftBodies(_native);
 		}
 
 		public int NumberOfPositionIterations
 		{
-			get => btSoftBodySolver_getNumberOfPositionIterations(_native);
-			set => btSoftBodySolver_setNumberOfPositionIterations(_native, value);
+			get => UnsafeNativeMethods.btSoftBodySolver_getNumberOfPositionIterations(_native);
+			set => UnsafeNativeMethods.btSoftBodySolver_setNumberOfPositionIterations(_native, value);
 		}
 
 		public int NumberOfVelocityIterations
 		{
-			get => btSoftBodySolver_getNumberOfVelocityIterations(_native);
-			set => btSoftBodySolver_setNumberOfVelocityIterations(_native, value);
+			get => UnsafeNativeMethods.btSoftBodySolver_getNumberOfVelocityIterations(_native);
+			set => UnsafeNativeMethods.btSoftBodySolver_setNumberOfVelocityIterations(_native, value);
 		}
 		/*
 		public SolverTypes SolverType
@@ -69,7 +69,7 @@ namespace BulletSharp.SoftBody
 			get { return btSoftBodySolver_getSolverType(_native); }
 		}
 		*/
-		public float TimeScale => btSoftBodySolver_getTimeScale(_native);
+		public float TimeScale => UnsafeNativeMethods.btSoftBodySolver_getTimeScale(_native);
 
 		public void Dispose()
 		{
@@ -81,7 +81,7 @@ namespace BulletSharp.SoftBody
 		{
 			if (_native != IntPtr.Zero)
 			{
-				btSoftBodySolver_delete(_native);
+				UnsafeNativeMethods.btSoftBodySolver_delete(_native);
 				_native = IntPtr.Zero;
 			}
 		}

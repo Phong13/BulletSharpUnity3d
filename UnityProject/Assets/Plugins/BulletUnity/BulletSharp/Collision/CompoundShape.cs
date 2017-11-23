@@ -1,7 +1,7 @@
-using BulletSharp.Math;
+﻿using BulletSharp.Math;
 using System;
 using System.Runtime.InteropServices;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -19,34 +19,34 @@ namespace BulletSharp
 
 		public float ChildMargin
 		{
-			get => btCompoundShapeChild_getChildMargin(Native);
-			set => btCompoundShapeChild_setChildMargin(Native, value);
+			get { return UnsafeNativeMethods.btCompoundShapeChild_getChildMargin(Native); }
+			set { UnsafeNativeMethods.btCompoundShapeChild_setChildMargin(Native, value); }
 		}
 
 		public CollisionShape ChildShape
 		{
-			get => _childShape;
+			get { return _childShape; }
 			set
 			{
-				btCompoundShapeChild_setChildShape(Native, value.Native);
+				UnsafeNativeMethods.btCompoundShapeChild_setChildShape(Native, value.Native);
 				_childShape = value;
 			}
 		}
 
 		public BroadphaseNativeType ChildShapeType
 		{
-			get => btCompoundShapeChild_getChildShapeType(Native);
-			set => btCompoundShapeChild_setChildShapeType(Native, value);
+			get { return UnsafeNativeMethods.btCompoundShapeChild_getChildShapeType(Native); }
+			set { UnsafeNativeMethods.btCompoundShapeChild_setChildShapeType(Native, value); }
 		}
 
 		public DbvtNode Node
 		{
 			get
 			{
-				IntPtr ptr = btCompoundShapeChild_getNode(Native);
+				IntPtr ptr = UnsafeNativeMethods.btCompoundShapeChild_getNode(Native);
 				return (ptr != IntPtr.Zero) ? new DbvtNode(ptr) : null;
 			}
-			set => btCompoundShapeChild_setNode(Native, (value != null) ? value.Native : IntPtr.Zero);
+			set { UnsafeNativeMethods.btCompoundShapeChild_setNode(Native, (value != null) ? value.Native : IntPtr.Zero); }
 		}
 
 		public Matrix Transform
@@ -54,10 +54,10 @@ namespace BulletSharp
 			get
 			{
 				Matrix value;
-				btCompoundShapeChild_getTransform(Native, out value);
+				UnsafeNativeMethods.btCompoundShapeChild_getTransform(Native, out value);
 				return value;
 			}
-			set => btCompoundShapeChild_setTransform(Native, ref value);
+			set { UnsafeNativeMethods.btCompoundShapeChild_setTransform(Native, ref value); }
 		}
 	}
 
@@ -66,7 +66,7 @@ namespace BulletSharp
 		private CompoundShapeChildArray _childList;
 
 		public CompoundShape(bool enableDynamicAabbTree = true, int initialChildCapacity = 0)
-			: base(btCompoundShape_new(enableDynamicAabbTree, initialChildCapacity))
+			: base(UnsafeNativeMethods.btCompoundShape_new(enableDynamicAabbTree, initialChildCapacity))
 		{
 			_childList = new CompoundShapeChildArray(Native);
 		}
@@ -84,13 +84,13 @@ namespace BulletSharp
 	   public void CalculatePrincipalAxisTransform(float[] masses, ref Matrix principal,
 			out Vector3 inertia)
 		{
-			btCompoundShape_calculatePrincipalAxisTransform(Native, masses,
+			UnsafeNativeMethods.btCompoundShape_calculatePrincipalAxisTransform(Native, masses,
 				ref principal, out inertia);
 		}
 
 		public void CreateAabbTreeFromChildren()
 		{
-			btCompoundShape_createAabbTreeFromChildren(Native);
+			UnsafeNativeMethods.btCompoundShape_createAabbTreeFromChildren(Native);
 		}
 
 		public CollisionShape GetChildShape(int index)
@@ -100,19 +100,19 @@ namespace BulletSharp
 
 		public void GetChildTransform(int index, out Matrix value)
 		{
-			btCompoundShape_getChildTransform(Native, index, out value);
+			UnsafeNativeMethods.btCompoundShape_getChildTransform(Native, index, out value);
 		}
 
 		public Matrix GetChildTransform(int index)
 		{
 			Matrix value;
-			btCompoundShape_getChildTransform(Native, index, out value);
+			UnsafeNativeMethods.btCompoundShape_getChildTransform(Native, index, out value);
 			return value;
 		}
 
 		public void RecalculateLocalAabb()
 		{
-			btCompoundShape_recalculateLocalAabb(Native);
+			UnsafeNativeMethods.btCompoundShape_recalculateLocalAabb(Native);
 		}
 
 		public void RemoveChildShape(CollisionShape shape)
@@ -128,17 +128,33 @@ namespace BulletSharp
 		public void UpdateChildTransform(int childIndex, Matrix newChildTransform,
 			bool shouldRecalculateLocalAabb = true)
 		{
-			btCompoundShape_updateChildTransform(Native, childIndex, ref newChildTransform,
+			UnsafeNativeMethods.btCompoundShape_updateChildTransform(Native, childIndex, ref newChildTransform,
 				shouldRecalculateLocalAabb);
 		}
 
-		public CompoundShapeChildArray ChildList => _childList;
+		public CompoundShapeChildArray ChildList { get { return _childList; } }
 
-		public Dbvt DynamicAabbTree => new Dbvt(btCompoundShape_getDynamicAabbTree(Native), true);
+		public Dbvt DynamicAabbTree
+            {
+                get
+                {
+                    return new Dbvt(UnsafeNativeMethods.btCompoundShape_getDynamicAabbTree(Native), true);
+                }
+            }
 
-		public int NumChildShapes => _childList.Count;
+		public int NumChildShapes
+            {
+                get
+                {
+                    return _childList.Count;
+                }
+            }
 
-		public int UpdateRevision => btCompoundShape_getUpdateRevision(Native);
+		public int UpdateRevision
+            {
+                get
+                { return UnsafeNativeMethods.btCompoundShape_getUpdateRevision(Native); }
+            }
 	}
 
 	[StructLayout(LayoutKind.Sequential)]

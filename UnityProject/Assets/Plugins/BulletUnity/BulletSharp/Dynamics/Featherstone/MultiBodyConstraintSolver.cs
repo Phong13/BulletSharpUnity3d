@@ -1,18 +1,18 @@
-using static BulletSharp.UnsafeNativeMethods;
+﻿
 
 namespace BulletSharp
 {
 	public class MultiBodyConstraintSolver : SequentialImpulseConstraintSolver
 	{
 		public MultiBodyConstraintSolver()
-			: base(btMultiBodyConstraintSolver_new(), false)
+			: base(UnsafeNativeMethods.btMultiBodyConstraintSolver_new(), false)
 		{
 		}
 		/*
 		public float SolveGroupCacheFriendlyFinish(CollisionObject bodies, int numBodies,
 			ContactSolverInfo infoGlobal)
 		{
-			return btMultiBodyConstraintSolver_solveGroupCacheFriendlyFinish(Native,
+			return UnsafeNativeMethods.btMultiBodyConstraintSolver_solveGroupCacheFriendlyFinish(Native,
 				bodies.Native, numBodies, infoGlobal.Native);
 		}
 
@@ -21,7 +21,7 @@ namespace BulletSharp
 			int numMultiBodyConstraints, ContactSolverInfo info, IDebugDraw debugDrawer,
 			Dispatcher dispatcher)
 		{
-			btMultiBodyConstraintSolver_solveMultiBodyGroup(Native, bodies.Native,
+			UnsafeNativeMethods.btMultiBodyConstraintSolver_solveMultiBodyGroup(Native, bodies.Native,
 				numBodies, manifold.Native, numManifolds, constraints.Native, numConstraints,
 				multiBodyConstraints.Native, numMultiBodyConstraints, info.Native,
 				debugDrawer.Native, dispatcher.Native);

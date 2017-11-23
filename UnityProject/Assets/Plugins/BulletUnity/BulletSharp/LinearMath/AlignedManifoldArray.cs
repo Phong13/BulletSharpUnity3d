@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -69,7 +69,7 @@ namespace BulletSharp
 
 		public AlignedManifoldArray()
 		{
-			_native = btAlignedObjectArray_btPersistentManifoldPtr_new();
+			_native = UnsafeNativeMethods.btAlignedObjectArray_btPersistentManifoldPtr_new();
 		}
 
 		public int IndexOf(PersistentManifold item)
@@ -95,7 +95,7 @@ namespace BulletSharp
 				{
 					throw new ArgumentOutOfRangeException(nameof(index));
 				}
-				return new PersistentManifold(btAlignedObjectArray_btPersistentManifoldPtr_at(_native, index), true);
+				return new PersistentManifold(UnsafeNativeMethods.btAlignedObjectArray_btPersistentManifoldPtr_at(_native, index), true);
 			}
 			set
 			{
@@ -105,12 +105,12 @@ namespace BulletSharp
 
 		public void Add(PersistentManifold item)
 		{
-			btAlignedObjectArray_btPersistentManifoldPtr_push_back(_native, item.Native);
+			UnsafeNativeMethods.btAlignedObjectArray_btPersistentManifoldPtr_push_back(_native, item.Native);
 		}
 
 		public void Clear()
 		{
-			btAlignedObjectArray_btPersistentManifoldPtr_resizeNoInitialize(_native, 0);
+			UnsafeNativeMethods.btAlignedObjectArray_btPersistentManifoldPtr_resizeNoInitialize(_native, 0);
 		}
 
 		public bool Contains(PersistentManifold item)
@@ -136,7 +136,7 @@ namespace BulletSharp
 			}
 		}
 
-		public int Count => btAlignedObjectArray_btPersistentManifoldPtr_size(_native);
+		public int Count => UnsafeNativeMethods.btAlignedObjectArray_btPersistentManifoldPtr_size(_native);
 
 		public bool IsReadOnly => false;
 
@@ -165,7 +165,7 @@ namespace BulletSharp
 		{
 			if (_native != IntPtr.Zero)
 			{
-				btAlignedObjectArray_btPersistentManifoldPtr_delete(_native);
+				UnsafeNativeMethods.btAlignedObjectArray_btPersistentManifoldPtr_delete(_native);
 				_native = IntPtr.Zero;
 			}
 		}

@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -22,37 +22,37 @@ namespace BulletSharp
 
 		public Chunk()
 		{
-			_native = btChunk_new();
+			_native = UnsafeNativeMethods.btChunk_new();
 		}
 
 		public int ChunkCode
 		{
-			get => btChunk_getChunkCode(_native);
-			set => btChunk_setChunkCode(_native, value);
+			get => UnsafeNativeMethods.btChunk_getChunkCode(_native);
+			set => UnsafeNativeMethods.btChunk_setChunkCode(_native, value);
 		}
 
 		public int DnaNr
 		{
-			get => btChunk_getDna_nr(_native);
-			set => btChunk_setDna_nr(_native, value);
+			get => UnsafeNativeMethods.btChunk_getDna_nr(_native);
+			set => UnsafeNativeMethods.btChunk_setDna_nr(_native, value);
 		}
 
 		public int Length
 		{
-			get => btChunk_getLength(_native);
-			set => btChunk_setLength(_native, value);
+			get => UnsafeNativeMethods.btChunk_getLength(_native);
+			set => UnsafeNativeMethods.btChunk_setLength(_native, value);
 		}
 
 		public int Number
 		{
-			get => btChunk_getNumber(_native);
-			set => btChunk_setNumber(_native, value);
+			get => UnsafeNativeMethods.btChunk_getNumber(_native);
+			set => UnsafeNativeMethods.btChunk_setNumber(_native, value);
 		}
 
 		public IntPtr OldPtr
 		{
-			get => btChunk_getOldPtr(_native);
-			set => btChunk_setOldPtr(_native, value);
+			get => UnsafeNativeMethods.btChunk_getOldPtr(_native);
+			set => UnsafeNativeMethods.btChunk_setOldPtr(_native, value);
 		}
 
 		public void Dispose()
@@ -67,7 +67,7 @@ namespace BulletSharp
 			{
 				if (!_preventDelete)
 				{
-					btChunk_delete(_native);
+					UnsafeNativeMethods.btChunk_delete(_native);
 				}
 				_native = IntPtr.Zero;
 			}
@@ -159,7 +159,7 @@ namespace BulletSharp
 			_setSerializationFlags = new SetSerializationFlagsUnmanagedDelegate(SetSerializationFlags);
 			_startSerialization = new StartSerializationUnmanagedDelegate(StartSerialization);
 
-			_native = btSerializerWrapper_new(
+			_native = UnsafeNativeMethods.btSerializerWrapper_new(
 				Marshal.GetFunctionPointerForDelegate(_allocate),
 				Marshal.GetFunctionPointerForDelegate(_finalizeChunk),
 				Marshal.GetFunctionPointerForDelegate(_findNameForPointer),
@@ -238,7 +238,7 @@ namespace BulletSharp
 		{
 			if (_native != IntPtr.Zero)
 			{
-				btSerializer_delete(_native);
+				UnsafeNativeMethods.btSerializer_delete(_native);
 				_native = IntPtr.Zero;
 			}
 		}
@@ -252,9 +252,9 @@ namespace BulletSharp
 		{
 			if (dna == null)
 			{
-				int length = getBulletDNAlen();
+				int length = UnsafeNativeMethods.getBulletDNAlen();
 				dna = new byte[length];
-				Marshal.Copy(getBulletDNAstr(), dna, 0, length);
+				Marshal.Copy(UnsafeNativeMethods.getBulletDNAstr(), dna, 0, length);
 			}
 			return dna;
 		}
@@ -263,9 +263,9 @@ namespace BulletSharp
 		{
 			if (dna64 == null)
 			{
-				int length = getBulletDNAlen64();
+				int length = UnsafeNativeMethods.getBulletDNAlen64();
 				dna64 = new byte[length];
-				Marshal.Copy(getBulletDNAstr64(), dna64, 0, length);
+				Marshal.Copy(UnsafeNativeMethods.getBulletDNAstr64(), dna64, 0, length);
 			}
 			return dna64;
 		}

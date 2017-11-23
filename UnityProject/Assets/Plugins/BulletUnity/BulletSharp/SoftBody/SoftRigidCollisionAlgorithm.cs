@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp
 {
@@ -13,14 +13,14 @@ namespace BulletSharp
 			}
 
 			public CreateFunc()
-				: base(btSoftRigidCollisionAlgorithm_CreateFunc_new(), false)
+				: base(UnsafeNativeMethods.btSoftRigidCollisionAlgorithm_CreateFunc_new(), false)
 			{
 			}
 
 			public override CollisionAlgorithm CreateCollisionAlgorithm(CollisionAlgorithmConstructionInfo __unnamed0,
 				CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap)
 			{
-				return new SoftRigidCollisionAlgorithm(btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
+				return new SoftRigidCollisionAlgorithm(UnsafeNativeMethods.btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
 					Native, __unnamed0.Native, body0Wrap.Native, body1Wrap.Native));
 			}
 		}
@@ -32,7 +32,7 @@ namespace BulletSharp
 
 		public SoftRigidCollisionAlgorithm(PersistentManifold mf, CollisionAlgorithmConstructionInfo ci,
 			CollisionObjectWrapper col0, CollisionObjectWrapper col1Wrap, bool isSwapped)
-			: base(btSoftRigidCollisionAlgorithm_new(mf.Native, ci.Native, col0.Native,
+			: base(UnsafeNativeMethods.btSoftRigidCollisionAlgorithm_new(mf.Native, ci.Native, col0.Native,
 				col1Wrap.Native, isSwapped))
 		{
 		}

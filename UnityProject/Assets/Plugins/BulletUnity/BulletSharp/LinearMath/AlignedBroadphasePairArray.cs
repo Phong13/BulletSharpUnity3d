@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -94,7 +94,7 @@ namespace BulletSharp
 				{
 					throw new ArgumentOutOfRangeException(nameof(index));
 				}
-				return new BroadphasePair(btAlignedObjectArray_btBroadphasePair_at(Native, index));
+				return new BroadphasePair(UnsafeNativeMethods.btAlignedObjectArray_btBroadphasePair_at(Native, index));
 			}
 			set
 			{
@@ -104,12 +104,12 @@ namespace BulletSharp
 
 		public void Add(BroadphasePair item)
 		{
-			btAlignedObjectArray_btBroadphasePair_push_back(Native, item.Native);
+			UnsafeNativeMethods.btAlignedObjectArray_btBroadphasePair_push_back(Native, item.Native);
 		}
 
 		public void Clear()
 		{
-			btAlignedObjectArray_btBroadphasePair_resizeNoInitialize(Native, 0);
+			UnsafeNativeMethods.btAlignedObjectArray_btBroadphasePair_resizeNoInitialize(Native, 0);
 		}
 
 		public bool Contains(BroadphasePair item)
@@ -135,7 +135,7 @@ namespace BulletSharp
 			}
 		}
 
-		public int Count => btAlignedObjectArray_btBroadphasePair_size(Native);
+		public int Count => UnsafeNativeMethods.btAlignedObjectArray_btBroadphasePair_size(Native);
 
 		public bool IsReadOnly => false;
 

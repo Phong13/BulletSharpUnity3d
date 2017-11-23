@@ -1,8 +1,8 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -17,32 +17,32 @@ namespace BulletSharp
 
 		public QuantizedBvhNode()
 		{
-			_native = btQuantizedBvhNode_new();
+			_native = UnsafeNativeMethods.btQuantizedBvhNode_new();
 		}
 
-		public int EscapeIndex => btQuantizedBvhNode_getEscapeIndex(_native);
+		public int EscapeIndex => UnsafeNativeMethods.btQuantizedBvhNode_getEscapeIndex(_native);
 
 		public int EscapeIndexOrTriangleIndex
 		{
-			get => btQuantizedBvhNode_getEscapeIndexOrTriangleIndex(_native);
-			set => btQuantizedBvhNode_setEscapeIndexOrTriangleIndex(_native, value);
+			get => UnsafeNativeMethods.btQuantizedBvhNode_getEscapeIndexOrTriangleIndex(_native);
+			set => UnsafeNativeMethods.btQuantizedBvhNode_setEscapeIndexOrTriangleIndex(_native, value);
 		}
 
-		public bool IsLeafNode => btQuantizedBvhNode_isLeafNode(_native);
+		public bool IsLeafNode => UnsafeNativeMethods.btQuantizedBvhNode_isLeafNode(_native);
 
-		public int PartId => btQuantizedBvhNode_getPartId(_native);
+		public int PartId => UnsafeNativeMethods.btQuantizedBvhNode_getPartId(_native);
 		/*
 		public UShortArray QuantizedAabbMax
 		{
-			get { return btQuantizedBvhNode_getQuantizedAabbMax(_native); }
+			get { return UnsafeNativeMethods.btQuantizedBvhNode_getQuantizedAabbMax(_native); }
 		}
 
 		public UShortArray QuantizedAabbMin
 		{
-			get { return btQuantizedBvhNode_getQuantizedAabbMin(_native); }
+			get { return UnsafeNativeMethods.btQuantizedBvhNode_getQuantizedAabbMin(_native); }
 		}
 		*/
-		public int TriangleIndex => btQuantizedBvhNode_getTriangleIndex(_native);
+		public int TriangleIndex => UnsafeNativeMethods.btQuantizedBvhNode_getTriangleIndex(_native);
 
 		public void Dispose()
 		{
@@ -54,7 +54,7 @@ namespace BulletSharp
 		{
 			if (_native != IntPtr.Zero)
 			{
-				btQuantizedBvhNode_delete(_native);
+				UnsafeNativeMethods.btQuantizedBvhNode_delete(_native);
 				_native = IntPtr.Zero;
 			}
 		}
@@ -76,7 +76,7 @@ namespace BulletSharp
 
 		public OptimizedBvhNode()
 		{
-			_native = btOptimizedBvhNode_new();
+			_native = UnsafeNativeMethods.btOptimizedBvhNode_new();
 		}
 
 		public Vector3 AabbMaxOrg
@@ -84,10 +84,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btOptimizedBvhNode_getAabbMaxOrg(_native, out value);
+				UnsafeNativeMethods.btOptimizedBvhNode_getAabbMaxOrg(_native, out value);
 				return value;
 			}
-			set => btOptimizedBvhNode_setAabbMaxOrg(_native, ref value);
+			set => UnsafeNativeMethods.btOptimizedBvhNode_setAabbMaxOrg(_native, ref value);
 		}
 
 		public Vector3 AabbMinOrg
@@ -95,28 +95,28 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btOptimizedBvhNode_getAabbMinOrg(_native, out value);
+				UnsafeNativeMethods.btOptimizedBvhNode_getAabbMinOrg(_native, out value);
 				return value;
 			}
-			set => btOptimizedBvhNode_setAabbMinOrg(_native, ref value);
+			set => UnsafeNativeMethods.btOptimizedBvhNode_setAabbMinOrg(_native, ref value);
 		}
 
 		public int EscapeIndex
 		{
-			get => btOptimizedBvhNode_getEscapeIndex(_native);
-			set => btOptimizedBvhNode_setEscapeIndex(_native, value);
+			get => UnsafeNativeMethods.btOptimizedBvhNode_getEscapeIndex(_native);
+			set => UnsafeNativeMethods.btOptimizedBvhNode_setEscapeIndex(_native, value);
 		}
 
 		public int SubPart
 		{
-			get => btOptimizedBvhNode_getSubPart(_native);
-			set => btOptimizedBvhNode_setSubPart(_native, value);
+			get => UnsafeNativeMethods.btOptimizedBvhNode_getSubPart(_native);
+			set => UnsafeNativeMethods.btOptimizedBvhNode_setSubPart(_native, value);
 		}
 
 		public int TriangleIndex
 		{
-			get => btOptimizedBvhNode_getTriangleIndex(_native);
-			set => btOptimizedBvhNode_setTriangleIndex(_native, value);
+			get => UnsafeNativeMethods.btOptimizedBvhNode_getTriangleIndex(_native);
+			set => UnsafeNativeMethods.btOptimizedBvhNode_setTriangleIndex(_native, value);
 		}
 
 		public void Dispose()
@@ -129,7 +129,7 @@ namespace BulletSharp
 		{
 			if (_native != IntPtr.Zero)
 			{
-				btOptimizedBvhNode_delete(_native);
+				UnsafeNativeMethods.btOptimizedBvhNode_delete(_native);
 				_native = IntPtr.Zero;
 			}
 		}
@@ -151,7 +151,7 @@ namespace BulletSharp
 
 		public void ProcessNode(int subPart, int triangleIndex)
 		{
-			btNodeOverlapCallback_processNode(_native, subPart, triangleIndex);
+			UnsafeNativeMethods.btNodeOverlapCallback_processNode(_native, subPart, triangleIndex);
 		}
 
 		public void Dispose()
@@ -164,7 +164,7 @@ namespace BulletSharp
 		{
 			if (_native != IntPtr.Zero)
 			{
-				btNodeOverlapCallback_delete(_native);
+				UnsafeNativeMethods.btNodeOverlapCallback_delete(_native);
 				_native = IntPtr.Zero;
 			}
 		}
@@ -195,38 +195,38 @@ namespace BulletSharp
 
 		public QuantizedBvh()
 		{
-			_native = btQuantizedBvh_new();
+			_native = UnsafeNativeMethods.btQuantizedBvh_new();
 		}
 
 		public void BuildInternal()
 		{
-			btQuantizedBvh_buildInternal(_native);
+			UnsafeNativeMethods.btQuantizedBvh_buildInternal(_native);
 		}
 
 		public uint CalculateSerializeBufferSize()
 		{
-			return btQuantizedBvh_calculateSerializeBufferSize(_native);
+			return UnsafeNativeMethods.btQuantizedBvh_calculateSerializeBufferSize(_native);
 		}
 
 		public int CalculateSerializeBufferSizeNew()
 		{
-			return btQuantizedBvh_calculateSerializeBufferSizeNew(_native);
+			return UnsafeNativeMethods.btQuantizedBvh_calculateSerializeBufferSizeNew(_native);
 		}
 
 		public void DeSerializeDouble(IntPtr quantizedBvhDoubleData)
 		{
-			btQuantizedBvh_deSerializeDouble(_native, quantizedBvhDoubleData);
+			UnsafeNativeMethods.btQuantizedBvh_deSerializeDouble(_native, quantizedBvhDoubleData);
 		}
 
 		public void DeSerializeFloat(IntPtr quantizedBvhFloatData)
 		{
-			btQuantizedBvh_deSerializeFloat(_native, quantizedBvhFloatData);
+			UnsafeNativeMethods.btQuantizedBvh_deSerializeFloat(_native, quantizedBvhFloatData);
 		}
 		/*
 		public static QuantizedBvh DeSerializeInPlace(IntPtr alignedDataBuffer, uint dataBufferSize,
 			bool swapEndian)
 		{
-			return btQuantizedBvh_deSerializeInPlace(alignedDataBuffer, dataBufferSize,
+			return UnsafeNativeMethods.btQuantizedBvh_deSerializeInPlace(alignedDataBuffer, dataBufferSize,
 				swapEndian);
 		}
 
@@ -243,71 +243,71 @@ namespace BulletSharp
 		public void ReportAabbOverlappingNodex(NodeOverlapCallback nodeCallback,
 			Vector3 aabbMin, Vector3 aabbMax)
 		{
-			btQuantizedBvh_reportAabbOverlappingNodex(_native, nodeCallback._native,
+			UnsafeNativeMethods.btQuantizedBvh_reportAabbOverlappingNodex(_native, nodeCallback._native,
 				ref aabbMin, ref aabbMax);
 		}
 
 		public void ReportBoxCastOverlappingNodex(NodeOverlapCallback nodeCallback,
 			Vector3 raySource, Vector3 rayTarget, Vector3 aabbMin, Vector3 aabbMax)
 		{
-			btQuantizedBvh_reportBoxCastOverlappingNodex(_native, nodeCallback._native,
+			UnsafeNativeMethods.btQuantizedBvh_reportBoxCastOverlappingNodex(_native, nodeCallback._native,
 				ref raySource, ref rayTarget, ref aabbMin, ref aabbMax);
 		}
 
 		public void ReportRayOverlappingNodex(NodeOverlapCallback nodeCallback, Vector3 raySource,
 			Vector3 rayTarget)
 		{
-			btQuantizedBvh_reportRayOverlappingNodex(_native, nodeCallback._native,
+			UnsafeNativeMethods.btQuantizedBvh_reportRayOverlappingNodex(_native, nodeCallback._native,
 				ref raySource, ref rayTarget);
 		}
 
 		public bool Serialize(IntPtr alignedDataBuffer, uint dataBufferSize, bool swapEndian)
 		{
-			return btQuantizedBvh_serialize(_native, alignedDataBuffer, dataBufferSize,
+			return UnsafeNativeMethods.btQuantizedBvh_serialize(_native, alignedDataBuffer, dataBufferSize,
 				swapEndian);
 		}
 
 		public string Serialize(IntPtr dataBuffer, Serializer serializer)
 		{
-			return Marshal.PtrToStringAnsi(btQuantizedBvh_serialize2(_native, dataBuffer, serializer._native));
+			return Marshal.PtrToStringAnsi(UnsafeNativeMethods.btQuantizedBvh_serialize2(_native, dataBuffer, serializer._native));
 		}
 
 		public void SetQuantizationValues(Vector3 bvhAabbMin, Vector3 bvhAabbMax,
 			float quantizationMargin = 1.0f)
 		{
-			btQuantizedBvh_setQuantizationValues(_native, ref bvhAabbMin, ref bvhAabbMax,
+			UnsafeNativeMethods.btQuantizedBvh_setQuantizationValues(_native, ref bvhAabbMin, ref bvhAabbMax,
 				quantizationMargin);
 		}
 
 		public void SetTraversalMode(TraversalMode traversalMode)
 		{
-			btQuantizedBvh_setTraversalMode(_native, traversalMode);
+			UnsafeNativeMethods.btQuantizedBvh_setTraversalMode(_native, traversalMode);
 		}
 		/*
 		public Vector3 UnQuantize(unsigned short vecIn)
 		{
 			Vector3 value;
-			btQuantizedBvh_unQuantize(_native, vecIn._native, out value);
+			UnsafeNativeMethods.btQuantizedBvh_unQuantize(_native, vecIn._native, out value);
 			return value;
 		}
 		*/
-		public static uint AlignmentSerializationPadding => btQuantizedBvh_getAlignmentSerializationPadding();
+		public static uint AlignmentSerializationPadding => UnsafeNativeMethods.btQuantizedBvh_getAlignmentSerializationPadding();
 
-		public bool IsQuantized => btQuantizedBvh_isQuantized(_native);
+		public bool IsQuantized => UnsafeNativeMethods.btQuantizedBvh_isQuantized(_native);
 		/*
 		public QuantizedNodeArray LeafNodeArray
 		{
-			get { return btQuantizedBvh_getLeafNodeArray(_native); }
+			get { return UnsafeNativeMethods.btQuantizedBvh_getLeafNodeArray(_native); }
 		}
 
 		public QuantizedNodeArray QuantizedNodeArray
 		{
-			get { return btQuantizedBvh_getQuantizedNodeArray(_native); }
+			get { return UnsafeNativeMethods.btQuantizedBvh_getQuantizedNodeArray(_native); }
 		}
 
 		public BvhSubtreeInfoArray SubtreeInfoArray
 		{
-			get { return btQuantizedBvh_getSubtreeInfoArray(_native); }
+			get { return UnsafeNativeMethods.btQuantizedBvh_getSubtreeInfoArray(_native); }
 		}
 		*/
 		public void Dispose()
@@ -322,7 +322,7 @@ namespace BulletSharp
 			{
 				if (!_preventDelete)
 				{
-					btQuantizedBvh_delete(_native);
+					UnsafeNativeMethods.btQuantizedBvh_delete(_native);
 				}
 				_native = IntPtr.Zero;
 			}

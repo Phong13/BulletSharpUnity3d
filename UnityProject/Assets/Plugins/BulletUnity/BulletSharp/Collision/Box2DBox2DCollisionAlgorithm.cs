@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+//using BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -13,14 +13,14 @@ namespace BulletSharp
 			}
 
 			public CreateFunc()
-				: base(btBox2dBox2dCollisionAlgorithm_CreateFunc_new(), false)
+				: base(UnsafeNativeMethods.btBox2dBox2dCollisionAlgorithm_CreateFunc_new(), false)
 			{
 			}
 
 			public override CollisionAlgorithm CreateCollisionAlgorithm(CollisionAlgorithmConstructionInfo __unnamed0,
 				CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap)
 			{
-				return new Box2DBox2DCollisionAlgorithm(btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
+				return new Box2DBox2DCollisionAlgorithm(UnsafeNativeMethods.btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
 					Native, __unnamed0.Native, body0Wrap.Native, body1Wrap.Native));
 			}
 		}
@@ -31,13 +31,13 @@ namespace BulletSharp
 		}
 
 		public Box2DBox2DCollisionAlgorithm(CollisionAlgorithmConstructionInfo ci)
-			: base(btBox2dBox2dCollisionAlgorithm_new(ci.Native))
+			: base(UnsafeNativeMethods.btBox2dBox2dCollisionAlgorithm_new(ci.Native))
 		{
 		}
 
 		public Box2DBox2DCollisionAlgorithm(PersistentManifold mf, CollisionAlgorithmConstructionInfo ci,
 			CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap)
-			: base(btBox2dBox2dCollisionAlgorithm_new2(mf.Native, ci.Native, body0Wrap.Native,
+			: base(UnsafeNativeMethods.btBox2dBox2dCollisionAlgorithm_new2(mf.Native, ci.Native, body0Wrap.Native,
 				body1Wrap.Native))
 		{
 		}

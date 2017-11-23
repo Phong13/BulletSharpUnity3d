@@ -1,5 +1,5 @@
-using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using BulletSharp.Math;
+
 
 namespace BulletSharp
 {
@@ -7,7 +7,7 @@ namespace BulletSharp
 	{
 		public MultimaterialTriangleMeshShape(StridingMeshInterface meshInterface,
 			bool useQuantizedAabbCompression, bool buildBvh = true)
-			: base(btMultimaterialTriangleMeshShape_new(meshInterface.Native, useQuantizedAabbCompression,
+			: base(UnsafeNativeMethods.btMultimaterialTriangleMeshShape_new(meshInterface.Native, useQuantizedAabbCompression,
 				buildBvh))
 		{
 			_meshInterface = meshInterface;
@@ -16,7 +16,7 @@ namespace BulletSharp
 		public MultimaterialTriangleMeshShape(StridingMeshInterface meshInterface,
 			bool useQuantizedAabbCompression, Vector3 bvhAabbMin, Vector3 bvhAabbMax,
 			bool buildBvh = true)
-			: base(btMultimaterialTriangleMeshShape_new2(meshInterface.Native, useQuantizedAabbCompression,
+			: base(UnsafeNativeMethods.btMultimaterialTriangleMeshShape_new2(meshInterface.Native, useQuantizedAabbCompression,
 				ref bvhAabbMin, ref bvhAabbMax, buildBvh))
 		{
 			_meshInterface = meshInterface;

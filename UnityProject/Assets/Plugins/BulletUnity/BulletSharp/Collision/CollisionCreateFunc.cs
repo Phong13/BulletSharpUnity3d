@@ -1,5 +1,4 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
 
 namespace BulletSharp
 {
@@ -16,7 +15,7 @@ namespace BulletSharp
 
 		public CollisionAlgorithmCreateFunc()
 		{
-			Native = btCollisionAlgorithmCreateFunc_new();
+			Native = UnsafeNativeMethods.btCollisionAlgorithmCreateFunc_new();
 		}
 
 		public virtual CollisionAlgorithm CreateCollisionAlgorithm(CollisionAlgorithmConstructionInfo __unnamed0,
@@ -27,8 +26,8 @@ namespace BulletSharp
 
 		public bool Swapped
 		{
-			get => btCollisionAlgorithmCreateFunc_getSwapped(Native);
-			set => btCollisionAlgorithmCreateFunc_setSwapped(Native, value);
+			get { return UnsafeNativeMethods.btCollisionAlgorithmCreateFunc_getSwapped(Native); }
+			set { UnsafeNativeMethods.btCollisionAlgorithmCreateFunc_setSwapped(Native, value); }
 		}
 
 		public void Dispose()
@@ -43,7 +42,7 @@ namespace BulletSharp
 			{
 				if (!_preventDelete)
 				{
-					btCollisionAlgorithmCreateFunc_delete(Native);
+                    UnsafeNativeMethods.btCollisionAlgorithmCreateFunc_delete(Native);
 				}
 				Native = IntPtr.Zero;
 			}

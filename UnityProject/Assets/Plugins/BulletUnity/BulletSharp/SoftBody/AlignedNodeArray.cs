@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp.SoftBody
 {
@@ -75,7 +75,7 @@ namespace BulletSharp.SoftBody
 
 		public int IndexOf(Node item)
 		{
-			return btAlignedObjectArray_btSoftBody_Node_index_of(_native, item.Native);
+			return UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_Node_index_of(_native, item.Native);
 		}
 
 		public void Insert(int index, Node item)
@@ -96,7 +96,7 @@ namespace BulletSharp.SoftBody
 				{
 					throw new ArgumentOutOfRangeException(nameof(index));
 				}
-				return new Node(btAlignedObjectArray_btSoftBody_Node_at(_native, index));
+				return new Node(UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_Node_at(_native, index));
 			}
 			set
 			{
@@ -106,12 +106,12 @@ namespace BulletSharp.SoftBody
 
 		public void Add(Node item)
 		{
-			btAlignedObjectArray_btSoftBody_Node_push_back(_native, item.Native);
+			UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_Node_push_back(_native, item.Native);
 		}
 
 		public void Clear()
 		{
-			btAlignedObjectArray_btSoftBody_Node_resizeNoInitialize(_native, 0);
+			UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_Node_resizeNoInitialize(_native, 0);
 		}
 
 		public bool Contains(Node item)
@@ -124,7 +124,7 @@ namespace BulletSharp.SoftBody
 			throw new NotImplementedException();
 		}
 
-		public int Count => btAlignedObjectArray_btSoftBody_Node_size(_native);
+		public int Count => UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_Node_size(_native);
 
 		public bool IsReadOnly => false;
 

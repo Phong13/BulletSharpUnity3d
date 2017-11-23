@@ -25,7 +25,7 @@ using System;
 using System.Security;
 using System.Runtime.InteropServices;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -101,7 +101,7 @@ namespace BulletSharp
 			_getDebugMode = new GetDebugModeUnmanagedDelegate(GetDebugModeUnmanaged);
 			_cb = new SimpleCallback(SimpleCallbackUnmanaged);
 
-			_native = btIDebugDrawWrapper_new(
+			_native = UnsafeNativeMethods.btIDebugDrawWrapper_new(
 				GCHandle.ToIntPtr(GCHandle.Alloc(this)),
 				Marshal.GetFunctionPointerForDelegate(_drawAabb),
 				Marshal.GetFunctionPointerForDelegate(_drawArc),
@@ -139,7 +139,7 @@ namespace BulletSharp
 
 			throw new NotImplementedException();
 			//GCHandle handle = GCHandle.Alloc(debugDrawer);
-			//IntPtr wrapper = btIDebugDrawWrapper_new(GCHandle.ToIntPtr(handle), IntPtr.Zero);
+			//IntPtr wrapper = UnsafeNativeMethods.btIDebugDrawWrapper_new(GCHandle.ToIntPtr(handle), IntPtr.Zero);
 			//ObjectTable.Add(debugDraw, wrapper);
 			//return wrapper;
 		}
@@ -154,7 +154,7 @@ namespace BulletSharp
 			//if (ObjectTable.Contains(debugDrawer)
 			//	return ObjectTable.GetObject<IDebugDraw^>(debugDrawer);
 
-			IntPtr handle = btIDebugDrawWrapper_getGCHandle(debugDrawer);
+			IntPtr handle = UnsafeNativeMethods.btIDebugDrawWrapper_getGCHandle(debugDrawer);
 			return GCHandle.FromIntPtr(handle).Target as IDebugDraw;
 		}
 		
@@ -186,7 +186,7 @@ namespace BulletSharp
 			_getDebugMode = new GetDebugModeUnmanagedDelegate(GetDebugModeUnmanaged);
 			_cb = new SimpleCallback(SimpleCallbackUnmanaged);
 
-			_native = btIDebugDrawWrapper_new(
+			_native = UnsafeNativeMethods.btIDebugDrawWrapper_new(
 				GCHandle.ToIntPtr(GCHandle.Alloc(this)),
 				Marshal.GetFunctionPointerForDelegate(_drawAabb),
 				Marshal.GetFunctionPointerForDelegate(_drawArc),

@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp.SoftBody
 {
@@ -22,14 +22,14 @@ namespace BulletSharp.SoftBody
 				_ownsSolver = true;
 			}
 
-			Native = btSoftRigidDynamicsWorld_new(dispatcher.Native, pairCache.Native,
+			Native = UnsafeNativeMethods.btSoftRigidDynamicsWorld_new(dispatcher.Native, pairCache.Native,
 				(constraintSolver != null) ? constraintSolver.Native : IntPtr.Zero,
 				collisionConfiguration.Native, _softBodySolver._native);
 
 			CollisionObjectArray = new AlignedCollisionObjectArray(btCollisionWorld_getCollisionObjectArray(Native), this);
 
 			_constraintSolver = constraintSolver;
-			WorldInfo = new SoftBodyWorldInfo(btSoftRigidDynamicsWorld_getWorldInfo(Native), true);
+			WorldInfo = new SoftBodyWorldInfo(UnsafeNativeMethods.btSoftRigidDynamicsWorld_getWorldInfo(Native), true);
 			WorldInfo.Dispatcher = dispatcher;
 			WorldInfo.Broadphase = pairCache;
 		}
@@ -59,8 +59,8 @@ namespace BulletSharp.SoftBody
 
 		public int DrawFlags
 		{
-			get => btSoftRigidDynamicsWorld_getDrawFlags(Native);
-			set => btSoftRigidDynamicsWorld_setDrawFlags(Native, value);
+			get => UnsafeNativeMethods.btSoftRigidDynamicsWorld_getDrawFlags(Native);
+			set => UnsafeNativeMethods.btSoftRigidDynamicsWorld_setDrawFlags(Native, value);
 		}
 
 		public AlignedSoftBodyArray SoftBodyArray
@@ -69,7 +69,7 @@ namespace BulletSharp.SoftBody
 			{
 				if (_softBodyArray == null)
 				{
-					_softBodyArray = new AlignedSoftBodyArray(btSoftRigidDynamicsWorld_getSoftBodyArray(Native));
+					_softBodyArray = new AlignedSoftBodyArray(UnsafeNativeMethods.btSoftRigidDynamicsWorld_getSoftBodyArray(Native));
 				}
 				return _softBodyArray;
 			}

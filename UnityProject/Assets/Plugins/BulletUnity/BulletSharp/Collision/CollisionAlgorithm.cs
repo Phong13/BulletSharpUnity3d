@@ -1,5 +1,4 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
 
 namespace BulletSharp
 {
@@ -12,32 +11,32 @@ namespace BulletSharp
 
 		public CollisionAlgorithmConstructionInfo()
 		{
-			Native = btCollisionAlgorithmConstructionInfo_new();
+			Native = UnsafeNativeMethods.btCollisionAlgorithmConstructionInfo_new();
 		}
 
 		public CollisionAlgorithmConstructionInfo(Dispatcher dispatcher, int temp)
 		{
-			Native = btCollisionAlgorithmConstructionInfo_new2((dispatcher != null) ? dispatcher.Native : IntPtr.Zero,
+			Native = UnsafeNativeMethods.btCollisionAlgorithmConstructionInfo_new2((dispatcher != null) ? dispatcher.Native : IntPtr.Zero,
 				temp);
 			_dispatcher1 = dispatcher;
 		}
 
 		public Dispatcher Dispatcher
 		{
-			get => _dispatcher1;
+			get { return _dispatcher1; }
 			set
 			{
-				btCollisionAlgorithmConstructionInfo_setDispatcher1(Native, (value != null) ? value.Native : IntPtr.Zero);
+                UnsafeNativeMethods.btCollisionAlgorithmConstructionInfo_setDispatcher1(Native, (value != null) ? value.Native : IntPtr.Zero);
 				_dispatcher1 = value;
 			}
 		}
 
 		public PersistentManifold Manifold
 		{
-			get => _manifold;
+			get { return _manifold; }
 			set
 			{
-				btCollisionAlgorithmConstructionInfo_setManifold(Native, (value != null) ? value.Native : IntPtr.Zero);
+                UnsafeNativeMethods.btCollisionAlgorithmConstructionInfo_setManifold(Native, (value != null) ? value.Native : IntPtr.Zero);
 				_manifold = value;
 			}
 		}
@@ -52,7 +51,7 @@ namespace BulletSharp
 		{
 			if (Native != IntPtr.Zero)
 			{
-				btCollisionAlgorithmConstructionInfo_delete(Native);
+                UnsafeNativeMethods.btCollisionAlgorithmConstructionInfo_delete(Native);
 				Native = IntPtr.Zero;
 			}
 		}
@@ -77,19 +76,19 @@ namespace BulletSharp
 		public float CalculateTimeOfImpact(CollisionObject body0, CollisionObject body1,
 			DispatcherInfo dispatchInfo, ManifoldResult resultOut)
 		{
-			return btCollisionAlgorithm_calculateTimeOfImpact(Native, body0.Native,
+			return UnsafeNativeMethods.btCollisionAlgorithm_calculateTimeOfImpact(Native, body0.Native,
 				body1.Native, dispatchInfo.Native, resultOut.Native);
 		}
 
 		public void GetAllContactManifolds(AlignedManifoldArray manifoldArray)
 		{
-			btCollisionAlgorithm_getAllContactManifolds(Native, manifoldArray._native);
+            UnsafeNativeMethods.btCollisionAlgorithm_getAllContactManifolds(Native, manifoldArray._native);
 		}
 
 		public void ProcessCollision(CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap,
 			DispatcherInfo dispatchInfo, ManifoldResult resultOut)
 		{
-			btCollisionAlgorithm_processCollision(Native, body0Wrap.Native, body1Wrap.Native,
+            UnsafeNativeMethods.btCollisionAlgorithm_processCollision(Native, body0Wrap.Native, body1Wrap.Native,
 				dispatchInfo.Native, resultOut.Native);
 		}
 
@@ -105,7 +104,7 @@ namespace BulletSharp
 			{
 				if (!_preventDelete)
 				{
-					btCollisionAlgorithm_delete(Native);
+                    UnsafeNativeMethods.btCollisionAlgorithm_delete(Native);
 				}
 				Native = IntPtr.Zero;
 			}

@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -34,7 +34,7 @@ namespace BulletSharp
 
 		public JointFeedback()
 		{
-			Native = btJointFeedback_new();
+			Native = UnsafeNativeMethods.btJointFeedback_new();
 		}
 
 		public Vector3 AppliedForceBodyA
@@ -42,10 +42,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btJointFeedback_getAppliedForceBodyA(Native, out value);
+				UnsafeNativeMethods.btJointFeedback_getAppliedForceBodyA(Native, out value);
 				return value;
 			}
-			set => btJointFeedback_setAppliedForceBodyA(Native, ref value);
+			set => UnsafeNativeMethods.btJointFeedback_setAppliedForceBodyA(Native, ref value);
 		}
 
 		public Vector3 AppliedForceBodyB
@@ -53,10 +53,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btJointFeedback_getAppliedForceBodyB(Native, out value);
+				UnsafeNativeMethods.btJointFeedback_getAppliedForceBodyB(Native, out value);
 				return value;
 			}
-			set => btJointFeedback_setAppliedForceBodyB(Native, ref value);
+			set => UnsafeNativeMethods.btJointFeedback_setAppliedForceBodyB(Native, ref value);
 		}
 
 		public Vector3 AppliedTorqueBodyA
@@ -64,10 +64,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btJointFeedback_getAppliedTorqueBodyA(Native, out value);
+				UnsafeNativeMethods.btJointFeedback_getAppliedTorqueBodyA(Native, out value);
 				return value;
 			}
-			set => btJointFeedback_setAppliedTorqueBodyA(Native, ref value);
+			set => UnsafeNativeMethods.btJointFeedback_setAppliedTorqueBodyA(Native, ref value);
 		}
 
 		public Vector3 AppliedTorqueBodyB
@@ -75,10 +75,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btJointFeedback_getAppliedTorqueBodyB(Native, out value);
+				UnsafeNativeMethods.btJointFeedback_getAppliedTorqueBodyB(Native, out value);
 				return value;
 			}
-			set => btJointFeedback_setAppliedTorqueBodyB(Native, ref value);
+			set => UnsafeNativeMethods.btJointFeedback_setAppliedTorqueBodyB(Native, ref value);
 		}
 
 		public void Dispose()
@@ -91,7 +91,7 @@ namespace BulletSharp
 		{
 			if (Native != IntPtr.Zero)
 			{
-				btJointFeedback_delete(Native);
+				UnsafeNativeMethods.btJointFeedback_delete(Native);
 				Native = IntPtr.Zero;
 			}
 		}
@@ -110,19 +110,19 @@ namespace BulletSharp
 
 			public ConstraintInfo1()
 			{
-				_native = btTypedConstraint_btConstraintInfo1_new();
+				_native = UnsafeNativeMethods.btTypedConstraint_btConstraintInfo1_new();
 			}
 
 			public int Nub
 			{
-				get => btTypedConstraint_btConstraintInfo1_getNub(_native);
-				set => btTypedConstraint_btConstraintInfo1_setNub(_native, value);
+				get => UnsafeNativeMethods.btTypedConstraint_btConstraintInfo1_getNub(_native);
+				set => UnsafeNativeMethods.btTypedConstraint_btConstraintInfo1_setNub(_native, value);
 			}
 
 			public int NumConstraintRows
 			{
-				get => btTypedConstraint_btConstraintInfo1_getNumConstraintRows(_native);
-				set => btTypedConstraint_btConstraintInfo1_setNumConstraintRows(_native, value);
+				get => UnsafeNativeMethods.btTypedConstraint_btConstraintInfo1_getNumConstraintRows(_native);
+				set => UnsafeNativeMethods.btTypedConstraint_btConstraintInfo1_setNumConstraintRows(_native, value);
 			}
 
 			public void Dispose()
@@ -135,7 +135,7 @@ namespace BulletSharp
 			{
 				if (_native != IntPtr.Zero)
 				{
-					btTypedConstraint_btConstraintInfo1_delete(_native);
+					UnsafeNativeMethods.btTypedConstraint_btConstraintInfo1_delete(_native);
 					_native = IntPtr.Zero;
 				}
 			}
@@ -152,91 +152,91 @@ namespace BulletSharp
 
 			public ConstraintInfo2()
 			{
-				_native = btTypedConstraint_btConstraintInfo2_new();
+				_native = UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_new();
 			}
 			/*
 			public float Cfm
 			{
-				get { return btTypedConstraint_btConstraintInfo2_getCfm(_native); }
-				set { btTypedConstraint_btConstraintInfo2_setCfm(_native, value._native); }
+				get { return UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_getCfm(_native); }
+				set { UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_setCfm(_native, value._native); }
 			}
 
 			public float ConstraintError
 			{
-				get { return btTypedConstraint_btConstraintInfo2_getConstraintError(_native); }
-				set { btTypedConstraint_btConstraintInfo2_setConstraintError(_native, value._native); }
+				get { return UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_getConstraintError(_native); }
+				set { UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_setConstraintError(_native, value._native); }
 			}
 			*/
 			public float Damping
 			{
-				get => btTypedConstraint_btConstraintInfo2_getDamping(_native);
-				set => btTypedConstraint_btConstraintInfo2_setDamping(_native, value);
+				get => UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_getDamping(_native);
+				set => UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_setDamping(_native, value);
 			}
 
 			public float Erp
 			{
-				get => btTypedConstraint_btConstraintInfo2_getErp(_native);
-				set => btTypedConstraint_btConstraintInfo2_setErp(_native, value);
+				get => UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_getErp(_native);
+				set => UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_setErp(_native, value);
 			}
 			/*
 			public int Findex
 			{
-				get { return btTypedConstraint_btConstraintInfo2_getFindex(_native); }
-				set { btTypedConstraint_btConstraintInfo2_setFindex(_native, value._native); }
+				get { return UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_getFindex(_native); }
+				set { UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_setFindex(_native, value._native); }
 			}
 			*/
 			public float Fps
 			{
-				get => btTypedConstraint_btConstraintInfo2_getFps(_native);
-				set => btTypedConstraint_btConstraintInfo2_setFps(_native, value);
+				get => UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_getFps(_native);
+				set => UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_setFps(_native, value);
 			}
 			/*
 			public float J1angularAxis
 			{
-				get { return btTypedConstraint_btConstraintInfo2_getJ1angularAxis(_native); }
-				set { btTypedConstraint_btConstraintInfo2_setJ1angularAxis(_native, value._native); }
+				get { return UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_getJ1angularAxis(_native); }
+				set { UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_setJ1angularAxis(_native, value._native); }
 			}
 
 			public float J1linearAxis
 			{
-				get { return btTypedConstraint_btConstraintInfo2_getJ1linearAxis(_native); }
-				set { btTypedConstraint_btConstraintInfo2_setJ1linearAxis(_native, value._native); }
+				get { return UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_getJ1linearAxis(_native); }
+				set { UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_setJ1linearAxis(_native, value._native); }
 			}
 
 			public float J2angularAxis
 			{
-				get { return btTypedConstraint_btConstraintInfo2_getJ2angularAxis(_native); }
-				set { btTypedConstraint_btConstraintInfo2_setJ2angularAxis(_native, value._native); }
+				get { return UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_getJ2angularAxis(_native); }
+				set { UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_setJ2angularAxis(_native, value._native); }
 			}
 
 			public float J2linearAxis
 			{
-				get { return btTypedConstraint_btConstraintInfo2_getJ2linearAxis(_native); }
-				set { btTypedConstraint_btConstraintInfo2_setJ2linearAxis(_native, value._native); }
+				get { return UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_getJ2linearAxis(_native); }
+				set { UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_setJ2linearAxis(_native, value._native); }
 			}
 
 			public float LowerLimit
 			{
-				get { return btTypedConstraint_btConstraintInfo2_getLowerLimit(_native); }
-				set { btTypedConstraint_btConstraintInfo2_setLowerLimit(_native, value._native); }
+				get { return UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_getLowerLimit(_native); }
+				set { UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_setLowerLimit(_native, value._native); }
 			}
 			*/
 			public int NumIterations
 			{
-				get => btTypedConstraint_btConstraintInfo2_getNumIterations(_native);
-				set => btTypedConstraint_btConstraintInfo2_setNumIterations(_native, value);
+				get => UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_getNumIterations(_native);
+				set => UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_setNumIterations(_native, value);
 			}
 
 			public int Rowskip
 			{
-				get => btTypedConstraint_btConstraintInfo2_getRowskip(_native);
-				set => btTypedConstraint_btConstraintInfo2_setRowskip(_native, value);
+				get => UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_getRowskip(_native);
+				set => UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_setRowskip(_native, value);
 			}
 			/*
 			public float UpperLimit
 			{
-				get { return btTypedConstraint_btConstraintInfo2_getUpperLimit(_native); }
-				set { btTypedConstraint_btConstraintInfo2_setUpperLimit(_native, value._native); }
+				get { return UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_getUpperLimit(_native); }
+				set { UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_setUpperLimit(_native, value._native); }
 			}
 			*/
 			public void Dispose()
@@ -249,7 +249,7 @@ namespace BulletSharp
 			{
 				if (_native != IntPtr.Zero)
 				{
-					btTypedConstraint_btConstraintInfo2_delete(_native);
+					UnsafeNativeMethods.btTypedConstraint_btConstraintInfo2_delete(_native);
 					_native = IntPtr.Zero;
 				}
 			}
@@ -275,17 +275,17 @@ namespace BulletSharp
 
 		public void BuildJacobian()
 		{
-			btTypedConstraint_buildJacobian(Native);
+			UnsafeNativeMethods.btTypedConstraint_buildJacobian(Native);
 		}
 
 		public int CalculateSerializeBufferSize()
 		{
-			return btTypedConstraint_calculateSerializeBufferSize(Native);
+			return UnsafeNativeMethods.btTypedConstraint_calculateSerializeBufferSize(Native);
 		}
 
 		public void EnableFeedback(bool needsFeedback)
 		{
-			btTypedConstraint_enableFeedback(Native, needsFeedback);
+			UnsafeNativeMethods.btTypedConstraint_enableFeedback(Native, needsFeedback);
 		}
 
 		public static RigidBody GetFixedBody()
@@ -303,83 +303,83 @@ namespace BulletSharp
 
 		public void GetInfo1(ConstraintInfo1 info)
 		{
-			btTypedConstraint_getInfo1(Native, info._native);
+			UnsafeNativeMethods.btTypedConstraint_getInfo1(Native, info._native);
 		}
 
 		public void GetInfo2(ConstraintInfo2 info)
 		{
-			btTypedConstraint_getInfo2(Native, info._native);
+			UnsafeNativeMethods.btTypedConstraint_getInfo2(Native, info._native);
 		}
 
 		public float GetParam(ConstraintParam num)
 		{
-			return btTypedConstraint_getParam(Native, num);
+			return UnsafeNativeMethods.btTypedConstraint_getParam(Native, num);
 		}
 
 		public float GetParam(ConstraintParam num, int axis)
 		{
-			return btTypedConstraint_getParam2(Native, num, axis);
+			return UnsafeNativeMethods.btTypedConstraint_getParam2(Native, num, axis);
 		}
 
 		public float InternalGetAppliedImpulse()
 		{
-			return btTypedConstraint_internalGetAppliedImpulse(Native);
+			return UnsafeNativeMethods.btTypedConstraint_internalGetAppliedImpulse(Native);
 		}
 
 		public void InternalSetAppliedImpulse(float appliedImpulse)
 		{
-			btTypedConstraint_internalSetAppliedImpulse(Native, appliedImpulse);
+			UnsafeNativeMethods.btTypedConstraint_internalSetAppliedImpulse(Native, appliedImpulse);
 		}
 
 		public string Serialize(IntPtr dataBuffer, Serializer serializer)
 		{
-			return Marshal.PtrToStringAnsi(btTypedConstraint_serialize(Native, dataBuffer, serializer._native));
+			return Marshal.PtrToStringAnsi(UnsafeNativeMethods.btTypedConstraint_serialize(Native, dataBuffer, serializer._native));
 		}
 
 		public void SetParam(ConstraintParam num, float value)
 		{
-			btTypedConstraint_setParam(Native, num, value);
+			UnsafeNativeMethods.btTypedConstraint_setParam(Native, num, value);
 		}
 
 		public void SetParam(ConstraintParam num, float value, int axis)
 		{
-			btTypedConstraint_setParam2(Native, num, value, axis);
+			UnsafeNativeMethods.btTypedConstraint_setParam2(Native, num, value, axis);
 		}
 		/*
 		public void SetupSolverConstraint(btAlignedObjectArray<btSolverConstraint> ca,
 			int solverBodyA, int solverBodyB, float timeStep)
 		{
-			btTypedConstraint_setupSolverConstraint(_native, ca._native, solverBodyA,
+			UnsafeNativeMethods.btTypedConstraint_setupSolverConstraint(_native, ca._native, solverBodyA,
 				solverBodyB, timeStep);
 		}
 
 		public void SolveConstraintObsolete(SolverBody __unnamed0, SolverBody __unnamed1,
 			float __unnamed2)
 		{
-			btTypedConstraint_solveConstraintObsolete(_native, __unnamed0._native,
+			UnsafeNativeMethods.btTypedConstraint_solveConstraintObsolete(_native, __unnamed0._native,
 				__unnamed1._native, __unnamed2);
 		}
 		*/
-		public float AppliedImpulse => btTypedConstraint_getAppliedImpulse(Native);
+		public float AppliedImpulse => UnsafeNativeMethods.btTypedConstraint_getAppliedImpulse(Native);
 
 		public float BreakingImpulseThreshold
 		{
-			get => btTypedConstraint_getBreakingImpulseThreshold(Native);
-			set => btTypedConstraint_setBreakingImpulseThreshold(Native, value);
+			get => UnsafeNativeMethods.btTypedConstraint_getBreakingImpulseThreshold(Native);
+			set => UnsafeNativeMethods.btTypedConstraint_setBreakingImpulseThreshold(Native, value);
 		}
 
-		public TypedConstraintType ConstraintType => btTypedConstraint_getConstraintType(Native);
+		public TypedConstraintType ConstraintType => UnsafeNativeMethods.btTypedConstraint_getConstraintType(Native);
 
 		public float DebugDrawSize
 		{
-			get => btTypedConstraint_getDbgDrawSize(Native);
-			set => btTypedConstraint_setDbgDrawSize(Native, value);
+			get => UnsafeNativeMethods.btTypedConstraint_getDbgDrawSize(Native);
+			set => UnsafeNativeMethods.btTypedConstraint_setDbgDrawSize(Native, value);
 		}
 
 		public bool IsEnabled
 		{
-			get => btTypedConstraint_isEnabled(Native);
-			set => btTypedConstraint_setEnabled(Native, value);
+			get => UnsafeNativeMethods.btTypedConstraint_isEnabled(Native);
+			set => UnsafeNativeMethods.btTypedConstraint_setEnabled(Native, value);
 		}
 
 		public JointFeedback JointFeedback
@@ -387,37 +387,37 @@ namespace BulletSharp
 			get => _jointFeedback;
 			set
 			{
-				btTypedConstraint_setJointFeedback(Native, (value == null) ? value.Native : IntPtr.Zero);
+				UnsafeNativeMethods.btTypedConstraint_setJointFeedback(Native, (value == null) ? value.Native : IntPtr.Zero);
 				_jointFeedback = value;
 			}
 		}
 
-		public bool NeedsFeedback => btTypedConstraint_needsFeedback(Native);
+		public bool NeedsFeedback => UnsafeNativeMethods.btTypedConstraint_needsFeedback(Native);
 
 		public int OverrideNumSolverIterations
 		{
-			get => btTypedConstraint_getOverrideNumSolverIterations(Native);
-			set => btTypedConstraint_setOverrideNumSolverIterations(Native, value);
+			get => UnsafeNativeMethods.btTypedConstraint_getOverrideNumSolverIterations(Native);
+			set => UnsafeNativeMethods.btTypedConstraint_setOverrideNumSolverIterations(Native, value);
 		}
 
 		public RigidBody RigidBodyA => _rigidBodyA;
 
 		public RigidBody RigidBodyB => _rigidBodyB;
 
-		public int Uid => btTypedConstraint_getUid(Native);
+		public int Uid => UnsafeNativeMethods.btTypedConstraint_getUid(Native);
 
 		public int UserConstraintId
 		{
-			get => btTypedConstraint_getUserConstraintId(Native);
-			set => btTypedConstraint_setUserConstraintId(Native, value);
+			get => UnsafeNativeMethods.btTypedConstraint_getUserConstraintId(Native);
+			set => UnsafeNativeMethods.btTypedConstraint_setUserConstraintId(Native, value);
 		}
 
 		public Object Userobject { get; set; }
 
 		public int UserConstraintType
 		{
-			get => btTypedConstraint_getUserConstraintType(Native);
-			set => btTypedConstraint_setUserConstraintType(Native, value);
+			get => UnsafeNativeMethods.btTypedConstraint_getUserConstraintType(Native);
+			set => UnsafeNativeMethods.btTypedConstraint_setUserConstraintType(Native, value);
 		}
 
 		public void Dispose()
@@ -431,7 +431,7 @@ namespace BulletSharp
 		{
 			if (Native != IntPtr.Zero)
 			{
-				btTypedConstraint_delete(Native);
+				UnsafeNativeMethods.btTypedConstraint_delete(Native);
 				Native = IntPtr.Zero;
 			}
 		}
@@ -455,44 +455,44 @@ namespace BulletSharp
 
 		public AngularLimit()
 		{
-			Native = btAngularLimit_new();
+			Native = UnsafeNativeMethods.btAngularLimit_new();
 		}
 
 		public void Fit(ref float angle)
 		{
-			btAngularLimit_fit(Native, ref angle);
+			UnsafeNativeMethods.btAngularLimit_fit(Native, ref angle);
 		}
 
 		public void Set(float low, float high, float softness = 0.9f, float biasFactor = 0.3f,
 			float relaxationFactor = 1.0f)
 		{
-			btAngularLimit_set(Native, low, high, softness, biasFactor, relaxationFactor);
+			UnsafeNativeMethods.btAngularLimit_set(Native, low, high, softness, biasFactor, relaxationFactor);
 		}
 
 		public void Test(float angle)
 		{
-			btAngularLimit_test(Native, angle);
+			UnsafeNativeMethods.btAngularLimit_test(Native, angle);
 		}
 
-		public float BiasFactor => btAngularLimit_getBiasFactor(Native);
+		public float BiasFactor => UnsafeNativeMethods.btAngularLimit_getBiasFactor(Native);
 
-		public float Correction => btAngularLimit_getCorrection(Native);
+		public float Correction => UnsafeNativeMethods.btAngularLimit_getCorrection(Native);
 
-		public float Error => btAngularLimit_getError(Native);
+		public float Error => UnsafeNativeMethods.btAngularLimit_getError(Native);
 
-		public float HalfRange => btAngularLimit_getHalfRange(Native);
+		public float HalfRange => UnsafeNativeMethods.btAngularLimit_getHalfRange(Native);
 
-		public float High => btAngularLimit_getHigh(Native);
+		public float High => UnsafeNativeMethods.btAngularLimit_getHigh(Native);
 
-		public bool IsLimit => btAngularLimit_isLimit(Native);
+		public bool IsLimit => UnsafeNativeMethods.btAngularLimit_isLimit(Native);
 
-		public float Low => btAngularLimit_getLow(Native);
+		public float Low => UnsafeNativeMethods.btAngularLimit_getLow(Native);
 
-		public float RelaxationFactor => btAngularLimit_getRelaxationFactor(Native);
+		public float RelaxationFactor => UnsafeNativeMethods.btAngularLimit_getRelaxationFactor(Native);
 
-		public float Sign => btAngularLimit_getSign(Native);
+		public float Sign => UnsafeNativeMethods.btAngularLimit_getSign(Native);
 
-		public float Softness => btAngularLimit_getSoftness(Native);
+		public float Softness => UnsafeNativeMethods.btAngularLimit_getSoftness(Native);
 
 		public void Dispose()
 		{
@@ -506,7 +506,7 @@ namespace BulletSharp
 			{
 				if (!_preventDelete)
 				{
-					btAngularLimit_delete(Native);
+					UnsafeNativeMethods.btAngularLimit_delete(Native);
 				}
 				Native = IntPtr.Zero;
 			}

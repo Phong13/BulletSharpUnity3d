@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp
 {
@@ -11,7 +11,7 @@ namespace BulletSharp
 		}
 
 		public DantzigSolver()
-			: base(btDantzigSolver_new())
+			: base(UnsafeNativeMethods.btDantzigSolver_new())
 		{
 		}
 	}

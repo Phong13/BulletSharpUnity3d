@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp
 {
@@ -14,6 +14,6 @@ namespace BulletSharp
 
 	public static class CpuFeatureUtility
 	{
-		public static CpuFeatures CpuFeatures => btCpuFeatureUtility_getCpuFeatures();
+		public static CpuFeatures CpuFeatures => UnsafeNativeMethods.btCpuFeatureUtility_getCpuFeatures();
 	}
 }

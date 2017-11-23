@@ -1,12 +1,12 @@
 ﻿using System;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
 	public class ConstraintSolverPoolMultiThreaded : ConstraintSolver
 	{
 		public ConstraintSolverPoolMultiThreaded(int numSolvers)
-			: base(btConstraintSolverPoolMt_new(numSolvers), false)
+			: base(UnsafeNativeMethods.btConstraintSolverPoolMt_new(numSolvers), false)
 		{
 		}
 	}
@@ -15,7 +15,7 @@ namespace BulletSharp
 	{
 		public DiscreteDynamicsWorldMultiThreaded(Dispatcher dispatcher, BroadphaseInterface pairCache,
 			ConstraintSolverPoolMultiThreaded constraintSolver, CollisionConfiguration collisionConfiguration)
-			: base(btDiscreteDynamicsWorldMt_new(dispatcher != null ? dispatcher.Native : IntPtr.Zero,
+			: base(UnsafeNativeMethods.btDiscreteDynamicsWorldMt_new(dispatcher != null ? dispatcher.Native : IntPtr.Zero,
 				pairCache != null ? pairCache.Native : IntPtr.Zero, constraintSolver != null ? constraintSolver.Native : IntPtr.Zero,
 				collisionConfiguration != null ? collisionConfiguration.Native : IntPtr.Zero), dispatcher, pairCache)
 		{

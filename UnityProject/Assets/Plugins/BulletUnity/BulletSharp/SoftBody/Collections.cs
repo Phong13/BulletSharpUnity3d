@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp.SoftBody
 {
@@ -62,11 +62,11 @@ namespace BulletSharp.SoftBody
 				{
 					throw new ArgumentOutOfRangeException(nameof(index));
 				}
-				return new Node(btSoftBodyNodePtrArray_at(_native, index));
+				return new Node(UnsafeNativeMethods.btSoftBodyNodePtrArray_at(_native, index));
 			}
 			set
 			{
-				btSoftBodyNodePtrArray_set(_native, value.Native, index);
+				UnsafeNativeMethods.btSoftBodyNodePtrArray_set(_native, value.Native, index);
 			}
 		}
 

@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -21,30 +21,30 @@ namespace BulletSharp
 
 		public void GetAabbNonVirtual(Matrix t, out Vector3 aabbMin, out Vector3 aabbMax)
 		{
-			btConvexShape_getAabbNonVirtual(Native, ref t, out aabbMin, out aabbMax);
+			UnsafeNativeMethods.btConvexShape_getAabbNonVirtual(Native, ref t, out aabbMin, out aabbMax);
 		}
 
 		public void GetAabbSlow(Matrix t, out Vector3 aabbMin, out Vector3 aabbMax)
 		{
-			btConvexShape_getAabbSlow(Native, ref t, out aabbMin, out aabbMax);
+			UnsafeNativeMethods.btConvexShape_getAabbSlow(Native, ref t, out aabbMin, out aabbMax);
 		}
 
 		public void GetPreferredPenetrationDirection(int index, out Vector3 penetrationVector)
 		{
-			btConvexShape_getPreferredPenetrationDirection(Native, index, out penetrationVector);
+			UnsafeNativeMethods.btConvexShape_getPreferredPenetrationDirection(Native, index, out penetrationVector);
 		}
 
 		public Vector3 LocalGetSupportingVertex(Vector3 vec)
 		{
 			Vector3 value;
-			btConvexShape_localGetSupportingVertex(Native, ref vec, out value);
+			UnsafeNativeMethods.btConvexShape_localGetSupportingVertex(Native, ref vec, out value);
 			return value;
 		}
 
 		public Vector3 LocalGetSupportingVertexWithoutMargin(Vector3 vec)
 		{
 			Vector3 value;
-			btConvexShape_localGetSupportingVertexWithoutMargin(Native, ref vec,
+			UnsafeNativeMethods.btConvexShape_localGetSupportingVertexWithoutMargin(Native, ref vec,
 				out value);
 			return value;
 		}
@@ -52,14 +52,14 @@ namespace BulletSharp
 		public Vector3 LocalGetSupportVertexNonVirtual(Vector3 vec)
 		{
 			Vector3 value;
-			btConvexShape_localGetSupportVertexNonVirtual(Native, ref vec, out value);
+			UnsafeNativeMethods.btConvexShape_localGetSupportVertexNonVirtual(Native, ref vec, out value);
 			return value;
 		}
 
 		public Vector3 LocalGetSupportVertexWithoutMarginNonVirtual(Vector3 vec)
 		{
 			Vector3 value;
-			btConvexShape_localGetSupportVertexWithoutMarginNonVirtual(Native, ref vec,
+			UnsafeNativeMethods.btConvexShape_localGetSupportVertexWithoutMarginNonVirtual(Native, ref vec,
 				out value);
 			return value;
 		}
@@ -67,19 +67,19 @@ namespace BulletSharp
 		public void ProjectRef(ref Matrix trans, ref Vector3 dir, out float minProj, out float maxProj,
 			out Vector3 witnesPtMin, out Vector3 witnesPtMax)
 		{
-			btConvexShape_project(Native, ref trans, ref dir, out minProj, out maxProj,
+			UnsafeNativeMethods.btConvexShape_project(Native, ref trans, ref dir, out minProj, out maxProj,
 				out witnesPtMin, out witnesPtMax);
 		}
 
 		public void Project(Matrix trans, Vector3 dir, out float minProj, out float maxProj,
 			out Vector3 witnesPtMin, out Vector3 witnesPtMax)
 		{
-			btConvexShape_project(Native, ref trans, ref dir, out minProj, out maxProj,
+			UnsafeNativeMethods.btConvexShape_project(Native, ref trans, ref dir, out minProj, out maxProj,
 				out witnesPtMin, out witnesPtMax);
 		}
 
-		public float MarginNonVirtual => btConvexShape_getMarginNonVirtual(Native);
+		public float MarginNonVirtual => UnsafeNativeMethods.btConvexShape_getMarginNonVirtual(Native);
 
-		public int NumPreferredPenetrationDirections => btConvexShape_getNumPreferredPenetrationDirections(Native);
+		public int NumPreferredPenetrationDirections => UnsafeNativeMethods.btConvexShape_getNumPreferredPenetrationDirections(Native);
 	}
 }

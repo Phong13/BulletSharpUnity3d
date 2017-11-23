@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp
 {
@@ -31,7 +31,7 @@ namespace BulletSharp
 			{
 				if (Native != IntPtr.Zero)
 				{
-					btSimulationIslandManager_IslandCallback_delete(Native);
+					UnsafeNativeMethods.btSimulationIslandManager_IslandCallback_delete(Native);
 					Native = IntPtr.Zero;
 				}
 			}
@@ -53,49 +53,49 @@ namespace BulletSharp
 
 		public SimulationIslandManager()
 		{
-			Native = btSimulationIslandManager_new();
+			Native = UnsafeNativeMethods.btSimulationIslandManager_new();
 		}
 
 		public void BuildAndProcessIslands(Dispatcher dispatcher, CollisionWorld collisionWorld,
 			IslandCallback callback)
 		{
-			btSimulationIslandManager_buildAndProcessIslands(Native, dispatcher.Native,
+			UnsafeNativeMethods.btSimulationIslandManager_buildAndProcessIslands(Native, dispatcher.Native,
 				collisionWorld.Native, callback.Native);
 		}
 
 		public void BuildIslands(Dispatcher dispatcher, CollisionWorld colWorld)
 		{
-			btSimulationIslandManager_buildIslands(Native, dispatcher.Native, colWorld.Native);
+			UnsafeNativeMethods.btSimulationIslandManager_buildIslands(Native, dispatcher.Native, colWorld.Native);
 		}
 
 		public void FindUnions(Dispatcher dispatcher, CollisionWorld colWorld)
 		{
-			btSimulationIslandManager_findUnions(Native, dispatcher.Native, colWorld.Native);
+			UnsafeNativeMethods.btSimulationIslandManager_findUnions(Native, dispatcher.Native, colWorld.Native);
 		}
 
 		public void InitUnionFind(int n)
 		{
-			btSimulationIslandManager_initUnionFind(Native, n);
+			UnsafeNativeMethods.btSimulationIslandManager_initUnionFind(Native, n);
 		}
 
 		public void StoreIslandActivationState(CollisionWorld world)
 		{
-			btSimulationIslandManager_storeIslandActivationState(Native, world.Native);
+			UnsafeNativeMethods.btSimulationIslandManager_storeIslandActivationState(Native, world.Native);
 		}
 
 		public void UpdateActivationState(CollisionWorld colWorld, Dispatcher dispatcher)
 		{
-			btSimulationIslandManager_updateActivationState(Native, colWorld.Native,
+			UnsafeNativeMethods.btSimulationIslandManager_updateActivationState(Native, colWorld.Native,
 				dispatcher.Native);
 		}
 
 		public bool SplitIslands
 		{
-			get => btSimulationIslandManager_getSplitIslands(Native);
-			set => btSimulationIslandManager_setSplitIslands(Native, value);
+			get => UnsafeNativeMethods.btSimulationIslandManager_getSplitIslands(Native);
+			set => UnsafeNativeMethods.btSimulationIslandManager_setSplitIslands(Native, value);
 		}
 
-		public UnionFind UnionFind => new UnionFind(btSimulationIslandManager_getUnionFind(Native));
+		public UnionFind UnionFind => new UnionFind(UnsafeNativeMethods.btSimulationIslandManager_getUnionFind(Native));
 
 		public void Dispose()
 		{
@@ -109,7 +109,7 @@ namespace BulletSharp
 			{
 				if (!_preventDelete)
 				{
-					btSimulationIslandManager_delete(Native);
+					UnsafeNativeMethods.btSimulationIslandManager_delete(Native);
 				}
 				Native = IntPtr.Zero;
 			}

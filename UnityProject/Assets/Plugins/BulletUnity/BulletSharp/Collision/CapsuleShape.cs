@@ -1,5 +1,4 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
 
 namespace BulletSharp
 {
@@ -11,21 +10,25 @@ namespace BulletSharp
 		}
 
 		public CapsuleShape(float radius, float height)
-			: base(btCapsuleShape_new(radius, height))
+			: base(UnsafeNativeMethods.btCapsuleShape_new(radius, height))
 		{
 		}
 
-		public float HalfHeight => btCapsuleShape_getHalfHeight(Native);
+		public float HalfHeight
+        {
+            get { return UnsafeNativeMethods.btCapsuleShape_getHalfHeight(Native); }
+        }
 
-		public float Radius => btCapsuleShape_getRadius(Native);
+		public float Radius { get { return UnsafeNativeMethods.btCapsuleShape_getRadius(Native); } }
 
-		public int UpAxis => btCapsuleShape_getUpAxis(Native);
+		public int UpAxis { get { return UnsafeNativeMethods.btCapsuleShape_getUpAxis(Native); } }
+                
 	}
 
 	public class CapsuleShapeX : CapsuleShape
 	{
 		public CapsuleShapeX(float radius, float height)
-			: base(btCapsuleShapeX_new(radius, height))
+			: base(UnsafeNativeMethods.btCapsuleShapeX_new(radius, height))
 		{
 		}
 	}
@@ -33,7 +36,7 @@ namespace BulletSharp
 	public class CapsuleShapeZ : CapsuleShape
 	{
 		public CapsuleShapeZ(float radius, float height)
-			: base(btCapsuleShapeZ_new(radius, height))
+			: base(UnsafeNativeMethods.btCapsuleShapeZ_new(radius, height))
 		{
 		}
 	}

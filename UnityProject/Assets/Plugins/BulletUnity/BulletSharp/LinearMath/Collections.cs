@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using BulletSharp.Math;
 using System.Diagnostics;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -192,16 +192,16 @@ namespace BulletSharp
 
 		public void AddChildShape(ref Matrix localTransform, CollisionShape shape)
 		{
-			IntPtr childListOld = (_count != 0) ? btCompoundShape_getChildList(_native) : IntPtr.Zero;
-			btCompoundShape_addChildShape(_native, ref localTransform, shape.Native);
-			IntPtr childList = btCompoundShape_getChildList(_native);
+			IntPtr childListOld = (_count != 0) ? UnsafeNativeMethods.btCompoundShape_getChildList(_native) : IntPtr.Zero;
+			UnsafeNativeMethods.btCompoundShape_addChildShape(_native, ref localTransform, shape.Native);
+			IntPtr childList = UnsafeNativeMethods.btCompoundShape_getChildList(_native);
 
 			// Adjust the native pointer of existing children if the array was reallocated.
 			if (childListOld != childList)
 			{
 				for (int i = 0; i < _count; i++)
 				{
-					_backingArray[i].Native = btCompoundShapeChild_array_at(childList, i);
+					_backingArray[i].Native = UnsafeNativeMethods.btCompoundShapeChild_array_at(childList, i);
 				}
 			}
 
@@ -209,7 +209,7 @@ namespace BulletSharp
 			int childIndex = _count;
 			_count++;
 			Array.Resize(ref _backingArray, _count);
-			_backingArray[childIndex] = new CompoundShapeChild(btCompoundShapeChild_array_at(childList, childIndex), shape);
+			_backingArray[childIndex] = new CompoundShapeChild(UnsafeNativeMethods.btCompoundShapeChild_array_at(childList, childIndex), shape);
 		}
 
 		public int IndexOf(CompoundShapeChild item)
@@ -267,7 +267,7 @@ namespace BulletSharp
 
 		internal void RemoveChildShapeByIndex(int childShapeIndex)
 		{
-			btCompoundShape_removeChildShapeByIndex(_native, childShapeIndex);
+			UnsafeNativeMethods.btCompoundShape_removeChildShapeByIndex(_native, childShapeIndex);
 			_count--;
 
 			// Swap the last item with the item to be removed like Bullet does.
@@ -378,7 +378,7 @@ namespace BulletSharp
 					throw new ArgumentOutOfRangeException(nameof(index));
 				}
 				Vector3 value;
-				btVector3_array_at(_native, index, out value);
+				UnsafeNativeMethods.btVector3_array_at(_native, index, out value);
 				return value;
 			}
 			set
@@ -387,7 +387,7 @@ namespace BulletSharp
 				{
 					throw new ArgumentOutOfRangeException(nameof(index));
 				}
-				btVector3_array_set(_native, index, ref value);
+				UnsafeNativeMethods.btVector3_array_set(_native, index, ref value);
 			}
 		}
 

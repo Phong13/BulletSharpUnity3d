@@ -1,6 +1,6 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -8,7 +8,7 @@ namespace BulletSharp
 	{
 		public GearConstraint(RigidBody rigidBodyA, RigidBody rigidBodyB, Vector3 axisInA,
 			Vector3 axisInB, float ratio = 1.0f)
-			: base(btGearConstraint_new(rigidBodyA.Native, rigidBodyB.Native,
+			: base(UnsafeNativeMethods.btGearConstraint_new(rigidBodyA.Native, rigidBodyB.Native,
 				ref axisInA, ref axisInB, ratio))
 		{
 			_rigidBodyA = rigidBodyA;
@@ -20,10 +20,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btGearConstraint_getAxisA(Native, out value);
+				UnsafeNativeMethods.btGearConstraint_getAxisA(Native, out value);
 				return value;
 			}
-			set => btGearConstraint_setAxisA(Native, ref value);
+			set => UnsafeNativeMethods.btGearConstraint_setAxisA(Native, ref value);
 		}
 
 		public Vector3 AxisB
@@ -31,16 +31,16 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btGearConstraint_getAxisB(Native, out value);
+				UnsafeNativeMethods.btGearConstraint_getAxisB(Native, out value);
 				return value;
 			}
-			set => btGearConstraint_setAxisB(Native, ref value);
+			set => UnsafeNativeMethods.btGearConstraint_setAxisB(Native, ref value);
 		}
 
 		public float Ratio
 		{
-			get => btGearConstraint_getRatio(Native);
-			set => btGearConstraint_setRatio(Native, value);
+			get => UnsafeNativeMethods.btGearConstraint_getRatio(Native);
+			set => UnsafeNativeMethods.btGearConstraint_setRatio(Native, value);
 		}
 	}
 

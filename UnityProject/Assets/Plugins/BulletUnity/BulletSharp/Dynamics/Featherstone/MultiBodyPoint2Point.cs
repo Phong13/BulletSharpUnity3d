@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -8,14 +8,14 @@ namespace BulletSharp
 	{
 		public MultiBodyPoint2Point(MultiBody body, int link, RigidBody bodyB, Vector3 pivotInA,
 			Vector3 pivotInB)
-			: base(btMultiBodyPoint2Point_new(body.Native, link, bodyB != null ? bodyB.Native : IntPtr.Zero,
+			: base(UnsafeNativeMethods.btMultiBodyPoint2Point_new(body.Native, link, bodyB != null ? bodyB.Native : IntPtr.Zero,
 				ref pivotInA, ref pivotInB), body, null)
 		{
 		}
 
 		public MultiBodyPoint2Point(MultiBody bodyA, int linkA, MultiBody bodyB,
 			int linkB, Vector3 pivotInA, Vector3 pivotInB)
-			: base(btMultiBodyPoint2Point_new2(bodyA.Native, linkA, bodyB.Native,
+			: base(UnsafeNativeMethods.btMultiBodyPoint2Point_new2(bodyA.Native, linkA, bodyB.Native,
 				linkB, ref pivotInA, ref pivotInB), bodyA, bodyB)
 		{
 		}
@@ -25,10 +25,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btMultiBodyPoint2Point_getPivotInB(Native, out value);
+				UnsafeNativeMethods.btMultiBodyPoint2Point_getPivotInB(Native, out value);
 				return value;
 			}
-			set => btMultiBodyPoint2Point_setPivotInB(Native, ref value);
+			set => UnsafeNativeMethods.btMultiBodyPoint2Point_setPivotInB(Native, ref value);
 		}
 	}
 }

@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp
 {
@@ -13,16 +13,16 @@ namespace BulletSharp
 
 		public ShapeHull(ConvexShape shape)
 		{
-			Native = btShapeHull_new(shape.Native);
+			Native = UnsafeNativeMethods.btShapeHull_new(shape.Native);
 			_shape = shape;
 		}
 
 		public bool BuildHull(float margin)
 		{
-			return btShapeHull_buildHull(Native, margin);
+			return UnsafeNativeMethods.btShapeHull_buildHull(Native, margin);
 		}
 
-		public IntPtr IndexPointer => btShapeHull_getIndexPointer(Native);
+		public IntPtr IndexPointer => UnsafeNativeMethods.btShapeHull_getIndexPointer(Native);
 
 		public UIntArray Indices
 		{
@@ -36,13 +36,13 @@ namespace BulletSharp
 			}
 		}
 
-		public int NumIndices => btShapeHull_numIndices(Native);
+		public int NumIndices => UnsafeNativeMethods.btShapeHull_numIndices(Native);
 
-		public int NumTriangles => btShapeHull_numTriangles(Native);
+		public int NumTriangles => UnsafeNativeMethods.btShapeHull_numTriangles(Native);
 
-		public int NumVertices => btShapeHull_numVertices(Native);
+		public int NumVertices => UnsafeNativeMethods.btShapeHull_numVertices(Native);
 
-		public IntPtr VertexPointer => btShapeHull_getVertexPointer(Native);
+		public IntPtr VertexPointer => UnsafeNativeMethods.btShapeHull_getVertexPointer(Native);
 
 		public Vector3Array Vertices
 		{
@@ -66,7 +66,7 @@ namespace BulletSharp
 		{
 			if (Native != IntPtr.Zero)
 			{
-				btShapeHull_delete(Native);
+				UnsafeNativeMethods.btShapeHull_delete(Native);
 				Native = IntPtr.Zero;
 			}
 		}

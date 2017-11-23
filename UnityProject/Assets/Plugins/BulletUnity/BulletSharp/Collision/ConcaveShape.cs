@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -24,7 +24,7 @@ namespace BulletSharp
 		public void ProcessAllTriangles(TriangleCallback callback, Vector3 aabbMin,
 			Vector3 aabbMax)
 		{
-			btConcaveShape_processAllTriangles(Native, callback.Native, ref aabbMin,
+			UnsafeNativeMethods.btConcaveShape_processAllTriangles(Native, callback.Native, ref aabbMin,
 				ref aabbMax);
 		}
 	}

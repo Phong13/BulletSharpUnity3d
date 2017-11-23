@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -93,22 +93,22 @@ namespace BulletSharp
 					{
 						return;
 					}
-					btDynamicsWorld_addRigidBody(_collisionWorld.Native, item.Native);
+					UnsafeNativeMethods.btDynamicsWorld_addRigidBody(_collisionWorld.Native, item.Native);
 				}
 				else if (item is SoftBody.SoftBody)
 				{
-					btSoftRigidDynamicsWorld_addSoftBody(_collisionWorld.Native, item.Native);
+					UnsafeNativeMethods.btSoftRigidDynamicsWorld_addSoftBody(_collisionWorld.Native, item.Native);
 				}
 				else
 				{
-					btCollisionWorld_addCollisionObject(_collisionWorld.Native, item.Native);
+					UnsafeNativeMethods.btCollisionWorld_addCollisionObject(_collisionWorld.Native, item.Native);
 				}
 				SetBodyBroadphaseHandle(item, _collisionWorld.Broadphase);
 				_backingList.Add(item);
 			}
 			else
 			{
-				btAlignedObjectArray_btCollisionObjectPtr_push_back(_native, item.Native);
+				UnsafeNativeMethods.btAlignedObjectArray_btCollisionObjectPtr_push_back(_native, item.Native);
 			}
 		}
 
@@ -120,15 +120,15 @@ namespace BulletSharp
 				{
 					return;
 				}
-				btDynamicsWorld_addRigidBody2(_collisionWorld.Native, item.Native, group, mask);
+				UnsafeNativeMethods.btDynamicsWorld_addRigidBody2(_collisionWorld.Native, item.Native, group, mask);
 			}
 			else if (item is SoftBody.SoftBody)
 			{
-				btSoftRigidDynamicsWorld_addSoftBody3(_collisionWorld.Native, item.Native, group, mask);
+				UnsafeNativeMethods.btSoftRigidDynamicsWorld_addSoftBody3(_collisionWorld.Native, item.Native, group, mask);
 			}
 			else
 			{
-				btCollisionWorld_addCollisionObject3(_collisionWorld.Native, item.Native, group, mask);
+				UnsafeNativeMethods.btCollisionWorld_addCollisionObject3(_collisionWorld.Native, item.Native, group, mask);
 			}
 			SetBodyBroadphaseHandle(item, _collisionWorld.Broadphase);
 			_backingList.Add(item);
@@ -172,7 +172,7 @@ namespace BulletSharp
 			{
 				return -1;
 			}
-			return btAlignedObjectArray_btCollisionObjectPtr_findLinearSearch2(_native, item.Native);
+			return UnsafeNativeMethods.btAlignedObjectArray_btCollisionObjectPtr_findLinearSearch2(_native, item.Native);
 		}
 
 		public void Insert(int index, CollisionObject item)
@@ -205,15 +205,15 @@ namespace BulletSharp
 
 			if (item is SoftBody.SoftBody)
 			{
-				btSoftRigidDynamicsWorld_removeSoftBody(_collisionWorld.Native, itemPtr);
+				UnsafeNativeMethods.btSoftRigidDynamicsWorld_removeSoftBody(_collisionWorld.Native, itemPtr);
 			}
 			else if (item is RigidBody)
 			{
-				btDynamicsWorld_removeRigidBody(_collisionWorld.Native, itemPtr);
+				UnsafeNativeMethods.btDynamicsWorld_removeRigidBody(_collisionWorld.Native, itemPtr);
 			}
 			else
 			{
-				btCollisionWorld_removeCollisionObject(_collisionWorld.Native, itemPtr);
+				UnsafeNativeMethods.btCollisionWorld_removeCollisionObject(_collisionWorld.Native, itemPtr);
 			}
 			item.BroadphaseHandle = null;
 
@@ -228,7 +228,7 @@ namespace BulletSharp
 
 		private void SetBodyBroadphaseHandle(CollisionObject item, BroadphaseInterface broadphase)
 		{
-			IntPtr broadphaseHandle = btCollisionObject_getBroadphaseHandle(item.Native);
+			IntPtr broadphaseHandle = UnsafeNativeMethods.btCollisionObject_getBroadphaseHandle(item.Native);
 			if (broadphase is DbvtBroadphase)
 			{
 				item.BroadphaseHandle = new DbvtProxy(broadphaseHandle);
@@ -286,7 +286,7 @@ namespace BulletSharp
 				{
 					throw new ArgumentOutOfRangeException(nameof(index));
 				}
-				return CollisionObject.GetManaged(btAlignedObjectArray_btCollisionObjectPtr_at(_native, index));
+				return CollisionObject.GetManaged(UnsafeNativeMethods.btAlignedObjectArray_btCollisionObjectPtr_at(_native, index));
 			}
 			set
 			{
@@ -294,7 +294,7 @@ namespace BulletSharp
 			}
 		}
 
-		public int Count => btAlignedObjectArray_btCollisionObjectPtr_size(_native);
+		public int Count => UnsafeNativeMethods.btAlignedObjectArray_btCollisionObjectPtr_size(_native);
 
 		public bool IsReadOnly => false;
 	}

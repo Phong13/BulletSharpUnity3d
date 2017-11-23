@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -14,13 +14,13 @@ namespace BulletSharp
 			}
 
 			public CreateFunc()
-				: base(btSphereBoxCollisionAlgorithm_CreateFunc_new(), false)
+				: base(UnsafeNativeMethods.btSphereBoxCollisionAlgorithm_CreateFunc_new(), false)
 			{
 			}
 
 			public override CollisionAlgorithm CreateCollisionAlgorithm(CollisionAlgorithmConstructionInfo __unnamed0, CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap)
 			{
-				return new SphereBoxCollisionAlgorithm(btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
+				return new SphereBoxCollisionAlgorithm(UnsafeNativeMethods.btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
 					Native, __unnamed0.Native, body0Wrap.Native, body1Wrap.Native));
 			}
 		}
@@ -32,7 +32,7 @@ namespace BulletSharp
 
 		public SphereBoxCollisionAlgorithm(PersistentManifold mf, CollisionAlgorithmConstructionInfo ci,
 			CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap, bool isSwapped)
-			: base(btSphereBoxCollisionAlgorithm_new(mf.Native, ci.Native, body0Wrap.Native,
+			: base(UnsafeNativeMethods.btSphereBoxCollisionAlgorithm_new(mf.Native, ci.Native, body0Wrap.Native,
 				body1Wrap.Native, isSwapped))
 		{
 		}
@@ -41,7 +41,7 @@ namespace BulletSharp
 			out Vector3 normal, out float penetrationDepth, Vector3 v3SphereCenter,
 			float fRadius, float maxContactDistance)
 		{
-			return btSphereBoxCollisionAlgorithm_getSphereDistance(Native, boxObjWrap.Native,
+			return UnsafeNativeMethods.btSphereBoxCollisionAlgorithm_getSphereDistance(Native, boxObjWrap.Native,
 				out v3PointOnBox, out normal, out penetrationDepth, ref v3SphereCenter,
 				fRadius, maxContactDistance);
 		}
@@ -50,7 +50,7 @@ namespace BulletSharp
 			out Vector3 normal, out float penetrationDepth, Vector3 v3SphereCenter,
 			float fRadius, float maxContactDistance)
 		{
-			return btSphereBoxCollisionAlgorithm_getSphereDistance(Native, boxObjWrap.Native,
+			return UnsafeNativeMethods.btSphereBoxCollisionAlgorithm_getSphereDistance(Native, boxObjWrap.Native,
 				out v3PointOnBox, out normal, out penetrationDepth, ref v3SphereCenter,
 				fRadius, maxContactDistance);
 		}
@@ -58,14 +58,14 @@ namespace BulletSharp
 		public float GetSpherePenetrationRef(ref Vector3 boxHalfExtent, ref Vector3 sphereRelPos,
 			out Vector3 closestPoint, out Vector3 normal)
 		{
-			return btSphereBoxCollisionAlgorithm_getSpherePenetration(Native, ref boxHalfExtent,
+			return UnsafeNativeMethods.btSphereBoxCollisionAlgorithm_getSpherePenetration(Native, ref boxHalfExtent,
 				ref sphereRelPos, out closestPoint, out normal);
 		}
 
 		public float GetSpherePenetration(Vector3 boxHalfExtent, Vector3 sphereRelPos,
 			out Vector3 closestPoint, out Vector3 normal)
 		{
-			return btSphereBoxCollisionAlgorithm_getSpherePenetration(Native, ref boxHalfExtent,
+			return UnsafeNativeMethods.btSphereBoxCollisionAlgorithm_getSpherePenetration(Native, ref boxHalfExtent,
 				ref sphereRelPos, out closestPoint, out normal);
 		}
 	}

@@ -1,4 +1,4 @@
-using static BulletSharp.UnsafeNativeMethods;
+﻿
 
 namespace BulletSharp
 {
@@ -7,21 +7,21 @@ namespace BulletSharp
 		private MlcpSolverInterface _mlcpSolver;
 
 		public MlcpSolver(MlcpSolverInterface solver)
-			: base(btMLCPSolver_new(solver.Native), false)
+			: base(UnsafeNativeMethods.btMLCPSolver_new(solver.Native), false)
 		{
 			_mlcpSolver = solver;
 		}
 
 		public void SetMLCPSolver(MlcpSolverInterface solver)
 		{
-			btMLCPSolver_setMLCPSolver(Native, solver.Native);
+			UnsafeNativeMethods.btMLCPSolver_setMLCPSolver(Native, solver.Native);
 			_mlcpSolver = solver;
 		}
 
 		public int NumFallbacks
 		{
-			get => btMLCPSolver_getNumFallbacks(Native);
-			set => btMLCPSolver_setNumFallbacks(Native, value);
+			get => UnsafeNativeMethods.btMLCPSolver_getNumFallbacks(Native);
+			set => UnsafeNativeMethods.btMLCPSolver_setNumFallbacks(Native, value);
 		}
 	}
 }

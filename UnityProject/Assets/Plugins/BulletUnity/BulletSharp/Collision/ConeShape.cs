@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp
 {
@@ -11,33 +11,33 @@ namespace BulletSharp
 		}
 
 		public ConeShape(float radius, float height)
-			: base(btConeShape_new(radius, height))
+			: base(UnsafeNativeMethods.btConeShape_new(radius, height))
 		{
 		}
 
 		public int ConeUpIndex
 		{
-			get => btConeShape_getConeUpIndex(Native);
-			set => btConeShape_setConeUpIndex(Native, value);
+			get => UnsafeNativeMethods.btConeShape_getConeUpIndex(Native);
+			set => UnsafeNativeMethods.btConeShape_setConeUpIndex(Native, value);
 		}
 
 		public float Height
 		{
-			get => btConeShape_getHeight(Native);
-			set => btConeShape_setHeight(Native, value);
+			get => UnsafeNativeMethods.btConeShape_getHeight(Native);
+			set => UnsafeNativeMethods.btConeShape_setHeight(Native, value);
 		}
 
 		public float Radius
 		{
-			get => btConeShape_getRadius(Native);
-			set => btConeShape_setRadius(Native, value);
+			get => UnsafeNativeMethods.btConeShape_getRadius(Native);
+			set => UnsafeNativeMethods.btConeShape_setRadius(Native, value);
 		}
 	}
 
 	public class ConeShapeX : ConeShape
 	{
 		public ConeShapeX(float radius, float height)
-			: base(btConeShapeX_new(radius, height))
+			: base(UnsafeNativeMethods.btConeShapeX_new(radius, height))
 		{
 		}
 	}
@@ -45,7 +45,7 @@ namespace BulletSharp
 	public class ConeShapeZ : ConeShape
 	{
 		public ConeShapeZ(float radius, float height)
-			: base(btConeShapeZ_new(radius, height))
+			: base(UnsafeNativeMethods.btConeShapeZ_new(radius, height))
 		{
 		}
 	}

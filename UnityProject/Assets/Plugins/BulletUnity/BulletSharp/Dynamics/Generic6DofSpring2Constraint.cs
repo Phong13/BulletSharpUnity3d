@@ -1,8 +1,8 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -29,151 +29,151 @@ namespace BulletSharp
 
 		public RotationalLimitMotor2()
 		{
-			_native = btRotationalLimitMotor2_new();
+			_native = UnsafeNativeMethods.btRotationalLimitMotor2_new();
 		}
 
 		public RotationalLimitMotor2(RotationalLimitMotor2 limitMotor)
 		{
-			_native = btRotationalLimitMotor2_new2(limitMotor._native);
+			_native = UnsafeNativeMethods.btRotationalLimitMotor2_new2(limitMotor._native);
 		}
 
 		public void TestLimitValue(float testValue)
 		{
-			btRotationalLimitMotor2_testLimitValue(_native, testValue);
+			UnsafeNativeMethods.btRotationalLimitMotor2_testLimitValue(_native, testValue);
 		}
 
 		public float Bounce
 		{
-			get => btRotationalLimitMotor2_getBounce(_native);
-			set => btRotationalLimitMotor2_setBounce(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getBounce(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setBounce(_native, value);
 		}
 
 		public int CurrentLimit
 		{
-			get => btRotationalLimitMotor2_getCurrentLimit(_native);
-			set => btRotationalLimitMotor2_setCurrentLimit(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getCurrentLimit(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setCurrentLimit(_native, value);
 		}
 
 		public float CurrentLimitError
 		{
-			get => btRotationalLimitMotor2_getCurrentLimitError(_native);
-			set => btRotationalLimitMotor2_setCurrentLimitError(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getCurrentLimitError(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setCurrentLimitError(_native, value);
 		}
 
 		public float CurrentLimitErrorHi
 		{
-			get => btRotationalLimitMotor2_getCurrentLimitErrorHi(_native);
-			set => btRotationalLimitMotor2_setCurrentLimitErrorHi(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getCurrentLimitErrorHi(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setCurrentLimitErrorHi(_native, value);
 		}
 
 		public float CurrentPosition
 		{
-			get => btRotationalLimitMotor2_getCurrentPosition(_native);
-			set => btRotationalLimitMotor2_setCurrentPosition(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getCurrentPosition(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setCurrentPosition(_native, value);
 		}
 
 		public bool EnableMotor
 		{
-			get => btRotationalLimitMotor2_getEnableMotor(_native);
-			set => btRotationalLimitMotor2_setEnableMotor(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getEnableMotor(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setEnableMotor(_native, value);
 		}
 
 		public bool EnableSpring
 		{
-			get => btRotationalLimitMotor2_getEnableSpring(_native);
-			set => btRotationalLimitMotor2_setEnableSpring(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getEnableSpring(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setEnableSpring(_native, value);
 		}
 
 		public float EquilibriumPoint
 		{
-			get => btRotationalLimitMotor2_getEquilibriumPoint(_native);
-			set => btRotationalLimitMotor2_setEquilibriumPoint(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getEquilibriumPoint(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setEquilibriumPoint(_native, value);
 		}
 
 		public float HiLimit
 		{
-			get => btRotationalLimitMotor2_getHiLimit(_native);
-			set => btRotationalLimitMotor2_setHiLimit(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getHiLimit(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setHiLimit(_native, value);
 		}
 
-		public bool IsLimited => btRotationalLimitMotor2_isLimited(_native);
+		public bool IsLimited => UnsafeNativeMethods.btRotationalLimitMotor2_isLimited(_native);
 
 		public float LoLimit
 		{
-			get => btRotationalLimitMotor2_getLoLimit(_native);
-			set => btRotationalLimitMotor2_setLoLimit(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getLoLimit(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setLoLimit(_native, value);
 		}
 
 		public float MaxMotorForce
 		{
-			get => btRotationalLimitMotor2_getMaxMotorForce(_native);
-			set => btRotationalLimitMotor2_setMaxMotorForce(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getMaxMotorForce(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setMaxMotorForce(_native, value);
 		}
 
 		public float MotorCfm
 		{
-			get => btRotationalLimitMotor2_getMotorCFM(_native);
-			set => btRotationalLimitMotor2_setMotorCFM(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getMotorCFM(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setMotorCFM(_native, value);
 		}
 
 		public float MotorErp
 		{
-			get => btRotationalLimitMotor2_getMotorERP(_native);
-			set => btRotationalLimitMotor2_setMotorERP(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getMotorERP(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setMotorERP(_native, value);
 		}
 
 		public bool ServoMotor
 		{
-			get => btRotationalLimitMotor2_getServoMotor(_native);
-			set => btRotationalLimitMotor2_setServoMotor(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getServoMotor(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setServoMotor(_native, value);
 		}
 
 		public float ServoTarget
 		{
-			get => btRotationalLimitMotor2_getServoTarget(_native);
-			set => btRotationalLimitMotor2_setServoTarget(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getServoTarget(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setServoTarget(_native, value);
 		}
 
 		public float SpringDamping
 		{
-			get => btRotationalLimitMotor2_getSpringDamping(_native);
-			set => btRotationalLimitMotor2_setSpringDamping(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getSpringDamping(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setSpringDamping(_native, value);
 		}
 
 		public bool SpringDampingLimited
 		{
-			get => btRotationalLimitMotor2_getSpringDampingLimited(_native);
-			set => btRotationalLimitMotor2_setSpringDampingLimited(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getSpringDampingLimited(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setSpringDampingLimited(_native, value);
 		}
 
 		public float SpringStiffness
 		{
-			get => btRotationalLimitMotor2_getSpringStiffness(_native);
-			set => btRotationalLimitMotor2_setSpringStiffness(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getSpringStiffness(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setSpringStiffness(_native, value);
 		}
 
 		public bool SpringStiffnessLimited
 		{
-			get => btRotationalLimitMotor2_getSpringStiffnessLimited(_native);
-			set => btRotationalLimitMotor2_setSpringStiffnessLimited(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getSpringStiffnessLimited(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setSpringStiffnessLimited(_native, value);
 		}
 
 		public float StopCfm
 		{
-			get => btRotationalLimitMotor2_getStopCFM(_native);
-			set => btRotationalLimitMotor2_setStopCFM(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getStopCFM(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setStopCFM(_native, value);
 		}
 
 		public float StopErp
 		{
-			get => btRotationalLimitMotor2_getStopERP(_native);
-			set => btRotationalLimitMotor2_setStopERP(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getStopERP(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setStopERP(_native, value);
 		}
 
 		public float TargetVelocity
 		{
-			get => btRotationalLimitMotor2_getTargetVelocity(_native);
-			set => btRotationalLimitMotor2_setTargetVelocity(_native, value);
+			get => UnsafeNativeMethods.btRotationalLimitMotor2_getTargetVelocity(_native);
+			set => UnsafeNativeMethods.btRotationalLimitMotor2_setTargetVelocity(_native, value);
 		}
 
 		public void Dispose()
@@ -188,7 +188,7 @@ namespace BulletSharp
 			{
 				if (!_preventDelete)
 				{
-					btRotationalLimitMotor2_delete(_native);
+					UnsafeNativeMethods.btRotationalLimitMotor2_delete(_native);
 				}
 				_native = IntPtr.Zero;
 			}
@@ -213,22 +213,22 @@ namespace BulletSharp
 
 		public TranslationalLimitMotor2()
 		{
-			_native = btTranslationalLimitMotor2_new();
+			_native = UnsafeNativeMethods.btTranslationalLimitMotor2_new();
 		}
 
 		public TranslationalLimitMotor2(TranslationalLimitMotor2 other)
 		{
-			_native = btTranslationalLimitMotor2_new2(other._native);
+			_native = UnsafeNativeMethods.btTranslationalLimitMotor2_new2(other._native);
 		}
 
 		public bool IsLimited(int limitIndex)
 		{
-			return btTranslationalLimitMotor2_isLimited(_native, limitIndex);
+			return UnsafeNativeMethods.btTranslationalLimitMotor2_isLimited(_native, limitIndex);
 		}
 
 		public void TestLimitValue(int limitIndex, float testValue)
 		{
-			btTranslationalLimitMotor2_testLimitValue(_native, limitIndex, testValue);
+			UnsafeNativeMethods.btTranslationalLimitMotor2_testLimitValue(_native, limitIndex, testValue);
 		}
 
 		public Vector3 Bounce
@@ -236,15 +236,15 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTranslationalLimitMotor2_getBounce(_native, out value);
+				UnsafeNativeMethods.btTranslationalLimitMotor2_getBounce(_native, out value);
 				return value;
 			}
-			set => btTranslationalLimitMotor2_setBounce(_native, ref value);
+			set => UnsafeNativeMethods.btTranslationalLimitMotor2_setBounce(_native, ref value);
 		}
 		/*
 		public IntArray CurrentLimit
 		{
-			get { return new IntArray(btTranslationalLimitMotor2_getCurrentLimit(_native), 3); }
+			get { return new IntArray(UnsafeNativeMethods.btTranslationalLimitMotor2_getCurrentLimit(_native), 3); }
 		}
 		*/
 		public Vector3 CurrentLimitError
@@ -252,10 +252,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTranslationalLimitMotor2_getCurrentLimitError(_native, out value);
+				UnsafeNativeMethods.btTranslationalLimitMotor2_getCurrentLimitError(_native, out value);
 				return value;
 			}
-			set => btTranslationalLimitMotor2_setCurrentLimitError(_native, ref value);
+			set => UnsafeNativeMethods.btTranslationalLimitMotor2_setCurrentLimitError(_native, ref value);
 		}
 
 		public Vector3 CurrentLimitErrorHi
@@ -263,10 +263,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTranslationalLimitMotor2_getCurrentLimitErrorHi(_native, out value);
+				UnsafeNativeMethods.btTranslationalLimitMotor2_getCurrentLimitErrorHi(_native, out value);
 				return value;
 			}
-			set => btTranslationalLimitMotor2_setCurrentLimitErrorHi(_native, ref value);
+			set => UnsafeNativeMethods.btTranslationalLimitMotor2_setCurrentLimitErrorHi(_native, ref value);
 		}
 
 		public Vector3 CurrentLinearDiff
@@ -274,20 +274,20 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTranslationalLimitMotor2_getCurrentLinearDiff(_native, out value);
+				UnsafeNativeMethods.btTranslationalLimitMotor2_getCurrentLinearDiff(_native, out value);
 				return value;
 			}
-			set => btTranslationalLimitMotor2_setCurrentLinearDiff(_native, ref value);
+			set => UnsafeNativeMethods.btTranslationalLimitMotor2_setCurrentLinearDiff(_native, ref value);
 		}
 		/*
 		public BoolArray EnableMotor
 		{
-			get { return new BoolArray(btTranslationalLimitMotor2_getEnableMotor(_native), 3); }
+			get { return new BoolArray(UnsafeNativeMethods.btTranslationalLimitMotor2_getEnableMotor(_native), 3); }
 		}
 
 		public BoolArray EnableSpring
 		{
-			get { return new BoolArray(btTranslationalLimitMotor2_getEnableSpring(_native), 3); }
+			get { return new BoolArray(UnsafeNativeMethods.btTranslationalLimitMotor2_getEnableSpring(_native), 3); }
 		}
 		*/
 		public Vector3 EquilibriumPoint
@@ -295,10 +295,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTranslationalLimitMotor2_getEquilibriumPoint(_native, out value);
+				UnsafeNativeMethods.btTranslationalLimitMotor2_getEquilibriumPoint(_native, out value);
 				return value;
 			}
-			set => btTranslationalLimitMotor2_setEquilibriumPoint(_native, ref value);
+			set => UnsafeNativeMethods.btTranslationalLimitMotor2_setEquilibriumPoint(_native, ref value);
 		}
 
 		public Vector3 LowerLimit
@@ -306,10 +306,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTranslationalLimitMotor2_getLowerLimit(_native, out value);
+				UnsafeNativeMethods.btTranslationalLimitMotor2_getLowerLimit(_native, out value);
 				return value;
 			}
-			set => btTranslationalLimitMotor2_setLowerLimit(_native, ref value);
+			set => UnsafeNativeMethods.btTranslationalLimitMotor2_setLowerLimit(_native, ref value);
 		}
 
 		public Vector3 MaxMotorForce
@@ -317,10 +317,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTranslationalLimitMotor2_getMaxMotorForce(_native, out value);
+				UnsafeNativeMethods.btTranslationalLimitMotor2_getMaxMotorForce(_native, out value);
 				return value;
 			}
-			set => btTranslationalLimitMotor2_setMaxMotorForce(_native, ref value);
+			set => UnsafeNativeMethods.btTranslationalLimitMotor2_setMaxMotorForce(_native, ref value);
 		}
 
 		public Vector3 MotorCFM
@@ -328,10 +328,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTranslationalLimitMotor2_getMotorCFM(_native, out value);
+				UnsafeNativeMethods.btTranslationalLimitMotor2_getMotorCFM(_native, out value);
 				return value;
 			}
-			set => btTranslationalLimitMotor2_setMotorCFM(_native, ref value);
+			set => UnsafeNativeMethods.btTranslationalLimitMotor2_setMotorCFM(_native, ref value);
 		}
 
 		public Vector3 MotorERP
@@ -339,15 +339,15 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTranslationalLimitMotor2_getMotorERP(_native, out value);
+				UnsafeNativeMethods.btTranslationalLimitMotor2_getMotorERP(_native, out value);
 				return value;
 			}
-			set => btTranslationalLimitMotor2_setMotorERP(_native, ref value);
+			set => UnsafeNativeMethods.btTranslationalLimitMotor2_setMotorERP(_native, ref value);
 		}
 		/*
 		public BoolArray ServoMotor
 		{
-			get { return new BoolArray(btTranslationalLimitMotor2_getServoMotor(_native)); }
+			get { return new BoolArray(UnsafeNativeMethods.btTranslationalLimitMotor2_getServoMotor(_native)); }
 		}
 		*/
 		public Vector3 ServoTarget
@@ -355,10 +355,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTranslationalLimitMotor2_getServoTarget(_native, out value);
+				UnsafeNativeMethods.btTranslationalLimitMotor2_getServoTarget(_native, out value);
 				return value;
 			}
-			set => btTranslationalLimitMotor2_setServoTarget(_native, ref value);
+			set => UnsafeNativeMethods.btTranslationalLimitMotor2_setServoTarget(_native, ref value);
 		}
 
 		public Vector3 SpringDamping
@@ -366,15 +366,15 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTranslationalLimitMotor2_getSpringDamping(_native, out value);
+				UnsafeNativeMethods.btTranslationalLimitMotor2_getSpringDamping(_native, out value);
 				return value;
 			}
-			set => btTranslationalLimitMotor2_setSpringDamping(_native, ref value);
+			set => UnsafeNativeMethods.btTranslationalLimitMotor2_setSpringDamping(_native, ref value);
 		}
 		/*
 		public BoolArray SpringDampingLimited
 		{
-			get { return btTranslationalLimitMotor2_getSpringDampingLimited(_native); }
+			get { return UnsafeNativeMethods.btTranslationalLimitMotor2_getSpringDampingLimited(_native); }
 		}
 		*/
 		public Vector3 SpringStiffness
@@ -382,15 +382,15 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTranslationalLimitMotor2_getSpringStiffness(_native, out value);
+				UnsafeNativeMethods.btTranslationalLimitMotor2_getSpringStiffness(_native, out value);
 				return value;
 			}
-			set => btTranslationalLimitMotor2_setSpringStiffness(_native, ref value);
+			set => UnsafeNativeMethods.btTranslationalLimitMotor2_setSpringStiffness(_native, ref value);
 		}
 		/*
 		public BoolArray SpringStiffnessLimited
 		{
-			get { return btTranslationalLimitMotor2_getSpringStiffnessLimited(_native); }
+			get { return UnsafeNativeMethods.btTranslationalLimitMotor2_getSpringStiffnessLimited(_native); }
 		}
 		*/
 		public Vector3 StopCfm
@@ -398,10 +398,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTranslationalLimitMotor2_getStopCFM(_native, out value);
+				UnsafeNativeMethods.btTranslationalLimitMotor2_getStopCFM(_native, out value);
 				return value;
 			}
-			set => btTranslationalLimitMotor2_setStopCFM(_native, ref value);
+			set => UnsafeNativeMethods.btTranslationalLimitMotor2_setStopCFM(_native, ref value);
 		}
 
 		public Vector3 StopEep
@@ -409,10 +409,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTranslationalLimitMotor2_getStopERP(_native, out value);
+				UnsafeNativeMethods.btTranslationalLimitMotor2_getStopERP(_native, out value);
 				return value;
 			}
-			set => btTranslationalLimitMotor2_setStopERP(_native, ref value);
+			set => UnsafeNativeMethods.btTranslationalLimitMotor2_setStopERP(_native, ref value);
 		}
 
 		public Vector3 TargetVelocity
@@ -420,10 +420,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTranslationalLimitMotor2_getTargetVelocity(_native, out value);
+				UnsafeNativeMethods.btTranslationalLimitMotor2_getTargetVelocity(_native, out value);
 				return value;
 			}
-			set => btTranslationalLimitMotor2_setTargetVelocity(_native, ref value);
+			set => UnsafeNativeMethods.btTranslationalLimitMotor2_setTargetVelocity(_native, ref value);
 		}
 
 		public Vector3 UpperLimit
@@ -431,10 +431,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTranslationalLimitMotor2_getUpperLimit(_native, out value);
+				UnsafeNativeMethods.btTranslationalLimitMotor2_getUpperLimit(_native, out value);
 				return value;
 			}
-			set => btTranslationalLimitMotor2_setUpperLimit(_native, ref value);
+			set => UnsafeNativeMethods.btTranslationalLimitMotor2_setUpperLimit(_native, ref value);
 		}
 
 		public void Dispose()
@@ -449,7 +449,7 @@ namespace BulletSharp
 			{
 				if (!_preventDelete)
 				{
-					btTranslationalLimitMotor2_delete(_native);
+					UnsafeNativeMethods.btTranslationalLimitMotor2_delete(_native);
 				}
 				_native = IntPtr.Zero;
 			}
@@ -473,7 +473,7 @@ namespace BulletSharp
 
 		public Generic6DofSpring2Constraint(RigidBody rigidBodyA, RigidBody rigidBodyB,
 			Matrix frameInA, Matrix frameInB, RotateOrder rotOrder = RotateOrder.XYZ)
-			: base(btGeneric6DofSpring2Constraint_new(rigidBodyA.Native, rigidBodyB.Native,
+			: base(UnsafeNativeMethods.btGeneric6DofSpring2Constraint_new(rigidBodyA.Native, rigidBodyB.Native,
 				ref frameInA, ref frameInB, rotOrder))
 		{
 			_rigidBodyA = rigidBodyA;
@@ -482,7 +482,7 @@ namespace BulletSharp
 
 		public Generic6DofSpring2Constraint(RigidBody rigidBodyB, Matrix frameInB,
 			RotateOrder rotOrder = RotateOrder.XYZ)
-			: base(btGeneric6DofSpring2Constraint_new2(rigidBodyB.Native, ref frameInB,
+			: base(UnsafeNativeMethods.btGeneric6DofSpring2Constraint_new2(rigidBodyB.Native, ref frameInB,
 				rotOrder))
 		{
 			_rigidBodyA = GetFixedBody();
@@ -491,45 +491,45 @@ namespace BulletSharp
 
 		public static float BtGetMatrixElem(Matrix mat, int index)
 		{
-			return btGeneric6DofSpring2Constraint_btGetMatrixElem(ref mat, index);
+			return UnsafeNativeMethods.btGeneric6DofSpring2Constraint_btGetMatrixElem(ref mat, index);
 		}
 
 		public void CalculateTransforms(Matrix transA, Matrix transB)
 		{
-			btGeneric6DofSpring2Constraint_calculateTransforms(Native, ref transA,
+			UnsafeNativeMethods.btGeneric6DofSpring2Constraint_calculateTransforms(Native, ref transA,
 				ref transB);
 		}
 
 		public void CalculateTransforms()
 		{
-			btGeneric6DofSpring2Constraint_calculateTransforms2(Native);
+			UnsafeNativeMethods.btGeneric6DofSpring2Constraint_calculateTransforms2(Native);
 		}
 
 		public void EnableMotor(int index, bool onOff)
 		{
-			btGeneric6DofSpring2Constraint_enableMotor(Native, index, onOff);
+			UnsafeNativeMethods.btGeneric6DofSpring2Constraint_enableMotor(Native, index, onOff);
 		}
 
 		public void EnableSpring(int index, bool onOff)
 		{
-			btGeneric6DofSpring2Constraint_enableSpring(Native, index, onOff);
+			UnsafeNativeMethods.btGeneric6DofSpring2Constraint_enableSpring(Native, index, onOff);
 		}
 
 		public float GetAngle(int axisIndex)
 		{
-			return btGeneric6DofSpring2Constraint_getAngle(Native, axisIndex);
+			return UnsafeNativeMethods.btGeneric6DofSpring2Constraint_getAngle(Native, axisIndex);
 		}
 
 		public Vector3 GetAxis(int axisIndex)
 		{
 			Vector3 value;
-			btGeneric6DofSpring2Constraint_getAxis(Native, axisIndex, out value);
+			UnsafeNativeMethods.btGeneric6DofSpring2Constraint_getAxis(Native, axisIndex, out value);
 			return value;
 		}
 
 		public float GetRelativePivotPosition(int axisIndex)
 		{
-			return btGeneric6DofSpring2Constraint_getRelativePivotPosition(Native,
+			return UnsafeNativeMethods.btGeneric6DofSpring2Constraint_getRelativePivotPosition(Native,
 				axisIndex);
 		}
 
@@ -537,115 +537,115 @@ namespace BulletSharp
 		{
 			if (_angularLimits[index] == null)
 			{
-				_angularLimits[index] = new RotationalLimitMotor2(btGeneric6DofSpring2Constraint_getRotationalLimitMotor(Native, index), true);
+				_angularLimits[index] = new RotationalLimitMotor2(UnsafeNativeMethods.btGeneric6DofSpring2Constraint_getRotationalLimitMotor(Native, index), true);
 			}
 			return _angularLimits[index];
 		}
 
 		public bool IsLimited(int limitIndex)
 		{
-			return btGeneric6DofSpring2Constraint_isLimited(Native, limitIndex);
+			return UnsafeNativeMethods.btGeneric6DofSpring2Constraint_isLimited(Native, limitIndex);
 		}
 
 		public static bool MatrixToEulerZXY(Matrix mat, ref Vector3 xyz)
 		{
-			return btGeneric6DofSpring2Constraint_matrixToEulerZXY(ref mat, ref xyz);
+			return UnsafeNativeMethods.btGeneric6DofSpring2Constraint_matrixToEulerZXY(ref mat, ref xyz);
 		}
 
 		public static bool MatrixToEulerZYX(Matrix mat, ref Vector3 xyz)
 		{
-			return btGeneric6DofSpring2Constraint_matrixToEulerZYX(ref mat, ref xyz);
+			return UnsafeNativeMethods.btGeneric6DofSpring2Constraint_matrixToEulerZYX(ref mat, ref xyz);
 		}
 
 		public static bool MatrixToEulerXZY(Matrix mat, ref Vector3 xyz)
 		{
-			return btGeneric6DofSpring2Constraint_matrixToEulerXZY(ref mat, ref xyz);
+			return UnsafeNativeMethods.btGeneric6DofSpring2Constraint_matrixToEulerXZY(ref mat, ref xyz);
 		}
 
 		public static bool MatrixToEulerXYZ(Matrix mat, ref Vector3 xyz)
 		{
-			return btGeneric6DofSpring2Constraint_matrixToEulerXYZ(ref mat, ref xyz);
+			return UnsafeNativeMethods.btGeneric6DofSpring2Constraint_matrixToEulerXYZ(ref mat, ref xyz);
 		}
 
 		public static bool MatrixToEulerYZX(Matrix mat, ref Vector3 xyz)
 		{
-			return btGeneric6DofSpring2Constraint_matrixToEulerYZX(ref mat, ref xyz);
+			return UnsafeNativeMethods.btGeneric6DofSpring2Constraint_matrixToEulerYZX(ref mat, ref xyz);
 		}
 
 		public static bool MatrixToEulerYXZ(Matrix mat, ref Vector3 xyz)
 		{
-			return btGeneric6DofSpring2Constraint_matrixToEulerYXZ(ref mat, ref xyz);
+			return UnsafeNativeMethods.btGeneric6DofSpring2Constraint_matrixToEulerYXZ(ref mat, ref xyz);
 		}
 
 		public void SetAxis(Vector3 axis1, Vector3 axis2)
 		{
-			btGeneric6DofSpring2Constraint_setAxis(Native, ref axis1, ref axis2);
+			UnsafeNativeMethods.btGeneric6DofSpring2Constraint_setAxis(Native, ref axis1, ref axis2);
 		}
 
 		public void SetBounce(int index, float bounce)
 		{
-			btGeneric6DofSpring2Constraint_setBounce(Native, index, bounce);
+			UnsafeNativeMethods.btGeneric6DofSpring2Constraint_setBounce(Native, index, bounce);
 		}
 
 		public void SetDamping(int index, float damping, bool limitIfNeeded = true)
 		{
-			btGeneric6DofSpring2Constraint_setDamping(Native, index, damping, limitIfNeeded);
+			UnsafeNativeMethods.btGeneric6DofSpring2Constraint_setDamping(Native, index, damping, limitIfNeeded);
 		}
 
 		public void SetEquilibriumPoint()
 		{
-			btGeneric6DofSpring2Constraint_setEquilibriumPoint(Native);
+			UnsafeNativeMethods.btGeneric6DofSpring2Constraint_setEquilibriumPoint(Native);
 		}
 
 		public void SetEquilibriumPoint(int index, float val)
 		{
-			btGeneric6DofSpring2Constraint_setEquilibriumPoint2(Native, index, val);
+			UnsafeNativeMethods.btGeneric6DofSpring2Constraint_setEquilibriumPoint2(Native, index, val);
 		}
 
 		public void SetEquilibriumPoint(int index)
 		{
-			btGeneric6DofSpring2Constraint_setEquilibriumPoint3(Native, index);
+			UnsafeNativeMethods.btGeneric6DofSpring2Constraint_setEquilibriumPoint3(Native, index);
 		}
 
 		public void SetFrames(Matrix frameA, Matrix frameB)
 		{
-			btGeneric6DofSpring2Constraint_setFrames(Native, ref frameA, ref frameB);
+			UnsafeNativeMethods.btGeneric6DofSpring2Constraint_setFrames(Native, ref frameA, ref frameB);
 		}
 
 		public void SetLimit(int axis, float lo, float hi)
 		{
-			btGeneric6DofSpring2Constraint_setLimit(Native, axis, lo, hi);
+			UnsafeNativeMethods.btGeneric6DofSpring2Constraint_setLimit(Native, axis, lo, hi);
 		}
 
 		public void SetLimitReversed(int axis, float lo, float hi)
 		{
-			btGeneric6DofSpring2Constraint_setLimitReversed(Native, axis, lo, hi);
+			UnsafeNativeMethods.btGeneric6DofSpring2Constraint_setLimitReversed(Native, axis, lo, hi);
 		}
 
 		public void SetMaxMotorForce(int index, float force)
 		{
-			btGeneric6DofSpring2Constraint_setMaxMotorForce(Native, index, force);
+			UnsafeNativeMethods.btGeneric6DofSpring2Constraint_setMaxMotorForce(Native, index, force);
 		}
 
 		public void SetServo(int index, bool onOff)
 		{
-			btGeneric6DofSpring2Constraint_setServo(Native, index, onOff);
+			UnsafeNativeMethods.btGeneric6DofSpring2Constraint_setServo(Native, index, onOff);
 		}
 
 		public void SetServoTarget(int index, float target)
 		{
-			btGeneric6DofSpring2Constraint_setServoTarget(Native, index, target);
+			UnsafeNativeMethods.btGeneric6DofSpring2Constraint_setServoTarget(Native, index, target);
 		}
 
 		public void SetStiffness(int index, float stiffness, bool limitIfNeeded = true)
 		{
-			btGeneric6DofSpring2Constraint_setStiffness(Native, index, stiffness,
+			UnsafeNativeMethods.btGeneric6DofSpring2Constraint_setStiffness(Native, index, stiffness,
 				limitIfNeeded);
 		}
 
 		public void SetTargetVelocity(int index, float velocity)
 		{
-			btGeneric6DofSpring2Constraint_setTargetVelocity(Native, index, velocity);
+			UnsafeNativeMethods.btGeneric6DofSpring2Constraint_setTargetVelocity(Native, index, velocity);
 		}
 
 		public Vector3 AngularLowerLimit
@@ -653,10 +653,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btGeneric6DofSpring2Constraint_getAngularLowerLimit(Native, out value);
+				UnsafeNativeMethods.btGeneric6DofSpring2Constraint_getAngularLowerLimit(Native, out value);
 				return value;
 			}
-			set => btGeneric6DofSpring2Constraint_setAngularLowerLimit(Native, ref value);
+			set => UnsafeNativeMethods.btGeneric6DofSpring2Constraint_setAngularLowerLimit(Native, ref value);
 		}
 
 		public Vector3 AngularLowerLimitReversed
@@ -664,10 +664,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btGeneric6DofSpring2Constraint_getAngularLowerLimitReversed(Native, out value);
+				UnsafeNativeMethods.btGeneric6DofSpring2Constraint_getAngularLowerLimitReversed(Native, out value);
 				return value;
 			}
-			set => btGeneric6DofSpring2Constraint_setAngularLowerLimitReversed(Native, ref value);
+			set => UnsafeNativeMethods.btGeneric6DofSpring2Constraint_setAngularLowerLimitReversed(Native, ref value);
 		}
 
 		public Vector3 AngularUpperLimit
@@ -675,10 +675,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btGeneric6DofSpring2Constraint_getAngularUpperLimit(Native, out value);
+				UnsafeNativeMethods.btGeneric6DofSpring2Constraint_getAngularUpperLimit(Native, out value);
 				return value;
 			}
-			set => btGeneric6DofSpring2Constraint_setAngularUpperLimit(Native, ref value);
+			set => UnsafeNativeMethods.btGeneric6DofSpring2Constraint_setAngularUpperLimit(Native, ref value);
 		}
 
 		public Vector3 AngularUpperLimitReversed
@@ -686,10 +686,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btGeneric6DofSpring2Constraint_getAngularUpperLimitReversed(Native, out value);
+				UnsafeNativeMethods.btGeneric6DofSpring2Constraint_getAngularUpperLimitReversed(Native, out value);
 				return value;
 			}
-			set => btGeneric6DofSpring2Constraint_setAngularUpperLimitReversed(Native, ref value);
+			set => UnsafeNativeMethods.btGeneric6DofSpring2Constraint_setAngularUpperLimitReversed(Native, ref value);
 		}
 
 		public Matrix CalculatedTransformA
@@ -697,7 +697,7 @@ namespace BulletSharp
 			get
 			{
 				Matrix value;
-				btGeneric6DofSpring2Constraint_getCalculatedTransformA(Native, out value);
+				UnsafeNativeMethods.btGeneric6DofSpring2Constraint_getCalculatedTransformA(Native, out value);
 				return value;
 			}
 		}
@@ -707,7 +707,7 @@ namespace BulletSharp
 			get
 			{
 				Matrix value;
-				btGeneric6DofSpring2Constraint_getCalculatedTransformB(Native, out value);
+				UnsafeNativeMethods.btGeneric6DofSpring2Constraint_getCalculatedTransformB(Native, out value);
 				return value;
 			}
 		}
@@ -717,7 +717,7 @@ namespace BulletSharp
 			get
 			{
 				Matrix value;
-				btGeneric6DofSpring2Constraint_getFrameOffsetA(Native, out value);
+				UnsafeNativeMethods.btGeneric6DofSpring2Constraint_getFrameOffsetA(Native, out value);
 				return value;
 			}
 		}
@@ -727,7 +727,7 @@ namespace BulletSharp
 			get
 			{
 				Matrix value;
-				btGeneric6DofSpring2Constraint_getFrameOffsetB(Native, out value);
+				UnsafeNativeMethods.btGeneric6DofSpring2Constraint_getFrameOffsetB(Native, out value);
 				return value;
 			}
 		}
@@ -737,10 +737,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btGeneric6DofSpring2Constraint_getLinearLowerLimit(Native, out value);
+				UnsafeNativeMethods.btGeneric6DofSpring2Constraint_getLinearLowerLimit(Native, out value);
 				return value;
 			}
-			set => btGeneric6DofSpring2Constraint_setLinearLowerLimit(Native, ref value);
+			set => UnsafeNativeMethods.btGeneric6DofSpring2Constraint_setLinearLowerLimit(Native, ref value);
 		}
 
 		public Vector3 LinearUpperLimit
@@ -748,16 +748,16 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btGeneric6DofSpring2Constraint_getLinearUpperLimit(Native, out value);
+				UnsafeNativeMethods.btGeneric6DofSpring2Constraint_getLinearUpperLimit(Native, out value);
 				return value;
 			}
-			set => btGeneric6DofSpring2Constraint_setLinearUpperLimit(Native, ref value);
+			set => UnsafeNativeMethods.btGeneric6DofSpring2Constraint_setLinearUpperLimit(Native, ref value);
 		}
 
 		public RotateOrder RotationOrder
 		{
-			get => btGeneric6DofSpring2Constraint_getRotationOrder(Native);
-			set => btGeneric6DofSpring2Constraint_setRotationOrder(Native, value);
+			get => UnsafeNativeMethods.btGeneric6DofSpring2Constraint_getRotationOrder(Native);
+			set => UnsafeNativeMethods.btGeneric6DofSpring2Constraint_setRotationOrder(Native, value);
 		}
 
 		public TranslationalLimitMotor2 TranslationalLimitMotor
@@ -766,7 +766,7 @@ namespace BulletSharp
 			{
 				if (_linearLimits == null)
 				{
-					_linearLimits = new TranslationalLimitMotor2(btGeneric6DofSpring2Constraint_getTranslationalLimitMotor(Native), true);
+					_linearLimits = new TranslationalLimitMotor2(UnsafeNativeMethods.btGeneric6DofSpring2Constraint_getTranslationalLimitMotor(Native), true);
 				}
 				return _linearLimits;
 			}

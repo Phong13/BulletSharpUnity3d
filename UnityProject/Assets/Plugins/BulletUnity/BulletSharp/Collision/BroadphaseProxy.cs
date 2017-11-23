@@ -1,6 +1,5 @@
-using System;
+﻿using System;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -75,7 +74,7 @@ namespace BulletSharp
 				return null;
 			}
 
-			IntPtr clientObjectPtr = btBroadphaseProxy_getClientObject(native);
+			IntPtr clientObjectPtr = UnsafeNativeMethods.btBroadphaseProxy_getClientObject(native);
 			if (clientObjectPtr != IntPtr.Zero) {
 				CollisionObject clientObject = CollisionObject.GetManaged(clientObjectPtr);
 				return clientObject.BroadphaseHandle;
@@ -87,42 +86,42 @@ namespace BulletSharp
 
 		public static bool IsCompound(BroadphaseNativeType proxyType)
 		{
-			return btBroadphaseProxy_isCompound(proxyType);
+			return UnsafeNativeMethods.btBroadphaseProxy_isCompound(proxyType);
 		}
 
 		public static bool IsConcave(BroadphaseNativeType proxyType)
 		{
-			return btBroadphaseProxy_isConcave(proxyType);
+			return UnsafeNativeMethods.btBroadphaseProxy_isConcave(proxyType);
 		}
 
 		public static bool IsConvex(BroadphaseNativeType proxyType)
 		{
-			return btBroadphaseProxy_isConvex(proxyType);
+			return UnsafeNativeMethods.btBroadphaseProxy_isConvex(proxyType);
 		}
 
 		public static bool IsConvex2D(BroadphaseNativeType proxyType)
 		{
-			return btBroadphaseProxy_isConvex2d(proxyType);
+			return UnsafeNativeMethods.btBroadphaseProxy_isConvex2d(proxyType);
 		}
 
 		public static bool IsInfinite(BroadphaseNativeType proxyType)
 		{
-			return btBroadphaseProxy_isInfinite(proxyType);
+			return UnsafeNativeMethods.btBroadphaseProxy_isInfinite(proxyType);
 		}
 
 		public static bool IsNonMoving(BroadphaseNativeType proxyType)
 		{
-			return btBroadphaseProxy_isNonMoving(proxyType);
+			return UnsafeNativeMethods.btBroadphaseProxy_isNonMoving(proxyType);
 		}
 
 		public static bool IsPolyhedral(BroadphaseNativeType proxyType)
 		{
-			return btBroadphaseProxy_isPolyhedral(proxyType);
+			return UnsafeNativeMethods.btBroadphaseProxy_isPolyhedral(proxyType);
 		}
 
 		public static bool IsSoftBody(BroadphaseNativeType proxyType)
 		{
-			return btBroadphaseProxy_isSoftBody(proxyType);
+			return UnsafeNativeMethods.btBroadphaseProxy_isSoftBody(proxyType);
 		}
 
 		public Vector3 AabbMax
@@ -130,10 +129,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btBroadphaseProxy_getAabbMax(Native, out value);
+                UnsafeNativeMethods.btBroadphaseProxy_getAabbMax(Native, out value);
 				return value;
 			}
-			set => btBroadphaseProxy_setAabbMax(Native, ref value);
+			set { UnsafeNativeMethods.btBroadphaseProxy_setAabbMax(Native, ref value); }
 		}
 
 		public Vector3 AabbMin
@@ -141,17 +140,17 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btBroadphaseProxy_getAabbMin(Native, out value);
+                UnsafeNativeMethods.btBroadphaseProxy_getAabbMin(Native, out value);
 				return value;
 			}
-			set => btBroadphaseProxy_setAabbMin(Native, ref value);
+			set { UnsafeNativeMethods.btBroadphaseProxy_setAabbMin(Native, ref value); }
 		}
 
 		public Object ClientObject
 		{
 			get
 			{
-				IntPtr clientObjectPtr = btBroadphaseProxy_getClientObject(Native);
+				IntPtr clientObjectPtr = UnsafeNativeMethods.btBroadphaseProxy_getClientObject(Native);
 				if (clientObjectPtr != IntPtr.Zero)
 				{
 					_clientObject = CollisionObject.GetManaged(clientObjectPtr);
@@ -163,11 +162,11 @@ namespace BulletSharp
 				CollisionObject collisionObject = value as CollisionObject;
 				if (collisionObject != null)
 				{
-					btBroadphaseProxy_setClientObject(Native, collisionObject.Native);
+                    UnsafeNativeMethods.btBroadphaseProxy_setClientObject(Native, collisionObject.Native);
 				}
 				else if (value == null)
 				{
-					btBroadphaseProxy_setClientObject(Native, IntPtr.Zero);
+                    UnsafeNativeMethods.btBroadphaseProxy_setClientObject(Native, IntPtr.Zero);
 				}
 				_clientObject = value;
 			}
@@ -175,22 +174,24 @@ namespace BulletSharp
 
 		public int CollisionFilterGroup
 		{
-			get => btBroadphaseProxy_getCollisionFilterGroup(Native);
-			set => btBroadphaseProxy_setCollisionFilterGroup(Native, value);
+			get { return UnsafeNativeMethods.btBroadphaseProxy_getCollisionFilterGroup(Native); }
+			set { UnsafeNativeMethods.btBroadphaseProxy_setCollisionFilterGroup(Native, value); }
 		}
 
 		public int CollisionFilterMask
 		{
-			get => btBroadphaseProxy_getCollisionFilterMask(Native);
-			set => btBroadphaseProxy_setCollisionFilterMask(Native, value);
+			get { return UnsafeNativeMethods.btBroadphaseProxy_getCollisionFilterMask(Native); }
+			set { UnsafeNativeMethods.btBroadphaseProxy_setCollisionFilterMask(Native, value); }
 		}
 
-		public int Uid => btBroadphaseProxy_getUid(Native);
+        public int Uid() {
+            return UnsafeNativeMethods.btBroadphaseProxy_getUid(Native);
+        }
 
 		public int UniqueId
 		{
-			get => btBroadphaseProxy_getUniqueId(Native);
-			set => btBroadphaseProxy_setUniqueId(Native, value);
+			get { return UnsafeNativeMethods.btBroadphaseProxy_getUniqueId(Native); }
+			set { UnsafeNativeMethods.btBroadphaseProxy_setUniqueId(Native, value); }
 		}
 	}
 
@@ -207,22 +208,22 @@ namespace BulletSharp
 		{
 			get
 			{
-				IntPtr valuePtr = btBroadphasePair_getAlgorithm(Native);
+				IntPtr valuePtr = UnsafeNativeMethods.btBroadphasePair_getAlgorithm(Native);
 				return (valuePtr == IntPtr.Zero) ? null : new CollisionAlgorithm(valuePtr, true);
 			}
-			set => btBroadphasePair_setAlgorithm(Native, (value.Native == IntPtr.Zero) ? IntPtr.Zero : value.Native);
+			set { UnsafeNativeMethods.btBroadphasePair_setAlgorithm(Native, (value.Native == IntPtr.Zero) ? IntPtr.Zero : value.Native); }
 		}
 
 		public BroadphaseProxy Proxy0
 		{
-			get => BroadphaseProxy.GetManaged(btBroadphasePair_getPProxy0(Native));
-			set => btBroadphasePair_setPProxy0(Native, value.Native);
+			get { return BroadphaseProxy.GetManaged(UnsafeNativeMethods.btBroadphasePair_getPProxy0(Native)); }
+			set { UnsafeNativeMethods.btBroadphasePair_setPProxy0(Native, value.Native); }
 		}
 
 		public BroadphaseProxy Proxy1
 		{
-			get => BroadphaseProxy.GetManaged(btBroadphasePair_getPProxy1(Native));
-			set => btBroadphasePair_setPProxy1(Native, value.Native);
+			get { return BroadphaseProxy.GetManaged(UnsafeNativeMethods.btBroadphasePair_getPProxy1(Native)); }
+			set { UnsafeNativeMethods.btBroadphasePair_setPProxy1(Native, value.Native); }
 		}
 	}
 }

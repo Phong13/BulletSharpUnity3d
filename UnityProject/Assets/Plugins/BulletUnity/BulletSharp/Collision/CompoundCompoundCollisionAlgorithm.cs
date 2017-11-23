@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp
 {
@@ -13,14 +13,14 @@ namespace BulletSharp
 			}
 
 			public CreateFunc()
-				: base(btCompoundCompoundCollisionAlgorithm_CreateFunc_new(), false)
+				: base(UnsafeNativeMethods.btCompoundCompoundCollisionAlgorithm_CreateFunc_new(), false)
 			{
 			}
 
             public override CollisionAlgorithm CreateCollisionAlgorithm(CollisionAlgorithmConstructionInfo __unnamed0,
                 CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap)
             {
-                return new CompoundCompoundCollisionAlgorithm(btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
+                return new CompoundCompoundCollisionAlgorithm(UnsafeNativeMethods.btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
                     Native, __unnamed0.Native, body0Wrap.Native, body1Wrap.Native));
             }
 		}
@@ -33,13 +33,13 @@ namespace BulletSharp
 			}
 
 			public SwappedCreateFunc()
-				: base(btCompoundCompoundCollisionAlgorithm_SwappedCreateFunc_new(), false)
+				: base(UnsafeNativeMethods.btCompoundCompoundCollisionAlgorithm_SwappedCreateFunc_new(), false)
 			{
 			}
 
             public override CollisionAlgorithm CreateCollisionAlgorithm(CollisionAlgorithmConstructionInfo __unnamed0, CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap)
             {
-                return new CompoundCompoundCollisionAlgorithm(btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
+                return new CompoundCompoundCollisionAlgorithm(UnsafeNativeMethods.btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
                     Native, __unnamed0.Native, body0Wrap.Native, body1Wrap.Native));
             }
 		}
@@ -51,7 +51,7 @@ namespace BulletSharp
 
 		public CompoundCompoundCollisionAlgorithm(CollisionAlgorithmConstructionInfo ci,
 			CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap, bool isSwapped)
-			: base(btCompoundCompoundCollisionAlgorithm_new(ci.Native, body0Wrap.Native,
+			: base(UnsafeNativeMethods.btCompoundCompoundCollisionAlgorithm_new(ci.Native, body0Wrap.Native,
 				body1Wrap.Native, isSwapped))
 		{
 		}

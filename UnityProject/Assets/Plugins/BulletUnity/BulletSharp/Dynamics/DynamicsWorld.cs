@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -51,13 +51,13 @@ namespace BulletSharp
 
 			ActionInterfaceWrapper wrapper = new ActionInterfaceWrapper(action, this);
 			_actions.Add(action, wrapper);
-			btDynamicsWorld_addAction(Native, wrapper._native);
+			UnsafeNativeMethods.btDynamicsWorld_addAction(Native, wrapper._native);
 		}
 
 		public void AddConstraint(TypedConstraint constraint, bool disableCollisionsBetweenLinkedBodies = false)
 		{
 			_constraints.Add(constraint);
-			btDynamicsWorld_addConstraint(Native, constraint.Native, disableCollisionsBetweenLinkedBodies);
+			UnsafeNativeMethods.btDynamicsWorld_addConstraint(Native, constraint.Native, disableCollisionsBetweenLinkedBodies);
 
 			if (disableCollisionsBetweenLinkedBodies)
 			{
@@ -94,18 +94,18 @@ namespace BulletSharp
 
 		public void ClearForces()
 		{
-			btDynamicsWorld_clearForces(Native);
+			UnsafeNativeMethods.btDynamicsWorld_clearForces(Native);
 		}
 
 		public TypedConstraint GetConstraint(int index)
 		{
-			System.Diagnostics.Debug.Assert(btDynamicsWorld_getConstraint(Native, index) == _constraints[index].Native);
+			System.Diagnostics.Debug.Assert(UnsafeNativeMethods.btDynamicsWorld_getConstraint(Native, index) == _constraints[index].Native);
 			return _constraints[index];
 		}
 
 		public void GetGravity(out Vector3 gravity)
 		{
-			btDynamicsWorld_getGravity(Native, out gravity);
+			UnsafeNativeMethods.btDynamicsWorld_getGravity(Native, out gravity);
 		}
 
 		public void RemoveAction(IAction action)
@@ -119,7 +119,7 @@ namespace BulletSharp
 			ActionInterfaceWrapper wrapper;
 			if (_actions.TryGetValue(action, out wrapper))
 			{
-				btDynamicsWorld_removeAction(Native, wrapper._native);
+				UnsafeNativeMethods.btDynamicsWorld_removeAction(Native, wrapper._native);
 				_actions.Remove(action);
 				wrapper.Dispose();
 			}
@@ -142,7 +142,7 @@ namespace BulletSharp
 			int lastIndex = _constraints.Count - 1;
 			_constraints[itemIndex] = _constraints[lastIndex];
 			_constraints.RemoveAt(lastIndex);
-			btDynamicsWorld_removeConstraint(Native, constraint.Native);
+			UnsafeNativeMethods.btDynamicsWorld_removeConstraint(Native, constraint.Native);
 		}
 
 		public void RemoveRigidBody(RigidBody body)
@@ -152,7 +152,7 @@ namespace BulletSharp
 
 		public void SetGravity(ref Vector3 gravity)
 		{
-			btDynamicsWorld_setGravity(Native, ref gravity);
+			UnsafeNativeMethods.btDynamicsWorld_setGravity(Native, ref gravity);
 		}
 
 		private void InternalPreTickCallbackNative(IntPtr world, float timeStep)
@@ -190,13 +190,13 @@ namespace BulletSharp
 					{
 						_preTickCallbackUnmanaged = new InternalTickCallbackUnmanaged(InternalPreTickCallbackNative);
 					}
-					btDynamicsWorld_setInternalTickCallback(Native,
+					UnsafeNativeMethods.btDynamicsWorld_setInternalTickCallback(Native,
 						Marshal.GetFunctionPointerForDelegate(_preTickCallbackUnmanaged), IntPtr.Zero, true);
 				}
 				else
 				{
 					_preTickCallbackUnmanaged = null;
-					btDynamicsWorld_setInternalTickCallback(Native, IntPtr.Zero, IntPtr.Zero, true);
+					UnsafeNativeMethods.btDynamicsWorld_setInternalTickCallback(Native, IntPtr.Zero, IntPtr.Zero, true);
 				}
 			}
 		}
@@ -212,26 +212,26 @@ namespace BulletSharp
 					{
 						_postTickCallbackUnmanaged = new InternalTickCallbackUnmanaged(InternalPostTickCallbackNative);
 					}
-					btDynamicsWorld_setInternalTickCallback(Native,
+					UnsafeNativeMethods.btDynamicsWorld_setInternalTickCallback(Native,
 						Marshal.GetFunctionPointerForDelegate(_postTickCallbackUnmanaged), IntPtr.Zero, false);
 				}
 				else
 				{
 					_postTickCallbackUnmanaged = null;
-					btDynamicsWorld_setInternalTickCallback(Native, IntPtr.Zero, IntPtr.Zero, false);
+					UnsafeNativeMethods.btDynamicsWorld_setInternalTickCallback(Native, IntPtr.Zero, IntPtr.Zero, false);
 				}
 			}
 		}
 
 		public int StepSimulation(float timeStep, int maxSubSteps = 1, float fixedTimeStep = 1.0f / 60.0f)
 		{
-			return btDynamicsWorld_stepSimulation(Native, timeStep, maxSubSteps,
+			return UnsafeNativeMethods.btDynamicsWorld_stepSimulation(Native, timeStep, maxSubSteps,
 				fixedTimeStep);
 		}
 
 		public void SynchronizeMotionStates()
 		{
-			btDynamicsWorld_synchronizeMotionStates(Native);
+			UnsafeNativeMethods.btDynamicsWorld_synchronizeMotionStates(Native);
 		}
 
 		public ConstraintSolver ConstraintSolver
@@ -240,14 +240,14 @@ namespace BulletSharp
 			{
 				if (_constraintSolver == null)
 				{
-					_constraintSolver = new SequentialImpulseConstraintSolver(btDynamicsWorld_getConstraintSolver(Native), true);
+					_constraintSolver = new SequentialImpulseConstraintSolver(UnsafeNativeMethods.btDynamicsWorld_getConstraintSolver(Native), true);
 				}
 				return _constraintSolver;
 			}
 			set
 			{
 				_constraintSolver = value;
-				btDynamicsWorld_setConstraintSolver(Native, value.Native);
+				UnsafeNativeMethods.btDynamicsWorld_setConstraintSolver(Native, value.Native);
 			}
 		}
 
@@ -256,13 +256,13 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btDynamicsWorld_getGravity(Native, out value);
+				UnsafeNativeMethods.btDynamicsWorld_getGravity(Native, out value);
 				return value;
 			}
-			set => btDynamicsWorld_setGravity(Native, ref value);
+			set => UnsafeNativeMethods.btDynamicsWorld_setGravity(Native, ref value);
 		}
 
-		public int NumConstraints => btDynamicsWorld_getNumConstraints(Native);
+		public int NumConstraints => UnsafeNativeMethods.btDynamicsWorld_getNumConstraints(Native);
 
 		public ContactSolverInfo SolverInfo
 		{
@@ -270,13 +270,13 @@ namespace BulletSharp
 			{
 				if (_solverInfo == null)
 				{
-					_solverInfo = new ContactSolverInfo(btDynamicsWorld_getSolverInfo(Native), true);
+					_solverInfo = new ContactSolverInfo(UnsafeNativeMethods.btDynamicsWorld_getSolverInfo(Native), true);
 				}
 				return _solverInfo;
 			}
 		}
 
-		public DynamicsWorldType WorldType => btDynamicsWorld_getWorldType(Native);
+		public DynamicsWorldType WorldType => UnsafeNativeMethods.btDynamicsWorld_getWorldType(Native);
 
 		public Object WorldUserInfo { get; set; }
 

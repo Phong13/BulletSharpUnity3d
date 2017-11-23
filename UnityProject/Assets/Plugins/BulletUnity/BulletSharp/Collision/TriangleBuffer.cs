@@ -1,8 +1,8 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -19,19 +19,19 @@ namespace BulletSharp
 
 		public Triangle()
 		{
-			Native = btTriangle_new();
+			Native = UnsafeNativeMethods.btTriangle_new();
 		}
 
 		public int PartId
 		{
-			get => btTriangle_getPartId(Native);
-			set => btTriangle_setPartId(Native, value);
+			get => UnsafeNativeMethods.btTriangle_getPartId(Native);
+			set => UnsafeNativeMethods.btTriangle_setPartId(Native, value);
 		}
 
 		public int TriangleIndex
 		{
-			get => btTriangle_getTriangleIndex(Native);
-			set => btTriangle_setTriangleIndex(Native, value);
+			get => UnsafeNativeMethods.btTriangle_getTriangleIndex(Native);
+			set => UnsafeNativeMethods.btTriangle_setTriangleIndex(Native, value);
 		}
 
 		public Vector3 Vertex0
@@ -39,10 +39,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTriangle_getVertex0(Native, out value);
+				UnsafeNativeMethods.btTriangle_getVertex0(Native, out value);
 				return value;
 			}
-			set => btTriangle_setVertex0(Native, ref value);
+			set => UnsafeNativeMethods.btTriangle_setVertex0(Native, ref value);
 		}
 
 		public Vector3 Vertex1
@@ -50,10 +50,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTriangle_getVertex1(Native, out value);
+				UnsafeNativeMethods.btTriangle_getVertex1(Native, out value);
 				return value;
 			}
-			set => btTriangle_setVertex1(Native, ref value);
+			set => UnsafeNativeMethods.btTriangle_setVertex1(Native, ref value);
 		}
 
 		public Vector3 Vertex2
@@ -61,10 +61,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTriangle_getVertex2(Native, out value);
+				UnsafeNativeMethods.btTriangle_getVertex2(Native, out value);
 				return value;
 			}
-			set => btTriangle_setVertex2(Native, ref value);
+			set => UnsafeNativeMethods.btTriangle_setVertex2(Native, ref value);
 		}
 
 		public void Dispose()
@@ -79,7 +79,7 @@ namespace BulletSharp
 			{
 				if (!_preventDelete)
 				{
-					btTriangle_delete(Native);
+					UnsafeNativeMethods.btTriangle_delete(Native);
 				}
 				Native = IntPtr.Zero;
 			}
@@ -95,7 +95,7 @@ namespace BulletSharp
 	{
 		/*
 		public TriangleBuffer()
-			: base(btTriangleBuffer_new())
+			: base(UnsafeNativeMethods.btTriangleBuffer_new())
 		{
 		}
 		*/
@@ -105,12 +105,12 @@ namespace BulletSharp
 
 		public void ClearBuffer()
 		{
-			btTriangleBuffer_clearBuffer(Native);
+			UnsafeNativeMethods.btTriangleBuffer_clearBuffer(Native);
 		}
 
 		public Triangle GetTriangle(int index)
 		{
-			return new Triangle(btTriangleBuffer_getTriangle(Native, index), true);
+			return new Triangle(UnsafeNativeMethods.btTriangleBuffer_getTriangle(Native, index), true);
 		}
 
 		public override void ProcessTriangle(ref Vector3 vector0, ref Vector3 vector1, ref Vector3 vector2, int partId, int triangleIndex)
@@ -118,6 +118,6 @@ namespace BulletSharp
 			throw new NotImplementedException();
 		}
 
-		public int NumTriangles => btTriangleBuffer_getNumTriangles(Native);
+		public int NumTriangles => UnsafeNativeMethods.btTriangleBuffer_getNumTriangles(Native);
 	}
 }

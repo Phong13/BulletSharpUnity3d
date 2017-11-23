@@ -1,24 +1,24 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp
 {
 	public class SoftBodyRigidBodyCollisionConfiguration : DefaultCollisionConfiguration
 	{
 		public SoftBodyRigidBodyCollisionConfiguration()
-			: base(btSoftBodyRigidBodyCollisionConfiguration_new())
+			: base(UnsafeNativeMethods.btSoftBodyRigidBodyCollisionConfiguration_new())
 		{
 		}
 
 		public SoftBodyRigidBodyCollisionConfiguration(DefaultCollisionConstructionInfo constructionInfo)
-			: base(btSoftBodyRigidBodyCollisionConfiguration_new2(constructionInfo._native))
+			: base(UnsafeNativeMethods.btSoftBodyRigidBodyCollisionConfiguration_new2(constructionInfo._native))
 		{
 		}
 
 		public override CollisionAlgorithmCreateFunc GetCollisionAlgorithmCreateFunc(BroadphaseNativeType proxyType0,
 			BroadphaseNativeType proxyType1)
 		{
-			IntPtr createFunc = btCollisionConfiguration_getCollisionAlgorithmCreateFunc(Native, (int)proxyType0, (int)proxyType1);
+			IntPtr createFunc = UnsafeNativeMethods.btCollisionConfiguration_getCollisionAlgorithmCreateFunc(Native, (int)proxyType0, (int)proxyType1);
 			if (proxyType0 == BroadphaseNativeType.SoftBodyShape && proxyType1 == BroadphaseNativeType.SoftBodyShape)
 			{
 				return new SoftSoftCollisionAlgorithm.CreateFunc(createFunc);

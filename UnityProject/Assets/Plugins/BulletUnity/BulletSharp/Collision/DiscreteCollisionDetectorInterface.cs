@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -12,13 +12,13 @@ namespace BulletSharp
 
 			public ClosestPointInput()
 			{
-				Native = btDiscreteCollisionDetectorInterface_ClosestPointInput_new();
+				Native = UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_ClosestPointInput_new();
 			}
 
 			public float MaximumDistanceSquared
 			{
-				get => btDiscreteCollisionDetectorInterface_ClosestPointInput_getMaximumDistanceSquared(Native);
-				set => btDiscreteCollisionDetectorInterface_ClosestPointInput_setMaximumDistanceSquared(Native, value);
+				get => UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_ClosestPointInput_getMaximumDistanceSquared(Native);
+				set => UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_ClosestPointInput_setMaximumDistanceSquared(Native, value);
 			}
 
 			public Matrix TransformA
@@ -26,10 +26,10 @@ namespace BulletSharp
 				get
 				{
 					Matrix value;
-					btDiscreteCollisionDetectorInterface_ClosestPointInput_getTransformA(Native, out value);
+					UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_ClosestPointInput_getTransformA(Native, out value);
 					return value;
 				}
-				set => btDiscreteCollisionDetectorInterface_ClosestPointInput_setTransformA(Native, ref value);
+				set => UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_ClosestPointInput_setTransformA(Native, ref value);
 			}
 
 			public Matrix TransformB
@@ -37,10 +37,10 @@ namespace BulletSharp
 				get
 				{
 					Matrix value;
-					btDiscreteCollisionDetectorInterface_ClosestPointInput_getTransformB(Native, out value);
+					UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_ClosestPointInput_getTransformB(Native, out value);
 					return value;
 				}
-				set => btDiscreteCollisionDetectorInterface_ClosestPointInput_setTransformB(Native, ref value);
+				set => UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_ClosestPointInput_setTransformB(Native, ref value);
 			}
 
 			public void Dispose()
@@ -53,7 +53,7 @@ namespace BulletSharp
 			{
 				if (Native != IntPtr.Zero)
 				{
-					btDiscreteCollisionDetectorInterface_ClosestPointInput_delete(Native);
+					UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_ClosestPointInput_delete(Native);
 					Native = IntPtr.Zero;
 				}
 			}
@@ -76,19 +76,19 @@ namespace BulletSharp
 			public void AddContactPoint(Vector3 normalOnBInWorld, Vector3 pointInWorld,
 				float depth)
 			{
-				btDiscreteCollisionDetectorInterface_Result_addContactPoint(Native,
+				UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_Result_addContactPoint(Native,
 					ref normalOnBInWorld, ref pointInWorld, depth);
 			}
 
 			public void SetShapeIdentifiersA(int partId0, int index0)
 			{
-				btDiscreteCollisionDetectorInterface_Result_setShapeIdentifiersA(
+				UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_Result_setShapeIdentifiersA(
 					Native, partId0, index0);
 			}
 
 			public void SetShapeIdentifiersB(int partId1, int index1)
 			{
-				btDiscreteCollisionDetectorInterface_Result_setShapeIdentifiersB(
+				UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_Result_setShapeIdentifiersB(
 					Native, partId1, index1);
 			}
 
@@ -102,7 +102,7 @@ namespace BulletSharp
 			{
 				if (Native != IntPtr.Zero)
 				{
-					btDiscreteCollisionDetectorInterface_Result_delete(Native);
+					UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_Result_delete(Native);
 					Native = IntPtr.Zero;
 				}
 			}
@@ -123,7 +123,7 @@ namespace BulletSharp
 		public void GetClosestPoints(ClosestPointInput input, Result output, IDebugDraw debugDraw,
 			bool swapResults = false)
 		{
-			btDiscreteCollisionDetectorInterface_getClosestPoints(Native, input.Native,
+			UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_getClosestPoints(Native, input.Native,
 				output.Native, DebugDraw.GetUnmanaged(debugDraw), swapResults);
 		}
 
@@ -137,7 +137,7 @@ namespace BulletSharp
 		{
 			if (Native != IntPtr.Zero)
 			{
-				btDiscreteCollisionDetectorInterface_delete(Native);
+				UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_delete(Native);
 				Native = IntPtr.Zero;
 			}
 		}
@@ -165,16 +165,16 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btStorageResult_getClosestPointInB(Native, out value);
+				UnsafeNativeMethods.btStorageResult_getClosestPointInB(Native, out value);
 				return value;
 			}
-			set => btStorageResult_setClosestPointInB(Native, ref value);
+			set => UnsafeNativeMethods.btStorageResult_setClosestPointInB(Native, ref value);
 		}
 
 		public float Distance
 		{
-			get => btStorageResult_getDistance(Native);
-			set => btStorageResult_setDistance(Native, value);
+			get => UnsafeNativeMethods.btStorageResult_getDistance(Native);
+			set => UnsafeNativeMethods.btStorageResult_setDistance(Native, value);
 		}
 
 		public Vector3 NormalOnSurfaceB
@@ -182,10 +182,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btStorageResult_getNormalOnSurfaceB(Native, out value);
+				UnsafeNativeMethods.btStorageResult_getNormalOnSurfaceB(Native, out value);
 				return value;
 			}
-			set => btStorageResult_setNormalOnSurfaceB(Native, ref value);
+			set => UnsafeNativeMethods.btStorageResult_setNormalOnSurfaceB(Native, ref value);
 		}
 	}
 }

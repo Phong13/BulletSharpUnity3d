@@ -1,4 +1,4 @@
-using BulletSharp.Math;
+﻿using BulletSharp.Math;
 using System;
 using System.Runtime.InteropServices;
 using System.Security;
@@ -6,7 +6,7 @@ using System.Security;
 namespace BulletSharp
 {
 	[SuppressUnmanagedCodeSecurity]
-	internal static class UnsafeNativeMethods
+	public static class UnsafeNativeMethods
 	{
 		[DllImport(Native.Dll, CallingConvention = Native.Conv)]
 		public static extern IntPtr BT_BOX_BOX_TRANSFORM_CACHE_new();

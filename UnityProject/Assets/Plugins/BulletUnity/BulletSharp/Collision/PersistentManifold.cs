@@ -1,8 +1,8 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -47,7 +47,7 @@ namespace BulletSharp
 					_contactDestroyedUnmanaged = new ContactDestroyedUnmanagedDelegate(ContactDestroyedUnmanaged);
 					_contactDestroyedUnmanagedPtr = Marshal.GetFunctionPointerForDelegate(_contactDestroyedUnmanaged);
 				}
-				setGContactDestroyedCallback(_contactDestroyedUnmanagedPtr);
+				UnsafeNativeMethods.setGContactDestroyedCallback(_contactDestroyedUnmanagedPtr);
 				_contactDestroyed += value;
 			}
 			remove
@@ -55,7 +55,7 @@ namespace BulletSharp
 				_contactDestroyed -= value;
 				if (_contactDestroyed == null)
 				{
-					setGContactDestroyedCallback(IntPtr.Zero);
+					UnsafeNativeMethods.setGContactDestroyedCallback(IntPtr.Zero);
 				}
 			}
 		}
@@ -69,7 +69,7 @@ namespace BulletSharp
 					_contactProcessedUnmanaged = new ContactProcessedUnmanagedDelegate(ContactProcessedUnmanaged);
 					_contactProcessedUnmanagedPtr = Marshal.GetFunctionPointerForDelegate(_contactProcessedUnmanaged);
 				}
-				setGContactProcessedCallback(_contactProcessedUnmanagedPtr);
+				UnsafeNativeMethods.setGContactProcessedCallback(_contactProcessedUnmanagedPtr);
 				_contactProcessed += value;
 			}
 			remove
@@ -77,7 +77,7 @@ namespace BulletSharp
 				_contactProcessed -= value;
 				if (_contactProcessed == null)
 				{
-					setGContactProcessedCallback(IntPtr.Zero);
+					UnsafeNativeMethods.setGContactProcessedCallback(IntPtr.Zero);
 				}
 			}
 		}
@@ -90,110 +90,110 @@ namespace BulletSharp
 
 		public PersistentManifold()
 		{
-			Native = btPersistentManifold_new();
+			Native = UnsafeNativeMethods.btPersistentManifold_new();
 		}
 
 		public PersistentManifold(CollisionObject body0, CollisionObject body1, int __unnamed2,
 			float contactBreakingThreshold, float contactProcessingThreshold)
 		{
-			Native = btPersistentManifold_new2(body0.Native, body1.Native, __unnamed2,
+			Native = UnsafeNativeMethods.btPersistentManifold_new2(body0.Native, body1.Native, __unnamed2,
 				contactBreakingThreshold, contactProcessingThreshold);
 		}
 
 		public int AddManifoldPoint(ManifoldPoint newPoint, bool isPredictive = false)
 		{
-			return btPersistentManifold_addManifoldPoint(Native, newPoint.Native,
+			return UnsafeNativeMethods.btPersistentManifold_addManifoldPoint(Native, newPoint.Native,
 				isPredictive);
 		}
 
 		public void ClearManifold()
 		{
-			btPersistentManifold_clearManifold(Native);
+			UnsafeNativeMethods.btPersistentManifold_clearManifold(Native);
 		}
 
 		public void ClearUserCache(ManifoldPoint pt)
 		{
-			btPersistentManifold_clearUserCache(Native, pt.Native);
+			UnsafeNativeMethods.btPersistentManifold_clearUserCache(Native, pt.Native);
 		}
 
 		public int GetCacheEntry(ManifoldPoint newPoint)
 		{
-			return btPersistentManifold_getCacheEntry(Native, newPoint.Native);
+			return UnsafeNativeMethods.btPersistentManifold_getCacheEntry(Native, newPoint.Native);
 		}
 
 		public ManifoldPoint GetContactPoint(int index)
 		{
-			return new ManifoldPoint(btPersistentManifold_getContactPoint(Native, index), true);
+			return new ManifoldPoint(UnsafeNativeMethods.btPersistentManifold_getContactPoint(Native, index), true);
 		}
 
 		public void RefreshContactPointsRef(ref Matrix trA, ref Matrix trB)
 		{
-			btPersistentManifold_refreshContactPoints(Native, ref trA, ref trB);
+			UnsafeNativeMethods.btPersistentManifold_refreshContactPoints(Native, ref trA, ref trB);
 		}
 
 		public void RefreshContactPoints(Matrix trA, Matrix trB)
 		{
-			btPersistentManifold_refreshContactPoints(Native, ref trA, ref trB);
+			UnsafeNativeMethods.btPersistentManifold_refreshContactPoints(Native, ref trA, ref trB);
 		}
 
 		public void RemoveContactPoint(int index)
 		{
-			btPersistentManifold_removeContactPoint(Native, index);
+			UnsafeNativeMethods.btPersistentManifold_removeContactPoint(Native, index);
 		}
 
 		public void ReplaceContactPoint(ManifoldPoint newPoint, int insertIndex)
 		{
-			btPersistentManifold_replaceContactPoint(Native, newPoint.Native, insertIndex);
+			UnsafeNativeMethods.btPersistentManifold_replaceContactPoint(Native, newPoint.Native, insertIndex);
 		}
 
 		public void SetBodies(CollisionObject body0, CollisionObject body1)
 		{
-			btPersistentManifold_setBodies(Native, body0.Native, body1.Native);
+			UnsafeNativeMethods.btPersistentManifold_setBodies(Native, body0.Native, body1.Native);
 		}
 
 		public bool ValidContactDistance(ManifoldPoint pt)
 		{
-			return btPersistentManifold_validContactDistance(Native, pt.Native);
+			return UnsafeNativeMethods.btPersistentManifold_validContactDistance(Native, pt.Native);
 		}
 
-		public CollisionObject Body0 => CollisionObject.GetManaged(btPersistentManifold_getBody0(Native));
+		public CollisionObject Body0 => CollisionObject.GetManaged(UnsafeNativeMethods.btPersistentManifold_getBody0(Native));
 
-		public CollisionObject Body1 => CollisionObject.GetManaged(btPersistentManifold_getBody1(Native));
+		public CollisionObject Body1 => CollisionObject.GetManaged(UnsafeNativeMethods.btPersistentManifold_getBody1(Native));
 
 		public int CompanionIdA
 		{
-			get => btPersistentManifold_getCompanionIdA(Native);
-			set => btPersistentManifold_setCompanionIdA(Native, value);
+			get => UnsafeNativeMethods.btPersistentManifold_getCompanionIdA(Native);
+			set => UnsafeNativeMethods.btPersistentManifold_setCompanionIdA(Native, value);
 		}
 
 		public int CompanionIdB
 		{
-			get => btPersistentManifold_getCompanionIdB(Native);
-			set => btPersistentManifold_setCompanionIdB(Native, value);
+			get => UnsafeNativeMethods.btPersistentManifold_getCompanionIdB(Native);
+			set => UnsafeNativeMethods.btPersistentManifold_setCompanionIdB(Native, value);
 		}
 
 		public float ContactBreakingThreshold
 		{
-			get => btPersistentManifold_getContactBreakingThreshold(Native);
-			set => btPersistentManifold_setContactBreakingThreshold(Native, value);
+			get => UnsafeNativeMethods.btPersistentManifold_getContactBreakingThreshold(Native);
+			set => UnsafeNativeMethods.btPersistentManifold_setContactBreakingThreshold(Native, value);
 		}
 
 		public float ContactProcessingThreshold
 		{
-			get => btPersistentManifold_getContactProcessingThreshold(Native);
-			set => btPersistentManifold_setContactProcessingThreshold(Native, value);
+			get => UnsafeNativeMethods.btPersistentManifold_getContactProcessingThreshold(Native);
+			set => UnsafeNativeMethods.btPersistentManifold_setContactProcessingThreshold(Native, value);
 		}
 
 		public int Index1A
 		{
-			get => btPersistentManifold_getIndex1a(Native);
-			set => btPersistentManifold_setIndex1a(Native, value);
+			get => UnsafeNativeMethods.btPersistentManifold_getIndex1a(Native);
+			set => UnsafeNativeMethods.btPersistentManifold_setIndex1a(Native, value);
 		}
 
 		public int NumContacts
 		{
-			get => btPersistentManifold_getNumContacts(Native);
-			set => btPersistentManifold_setNumContacts(Native, value);
+			get => UnsafeNativeMethods.btPersistentManifold_getNumContacts(Native);
+			set => UnsafeNativeMethods.btPersistentManifold_setNumContacts(Native, value);
 		}
 
 		public void Dispose()
@@ -208,7 +208,7 @@ namespace BulletSharp
 			{
 				if (!_preventDelete)
 				{
-					btPersistentManifold_delete(Native);
+					UnsafeNativeMethods.btPersistentManifold_delete(Native);
 				}
 				Native = IntPtr.Zero;
 			}

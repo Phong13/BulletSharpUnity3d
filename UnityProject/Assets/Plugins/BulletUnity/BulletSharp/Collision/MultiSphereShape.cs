@@ -1,32 +1,32 @@
-using System;
+﻿using System;
 using System.IO;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
 	public class MultiSphereShape : ConvexInternalAabbCachingShape
 	{
 		public MultiSphereShape(Vector3[] positions, float[] radi)
-			: base(btMultiSphereShape_new(positions, radi, (radi.Length < positions.Length) ? radi.Length : positions.Length))
+			: base(UnsafeNativeMethods.btMultiSphereShape_new(positions, radi, (radi.Length < positions.Length) ? radi.Length : positions.Length))
 		{
 		}
 
 		public MultiSphereShape(Vector3Array positions, float[] radi)
-			: base(btMultiSphereShape_new2(positions._native, radi, (radi.Length < positions.Count) ? radi.Length : positions.Count))
+			: base(UnsafeNativeMethods.btMultiSphereShape_new2(positions._native, radi, (radi.Length < positions.Count) ? radi.Length : positions.Count))
 		{
 		}
 
 		public Vector3 GetSpherePosition(int index)
 		{
 			Vector3 value;
-			btMultiSphereShape_getSpherePosition(Native, index, out value);
+			UnsafeNativeMethods.btMultiSphereShape_getSpherePosition(Native, index, out value);
 			return value;
 		}
 
 		public float GetSphereRadius(int index)
 		{
-			return btMultiSphereShape_getSphereRadius(Native, index);
+			return UnsafeNativeMethods.btMultiSphereShape_getSphereRadius(Native, index);
 		}
 		/*
 		public unsafe override string Serialize(IntPtr dataBuffer, Serializer serializer)
@@ -60,6 +60,6 @@ namespace BulletSharp
 			return "btMultiSphereShapeData";
 		}
 		*/
-		public int SphereCount => btMultiSphereShape_getSphereCount(Native);
+		public int SphereCount => UnsafeNativeMethods.btMultiSphereShape_getSphereCount(Native);
 	}
 }

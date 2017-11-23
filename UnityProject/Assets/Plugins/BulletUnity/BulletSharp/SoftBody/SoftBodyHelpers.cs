@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -6,7 +6,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp.SoftBody
 {
@@ -77,7 +77,7 @@ namespace BulletSharp.SoftBody
 		public static SoftBody CreateFromConvexHull(SoftBodyWorldInfo worldInfo,
 			Vector3[] vertices, int nVertices, bool randomizeConstraints = true)
 		{
-			var body = new SoftBody(btSoftBodyHelpers_CreateFromConvexHull(
+			var body = new SoftBody(UnsafeNativeMethods.btSoftBodyHelpers_CreateFromConvexHull(
 				worldInfo.Native, vertices, nVertices, randomizeConstraints));
 			body.WorldInfo = worldInfo;
 			return body;
@@ -86,7 +86,7 @@ namespace BulletSharp.SoftBody
 		public static SoftBody CreateFromConvexHull(SoftBodyWorldInfo worldInfo,
 			Vector3[] vertices, bool randomizeConstraints = true)
 		{
-			var body = new SoftBody(btSoftBodyHelpers_CreateFromConvexHull(
+			var body = new SoftBody(UnsafeNativeMethods.btSoftBodyHelpers_CreateFromConvexHull(
 				worldInfo.Native, vertices, vertices.Length, randomizeConstraints));
 			body.WorldInfo = worldInfo;
 			return body;
@@ -312,7 +312,7 @@ namespace BulletSharp.SoftBody
 			Vector3 corner10, Vector3 corner01, Vector3 corner11, int resolutionX, int resolutionY,
 			int fixedCorners, bool generateDiagonals, float[] texCoords = null)
 		{
-			var body = new SoftBody(btSoftBodyHelpers_CreatePatchUV(worldInfo.Native,
+			var body = new SoftBody(UnsafeNativeMethods.btSoftBodyHelpers_CreatePatchUV(worldInfo.Native,
 				ref corner00, ref corner10, ref corner01, ref corner11, resolutionX, resolutionY,
 				fixedCorners, generateDiagonals, texCoords));
 			body.WorldInfo = worldInfo;
@@ -350,39 +350,39 @@ namespace BulletSharp.SoftBody
 
 		public static void Draw(SoftBody psb, IDebugDraw iDraw, DrawFlags drawFlags = DrawFlags.Std)
 		{
-			btSoftBodyHelpers_Draw(psb.Native, DebugDraw.GetUnmanaged(iDraw), drawFlags);
+			UnsafeNativeMethods.btSoftBodyHelpers_Draw(psb.Native, DebugDraw.GetUnmanaged(iDraw), drawFlags);
 		}
 
 		public static void DrawClusterTree(SoftBody psb, IDebugDraw iDraw, int minDepth = 0,
 			int maxDepth = -1)
 		{
-			btSoftBodyHelpers_DrawClusterTree(psb.Native, DebugDraw.GetUnmanaged(iDraw),
+			UnsafeNativeMethods.btSoftBodyHelpers_DrawClusterTree(psb.Native, DebugDraw.GetUnmanaged(iDraw),
 				minDepth, maxDepth);
 		}
 
 		public static void DrawFaceTree(SoftBody psb, IDebugDraw iDraw, int minDepth = 0,
 			int maxDepth = -1)
 		{
-			btSoftBodyHelpers_DrawFaceTree(psb.Native, DebugDraw.GetUnmanaged(iDraw),
+			UnsafeNativeMethods.btSoftBodyHelpers_DrawFaceTree(psb.Native, DebugDraw.GetUnmanaged(iDraw),
 				minDepth, maxDepth);
 		}
 
 		public static void DrawFrame(SoftBody psb, IDebugDraw iDraw)
 		{
-			btSoftBodyHelpers_DrawFrame(psb.Native, DebugDraw.GetUnmanaged(iDraw));
+			UnsafeNativeMethods.btSoftBodyHelpers_DrawFrame(psb.Native, DebugDraw.GetUnmanaged(iDraw));
 		}
 
 		public static void DrawInfos(SoftBody psb, IDebugDraw iDraw, bool masses,
 			bool areas, bool stress)
 		{
-			btSoftBodyHelpers_DrawInfos(psb.Native, DebugDraw.GetUnmanaged(iDraw),
+			UnsafeNativeMethods.btSoftBodyHelpers_DrawInfos(psb.Native, DebugDraw.GetUnmanaged(iDraw),
 				masses, areas, stress);
 		}
 
 		public static void DrawNodeTree(SoftBody psb, IDebugDraw iDraw, int minDepth = 0,
 			int maxDepth = -1)
 		{
-			btSoftBodyHelpers_DrawNodeTree(psb.Native, DebugDraw.GetUnmanaged(iDraw),
+			UnsafeNativeMethods.btSoftBodyHelpers_DrawNodeTree(psb.Native, DebugDraw.GetUnmanaged(iDraw),
 				minDepth, maxDepth);
 		}
 
@@ -413,7 +413,7 @@ namespace BulletSharp.SoftBody
 			{
 				Node ar = link.Nodes[0];
 				Node br = link.Nodes[1];
-				linkBuffer.Add(link, new Link(btSoftBody_Link_new2(link.Native)));
+				linkBuffer.Add(link, new Link(UnsafeNativeMethods.btSoftBody_Link_new2(link.Native)));
 
 				LinkDep linkDep;
 				if (nodeWrittenAt.ContainsKey(ar))
@@ -473,7 +473,7 @@ namespace BulletSharp.SoftBody
 
 			foreach (Link link in linkBuffer.Values)
 			{
-				btSoftBody_Link_delete(link.Native);
+				UnsafeNativeMethods.btSoftBody_Link_delete(link.Native);
 			}
 		}
 	}

@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -16,33 +16,33 @@ namespace BulletSharp
 
 		public void LocalGetSupportingVertex(ref Vector3 vec, out Vector3 value)
 		{
-			btTriangleMeshShape_localGetSupportingVertex(Native, ref vec, out value);
+			UnsafeNativeMethods.btTriangleMeshShape_localGetSupportingVertex(Native, ref vec, out value);
 		}
 
 		public Vector3 LocalGetSupportingVertex(Vector3 vec)
 		{
 			Vector3 value;
-			btTriangleMeshShape_localGetSupportingVertex(Native, ref vec, out value);
+			UnsafeNativeMethods.btTriangleMeshShape_localGetSupportingVertex(Native, ref vec, out value);
 			return value;
 		}
 
 		public void LocalGetSupportingVertexWithoutMargin(ref Vector3 vec, out Vector3 value)
 		{
-			btTriangleMeshShape_localGetSupportingVertexWithoutMargin(Native, ref vec,
+			UnsafeNativeMethods.btTriangleMeshShape_localGetSupportingVertexWithoutMargin(Native, ref vec,
 				out value);
 		}
 
 		public Vector3 LocalGetSupportingVertexWithoutMargin(Vector3 vec)
 		{
 			Vector3 value;
-			btTriangleMeshShape_localGetSupportingVertexWithoutMargin(Native, ref vec,
+			UnsafeNativeMethods.btTriangleMeshShape_localGetSupportingVertexWithoutMargin(Native, ref vec,
 				out value);
 			return value;
 		}
 
 		public void RecalcLocalAabb()
 		{
-			btTriangleMeshShape_recalcLocalAabb(Native);
+			UnsafeNativeMethods.btTriangleMeshShape_recalcLocalAabb(Native);
 		}
 
 		public Vector3 LocalAabbMax
@@ -50,7 +50,7 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTriangleMeshShape_getLocalAabbMax(Native, out value);
+				UnsafeNativeMethods.btTriangleMeshShape_getLocalAabbMax(Native, out value);
 				return value;
 			}
 		}
@@ -60,7 +60,7 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTriangleMeshShape_getLocalAabbMin(Native, out value);
+				UnsafeNativeMethods.btTriangleMeshShape_getLocalAabbMin(Native, out value);
 				return value;
 			}
 		}
@@ -71,7 +71,7 @@ namespace BulletSharp
 			{
 				if (_meshInterface == null)
 				{
-					_meshInterface = new StridingMeshInterface(btTriangleMeshShape_getMeshInterface(Native));
+					_meshInterface = new StridingMeshInterface(UnsafeNativeMethods.btTriangleMeshShape_getMeshInterface(Native));
 				}
 				return _meshInterface;
 			}

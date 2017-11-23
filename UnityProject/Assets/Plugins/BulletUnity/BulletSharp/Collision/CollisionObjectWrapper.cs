@@ -1,6 +1,6 @@
-using BulletSharp.Math;
+﻿using BulletSharp.Math;
 using System;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -15,32 +15,36 @@ namespace BulletSharp
 
 		public CollisionObject CollisionObject
 		{
-			get => CollisionObject.GetManaged(btCollisionObjectWrapper_getCollisionObject(Native));
-			set => btCollisionObjectWrapper_setCollisionObject(Native, value.Native);
+			get { return CollisionObject.GetManaged(UnsafeNativeMethods.btCollisionObjectWrapper_getCollisionObject(Native)); }
+			set { UnsafeNativeMethods.btCollisionObjectWrapper_setCollisionObject(Native, value.Native); }
 		}
 
 		public CollisionShape CollisionShape
 		{
-			get => CollisionShape.GetManaged(btCollisionObjectWrapper_getCollisionShape(Native));
-			set => btCollisionObjectWrapper_setShape(Native, value.Native);
+            get
+            { return CollisionShape.GetManaged(UnsafeNativeMethods.btCollisionObjectWrapper_getCollisionShape(Native)); }
+			set { UnsafeNativeMethods.btCollisionObjectWrapper_setShape(Native, value.Native); }
 		}
 
 		public int Index
 		{
-			get => btCollisionObjectWrapper_getIndex(Native);
-			set => btCollisionObjectWrapper_setIndex(Native, value);
+            get
+            { return UnsafeNativeMethods.btCollisionObjectWrapper_getIndex(Native); }
+			set { UnsafeNativeMethods.btCollisionObjectWrapper_setIndex(Native, value); }
 		}
 
 		public CollisionObjectWrapper Parent
 		{
-			get => new CollisionObjectWrapper(btCollisionObjectWrapper_getParent(Native));
-			set => btCollisionObjectWrapper_setParent(Native, value.Native);
+            get
+            { return new CollisionObjectWrapper(UnsafeNativeMethods.btCollisionObjectWrapper_getParent(Native)); }
+			set { UnsafeNativeMethods.btCollisionObjectWrapper_setParent(Native, value.Native); }
 		}
 
 		public int PartId
 		{
-			get => btCollisionObjectWrapper_getPartId(Native);
-			set => btCollisionObjectWrapper_setPartId(Native, value);
+            get
+            { return UnsafeNativeMethods.btCollisionObjectWrapper_getPartId(Native); }
+			set { UnsafeNativeMethods.btCollisionObjectWrapper_setPartId(Native, value); }
 		}
 
 		public Matrix WorldTransform
@@ -48,7 +52,7 @@ namespace BulletSharp
 			get
 			{
 				Matrix value;
-				btCollisionObjectWrapper_getWorldTransform(Native, out value);
+                UnsafeNativeMethods.btCollisionObjectWrapper_getWorldTransform(Native, out value);
 				return value;
 			}
 		}

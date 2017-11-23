@@ -1,5 +1,5 @@
-using System;
-using static BulletSharp.UnsafeNativeMethods;
+﻿using System;
+
 
 namespace BulletSharp
 {
@@ -32,145 +32,145 @@ namespace BulletSharp
 
 		public ContactSolverInfoData()
 		{
-			Native = btContactSolverInfoData_new();
+			Native = UnsafeNativeMethods.btContactSolverInfoData_new();
 		}
 
 		public float Damping
 		{
-			get => btContactSolverInfoData_getDamping(Native);
-			set => btContactSolverInfoData_setDamping(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getDamping(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setDamping(Native, value);
 		}
 
 		public float Erp
 		{
-			get => btContactSolverInfoData_getErp(Native);
-			set => btContactSolverInfoData_setErp(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getErp(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setErp(Native, value);
 		}
 
 		public float Erp2
 		{
-			get => btContactSolverInfoData_getErp2(Native);
-			set => btContactSolverInfoData_setErp2(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getErp2(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setErp2(Native, value);
 		}
 
 		public float Friction
 		{
-			get => btContactSolverInfoData_getFriction(Native);
-			set => btContactSolverInfoData_setFriction(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getFriction(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setFriction(Native, value);
 		}
 
 		public float FrictionCfm
 		{
-			get => btContactSolverInfoData_getFrictionCfm(Native);
-			set => btContactSolverInfoData_setFrictionCfm(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getFrictionCfm(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setFrictionCfm(Native, value);
 		}
 
 		public float FrictionErp
 		{
-			get => btContactSolverInfoData_getFrictionErp(Native);
-			set => btContactSolverInfoData_setFrictionErp(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getFrictionErp(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setFrictionErp(Native, value);
 		}
 
 		public float GlobalCfm
 		{
-			get => btContactSolverInfoData_getGlobalCfm(Native);
-			set => btContactSolverInfoData_setGlobalCfm(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getGlobalCfm(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setGlobalCfm(Native, value);
 		}
 
 		public float LinearSlop
 		{
-			get => btContactSolverInfoData_getLinearSlop(Native);
-			set => btContactSolverInfoData_setLinearSlop(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getLinearSlop(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setLinearSlop(Native, value);
 		}
 
 		public float MaxErrorReduction
 		{
-			get => btContactSolverInfoData_getMaxErrorReduction(Native);
-			set => btContactSolverInfoData_setMaxErrorReduction(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getMaxErrorReduction(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setMaxErrorReduction(Native, value);
 		}
 
 		public float MaxGyroscopicForce
 		{
-			get => btContactSolverInfoData_getMaxGyroscopicForce(Native);
-			set => btContactSolverInfoData_setMaxGyroscopicForce(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getMaxGyroscopicForce(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setMaxGyroscopicForce(Native, value);
 		}
 
 		public int MinimumSolverBatchSize
 		{
-			get => btContactSolverInfoData_getMinimumSolverBatchSize(Native);
-			set => btContactSolverInfoData_setMinimumSolverBatchSize(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getMinimumSolverBatchSize(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setMinimumSolverBatchSize(Native, value);
 		}
 
 		public int NumIterations
 		{
-			get => btContactSolverInfoData_getNumIterations(Native);
-			set => btContactSolverInfoData_setNumIterations(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getNumIterations(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setNumIterations(Native, value);
 		}
 
 		public int RestingContactRestitutionThreshold
 		{
-			get => btContactSolverInfoData_getRestingContactRestitutionThreshold(Native);
-			set => btContactSolverInfoData_setRestingContactRestitutionThreshold(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getRestingContactRestitutionThreshold(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setRestingContactRestitutionThreshold(Native, value);
 		}
 
 		public float Restitution
 		{
-			get => btContactSolverInfoData_getRestitution(Native);
-			set => btContactSolverInfoData_setRestitution(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getRestitution(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setRestitution(Native, value);
 		}
 
 		public float SingleAxisRollingFrictionThreshold
 		{
-			get => btContactSolverInfoData_getSingleAxisRollingFrictionThreshold(Native);
-			set => btContactSolverInfoData_setSingleAxisRollingFrictionThreshold(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getSingleAxisRollingFrictionThreshold(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setSingleAxisRollingFrictionThreshold(Native, value);
 		}
 
 		public SolverModes SolverMode
 		{
-			get => btContactSolverInfoData_getSolverMode(Native);
-			set => btContactSolverInfoData_setSolverMode(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getSolverMode(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setSolverMode(Native, value);
 		}
 
 		public float Sor
 		{
-			get => btContactSolverInfoData_getSor(Native);
-			set => btContactSolverInfoData_setSor(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getSor(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setSor(Native, value);
 		}
 
 		public int SplitImpulse
 		{
-			get => btContactSolverInfoData_getSplitImpulse(Native);
-			set => btContactSolverInfoData_setSplitImpulse(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getSplitImpulse(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setSplitImpulse(Native, value);
 		}
 
 		public float SplitImpulsePenetrationThreshold
 		{
-			get => btContactSolverInfoData_getSplitImpulsePenetrationThreshold(Native);
-			set => btContactSolverInfoData_setSplitImpulsePenetrationThreshold(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getSplitImpulsePenetrationThreshold(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setSplitImpulsePenetrationThreshold(Native, value);
 		}
 
 		public float SplitImpulseTurnErp
 		{
-			get => btContactSolverInfoData_getSplitImpulseTurnErp(Native);
-			set => btContactSolverInfoData_setSplitImpulseTurnErp(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getSplitImpulseTurnErp(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setSplitImpulseTurnErp(Native, value);
 		}
 
 		public float Tau
 		{
-			get => btContactSolverInfoData_getTau(Native);
-			set => btContactSolverInfoData_setTau(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getTau(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setTau(Native, value);
 		}
 
 		public float TimeStep
 		{
-			get => btContactSolverInfoData_getTimeStep(Native);
-			set => btContactSolverInfoData_setTimeStep(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getTimeStep(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setTimeStep(Native, value);
 		}
 
 		public float WarmStartingFactor
 		{
-			get => btContactSolverInfoData_getWarmstartingFactor(Native);
-			set => btContactSolverInfoData_setWarmstartingFactor(Native, value);
+			get => UnsafeNativeMethods.btContactSolverInfoData_getWarmstartingFactor(Native);
+			set => UnsafeNativeMethods.btContactSolverInfoData_setWarmstartingFactor(Native, value);
 		}
 
 		public void Dispose()
@@ -185,7 +185,7 @@ namespace BulletSharp
 			{
 				if (!_preventDelete)
 				{
-					btContactSolverInfoData_delete(Native);
+					UnsafeNativeMethods.btContactSolverInfoData_delete(Native);
 				}
 				Native = IntPtr.Zero;
 			}
@@ -205,7 +205,7 @@ namespace BulletSharp
 		}
 
 		public ContactSolverInfo()
-			: base(btContactSolverInfo_new(), false)
+			: base(UnsafeNativeMethods.btContactSolverInfo_new(), false)
 		{
 		}
 	}

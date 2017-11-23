@@ -1,8 +1,8 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using BulletSharp.Math;
-using static BulletSharp.UnsafeNativeMethods;
+
 
 namespace BulletSharp
 {
@@ -12,7 +12,7 @@ namespace BulletSharp
 		private Vector3Array _unscaledPoints;
 
 		public ConvexHullShape()
-			: base(btConvexHullShape_new())
+			: base(UnsafeNativeMethods.btConvexHullShape_new())
 		{
 		}
 
@@ -22,12 +22,12 @@ namespace BulletSharp
 		}
 
 		public ConvexHullShape(float[] points, int numPoints, int stride = 3 * sizeof(float))
-			: base(btConvexHullShape_new4(points, numPoints, stride))
+			: base(UnsafeNativeMethods.btConvexHullShape_new4(points, numPoints, stride))
 		{
 		}
 
 		public ConvexHullShape(IEnumerable<Vector3> points, int numPoints)
-			: base(btConvexHullShape_new())
+			: base(UnsafeNativeMethods.btConvexHullShape_new())
 		{
 			int i = 0;
 			foreach (Vector3 v in points)
@@ -44,7 +44,7 @@ namespace BulletSharp
 		}
 
 		public ConvexHullShape(IEnumerable<Vector3> points)
-			: base(btConvexHullShape_new())
+			: base(UnsafeNativeMethods.btConvexHullShape_new())
 		{
 			foreach (Vector3 v in points)
 			{
@@ -56,23 +56,23 @@ namespace BulletSharp
 
 		public void AddPointRef(ref Vector3 point, bool recalculateLocalAabb = true)
 		{
-			btConvexHullShape_addPoint(Native, ref point, recalculateLocalAabb);
+			UnsafeNativeMethods.btConvexHullShape_addPoint(Native, ref point, recalculateLocalAabb);
 		}
 
 		public void AddPoint(Vector3 point, bool recalculateLocalAabb = true)
 		{
-			btConvexHullShape_addPoint(Native, ref point, recalculateLocalAabb);
+			UnsafeNativeMethods.btConvexHullShape_addPoint(Native, ref point, recalculateLocalAabb);
 		}
 
 		public void GetScaledPoint(int i, out Vector3 value)
 		{
-			btConvexHullShape_getScaledPoint(Native, i, out value);
+			UnsafeNativeMethods.btConvexHullShape_getScaledPoint(Native, i, out value);
 		}
 
 		public Vector3 GetScaledPoint(int i)
 		{
 			Vector3 value;
-			btConvexHullShape_getScaledPoint(Native, i, out value);
+			UnsafeNativeMethods.btConvexHullShape_getScaledPoint(Native, i, out value);
 			return value;
 		}
 
@@ -81,7 +81,7 @@ namespace BulletSharp
 			btConvexHullShape_optimizeConvexHull(Native);
 		}
 
-		public int NumPoints => btConvexHullShape_getNumPoints(Native);
+		public int NumPoints => UnsafeNativeMethods.btConvexHullShape_getNumPoints(Native);
 
 		public Vector3Array Points
 		{
@@ -89,7 +89,7 @@ namespace BulletSharp
 			{
 				if (_points == null || _points.Count != NumPoints)
 				{
-					_points = new Vector3Array(btConvexHullShape_getPoints(Native), NumPoints);
+					_points = new Vector3Array(UnsafeNativeMethods.btConvexHullShape_getPoints(Native), NumPoints);
 				}
 				return _points;
 			}
@@ -101,7 +101,7 @@ namespace BulletSharp
 			{
 				if (_unscaledPoints == null || _unscaledPoints.Count != NumPoints)
 				{
-					_unscaledPoints = new Vector3Array(btConvexHullShape_getUnscaledPoints(Native), NumPoints);
+					_unscaledPoints = new Vector3Array(UnsafeNativeMethods.btConvexHullShape_getUnscaledPoints(Native), NumPoints);
 				}
 				return _unscaledPoints;
 			}
