@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using BulletSharp.Math;
+using System.Text;
 
 namespace BulletSharp
 {
@@ -22,7 +23,7 @@ namespace BulletSharp
         protected Dictionary<string, RigidBody> _nameBodyMap = new Dictionary<string, RigidBody>();
         protected Dictionary<string, TypedConstraint> _nameConstraintMap = new Dictionary<string, TypedConstraint>();
         protected Dictionary<string, CollisionShape> _nameShapeMap = new Dictionary<string, CollisionShape>();
-        protected Dictionary<Object, string> _objectNameMap = new Dictionary<Object, string>();
+        protected Dictionary<object, string> _objectNameMap = new Dictionary<object, string>();
         protected Dictionary<long, CollisionShape> _shapeMap = new Dictionary<long, CollisionShape>();
         protected FileVerboseMode _verboseMode;
 
@@ -80,9 +81,9 @@ namespace BulletSharp
                     int numChildShapes = reader.ReadInt32();
                     //float collisionMargin = reader.ReadInt32();
                     CompoundShape compoundShape = CreateCompoundShape();
-                    using (MemoryStream shapeStream = new MemoryStream(childShapes, false))
+                    using (var shapeStream = new MemoryStream(childShapes, false))
                     {
-                        using (BulletReader shapeReader = new BulletReader(shapeStream))
+                        using (var shapeReader = new BulletReader(shapeStream))
                         {
                             for (int i = 0; i < numChildShapes; i++)
                             {
@@ -167,16 +168,19 @@ namespace BulletSharp
                             long unscaledPointsFloatPtr = reader.ReadPtr();
                             long unscaledPointsDoublePtr = reader.ReadPtr();
                             int numPoints = reader.ReadInt32();
+                            bool isFloat = unscaledPointsFloatPtr != 0;
 
-                            byte[] points = libPointers[unscaledPointsFloatPtr];
+                            byte[] points = libPointers[isFloat ? unscaledPointsFloatPtr : unscaledPointsDoublePtr];
                             ConvexHullShape hullShape = CreateConvexHullShape();
-                            using (MemoryStream pointStream = new MemoryStream(points, false))
+                            using (var pointStream = new MemoryStream(points, false))
                             {
-                                using (BulletReader pointReader = new BulletReader(pointStream))
+                                using (var pointReader = new BulletReader(pointStream))
                                 {
                                     for (int i = 0; i < numPoints; i++)
                                     {
-                                        hullShape.AddPoint(pointReader.ReadVector3());
+                                        hullShape.AddPoint(isFloat
+                                            ? pointReader.ReadVector3()
+                                            : pointReader.ReadVector3Double());
                                     }
                                 }
                             }
@@ -213,9 +217,9 @@ namespace BulletSharp
                             int localPositionArraySize = reader.ReadInt32();
                             Vector3[] positions = new Vector3[localPositionArraySize];
                             float[] radi = new float[localPositionArraySize];
-                            using (MemoryStream localPositionArrayStream = new MemoryStream(localPositionArray, false))
+                            using (var localPositionArrayStream = new MemoryStream(localPositionArray, false))
                             {
-                                using (BulletReader localPositionArrayReader = new BulletReader(localPositionArrayStream))
+                                using (var localPositionArrayReader = new BulletReader(localPositionArrayStream))
                                 {
                                     for (int i = 0; i < localPositionArraySize; i++)
                                     {
@@ -289,8 +293,8 @@ namespace BulletSharp
         protected void ConvertConstraintFloat(RigidBody rigidBodyA, RigidBody rigidBodyB, byte[] constraintData, int fileVersion, Dictionary<long, byte[]> libPointers)
         {
             TypedConstraint constraint = null;
-            MemoryStream stream = new MemoryStream(constraintData, false);
-            BulletReader reader = new BulletReader(stream);
+            var stream = new MemoryStream(constraintData, false);
+            var reader = new BulletReader(stream);
 
             TypedConstraintType type = (TypedConstraintType)reader.ReadInt32(TypedConstraintFloatData.Offset("ObjectType"));
             switch (type)
@@ -555,6 +559,31 @@ namespace BulletSharp
                     slider.UpperAngularLimit = reader.ReadSingle(SliderConstraintFloatData.Offset("AngularUpperLimit"));
                     slider.UseFrameOffset =
                         reader.ReadInt32(SliderConstraintFloatData.Offset("UseOffsetForConstraintFrame")) != 0;
+                    constraint = slider;
+                    break;
+                }
+                case TypedConstraintType.Fixed:
+                {
+                    if (rigidBodyA == null || rigidBodyB == null)
+                    {
+                        throw new InvalidDataException("Error: requires rigidBodyA && rigidBodyB");
+                    }
+
+                    Matrix rbaFrame = rigidBodyA.WorldTransform;
+                    Matrix rbbFrame = rigidBodyB.WorldTransform;
+                    Matrix sharedFrame = Matrix.Translation(0.5f * (rbaFrame.Origin + rbbFrame.Origin));
+                    rbaFrame.Invert();
+                    rbbFrame.Invert();
+                    rbaFrame = rbaFrame * sharedFrame;
+                    rbbFrame = rbbFrame * sharedFrame;
+                    Generic6DofSpring2Constraint dof = new Generic6DofSpring2Constraint(rigidBodyA, rigidBodyB, rbaFrame, rbbFrame, RotateOrder.XYZ)
+                    {
+                        LinearLowerLimit = Vector3.Zero,
+                        LinearUpperLimit = Vector3.Zero,
+                        AngularLowerLimit = Vector3.Zero,
+                        AngularUpperLimit = Vector3.Zero
+                    };
+                    constraint = dof;
                     break;
                 }
                 default:
@@ -577,7 +606,7 @@ namespace BulletSharp
                 {
                     byte[] nameData = libPointers[namePtr];
                     int length = Array.IndexOf(nameData, (byte)0);
-                    string name = System.Text.Encoding.ASCII.GetString(nameData, 0, length);
+                    string name = Encoding.ASCII.GetString(nameData, 0, length);
                     _nameConstraintMap.Add(name, constraint);
                     _objectNameMap.Add(constraint, name);
                 }
@@ -594,49 +623,115 @@ namespace BulletSharp
 
         protected void ConvertRigidBodyFloat(byte[] bodyData, Dictionary<long, byte[]> libPointers)
         {
-            MemoryStream stream = new MemoryStream(bodyData, false);
-            BulletReader reader = new BulletReader(stream);
+            long collisionShapePtr, namePtr;
+            Matrix startTransform;
+            float inverseMass;
+            float friction, restitution;
+            Vector3 angularFactor, linearFactor;
 
-            int cod = RigidBodyFloatData.Offset("CollisionObjectData");
-            long collisionShapePtr = reader.ReadPtr(cod + CollisionObjectFloatData.Offset("CollisionShape"));
-            Matrix startTransform = reader.ReadMatrix(cod + CollisionObjectFloatData.Offset("WorldTransform"));
-            float inverseMass = reader.ReadSingle(RigidBodyFloatData.Offset("InverseMass"));
-            long namePtr = reader.ReadPtr(CollisionObjectFloatData.Offset("Name"));
+            using (var stream = new MemoryStream(bodyData, false))
+            {
+                using (var reader = new BulletReader(stream))
+                {
+                    int cod = RigidBodyFloatData.Offset("CollisionObjectData");
+                    collisionShapePtr = reader.ReadPtr(cod + CollisionObjectFloatData.Offset("CollisionShape"));
+                    startTransform = reader.ReadMatrix(cod + CollisionObjectFloatData.Offset("WorldTransform"));
+                    namePtr = reader.ReadPtr(cod + CollisionObjectFloatData.Offset("Name"));
+                    friction = reader.ReadSingle(cod + CollisionObjectFloatData.Offset("Friction"));
+                    restitution = reader.ReadSingle(cod + CollisionObjectFloatData.Offset("Restitution"));
 
-            float mass = inverseMass.Equals(0) ? 0 : 1.0f / inverseMass;
+                    inverseMass = reader.ReadSingle(RigidBodyFloatData.Offset("InverseMass"));
+                    angularFactor = reader.ReadVector3(RigidBodyFloatData.Offset("AngularFactor"));
+                    linearFactor = reader.ReadVector3(RigidBodyFloatData.Offset("LinearFactor"));
+                }
+            }
+
             CollisionShape shape = _shapeMap[collisionShapePtr];
 
+            float mass;
+            bool isDynamic;
             if (shape.IsNonMoving)
             {
                 mass = 0.0f;
-            }
-            bool isDynamic;
-            Vector3 localInertia;
-            if (mass != 0.0f)
-            {
-                isDynamic = true;
-                shape.CalculateLocalInertia(mass, out localInertia);
+                isDynamic = false;
             }
             else
             {
-                isDynamic = false;
-                localInertia = Vector3.Zero;
+                isDynamic = inverseMass != 0;
+                mass = isDynamic ? 1.0f / inverseMass : 0;
             }
             string name = null;
             if (namePtr != 0)
             {
                 byte[] nameData = libPointers[namePtr];
                 int length = Array.IndexOf(nameData, (byte)0);
-                name = System.Text.Encoding.ASCII.GetString(nameData, 0, length);
+                name = Encoding.ASCII.GetString(nameData, 0, length);
             }
-            RigidBody body = CreateRigidBody(isDynamic, mass, ref startTransform, shape, name);
-            _bodyMap.Add(bodyData, body);
 
-            reader.Dispose();
-            stream.Dispose();
+            RigidBody body = CreateRigidBody(isDynamic, mass, ref startTransform, shape, name);
+            body.Friction = friction;
+            body.Restitution = restitution;
+            body.AngularFactor = angularFactor;
+            body.LinearFactor = linearFactor;
+            _bodyMap.Add(bodyData, body);
         }
 
-		public CollisionShape CreateBoxShape(ref Vector3 halfExtents)
+        protected void ConvertRigidBodyDouble(byte[] bodyData, Dictionary<long, byte[]> libPointers)
+        {
+            long collisionShapePtr, namePtr;
+            Matrix startTransform;
+            double inverseMass;
+            double friction, restitution;
+            Vector3 angularFactor, linearFactor;
+
+            using (var stream = new MemoryStream(bodyData, false))
+            {
+                using (var reader = new BulletReader(stream))
+                {
+                    int cod = RigidBodyDoubleData.Offset("CollisionObjectData");
+                    collisionShapePtr = reader.ReadPtr(cod + CollisionObjectDoubleData.Offset("CollisionShape"));
+                    startTransform = reader.ReadMatrixDouble(cod + CollisionObjectDoubleData.Offset("WorldTransform"));
+                    namePtr = reader.ReadPtr(cod + CollisionObjectDoubleData.Offset("Name"));
+                    friction = reader.ReadDouble(cod + CollisionObjectDoubleData.Offset("Friction"));
+                    restitution = reader.ReadDouble(cod + CollisionObjectDoubleData.Offset("Restitution"));
+
+                    inverseMass = reader.ReadDouble(RigidBodyDoubleData.Offset("InverseMass"));
+                    angularFactor = reader.ReadVector3Double(RigidBodyDoubleData.Offset("AngularFactor"));
+                    linearFactor = reader.ReadVector3Double(RigidBodyDoubleData.Offset("LinearFactor"));
+                }
+            }
+
+            CollisionShape shape = _shapeMap[collisionShapePtr];
+
+            float mass;
+            bool isDynamic;
+            if (shape.IsNonMoving)
+            {
+                mass = 0.0f;
+                isDynamic = false;
+            }
+            else
+            {
+                isDynamic = inverseMass != 0;
+                mass = isDynamic ? 1.0f / (float)inverseMass : 0;
+            }
+            string name = null;
+            if (namePtr != 0)
+            {
+                byte[] nameData = libPointers[namePtr];
+                int length = Array.IndexOf(nameData, (byte)0);
+                name = Encoding.ASCII.GetString(nameData, 0, length);
+            }
+
+            RigidBody body = CreateRigidBody(isDynamic, mass, ref startTransform, shape, name);
+            body.Friction = (float)friction;
+            body.Restitution = (float)restitution;
+            body.AngularFactor = angularFactor;
+            body.LinearFactor = linearFactor;
+            _bodyMap.Add(bodyData, body);
+        }
+
+        public CollisionShape CreateBoxShape(ref Vector3 halfExtents)
 		{
             BoxShape shape = new BoxShape(halfExtents);
             _allocatedCollisionShapes.Add(shape);
@@ -797,7 +892,7 @@ namespace BulletSharp
 
 		public GImpactMeshShape CreateGimpactShape(StridingMeshInterface trimesh)
 		{
-            GImpactMeshShape shape = new GImpactMeshShape(trimesh._native);
+            GImpactMeshShape shape = new GImpactMeshShape(trimesh.Native);
             _allocatedCollisionShapes.Add(shape);
             return shape;
 		}
@@ -836,9 +931,9 @@ namespace BulletSharp
             byte[] meshParts;
             Vector3 scaling;
             int numMeshParts;
-            using (MemoryStream shapeStream = new MemoryStream(meshData, false))
+            using (var shapeStream = new MemoryStream(meshData, false))
             {
-                using (BulletReader shapeReader = new BulletReader(shapeStream))
+                using (var shapeReader = new BulletReader(shapeStream))
                 {
                     shapeStream.Position += offset;
                     long meshPartsPtr = shapeReader.ReadPtr();
@@ -847,9 +942,9 @@ namespace BulletSharp
                     numMeshParts = shapeReader.ReadInt32();
                 }
             }
-            using (MemoryStream meshStream = new MemoryStream(meshParts, false))
+            using (var meshStream = new MemoryStream(meshParts, false))
             {
-                using (BulletReader meshReader = new BulletReader(meshStream))
+                using (var meshReader = new BulletReader(meshStream))
                 {
                     for (int i = 0; i < numMeshParts; i++)
                     {
@@ -960,7 +1055,7 @@ namespace BulletSharp
             if (bodyName != null)
             {
                 _objectNameMap.Add(body, bodyName);
-                _nameBodyMap.Add(bodyName, body);
+                _nameBodyMap[bodyName] = body;
             }
             _allocatedRigidBodies.Add(body);
             return body;

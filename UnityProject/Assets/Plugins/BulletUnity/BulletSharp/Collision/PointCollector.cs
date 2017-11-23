@@ -1,7 +1,5 @@
-using System;
-using System.Runtime.InteropServices;
-using System.Security;
 using BulletSharp.Math;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -14,14 +12,14 @@ namespace BulletSharp
 
 		public float Distance
 		{
-			get { return btPointCollector_getDistance(_native); }
-			set { btPointCollector_setDistance(_native, value); }
+			get => btPointCollector_getDistance(Native);
+			set => btPointCollector_setDistance(Native, value);
 		}
 
 		public bool HasResult
 		{
-			get { return btPointCollector_getHasResult(_native); }
-			set { btPointCollector_setHasResult(_native, value); }
+			get => btPointCollector_getHasResult(Native);
+			set => btPointCollector_setHasResult(Native, value);
 		}
 
 		public Vector3 NormalOnBInWorld
@@ -29,10 +27,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btPointCollector_getNormalOnBInWorld(_native, out value);
+				btPointCollector_getNormalOnBInWorld(Native, out value);
 				return value;
 			}
-			set { btPointCollector_setNormalOnBInWorld(_native, ref value); }
+			set => btPointCollector_setNormalOnBInWorld(Native, ref value);
 		}
 
 		public Vector3 PointInWorld
@@ -40,30 +38,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btPointCollector_getPointInWorld(_native, out value);
+				btPointCollector_getPointInWorld(Native, out value);
 				return value;
 			}
-			set { btPointCollector_setPointInWorld(_native, ref value); }
+			set => btPointCollector_setPointInWorld(Native, ref value);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btPointCollector_new();
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern float btPointCollector_getDistance(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		[return: MarshalAs(UnmanagedType.I1)]
-		static extern bool btPointCollector_getHasResult(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btPointCollector_getNormalOnBInWorld(IntPtr obj, [Out] out Vector3 value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btPointCollector_getPointInWorld(IntPtr obj, [Out] out Vector3 value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btPointCollector_setDistance(IntPtr obj, float value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btPointCollector_setHasResult(IntPtr obj, bool value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btPointCollector_setNormalOnBInWorld(IntPtr obj, [In] ref Vector3 value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btPointCollector_setPointInWorld(IntPtr obj, [In] ref Vector3 value);
 	}
 }

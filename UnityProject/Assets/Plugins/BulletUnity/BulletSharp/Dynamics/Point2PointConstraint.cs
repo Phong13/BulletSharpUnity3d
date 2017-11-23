@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
-using System.Security;
 using BulletSharp.Math;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -15,94 +15,77 @@ namespace BulletSharp
 
 	public class ConstraintSetting
 	{
-		internal IntPtr _native;
+		internal IntPtr Native;
 
 		internal ConstraintSetting(IntPtr native)
 		{
-			_native = native;
+			Native = native;
 		}
 
 		public float Damping
 		{
-			get { return btConstraintSetting_getDamping(_native); }
-			set { btConstraintSetting_setDamping(_native, value); }
+			get => btConstraintSetting_getDamping(Native);
+			set => btConstraintSetting_setDamping(Native, value);
 		}
 
 		public float ImpulseClamp
 		{
-			get { return btConstraintSetting_getImpulseClamp(_native); }
-			set { btConstraintSetting_setImpulseClamp(_native, value); }
+			get => btConstraintSetting_getImpulseClamp(Native);
+			set => btConstraintSetting_setImpulseClamp(Native, value);
 		}
 
 		public float Tau
 		{
-			get { return btConstraintSetting_getTau(_native); }
-			set { btConstraintSetting_setTau(_native, value); }
+			get => btConstraintSetting_getTau(Native);
+			set => btConstraintSetting_setTau(Native, value);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btConstraintSetting_new();
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern float btConstraintSetting_getDamping(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern float btConstraintSetting_getImpulseClamp(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern float btConstraintSetting_getTau(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btConstraintSetting_setDamping(IntPtr obj, float value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btConstraintSetting_setImpulseClamp(IntPtr obj, float value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btConstraintSetting_setTau(IntPtr obj, float value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btConstraintSetting_delete(IntPtr obj);
 	}
 
 	public class Point2PointConstraint : TypedConstraint
 	{
-		public Point2PointConstraint(RigidBody rigidBodyA, RigidBody rigidBodyB, Vector3 pivotInA, Vector3 pivotInB)
-			: base(btPoint2PointConstraint_new(rigidBodyA._native, rigidBodyB._native, ref pivotInA, ref pivotInB))
+		public Point2PointConstraint(RigidBody rigidBodyA, RigidBody rigidBodyB,
+			Vector3 pivotInA, Vector3 pivotInB)
+			: base(btPoint2PointConstraint_new(rigidBodyA.Native, rigidBodyB.Native,
+				ref pivotInA, ref pivotInB))
 		{
 			_rigidBodyA = rigidBodyA;
 			_rigidBodyB = rigidBodyB;
 		}
 
 		public Point2PointConstraint(RigidBody rigidBodyA, Vector3 pivotInA)
-			: base(btPoint2PointConstraint_new2(rigidBodyA._native, ref pivotInA))
+			: base(btPoint2PointConstraint_new2(rigidBodyA.Native, ref pivotInA))
 		{
 			_rigidBodyA = rigidBodyA;
-            _rigidBodyB = GetFixedBody();
+			_rigidBodyB = GetFixedBody();
 		}
 
 		public void GetInfo1NonVirtual(ConstraintInfo1 info)
 		{
-			btPoint2PointConstraint_getInfo1NonVirtual(_native, info._native);
+			btPoint2PointConstraint_getInfo1NonVirtual(Native, info._native);
 		}
 
 		public void GetInfo2NonVirtual(ConstraintInfo2 info, Matrix body0Trans, Matrix body1Trans)
 		{
-			btPoint2PointConstraint_getInfo2NonVirtual(_native, info._native, ref body0Trans, ref body1Trans);
+			btPoint2PointConstraint_getInfo2NonVirtual(Native, info._native, ref body0Trans,
+				ref body1Trans);
 		}
 
 		public void UpdateRhs(float timeStep)
 		{
-			btPoint2PointConstraint_updateRHS(_native, timeStep);
+			btPoint2PointConstraint_updateRHS(Native, timeStep);
 		}
 
-		public Point2PointFlags Flags
-		{
-			get { return btPoint2PointConstraint_getFlags(_native); }
-		}
+		public Point2PointFlags Flags => btPoint2PointConstraint_getFlags(Native);
 
 		public Vector3 PivotInA
 		{
 			get
 			{
 				Vector3 value;
-				btPoint2PointConstraint_getPivotInA(_native, out value);
+				btPoint2PointConstraint_getPivotInA(Native, out value);
 				return value;
 			}
-            set { btPoint2PointConstraint_setPivotA(_native, ref value); }
+			set => btPoint2PointConstraint_setPivotA(Native, ref value);
 		}
 
 		public Vector3 PivotInB
@@ -110,59 +93,28 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btPoint2PointConstraint_getPivotInB(_native, out value);
+				btPoint2PointConstraint_getPivotInB(Native, out value);
 				return value;
 			}
-            set { btPoint2PointConstraint_setPivotB(_native, ref value); }
+			set => btPoint2PointConstraint_setPivotB(Native, ref value);
 		}
 
-		public ConstraintSetting Setting
-		{
-            get { return new ConstraintSetting(btPoint2PointConstraint_getSetting(_native)); }
-		}
+		public ConstraintSetting Setting => new ConstraintSetting(btPoint2PointConstraint_getSetting(Native));
 
 		public bool UseSolveConstraintObsolete
 		{
-			get { return btPoint2PointConstraint_getUseSolveConstraintObsolete(_native); }
-			set { btPoint2PointConstraint_setUseSolveConstraintObsolete(_native, value); }
+			get => btPoint2PointConstraint_getUseSolveConstraintObsolete(Native);
+			set => btPoint2PointConstraint_setUseSolveConstraintObsolete(Native, value);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btPoint2PointConstraint_new(IntPtr rbA, IntPtr rbB, [In] ref Vector3 pivotInA, [In] ref Vector3 pivotInB);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btPoint2PointConstraint_new2(IntPtr rbA, [In] ref Vector3 pivotInA);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        static extern Point2PointFlags btPoint2PointConstraint_getFlags(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btPoint2PointConstraint_getInfo1NonVirtual(IntPtr obj, IntPtr info);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btPoint2PointConstraint_getInfo2NonVirtual(IntPtr obj, IntPtr info, [In] ref Matrix body0_trans, [In] ref Matrix body1_trans);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btPoint2PointConstraint_getPivotInA(IntPtr obj, [Out] out Vector3 value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btPoint2PointConstraint_getPivotInB(IntPtr obj, [Out] out Vector3 value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btPoint2PointConstraint_getSetting(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		[return: MarshalAs(UnmanagedType.I1)]
-		static extern bool btPoint2PointConstraint_getUseSolveConstraintObsolete(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btPoint2PointConstraint_setPivotA(IntPtr obj, [In] ref Vector3 pivotA);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btPoint2PointConstraint_setPivotB(IntPtr obj, [In] ref Vector3 pivotB);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btPoint2PointConstraint_setUseSolveConstraintObsolete(IntPtr obj, bool value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btPoint2PointConstraint_updateRHS(IntPtr obj, float timeStep);
 	}
 
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct Point2PointConstraintFloatData
-    {
-        public TypedConstraintFloatData TypedConstraintData;
-        public Vector3FloatData PivotInA;
-        public Vector3FloatData PivotInB;
+	[StructLayout(LayoutKind.Sequential)]
+	internal struct Point2PointConstraintFloatData
+	{
+		public TypedConstraintFloatData TypedConstraintData;
+		public Vector3FloatData PivotInA;
+		public Vector3FloatData PivotInB;
 
-        public static int Offset(string fieldName) { return Marshal.OffsetOf(typeof(Point2PointConstraintFloatData), fieldName).ToInt32(); }
-    }
+		public static int Offset(string fieldName) { return Marshal.OffsetOf(typeof(Point2PointConstraintFloatData), fieldName).ToInt32(); }
+	}
 }

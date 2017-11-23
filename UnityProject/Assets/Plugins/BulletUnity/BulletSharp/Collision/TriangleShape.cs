@@ -1,13 +1,12 @@
 using System;
-using System.Runtime.InteropServices;
-using System.Security;
 using BulletSharp.Math;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
 	public class TriangleShape : PolyhedralConvexShape
 	{
-        private Vector3Array _vertices;
+		private Vector3Array _vertices;
 
 		internal TriangleShape(IntPtr native)
 			: base(native)
@@ -26,42 +25,29 @@ namespace BulletSharp
 
 		public void CalcNormal(out Vector3 normal)
 		{
-			btTriangleShape_calcNormal(_native, out normal);
+			btTriangleShape_calcNormal(Native, out normal);
 		}
 
 		public void GetPlaneEquation(int i, out Vector3 planeNormal, out Vector3 planeSupport)
 		{
-			btTriangleShape_getPlaneEquation(_native, i, out planeNormal, out planeSupport);
+			btTriangleShape_getPlaneEquation(Native, i, out planeNormal, out planeSupport);
 		}
 
 		public IntPtr GetVertexPtr(int index)
 		{
-			return btTriangleShape_getVertexPtr(_native, index);
+			return btTriangleShape_getVertexPtr(Native, index);
 		}
 
 		public Vector3Array Vertices
 		{
 			get
 			{
-                if (_vertices == null)
-                {
-                    _vertices = new Vector3Array(btTriangleShape_getVertices1(_native), 3);
-                }
-                return _vertices;
+				if (_vertices == null)
+				{
+					_vertices = new Vector3Array(btTriangleShape_getVertices1(Native), 3);
+				}
+				return _vertices;
 			}
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btTriangleShape_new();
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btTriangleShape_new2([In] ref Vector3 p0, [In] ref Vector3 p1, [In] ref Vector3 p2);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btTriangleShape_calcNormal(IntPtr obj, [Out] out Vector3 normal);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btTriangleShape_getPlaneEquation(IntPtr obj, int i, [Out] out Vector3 planeNormal, [Out] out Vector3 planeSupport);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btTriangleShape_getVertexPtr(IntPtr obj, int index);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btTriangleShape_getVertices1(IntPtr obj);
 	}
 }

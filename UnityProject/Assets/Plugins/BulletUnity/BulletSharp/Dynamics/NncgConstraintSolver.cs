@@ -1,6 +1,4 @@
-using System;
-using System.Runtime.InteropServices;
-using System.Security;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -13,16 +11,8 @@ namespace BulletSharp
 
 		public bool OnlyForNoneContact
 		{
-			get { return btNNCGConstraintSolver_getOnlyForNoneContact(_native); }
-			set { btNNCGConstraintSolver_setOnlyForNoneContact(_native, value); }
+			get => btNNCGConstraintSolver_getOnlyForNoneContact(Native);
+			set => btNNCGConstraintSolver_setOnlyForNoneContact(Native, value);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btNNCGConstraintSolver_new();
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		[return: MarshalAs(UnmanagedType.I1)]
-		static extern bool btNNCGConstraintSolver_getOnlyForNoneContact(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btNNCGConstraintSolver_setOnlyForNoneContact(IntPtr obj, bool value);
 	}
 }

@@ -38,7 +38,7 @@ namespace BulletSharp.Math
         /// <summary>
         /// The size of the <see cref="SlimMath.Vector4"/> type, in bytes.
         /// </summary>
-        public static readonly int SizeInBytes = Marshal.SizeOf(typeof(Vector4));
+        public const int SizeInBytes = 4 * sizeof(float);
 
         /// <summary>
         /// A <see cref="SlimMath.Vector4"/> with all of its components set to zero.

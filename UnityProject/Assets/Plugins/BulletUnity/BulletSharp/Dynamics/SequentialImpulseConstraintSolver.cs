@@ -1,6 +1,5 @@
 using System;
-using System.Runtime.InteropServices;
-using System.Security;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -18,99 +17,80 @@ namespace BulletSharp
 
 		public ulong BtRand2()
 		{
-			return btSequentialImpulseConstraintSolver_btRand2(_native);
+			return btSequentialImpulseConstraintSolver_btRand2(Native);
 		}
 
 		public int BtRandInt2(int n)
 		{
-			return btSequentialImpulseConstraintSolver_btRandInt2(_native, n);
+			return btSequentialImpulseConstraintSolver_btRandInt2(Native, n);
 		}
 /*
 		public void SetConstraintRowSolverGeneric(SingleConstraintRowSolver rowSolver)
 		{
-			btSequentialImpulseConstraintSolver_setConstraintRowSolverGeneric(_native, rowSolver._native);
+			btSequentialImpulseConstraintSolver_setConstraintRowSolverGeneric(Native,
+				rowSolver.Native);
 		}
 
 		public void SetConstraintRowSolverLowerLimit(SingleConstraintRowSolver rowSolver)
 		{
-			btSequentialImpulseConstraintSolver_setConstraintRowSolverLowerLimit(_native, rowSolver._native);
+			btSequentialImpulseConstraintSolver_setConstraintRowSolverLowerLimit(
+				Native, rowSolver.Native);
+		}
+
+		public float SolveGroup(CollisionObject bodies, int numBodies, PersistentManifold manifold,
+			int numManifolds, TypedConstraint constraints, int numConstraints, ContactSolverInfo info,
+			IDebugDraw debugDrawer, Dispatcher dispatcher)
+		{
+			return btSequentialImpulseConstraintSolver_solveGroup(Native, bodies.Native,
+				numBodies, manifold.Native, numManifolds, constraints.Native, numConstraints,
+				info.Native, DebugDraw.GetUnmanaged(debugDrawer), dispatcher.Native);
 		}
 
 		public SingleConstraintRowSolver ActiveConstraintRowSolverGeneric
 		{
-			get { return btSequentialImpulseConstraintSolver_getActiveConstraintRowSolverGeneric(_native); }
+			get { return btSequentialImpulseConstraintSolver_getActiveConstraintRowSolverGeneric(Native); }
 		}
 
 		public SingleConstraintRowSolver ActiveConstraintRowSolverLowerLimit
 		{
-			get { return btSequentialImpulseConstraintSolver_getActiveConstraintRowSolverLowerLimit(_native); }
+			get { return btSequentialImpulseConstraintSolver_getActiveConstraintRowSolverLowerLimit(Native); }
 		}
 */
 		public ulong RandSeed
 		{
-			get { return btSequentialImpulseConstraintSolver_getRandSeed(_native); }
-			set { btSequentialImpulseConstraintSolver_setRandSeed(_native, value); }
+			get => btSequentialImpulseConstraintSolver_getRandSeed(Native);
+			set => btSequentialImpulseConstraintSolver_setRandSeed(Native, value);
 		}
 /*
 		public SingleConstraintRowSolver ScalarConstraintRowSolverGeneric
 		{
-			get { return btSequentialImpulseConstraintSolver_getScalarConstraintRowSolverGeneric(_native); }
+			get { return btSequentialImpulseConstraintSolver_getScalarConstraintRowSolverGeneric(Native); }
 		}
 
 		public SingleConstraintRowSolver ScalarConstraintRowSolverLowerLimit
 		{
-			get { return btSequentialImpulseConstraintSolver_getScalarConstraintRowSolverLowerLimit(_native); }
+			get { return btSequentialImpulseConstraintSolver_getScalarConstraintRowSolverLowerLimit(Native); }
 		}
 
 		public SingleConstraintRowSolver SSE2ConstraintRowSolverGeneric
 		{
-			get { return btSequentialImpulseConstraintSolver_getSSE2ConstraintRowSolverGeneric(_native); }
+			get { return btSequentialImpulseConstraintSolver_getSSE2ConstraintRowSolverGeneric(Native); }
 		}
 
 		public SingleConstraintRowSolver SSE2ConstraintRowSolverLowerLimit
 		{
-			get { return btSequentialImpulseConstraintSolver_getSSE2ConstraintRowSolverLowerLimit(_native); }
+			get { return btSequentialImpulseConstraintSolver_getSSE2ConstraintRowSolverLowerLimit(Native); }
 		}
 
 		public SingleConstraintRowSolver SSE41ConstraintRowSolverGeneric
 		{
-			get { return btSequentialImpulseConstraintSolver_getSSE4_1ConstraintRowSolverGeneric(_native); }
+			get { return btSequentialImpulseConstraintSolver_getSSE4_1ConstraintRowSolverGeneric(Native); }
 		}
 
 		public SingleConstraintRowSolver SSE41ConstraintRowSolverLowerLimit
 		{
-			get { return btSequentialImpulseConstraintSolver_getSSE4_1ConstraintRowSolverLowerLimit(_native); }
+			get { return btSequentialImpulseConstraintSolver_getSSE4_1ConstraintRowSolverLowerLimit(Native); }
 		}
 */
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btSequentialImpulseConstraintSolver_new();
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern ulong btSequentialImpulseConstraintSolver_btRand2(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btSequentialImpulseConstraintSolver_btRandInt2(IntPtr obj, int n);
-		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		//static extern IntPtr btSequentialImpulseConstraintSolver_getActiveConstraintRowSolverGeneric(IntPtr obj);
-		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		//static extern IntPtr btSequentialImpulseConstraintSolver_getActiveConstraintRowSolverLowerLimit(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern ulong btSequentialImpulseConstraintSolver_getRandSeed(IntPtr obj);
-		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		//static extern IntPtr btSequentialImpulseConstraintSolver_getScalarConstraintRowSolverGeneric(IntPtr obj);
-		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		//static extern IntPtr btSequentialImpulseConstraintSolver_getScalarConstraintRowSolverLowerLimit(IntPtr obj);
-		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		//static extern IntPtr btSequentialImpulseConstraintSolver_getSSE2ConstraintRowSolverGeneric(IntPtr obj);
-		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		//static extern IntPtr btSequentialImpulseConstraintSolver_getSSE2ConstraintRowSolverLowerLimit(IntPtr obj);
-		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		//static extern IntPtr btSequentialImpulseConstraintSolver_getSSE4_1ConstraintRowSolverGeneric(IntPtr obj);
-		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		//static extern IntPtr btSequentialImpulseConstraintSolver_getSSE4_1ConstraintRowSolverLowerLimit(IntPtr obj);
-		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		//static extern void btSequentialImpulseConstraintSolver_setConstraintRowSolverGeneric(IntPtr obj, IntPtr rowSolver);
-		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		//static extern void btSequentialImpulseConstraintSolver_setConstraintRowSolverLowerLimit(IntPtr obj, IntPtr rowSolver);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btSequentialImpulseConstraintSolver_setRandSeed(IntPtr obj, ulong seed);
 	}
 }

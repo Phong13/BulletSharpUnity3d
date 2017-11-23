@@ -1,7 +1,6 @@
 using System;
-using System.Runtime.InteropServices;
-using System.Security;
 using BulletSharp.Math;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -9,17 +8,17 @@ namespace BulletSharp
 	{
 		public class ClosestPointInput : IDisposable
 		{
-			internal IntPtr _native;
+			internal IntPtr Native;
 
 			public ClosestPointInput()
 			{
-				_native = btDiscreteCollisionDetectorInterface_ClosestPointInput_new();
+				Native = btDiscreteCollisionDetectorInterface_ClosestPointInput_new();
 			}
 
 			public float MaximumDistanceSquared
 			{
-				get { return btDiscreteCollisionDetectorInterface_ClosestPointInput_getMaximumDistanceSquared(_native); }
-				set { btDiscreteCollisionDetectorInterface_ClosestPointInput_setMaximumDistanceSquared(_native, value); }
+				get => btDiscreteCollisionDetectorInterface_ClosestPointInput_getMaximumDistanceSquared(Native);
+				set => btDiscreteCollisionDetectorInterface_ClosestPointInput_setMaximumDistanceSquared(Native, value);
 			}
 
 			public Matrix TransformA
@@ -27,10 +26,10 @@ namespace BulletSharp
 				get
 				{
 					Matrix value;
-					btDiscreteCollisionDetectorInterface_ClosestPointInput_getTransformA(_native, out value);
+					btDiscreteCollisionDetectorInterface_ClosestPointInput_getTransformA(Native, out value);
 					return value;
 				}
-				set { btDiscreteCollisionDetectorInterface_ClosestPointInput_setTransformA(_native, ref value); }
+				set => btDiscreteCollisionDetectorInterface_ClosestPointInput_setTransformA(Native, ref value);
 			}
 
 			public Matrix TransformB
@@ -38,10 +37,10 @@ namespace BulletSharp
 				get
 				{
 					Matrix value;
-					btDiscreteCollisionDetectorInterface_ClosestPointInput_getTransformB(_native, out value);
+					btDiscreteCollisionDetectorInterface_ClosestPointInput_getTransformB(Native, out value);
 					return value;
 				}
-				set { btDiscreteCollisionDetectorInterface_ClosestPointInput_setTransformB(_native, ref value); }
+				set => btDiscreteCollisionDetectorInterface_ClosestPointInput_setTransformB(Native, ref value);
 			}
 
 			public void Dispose()
@@ -52,10 +51,10 @@ namespace BulletSharp
 
 			protected virtual void Dispose(bool disposing)
 			{
-				if (_native != IntPtr.Zero)
+				if (Native != IntPtr.Zero)
 				{
-					btDiscreteCollisionDetectorInterface_ClosestPointInput_delete(_native);
-					_native = IntPtr.Zero;
+					btDiscreteCollisionDetectorInterface_ClosestPointInput_delete(Native);
+					Native = IntPtr.Zero;
 				}
 			}
 
@@ -63,47 +62,34 @@ namespace BulletSharp
 			{
 				Dispose(false);
 			}
-
-			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-			static extern IntPtr btDiscreteCollisionDetectorInterface_ClosestPointInput_new();
-			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-			static extern float btDiscreteCollisionDetectorInterface_ClosestPointInput_getMaximumDistanceSquared(IntPtr obj);
-			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-			static extern void btDiscreteCollisionDetectorInterface_ClosestPointInput_getTransformA(IntPtr obj, [Out] out Matrix value);
-			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-			static extern void btDiscreteCollisionDetectorInterface_ClosestPointInput_getTransformB(IntPtr obj, [Out] out Matrix value);
-			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-			static extern void btDiscreteCollisionDetectorInterface_ClosestPointInput_setMaximumDistanceSquared(IntPtr obj, float value);
-			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-			static extern void btDiscreteCollisionDetectorInterface_ClosestPointInput_setTransformA(IntPtr obj, [In] ref Matrix value);
-			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-			static extern void btDiscreteCollisionDetectorInterface_ClosestPointInput_setTransformB(IntPtr obj, [In] ref Matrix value);
-			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-			static extern void btDiscreteCollisionDetectorInterface_ClosestPointInput_delete(IntPtr obj);
 		}
 
 		public abstract class Result : IDisposable
 		{
-			internal IntPtr _native;
+			internal IntPtr Native;
 
 			internal Result(IntPtr native)
 			{
-				_native = native;
+				Native = native;
 			}
 
-			public void AddContactPoint(Vector3 normalOnBInWorld, Vector3 pointInWorld, float depth)
+			public void AddContactPoint(Vector3 normalOnBInWorld, Vector3 pointInWorld,
+				float depth)
 			{
-				btDiscreteCollisionDetectorInterface_Result_addContactPoint(_native, ref normalOnBInWorld, ref pointInWorld, depth);
+				btDiscreteCollisionDetectorInterface_Result_addContactPoint(Native,
+					ref normalOnBInWorld, ref pointInWorld, depth);
 			}
 
 			public void SetShapeIdentifiersA(int partId0, int index0)
 			{
-				btDiscreteCollisionDetectorInterface_Result_setShapeIdentifiersA(_native, partId0, index0);
+				btDiscreteCollisionDetectorInterface_Result_setShapeIdentifiersA(
+					Native, partId0, index0);
 			}
 
 			public void SetShapeIdentifiersB(int partId1, int index1)
 			{
-				btDiscreteCollisionDetectorInterface_Result_setShapeIdentifiersB(_native, partId1, index1);
+				btDiscreteCollisionDetectorInterface_Result_setShapeIdentifiersB(
+					Native, partId1, index1);
 			}
 
 			public void Dispose()
@@ -114,10 +100,10 @@ namespace BulletSharp
 
 			protected virtual void Dispose(bool disposing)
 			{
-				if (_native != IntPtr.Zero)
+				if (Native != IntPtr.Zero)
 				{
-					btDiscreteCollisionDetectorInterface_Result_delete(_native);
-					_native = IntPtr.Zero;
+					btDiscreteCollisionDetectorInterface_Result_delete(Native);
+					Native = IntPtr.Zero;
 				}
 			}
 
@@ -125,32 +111,20 @@ namespace BulletSharp
 			{
 				Dispose(false);
 			}
-
-			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-			static extern void btDiscreteCollisionDetectorInterface_Result_addContactPoint(IntPtr obj, [In] ref Vector3 normalOnBInWorld, [In] ref Vector3 pointInWorld, float depth);
-			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-			static extern void btDiscreteCollisionDetectorInterface_Result_setShapeIdentifiersA(IntPtr obj, int partId0, int index0);
-			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-			static extern void btDiscreteCollisionDetectorInterface_Result_setShapeIdentifiersB(IntPtr obj, int partId1, int index1);
-			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-			static extern void btDiscreteCollisionDetectorInterface_Result_delete(IntPtr obj);
 		}
 
-		internal IntPtr _native;
+		internal IntPtr Native;
 
 		internal DiscreteCollisionDetectorInterface(IntPtr native)
 		{
-			_native = native;
+			Native = native;
 		}
 
-		public void GetClosestPoints(ClosestPointInput input, Result output, IDebugDraw debugDraw)
+		public void GetClosestPoints(ClosestPointInput input, Result output, IDebugDraw debugDraw,
+			bool swapResults = false)
 		{
-			btDiscreteCollisionDetectorInterface_getClosestPoints(_native, input._native, output._native, DebugDraw.GetUnmanaged(debugDraw));
-		}
-
-		public void GetClosestPoints(ClosestPointInput input, Result output, IDebugDraw debugDraw, bool swapResults)
-		{
-			btDiscreteCollisionDetectorInterface_getClosestPoints2(_native, input._native, output._native, DebugDraw.GetUnmanaged(debugDraw), swapResults);
+			btDiscreteCollisionDetectorInterface_getClosestPoints(Native, input.Native,
+				output.Native, DebugDraw.GetUnmanaged(debugDraw), swapResults);
 		}
 
 		public void Dispose()
@@ -161,10 +135,10 @@ namespace BulletSharp
 
 		protected virtual void Dispose(bool disposing)
 		{
-			if (_native != IntPtr.Zero)
+			if (Native != IntPtr.Zero)
 			{
-				btDiscreteCollisionDetectorInterface_delete(_native);
-				_native = IntPtr.Zero;
+				btDiscreteCollisionDetectorInterface_delete(Native);
+				Native = IntPtr.Zero;
 			}
 		}
 
@@ -172,13 +146,6 @@ namespace BulletSharp
 		{
 			Dispose(false);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDiscreteCollisionDetectorInterface_getClosestPoints(IntPtr obj, IntPtr input, IntPtr output, IntPtr debugDraw);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDiscreteCollisionDetectorInterface_getClosestPoints2(IntPtr obj, IntPtr input, IntPtr output, IntPtr debugDraw, bool swapResults);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDiscreteCollisionDetectorInterface_delete(IntPtr obj);
 	}
 
 	public abstract class StorageResult : DiscreteCollisionDetectorInterface.Result
@@ -187,27 +154,27 @@ namespace BulletSharp
 			: base(native)
 		{
 		}
-        /*
+		/*
 		public StorageResult()
-            : base(btStorageResultWrapper_new())
+			: base(btStorageResultWrapper_new())
 		{
 		}
-        */
+		*/
 		public Vector3 ClosestPointInB
 		{
 			get
 			{
 				Vector3 value;
-				btStorageResult_getClosestPointInB(_native, out value);
+				btStorageResult_getClosestPointInB(Native, out value);
 				return value;
 			}
-			set { btStorageResult_setClosestPointInB(_native, ref value); }
+			set => btStorageResult_setClosestPointInB(Native, ref value);
 		}
 
 		public float Distance
 		{
-			get { return btStorageResult_getDistance(_native); }
-			set { btStorageResult_setDistance(_native, value); }
+			get => btStorageResult_getDistance(Native);
+			set => btStorageResult_setDistance(Native, value);
 		}
 
 		public Vector3 NormalOnSurfaceB
@@ -215,25 +182,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btStorageResult_getNormalOnSurfaceB(_native, out value);
+				btStorageResult_getNormalOnSurfaceB(Native, out value);
 				return value;
 			}
-			set { btStorageResult_setNormalOnSurfaceB(_native, ref value); }
+			set => btStorageResult_setNormalOnSurfaceB(Native, ref value);
 		}
-
-		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		//static extern IntPtr btStorageResultWrapper_new();
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btStorageResult_getClosestPointInB(IntPtr obj, [Out] out Vector3 value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern float btStorageResult_getDistance(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btStorageResult_getNormalOnSurfaceB(IntPtr obj, [Out] out Vector3 value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btStorageResult_setClosestPointInB(IntPtr obj, [In] ref Vector3 value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btStorageResult_setDistance(IntPtr obj, float value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btStorageResult_setNormalOnSurfaceB(IntPtr obj, [In] ref Vector3 value);
 	}
 }

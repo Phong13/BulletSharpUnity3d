@@ -122,23 +122,24 @@ namespace BulletSharp
 
         public WheelInfo AddWheel(Vector3 connectionPointCS, Vector3 wheelDirectionCS0, Vector3 wheelAxleCS, float suspensionRestLength, float wheelRadius, VehicleTuning tuning, bool isFrontWheel)
         {
-            WheelInfoConstructionInfo ci = new WheelInfoConstructionInfo();
+            var ci = new WheelInfoConstructionInfo()
+            {
+                ChassisConnectionCS = connectionPointCS,
+                WheelDirectionCS = wheelDirectionCS0,
+                WheelAxleCS = wheelAxleCS,
+                SuspensionRestLength = suspensionRestLength,
+                WheelRadius = wheelRadius,
+                IsFrontWheel = isFrontWheel,
+                SuspensionStiffness = tuning.SuspensionStiffness,
+                WheelsDampingCompression = tuning.SuspensionCompression,
+                WheelsDampingRelaxation = tuning.SuspensionDamping,
+                FrictionSlip = tuning.FrictionSlip,
+                MaxSuspensionTravelCm = tuning.MaxSuspensionTravelCm,
+                MaxSuspensionForce = tuning.MaxSuspensionForce
+            };
 
-            ci.ChassisConnectionCS = connectionPointCS;
-            ci.WheelDirectionCS = wheelDirectionCS0;
-            ci.WheelAxleCS = wheelAxleCS;
-            ci.SuspensionRestLength = suspensionRestLength;
-            ci.WheelRadius = wheelRadius;
-            ci.SuspensionStiffness = tuning.SuspensionStiffness;
-            ci.WheelsDampingCompression = tuning.SuspensionCompression;
-            ci.WheelsDampingRelaxation = tuning.SuspensionDamping;
-            ci.FrictionSlip = tuning.FrictionSlip;
-            ci.IsFrontWheel = isFrontWheel;
-            ci.MaxSuspensionTravelCm = tuning.MaxSuspensionTravelCm;
-            ci.MaxSuspensionForce = tuning.MaxSuspensionForce;
-
-            Array.Resize<WheelInfo>(ref wheelInfo, wheelInfo.Length + 1);
-            WheelInfo wheel = new WheelInfo(ci);
+            Array.Resize(ref wheelInfo, wheelInfo.Length + 1);
+            var wheel = new WheelInfo(ci);
             wheelInfo[wheelInfo.Length - 1] = wheel;
 
             UpdateWheelTransformsWS(wheel, false);
@@ -373,10 +374,10 @@ namespace BulletSharp
             if (numWheel == 0)
                 return;
 
-            Array.Resize<Vector3>(ref forwardWS, numWheel);
-            Array.Resize<Vector3>(ref axle, numWheel);
-            Array.Resize<float>(ref forwardImpulse, numWheel);
-            Array.Resize<float>(ref sideImpulse, numWheel);
+            Array.Resize(ref forwardWS, numWheel);
+            Array.Resize(ref axle, numWheel);
+            Array.Resize(ref forwardImpulse, numWheel);
+            Array.Resize(ref sideImpulse, numWheel);
 
             int numWheelsOnGround = 0;
 
@@ -724,23 +725,23 @@ namespace BulletSharp
 
     public class DefaultVehicleRaycaster : IVehicleRaycaster
     {
-        private DynamicsWorld m_dynamicsWorld;
+        private DynamicsWorld _dynamicsWorld;
 
         public DefaultVehicleRaycaster(DynamicsWorld world)
         {
-            m_dynamicsWorld = world;
+            _dynamicsWorld = world;
         }
 
-        public Object CastRay(ref Vector3 from, ref Vector3 to, VehicleRaycasterResult result)
+        public object CastRay(ref Vector3 from, ref Vector3 to, VehicleRaycasterResult result)
         {
             //	RayResultCallback& resultCallback;
-            using (ClosestRayResultCallback rayCallback = new ClosestRayResultCallback(ref from, ref to))
+            using (var rayCallback = new ClosestRayResultCallback(ref from, ref to))
             {
-                m_dynamicsWorld.RayTestRef(ref from, ref to, rayCallback);
+                _dynamicsWorld.RayTestRef(ref from, ref to, rayCallback);
 
                 if (rayCallback.HasHit)
                 {
-                    RigidBody body = RigidBody.Upcast(rayCallback.CollisionObject);
+                    var body = RigidBody.Upcast(rayCallback.CollisionObject);
                     if (body != null && body.HasContactResponse)
                     {
                         result.HitPointInWorld = rayCallback.HitPointWorld;

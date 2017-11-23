@@ -40,7 +40,7 @@ namespace BulletSharp.Math
         /// <summary>
         /// The size of the <see cref="SlimMath.Matrix"/> type, in bytes.
         /// </summary>
-        public static readonly int SizeInBytes = Marshal.SizeOf(typeof(Matrix));
+        public const int SizeInBytes = 16 * sizeof(float);
 
         /// <summary>
         /// A <see cref="SlimMath.Matrix"/> with all of its components set to zero.
@@ -314,58 +314,6 @@ namespace BulletSharp.Math
         {
             get { return new Vector3(M41, M42, M43); }
             set { M41 = value.X; M42 = value.Y; M43 = value.Z; }
-        }
-
-        public BulletSharp.Math.Quaternion Orientation
-        {
-            get
-            {
-                float trace = M11 + M22 + M33;
-
-                float[] temp = new float[4];
-
-                if (trace > 0.0f)
-                {
-                    float s = UnityEngine.Mathf.Sqrt(trace + (1.0f));
-                    temp[3] = (s * (0.5f));
-                    s = (0.5f) / s;
-
-                    temp[0] = ((M32 - M23) * s);
-                    temp[1] = ((M13 - M31) * s);
-                    temp[2] = ((M21 - M12) * s);
-                }
-                else
-                {
-                    int i =  M11 < M22 ?
-                            (M22 < M33 ? 2 : 1) :
-                            (M11 < M33 ? 2 : 0);
-                    int j = (i + 1) % 3;
-                    int k = (i + 2) % 3;
-
-                    float s = UnityEngine.Mathf.Sqrt(this[i,i] - this[j,j] - this[k,k] + 1.0f);
-                    temp[i] = s * 0.5f;
-                    s = 0.5f / s;
-
-                    temp[3] = (this[k,j] - this[j,k]) * s;
-                    temp[j] = (this[j,i] + this[i,j]) * s;
-                    temp[k] = (this[k,i] + this[i,k]) * s;
-                }
-                return new BulletSharp.Math.Quaternion(temp[0], temp[1], temp[2], temp[3]);
-            }
-            set
-            {
-                float d = value.X * value.X + value.Y * value.Y + value.Z * value.Z + value.W * value.W;
-                UnityEngine.Debug.Assert(d != 0.0f);
-                float s = 2.0f / d;
-                float xs = value.X * s, ys = value.Y * s, zs = value.Z * s;
-                float wx = value.W * xs, wy = value.W * ys, wz = value.W * zs;
-                float xx = value.X * xs, xy = value.X * ys, xz = value.X * zs;
-                float yy = value.Y * ys, yz = value.Y * zs, zz = value.Z * zs;
-
-                M11 = 1.0f - (yy + zz); M12 = xy - wz; M13 = xz + wy;
-                M21 = xy + wz;   M22 = 1.0f - (xx + zz); M23 = yz - wx;
-                M31 = xz - wy;   M32 = yz + wx; M33 = 1.0f - (xx + yy);
-            }
         }
 
         /// <summary>
@@ -3092,11 +3040,28 @@ namespace BulletSharp.Math
     }
 
     [StructLayout(LayoutKind.Sequential)]
+    internal struct Matrix3x3DoubleData
+    {
+        public Vector3DoubleData Element0;
+        public Vector3DoubleData Element1;
+        public Vector3DoubleData Element2;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
     internal struct TransformFloatData
     {
         public Matrix3x3FloatData Basis;
         public Vector3FloatData Origin;
 
         public const int OriginOffset = 48;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct TransformDoubleData
+    {
+        public Matrix3x3DoubleData Basis;
+        public Vector3DoubleData Origin;
+
+        public const int OriginOffset = 96;
     }
 }

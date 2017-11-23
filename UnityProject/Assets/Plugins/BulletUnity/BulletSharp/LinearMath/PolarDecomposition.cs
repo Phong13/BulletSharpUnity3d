@@ -1,7 +1,6 @@
 using System;
-using System.Runtime.InteropServices;
-using System.Security;
 using BulletSharp.Math;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -9,24 +8,9 @@ namespace BulletSharp
 	{
 		internal IntPtr _native;
 
-		internal PolarDecomposition(IntPtr native)
+		public PolarDecomposition(float tolerance = 0.0001f, int maxIterations = 16)
 		{
-			_native = native;
-		}
-
-		public PolarDecomposition()
-		{
-			_native = btPolarDecomposition_new();
-		}
-
-		public PolarDecomposition(float tolerance)
-		{
-			_native = btPolarDecomposition_new2(tolerance);
-		}
-
-		public PolarDecomposition(float tolerance, int maxIterations)
-		{
-			_native = btPolarDecomposition_new3(tolerance, (uint)maxIterations);
+			_native = btPolarDecomposition_new(tolerance, (uint)maxIterations);
 		}
 
 		public uint Decompose(ref Matrix a, out Matrix u, out Matrix h)
@@ -58,18 +42,5 @@ namespace BulletSharp
 		{
 			Dispose(false);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btPolarDecomposition_new();
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btPolarDecomposition_new2(float tolerance);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btPolarDecomposition_new3(float tolerance, uint maxIterations);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern uint btPolarDecomposition_decompose(IntPtr obj, [In] ref Matrix a, [Out] out Matrix u, [Out] out Matrix h);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern uint btPolarDecomposition_maxIterations(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btPolarDecomposition_delete(IntPtr obj);
 	}
 }

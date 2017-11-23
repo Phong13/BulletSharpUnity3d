@@ -1,7 +1,6 @@
 using System;
-using System.Runtime.InteropServices;
-using System.Security;
 using BulletSharp.Math;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -12,39 +11,46 @@ namespace BulletSharp
 		{
 		}
 
-		public GjkPairDetector(ConvexShape objectA, ConvexShape objectB, VoronoiSimplexSolver simplexSolver, ConvexPenetrationDepthSolver penetrationDepthSolver)
-            : base(btGjkPairDetector_new(objectA._native, objectB._native, simplexSolver._native, (penetrationDepthSolver != null) ? penetrationDepthSolver._native : IntPtr.Zero))
+		public GjkPairDetector(ConvexShape objectA, ConvexShape objectB, VoronoiSimplexSolver simplexSolver,
+			ConvexPenetrationDepthSolver penetrationDepthSolver)
+			: base(btGjkPairDetector_new(objectA.Native, objectB.Native, simplexSolver.Native,
+				(penetrationDepthSolver != null) ? penetrationDepthSolver.Native : IntPtr.Zero))
 		{
 		}
 
-		public GjkPairDetector(ConvexShape objectA, ConvexShape objectB, int shapeTypeA, int shapeTypeB, float marginA, float marginB, VoronoiSimplexSolver simplexSolver, ConvexPenetrationDepthSolver penetrationDepthSolver)
-            : base(btGjkPairDetector_new2(objectA._native, objectB._native, shapeTypeA, shapeTypeB, marginA, marginB, simplexSolver._native, (penetrationDepthSolver != null) ? penetrationDepthSolver._native : IntPtr.Zero))
+		public GjkPairDetector(ConvexShape objectA, ConvexShape objectB, int shapeTypeA,
+			int shapeTypeB, float marginA, float marginB, VoronoiSimplexSolver simplexSolver,
+			ConvexPenetrationDepthSolver penetrationDepthSolver)
+			: base(btGjkPairDetector_new2(objectA.Native, objectB.Native, shapeTypeA,
+				shapeTypeB, marginA, marginB, simplexSolver.Native, (penetrationDepthSolver != null) ? penetrationDepthSolver.Native : IntPtr.Zero))
 		{
 		}
 
-		public void GetClosestPointsNonVirtual(ClosestPointInput input, Result output, IDebugDraw debugDraw)
+		public void GetClosestPointsNonVirtual(ClosestPointInput input, Result output,
+			IDebugDraw debugDraw)
 		{
-			btGjkPairDetector_getClosestPointsNonVirtual(_native, input._native, output._native, DebugDraw.GetUnmanaged(debugDraw));
+			btGjkPairDetector_getClosestPointsNonVirtual(Native, input.Native,
+				output.Native, DebugDraw.GetUnmanaged(debugDraw));
 		}
 
 		public void SetIgnoreMargin(bool ignoreMargin)
 		{
-			btGjkPairDetector_setIgnoreMargin(_native, ignoreMargin);
+			btGjkPairDetector_setIgnoreMargin(Native, ignoreMargin);
 		}
 
 		public void SetMinkowskiA(ConvexShape minkA)
 		{
-			btGjkPairDetector_setMinkowskiA(_native, minkA._native);
+			btGjkPairDetector_setMinkowskiA(Native, minkA.Native);
 		}
 
 		public void SetMinkowskiB(ConvexShape minkB)
 		{
-			btGjkPairDetector_setMinkowskiB(_native, minkB._native);
+			btGjkPairDetector_setMinkowskiB(Native, minkB.Native);
 		}
 
 		public void SetPenetrationDepthSolver(ConvexPenetrationDepthSolver penetrationDepthSolver)
 		{
-			btGjkPairDetector_setPenetrationDepthSolver(_native, penetrationDepthSolver._native);
+			btGjkPairDetector_setPenetrationDepthSolver(Native, penetrationDepthSolver.Native);
 		}
 
 		public Vector3 CachedSeparatingAxis
@@ -52,86 +58,42 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btGjkPairDetector_getCachedSeparatingAxis(_native, out value);
+				btGjkPairDetector_getCachedSeparatingAxis(Native, out value);
 				return value;
 			}
-            set { btGjkPairDetector_setCachedSeparatingAxis(_native, ref value); }
+			set => btGjkPairDetector_setCachedSeparatingAxis(Native, ref value);
 		}
 
-		public float CachedSeparatingDistance
-		{
-			get { return btGjkPairDetector_getCachedSeparatingDistance(_native); }
-		}
+		public float CachedSeparatingDistance => btGjkPairDetector_getCachedSeparatingDistance(Native);
 
 		public int CatchDegeneracies
 		{
-			get { return btGjkPairDetector_getCatchDegeneracies(_native); }
-			set { btGjkPairDetector_setCatchDegeneracies(_native, value); }
+			get => btGjkPairDetector_getCatchDegeneracies(Native);
+			set => btGjkPairDetector_setCatchDegeneracies(Native, value);
 		}
 
 		public int CurIter
 		{
-			get { return btGjkPairDetector_getCurIter(_native); }
-			set { btGjkPairDetector_setCurIter(_native, value); }
+			get => btGjkPairDetector_getCurIter(Native);
+			set => btGjkPairDetector_setCurIter(Native, value);
 		}
 
 		public int DegenerateSimplex
 		{
-			get { return btGjkPairDetector_getDegenerateSimplex(_native); }
-			set { btGjkPairDetector_setDegenerateSimplex(_native, value); }
+			get => btGjkPairDetector_getDegenerateSimplex(Native);
+			set => btGjkPairDetector_setDegenerateSimplex(Native, value);
 		}
 
 		public int FixContactNormalDirection
 		{
-			get { return btGjkPairDetector_getFixContactNormalDirection(_native); }
-			set { btGjkPairDetector_setFixContactNormalDirection(_native, value); }
+			get => btGjkPairDetector_getFixContactNormalDirection(Native);
+			set => btGjkPairDetector_setFixContactNormalDirection(Native, value);
 		}
 
 		public int LastUsedMethod
 		{
-			get { return btGjkPairDetector_getLastUsedMethod(_native); }
-			set { btGjkPairDetector_setLastUsedMethod(_native, value); }
+			get => btGjkPairDetector_getLastUsedMethod(Native);
+			set => btGjkPairDetector_setLastUsedMethod(Native, value);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btGjkPairDetector_new(IntPtr objectA, IntPtr objectB, IntPtr simplexSolver, IntPtr penetrationDepthSolver);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btGjkPairDetector_new2(IntPtr objectA, IntPtr objectB, int shapeTypeA, int shapeTypeB, float marginA, float marginB, IntPtr simplexSolver, IntPtr penetrationDepthSolver);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGjkPairDetector_getCachedSeparatingAxis(IntPtr obj, [Out] out Vector3 value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern float btGjkPairDetector_getCachedSeparatingDistance(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btGjkPairDetector_getCatchDegeneracies(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGjkPairDetector_getClosestPointsNonVirtual(IntPtr obj, IntPtr input, IntPtr output, IntPtr debugDraw);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btGjkPairDetector_getCurIter(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btGjkPairDetector_getDegenerateSimplex(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btGjkPairDetector_getFixContactNormalDirection(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btGjkPairDetector_getLastUsedMethod(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGjkPairDetector_setCachedSeparatingAxis(IntPtr obj, [In] ref Vector3 seperatingAxis);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGjkPairDetector_setCatchDegeneracies(IntPtr obj, int value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGjkPairDetector_setCurIter(IntPtr obj, int value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGjkPairDetector_setDegenerateSimplex(IntPtr obj, int value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGjkPairDetector_setFixContactNormalDirection(IntPtr obj, int value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGjkPairDetector_setIgnoreMargin(IntPtr obj, bool ignoreMargin);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGjkPairDetector_setLastUsedMethod(IntPtr obj, int value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGjkPairDetector_setMinkowskiA(IntPtr obj, IntPtr minkA);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGjkPairDetector_setMinkowskiB(IntPtr obj, IntPtr minkB);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGjkPairDetector_setPenetrationDepthSolver(IntPtr obj, IntPtr penetrationDepthSolver);
 	}
 }

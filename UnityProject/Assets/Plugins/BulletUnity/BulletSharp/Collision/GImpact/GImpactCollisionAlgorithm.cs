@@ -1,6 +1,5 @@
 using System;
-using System.Runtime.InteropServices;
-using System.Security;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -18,8 +17,12 @@ namespace BulletSharp
 			{
 			}
 
-			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-			static extern IntPtr btGImpactCollisionAlgorithm_CreateFunc_new();
+			public override CollisionAlgorithm CreateCollisionAlgorithm(CollisionAlgorithmConstructionInfo __unnamed0,
+				CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap)
+			{
+				return new GImpactCollisionAlgorithm(btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
+					Native, __unnamed0.Native, body0Wrap.Native, body1Wrap.Native));
+			}
 		}
 
 		internal GImpactCollisionAlgorithm(IntPtr native)
@@ -27,94 +30,73 @@ namespace BulletSharp
 		{
 		}
 
-		public GImpactCollisionAlgorithm(CollisionAlgorithmConstructionInfo ci, CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap)
-			: base(btGImpactCollisionAlgorithm_new(ci._native, body0Wrap._native, body1Wrap._native))
+		public GImpactCollisionAlgorithm(CollisionAlgorithmConstructionInfo constructionInfo, CollisionObjectWrapper body0Wrap,
+			CollisionObjectWrapper body1Wrap)
+			: base(btGImpactCollisionAlgorithm_new(constructionInfo.Native, body0Wrap.Native,
+				body1Wrap.Native))
 		{
 		}
 
-		public void GImpactVsCompoundShape(CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap, GImpactShapeInterface shape0, CompoundShape shape1, bool swapped)
+		public void GImpactVsCompoundShape(CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap,
+			GImpactShapeInterface shape0, CompoundShape shape1, bool swapped)
 		{
-			btGImpactCollisionAlgorithm_gimpact_vs_compoundshape(_native, body0Wrap._native, body1Wrap._native, shape0._native, shape1._native, swapped);
+			btGImpactCollisionAlgorithm_gimpact_vs_compoundshape(Native, body0Wrap.Native,
+				body1Wrap.Native, shape0.Native, shape1.Native, swapped);
 		}
 
-		public void GImpactVsConcave(CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap, GImpactShapeInterface shape0, ConcaveShape shape1, bool swapped)
+		public void GImpactVsConcave(CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap,
+			GImpactShapeInterface shape0, ConcaveShape shape1, bool swapped)
 		{
-			btGImpactCollisionAlgorithm_gimpact_vs_concave(_native, body0Wrap._native, body1Wrap._native, shape0._native, shape1._native, swapped);
+			btGImpactCollisionAlgorithm_gimpact_vs_concave(Native, body0Wrap.Native,
+				body1Wrap.Native, shape0.Native, shape1.Native, swapped);
 		}
 
-		public void GImpactVsGImpact(CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap, GImpactShapeInterface shape0, GImpactShapeInterface shape1)
+		public void GImpactVsGImpact(CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap,
+			GImpactShapeInterface shape0, GImpactShapeInterface shape1)
 		{
-			btGImpactCollisionAlgorithm_gimpact_vs_gimpact(_native, body0Wrap._native, body1Wrap._native, shape0._native, shape1._native);
+			btGImpactCollisionAlgorithm_gimpact_vs_gimpact(Native, body0Wrap.Native,
+				body1Wrap.Native, shape0.Native, shape1.Native);
 		}
 
-		public void GImpactVsShape(CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap, GImpactShapeInterface shape0, CollisionShape shape1, bool swapped)
+		public void GImpactVsShape(CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap,
+			GImpactShapeInterface shape0, CollisionShape shape1, bool swapped)
 		{
-			btGImpactCollisionAlgorithm_gimpact_vs_shape(_native, body0Wrap._native, body1Wrap._native, shape0._native, shape1._native, swapped);
+			btGImpactCollisionAlgorithm_gimpact_vs_shape(Native, body0Wrap.Native,
+				body1Wrap.Native, shape0.Native, shape1.Native, swapped);
 		}
 
 		public ManifoldResult InternalGetResultOut()
 		{
-            return new ManifoldResult(btGImpactCollisionAlgorithm_internalGetResultOut(_native));
+			return new ManifoldResult(btGImpactCollisionAlgorithm_internalGetResultOut(Native));
 		}
 
 		public static void RegisterAlgorithm(CollisionDispatcher dispatcher)
 		{
-			btGImpactCollisionAlgorithm_registerAlgorithm(dispatcher._native);
+			btGImpactCollisionAlgorithm_registerAlgorithm(dispatcher.Native);
 		}
 
 		public int Face0
 		{
-			get { return btGImpactCollisionAlgorithm_getFace0(_native); }
-			set { btGImpactCollisionAlgorithm_setFace0(_native, value); }
+			get => btGImpactCollisionAlgorithm_getFace0(Native);
+			set => btGImpactCollisionAlgorithm_setFace0(Native, value);
 		}
 
 		public int Face1
 		{
-			get { return btGImpactCollisionAlgorithm_getFace1(_native); }
-			set { btGImpactCollisionAlgorithm_setFace1(_native, value); }
+			get => btGImpactCollisionAlgorithm_getFace1(Native);
+			set => btGImpactCollisionAlgorithm_setFace1(Native, value);
 		}
 
 		public int Part0
 		{
-			get { return btGImpactCollisionAlgorithm_getPart0(_native); }
-			set { btGImpactCollisionAlgorithm_setPart0(_native, value); }
+			get => btGImpactCollisionAlgorithm_getPart0(Native);
+			set => btGImpactCollisionAlgorithm_setPart0(Native, value);
 		}
 
 		public int Part1
 		{
-			get { return btGImpactCollisionAlgorithm_getPart1(_native); }
-			set { btGImpactCollisionAlgorithm_setPart1(_native, value); }
+			get => btGImpactCollisionAlgorithm_getPart1(Native);
+			set => btGImpactCollisionAlgorithm_setPart1(Native, value);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btGImpactCollisionAlgorithm_new(IntPtr ci, IntPtr body0Wrap, IntPtr body1Wrap);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btGImpactCollisionAlgorithm_getFace0(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btGImpactCollisionAlgorithm_getFace1(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btGImpactCollisionAlgorithm_getPart0(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btGImpactCollisionAlgorithm_getPart1(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGImpactCollisionAlgorithm_gimpact_vs_compoundshape(IntPtr obj, IntPtr body0Wrap, IntPtr body1Wrap, IntPtr shape0, IntPtr shape1, bool swapped);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGImpactCollisionAlgorithm_gimpact_vs_concave(IntPtr obj, IntPtr body0Wrap, IntPtr body1Wrap, IntPtr shape0, IntPtr shape1, bool swapped);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGImpactCollisionAlgorithm_gimpact_vs_gimpact(IntPtr obj, IntPtr body0Wrap, IntPtr body1Wrap, IntPtr shape0, IntPtr shape1);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGImpactCollisionAlgorithm_gimpact_vs_shape(IntPtr obj, IntPtr body0Wrap, IntPtr body1Wrap, IntPtr shape0, IntPtr shape1, bool swapped);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btGImpactCollisionAlgorithm_internalGetResultOut(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGImpactCollisionAlgorithm_registerAlgorithm(IntPtr dispatcher);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGImpactCollisionAlgorithm_setFace0(IntPtr obj, int value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGImpactCollisionAlgorithm_setFace1(IntPtr obj, int value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGImpactCollisionAlgorithm_setPart0(IntPtr obj, int value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btGImpactCollisionAlgorithm_setPart1(IntPtr obj, int value);
 	}
 }

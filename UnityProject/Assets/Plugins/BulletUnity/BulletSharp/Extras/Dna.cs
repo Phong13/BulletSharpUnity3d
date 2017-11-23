@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Text;
+using System.Linq;
 
 namespace BulletSharp
 {
@@ -10,14 +9,14 @@ namespace BulletSharp
     {
         public class ElementDecl
         {
-            public TypeDecl Type { get; private set; }
-            public NameInfo Name { get; private set; }
-
-            public ElementDecl(TypeDecl type, NameInfo name)
+            public ElementDecl(TypeDecl type, NameInfo nameInfo)
             {
                 Type = type;
-                Name = name;
+                NameInfo = nameInfo;
             }
+
+            public TypeDecl Type { get; }
+            public NameInfo NameInfo { get; }
 
             public override bool Equals(object obj)
             {
@@ -26,24 +25,52 @@ namespace BulletSharp
                 {
                     return false;
                 }
-                return Type.Equals(other.Type) && Name.Equals(other.Name);
+                return Type.Equals(other.Type) && NameInfo.Equals(other.NameInfo);
             }
 
             public override int GetHashCode()
             {
-                return Type.GetHashCode() + Name.GetHashCode();
+                return Type.GetHashCode() ^ NameInfo.GetHashCode();
             }
 
             public override string ToString()
             {
-                return Type + ": " + Name.ToString();
+                return Type + ": " + NameInfo.ToString();
             }
         }
 
         public class StructDecl
         {
-            public TypeDecl Type { get; set; }
-            public ElementDecl[] Elements { get; set; }
+            public StructDecl(TypeDecl type, ElementDecl[] elements)
+            {
+                Type = type;
+                Elements = elements;
+            }
+
+            public TypeDecl Type { get; }
+            public ElementDecl[] Elements { get; }
+
+            public ElementDecl FindElement(Dna dna, bool brokenDna, NameInfo name, out int offset)
+            {
+                offset = 0;
+                foreach (ElementDecl element in Elements)
+                {
+                    if (element.NameInfo.Equals(name))
+                    {
+                        return element;
+                    }
+                    int eleLen = dna.GetElementSize(element);
+                    if (brokenDna)
+                    {
+                        if (element.Type.Name.Equals("short") && element.NameInfo.Name.Equals("int"))
+                        {
+                            eleLen = 0;
+                        }
+                    }
+                    offset += eleLen;
+                }
+                return null;
+            }
 
             public override bool Equals(object obj)
             {
@@ -72,7 +99,7 @@ namespace BulletSharp
 
             public override int GetHashCode()
             {
-                return Type.GetHashCode() + Elements.Length;
+                return Type.GetHashCode() ^ Elements.Length;
             }
 
             public override string ToString()
@@ -83,14 +110,16 @@ namespace BulletSharp
 
         public class TypeDecl
         {
-            public Dna.StructDecl Struct { get; set; }
-            public short Length { get; set; }
-            public string Name { get; private set; }
+            public StructDecl Struct { get; set; }
 
-            public TypeDecl(string name)
+            public TypeDecl(string name, short length)
             {
                 Name = name;
+                Length = length;
             }
+
+            public string Name { get; }
+            public short Length { get; }
 
             public override bool Equals(object obj)
             {
@@ -104,7 +133,7 @@ namespace BulletSharp
 
             public override int GetHashCode()
             {
-                return Name.GetHashCode() + Length;
+                return Name.GetHashCode() ^ Length;
             }
 
             public override string ToString()
@@ -113,60 +142,53 @@ namespace BulletSharp
             }
         }
 
-        private enum FileDnaFlags
-        {
-            None = 0,
-            StructNotEqual,
-            StructEqual
-        };
-
         public class NameInfo
         {
-            public string Name { get; private set; }
-            public bool IsPointer { get; private set; }
-            public int Dim0 { get; set; }
-            public int Dim1 { get; set; }
-
-            public int ArraySizeNew { get { return Dim0 * Dim1; } }
-
-            public string CleanName
-            {
-                get
-                {
-                    int p = Name.IndexOf('[');
-                    if (p != -1)
-                    {
-                        return Name.Substring(0, Name.IndexOf('['));
-                    }
-                    return Name;
-                }
-            }
-
             public NameInfo(string name)
             {
                 Name = name;
                 IsPointer = name[0] == '*' || name[1] == '*';
                 
-                int bp = name.IndexOf('[') + 1;
-                if (bp == 0)
+                int bracketStart = name.IndexOf('[') + 1;
+                if (bracketStart == 0)
                 {
-                    Dim0 = 1;
-                    Dim1 = 1;
+                    Dimension0 = 1;
+                    Dimension1 = 1;
                     return;
                 }
-                int bp2 = name.IndexOf(']');
-                Dim1 = int.Parse(name.Substring(bp, bp2 - bp));
+                int bracketEnd = name.IndexOf(']', bracketStart);
+                Dimension1 = int.Parse(name.Substring(bracketStart, bracketEnd - bracketStart));
 
-                // find second dim, if any
-                bp = name.IndexOf('[', bp2) + 1;
-                if (bp == 0)
+                // find second dimension, if any
+                bracketStart = name.IndexOf('[', bracketEnd) + 1;
+                if (bracketStart == 0)
                 {
-                    Dim0 = 1;
+                    Dimension0 = 1;
                     return;
                 }
-                bp2 = name.IndexOf(']');
-                Dim0 = Dim1;
-                Dim1 = int.Parse(name.Substring(bp, bp2 - bp));
+                bracketEnd = name.IndexOf(']', bracketStart);
+                Dimension0 = Dimension1;
+                Dimension1 = int.Parse(name.Substring(bracketStart, bracketEnd - bracketStart));
+            }
+
+            public string Name { get; }
+            public bool IsPointer { get; }
+            public int Dimension0 { get; }
+            public int Dimension1 { get; }
+
+            public int ArrayLength { get { return Dimension0 * Dimension1; } }
+
+            public string CleanName
+            {
+                get
+                {
+                    int bracketStart = Name.IndexOf('[');
+                    if (bracketStart != -1)
+                    {
+                        return Name.Substring(0, bracketStart);
+                    }
+                    return Name;
+                }
             }
 
             public override bool Equals(object obj)
@@ -190,232 +212,14 @@ namespace BulletSharp
             }
         }
 
-        private FileDnaFlags[] _cmpFlags;
-        private NameInfo[] _names;
         private StructDecl[] _structs;
-        private TypeDecl[] _types;
-        private Dictionary<string, int> _structReverse;
+        private Dictionary<string, StructDecl> _structByTypeName;
 
+        private bool _hasIntType;
         private int _ptrLen;
 
-        public Dna()
+        private Dna()
         {
-        }
-
-        public bool FlagEqual(int dnaNR)
-        {
-            Debug.Assert(dnaNR < _cmpFlags.Length);
-            return _cmpFlags[dnaNR] == FileDnaFlags.StructEqual;
-        }
-
-        public int GetElementSize(ElementDecl element)
-		{
-            return element.Name.ArraySizeNew * (element.Name.IsPointer ? _ptrLen : element.Type.Length);
-		}
-
-        public string GetName(int i)
-        {
-            return _names[i].Name;
-        }
-
-        public StructDecl GetStruct(int i)
-        {
-            return _structs[i];
-        }
-
-        public int GetReverseType(string typeName)
-        {
-            int s;
-            if (_structReverse.TryGetValue(typeName, out s))
-            {
-                return s;
-            }
-            return -1;
-        }
-
-        public void Init(BinaryReader reader, bool swap)
-        {
-            Stream stream = reader.BaseStream;
-
-            // SDNA
-            byte[] code = reader.ReadBytes(8);
-            string codes = ASCIIEncoding.ASCII.GetString(code);
-
-            // NAME
-            if (!codes.Equals("SDNANAME"))
-            {
-                throw new InvalidDataException();
-            }
-            int dataLen = reader.ReadInt32();
-            _names = new NameInfo[dataLen];
-            for (int i = 0; i < dataLen; i++)
-            {
-                List<byte> name = new List<byte>();
-                byte ch = reader.ReadByte();
-                while (ch != 0)
-                {
-                    name.Add(ch);
-                    ch = reader.ReadByte();
-                }
-
-                _names[i] = new NameInfo(ASCIIEncoding.ASCII.GetString(name.ToArray()));
-            }
-            stream.Position = (stream.Position + 3) & ~3;
-
-            // TYPE
-            code = reader.ReadBytes(4);
-            codes = ASCIIEncoding.ASCII.GetString(code);
-            if (!codes.Equals("TYPE"))
-            {
-                throw new InvalidDataException();
-            }
-            dataLen = reader.ReadInt32();
-            _types = new TypeDecl[dataLen];
-            for (int i = 0; i < dataLen; i++)
-            {
-                List<byte> name = new List<byte>();
-                byte ch = reader.ReadByte();
-                while (ch != 0)
-                {
-                    name.Add(ch);
-                    ch = reader.ReadByte();
-                }
-                string type = ASCIIEncoding.ASCII.GetString(name.ToArray());
-                _types[i] = new TypeDecl(type);
-            }
-            stream.Position = (stream.Position + 3) & ~3;
-
-            // TLEN
-            code = reader.ReadBytes(4);
-            codes = ASCIIEncoding.ASCII.GetString(code);
-            if (!codes.Equals("TLEN"))
-            {
-                throw new InvalidDataException();
-            }
-            for (int i = 0; i < _types.Length; i++)
-            {
-                _types[i].Length = reader.ReadInt16();
-            }
-            stream.Position = (stream.Position + 3) & ~3;
-
-            // STRC
-            code = reader.ReadBytes(4);
-            codes = ASCIIEncoding.ASCII.GetString(code);
-            if (!codes.Equals("STRC"))
-            {
-                throw new InvalidDataException();
-            }
-            dataLen = reader.ReadInt32();
-            _structs = new StructDecl[dataLen];
-            long shtPtr = stream.Position;
-            for (int i = 0; i < dataLen; i++)
-            {
-                StructDecl structDecl = new StructDecl();
-                _structs[i] = structDecl;
-                if (swap)
-                {
-                    throw new NotImplementedException();
-                }
-                else
-                {
-                    short typeNr = reader.ReadInt16();
-                    structDecl.Type = _types[typeNr];
-                    structDecl.Type.Struct = structDecl;
-                    int numElements = reader.ReadInt16();
-                    structDecl.Elements = new ElementDecl[numElements];
-                    for (int j = 0; j < numElements; j++)
-                    {
-                        typeNr = reader.ReadInt16();
-                        short nameNr = reader.ReadInt16();
-                        structDecl.Elements[j] = new ElementDecl(_types[typeNr], _names[nameNr]);
-                    }
-                }
-            }
-
-            // build reverse lookups
-            _structReverse = new Dictionary<string, int>(_structs.Length);
-            for (int i = 0; i < _structs.Length; i++)
-            {
-                StructDecl s = _structs[i];
-                if (_ptrLen == 0 && s.Type.Name.Equals("ListBase"))
-                {
-                    _ptrLen = s.Type.Length / 2;
-                }
-                _structReverse.Add(s.Type.Name, i);
-            }
-        }
-
-        public void InitCmpFlags(Dna memoryDna)
-        {
-            // compare the file to memory
-            // this ptr should be the file data
-
-            Debug.Assert(_names.Length != 0); // SDNA empty!
-            _cmpFlags = new FileDnaFlags[_structs.Length];
-
-            for (int i = 0; i < _structs.Length; i++)
-            {
-                Dna.StructDecl oldStruct = _structs[i];
-                int oldLookup = GetReverseType(oldStruct.Type.Name);
-                if (oldLookup == -1)
-                {
-                    _cmpFlags[i] = FileDnaFlags.None;
-                    continue;
-                }
-
-                if (oldLookup < memoryDna._structs.Length)
-                {
-                    Dna.StructDecl curStruct = memoryDna.GetStruct(oldLookup);
-
-                    _cmpFlags[i] = oldStruct.Equals(curStruct) ? FileDnaFlags.StructEqual : FileDnaFlags.StructNotEqual;
-                }
-            }
-
-            // Recurse in
-            for (int i = 0; i < _structs.Length; i++)
-            {
-                if (_cmpFlags[i] == FileDnaFlags.StructNotEqual)
-                {
-                    InitRecurseCmpFlags(_structs[i]);
-                }
-            }
-        }
-
-        // Structs containing non-equal structs are also non-equal
-        private void InitRecurseCmpFlags(Dna.StructDecl iter)
-        {
-            for (int i = 0; i < _structs.Length; i++)
-            {
-                Dna.StructDecl curStruct = _structs[i];
-                if (curStruct != iter && _cmpFlags[i] == FileDnaFlags.StructEqual)
-                {
-                    foreach (Dna.ElementDecl element in curStruct.Elements)
-                    {
-                        if (curStruct.Type == iter.Type && element.Name.IsPointer)
-                        {
-                            _cmpFlags[i] = FileDnaFlags.StructNotEqual;
-                            InitRecurseCmpFlags(curStruct);
-                        }
-                    }
-                }
-            }
-        }
-
-        public bool LessThan(Dna file)
-        {
-            return _names.Length < _names.Length;
-        }
-
-        public int NumNames
-        {
-            get
-            {
-                if (_names == null)
-                {
-                    return 0;
-                }
-                return _names.Length;
-            }
         }
 
         public int NumStructs
@@ -428,6 +232,155 @@ namespace BulletSharp
                 }
                 return _structs.Length;
             }
+        }
+
+        public int GetElementSize(ElementDecl element)
+		{
+            int typeLength = element.NameInfo.IsPointer ? _ptrLen : element.Type.Length;
+            return element.NameInfo.ArrayLength * typeLength;
+		}
+
+        public StructDecl GetStruct(int i)
+        {
+            return _structs[i];
+        }
+
+        public StructDecl GetStruct(string typeName)
+        {
+            StructDecl s;
+            if (_structByTypeName.TryGetValue(typeName, out s))
+            {
+                return s;
+            }
+            return null;
+        }
+
+        public static Dna Load(byte[] dnaData, bool swap)
+        {
+            using (var stream = new MemoryStream(dnaData))
+            {
+                using (var reader = new BulletReader(stream))
+                {
+                    return Load(reader, swap);
+                }
+            }
+        }
+
+        public static Dna Load(BulletReader dnaReader, bool swap)
+        {
+            var dna = new Dna();
+            dna.Init(dnaReader, swap);
+            return dna;
+        }
+
+        private void Init(BulletReader reader, bool swap)
+        {
+            if (swap)
+            {
+                throw new NotImplementedException();
+            }
+
+            Stream stream = reader.BaseStream;
+            reader.ReadTag("SDNA");
+
+            // Element names
+            reader.ReadTag("NAME");
+            string[] names = reader.ReadStringList();
+            var nameInfos = names
+                .Select(n => new NameInfo(n))
+                .ToArray();
+            _hasIntType = names.Contains("int");
+
+            // Types
+            reader.ReadTag("TYPE");
+            string[] typeNames = reader.ReadStringList();
+            stream.Position = (stream.Position + 3) & ~3;
+
+            reader.ReadTag("TLEN");
+            TypeDecl[] types = typeNames.Select(name =>
+            {
+                short length = reader.ReadInt16();
+                if (_ptrLen == 0 && name == "ListBase")
+                {
+                    _ptrLen = length / 2;
+                }
+                return new TypeDecl(name, length);
+            }).ToArray();
+            stream.Position = (stream.Position + 3) & ~3;
+
+            // Structs
+            reader.ReadTag("STRC");
+            int numStructs = reader.ReadInt32();
+            _structs = new StructDecl[numStructs];
+            _structByTypeName = new Dictionary<string, StructDecl>(numStructs);
+            for (int i = 0; i < numStructs; i++)
+            {
+                short typeIndex = reader.ReadInt16();
+                TypeDecl structType = types[typeIndex];
+
+                int numElements = reader.ReadInt16();
+                var elements = new ElementDecl[numElements];
+                for (int j = 0; j < numElements; j++)
+                {
+                    typeIndex = reader.ReadInt16();
+                    short nameIndex = reader.ReadInt16();
+                    elements[j] = new ElementDecl(types[typeIndex], nameInfos[nameIndex]);
+                }
+
+                var structDecl = new StructDecl(structType, elements);
+                structType.Struct = structDecl;
+                _structs[i] = structDecl;
+                _structByTypeName.Add(structType.Name, structDecl);
+            }
+        }
+
+        public bool[] Compare(Dna memoryDna)
+        {
+            bool[] _structChanged = new bool[_structs.Length];
+
+            for (int i = 0; i < _structs.Length; i++)
+            {
+                StructDecl oldStruct = _structs[i];
+                StructDecl curStruct = memoryDna.GetStruct(oldStruct.Type.Name);
+
+                _structChanged[i] = !_structs[i].Equals(curStruct);
+            }
+
+            // Recurse in
+            for (int i = 0; i < _structs.Length; i++)
+            {
+                if (_structChanged[i])
+                {
+                    CompareStruct(_structs[i], _structChanged);
+                }
+            }
+
+            return _structChanged;
+        }
+
+        // Structs containing non-equal structs are also non-equal
+        private void CompareStruct(StructDecl iter, bool[] _structChanged)
+        {
+            for (int i = 0; i < _structs.Length; i++)
+            {
+                StructDecl curStruct = _structs[i];
+                if (curStruct != iter && !_structChanged[i])
+                {
+                    foreach (ElementDecl element in curStruct.Elements)
+                    {
+                        if (curStruct.Type == iter.Type && element.NameInfo.IsPointer)
+                        {
+                            _structChanged[i] = true;
+                            CompareStruct(curStruct, _structChanged);
+                        }
+                    }
+                }
+            }
+        }
+
+        public bool IsBroken(int fileVersion)
+        {
+            return fileVersion == 276 && _hasIntType;
         }
 
         public int PointerSize

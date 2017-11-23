@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
-using AOT;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -12,167 +12,171 @@ namespace BulletSharp
 	{
 		public AllHitsRayResultCallback(Vector3 rayFromWorld, Vector3 rayToWorld)
 		{
-            RayFromWorld = rayFromWorld;
-            RayToWorld = rayToWorld;
+			RayFromWorld = rayFromWorld;
+			RayToWorld = rayToWorld;
 
-            CollisionObjects = new List<CollisionObject>();
-            HitFractions = new List<float>();
-            HitNormalWorld = new List<Vector3>();
-            HitPointWorld = new List<Vector3>();
+			CollisionObjects = new List<CollisionObject>();
+			HitFractions = new List<float>();
+			HitNormalWorld = new List<Vector3>();
+			HitPointWorld = new List<Vector3>();
 		}
 
-        public override float AddSingleResult(LocalRayResult rayResult, bool normalInWorldSpace)
-        {
-            CollisionObject = rayResult.CollisionObject;
-            CollisionObjects.Add(rayResult.CollisionObject);
-            if (normalInWorldSpace)
-            {
-                HitNormalWorld.Add(rayResult.HitNormalLocal);
-            }
-            else
-            {
-                // need to transform normal into worldspace
-                HitNormalWorld.Add(Vector3.TransformCoordinate(rayResult.HitNormalLocal, CollisionObject.WorldTransform.Basis));
-            }
-            HitPointWorld.Add(Vector3.Lerp(RayFromWorld, RayToWorld, rayResult.HitFraction));
-            HitFractions.Add(rayResult.HitFraction);
-            return ClosestHitFraction;
-        }
+		public override float AddSingleResult(LocalRayResult rayResult, bool normalInWorldSpace)
+		{
+			CollisionObject = rayResult.CollisionObject;
+			CollisionObjects.Add(rayResult.CollisionObject);
+			if (normalInWorldSpace)
+			{
+				HitNormalWorld.Add(rayResult.HitNormalLocal);
+			}
+			else
+			{
+				// need to transform normal into worldspace
+				HitNormalWorld.Add(Vector3.TransformCoordinate(rayResult.HitNormalLocal, CollisionObject.WorldTransform.Basis));
+			}
+			HitPointWorld.Add(Vector3.Lerp(RayFromWorld, RayToWorld, rayResult.HitFraction));
+			HitFractions.Add(rayResult.HitFraction);
+			return ClosestHitFraction;
+		}
 
-        public List<CollisionObject> CollisionObjects { get; set; }
-        public List<float> HitFractions { get; set; }
-        public List<Vector3> HitNormalWorld { get; set; }
-        public List<Vector3> HitPointWorld { get; set; }
-        public Vector3 RayFromWorld { get; set; }
-        public Vector3 RayToWorld { get; set; }
+		public List<CollisionObject> CollisionObjects { get; set; }
+		public List<float> HitFractions { get; set; }
+		public List<Vector3> HitNormalWorld { get; set; }
+		public List<Vector3> HitPointWorld { get; set; }
+		public Vector3 RayFromWorld { get; set; }
+		public Vector3 RayToWorld { get; set; }
 	}
 
 	public class ClosestConvexResultCallback : ConvexResultCallback
 	{
-		public ClosestConvexResultCallback(ref Vector3 convexFromWorld, ref Vector3 convexToWorld)
+		public ClosestConvexResultCallback()
 		{
-            ConvexFromWorld = convexFromWorld;
-            ConvexToWorld = convexToWorld;
 		}
 
-        public override float AddSingleResult(LocalConvexResult convexResult, bool normalInWorldSpace)
-        {
-            //caller already does the filter on the m_closestHitFraction
-            Debug.Assert(convexResult.HitFraction <= ClosestHitFraction);
+		public ClosestConvexResultCallback(ref Vector3 convexFromWorld, ref Vector3 convexToWorld)
+		{
+			ConvexFromWorld = convexFromWorld;
+			ConvexToWorld = convexToWorld;
+		}
 
-            ClosestHitFraction = convexResult.HitFraction;
-            HitCollisionObject = convexResult.HitCollisionObject;
-            if (normalInWorldSpace)
-            {
-                HitNormalWorld = convexResult.HitNormalLocal;
-            }
-            else
-            {
-                // need to transform normal into worldspace
-                HitNormalWorld = Vector3.TransformCoordinate(convexResult.HitNormalLocal, HitCollisionObject.WorldTransform.Basis);
-            }
-            HitPointWorld = convexResult.HitPointLocal;
-            return convexResult.HitFraction;
-        }
+		public override float AddSingleResult(LocalConvexResult convexResult, bool normalInWorldSpace)
+		{
+			//caller already does the filter on the m_closestHitFraction
+			Debug.Assert(convexResult.HitFraction <= ClosestHitFraction);
 
-        public Vector3 ConvexFromWorld { get; set; }
-        public Vector3 ConvexToWorld { get; set; }
-        public CollisionObject HitCollisionObject { get; set; }
-        public Vector3 HitNormalWorld { get; set; }
-        public Vector3 HitPointWorld { get; set; }
+			ClosestHitFraction = convexResult.HitFraction;
+			HitCollisionObject = convexResult.HitCollisionObject;
+			if (normalInWorldSpace)
+			{
+				HitNormalWorld = convexResult.HitNormalLocal;
+			}
+			else
+			{
+				// need to transform normal into worldspace
+				HitNormalWorld = Vector3.TransformCoordinate(convexResult.HitNormalLocal, HitCollisionObject.WorldTransform.Basis);
+			}
+			HitPointWorld = convexResult.HitPointLocal;
+			return convexResult.HitFraction;
+		}
+
+		public Vector3 ConvexFromWorld { get; set; }
+		public Vector3 ConvexToWorld { get; set; }
+		public CollisionObject HitCollisionObject { get; set; }
+		public Vector3 HitNormalWorld { get; set; }
+		public Vector3 HitPointWorld { get; set; }
 	}
 
 	public class ClosestRayResultCallback : RayResultCallback
 	{
-        public ClosestRayResultCallback(ref Vector3 rayFromWorld, ref Vector3 rayToWorld)
+		public ClosestRayResultCallback(ref Vector3 rayFromWorld, ref Vector3 rayToWorld)
 		{
-            RayFromWorld = rayFromWorld;
-            RayToWorld = rayToWorld;
+			RayFromWorld = rayFromWorld;
+			RayToWorld = rayToWorld;
 		}
 
-        public override float AddSingleResult(LocalRayResult rayResult, bool normalInWorldSpace)
-        {
-            //caller already does the filter on the m_closestHitFraction
-            Debug.Assert(rayResult.HitFraction <= ClosestHitFraction);
+		public override float AddSingleResult(LocalRayResult rayResult, bool normalInWorldSpace)
+		{
+			//caller already does the filter on the m_closestHitFraction
+			Debug.Assert(rayResult.HitFraction <= ClosestHitFraction);
 
-            ClosestHitFraction = rayResult.HitFraction;
-            CollisionObject = rayResult.CollisionObject;
-            if (normalInWorldSpace)
-            {
-                HitNormalWorld = rayResult.HitNormalLocal;
-            }
-            else
-            {
-                // need to transform normal into worldspace
-                HitNormalWorld = Vector3.TransformCoordinate(rayResult.HitNormalLocal, CollisionObject.WorldTransform.Basis);
-            }
-            HitPointWorld = Vector3.Lerp(RayFromWorld, RayToWorld, rayResult.HitFraction);
-            return rayResult.HitFraction;
-        }
+			ClosestHitFraction = rayResult.HitFraction;
+			CollisionObject = rayResult.CollisionObject;
+			if (normalInWorldSpace)
+			{
+				HitNormalWorld = rayResult.HitNormalLocal;
+			}
+			else
+			{
+				// need to transform normal into worldspace
+				HitNormalWorld = Vector3.TransformCoordinate(rayResult.HitNormalLocal, CollisionObject.WorldTransform.Basis);
+			}
+			HitPointWorld = Vector3.Lerp(RayFromWorld, RayToWorld, rayResult.HitFraction);
+			return rayResult.HitFraction;
+		}
 
-        public Vector3 RayFromWorld { get; set; } //used to calculate hitPointWorld from hitFraction
-        public Vector3 RayToWorld { get; set; }
+		public Vector3 RayFromWorld { get; set; } //used to calculate hitPointWorld from hitFraction
+		public Vector3 RayToWorld { get; set; }
 
-        public Vector3 HitNormalWorld { get; set; }
-        public Vector3 HitPointWorld { get; set; }
+		public Vector3 HitNormalWorld { get; set; }
+		public Vector3 HitPointWorld { get; set; }
 	}
 
-    public abstract class ContactResultCallback : IDisposable
+	public abstract class ContactResultCallback : IDisposable
 	{
-		internal IntPtr _native;
+		internal IntPtr Native;
 
-        [UnmanagedFunctionPointer(Native.Conv), SuppressUnmanagedCodeSecurity]
-        delegate float AddSingleResultUnmanagedDelegate(IntPtr thisPtr, IntPtr cp, IntPtr colObj0Wrap, int partId0, int index0, IntPtr colObj1Wrap, int partId1, int index1);
-        [UnmanagedFunctionPointer(Native.Conv), SuppressUnmanagedCodeSecurity]
-        delegate bool NeedsCollisionUnmanagedDelegate(IntPtr thisPtr, IntPtr proxy0);
+		[UnmanagedFunctionPointer(BulletSharp.Native.Conv), SuppressUnmanagedCodeSecurity]
+		private delegate float AddSingleResultUnmanagedDelegate(IntPtr cp, IntPtr colObj0Wrap, int partId0, int index0, IntPtr colObj1Wrap, int partId1, int index1);
+		[UnmanagedFunctionPointer(BulletSharp.Native.Conv), SuppressUnmanagedCodeSecurity]
+		private delegate bool NeedsCollisionUnmanagedDelegate(IntPtr proxy0);
 
-        AddSingleResultUnmanagedDelegate _addSingleResult;
-        NeedsCollisionUnmanagedDelegate _needsCollision;
+		private AddSingleResultUnmanagedDelegate _addSingleResult;
+		private NeedsCollisionUnmanagedDelegate _needsCollision;
 
-        public ContactResultCallback()
-        {
-            _addSingleResult = AddSingleResultUnmanaged;
-            _needsCollision = NeedsCollisionUnmanaged;
-			GCHandle handle = GCHandle.Alloc(this, GCHandleType.Normal);
-            _native = btCollisionWorld_ContactResultCallbackWrapper_new(
-                Marshal.GetFunctionPointerForDelegate(_addSingleResult),
-                Marshal.GetFunctionPointerForDelegate(_needsCollision),
-				GCHandle.ToIntPtr(handle));
-        }
-
-		[MonoPInvokeCallback(typeof(AddSingleResultUnmanagedDelegate))]
-		static float AddSingleResultUnmanaged(IntPtr thisPtr, IntPtr cp, IntPtr colObj0Wrap, int partId0, int index0, IntPtr colObj1Wrap, int partId1, int index1)
-        {
-			ContactResultCallback ai = GCHandle.FromIntPtr(thisPtr).Target as ContactResultCallback;
-            return ai.AddSingleResult(new ManifoldPoint(cp, true),
-                new CollisionObjectWrapper(colObj0Wrap), partId0, index0,
-                new CollisionObjectWrapper(colObj1Wrap), partId1, index1);
-        }
-
-        public abstract float AddSingleResult(ManifoldPoint cp, CollisionObjectWrapper colObj0Wrap, int partId0, int index0, CollisionObjectWrapper colObj1Wrap, int partId1, int index1);
-
-		[MonoPInvokeCallback(typeof(NeedsCollisionUnmanagedDelegate))]
-        static bool NeedsCollisionUnmanaged(IntPtr thisPtr, IntPtr proxy0)
-        {
-			ContactResultCallback ai = GCHandle.FromIntPtr(thisPtr).Target as ContactResultCallback;
-            return ai.NeedsCollision(BroadphaseProxy.GetManaged(proxy0));
-        }
-
-        public virtual bool NeedsCollision(BroadphaseProxy proxy0)
+		public ContactResultCallback()
 		{
-            return btCollisionWorld_ContactResultCallbackWrapper_needsCollision(_native, proxy0._native);
+			_addSingleResult = AddSingleResultUnmanaged;
+			_needsCollision = NeedsCollisionUnmanaged;
+			Native = btCollisionWorld_ContactResultCallbackWrapper_new(
+				Marshal.GetFunctionPointerForDelegate(_addSingleResult),
+				Marshal.GetFunctionPointerForDelegate(_needsCollision));
 		}
 
-		public short CollisionFilterGroup
+		private float AddSingleResultUnmanaged(IntPtr cp, IntPtr colObj0Wrap, int partId0, int index0, IntPtr colObj1Wrap, int partId1, int index1)
 		{
-			get { return btCollisionWorld_ContactResultCallback_getCollisionFilterGroup(_native); }
-			set { btCollisionWorld_ContactResultCallback_setCollisionFilterGroup(_native, value); }
+			return AddSingleResult(new ManifoldPoint(cp, true),
+				new CollisionObjectWrapper(colObj0Wrap), partId0, index0,
+				new CollisionObjectWrapper(colObj1Wrap), partId1, index1);
 		}
 
-		public short CollisionFilterMask
+		public abstract float AddSingleResult(ManifoldPoint cp, CollisionObjectWrapper colObj0Wrap, int partId0, int index0, CollisionObjectWrapper colObj1Wrap, int partId1, int index1);
+
+		private bool NeedsCollisionUnmanaged(IntPtr proxy0)
 		{
-			get { return btCollisionWorld_ContactResultCallback_getCollisionFilterMask(_native); }
-			set { btCollisionWorld_ContactResultCallback_setCollisionFilterMask(_native, value); }
+			return NeedsCollision(BroadphaseProxy.GetManaged(proxy0));
+		}
+
+		public virtual bool NeedsCollision(BroadphaseProxy proxy0)
+		{
+			return btCollisionWorld_ContactResultCallbackWrapper_needsCollision(Native, proxy0.Native);
+		}
+
+		public float ClosestDistanceThreshold
+		{
+			get => btCollisionWorld_ContactResultCallback_getClosestDistanceThreshold(Native);
+			set => btCollisionWorld_ContactResultCallback_setClosestDistanceThreshold(Native, value);
+		}
+
+		public int CollisionFilterGroup
+		{
+			get => btCollisionWorld_ContactResultCallback_getCollisionFilterGroup(Native);
+			set => btCollisionWorld_ContactResultCallback_setCollisionFilterGroup(Native, value);
+		}
+
+		public int CollisionFilterMask
+		{
+			get => btCollisionWorld_ContactResultCallback_getCollisionFilterMask(Native);
+			set => btCollisionWorld_ContactResultCallback_setCollisionFilterMask(Native, value);
 		}
 
 		public void Dispose()
@@ -183,10 +187,10 @@ namespace BulletSharp
 
 		protected virtual void Dispose(bool disposing)
 		{
-			if (_native != IntPtr.Zero)
+			if (Native != IntPtr.Zero)
 			{
-				btCollisionWorld_ContactResultCallback_delete(_native);
-				_native = IntPtr.Zero;
+				btCollisionWorld_ContactResultCallback_delete(Native);
+				Native = IntPtr.Zero;
 			}
 		}
 
@@ -194,91 +198,66 @@ namespace BulletSharp
 		{
 			Dispose(false);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern short btCollisionWorld_ContactResultCallback_getCollisionFilterGroup(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern short btCollisionWorld_ContactResultCallback_getCollisionFilterMask(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_ContactResultCallback_setCollisionFilterGroup(IntPtr obj, short value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_ContactResultCallback_setCollisionFilterMask(IntPtr obj, short value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_ContactResultCallback_delete(IntPtr obj);
-        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-
-		static extern IntPtr btCollisionWorld_ContactResultCallbackWrapper_new(IntPtr addSingleResult, IntPtr needsCollision, IntPtr thisPtr);
-        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        [return: MarshalAs(UnmanagedType.I1)]
-        static extern bool btCollisionWorld_ContactResultCallbackWrapper_needsCollision(IntPtr obj, IntPtr proxy0);
 	}
 
 	public abstract class ConvexResultCallback : IDisposable
 	{
-		internal IntPtr _native;
+		internal IntPtr Native;
 
-        [UnmanagedFunctionPointer(Native.Conv), SuppressUnmanagedCodeSecurity]
-        delegate float AddSingleResultUnmanagedDelegate(IntPtr thisPtr, IntPtr convexResult, bool normalInWorldSpace);
-        [UnmanagedFunctionPointer(Native.Conv), SuppressUnmanagedCodeSecurity]
-        delegate bool NeedsCollisionUnmanagedDelegate(IntPtr thisPtr, IntPtr proxy0);
+		[UnmanagedFunctionPointer(BulletSharp.Native.Conv), SuppressUnmanagedCodeSecurity]
+		private delegate float AddSingleResultUnmanagedDelegate(IntPtr convexResult, bool normalInWorldSpace);
+		[UnmanagedFunctionPointer(BulletSharp.Native.Conv), SuppressUnmanagedCodeSecurity]
+		private delegate bool NeedsCollisionUnmanagedDelegate(IntPtr proxy0);
 
-        AddSingleResultUnmanagedDelegate _addSingleResult;
-        NeedsCollisionUnmanagedDelegate _needsCollision;
+		private AddSingleResultUnmanagedDelegate _addSingleResult;
+		private NeedsCollisionUnmanagedDelegate _needsCollision;
 
-        protected ConvexResultCallback()
-        {
-            _addSingleResult = AddSingleResultUnmanaged;
-            _needsCollision = NeedsCollisionUnmanaged;
-			GCHandle handle = GCHandle.Alloc(this, GCHandleType.Normal);
-            _native = btCollisionWorld_ConvexResultCallbackWrapper_new(
-                Marshal.GetFunctionPointerForDelegate(_addSingleResult),
-                Marshal.GetFunctionPointerForDelegate(_needsCollision),
-				GCHandle.ToIntPtr(handle));
-        }
-
-		[MonoPInvokeCallback(typeof(AddSingleResultUnmanagedDelegate))]
-		static float AddSingleResultUnmanaged(IntPtr ptrThis, IntPtr convexResult, bool normalInWorldSpace)
-        {
-			ConvexResultCallback ptr = GCHandle.FromIntPtr(ptrThis).Target as ConvexResultCallback;
-            return ptr.AddSingleResult(new LocalConvexResult(convexResult), normalInWorldSpace);
-        }
-
-        public abstract float AddSingleResult(LocalConvexResult convexResult, bool normalInWorldSpace);
-
-		[MonoPInvokeCallback(typeof(NeedsCollisionUnmanagedDelegate))]
-		static bool NeedsCollisionUnmanaged(IntPtr ptrThis, IntPtr proxy0)
-        {
-			ConvexResultCallback ptr = GCHandle.FromIntPtr(ptrThis).Target as ConvexResultCallback;
-            return ptr.NeedsCollision(BroadphaseProxy.GetManaged(proxy0));
-        }
-
-        public virtual bool NeedsCollision(BroadphaseProxy proxy0)
+		protected ConvexResultCallback()
 		{
-            return btCollisionWorld_ConvexResultCallbackWrapper_needsCollision(_native, proxy0._native);
+			_addSingleResult = AddSingleResultUnmanaged;
+			_needsCollision = NeedsCollisionUnmanaged;
+			Native = btCollisionWorld_ConvexResultCallbackWrapper_new(
+				Marshal.GetFunctionPointerForDelegate(_addSingleResult),
+				Marshal.GetFunctionPointerForDelegate(_needsCollision));
+		}
+
+		private float AddSingleResultUnmanaged(IntPtr convexResult, bool normalInWorldSpace)
+		{
+			return AddSingleResult(new LocalConvexResult(convexResult), normalInWorldSpace);
+		}
+
+		public abstract float AddSingleResult(LocalConvexResult convexResult, bool normalInWorldSpace);
+
+		private bool NeedsCollisionUnmanaged(IntPtr proxy0)
+		{
+			return NeedsCollision(BroadphaseProxy.GetManaged(proxy0));
+		}
+
+		public virtual bool NeedsCollision(BroadphaseProxy proxy0)
+		{
+			return btCollisionWorld_ConvexResultCallbackWrapper_needsCollision(Native,
+				proxy0.Native);
 		}
 
 		public float ClosestHitFraction
 		{
-			get { return btCollisionWorld_ConvexResultCallback_getClosestHitFraction(_native); }
-			set { btCollisionWorld_ConvexResultCallback_setClosestHitFraction(_native, value); }
+			get => btCollisionWorld_ConvexResultCallback_getClosestHitFraction(Native);
+			set => btCollisionWorld_ConvexResultCallback_setClosestHitFraction(Native, value);
 		}
 
-		public short CollisionFilterGroup
+		public int CollisionFilterGroup
 		{
-			get { return btCollisionWorld_ConvexResultCallback_getCollisionFilterGroup(_native); }
-			set { btCollisionWorld_ConvexResultCallback_setCollisionFilterGroup(_native, value); }
+			get => btCollisionWorld_ConvexResultCallback_getCollisionFilterGroup(Native);
+			set => btCollisionWorld_ConvexResultCallback_setCollisionFilterGroup(Native, value);
 		}
 
-		public short CollisionFilterMask
+		public int CollisionFilterMask
 		{
-			get { return btCollisionWorld_ConvexResultCallback_getCollisionFilterMask(_native); }
-			set { btCollisionWorld_ConvexResultCallback_setCollisionFilterMask(_native, value); }
+			get => btCollisionWorld_ConvexResultCallback_getCollisionFilterMask(Native);
+			set => btCollisionWorld_ConvexResultCallback_setCollisionFilterMask(Native, value);
 		}
 
-		public bool HasHit
-		{
-			get { return btCollisionWorld_ConvexResultCallback_hasHit(_native); }
-		}
+		public bool HasHit => btCollisionWorld_ConvexResultCallback_hasHit(Native);
 
 		public void Dispose()
 		{
@@ -288,10 +267,10 @@ namespace BulletSharp
 
 		protected virtual void Dispose(bool disposing)
 		{
-			if (_native != IntPtr.Zero)
+			if (Native != IntPtr.Zero)
 			{
-				btCollisionWorld_ConvexResultCallback_delete(_native);
-				_native = IntPtr.Zero;
+				btCollisionWorld_ConvexResultCallback_delete(Native);
+				Native = IntPtr.Zero;
 			}
 		}
 
@@ -299,69 +278,48 @@ namespace BulletSharp
 		{
 			Dispose(false);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern float btCollisionWorld_ConvexResultCallback_getClosestHitFraction(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern short btCollisionWorld_ConvexResultCallback_getCollisionFilterGroup(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern short btCollisionWorld_ConvexResultCallback_getCollisionFilterMask(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		[return: MarshalAs(UnmanagedType.I1)]
-		static extern bool btCollisionWorld_ConvexResultCallback_hasHit(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_ConvexResultCallback_setClosestHitFraction(IntPtr obj, float value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_ConvexResultCallback_setCollisionFilterGroup(IntPtr obj, short value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_ConvexResultCallback_setCollisionFilterMask(IntPtr obj, short value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_ConvexResultCallback_delete(IntPtr obj);
-
-        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btCollisionWorld_ConvexResultCallbackWrapper_new(IntPtr addSingleResult, IntPtr needsCollision, IntPtr thisPtr);
-        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        [return: MarshalAs(UnmanagedType.I1)]
-        static extern bool btCollisionWorld_ConvexResultCallbackWrapper_needsCollision(IntPtr obj, IntPtr proxy0);
 	}
 
 	public class LocalConvexResult : IDisposable
 	{
-		internal IntPtr _native;
-		bool _preventDelete;
+		internal IntPtr Native;
+		private bool _preventDelete;
 
 		private CollisionObject _hitCollisionObject;
 		private LocalShapeInfo _localShapeInfo;
 
 		internal LocalConvexResult(IntPtr native)
 		{
-			_native = native;
+			Native = native;
 			_preventDelete = true;
-            _hitCollisionObject = CollisionObject.GetManaged(btCollisionWorld_LocalConvexResult_getHitCollisionObject(_native));
-            _localShapeInfo = new LocalShapeInfo(btCollisionWorld_LocalConvexResult_getLocalShapeInfo(_native), true);
+			_hitCollisionObject = CollisionObject.GetManaged(btCollisionWorld_LocalConvexResult_getHitCollisionObject(Native));
+			_localShapeInfo = new LocalShapeInfo(btCollisionWorld_LocalConvexResult_getLocalShapeInfo(Native), true);
 		}
 
-		public LocalConvexResult(CollisionObject hitCollisionObject, LocalShapeInfo localShapeInfo, Vector3 hitNormalLocal, Vector3 hitPointLocal, float hitFraction)
+		public LocalConvexResult(CollisionObject hitCollisionObject, LocalShapeInfo localShapeInfo,
+			Vector3 hitNormalLocal, Vector3 hitPointLocal, float hitFraction)
 		{
-			_native = btCollisionWorld_LocalConvexResult_new(hitCollisionObject._native, localShapeInfo._native, ref hitNormalLocal, ref hitPointLocal, hitFraction);
+			Native = btCollisionWorld_LocalConvexResult_new(hitCollisionObject.Native,
+				localShapeInfo.Native, ref hitNormalLocal, ref hitPointLocal,
+				hitFraction);
 			_hitCollisionObject = hitCollisionObject;
 			_localShapeInfo = localShapeInfo;
 		}
 
 		public CollisionObject HitCollisionObject
 		{
-			get { return _hitCollisionObject; }
+			get => _hitCollisionObject;
 			set
 			{
-				btCollisionWorld_LocalConvexResult_setHitCollisionObject(_native, value._native);
+				btCollisionWorld_LocalConvexResult_setHitCollisionObject(Native, value.Native);
 				_hitCollisionObject = value;
 			}
 		}
 
 		public float HitFraction
 		{
-			get { return btCollisionWorld_LocalConvexResult_getHitFraction(_native); }
-			set { btCollisionWorld_LocalConvexResult_setHitFraction(_native, value); }
+			get => btCollisionWorld_LocalConvexResult_getHitFraction(Native);
+			set => btCollisionWorld_LocalConvexResult_setHitFraction(Native, value);
 		}
 
 		public Vector3 HitNormalLocal
@@ -369,10 +327,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btCollisionWorld_LocalConvexResult_getHitNormalLocal(_native, out value);
+				btCollisionWorld_LocalConvexResult_getHitNormalLocal(Native, out value);
 				return value;
 			}
-			set { btCollisionWorld_LocalConvexResult_setHitNormalLocal(_native, ref value); }
+			set => btCollisionWorld_LocalConvexResult_setHitNormalLocal(Native, ref value);
 		}
 
 		public Vector3 HitPointLocal
@@ -380,18 +338,18 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btCollisionWorld_LocalConvexResult_getHitPointLocal(_native, out value);
+				btCollisionWorld_LocalConvexResult_getHitPointLocal(Native, out value);
 				return value;
 			}
-			set { btCollisionWorld_LocalConvexResult_setHitPointLocal(_native, ref value); }
+			set => btCollisionWorld_LocalConvexResult_setHitPointLocal(Native, ref value);
 		}
 
 		public LocalShapeInfo LocalShapeInfo
 		{
-			get { return _localShapeInfo; }
+			get => _localShapeInfo;
 			set
 			{
-                btCollisionWorld_LocalConvexResult_setLocalShapeInfo(_native, (value != null) ? value._native : IntPtr.Zero);
+				btCollisionWorld_LocalConvexResult_setLocalShapeInfo(Native, (value != null) ? value.Native : IntPtr.Zero);
 				_localShapeInfo = value;
 			}
 		}
@@ -404,13 +362,13 @@ namespace BulletSharp
 
 		protected virtual void Dispose(bool disposing)
 		{
-			if (_native != IntPtr.Zero)
+			if (Native != IntPtr.Zero)
 			{
 				if (!_preventDelete)
 				{
-					btCollisionWorld_LocalConvexResult_delete(_native);
+					btCollisionWorld_LocalConvexResult_delete(Native);
 				}
-				_native = IntPtr.Zero;
+				Native = IntPtr.Zero;
 			}
 		}
 
@@ -418,70 +376,47 @@ namespace BulletSharp
 		{
 			Dispose(false);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btCollisionWorld_LocalConvexResult_new(IntPtr hitCollisionObject, IntPtr localShapeInfo, [In] ref Vector3 hitNormalLocal, [In] ref Vector3 hitPointLocal, float hitFraction);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btCollisionWorld_LocalConvexResult_getHitCollisionObject(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern float btCollisionWorld_LocalConvexResult_getHitFraction(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_LocalConvexResult_getHitNormalLocal(IntPtr obj, [Out] out Vector3 value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_LocalConvexResult_getHitPointLocal(IntPtr obj, [Out] out Vector3 value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btCollisionWorld_LocalConvexResult_getLocalShapeInfo(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_LocalConvexResult_setHitCollisionObject(IntPtr obj, IntPtr value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_LocalConvexResult_setHitFraction(IntPtr obj, float value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_LocalConvexResult_setHitNormalLocal(IntPtr obj, [In] ref Vector3 value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_LocalConvexResult_setHitPointLocal(IntPtr obj, [In] ref Vector3 value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_LocalConvexResult_setLocalShapeInfo(IntPtr obj, IntPtr value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_LocalConvexResult_delete(IntPtr obj);
 	}
 
 	public class LocalRayResult : IDisposable
 	{
-		internal IntPtr _native;
-		bool _preventDelete;
+		internal IntPtr Native;
+		private bool _preventDelete;
 
 		private CollisionObject _collisionObject;
 		private LocalShapeInfo _localShapeInfo;
 
 		internal LocalRayResult(IntPtr native)
 		{
-			_native = native;
+			Native = native;
 			_preventDelete = true;
-            _collisionObject = CollisionObject.GetManaged(btCollisionWorld_LocalRayResult_getCollisionObject(_native));
-            _localShapeInfo = new LocalShapeInfo(btCollisionWorld_LocalRayResult_getLocalShapeInfo(_native), true);
+			_collisionObject = CollisionObject.GetManaged(btCollisionWorld_LocalRayResult_getCollisionObject(Native));
+			_localShapeInfo = new LocalShapeInfo(btCollisionWorld_LocalRayResult_getLocalShapeInfo(Native), true);
 		}
 
-		public LocalRayResult(CollisionObject collisionObject, LocalShapeInfo localShapeInfo, Vector3 hitNormalLocal, float hitFraction)
+		public LocalRayResult(CollisionObject collisionObject, LocalShapeInfo localShapeInfo,
+			Vector3 hitNormalLocal, float hitFraction)
 		{
-			_native = btCollisionWorld_LocalRayResult_new(collisionObject._native, localShapeInfo._native, ref hitNormalLocal, hitFraction);
+			Native = btCollisionWorld_LocalRayResult_new(collisionObject.Native,
+				localShapeInfo.Native, ref hitNormalLocal, hitFraction);
 			_collisionObject = collisionObject;
 			_localShapeInfo = localShapeInfo;
 		}
 
 		public CollisionObject CollisionObject
 		{
-			get { return _collisionObject; }
+			get => _collisionObject;
 			set
 			{
-				btCollisionWorld_LocalRayResult_setCollisionObject(_native, value._native);
+				btCollisionWorld_LocalRayResult_setCollisionObject(Native, value.Native);
 				_collisionObject = value;
 			}
 		}
 
 		public float HitFraction
 		{
-			get { return btCollisionWorld_LocalRayResult_getHitFraction(_native); }
-			set { btCollisionWorld_LocalRayResult_setHitFraction(_native, value); }
+			get => btCollisionWorld_LocalRayResult_getHitFraction(Native);
+			set => btCollisionWorld_LocalRayResult_setHitFraction(Native, value);
 		}
 
 		public Vector3 HitNormalLocal
@@ -489,18 +424,18 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btCollisionWorld_LocalRayResult_getHitNormalLocal(_native, out value);
+				btCollisionWorld_LocalRayResult_getHitNormalLocal(Native, out value);
 				return value;
 			}
-			set { btCollisionWorld_LocalRayResult_setHitNormalLocal(_native, ref value); }
+			set => btCollisionWorld_LocalRayResult_setHitNormalLocal(Native, ref value);
 		}
 
 		public LocalShapeInfo LocalShapeInfo
 		{
-			get { return _localShapeInfo; }
+			get => _localShapeInfo;
 			set
 			{
-                btCollisionWorld_LocalRayResult_setLocalShapeInfo(_native, (value != null) ? value._native : IntPtr.Zero);
+				btCollisionWorld_LocalRayResult_setLocalShapeInfo(Native, (value != null) ? value.Native : IntPtr.Zero);
 				_localShapeInfo = value;
 			}
 		}
@@ -513,13 +448,13 @@ namespace BulletSharp
 
 		protected virtual void Dispose(bool disposing)
 		{
-			if (_native != IntPtr.Zero)
+			if (Native != IntPtr.Zero)
 			{
 				if (!_preventDelete)
 				{
-					btCollisionWorld_LocalRayResult_delete(_native);
+					btCollisionWorld_LocalRayResult_delete(Native);
 				}
-				_native = IntPtr.Zero;
+				Native = IntPtr.Zero;
 			}
 		}
 
@@ -527,55 +462,34 @@ namespace BulletSharp
 		{
 			Dispose(false);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btCollisionWorld_LocalRayResult_new(IntPtr collisionObject, IntPtr localShapeInfo, [In] ref Vector3 hitNormalLocal, float hitFraction);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btCollisionWorld_LocalRayResult_getCollisionObject(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern float btCollisionWorld_LocalRayResult_getHitFraction(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_LocalRayResult_getHitNormalLocal(IntPtr obj, [Out] out Vector3 value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btCollisionWorld_LocalRayResult_getLocalShapeInfo(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_LocalRayResult_setCollisionObject(IntPtr obj, IntPtr value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_LocalRayResult_setHitFraction(IntPtr obj, float value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_LocalRayResult_setHitNormalLocal(IntPtr obj, [In] ref Vector3 value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_LocalRayResult_setLocalShapeInfo(IntPtr obj, IntPtr value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_LocalRayResult_delete(IntPtr obj);
 	}
 
 	public class LocalShapeInfo : IDisposable
 	{
-		internal IntPtr _native;
+		internal IntPtr Native;
 		bool _preventDelete;
 
 		internal LocalShapeInfo(IntPtr native, bool preventDelete)
 		{
-			_native = native;
+			Native = native;
 			_preventDelete = preventDelete;
 		}
 
 		public LocalShapeInfo()
 		{
-			_native = btCollisionWorld_LocalShapeInfo_new();
+			Native = btCollisionWorld_LocalShapeInfo_new();
 		}
 
 		public int ShapePart
 		{
-			get { return btCollisionWorld_LocalShapeInfo_getShapePart(_native); }
-			set { btCollisionWorld_LocalShapeInfo_setShapePart(_native, value); }
+			get => btCollisionWorld_LocalShapeInfo_getShapePart(Native);
+			set => btCollisionWorld_LocalShapeInfo_setShapePart(Native, value);
 		}
 
 		public int TriangleIndex
 		{
-			get { return btCollisionWorld_LocalShapeInfo_getTriangleIndex(_native); }
-			set { btCollisionWorld_LocalShapeInfo_setTriangleIndex(_native, value); }
+			get => btCollisionWorld_LocalShapeInfo_getTriangleIndex(Native);
+			set => btCollisionWorld_LocalShapeInfo_setTriangleIndex(Native, value);
 		}
 
 		public void Dispose()
@@ -586,13 +500,13 @@ namespace BulletSharp
 
 		protected virtual void Dispose(bool disposing)
 		{
-			if (_native != IntPtr.Zero)
+			if (Native != IntPtr.Zero)
 			{
 				if (!_preventDelete)
 				{
-					btCollisionWorld_LocalShapeInfo_delete(_native);
+					btCollisionWorld_LocalShapeInfo_delete(Native);
 				}
-				_native = IntPtr.Zero;
+				Native = IntPtr.Zero;
 			}
 		}
 
@@ -600,99 +514,77 @@ namespace BulletSharp
 		{
 			Dispose(false);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btCollisionWorld_LocalShapeInfo_new();
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btCollisionWorld_LocalShapeInfo_getShapePart(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btCollisionWorld_LocalShapeInfo_getTriangleIndex(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_LocalShapeInfo_setShapePart(IntPtr obj, int value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_LocalShapeInfo_setTriangleIndex(IntPtr obj, int value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_LocalShapeInfo_delete(IntPtr obj);
 	}
 
 	public abstract class RayResultCallback : IDisposable
 	{
-		internal IntPtr _native;
+		internal IntPtr Native;
 
-        [UnmanagedFunctionPointer(Native.Conv), SuppressUnmanagedCodeSecurity]
-        delegate float AddSingleResultUnmanagedDelegate(IntPtr thisPtr, IntPtr rayResult, bool normalInWorldSpace);
-        [UnmanagedFunctionPointer(Native.Conv), SuppressUnmanagedCodeSecurity]
-		delegate bool NeedsCollisionUnmanagedDelegate(IntPtr thisPtr, IntPtr proxy0);
+		[UnmanagedFunctionPointer(BulletSharp.Native.Conv), SuppressUnmanagedCodeSecurity]
+		private delegate float AddSingleResultUnmanagedDelegate(IntPtr rayResult, bool normalInWorldSpace);
+		[UnmanagedFunctionPointer(BulletSharp.Native.Conv), SuppressUnmanagedCodeSecurity]
+		private delegate bool NeedsCollisionUnmanagedDelegate(IntPtr proxy0);
 
-		AddSingleResultUnmanagedDelegate _addSingleResult;
-		NeedsCollisionUnmanagedDelegate _needsCollision;
+		private AddSingleResultUnmanagedDelegate _addSingleResult;
+		private NeedsCollisionUnmanagedDelegate _needsCollision;
 
 		protected RayResultCallback()
 		{
 			_addSingleResult = AddSingleResultUnmanaged;
 			_needsCollision = NeedsCollisionUnmanaged;
-			GCHandle handle = GCHandle.Alloc(this, GCHandleType.Normal);
-			_native = btCollisionWorld_RayResultCallbackWrapper_new(
+			Native = btCollisionWorld_RayResultCallbackWrapper_new(
 				Marshal.GetFunctionPointerForDelegate(_addSingleResult),
-				Marshal.GetFunctionPointerForDelegate(_needsCollision),
-				GCHandle.ToIntPtr(handle));
+				Marshal.GetFunctionPointerForDelegate(_needsCollision));
 		}
 
-		[MonoPInvokeCallback(typeof(AddSingleResultUnmanagedDelegate))]
-        static float AddSingleResultUnmanaged(IntPtr thisPtr, IntPtr rayResult, bool normalInWorldSpace)
+		private float AddSingleResultUnmanaged(IntPtr rayResult, bool normalInWorldSpace)
 		{
-			RayResultCallback ai = GCHandle.FromIntPtr(thisPtr).Target as RayResultCallback;
-			return ai.AddSingleResult(new LocalRayResult(rayResult), normalInWorldSpace);
+			return AddSingleResult(new LocalRayResult(rayResult), normalInWorldSpace);
 		}
 
-        public abstract float AddSingleResult(LocalRayResult rayResult, bool normalInWorldSpace);
+		public abstract float AddSingleResult(LocalRayResult rayResult, bool normalInWorldSpace);
 
-		[MonoPInvokeCallback(typeof(NeedsCollisionUnmanagedDelegate))]
-		static bool NeedsCollisionUnmanaged(IntPtr thisPtr, IntPtr proxy0)
+		private bool NeedsCollisionUnmanaged(IntPtr proxy0)
 		{
-			RayResultCallback ai = GCHandle.FromIntPtr(thisPtr).Target as RayResultCallback;
-			return ai.NeedsCollision(BroadphaseProxy.GetManaged(proxy0));
+			return NeedsCollision(BroadphaseProxy.GetManaged(proxy0));
 		}
 
 		public virtual bool NeedsCollision(BroadphaseProxy proxy0)
 		{
-			return btCollisionWorld_RayResultCallbackWrapper_needsCollision(_native, proxy0._native);
+			return btCollisionWorld_RayResultCallbackWrapper_needsCollision(Native, proxy0.Native);
 		}
 
 		public float ClosestHitFraction
 		{
-			get { return btCollisionWorld_RayResultCallback_getClosestHitFraction(_native); }
-			set { btCollisionWorld_RayResultCallback_setClosestHitFraction(_native, value); }
+			get => btCollisionWorld_RayResultCallback_getClosestHitFraction(Native);
+			set => btCollisionWorld_RayResultCallback_setClosestHitFraction(Native, value);
 		}
 
-		public short CollisionFilterGroup
+		public int CollisionFilterGroup
 		{
-			get { return btCollisionWorld_RayResultCallback_getCollisionFilterGroup(_native); }
-			set { btCollisionWorld_RayResultCallback_setCollisionFilterGroup(_native, value); }
+			get => btCollisionWorld_RayResultCallback_getCollisionFilterGroup(Native);
+			set => btCollisionWorld_RayResultCallback_setCollisionFilterGroup(Native, value);
 		}
 
-		public short CollisionFilterMask
+		public int CollisionFilterMask
 		{
-			get { return btCollisionWorld_RayResultCallback_getCollisionFilterMask(_native); }
-			set { btCollisionWorld_RayResultCallback_setCollisionFilterMask(_native, value); }
+			get => btCollisionWorld_RayResultCallback_getCollisionFilterMask(Native);
+			set => btCollisionWorld_RayResultCallback_setCollisionFilterMask(Native, value);
 		}
 
 		public CollisionObject CollisionObject
 		{
-			get { return CollisionObject.GetManaged(btCollisionWorld_RayResultCallback_getCollisionObject(_native)); }
-			set { btCollisionWorld_RayResultCallback_setCollisionObject(_native, (value != null) ? value._native : IntPtr.Zero); }
+			get => CollisionObject.GetManaged(btCollisionWorld_RayResultCallback_getCollisionObject(Native));
+			set => btCollisionWorld_RayResultCallback_setCollisionObject(Native, (value != null) ? value.Native : IntPtr.Zero);
 		}
 
 		public uint Flags
 		{
-			get { return btCollisionWorld_RayResultCallback_getFlags(_native); }
-			set { btCollisionWorld_RayResultCallback_setFlags(_native, value); }
+			get => btCollisionWorld_RayResultCallback_getFlags(Native);
+			set => btCollisionWorld_RayResultCallback_setFlags(Native, value);
 		}
 
-		public bool HasHit
-		{
-			get { return btCollisionWorld_RayResultCallback_hasHit(_native); }
-		}
+		public bool HasHit => btCollisionWorld_RayResultCallback_hasHit(Native);
 
 		public void Dispose()
 		{
@@ -702,10 +594,10 @@ namespace BulletSharp
 
 		protected virtual void Dispose(bool disposing)
 		{
-			if (_native != IntPtr.Zero)
+			if (Native != IntPtr.Zero)
 			{
-				btCollisionWorld_RayResultCallback_delete(_native);
-				_native = IntPtr.Zero;
+				btCollisionWorld_RayResultCallback_delete(Native);
+				Native = IntPtr.Zero;
 			}
 		}
 
@@ -713,323 +605,312 @@ namespace BulletSharp
 		{
 			Dispose(false);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern float btCollisionWorld_RayResultCallback_getClosestHitFraction(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern short btCollisionWorld_RayResultCallback_getCollisionFilterGroup(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern short btCollisionWorld_RayResultCallback_getCollisionFilterMask(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btCollisionWorld_RayResultCallback_getCollisionObject(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern uint btCollisionWorld_RayResultCallback_getFlags(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		[return: MarshalAs(UnmanagedType.I1)]
-		static extern bool btCollisionWorld_RayResultCallback_hasHit(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_RayResultCallback_setClosestHitFraction(IntPtr obj, float value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_RayResultCallback_setCollisionFilterGroup(IntPtr obj, short value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_RayResultCallback_setCollisionFilterMask(IntPtr obj, short value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_RayResultCallback_setCollisionObject(IntPtr obj, IntPtr value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_RayResultCallback_setFlags(IntPtr obj, uint value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_RayResultCallback_delete(IntPtr obj);
-
-        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btCollisionWorld_RayResultCallbackWrapper_new(IntPtr addSingleResult, IntPtr needsCollision, IntPtr thisPtr);
-        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        [return: MarshalAs(UnmanagedType.I1)]
-        static extern bool btCollisionWorld_RayResultCallbackWrapper_needsCollision(IntPtr obj, IntPtr proxy0);
 	}
 
 	public class CollisionWorld : IDisposable
 	{
-		internal IntPtr _native;
+		internal IntPtr Native;
 
-		protected BroadphaseInterface _broadphase;
-		protected AlignedCollisionObjectArray _collisionObjectArray;
-        internal IDebugDraw _debugDrawer;
-		protected Dispatcher _dispatcher;
-        private DispatcherInfo _dispatchInfo;
+		internal IDebugDraw _debugDrawer;
+		private BroadphaseInterface _broadphase;
+		private Dispatcher _dispatcher;
+		private DispatcherInfo _dispatchInfo;
 
-		internal CollisionWorld(IntPtr native)
-		{
-            if (native == IntPtr.Zero)
-            {
-                return;
-            }
-			_native = native;
-            _collisionObjectArray = new AlignedCollisionObjectArray(btCollisionWorld_getCollisionObjectArray(native), this);
-		}
-
-		public CollisionWorld(Dispatcher dispatcher, BroadphaseInterface broadphasePairCache, CollisionConfiguration collisionConfiguration)
-            : this(btCollisionWorld_new(dispatcher._native, broadphasePairCache._native, collisionConfiguration._native))
+		internal CollisionWorld(IntPtr native, Dispatcher dispatcher, BroadphaseInterface broadphase)
 		{
 			_dispatcher = dispatcher;
-			Broadphase = broadphasePairCache;
+			Broadphase = broadphase;
+
+			if (native == IntPtr.Zero)
+			{
+				return;
+			}
+			Native = native;
+			CollisionObjectArray = new AlignedCollisionObjectArray(btCollisionWorld_getCollisionObjectArray(native), this);
+		}
+
+		public CollisionWorld(Dispatcher dispatcher, BroadphaseInterface broadphasePairCache,
+			CollisionConfiguration collisionConfiguration)
+			: this(btCollisionWorld_new(dispatcher.Native, broadphasePairCache.Native,
+				collisionConfiguration.Native), dispatcher, broadphasePairCache)
+		{
 		}
 
 		public void AddCollisionObject(CollisionObject collisionObject)
 		{
-            _collisionObjectArray.Add(collisionObject);
+			CollisionObjectArray.Add(collisionObject);
 		}
 
-        public void AddCollisionObject(CollisionObject collisionObject, CollisionFilterGroups collisionFilterGroup, CollisionFilterGroups collisionFilterMask)
+		public void AddCollisionObject(CollisionObject collisionObject, CollisionFilterGroups collisionFilterGroup,
+			CollisionFilterGroups collisionFilterMask)
 		{
-            _collisionObjectArray.Add(collisionObject, (short)collisionFilterGroup, (short)collisionFilterMask);
+			CollisionObjectArray.Add(collisionObject, (int)collisionFilterGroup, (int)collisionFilterMask);
 		}
 
-		public void AddCollisionObject(CollisionObject collisionObject, short collisionFilterGroup, short collisionFilterMask)
+		public void AddCollisionObject(CollisionObject collisionObject, int collisionFilterGroup,
+			int collisionFilterMask)
 		{
-            _collisionObjectArray.Add(collisionObject, collisionFilterGroup, collisionFilterMask);
+			CollisionObjectArray.Add(collisionObject, collisionFilterGroup, collisionFilterMask);
 		}
 
 		public void ComputeOverlappingPairs()
 		{
-			btCollisionWorld_computeOverlappingPairs(_native);
+			btCollisionWorld_computeOverlappingPairs(Native);
 		}
 
-		public void ContactPairTest(CollisionObject colObjA, CollisionObject colObjB, ContactResultCallback resultCallback)
+		public void ContactPairTest(CollisionObject colObjA, CollisionObject colObjB,
+			ContactResultCallback resultCallback)
 		{
-			btCollisionWorld_contactPairTest(_native, colObjA._native, colObjB._native, resultCallback._native);
+			btCollisionWorld_contactPairTest(Native, colObjA.Native, colObjB.Native,
+				resultCallback.Native);
 		}
 
 		public void ContactTest(CollisionObject colObj, ContactResultCallback resultCallback)
 		{
-			btCollisionWorld_contactTest(_native, colObj._native, resultCallback._native);
+			btCollisionWorld_contactTest(Native, colObj.Native, resultCallback.Native);
 		}
 
-        public void ConvexSweepTestRef(ConvexShape castShape, ref Matrix from, ref Matrix to, ConvexResultCallback resultCallback)
-        {
-            btCollisionWorld_convexSweepTest(_native, castShape._native, ref from, ref to, resultCallback._native);
-        }
-
-		public void ConvexSweepTest(ConvexShape castShape, Matrix from, Matrix to, ConvexResultCallback resultCallback)
+		public void ConvexSweepTestRef(ConvexShape castShape, ref Matrix from, ref Matrix to,
+			ConvexResultCallback resultCallback, float allowedCcdPenetration = 0)
 		{
-			btCollisionWorld_convexSweepTest(_native, castShape._native, ref from, ref to, resultCallback._native);
+			btCollisionWorld_convexSweepTest(Native, castShape.Native, ref from, ref to, resultCallback.Native, allowedCcdPenetration);
 		}
 
-        public void ConvexSweepTestRef(ConvexShape castShape, ref Matrix from, ref Matrix to, ConvexResultCallback resultCallback, float allowedCcdPenetration)
-        {
-            btCollisionWorld_convexSweepTest2(_native, castShape._native, ref from, ref to, resultCallback._native, allowedCcdPenetration);
-        }
-
-		public void ConvexSweepTest(ConvexShape castShape, Matrix from, Matrix to, ConvexResultCallback resultCallback, float allowedCcdPenetration)
+		public void ConvexSweepTest(ConvexShape castShape, Matrix from, Matrix to,
+			ConvexResultCallback resultCallback, float allowedCcdPenetration = 0)
 		{
-			btCollisionWorld_convexSweepTest2(_native, castShape._native, ref from, ref to, resultCallback._native, allowedCcdPenetration);
+			btCollisionWorld_convexSweepTest(Native, castShape.Native, ref from,
+				ref to, resultCallback.Native, allowedCcdPenetration);
 		}
 
-        public void DebugDrawObject(ref Matrix worldTransform, CollisionShape shape, ref Vector3 color)
+		public void DebugDrawObjectRef(ref Matrix worldTransform, CollisionShape shape, ref Vector3 color)
 		{
-			btCollisionWorld_debugDrawObject(_native, ref worldTransform, shape._native, ref color);
+			btCollisionWorld_debugDrawObject(Native, ref worldTransform, shape.Native, ref color);
+		}
+
+		public void DebugDrawObject(Matrix worldTransform, CollisionShape shape,
+			Vector3 color)
+		{
+			btCollisionWorld_debugDrawObject(Native, ref worldTransform, shape.Native,
+				ref color);
 		}
 
 		public void DebugDrawWorld()
 		{
-			btCollisionWorld_debugDrawWorld(_native);
+			btCollisionWorld_debugDrawWorld(Native);
 		}
 
-        public static void ObjectQuerySingleRef(ConvexShape castShape, ref Matrix rayFromTrans, ref Matrix rayToTrans, CollisionObject collisionObject, CollisionShape collisionShape, ref Matrix colObjWorldTransform, ConvexResultCallback resultCallback, float allowedPenetration)
-        {
-            btCollisionWorld_objectQuerySingle(castShape._native, ref rayFromTrans, ref rayToTrans, collisionObject._native, collisionShape._native, ref colObjWorldTransform, resultCallback._native, allowedPenetration);
-        }
-
-		public static void ObjectQuerySingle(ConvexShape castShape, Matrix rayFromTrans, Matrix rayToTrans, CollisionObject collisionObject, CollisionShape collisionShape, Matrix colObjWorldTransform, ConvexResultCallback resultCallback, float allowedPenetration)
+		public static void ObjectQuerySingleRef(ConvexShape castShape, ref Matrix rayFromTrans,
+			ref Matrix rayToTrans, CollisionObject collisionObject, CollisionShape collisionShape,
+			ref Matrix colObjWorldTransform, ConvexResultCallback resultCallback, float allowedPenetration)
 		{
-			btCollisionWorld_objectQuerySingle(castShape._native, ref rayFromTrans, ref rayToTrans, collisionObject._native, collisionShape._native, ref colObjWorldTransform, resultCallback._native, allowedPenetration);
+			btCollisionWorld_objectQuerySingle(castShape.Native, ref rayFromTrans,
+				ref rayToTrans, collisionObject.Native, collisionShape.Native, ref colObjWorldTransform,
+				resultCallback.Native, allowedPenetration);
 		}
 
-        public static void ObjectQuerySingleInternalRef(ConvexShape castShape, ref Matrix convexFromTrans, ref Matrix convexToTrans, CollisionObjectWrapper colObjWrap, ConvexResultCallback resultCallback, float allowedPenetration)
-        {
-            btCollisionWorld_objectQuerySingleInternal(castShape._native, ref convexFromTrans, ref convexToTrans, colObjWrap._native, resultCallback._native, allowedPenetration);
-        }
-
-		public static void ObjectQuerySingleInternal(ConvexShape castShape, Matrix convexFromTrans, Matrix convexToTrans, CollisionObjectWrapper colObjWrap, ConvexResultCallback resultCallback, float allowedPenetration)
+		public static void ObjectQuerySingle(ConvexShape castShape, Matrix rayFromTrans,
+			Matrix rayToTrans, CollisionObject collisionObject, CollisionShape collisionShape,
+			Matrix colObjWorldTransform, ConvexResultCallback resultCallback, float allowedPenetration)
 		{
-			btCollisionWorld_objectQuerySingleInternal(castShape._native, ref convexFromTrans, ref convexToTrans, colObjWrap._native, resultCallback._native, allowedPenetration);
+			btCollisionWorld_objectQuerySingle(castShape.Native, ref rayFromTrans,
+				ref rayToTrans, collisionObject.Native, collisionShape.Native, ref colObjWorldTransform,
+				resultCallback.Native, allowedPenetration);
+		}
+
+		public static void ObjectQuerySingleInternalRef(ConvexShape castShape, ref Matrix convexFromTrans,
+			ref Matrix convexToTrans, CollisionObjectWrapper colObjWrap, ConvexResultCallback resultCallback,
+			float allowedPenetration)
+		{
+			btCollisionWorld_objectQuerySingleInternal(castShape.Native, ref convexFromTrans,
+				ref convexToTrans, colObjWrap.Native, resultCallback.Native, allowedPenetration);
+		}
+
+		public static void ObjectQuerySingleInternal(ConvexShape castShape, Matrix convexFromTrans,
+			Matrix convexToTrans, CollisionObjectWrapper colObjWrap, ConvexResultCallback resultCallback,
+			float allowedPenetration)
+		{
+			btCollisionWorld_objectQuerySingleInternal(castShape.Native, ref convexFromTrans,
+				ref convexToTrans, colObjWrap.Native, resultCallback.Native, allowedPenetration);
 		}
 
 		public void PerformDiscreteCollisionDetection()
 		{
-			btCollisionWorld_performDiscreteCollisionDetection(_native);
+			btCollisionWorld_performDiscreteCollisionDetection(Native);
 		}
 
 		public void RayTestRef(ref Vector3 rayFromWorld, ref Vector3 rayToWorld, RayResultCallback resultCallback)
 		{
-			btCollisionWorld_rayTest(_native, ref rayFromWorld, ref rayToWorld, resultCallback._native);
+			btCollisionWorld_rayTest(Native, ref rayFromWorld, ref rayToWorld, resultCallback.Native);
 		}
 
 		public void RayTest(Vector3 rayFromWorld, Vector3 rayToWorld, RayResultCallback resultCallback)
 		{
-			btCollisionWorld_rayTest(_native, ref rayFromWorld, ref rayToWorld, resultCallback._native);
+			btCollisionWorld_rayTest(Native, ref rayFromWorld, ref rayToWorld, resultCallback.Native);
 		}
 
-        public static void RayTestSingleRef(ref Matrix rayFromTrans, ref Matrix rayToTrans, CollisionObject collisionObject, CollisionShape collisionShape, ref Matrix colObjWorldTransform, RayResultCallback resultCallback)
-        {
-            btCollisionWorld_rayTestSingle(ref rayFromTrans, ref rayToTrans, collisionObject._native, collisionShape._native, ref colObjWorldTransform, resultCallback._native);
-        }
-
-		public static void RayTestSingle(Matrix rayFromTrans, Matrix rayToTrans, CollisionObject collisionObject, CollisionShape collisionShape, Matrix colObjWorldTransform, RayResultCallback resultCallback)
+		public static void RayTestSingleRef(ref Matrix rayFromTrans, ref Matrix rayToTrans,
+			CollisionObject collisionObject, CollisionShape collisionShape, ref Matrix colObjWorldTransform,
+			RayResultCallback resultCallback)
 		{
-			btCollisionWorld_rayTestSingle(ref rayFromTrans, ref rayToTrans, collisionObject._native, collisionShape._native, ref colObjWorldTransform, resultCallback._native);
+			btCollisionWorld_rayTestSingle(ref rayFromTrans, ref rayToTrans, collisionObject.Native, collisionShape.Native, ref colObjWorldTransform, resultCallback.Native);
 		}
 
-        public static void RayTestSingleInternalRef(ref Matrix rayFromTrans, ref Matrix rayToTrans, CollisionObjectWrapper collisionObjectWrap, RayResultCallback resultCallback)
-        {
-            btCollisionWorld_rayTestSingleInternal(ref rayFromTrans, ref rayToTrans, collisionObjectWrap._native, resultCallback._native);
-        }
-
-		public static void RayTestSingleInternal(Matrix rayFromTrans, Matrix rayToTrans, CollisionObjectWrapper collisionObjectWrap, RayResultCallback resultCallback)
+		public static void RayTestSingle(Matrix rayFromTrans, Matrix rayToTrans,
+			CollisionObject collisionObject, CollisionShape collisionShape, Matrix colObjWorldTransform,
+			RayResultCallback resultCallback)
 		{
-			btCollisionWorld_rayTestSingleInternal(ref rayFromTrans, ref rayToTrans, collisionObjectWrap._native, resultCallback._native);
+			btCollisionWorld_rayTestSingle(ref rayFromTrans, ref rayToTrans, collisionObject.Native,
+				collisionShape.Native, ref colObjWorldTransform, resultCallback.Native);
+		}
+
+		public static void RayTestSingleInternalRef(ref Matrix rayFromTrans, ref Matrix rayToTrans,
+			CollisionObjectWrapper collisionObjectWrap, RayResultCallback resultCallback)
+		{
+			btCollisionWorld_rayTestSingleInternal(ref rayFromTrans, ref rayToTrans,
+				collisionObjectWrap.Native, resultCallback.Native);
+		}
+
+		public static void RayTestSingleInternal(Matrix rayFromTrans, Matrix rayToTrans,
+			CollisionObjectWrapper collisionObjectWrap, RayResultCallback resultCallback)
+		{
+			btCollisionWorld_rayTestSingleInternal(ref rayFromTrans, ref rayToTrans,
+				collisionObjectWrap.Native, resultCallback.Native);
 		}
 
 		public void RemoveCollisionObject(CollisionObject collisionObject)
 		{
-            _collisionObjectArray.Remove(collisionObject);
+			CollisionObjectArray.Remove(collisionObject);
 		}
 
-        protected void SerializeCollisionObjects(Serializer serializer)
-        {
-	        // keep track of shapes already serialized
-            Dictionary<CollisionShape, int> serializedShapes = new Dictionary<CollisionShape, int>();
+		protected void SerializeCollisionObjects(Serializer serializer)
+		{
+			// keep track of shapes already serialized
+			var serializedShapes = new Dictionary<CollisionShape, int>();
 
-            foreach (CollisionObject colObj in CollisionObjectArray)
-            {
-                CollisionShape shape = colObj.CollisionShape;
-                if (!serializedShapes.ContainsKey(shape))
-                {
-                    serializedShapes.Add(shape, 0);
-                    shape.SerializeSingleShape(serializer);
-                }
-            }
+			foreach (var colObj in CollisionObjectArray)
+			{
+				var shape = colObj.CollisionShape;
+				if (!serializedShapes.ContainsKey(shape))
+				{
+					serializedShapes.Add(shape, 0);
+					shape.SerializeSingleShape(serializer);
+				}
+			}
 
-            // serialize all collision objects
-            foreach (CollisionObject colObj in CollisionObjectArray)
-            {
-                if (colObj.InternalType == CollisionObjectTypes.CollisionObject)
-                {
-                    colObj.SerializeSingleObject(serializer);
-                }
-            }
-        }
+			// serialize all collision objects
+			foreach (var colObj in CollisionObjectArray)
+			{
+				if (colObj.InternalType == CollisionObjectTypes.CollisionObject)
+				{
+					colObj.SerializeSingleObject(serializer);
+				}
+			}
+		}
 
 		public virtual void Serialize(Serializer serializer)
 		{
-            serializer.StartSerialization();
-            SerializeCollisionObjects(serializer);
-            serializer.FinishSerialization();
+			serializer.StartSerialization();
+			SerializeCollisionObjects(serializer);
+			serializer.FinishSerialization();
 		}
 
 		public void UpdateAabbs()
 		{
-			btCollisionWorld_updateAabbs(_native);
+			btCollisionWorld_updateAabbs(Native);
 		}
 
 		public void UpdateSingleAabb(CollisionObject colObj)
 		{
-			btCollisionWorld_updateSingleAabb(_native, colObj._native);
+			btCollisionWorld_updateSingleAabb(Native, colObj.Native);
 		}
 
 		public BroadphaseInterface Broadphase
 		{
-			get { return _broadphase; }
+			get => _broadphase;
 			set
 			{
-                if (_broadphase != null)
-                {
-                    _broadphase._worldRefs.Remove(this);
-                }
-				btCollisionWorld_setBroadphase(_native, value._native);
+				if (_broadphase != null)
+				{
+					_broadphase._worldRefs.Remove(this);
+				}
+				// Native can be zero from a constructor argument
+				if (Native != IntPtr.Zero)
+				{
+					btCollisionWorld_setBroadphase(Native, value.Native);
+				}
 				_broadphase = value;
-                value._worldRefs.Add(this);
+				value._worldRefs.Add(this);
 			}
 		}
 
-		public AlignedCollisionObjectArray CollisionObjectArray
-		{
-			get
-			{
-				return _collisionObjectArray;
-			}
-		}
+		public AlignedCollisionObjectArray CollisionObjectArray { get; protected set; }
 
 		public IDebugDraw DebugDrawer
 		{
-			get { return _debugDrawer; }
+			get => _debugDrawer;
 			set
 			{
-                if (_debugDrawer != null)
-                {
-                    if (_debugDrawer == value) {
-                        return;
-                    }
+				if (_debugDrawer != null)
+				{
+					if (_debugDrawer == value) {
+						return;
+					}
 
-                    // Clear IDebugDraw wrapper
-                    if (!(_debugDrawer is DebugDraw)) {
-                        //btIDebugDrawer_delete(btCollisionWorld_getDebugDrawer(_native));
-                    }
-                }
+					// Clear IDebugDraw wrapper
+					if (!(_debugDrawer is DebugDraw)) {
+						//btIDebugDrawer_delete(btCollisionWorld_getDebugDrawer(Native));
+					}
+				}
 
 				_debugDrawer = value;
-                if (value == null) {
-                    btCollisionWorld_setDebugDrawer(_native, IntPtr.Zero);
-                    return;
-                }
+				if (value == null) {
+					btCollisionWorld_setDebugDrawer(Native, IntPtr.Zero);
+					return;
+				}
 
-                DebugDraw cast = value as DebugDraw;
-                if (cast != null) {
-                    btCollisionWorld_setDebugDrawer(_native, cast._native);
-                } else {
-                    // Create IDebugDraw wrapper, remember to delete it
-                    IntPtr wrapper = DebugDraw.CreateWrapper(value, false);
-                    btCollisionWorld_setDebugDrawer(_native, wrapper);
-                }
+				DebugDraw cast = value as DebugDraw;
+				if (cast != null) {
+					btCollisionWorld_setDebugDrawer(Native, cast._native);
+				} else {
+					// Create IDebugDraw wrapper, remember to delete it
+					IntPtr wrapper = DebugDraw.CreateWrapper(value, false);
+					btCollisionWorld_setDebugDrawer(Native, wrapper);
+				}
 			}
 		}
 
 		public Dispatcher Dispatcher
 		{
-			get { return _dispatcher; }
-            internal set
-            {
-                _dispatcher = value;
-                _dispatcher._worldRefs.Add(this);
-            }
+			get => _dispatcher;
+			internal set
+			{
+				_dispatcher = value;
+				_dispatcher._worldRefs.Add(this);
+			}
 		}
 
 		public DispatcherInfo DispatchInfo
 		{
-            get
-            {
-                if (_dispatchInfo == null)
-                {
-                    _dispatchInfo = new DispatcherInfo(btCollisionWorld_getDispatchInfo(_native));
-                }
-                return _dispatchInfo;
-            }
+			get
+			{
+				if (_dispatchInfo == null)
+				{
+					_dispatchInfo = new DispatcherInfo(btCollisionWorld_getDispatchInfo(Native));
+				}
+				return _dispatchInfo;
+			}
 		}
 
 		public bool ForceUpdateAllAabbs
 		{
-			get { return btCollisionWorld_getForceUpdateAllAabbs(_native); }
-			set { btCollisionWorld_setForceUpdateAllAabbs(_native, value); }
+			get => btCollisionWorld_getForceUpdateAllAabbs(Native);
+			set => btCollisionWorld_setForceUpdateAllAabbs(Native, value);
 		}
 
-		public int NumCollisionObjects
-		{
-			get { return btCollisionWorld_getNumCollisionObjects(_native); }
-		}
+		public int NumCollisionObjects => btCollisionWorld_getNumCollisionObjects(Native);
 
-		public OverlappingPairCache PairCache
-		{
-            get { return Broadphase.OverlappingPairCache; }
-		}
+		public OverlappingPairCache PairCache => Broadphase.OverlappingPairCache;
 
 		public void Dispose()
 		{
@@ -1039,22 +920,22 @@ namespace BulletSharp
 
 		protected virtual void Dispose(bool disposing)
 		{
-			if (_native != IntPtr.Zero)
+			if (Native != IntPtr.Zero)
 			{
-				btCollisionWorld_delete(_native);
-				_native = IntPtr.Zero;
+				btCollisionWorld_delete(Native);
+				Native = IntPtr.Zero;
 
-                _broadphase._worldRefs.Remove(this);
-                if (_broadphase._worldDeferredCleanup && _broadphase._worldRefs.Count == 0)
-                {
-                    _broadphase.Dispose();
-                }
+				_broadphase._worldRefs.Remove(this);
+				if (_broadphase._worldDeferredCleanup && _broadphase._worldRefs.Count == 0)
+				{
+					_broadphase.Dispose();
+				}
 
-                _dispatcher._worldRefs.Remove(this);
-                if (_dispatcher._worldDeferredCleanup && _dispatcher._worldRefs.Count == 0)
-                {
-                    _dispatcher.Dispose();
-                }
+				_dispatcher._worldRefs.Remove(this);
+				if (_dispatcher._worldDeferredCleanup && _dispatcher._worldRefs.Count == 0)
+				{
+					_dispatcher.Dispose();
+				}
 			}
 		}
 
@@ -1062,63 +943,5 @@ namespace BulletSharp
 		{
 			Dispose(false);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btCollisionWorld_new(IntPtr dispatcher, IntPtr broadphasePairCache, IntPtr collisionConfiguration);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_computeOverlappingPairs(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_contactPairTest(IntPtr obj, IntPtr colObjA, IntPtr colObjB, IntPtr resultCallback);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_contactTest(IntPtr obj, IntPtr colObj, IntPtr resultCallback);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_convexSweepTest(IntPtr obj, IntPtr castShape, [In] ref Matrix from, [In] ref Matrix to, IntPtr resultCallback);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_convexSweepTest2(IntPtr obj, IntPtr castShape, [In] ref Matrix from, [In] ref Matrix to, IntPtr resultCallback, float allowedCcdPenetration);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_debugDrawObject(IntPtr obj, [In] ref Matrix worldTransform, IntPtr shape, [In] ref Vector3 color);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_debugDrawWorld(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btCollisionWorld_getBroadphase(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		internal static extern IntPtr btCollisionWorld_getCollisionObjectArray(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btCollisionWorld_getDebugDrawer(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btCollisionWorld_getDispatcher(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btCollisionWorld_getDispatchInfo(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		[return: MarshalAs(UnmanagedType.I1)]
-		static extern bool btCollisionWorld_getForceUpdateAllAabbs(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btCollisionWorld_getNumCollisionObjects(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btCollisionWorld_getPairCache(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_objectQuerySingle(IntPtr castShape, [In] ref Matrix rayFromTrans, [In] ref Matrix rayToTrans, IntPtr collisionObject, IntPtr collisionShape, [In] ref Matrix colObjWorldTransform, IntPtr resultCallback, float allowedPenetration);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_objectQuerySingleInternal(IntPtr castShape, [In] ref Matrix convexFromTrans, [In] ref Matrix convexToTrans, IntPtr colObjWrap, IntPtr resultCallback, float allowedPenetration);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_performDiscreteCollisionDetection(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_rayTest(IntPtr obj, [In] ref Vector3 rayFromWorld, [In] ref Vector3 rayToWorld, IntPtr resultCallback);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_rayTestSingle([In] ref Matrix rayFromTrans, [In] ref Matrix rayToTrans, IntPtr collisionObject, IntPtr collisionShape, [In] ref Matrix colObjWorldTransform, IntPtr resultCallback);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_rayTestSingleInternal([In] ref Matrix rayFromTrans, [In] ref Matrix rayToTrans, IntPtr collisionObjectWrap, IntPtr resultCallback);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_setBroadphase(IntPtr obj, IntPtr pairCache);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_setDebugDrawer(IntPtr obj, IntPtr debugDrawer);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_setForceUpdateAllAabbs(IntPtr obj, bool forceUpdateAllAabbs);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_updateAabbs(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_updateSingleAabb(IntPtr obj, IntPtr colObj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionWorld_delete(IntPtr obj);
 	}
 }

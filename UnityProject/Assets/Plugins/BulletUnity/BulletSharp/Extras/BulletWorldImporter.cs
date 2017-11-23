@@ -40,15 +40,15 @@ namespace BulletSharp
                     IntPtr quantizedContiguousNodesHandlePtr = IntPtr.Zero;
                     IntPtr subTreeInfoHandlePtr = IntPtr.Zero;
 
-                    using (MemoryStream stream = new MemoryStream(bvhData))
+                    using (var stream = new MemoryStream(bvhData))
                     {
-                        using (BulletReader reader = new BulletReader(stream))
+                        using (var reader = new BulletReader(stream))
                         {
                             long contiguousNodesPtr = reader.ReadPtr(QuantizedBvhFloatData.Offset("ContiguousNodesPtr"));
                             long quantizedContiguousNodesPtr = reader.ReadPtr(QuantizedBvhFloatData.Offset("QuantizedContiguousNodesPtr"));
                             long subTreeInfoPtr = reader.ReadPtr(QuantizedBvhFloatData.Offset("SubTreeInfoPtr"));
 
-                            using (BulletWriter writer = new BulletWriter(stream))
+                            using (var writer = new BulletWriter(stream))
                             {
                                 if (contiguousNodesPtr != 0)
                                 {
@@ -116,9 +116,9 @@ namespace BulletSharp
                         }
                     }
 
-                    using (MemoryStream stream = new MemoryStream(shapeData, false))
+                    using (var stream = new MemoryStream(shapeData, false))
                     {
-                        using (BulletReader reader = new BulletReader(stream))
+                        using (var reader = new BulletReader(stream))
                         {
                             long namePtr = reader.ReadPtr(CollisionShapeFloatData.Offset("Name"));
                             if (namePtr != 0)
@@ -150,7 +150,7 @@ namespace BulletSharp
             {
                 if ((file.Flags & FileFlags.DoublePrecision) != 0)
                 {
-                    throw new NotImplementedException();
+                    ConvertRigidBodyDouble(bodyData, file.LibPointers);
                 }
                 else
                 {
@@ -160,15 +160,27 @@ namespace BulletSharp
 
             foreach (byte[] colObjData in file.CollisionObjects)
             {
-                if ((file.Flags & FileFlags.DoublePrecision) != 0)
+                using (var colObjStream = new MemoryStream(colObjData, false))
                 {
-                    throw new NotImplementedException();
-                }
-                else
-                {
-                    using (MemoryStream colObjStream = new MemoryStream(colObjData, false))
+                    using (var colObjReader = new BulletReader(colObjStream))
                     {
-                        using (BulletReader colObjReader = new BulletReader(colObjStream))
+                        if ((file.Flags & FileFlags.DoublePrecision) != 0)
+                        {
+                            long shapePtr = colObjReader.ReadPtr(CollisionObjectDoubleData.Offset("CollisionShape"));
+                            CollisionShape shape = _shapeMap[shapePtr];
+                            Math.Matrix startTransform = colObjReader.ReadMatrixDouble(CollisionObjectDoubleData.Offset("WorldTransform"));
+                            long namePtr = colObjReader.ReadPtr(CollisionObjectDoubleData.Offset("Name"));
+                            string name = null;
+                            if (namePtr != 0)
+                            {
+                                byte[] nameData = file.FindLibPointer(namePtr);
+                                int length = Array.IndexOf(nameData, (byte)0);
+                                name = System.Text.Encoding.ASCII.GetString(nameData, 0, length);
+                            }
+                            CollisionObject colObj = CreateCollisionObject(ref startTransform, shape, name);
+                            _bodyMap.Add(colObjData, colObj);
+                        }
+                        else
                         {
                             long shapePtr = colObjReader.ReadPtr(CollisionObjectFloatData.Offset("CollisionShape"));
                             CollisionShape shape = _shapeMap[shapePtr];
@@ -190,8 +202,8 @@ namespace BulletSharp
 
             foreach (byte[] constraintData in file.Constraints)
             {
-                MemoryStream stream = new MemoryStream(constraintData, false);
-                using (BulletReader reader = new BulletReader(stream))
+                var stream = new MemoryStream(constraintData, false);
+                using (var reader = new BulletReader(stream))
                 {
                     long collisionObjectAPtr = reader.ReadPtr(TypedConstraintFloatData.Offset("RigidBodyA"));
                     long collisionObjectBPtr = reader.ReadPtr(TypedConstraintFloatData.Offset("RigidBodyB"));
@@ -255,7 +267,7 @@ namespace BulletSharp
 
         public bool LoadFile(string fileName, string preSwapFilenameOut)
 		{
-			BulletFile bulletFile = new BulletFile(fileName);
+            var bulletFile = new BulletFile(fileName);
             bool result = LoadFileFromMemory(bulletFile);
 
             //now you could save the file in 'native' format using
@@ -280,20 +292,20 @@ namespace BulletSharp
         
 		public bool LoadFileFromMemory(byte[] memoryBuffer, int len)
 		{
-            BulletFile bulletFile = new BulletFile(memoryBuffer, len);
+            var bulletFile = new BulletFile(memoryBuffer, len);
             return LoadFileFromMemory(bulletFile);
 		}
         
         public bool LoadFileFromMemory(BulletFile bulletFile)
 		{
-            if ((bulletFile.Flags & FileFlags.OK) != FileFlags.OK)
+            if (!bulletFile.OK)
             {
                 return false;
             }
 
             bulletFile.Parse(_verboseMode);
 
-            if ((_verboseMode & FileVerboseMode.DumpChunks) == FileVerboseMode.DumpChunks)
+            if ((_verboseMode & FileVerboseMode.DumpChunks) != 0)
             {
                 //bulletFile.DumpChunks(bulletFile->FileDna);
             }

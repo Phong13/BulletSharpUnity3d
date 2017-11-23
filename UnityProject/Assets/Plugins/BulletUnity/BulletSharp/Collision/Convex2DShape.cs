@@ -1,27 +1,15 @@
-using System;
-using System.Runtime.InteropServices;
-using System.Security;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
 	public class Convex2DShape : ConvexShape
 	{
-        private ConvexShape _childShape;
-
 		public Convex2DShape(ConvexShape convexChildShape)
-			: base(btConvex2dShape_new(convexChildShape._native))
+			: base(btConvex2dShape_new(convexChildShape.Native))
 		{
-            _childShape = convexChildShape;
+			ChildShape = convexChildShape;
 		}
 
-		public ConvexShape ChildShape
-		{
-            get { return _childShape; }
-		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btConvex2dShape_new(IntPtr convexChildShape);
-		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		//static extern IntPtr btConvex2dShape_getChildShape(IntPtr obj);
+		public ConvexShape ChildShape { get; }
 	}
 }

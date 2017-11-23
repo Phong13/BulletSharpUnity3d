@@ -1,180 +1,158 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Security;
 using System.Diagnostics;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
-    public class AlignedIndexedMeshArrayDebugView
-    {
-        private readonly AlignedIndexedMeshArray _array;
+	public class AlignedIndexedMeshArrayDebugView
+	{
+		private readonly AlignedIndexedMeshArray _array;
 
-        public AlignedIndexedMeshArrayDebugView(AlignedIndexedMeshArray array)
-        {
-            _array = array;
-        }
+		public AlignedIndexedMeshArrayDebugView(AlignedIndexedMeshArray array)
+		{
+			_array = array;
+		}
 
-        [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-        public IndexedMesh[] Items
-        {
-            get
-            {
-                IndexedMesh[] array = new IndexedMesh[_array.Count];
-                for (int i = 0; i < _array.Count; i++)
-                {
-                    array[i] = _array[i];
-                }
-                return array;
-            }
-        }
-    }
+		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+		public IndexedMesh[] Items
+		{
+			get
+			{
+				var array = new IndexedMesh[_array.Count];
+				for (int i = 0; i < _array.Count; i++)
+				{
+					array[i] = _array[i];
+				}
+				return array;
+			}
+		}
+	}
 
-    public class AlignedIndexedMeshArrayEnumerator : IEnumerator<IndexedMesh>
-    {
-        int _i;
-        readonly int _count;
-        readonly AlignedIndexedMeshArray _array;
+	public class AlignedIndexedMeshArrayEnumerator : IEnumerator<IndexedMesh>
+	{
+		private int _i;
+		private readonly int _count;
+		private readonly AlignedIndexedMeshArray _array;
 
-        public AlignedIndexedMeshArrayEnumerator(AlignedIndexedMeshArray array)
-        {
-            _array = array;
-            _count = array.Count;
-            _i = -1;
-        }
+		public AlignedIndexedMeshArrayEnumerator(AlignedIndexedMeshArray array)
+		{
+			_array = array;
+			_count = array.Count;
+			_i = -1;
+		}
 
-        public IndexedMesh Current
-        {
-            get { return _array[_i]; }
-        }
+		public IndexedMesh Current => _array[_i];
 
-        public void Dispose()
-        {
-        }
+		public void Dispose()
+		{
+		}
 
-        object System.Collections.IEnumerator.Current
-        {
-            get { return _array[_i]; }
-        }
+		object System.Collections.IEnumerator.Current => _array[_i];
 
-        public bool MoveNext()
-        {
-            _i++;
-            return _i != _count;
-        }
+		public bool MoveNext()
+		{
+			_i++;
+			return _i != _count;
+		}
 
-        public void Reset()
-        {
-            _i = 0;
-        }
-    }
+		public void Reset()
+		{
+			_i = 0;
+		}
+	}
 
-    [Serializable, DebuggerTypeProxy(typeof(AlignedIndexedMeshArrayDebugView)), DebuggerDisplay("Count = {Count}")]
-    public class AlignedIndexedMeshArray : IList<IndexedMesh>
-    {
-        private IntPtr _native;
+	[Serializable, DebuggerTypeProxy(typeof(AlignedIndexedMeshArrayDebugView)), DebuggerDisplay("Count = {Count}")]
+	public class AlignedIndexedMeshArray : IList<IndexedMesh>
+	{
+		private IntPtr _native;
 
-        internal AlignedIndexedMeshArray(IntPtr native)
-        {
-            _native = native;
-        }
+		internal AlignedIndexedMeshArray(IntPtr native)
+		{
+			_native = native;
+		}
 
-        public int IndexOf(IndexedMesh item)
-        {
-            throw new NotImplementedException();
-        }
+		public int IndexOf(IndexedMesh item)
+		{
+			throw new NotImplementedException();
+		}
 
-        public void Insert(int index, IndexedMesh item)
-        {
-            throw new NotImplementedException();
-        }
+		public void Insert(int index, IndexedMesh item)
+		{
+			throw new NotImplementedException();
+		}
 
-        public void RemoveAt(int index)
-        {
-            throw new NotImplementedException();
-        }
+		public void RemoveAt(int index)
+		{
+			throw new NotImplementedException();
+		}
 
-        public IndexedMesh this[int index]
-        {
-            get
-            {
-                if ((uint)index >= (uint)Count)
-                {
-                    throw new ArgumentOutOfRangeException("index");
-                }
-                return new IndexedMesh(btAlignedIndexedMeshArray_at(_native, index), true);
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+		public IndexedMesh this[int index]
+		{
+			get
+			{
+				if ((uint)index >= (uint)Count)
+				{
+					throw new ArgumentOutOfRangeException(nameof(index));
+				}
+				return new IndexedMesh(btAlignedObjectArray_btIndexedMesh_at(_native, index), true);
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
 
-        public void Add(IndexedMesh item)
-        {
-            btAlignedIndexedMeshArray_push_back(_native, item._native);
-        }
+		public void Add(IndexedMesh item)
+		{
+			btAlignedObjectArray_btIndexedMesh_push_back(_native, item.Native);
+		}
 
-        public void Clear()
-        {
-            btAlignedIndexedMeshArray_resizeNoInitialize(_native, 0);
-        }
+		public void Clear()
+		{
+			btAlignedObjectArray_btIndexedMesh_resizeNoInitialize(_native, 0);
+		}
 
-        public bool Contains(IndexedMesh item)
-        {
-            throw new NotImplementedException();
-        }
+		public bool Contains(IndexedMesh item)
+		{
+			throw new NotImplementedException();
+		}
 
-        public void CopyTo(IndexedMesh[] array, int arrayIndex)
-        {
-            if (array == null)
-                throw new ArgumentNullException("array");
+		public void CopyTo(IndexedMesh[] array, int arrayIndex)
+		{
+			if (array == null)
+				throw new ArgumentNullException(nameof(array));
 
-            if (arrayIndex < 0)
-                throw new ArgumentOutOfRangeException("array");
+			if (arrayIndex < 0)
+				throw new ArgumentOutOfRangeException(nameof(array));
 
-            int count = Count;
-            if (arrayIndex + count > array.Length)
-                throw new ArgumentException("Array too small.", "array");
+			int count = Count;
+			if (arrayIndex + count > array.Length)
+				throw new ArgumentException("Array too small.", "array");
 
-            for (int i = 0; i < count; i++)
-            {
-                array[arrayIndex + i] = this[i];
-            }
-        }
+			for (int i = 0; i < count; i++)
+			{
+				array[arrayIndex + i] = this[i];
+			}
+		}
 
-        public int Count
-        {
-            get { return btAlignedIndexedMeshArray_size(_native); }
-        }
+		public int Count => btAlignedObjectArray_btIndexedMesh_size(_native);
 
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+		public bool IsReadOnly => false;
 
-        public bool Remove(IndexedMesh item)
-        {
-            throw new NotImplementedException();
-        }
+		public bool Remove(IndexedMesh item)
+		{
+			throw new NotImplementedException();
+		}
 
-        public IEnumerator<IndexedMesh> GetEnumerator()
-        {
-            return new AlignedIndexedMeshArrayEnumerator(this);
-        }
+		public IEnumerator<IndexedMesh> GetEnumerator()
+		{
+			return new AlignedIndexedMeshArrayEnumerator(this);
+		}
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return new AlignedIndexedMeshArrayEnumerator(this);
-        }
-
-        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        static extern IntPtr btAlignedIndexedMeshArray_at(IntPtr obj, int n);
-        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        static extern void btAlignedIndexedMeshArray_push_back(IntPtr obj, IntPtr val);
-        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        static extern void btAlignedIndexedMeshArray_resizeNoInitialize(IntPtr obj, int newSize);
-        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        static extern int btAlignedIndexedMeshArray_size(IntPtr obj);
-    }
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		{
+			return new AlignedIndexedMeshArrayEnumerator(this);
+		}
+	}
 }

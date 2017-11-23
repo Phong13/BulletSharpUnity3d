@@ -1,187 +1,163 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Security;
 using System.Diagnostics;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp.SoftBody
 {
-    public class AlignedLinkArrayDebugView
-    {
-        private AlignedLinkArray _array;
+	public class AlignedLinkArrayDebugView
+	{
+		private AlignedLinkArray _array;
 
-        public AlignedLinkArrayDebugView(AlignedLinkArray array)
-        {
-            _array = array;
-        }
+		public AlignedLinkArrayDebugView(AlignedLinkArray array)
+		{
+			_array = array;
+		}
 
-        [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-        public Link[] Items
-        {
-            get
-            {
-                int count = _array.Count;
-                Link[] array = new Link[count];
-                for (int i = 0; i < count; i++)
-                {
-                    array[i] = _array[i];
-                }
-                return array;
-            }
-        }
-    }
+		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+		public Link[] Items
+		{
+			get
+			{
+				int count = _array.Count;
+				var array = new Link[count];
+				for (int i = 0; i < count; i++)
+				{
+					array[i] = _array[i];
+				}
+				return array;
+			}
+		}
+	}
 
-    public class AlignedLinkArrayEnumerator : IEnumerator<Link>
-    {
-        int _i;
-        int _count;
-        AlignedLinkArray _array;
+	public class AlignedLinkArrayEnumerator : IEnumerator<Link>
+	{
+		private int _i;
+		private int _count;
+		private AlignedLinkArray _array;
 
-        public AlignedLinkArrayEnumerator(AlignedLinkArray array)
-        {
-            _array = array;
-            _count = array.Count;
-            _i = -1;
-        }
+		public AlignedLinkArrayEnumerator(AlignedLinkArray array)
+		{
+			_array = array;
+			_count = array.Count;
+			_i = -1;
+		}
 
-        public Link Current
-        {
-            get { return _array[_i]; }
-        }
+		public Link Current => _array[_i];
 
-        public void Dispose()
-        {
-        }
+		public void Dispose()
+		{
+		}
 
-        object System.Collections.IEnumerator.Current
-        {
-            get { return _array[_i]; }
-        }
+		object System.Collections.IEnumerator.Current => _array[_i];
 
-        public bool MoveNext()
-        {
-            _i++;
-            return _i != _count;
-        }
+		public bool MoveNext()
+		{
+			_i++;
+			return _i != _count;
+		}
 
-        public void Reset()
-        {
-            _i = 0;
-        }
-    }
+		public void Reset()
+		{
+			_i = 0;
+		}
+	}
 
-    [Serializable, DebuggerTypeProxy(typeof(AlignedLinkArrayDebugView)), DebuggerDisplay("Count = {Count}")]
-    public class AlignedLinkArray : IList<Link>
-    {
-        private IntPtr _native;
+	[Serializable, DebuggerTypeProxy(typeof(AlignedLinkArrayDebugView)), DebuggerDisplay("Count = {Count}")]
+	public class AlignedLinkArray : IList<Link>
+	{
+		private IntPtr _native;
 
-        internal AlignedLinkArray(IntPtr native)
-        {
-            _native = native;
-        }
+		internal AlignedLinkArray(IntPtr native)
+		{
+			_native = native;
+		}
 
-        public int IndexOf(Link item)
-        {
-            throw new NotImplementedException();
-        }
+		public int IndexOf(Link item)
+		{
+			throw new NotImplementedException();
+		}
 
-        public void Insert(int index, Link item)
-        {
-            throw new NotImplementedException();
-        }
+		public void Insert(int index, Link item)
+		{
+			throw new NotImplementedException();
+		}
 
-        public void RemoveAt(int index)
-        {
-            throw new NotImplementedException();
-        }
+		public void RemoveAt(int index)
+		{
+			throw new NotImplementedException();
+		}
 
-        public Link this[int index]
-        {
-            get
-            {
-                if ((uint)index >= (uint)Count)
-                {
-                    throw new ArgumentOutOfRangeException("index");
-                }
-                return new Link(btAlignedSoftBodyLinkArray_at(_native, index));
-            }
-            set
-            {
-                btAlignedSoftBodyLinkArray_set(_native, value._native, index);
-            }
-        }
+		public Link this[int index]
+		{
+			get
+			{
+				if ((uint)index >= (uint)Count)
+				{
+					throw new ArgumentOutOfRangeException(nameof(index));
+				}
+				return new Link(btAlignedObjectArray_btSoftBody_Link_at(_native, index));
+			}
+			set
+			{
+				btAlignedObjectArray_btSoftBody_Link_set(_native, value.Native, index);
+			}
+		}
 
-        public void Add(Link item)
-        {
-            btAlignedSoftBodyLinkArray_push_back(_native, item._native);
-        }
+		public void Add(Link item)
+		{
+			btAlignedObjectArray_btSoftBody_Link_push_back(_native, item.Native);
+		}
 
-        public void Clear()
-        {
-            btAlignedSoftBodyLinkArray_resizeNoInitialize(_native, 0);
-        }
+		public void Clear()
+		{
+			btAlignedObjectArray_btSoftBody_Link_resizeNoInitialize(_native, 0);
+		}
 
-        public bool Contains(Link item)
-        {
-            throw new NotImplementedException();
-        }
+		public bool Contains(Link item)
+		{
+			throw new NotImplementedException();
+		}
 
-        public void CopyTo(Link[] array, int arrayIndex)
-        {
-            if (array == null)
-            {
-                throw new ArgumentNullException("array");
-            }
-            if (arrayIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException("arrayIndex");
-            }
-            int count = Count;
-            if (array.Length - arrayIndex < count)
-            {
-                throw new ArgumentException("The number of elements in the source is greater than the available space from arrayIndex to the end of the destination array.");
-            }
+		public void CopyTo(Link[] array, int arrayIndex)
+		{
+			if (array == null)
+			{
+				throw new ArgumentNullException(nameof(array));
+			}
+			if (arrayIndex < 0)
+			{
+				throw new ArgumentOutOfRangeException("arrayIndex");
+			}
+			int count = Count;
+			if (array.Length - arrayIndex < count)
+			{
+				throw new ArgumentException("The number of elements in the source is greater than the available space from arrayIndex to the end of the destination array.");
+			}
 
-            for (int i = 0; i < count; i++)
-            {
-                array.SetValue(new Link(btAlignedSoftBodyLinkArray_at(_native, i)), i + arrayIndex);
-            }
-        }
+			for (int i = 0; i < count; i++)
+			{
+				array.SetValue(new Link(btAlignedObjectArray_btSoftBody_Link_at(_native, i)), i + arrayIndex);
+			}
+		}
 
-        public int Count
-        {
-            get { return btAlignedSoftBodyLinkArray_size(_native); }
-        }
+		public int Count => btAlignedObjectArray_btSoftBody_Link_size(_native);
 
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+		public bool IsReadOnly => false;
 
-        public bool Remove(Link item)
-        {
-            throw new NotImplementedException();
-        }
+		public bool Remove(Link item)
+		{
+			throw new NotImplementedException();
+		}
 
-        public IEnumerator<Link> GetEnumerator()
-        {
-            return new AlignedLinkArrayEnumerator(this);
-        }
+		public IEnumerator<Link> GetEnumerator()
+		{
+			return new AlignedLinkArrayEnumerator(this);
+		}
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return new AlignedLinkArrayEnumerator(this);
-        }
-
-        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        static extern IntPtr btAlignedSoftBodyLinkArray_at(IntPtr obj, int n);
-        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        static extern void btAlignedSoftBodyLinkArray_push_back(IntPtr obj, IntPtr val);
-        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        static extern void btAlignedSoftBodyLinkArray_resizeNoInitialize(IntPtr obj, int newSize);
-        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        static extern void btAlignedSoftBodyLinkArray_set(IntPtr obj, IntPtr val, int index);
-        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        static extern int btAlignedSoftBodyLinkArray_size(IntPtr obj);
-    }
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		{
+			return new AlignedLinkArrayEnumerator(this);
+		}
+	}
 }

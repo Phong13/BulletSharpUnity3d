@@ -2,35 +2,36 @@ using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
 	public class Triangle : IDisposable
 	{
-		internal IntPtr _native;
-        private bool _preventDelete;
+		internal IntPtr Native;
+		private bool _preventDelete;
 
 		internal Triangle(IntPtr native, bool preventDelete)
 		{
-			_native = native;
-            _preventDelete = preventDelete;
+			Native = native;
+			_preventDelete = preventDelete;
 		}
 
 		public Triangle()
 		{
-			_native = btTriangle_new();
+			Native = btTriangle_new();
 		}
 
 		public int PartId
 		{
-			get { return btTriangle_getPartId(_native); }
-			set { btTriangle_setPartId(_native, value); }
+			get => btTriangle_getPartId(Native);
+			set => btTriangle_setPartId(Native, value);
 		}
 
 		public int TriangleIndex
 		{
-			get { return btTriangle_getTriangleIndex(_native); }
-			set { btTriangle_setTriangleIndex(_native, value); }
+			get => btTriangle_getTriangleIndex(Native);
+			set => btTriangle_setTriangleIndex(Native, value);
 		}
 
 		public Vector3 Vertex0
@@ -38,10 +39,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTriangle_getVertex0(_native, out value);
+				btTriangle_getVertex0(Native, out value);
 				return value;
 			}
-			set { btTriangle_setVertex0(_native, ref value); }
+			set => btTriangle_setVertex0(Native, ref value);
 		}
 
 		public Vector3 Vertex1
@@ -49,10 +50,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTriangle_getVertex1(_native, out value);
+				btTriangle_getVertex1(Native, out value);
 				return value;
 			}
-			set { btTriangle_setVertex1(_native, ref value); }
+			set => btTriangle_setVertex1(Native, ref value);
 		}
 
 		public Vector3 Vertex2
@@ -60,10 +61,10 @@ namespace BulletSharp
 			get
 			{
 				Vector3 value;
-				btTriangle_getVertex2(_native, out value);
+				btTriangle_getVertex2(Native, out value);
 				return value;
 			}
-			set { btTriangle_setVertex2(_native, ref value); }
+			set => btTriangle_setVertex2(Native, ref value);
 		}
 
 		public void Dispose()
@@ -74,13 +75,13 @@ namespace BulletSharp
 
 		protected virtual void Dispose(bool disposing)
 		{
-			if (_native != IntPtr.Zero)
+			if (Native != IntPtr.Zero)
 			{
-                if (!_preventDelete)
-                {
-                    btTriangle_delete(_native);
-                }
-				_native = IntPtr.Zero;
+				if (!_preventDelete)
+				{
+					btTriangle_delete(Native);
+				}
+				Native = IntPtr.Zero;
 			}
 		}
 
@@ -88,72 +89,35 @@ namespace BulletSharp
 		{
 			Dispose(false);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btTriangle_new();
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btTriangle_getPartId(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btTriangle_getTriangleIndex(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btTriangle_getVertex0(IntPtr obj, [Out] out Vector3 value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btTriangle_getVertex1(IntPtr obj, [Out] out Vector3 value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btTriangle_getVertex2(IntPtr obj, [Out] out Vector3 value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btTriangle_setPartId(IntPtr obj, int value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btTriangle_setTriangleIndex(IntPtr obj, int value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btTriangle_setVertex0(IntPtr obj, [In] ref Vector3 value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btTriangle_setVertex1(IntPtr obj, [In] ref Vector3 value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btTriangle_setVertex2(IntPtr obj, [In] ref Vector3 value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btTriangle_delete(IntPtr obj);
 	}
 
 	public class TriangleBuffer : TriangleCallback
 	{
-        /*
+		/*
 		public TriangleBuffer()
 			: base(btTriangleBuffer_new())
 		{
 		}
-        */
-        public TriangleBuffer()
-        {
-        }
+		*/
+		public TriangleBuffer()
+		{
+		}
 
 		public void ClearBuffer()
 		{
-			btTriangleBuffer_clearBuffer(_native);
+			btTriangleBuffer_clearBuffer(Native);
 		}
 
 		public Triangle GetTriangle(int index)
 		{
-            return new Triangle(btTriangleBuffer_getTriangle(_native, index), true);
+			return new Triangle(btTriangleBuffer_getTriangle(Native, index), true);
 		}
 
-        public override void ProcessTriangle(ref Vector3 vector0, ref Vector3 vector1, ref Vector3 vector2, int partId, int triangleIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-		public int NumTriangles
+		public override void ProcessTriangle(ref Vector3 vector0, ref Vector3 vector1, ref Vector3 vector2, int partId, int triangleIndex)
 		{
-			get { return btTriangleBuffer_getNumTriangles(_native); }
+			throw new NotImplementedException();
 		}
 
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btTriangleBuffer_new();
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btTriangleBuffer_clearBuffer(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btTriangleBuffer_getNumTriangles(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btTriangleBuffer_getTriangle(IntPtr obj, int index);
+		public int NumTriangles => btTriangleBuffer_getNumTriangles(Native);
 	}
 }

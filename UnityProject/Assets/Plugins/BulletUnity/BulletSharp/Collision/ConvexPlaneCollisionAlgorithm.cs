@@ -1,7 +1,6 @@
-using System;
-using System.Runtime.InteropServices;
-using System.Security;
 using BulletSharp.Math;
+using System;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -19,28 +18,24 @@ namespace BulletSharp
 			{
 			}
 
+			public override CollisionAlgorithm CreateCollisionAlgorithm(CollisionAlgorithmConstructionInfo __unnamed0,
+				CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap)
+			{
+				return new ConvexPlaneCollisionAlgorithm(btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
+					Native, __unnamed0.Native, body0Wrap.Native, body1Wrap.Native));
+			}
+
 			public int MinimumPointsPerturbationThreshold
 			{
-				get { return btConvexPlaneCollisionAlgorithm_CreateFunc_getMinimumPointsPerturbationThreshold(_native); }
-				set { btConvexPlaneCollisionAlgorithm_CreateFunc_setMinimumPointsPerturbationThreshold(_native, value); }
+				get => btConvexPlaneCollisionAlgorithm_CreateFunc_getMinimumPointsPerturbationThreshold(Native);
+				set => btConvexPlaneCollisionAlgorithm_CreateFunc_setMinimumPointsPerturbationThreshold(Native, value);
 			}
 
 			public int NumPerturbationIterations
 			{
-				get { return btConvexPlaneCollisionAlgorithm_CreateFunc_getNumPerturbationIterations(_native); }
-				set { btConvexPlaneCollisionAlgorithm_CreateFunc_setNumPerturbationIterations(_native, value); }
+				get => btConvexPlaneCollisionAlgorithm_CreateFunc_getNumPerturbationIterations(Native);
+				set => btConvexPlaneCollisionAlgorithm_CreateFunc_setNumPerturbationIterations(Native, value);
 			}
-
-			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-			static extern IntPtr btConvexPlaneCollisionAlgorithm_CreateFunc_new();
-			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-			static extern int btConvexPlaneCollisionAlgorithm_CreateFunc_getMinimumPointsPerturbationThreshold(IntPtr obj);
-			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-			static extern int btConvexPlaneCollisionAlgorithm_CreateFunc_getNumPerturbationIterations(IntPtr obj);
-			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-			static extern void btConvexPlaneCollisionAlgorithm_CreateFunc_setMinimumPointsPerturbationThreshold(IntPtr obj, int value);
-			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-			static extern void btConvexPlaneCollisionAlgorithm_CreateFunc_setNumPerturbationIterations(IntPtr obj, int value);
 		}
 
 		internal ConvexPlaneCollisionAlgorithm(IntPtr native)
@@ -48,19 +43,19 @@ namespace BulletSharp
 		{
 		}
 
-		public ConvexPlaneCollisionAlgorithm(PersistentManifold mf, CollisionAlgorithmConstructionInfo ci, CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap, bool isSwapped, int numPerturbationIterations, int minimumPointsPerturbationThreshold)
-			: base(btConvexPlaneCollisionAlgorithm_new(mf._native, ci._native, body0Wrap._native, body1Wrap._native, isSwapped, numPerturbationIterations, minimumPointsPerturbationThreshold))
+		public ConvexPlaneCollisionAlgorithm(PersistentManifold mf, CollisionAlgorithmConstructionInfo ci,
+			CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap, bool isSwapped,
+			int numPerturbationIterations, int minimumPointsPerturbationThreshold)
+			: base(btConvexPlaneCollisionAlgorithm_new(mf.Native, ci.Native, body0Wrap.Native,
+				body1Wrap.Native, isSwapped, numPerturbationIterations, minimumPointsPerturbationThreshold))
 		{
 		}
 
-		public void CollideSingleContact(Quaternion perturbeRot, CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap, DispatcherInfo dispatchInfo, ManifoldResult resultOut)
+		public void CollideSingleContact(Quaternion perturbeRot, CollisionObjectWrapper body0Wrap,
+			CollisionObjectWrapper body1Wrap, DispatcherInfo dispatchInfo, ManifoldResult resultOut)
 		{
-			btConvexPlaneCollisionAlgorithm_collideSingleContact(_native, ref perturbeRot, body0Wrap._native, body1Wrap._native, dispatchInfo._native, resultOut._native);
+			btConvexPlaneCollisionAlgorithm_collideSingleContact(Native, ref perturbeRot,
+				body0Wrap.Native, body1Wrap.Native, dispatchInfo.Native, resultOut.Native);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btConvexPlaneCollisionAlgorithm_new(IntPtr mf, IntPtr ci, IntPtr body0Wrap, IntPtr body1Wrap, bool isSwapped, int numPerturbationIterations, int minimumPointsPerturbationThreshold);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btConvexPlaneCollisionAlgorithm_collideSingleContact(IntPtr obj, [In] ref Quaternion perturbeRot, IntPtr body0Wrap, IntPtr body1Wrap, IntPtr dispatchInfo, IntPtr resultOut);
 	}
 }

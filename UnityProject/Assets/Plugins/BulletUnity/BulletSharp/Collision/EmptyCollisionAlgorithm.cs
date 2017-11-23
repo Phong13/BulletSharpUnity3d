@@ -1,6 +1,5 @@
 using System;
-using System.Runtime.InteropServices;
-using System.Security;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -18,16 +17,21 @@ namespace BulletSharp
 			{
 			}
 
-			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-			static extern IntPtr btEmptyAlgorithm_CreateFunc_new();
+			public override CollisionAlgorithm CreateCollisionAlgorithm(CollisionAlgorithmConstructionInfo __unnamed0, CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap)
+			{
+				return new EmptyAlgorithm(btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
+					Native, __unnamed0.Native, body0Wrap.Native, body1Wrap.Native));
+			}
 		}
 
-		public EmptyAlgorithm(CollisionAlgorithmConstructionInfo ci)
-			: base(btEmptyAlgorithm_new(ci._native))
+		internal EmptyAlgorithm(IntPtr native)
+			: base(native)
 		{
 		}
 
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btEmptyAlgorithm_new(IntPtr ci);
+		public EmptyAlgorithm(CollisionAlgorithmConstructionInfo ci)
+			: base(btEmptyAlgorithm_new(ci.Native))
+		{
+		}
 	}
 }

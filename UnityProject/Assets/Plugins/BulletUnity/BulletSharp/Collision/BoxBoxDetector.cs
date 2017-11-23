@@ -1,6 +1,4 @@
-using System;
-using System.Runtime.InteropServices;
-using System.Security;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -10,7 +8,7 @@ namespace BulletSharp
 		private BoxShape _box2;
 
 		public BoxBoxDetector(BoxShape box1, BoxShape box2)
-			: base(btBoxBoxDetector_new(box1._native, box2._native))
+			: base(btBoxBoxDetector_new(box1.Native, box2.Native))
 		{
 			_box1 = box1;
 			_box2 = box2;
@@ -18,29 +16,22 @@ namespace BulletSharp
 
 		public BoxShape Box1
 		{
-			get { return _box1; }
+			get => _box1;
 			set
 			{
-				btBoxBoxDetector_setBox1(_native, value._native);
+				btBoxBoxDetector_setBox1(Native, value.Native);
 				_box1 = value;
 			}
 		}
 
 		public BoxShape Box2
 		{
-			get { return _box2; }
+			get => _box2;
 			set
 			{
-				btBoxBoxDetector_setBox2(_native, value._native);
+				btBoxBoxDetector_setBox2(Native, value.Native);
 				_box2 = value;
 			}
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btBoxBoxDetector_new(IntPtr box1, IntPtr box2);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btBoxBoxDetector_setBox1(IntPtr obj, IntPtr value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btBoxBoxDetector_setBox2(IntPtr obj, IntPtr value);
 	}
 }

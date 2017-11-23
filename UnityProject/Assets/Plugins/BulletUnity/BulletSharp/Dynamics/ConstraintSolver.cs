@@ -1,51 +1,51 @@
 using System;
-using System.Runtime.InteropServices;
-using System.Security;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
 	public enum ConstraintSolverType
 	{
-        SequentialImpulse = 1,
-        Mlcp = 2,
-        Nncg = 4
+		SequentialImpulse = 1,
+		Mlcp = 2,
+		Nncg = 4
 	}
 
 	public abstract class ConstraintSolver : IDisposable
 	{
-		internal IntPtr _native;
-		bool _preventDelete;
+		internal IntPtr Native;
+		private bool _preventDelete;
 
 		internal ConstraintSolver(IntPtr native, bool preventDelete)
 		{
-			_native = native;
+			Native = native;
 			_preventDelete = preventDelete;
 		}
 
 		public void AllSolved(ContactSolverInfo __unnamed0, IDebugDraw __unnamed1)
 		{
-			btConstraintSolver_allSolved(_native, __unnamed0._native, DebugDraw.GetUnmanaged(__unnamed1));
+			btConstraintSolver_allSolved(Native, __unnamed0.Native, DebugDraw.GetUnmanaged(__unnamed1));
 		}
 
 		public void PrepareSolve(int __unnamed0, int __unnamed1)
 		{
-			btConstraintSolver_prepareSolve(_native, __unnamed0, __unnamed1);
+			btConstraintSolver_prepareSolve(Native, __unnamed0, __unnamed1);
 		}
 
 		public void Reset()
 		{
-			btConstraintSolver_reset(_native);
+			btConstraintSolver_reset(Native);
 		}
-        /*
-		public float SolveGroup(CollisionObject bodies, int numBodies, PersistentManifold manifold, int numManifolds, TypedConstraint constraints, int numConstraints, ContactSolverInfo info, IDebugDraw debugDrawer, Dispatcher dispatcher)
+		/*
+		public float SolveGroup(CollisionObject bodies, int numBodies, PersistentManifold manifold,
+			int numManifolds, TypedConstraint constraints, int numConstraints, ContactSolverInfo info,
+			IDebugDraw debugDrawer, Dispatcher dispatcher)
 		{
-			return btConstraintSolver_solveGroup(_native, bodies._native, numBodies, manifold._native, numManifolds, constraints._native, numConstraints, info._native, DebugDraw.GetUnmanaged(debugDrawer), dispatcher._native);
+			return btConstraintSolver_solveGroup(Native, bodies._native, numBodies,
+				manifold._native, numManifolds, constraints._native, numConstraints,
+				info._native, DebugDraw.GetUnmanaged(debugDrawer), dispatcher._native);
 		}
-        */
-		public ConstraintSolverType SolverType
-		{
-			get { return btConstraintSolver_getSolverType(_native); }
-		}
+		*/
+		public ConstraintSolverType SolverType => btConstraintSolver_getSolverType(Native);
 
 		public void Dispose()
 		{
@@ -55,13 +55,13 @@ namespace BulletSharp
 
 		protected virtual void Dispose(bool disposing)
 		{
-			if (_native != IntPtr.Zero)
+			if (Native != IntPtr.Zero)
 			{
 				if (!_preventDelete)
 				{
-					btConstraintSolver_delete(_native);
+					btConstraintSolver_delete(Native);
 				}
-				_native = IntPtr.Zero;
+				Native = IntPtr.Zero;
 			}
 		}
 
@@ -69,18 +69,5 @@ namespace BulletSharp
 		{
 			Dispose(false);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btConstraintSolver_allSolved(IntPtr obj, IntPtr __unnamed0, IntPtr __unnamed1);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-        static extern ConstraintSolverType btConstraintSolver_getSolverType(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btConstraintSolver_prepareSolve(IntPtr obj, int __unnamed0, int __unnamed1);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btConstraintSolver_reset(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern float btConstraintSolver_solveGroup(IntPtr obj, IntPtr bodies, int numBodies, IntPtr manifold, int numManifolds, IntPtr constraints, int numConstraints, IntPtr info, IntPtr debugDrawer, IntPtr dispatcher);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btConstraintSolver_delete(IntPtr obj);
 	}
 }

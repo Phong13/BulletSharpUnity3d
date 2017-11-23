@@ -628,6 +628,11 @@ namespace BulletSharp
 
         }
 
+        public void Jump(Vector3 v)
+        {
+            Jump();
+        }
+
         public float Gravity { get; set; }
 
         /// The max slope determines the maximum angle that the controller can walk up.

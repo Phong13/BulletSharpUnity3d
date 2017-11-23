@@ -1,38 +1,27 @@
-using System;
-using System.Runtime.InteropServices;
-using System.Security;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
 	public class MlcpSolver : SequentialImpulseConstraintSolver
 	{
-        private MlcpSolverInterface _mlcpSolver;
+		private MlcpSolverInterface _mlcpSolver;
 
 		public MlcpSolver(MlcpSolverInterface solver)
-			: base(btMLCPSolver_new(solver._native), false)
+			: base(btMLCPSolver_new(solver.Native), false)
 		{
-            _mlcpSolver = solver;
+			_mlcpSolver = solver;
 		}
 
 		public void SetMLCPSolver(MlcpSolverInterface solver)
 		{
-			btMLCPSolver_setMLCPSolver(_native, solver._native);
-            _mlcpSolver = solver;
+			btMLCPSolver_setMLCPSolver(Native, solver.Native);
+			_mlcpSolver = solver;
 		}
 
 		public int NumFallbacks
 		{
-			get { return btMLCPSolver_getNumFallbacks(_native); }
-			set { btMLCPSolver_setNumFallbacks(_native, value); }
+			get => btMLCPSolver_getNumFallbacks(Native);
+			set => btMLCPSolver_setNumFallbacks(Native, value);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btMLCPSolver_new(IntPtr solver);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btMLCPSolver_getNumFallbacks(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btMLCPSolver_setMLCPSolver(IntPtr obj, IntPtr solver);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btMLCPSolver_setNumFallbacks(IntPtr obj, int num);
 	}
 }

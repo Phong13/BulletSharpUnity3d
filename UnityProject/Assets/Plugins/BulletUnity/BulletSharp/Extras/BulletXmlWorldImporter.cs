@@ -81,9 +81,9 @@ namespace BulletSharp
                         }
                     }
 
-                    using (MemoryStream stream = new MemoryStream(shapeData, false))
+                    using (var stream = new MemoryStream(shapeData, false))
                     {
-                        using (BulletReader reader = new BulletReader(stream))
+                        using (var reader = new BulletReader(stream))
                         {
                             long namePtr = reader.ReadPtr(CollisionShapeFloatData.Offset("Name"));
                             if (namePtr != 0)
@@ -130,9 +130,9 @@ namespace BulletSharp
             int dataSize = Marshal.SizeOf(typeof(CompoundShapeChildFloatData));
             byte[] compoundChild = new byte[dataSize * numChildren];
 
-            using (MemoryStream stream = new MemoryStream(compoundChild))
+            using (var stream = new MemoryStream(compoundChild))
             {
-                using (BulletWriter writer = new BulletWriter(stream))
+                using (var writer = new BulletWriter(stream))
                 {
                     int offset = 0;
                     for (int i = 0; i < numChildren; i++)
@@ -155,9 +155,9 @@ namespace BulletSharp
             int ptr = int.Parse(element.GetAttribute("pointer"));
             byte[] convexShape = new byte[Marshal.SizeOf(typeof(CompoundShapeFloatData))];
 
-            using (MemoryStream stream = new MemoryStream(convexShape))
+            using (var stream = new MemoryStream(convexShape))
             {
-                using (BulletWriter writer = new BulletWriter(stream))
+                using (var writer = new BulletWriter(stream))
                 {
                     XmlNode node = element["m_collisionShapeData"];
                     if (node == null)
@@ -181,9 +181,9 @@ namespace BulletSharp
             int ptr = int.Parse(element.GetAttribute("pointer"));
             byte[] convexHullData = new byte[Marshal.SizeOf(typeof(ConvexHullShapeFloatData))];
 
-            using (MemoryStream stream = new MemoryStream(convexHullData))
+            using (var stream = new MemoryStream(convexHullData))
             {
-                using (BulletWriter writer = new BulletWriter(stream))
+                using (var writer = new BulletWriter(stream))
                 {
                     XmlNode node = element["m_convexInternalShapeData"];
                     if (node == null)
@@ -207,9 +207,9 @@ namespace BulletSharp
             int ptr = int.Parse(element.GetAttribute("pointer"));
             byte[] convexShapeData = new byte[Marshal.SizeOf(typeof(ConvexInternalShapeFloatData))];
 
-            using (MemoryStream stream = new MemoryStream(convexShapeData))
+            using (var stream = new MemoryStream(convexShapeData))
             {
-                using (BulletWriter writer = new BulletWriter(stream))
+                using (var writer = new BulletWriter(stream))
                 {
                     DeSerializeConvexInternalShapeData(element, writer);
                 }
@@ -242,9 +242,9 @@ namespace BulletSharp
             int ptr = int.Parse(element.GetAttribute("pointer"));
             byte[] dof6Data = new byte[Marshal.SizeOf(typeof(Generic6DofConstraintFloatData))];
 
-            using (MemoryStream stream = new MemoryStream(dof6Data))
+            using (var stream = new MemoryStream(dof6Data))
             {
-                using (BulletWriter writer = new BulletWriter(stream))
+                using (var writer = new BulletWriter(stream))
                 {
                     XmlNode node = element["m_typeConstraintData"];
                     if (node == null)
@@ -290,9 +290,9 @@ namespace BulletSharp
 
             byte[] rbData = new byte[Marshal.SizeOf(typeof(RigidBodyFloatData))];
 
-            using (MemoryStream stream = new MemoryStream(rbData))
+            using (var stream = new MemoryStream(rbData))
             {
-                using (BulletWriter writer = new BulletWriter(stream))
+                using (var writer = new BulletWriter(stream))
                 {
                     XmlNode node = element["m_collisionObjectData"];
                     if (node == null)
@@ -351,9 +351,9 @@ namespace BulletSharp
             int ptr = int.Parse(element.GetAttribute("pointer"));
             byte[] convexShape = new byte[Marshal.SizeOf(typeof(StaticPlaneShapeFloatData))];
 
-            using (MemoryStream stream = new MemoryStream(convexShape))
+            using (var stream = new MemoryStream(convexShape))
             {
-                using (BulletWriter writer = new BulletWriter(stream))
+                using (var writer = new BulletWriter(stream))
                 {
                     XmlNode node = element["m_collisionShapeData"];
                     if (node == null)
@@ -382,9 +382,9 @@ namespace BulletSharp
             int vectorSize = Marshal.SizeOf(typeof(Vector3FloatData));
             byte[] v = new byte[numVectors * vectorSize];
 
-            using (MemoryStream stream = new MemoryStream(v))
+            using (var stream = new MemoryStream(v))
             {
-                using (BulletWriter writer = new BulletWriter(stream))
+                using (var writer = new BulletWriter(stream))
                 {
                     int offset = 0;
                     for (int i = 0; i < numVectors; i++)
@@ -400,7 +400,7 @@ namespace BulletSharp
 
 		public bool LoadFile(string fileName)
 		{
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
             doc.Load(fileName);
 
             XmlElement bulletPhysics = doc.DocumentElement;
@@ -461,7 +461,7 @@ namespace BulletSharp
             int i = 0;
             foreach (string value in valueNode.InnerText.Split(' '))
             {
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrWhiteSpace(value))
                 {
                     writer.Write(float.Parse(value, CultureInfo.InvariantCulture), offset + i * sizeof(float));
                     i++;

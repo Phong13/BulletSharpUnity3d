@@ -40,7 +40,7 @@ namespace BulletSharp.Math
         /// <summary>
         /// The size of the <see cref="SlimMath.Quaternion"/> type, in bytes.
         /// </summary>
-        public static readonly int SizeInBytes = Marshal.SizeOf(typeof(Quaternion));
+        public const int SizeInBytes = 4 * sizeof(float);
 
         /// <summary>
         /// A <see cref="SlimMath.Quaternion"/> with all of its components set to zero.

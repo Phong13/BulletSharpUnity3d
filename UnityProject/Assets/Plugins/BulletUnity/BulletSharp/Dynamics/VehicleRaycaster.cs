@@ -1,4 +1,3 @@
-using System;
 using BulletSharp.Math;
 
 namespace BulletSharp
@@ -12,6 +11,6 @@ namespace BulletSharp
     
     public interface IVehicleRaycaster
 	{
-        Object CastRay(ref Vector3 from, ref Vector3 to, VehicleRaycasterResult result);
+        object CastRay(ref Vector3 from, ref Vector3 to, VehicleRaycasterResult result);
 	}
 }

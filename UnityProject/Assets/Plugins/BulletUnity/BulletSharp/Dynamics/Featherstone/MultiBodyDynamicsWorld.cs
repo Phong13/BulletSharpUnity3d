@@ -1,132 +1,87 @@
-using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Security;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
 	public class MultiBodyDynamicsWorld : DiscreteDynamicsWorld
 	{
-        private List<MultiBody> _bodies;
-        private List<MultiBodyConstraint> _constraints;
+		private List<MultiBody> _bodies;
+		private List<MultiBodyConstraint> _constraints;
 
-		public MultiBodyDynamicsWorld(Dispatcher dispatcher, BroadphaseInterface pairCache, MultiBodyConstraintSolver constraintSolver, CollisionConfiguration collisionConfiguration)
-			: base(btMultiBodyDynamicsWorld_new(dispatcher._native, pairCache._native, constraintSolver._native, collisionConfiguration._native))
+		public MultiBodyDynamicsWorld(Dispatcher dispatcher, BroadphaseInterface pairCache,
+			MultiBodyConstraintSolver constraintSolver, CollisionConfiguration collisionConfiguration)
+			: base(btMultiBodyDynamicsWorld_new(dispatcher.Native, pairCache.Native,
+				constraintSolver.Native, collisionConfiguration.Native), dispatcher, pairCache)
 		{
-            _constraintSolver = constraintSolver;
-            _dispatcher = dispatcher;
-            _broadphase = pairCache;
+			_constraintSolver = constraintSolver;
 
-            _bodies = new List<MultiBody>();
-            _constraints = new List<MultiBodyConstraint>();
+			_bodies = new List<MultiBody>();
+			_constraints = new List<MultiBodyConstraint>();
 		}
 
-		public void AddMultiBody(MultiBody body)
+		public void AddMultiBody(MultiBody body, int group = (int)CollisionFilterGroups.DefaultFilter,
+			int mask = (int)CollisionFilterGroups.AllFilter)
 		{
-			btMultiBodyDynamicsWorld_addMultiBody(_native, body._native);
-            _bodies.Add(body);
-		}
-
-        public void AddMultiBody(MultiBody body, CollisionFilterGroups group, CollisionFilterGroups mask)
-		{
-            btMultiBodyDynamicsWorld_addMultiBody3(_native, body._native, (short)group, (short)mask);
-            _bodies.Add(body);
+			btMultiBodyDynamicsWorld_addMultiBody(Native, body.Native, group,
+				mask);
+			_bodies.Add(body);
 		}
 
 		public void AddMultiBodyConstraint(MultiBodyConstraint constraint)
 		{
-			btMultiBodyDynamicsWorld_addMultiBodyConstraint(_native, constraint._native);
-            _constraints.Add(constraint);
+			btMultiBodyDynamicsWorld_addMultiBodyConstraint(Native, constraint.Native);
+			_constraints.Add(constraint);
 		}
 
 		public void ClearMultiBodyConstraintForces()
 		{
-			btMultiBodyDynamicsWorld_clearMultiBodyConstraintForces(_native);
+			btMultiBodyDynamicsWorld_clearMultiBodyConstraintForces(Native);
 		}
 
 		public void ClearMultiBodyForces()
 		{
-			btMultiBodyDynamicsWorld_clearMultiBodyForces(_native);
+			btMultiBodyDynamicsWorld_clearMultiBodyForces(Native);
 		}
 
 		public void DebugDrawMultiBodyConstraint(MultiBodyConstraint constraint)
 		{
-			btMultiBodyDynamicsWorld_debugDrawMultiBodyConstraint(_native, constraint._native);
+			btMultiBodyDynamicsWorld_debugDrawMultiBodyConstraint(Native, constraint.Native);
 		}
 
 		public void ForwardKinematics()
 		{
-			btMultiBodyDynamicsWorld_forwardKinematics(_native);
+			btMultiBodyDynamicsWorld_forwardKinematics(Native);
 		}
 
 		public MultiBody GetMultiBody(int mbIndex)
 		{
-            return _bodies[mbIndex];
+			return _bodies[mbIndex];
 		}
 
 		public MultiBodyConstraint GetMultiBodyConstraint(int constraintIndex)
 		{
-            return _constraints[constraintIndex];
+			return _constraints[constraintIndex];
 		}
 
 		public void IntegrateTransforms(float timeStep)
 		{
-			btMultiBodyDynamicsWorld_integrateTransforms(_native, timeStep);
+			btMultiBodyDynamicsWorld_integrateTransforms(Native, timeStep);
 		}
 
 		public void RemoveMultiBody(MultiBody body)
 		{
-			btMultiBodyDynamicsWorld_removeMultiBody(_native, body._native);
-            _bodies.Remove(body);
+			btMultiBodyDynamicsWorld_removeMultiBody(Native, body.Native);
+			_bodies.Remove(body);
 		}
 
 		public void RemoveMultiBodyConstraint(MultiBodyConstraint constraint)
 		{
-			btMultiBodyDynamicsWorld_removeMultiBodyConstraint(_native, constraint._native);
-            _constraints.Remove(constraint);
+			btMultiBodyDynamicsWorld_removeMultiBodyConstraint(Native, constraint.Native);
+			_constraints.Remove(constraint);
 		}
 
-		public int NumMultibodies
-		{
-			get { return _bodies.Count; }
-		}
+		public int NumMultibodies => _bodies.Count;
 
-		public int NumMultiBodyConstraints
-		{
-			get { return btMultiBodyDynamicsWorld_getNumMultiBodyConstraints(_native); }
-		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btMultiBodyDynamicsWorld_new(IntPtr dispatcher, IntPtr pairCache, IntPtr constraintSolver, IntPtr collisionConfiguration);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btMultiBodyDynamicsWorld_addMultiBody(IntPtr obj, IntPtr body);
-		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		//static extern void btMultiBodyDynamicsWorld_addMultiBody2(IntPtr obj, IntPtr body, short group);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btMultiBodyDynamicsWorld_addMultiBody3(IntPtr obj, IntPtr body, short group, short mask);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btMultiBodyDynamicsWorld_addMultiBodyConstraint(IntPtr obj, IntPtr constraint);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btMultiBodyDynamicsWorld_clearMultiBodyConstraintForces(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btMultiBodyDynamicsWorld_clearMultiBodyForces(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btMultiBodyDynamicsWorld_debugDrawMultiBodyConstraint(IntPtr obj, IntPtr constraint);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btMultiBodyDynamicsWorld_forwardKinematics(IntPtr obj);
-		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		//static extern IntPtr btMultiBodyDynamicsWorld_getMultiBody(IntPtr obj, int mbIndex);
-		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		//static extern IntPtr btMultiBodyDynamicsWorld_getMultiBodyConstraint(IntPtr obj, int constraintIndex);
-		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		//static extern int btMultiBodyDynamicsWorld_getNumMultibodies(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btMultiBodyDynamicsWorld_getNumMultiBodyConstraints(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btMultiBodyDynamicsWorld_integrateTransforms(IntPtr obj, float timeStep);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btMultiBodyDynamicsWorld_removeMultiBody(IntPtr obj, IntPtr body);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btMultiBodyDynamicsWorld_removeMultiBodyConstraint(IntPtr obj, IntPtr constraint);
+		public int NumMultiBodyConstraints => btMultiBodyDynamicsWorld_getNumMultiBodyConstraints(Native);
 	}
 }

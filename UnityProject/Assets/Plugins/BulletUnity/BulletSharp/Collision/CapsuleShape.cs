@@ -1,6 +1,5 @@
 using System;
-using System.Runtime.InteropServices;
-using System.Security;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -16,29 +15,11 @@ namespace BulletSharp
 		{
 		}
 
-		public float HalfHeight
-		{
-			get { return btCapsuleShape_getHalfHeight(_native); }
-		}
+		public float HalfHeight => btCapsuleShape_getHalfHeight(Native);
 
-		public float Radius
-		{
-			get { return btCapsuleShape_getRadius(_native); }
-		}
+		public float Radius => btCapsuleShape_getRadius(Native);
 
-		public int UpAxis
-		{
-			get { return btCapsuleShape_getUpAxis(_native); }
-		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btCapsuleShape_new(float radius, float height);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern float btCapsuleShape_getHalfHeight(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern float btCapsuleShape_getRadius(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btCapsuleShape_getUpAxis(IntPtr obj);
+		public int UpAxis => btCapsuleShape_getUpAxis(Native);
 	}
 
 	public class CapsuleShapeX : CapsuleShape
@@ -47,9 +28,6 @@ namespace BulletSharp
 			: base(btCapsuleShapeX_new(radius, height))
 		{
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btCapsuleShapeX_new(float radius, float height);
 	}
 
 	public class CapsuleShapeZ : CapsuleShape
@@ -58,8 +36,5 @@ namespace BulletSharp
 			: base(btCapsuleShapeZ_new(radius, height))
 		{
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btCapsuleShapeZ_new(float radius, float height);
 	}
 }

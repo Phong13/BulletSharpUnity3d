@@ -1,11 +1,10 @@
 using System;
-using System.Runtime.InteropServices;
-using System.Security;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
 	[Flags]
-	public enum CpuFeature
+	public enum CpuFeatures
 	{
 		None = 0,
 		Fma3 = 1,
@@ -15,12 +14,6 @@ namespace BulletSharp
 
 	public static class CpuFeatureUtility
 	{
-		public static int CpuFeatures
-		{
-			get { return btCpuFeatureUtility_getCpuFeatures(); }
-		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btCpuFeatureUtility_getCpuFeatures();
+		public static CpuFeatures CpuFeatures => btCpuFeatureUtility_getCpuFeatures();
 	}
 }

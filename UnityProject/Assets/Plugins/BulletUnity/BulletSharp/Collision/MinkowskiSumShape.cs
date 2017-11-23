@@ -1,41 +1,30 @@
-using System;
-using System.Runtime.InteropServices;
-using System.Security;
 using BulletSharp.Math;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
 	public class MinkowskiSumShape : ConvexInternalShape
 	{
-		private ConvexShape _shapeA;
-		private ConvexShape _shapeB;
-
 		public MinkowskiSumShape(ConvexShape shapeA, ConvexShape shapeB)
-			: base(btMinkowskiSumShape_new(shapeA._native, shapeB._native))
+			: base(btMinkowskiSumShape_new(shapeA.Native, shapeB.Native))
 		{
-			_shapeA = shapeA;
-			_shapeB = shapeB;
+			ShapeA = shapeA;
+			ShapeB = shapeB;
 		}
 
-		public ConvexShape ShapeA
-		{
-			get { return _shapeA; }
-		}
+		public ConvexShape ShapeA { get; }
 
-		public ConvexShape ShapeB
-		{
-			get { return _shapeB; }
-		}
+		public ConvexShape ShapeB { get; }
 
 		public Matrix TransformA
 		{
 			get
 			{
 				Matrix value;
-				btMinkowskiSumShape_getTransformA(_native, out value);
+				btMinkowskiSumShape_getTransformA(Native, out value);
 				return value;
 			}
-			set { btMinkowskiSumShape_setTransformA(_native, ref value); }
+			set => btMinkowskiSumShape_setTransformA(Native, ref value);
 		}
 
 		public Matrix TransformB
@@ -43,25 +32,10 @@ namespace BulletSharp
 			get
 			{
 				Matrix value;
-				btMinkowskiSumShape_GetTransformB(_native, out value);
+				btMinkowskiSumShape_GetTransformB(Native, out value);
 				return value;
 			}
-			set { btMinkowskiSumShape_setTransformB(_native, ref value); }
+			set => btMinkowskiSumShape_setTransformB(Native, ref value);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btMinkowskiSumShape_new(IntPtr shapeA, IntPtr shapeB);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btMinkowskiSumShape_getShapeA(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btMinkowskiSumShape_getShapeB(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btMinkowskiSumShape_getTransformA(IntPtr obj, [Out] out Matrix transA);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btMinkowskiSumShape_GetTransformB(IntPtr obj, [Out] out Matrix transB);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btMinkowskiSumShape_setTransformA(IntPtr obj, [In] ref Matrix transA);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btMinkowskiSumShape_setTransformB(IntPtr obj, [In] ref Matrix transB);
 	}
 }

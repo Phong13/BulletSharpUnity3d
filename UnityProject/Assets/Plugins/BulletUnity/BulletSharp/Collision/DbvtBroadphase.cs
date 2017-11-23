@@ -1,7 +1,6 @@
-using System;
-using System.Runtime.InteropServices;
-using System.Security;
 using BulletSharp.Math;
+using System;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -14,299 +13,185 @@ namespace BulletSharp
 
 		public DbvtNode Leaf
 		{
-            get
-            {
-                IntPtr ptr = btDbvtProxy_getLeaf(_native);
-                return (ptr != IntPtr.Zero) ? new DbvtNode(ptr) : null;
-            }
-            set { btDbvtProxy_setLeaf(_native, (value != null) ? value._native : IntPtr.Zero); }
-		}
-        /*
-		public DbvtProxyPtrArray Links
-		{
-			get { return btDbvtProxy_getLinks(_native); }
-		}
-        */
-		public int Stage
-		{
-			get { return btDbvtProxy_getStage(_native); }
-			set { btDbvtProxy_setStage(_native, value); }
+			get
+			{
+				IntPtr ptr = btDbvtProxy_getLeaf(Native);
+				return (ptr != IntPtr.Zero) ? new DbvtNode(ptr) : null;
+			}
+			set => btDbvtProxy_setLeaf(Native, (value != null) ? value.Native : IntPtr.Zero);
 		}
 
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btDbvtProxy_getLeaf(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btDbvtProxy_getLinks(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btDbvtProxy_getStage(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtProxy_setLeaf(IntPtr obj, IntPtr value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtProxy_setStage(IntPtr obj, int value);
+		//public DbvtProxyPtrArray Links => btDbvtProxy_getLinks(Native);
+
+		public int Stage
+		{
+			get => btDbvtProxy_getStage(Native);
+			set => btDbvtProxy_setStage(Native, value);
+		}
 	}
 
 	public class DbvtBroadphase : BroadphaseInterface
 	{
-		public DbvtBroadphase()
-			: base(btDbvtBroadphase_new())
+		public DbvtBroadphase(OverlappingPairCache pairCache = null)
+			: base(btDbvtBroadphase_new((pairCache != null) ? pairCache.Native : IntPtr.Zero))
 		{
-            _overlappingPairCache = new HashedOverlappingPairCache(btBroadphaseInterface_getOverlappingPairCache(_native), true);
-		}
-
-		public DbvtBroadphase(OverlappingPairCache pairCache)
-            : base(btDbvtBroadphase_new2((pairCache != null) ? pairCache._native : IntPtr.Zero))
-		{
-            _overlappingPairCache = (pairCache != null) ? pairCache : new HashedOverlappingPairCache(
-                btBroadphaseInterface_getOverlappingPairCache(_native), true);
+			_overlappingPairCache = (pairCache != null) ? pairCache : new HashedOverlappingPairCache(
+				btBroadphaseInterface_getOverlappingPairCache(Native), true);
 		}
 
 		public static void Benchmark(BroadphaseInterface broadphase)
 		{
-            btDbvtBroadphase_benchmark(broadphase._native);
+			btDbvtBroadphase_benchmark(broadphase.Native);
 		}
 
 		public void Collide(Dispatcher dispatcher)
 		{
-			btDbvtBroadphase_collide(_native, dispatcher._native);
+			btDbvtBroadphase_collide(Native, dispatcher.Native);
 		}
 
-        public override BroadphaseProxy CreateProxy(ref Vector3 aabbMin, ref Vector3 aabbMax, int shapeType, IntPtr userPtr, short collisionFilterGroup, short collisionFilterMask, Dispatcher dispatcher, IntPtr multiSapProxy)
-        {
-            return new DbvtProxy(btBroadphaseInterface_createProxy(_native, ref aabbMin, ref aabbMax, shapeType, userPtr, collisionFilterGroup, collisionFilterMask, dispatcher._native, multiSapProxy));
-        }
+		public override BroadphaseProxy CreateProxy(ref Vector3 aabbMin, ref Vector3 aabbMax, int shapeType, IntPtr userPtr, int collisionFilterGroup, int collisionFilterMask, Dispatcher dispatcher)
+		{
+			return new DbvtProxy(btBroadphaseInterface_createProxy(Native, ref aabbMin, ref aabbMax, shapeType, userPtr, collisionFilterGroup, collisionFilterMask, dispatcher.Native));
+		}
 
 		public void Optimize()
 		{
-			btDbvtBroadphase_optimize(_native);
+			btDbvtBroadphase_optimize(Native);
 		}
 
 		public void PerformDeferredRemoval(Dispatcher dispatcher)
 		{
-			btDbvtBroadphase_performDeferredRemoval(_native, dispatcher._native);
+			btDbvtBroadphase_performDeferredRemoval(Native, dispatcher.Native);
 		}
 
-        public void SetAabbForceUpdate(BroadphaseProxy absproxy, ref Vector3 aabbMin, ref Vector3 aabbMax, Dispatcher __unnamed3)
+		public void SetAabbForceUpdateRef(BroadphaseProxy absproxy, ref Vector3 aabbMin,
+			ref Vector3 aabbMax, Dispatcher __unnamed3)
 		{
-			btDbvtBroadphase_setAabbForceUpdate(_native, absproxy._native, ref aabbMin, ref aabbMax, __unnamed3._native);
+			btDbvtBroadphase_setAabbForceUpdate(Native, absproxy.Native, ref aabbMin,
+				ref aabbMax, __unnamed3.Native);
 		}
 
-        public int CId
+		public void SetAabbForceUpdate(BroadphaseProxy absproxy, Vector3 aabbMin,
+			Vector3 aabbMax, Dispatcher __unnamed3)
 		{
-			get { return btDbvtBroadphase_getCid(_native); }
-			set { btDbvtBroadphase_setCid(_native, value); }
+			btDbvtBroadphase_setAabbForceUpdate(Native, absproxy.Native, ref aabbMin,
+				ref aabbMax, __unnamed3.Native);
 		}
 
-        public int CUpdates
+		public int CId
 		{
-			get { return btDbvtBroadphase_getCupdates(_native); }
-			set { btDbvtBroadphase_setCupdates(_native, value); }
+			get => btDbvtBroadphase_getCid(Native);
+			set => btDbvtBroadphase_setCid(Native, value);
 		}
 
-        public bool DeferredCollide
+		public int CUpdates
 		{
-			get { return btDbvtBroadphase_getDeferedcollide(_native); }
-			set { btDbvtBroadphase_setDeferedcollide(_native, value); }
+			get => btDbvtBroadphase_getCupdates(Native);
+			set => btDbvtBroadphase_setCupdates(Native, value);
 		}
 
-        public int DUpdates
+		public bool DeferredCollide
 		{
-			get { return btDbvtBroadphase_getDupdates(_native); }
-			set { btDbvtBroadphase_setDupdates(_native, value); }
+			get => btDbvtBroadphase_getDeferedcollide(Native);
+			set => btDbvtBroadphase_setDeferedcollide(Native, value);
 		}
 
-        public int FixedLeft
+		public int DUpdates
 		{
-			get { return btDbvtBroadphase_getFixedleft(_native); }
-			set { btDbvtBroadphase_setFixedleft(_native, value); }
+			get => btDbvtBroadphase_getDupdates(Native);
+			set => btDbvtBroadphase_setDupdates(Native, value);
 		}
 
-        public int FUpdates
+		public int FixedLeft
 		{
-			get { return btDbvtBroadphase_getFupdates(_native); }
-			set { btDbvtBroadphase_setFupdates(_native, value); }
+			get => btDbvtBroadphase_getFixedleft(Native);
+			set => btDbvtBroadphase_setFixedleft(Native, value);
 		}
 
-        public int GId
+		public int FUpdates
 		{
-			get { return btDbvtBroadphase_getGid(_native); }
-			set { btDbvtBroadphase_setGid(_native, value); }
+			get => btDbvtBroadphase_getFupdates(Native);
+			set => btDbvtBroadphase_setFupdates(Native, value);
 		}
 
-        public bool NeedCleanup
+		public int GId
 		{
-			get { return btDbvtBroadphase_getNeedcleanup(_native); }
-			set { btDbvtBroadphase_setNeedcleanup(_native, value); }
+			get => btDbvtBroadphase_getGid(Native);
+			set => btDbvtBroadphase_setGid(Native, value);
 		}
 
-        public int NewPairs
+		public bool NeedCleanup
 		{
-			get { return btDbvtBroadphase_getNewpairs(_native); }
-			set { btDbvtBroadphase_setNewpairs(_native, value); }
+			get => btDbvtBroadphase_getNeedcleanup(Native);
+			set => btDbvtBroadphase_setNeedcleanup(Native, value);
 		}
 
-        public OverlappingPairCache PairCache
+		public int NewPairs
 		{
-            get
-            {
-                return OverlappingPairCache;
-            }
-            set
-            {
-                _overlappingPairCache = value;
-                btDbvtBroadphase_setPaircache(_native, value._native);
-            }
+			get => btDbvtBroadphase_getNewpairs(Native);
+			set => btDbvtBroadphase_setNewpairs(Native, value);
 		}
 
-        public int PId
+		public OverlappingPairCache PairCache
 		{
-			get { return btDbvtBroadphase_getPid(_native); }
-			set { btDbvtBroadphase_setPid(_native, value); }
+			get => OverlappingPairCache;
+			set
+			{
+				_overlappingPairCache = value;
+				btDbvtBroadphase_setPaircache(Native, value.Native);
+			}
+		}
+
+		public int PId
+		{
+			get => btDbvtBroadphase_getPid(Native);
+			set => btDbvtBroadphase_setPid(Native, value);
 		}
 
 		public float Prediction
 		{
-			get { return btDbvtBroadphase_getPrediction(_native); }
-			set { btDbvtBroadphase_setPrediction(_native, value); }
+			get => btDbvtBroadphase_getPrediction(Native);
+			set => btDbvtBroadphase_setPrediction(Native, value);
 		}
 
-        public bool ReleasePairCache
+		public bool ReleasePairCache
 		{
-			get { return btDbvtBroadphase_getReleasepaircache(_native); }
-			set { btDbvtBroadphase_setReleasepaircache(_native, value); }
+			get => btDbvtBroadphase_getReleasepaircache(Native);
+			set => btDbvtBroadphase_setReleasepaircache(Native, value);
 		}
-        /*
-		public DbvtArray Sets
+
+        //public DbvtArray Sets => btDbvtBroadphase_getSets(Native);
+
+        public int StageCurrent
 		{
-			get { return btDbvtBroadphase_getSets(_native); }
+			get => btDbvtBroadphase_getStageCurrent(Native);
+			set => btDbvtBroadphase_setStageCurrent(Native, value);
 		}
-        */
-		public int StageCurrent
+
+        //public DbvtProxyPtrArray StageRoots => btDbvtBroadphase_getStageRoots(Native);
+
+        public uint UpdatesCall
 		{
-			get { return btDbvtBroadphase_getStageCurrent(_native); }
-			set { btDbvtBroadphase_setStageCurrent(_native, value); }
-		}
-        /*
-		public DbvtProxyPtrArray StageRoots
-		{
-			get { return btDbvtBroadphase_getStageRoots(_native); }
-		}
-        */
-		public uint UpdatesCall
-		{
-			get { return btDbvtBroadphase_getUpdates_call(_native); }
-			set { btDbvtBroadphase_setUpdates_call(_native, value); }
+			get => btDbvtBroadphase_getUpdates_call(Native);
+			set => btDbvtBroadphase_setUpdates_call(Native, value);
 		}
 
 		public uint UpdatesDone
 		{
-			get { return btDbvtBroadphase_getUpdates_done(_native); }
-			set { btDbvtBroadphase_setUpdates_done(_native, value); }
+			get => btDbvtBroadphase_getUpdates_done(Native);
+			set => btDbvtBroadphase_setUpdates_done(Native, value);
 		}
 
 		public float UpdatesRatio
 		{
-			get { return btDbvtBroadphase_getUpdates_ratio(_native); }
-			set { btDbvtBroadphase_setUpdates_ratio(_native, value); }
+			get => btDbvtBroadphase_getUpdates_ratio(Native);
+			set => btDbvtBroadphase_setUpdates_ratio(Native, value);
 		}
 
 		public float VelocityPrediction
 		{
-			get { return btDbvtBroadphase_getVelocityPrediction(_native); }
-			set { btDbvtBroadphase_setVelocityPrediction(_native, value); }
+			get => btDbvtBroadphase_getVelocityPrediction(Native);
+			set => btDbvtBroadphase_setVelocityPrediction(Native, value);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btDbvtBroadphase_new();
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btDbvtBroadphase_new2(IntPtr paircache);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_benchmark(IntPtr __unnamed0);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_collide(IntPtr obj, IntPtr dispatcher);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btDbvtBroadphase_getCid(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btDbvtBroadphase_getCupdates(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		[return: MarshalAs(UnmanagedType.I1)]
-		static extern bool btDbvtBroadphase_getDeferedcollide(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btDbvtBroadphase_getDupdates(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btDbvtBroadphase_getFixedleft(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btDbvtBroadphase_getFupdates(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btDbvtBroadphase_getGid(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		[return: MarshalAs(UnmanagedType.I1)]
-		static extern bool btDbvtBroadphase_getNeedcleanup(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btDbvtBroadphase_getNewpairs(IntPtr obj);
-		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		//static extern IntPtr btDbvtBroadphase_getPaircache(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btDbvtBroadphase_getPid(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern float btDbvtBroadphase_getPrediction(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		[return: MarshalAs(UnmanagedType.I1)]
-		static extern bool btDbvtBroadphase_getReleasepaircache(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btDbvtBroadphase_getSets(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btDbvtBroadphase_getStageCurrent(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btDbvtBroadphase_getStageRoots(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern uint btDbvtBroadphase_getUpdates_call(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern uint btDbvtBroadphase_getUpdates_done(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern float btDbvtBroadphase_getUpdates_ratio(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern float btDbvtBroadphase_getVelocityPrediction(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_optimize(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_performDeferredRemoval(IntPtr obj, IntPtr dispatcher);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_setAabbForceUpdate(IntPtr obj, IntPtr absproxy, [In] ref Vector3 aabbMin, [In] ref Vector3 aabbMax, IntPtr __unnamed3);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_setCid(IntPtr obj, int value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_setCupdates(IntPtr obj, int value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_setDeferedcollide(IntPtr obj, bool value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_setDupdates(IntPtr obj, int value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_setFixedleft(IntPtr obj, int value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_setFupdates(IntPtr obj, int value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_setGid(IntPtr obj, int value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_setNeedcleanup(IntPtr obj, bool value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_setNewpairs(IntPtr obj, int value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_setPaircache(IntPtr obj, IntPtr value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_setPid(IntPtr obj, int value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_setPrediction(IntPtr obj, float value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_setReleasepaircache(IntPtr obj, bool value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_setStageCurrent(IntPtr obj, int value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_setUpdates_call(IntPtr obj, uint value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_setUpdates_done(IntPtr obj, uint value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_setUpdates_ratio(IntPtr obj, float value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btDbvtBroadphase_setVelocityPrediction(IntPtr obj, float prediction);
 	}
 }

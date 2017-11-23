@@ -1,6 +1,5 @@
 using System;
-using System.Runtime.InteropServices;
-using System.Security;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -18,8 +17,11 @@ namespace BulletSharp
 			{
 			}
 
-			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-			static extern IntPtr btSphereSphereCollisionAlgorithm_CreateFunc_new();
+			public override CollisionAlgorithm CreateCollisionAlgorithm(CollisionAlgorithmConstructionInfo __unnamed0, CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap)
+			{
+				return new SphereSphereCollisionAlgorithm(btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
+					Native, __unnamed0.Native, body0Wrap.Native, body1Wrap.Native));
+			}
 		}
 
 		internal SphereSphereCollisionAlgorithm(IntPtr native)
@@ -27,19 +29,16 @@ namespace BulletSharp
 		{
 		}
 
-		public SphereSphereCollisionAlgorithm(PersistentManifold mf, CollisionAlgorithmConstructionInfo ci, CollisionObjectWrapper col0Wrap, CollisionObjectWrapper col1Wrap)
-			: base(btSphereSphereCollisionAlgorithm_new(mf._native, ci._native, col0Wrap._native, col1Wrap._native))
+		public SphereSphereCollisionAlgorithm(PersistentManifold mf, CollisionAlgorithmConstructionInfo ci,
+			CollisionObjectWrapper col0Wrap, CollisionObjectWrapper col1Wrap)
+			: base(btSphereSphereCollisionAlgorithm_new(mf.Native, ci.Native, col0Wrap.Native,
+				col1Wrap.Native))
 		{
 		}
 
 		public SphereSphereCollisionAlgorithm(CollisionAlgorithmConstructionInfo ci)
-			: base(btSphereSphereCollisionAlgorithm_new2(ci._native))
+			: base(btSphereSphereCollisionAlgorithm_new2(ci.Native))
 		{
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btSphereSphereCollisionAlgorithm_new(IntPtr mf, IntPtr ci, IntPtr col0Wrap, IntPtr col1Wrap);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btSphereSphereCollisionAlgorithm_new2(IntPtr ci);
 	}
 }

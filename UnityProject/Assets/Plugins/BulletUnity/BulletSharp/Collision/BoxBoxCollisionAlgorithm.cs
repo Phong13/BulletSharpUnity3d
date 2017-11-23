@@ -1,6 +1,5 @@
 using System;
-using System.Runtime.InteropServices;
-using System.Security;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -18,23 +17,29 @@ namespace BulletSharp
 			{
 			}
 
-			[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-			static extern IntPtr btBoxBoxCollisionAlgorithm_CreateFunc_new();
+			public override CollisionAlgorithm CreateCollisionAlgorithm(CollisionAlgorithmConstructionInfo __unnamed0,
+				CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap)
+			{
+				return new BoxBoxCollisionAlgorithm(btCollisionAlgorithmCreateFunc_CreateCollisionAlgorithm(
+					Native, __unnamed0.Native, body0Wrap.Native, body1Wrap.Native));
+			}
+    	}
+
+		internal BoxBoxCollisionAlgorithm(IntPtr native)
+			: base(native)
+		{
 		}
 
 		public BoxBoxCollisionAlgorithm(CollisionAlgorithmConstructionInfo ci)
-			: base(btBoxBoxCollisionAlgorithm_new(ci._native))
+			: base(btBoxBoxCollisionAlgorithm_new(ci.Native))
 		{
 		}
 
-		public BoxBoxCollisionAlgorithm(PersistentManifold mf, CollisionAlgorithmConstructionInfo ci, CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap)
-			: base(btBoxBoxCollisionAlgorithm_new2(mf._native, ci._native, body0Wrap._native, body1Wrap._native))
+		public BoxBoxCollisionAlgorithm(PersistentManifold mf, CollisionAlgorithmConstructionInfo ci,
+			CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap)
+			: base(btBoxBoxCollisionAlgorithm_new2(mf.Native, ci.Native, body0Wrap.Native,
+				body1Wrap.Native))
 		{
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btBoxBoxCollisionAlgorithm_new(IntPtr ci);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btBoxBoxCollisionAlgorithm_new2(IntPtr mf, IntPtr ci, IntPtr body0Wrap, IntPtr body1Wrap);
 	}
 }

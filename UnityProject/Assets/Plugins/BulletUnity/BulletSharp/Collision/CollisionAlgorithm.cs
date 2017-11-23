@@ -1,43 +1,43 @@
 using System;
-using System.Runtime.InteropServices;
-using System.Security;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
 	public class CollisionAlgorithmConstructionInfo : IDisposable
 	{
-		internal IntPtr _native;
+		internal IntPtr Native;
 
 		private Dispatcher _dispatcher1;
 		private PersistentManifold _manifold;
 
 		public CollisionAlgorithmConstructionInfo()
 		{
-			_native = btCollisionAlgorithmConstructionInfo_new();
+			Native = btCollisionAlgorithmConstructionInfo_new();
 		}
 
 		public CollisionAlgorithmConstructionInfo(Dispatcher dispatcher, int temp)
 		{
-            _dispatcher1 = dispatcher;
-            _native = btCollisionAlgorithmConstructionInfo_new2((dispatcher != null) ? dispatcher._native : IntPtr.Zero, temp);
+			Native = btCollisionAlgorithmConstructionInfo_new2((dispatcher != null) ? dispatcher.Native : IntPtr.Zero,
+				temp);
+			_dispatcher1 = dispatcher;
 		}
 
-        public Dispatcher Dispatcher
+		public Dispatcher Dispatcher
 		{
-			get { return _dispatcher1; }
+			get => _dispatcher1;
 			set
 			{
-                btCollisionAlgorithmConstructionInfo_setDispatcher1(_native, (value != null) ? value._native : IntPtr.Zero);
+				btCollisionAlgorithmConstructionInfo_setDispatcher1(Native, (value != null) ? value.Native : IntPtr.Zero);
 				_dispatcher1 = value;
 			}
 		}
 
 		public PersistentManifold Manifold
 		{
-			get { return _manifold; }
+			get => _manifold;
 			set
 			{
-                btCollisionAlgorithmConstructionInfo_setManifold(_native, (value != null) ? value._native : IntPtr.Zero);
+				btCollisionAlgorithmConstructionInfo_setManifold(Native, (value != null) ? value.Native : IntPtr.Zero);
 				_manifold = value;
 			}
 		}
@@ -50,10 +50,10 @@ namespace BulletSharp
 
 		protected virtual void Dispose(bool disposing)
 		{
-			if (_native != IntPtr.Zero)
+			if (Native != IntPtr.Zero)
 			{
-				btCollisionAlgorithmConstructionInfo_delete(_native);
-				_native = IntPtr.Zero;
+				btCollisionAlgorithmConstructionInfo_delete(Native);
+				Native = IntPtr.Zero;
 			}
 		}
 
@@ -61,47 +61,36 @@ namespace BulletSharp
 		{
 			Dispose(false);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btCollisionAlgorithmConstructionInfo_new();
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btCollisionAlgorithmConstructionInfo_new2(IntPtr dispatcher, int temp);
-		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		//static extern IntPtr btCollisionAlgorithmConstructionInfo_getDispatcher1(IntPtr obj);
-		//[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		//static extern IntPtr btCollisionAlgorithmConstructionInfo_getManifold(IntPtr obj);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionAlgorithmConstructionInfo_setDispatcher1(IntPtr obj, IntPtr value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionAlgorithmConstructionInfo_setManifold(IntPtr obj, IntPtr value);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionAlgorithmConstructionInfo_delete(IntPtr obj);
 	}
 
 	public class CollisionAlgorithm : IDisposable
 	{
-		internal IntPtr _native;
-        private readonly bool _preventDelete;
+		internal IntPtr Native;
+		private readonly bool _preventDelete;
 
 		internal CollisionAlgorithm(IntPtr native, bool preventDelete = false)
 		{
-			_native = native;
-            _preventDelete = preventDelete;
+			Native = native;
+			_preventDelete = preventDelete;
 		}
 
-		public float CalculateTimeOfImpact(CollisionObject body0, CollisionObject body1, DispatcherInfo dispatchInfo, ManifoldResult resultOut)
+		public float CalculateTimeOfImpact(CollisionObject body0, CollisionObject body1,
+			DispatcherInfo dispatchInfo, ManifoldResult resultOut)
 		{
-			return btCollisionAlgorithm_calculateTimeOfImpact(_native, body0._native, body1._native, dispatchInfo._native, resultOut._native);
+			return btCollisionAlgorithm_calculateTimeOfImpact(Native, body0.Native,
+				body1.Native, dispatchInfo.Native, resultOut.Native);
 		}
 
-        public void GetAllContactManifolds(AlignedManifoldArray manifoldArray)
+		public void GetAllContactManifolds(AlignedManifoldArray manifoldArray)
 		{
-			btCollisionAlgorithm_getAllContactManifolds(_native, manifoldArray._native);
+			btCollisionAlgorithm_getAllContactManifolds(Native, manifoldArray._native);
 		}
 
-		public void ProcessCollision(CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap, DispatcherInfo dispatchInfo, ManifoldResult resultOut)
+		public void ProcessCollision(CollisionObjectWrapper body0Wrap, CollisionObjectWrapper body1Wrap,
+			DispatcherInfo dispatchInfo, ManifoldResult resultOut)
 		{
-			btCollisionAlgorithm_processCollision(_native, body0Wrap._native, body1Wrap._native, dispatchInfo._native, resultOut._native);
+			btCollisionAlgorithm_processCollision(Native, body0Wrap.Native, body1Wrap.Native,
+				dispatchInfo.Native, resultOut.Native);
 		}
 
 		public void Dispose()
@@ -112,13 +101,13 @@ namespace BulletSharp
 
 		protected virtual void Dispose(bool disposing)
 		{
-			if (_native != IntPtr.Zero)
+			if (Native != IntPtr.Zero)
 			{
-                if (!_preventDelete)
-                {
-                    btCollisionAlgorithm_delete(_native);
-                }
-				_native = IntPtr.Zero;
+				if (!_preventDelete)
+				{
+					btCollisionAlgorithm_delete(Native);
+				}
+				Native = IntPtr.Zero;
 			}
 		}
 
@@ -126,14 +115,5 @@ namespace BulletSharp
 		{
 			Dispose(false);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern float btCollisionAlgorithm_calculateTimeOfImpact(IntPtr obj, IntPtr body0, IntPtr body1, IntPtr dispatchInfo, IntPtr resultOut);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionAlgorithm_getAllContactManifolds(IntPtr obj, IntPtr manifoldArray);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionAlgorithm_processCollision(IntPtr obj, IntPtr body0Wrap, IntPtr body1Wrap, IntPtr dispatchInfo, IntPtr resultOut);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btCollisionAlgorithm_delete(IntPtr obj);
 	}
 }

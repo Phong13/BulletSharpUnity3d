@@ -1,7 +1,6 @@
 using System;
-using System.Runtime.InteropServices;
-using System.Security;
 using BulletSharp.Math;
+using static BulletSharp.UnsafeNativeMethods;
 
 namespace BulletSharp
 {
@@ -37,41 +36,24 @@ namespace BulletSharp
 		{
 		}
 
-        public void AddVertexRef(ref Vector3 pt)
-        {
-            btBU_Simplex1to4_addVertex(_native, ref pt);
-        }
+		public void AddVertexRef(ref Vector3 pt)
+		{
+			btBU_Simplex1to4_addVertex(Native, ref pt);
+		}
 
 		public void AddVertex(Vector3 pt)
 		{
-			btBU_Simplex1to4_addVertex(_native, ref pt);
+			btBU_Simplex1to4_addVertex(Native, ref pt);
 		}
 
 		public int GetIndex(int i)
 		{
-			return btBU_Simplex1to4_getIndex(_native, i);
+			return btBU_Simplex1to4_getIndex(Native, i);
 		}
 
 		public void Reset()
 		{
-			btBU_Simplex1to4_reset(_native);
+			btBU_Simplex1to4_reset(Native);
 		}
-
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btBU_Simplex1to4_new();
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btBU_Simplex1to4_new2([In] ref Vector3 pt0);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btBU_Simplex1to4_new3([In] ref Vector3 pt0, [In] ref Vector3 pt1);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btBU_Simplex1to4_new4([In] ref Vector3 pt0, [In] ref Vector3 pt1, [In] ref Vector3 pt2);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern IntPtr btBU_Simplex1to4_new5([In] ref Vector3 pt0, [In] ref Vector3 pt1, [In] ref Vector3 pt2, [In] ref Vector3 pt3);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btBU_Simplex1to4_addVertex(IntPtr obj, [In] ref Vector3 pt);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern int btBU_Simplex1to4_getIndex(IntPtr obj, int i);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btBU_Simplex1to4_reset(IntPtr obj);
 	}
 }
