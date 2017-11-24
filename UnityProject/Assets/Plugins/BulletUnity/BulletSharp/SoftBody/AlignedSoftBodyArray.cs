@@ -43,13 +43,13 @@ namespace BulletSharp.SoftBody
 			_i = -1;
 		}
 
-		public SoftBody Current => _array[_i];
+		public SoftBody Current{ get { return  _array[_i];} }
 
 		public void Dispose()
 		{
 		}
 
-		object System.Collections.IEnumerator.Current => _array[_i];
+		object System.Collections.IEnumerator.Current{ get { return  _array[_i];} }
 
 		public bool MoveNext()
 		{
@@ -94,7 +94,7 @@ namespace BulletSharp.SoftBody
 			{
 				if ((uint)index >= (uint)Count)
 				{
-					throw new ArgumentOutOfRangeException(nameof(index));
+					throw new ArgumentOutOfRangeException("index");
 				}
 				return CollisionObject.GetManaged(UnsafeNativeMethods.btAlignedObjectArray_btSoftBodyPtr_at(_native, index)) as SoftBody;
 			}
@@ -124,9 +124,9 @@ namespace BulletSharp.SoftBody
 			throw new NotImplementedException();
 		}
 
-		public int Count => UnsafeNativeMethods.btAlignedObjectArray_btSoftBodyPtr_size(_native);
+		public int Count{ get { return  UnsafeNativeMethods.btAlignedObjectArray_btSoftBodyPtr_size(_native);} }
 
-		public bool IsReadOnly => false;
+		public bool IsReadOnly{ get { return  false;} }
 
 		public bool Remove(SoftBody item)
 		{

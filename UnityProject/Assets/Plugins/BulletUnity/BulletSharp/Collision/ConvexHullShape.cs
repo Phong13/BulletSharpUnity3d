@@ -78,10 +78,10 @@ namespace BulletSharp
 
 		public void OptimizeConvexHull()
 		{
-			btConvexHullShape_optimizeConvexHull(Native);
+			UnsafeNativeMethods.btConvexHullShape_optimizeConvexHull(Native);
 		}
 
-		public int NumPoints => UnsafeNativeMethods.btConvexHullShape_getNumPoints(Native);
+		public int NumPoints{ get { return  UnsafeNativeMethods.btConvexHullShape_getNumPoints(Native);} }
 
 		public Vector3Array Points
 		{

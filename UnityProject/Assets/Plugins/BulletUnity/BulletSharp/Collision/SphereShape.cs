@@ -14,6 +14,6 @@ namespace BulletSharp
 			UnsafeNativeMethods.btSphereShape_setUnscaledRadius(Native, radius);
 		}
 
-		public float Radius => UnsafeNativeMethods.btSphereShape_getRadius(Native);
+		public float Radius{ get { return  UnsafeNativeMethods.btSphereShape_getRadius(Native);} }
 	}
 }

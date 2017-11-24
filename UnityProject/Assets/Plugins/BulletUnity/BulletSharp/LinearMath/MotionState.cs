@@ -54,7 +54,7 @@ namespace BulletSharp
 				GetWorldTransform(out transform);
 				return transform;
 			}
-			set => SetWorldTransform(ref value);
+			set {  SetWorldTransform(ref value);}
 		}
 
 		public void Dispose()

@@ -41,13 +41,13 @@ namespace BulletSharp
 			_count = array.Count;
 		}
 
-		public CollisionObject Current => _array[_i];
+		public CollisionObject Current{ get { return  _array[_i];} }
 
 		public void Dispose()
 		{
 		}
 
-		object System.Collections.IEnumerator.Current => _array[_i];
+		object System.Collections.IEnumerator.Current{ get { return  _array[_i];} }
 
 		public bool MoveNext()
 		{
@@ -150,10 +150,10 @@ namespace BulletSharp
 		public void CopyTo(CollisionObject[] array, int arrayIndex)
 		{
 			if (array == null)
-				throw new ArgumentNullException(nameof(array));
+				throw new ArgumentNullException("array");
 
 			if (arrayIndex < 0)
-				throw new ArgumentOutOfRangeException(nameof(array));
+				throw new ArgumentOutOfRangeException("array");
 
 			int count = Count;
 			if (arrayIndex + count > array.Length)
@@ -284,7 +284,7 @@ namespace BulletSharp
 				}
 				if ((uint)index >= (uint)Count)
 				{
-					throw new ArgumentOutOfRangeException(nameof(index));
+					throw new ArgumentOutOfRangeException("index");
 				}
 				return CollisionObject.GetManaged(UnsafeNativeMethods.btAlignedObjectArray_btCollisionObjectPtr_at(_native, index));
 			}
@@ -294,8 +294,8 @@ namespace BulletSharp
 			}
 		}
 
-		public int Count => UnsafeNativeMethods.btAlignedObjectArray_btCollisionObjectPtr_size(_native);
+		public int Count{ get { return  UnsafeNativeMethods.btAlignedObjectArray_btCollisionObjectPtr_size(_native);} }
 
-		public bool IsReadOnly => false;
+		public bool IsReadOnly{ get { return  false;} }
 	}
 }

@@ -27,7 +27,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultiBodyFixedConstraint_getFrameInA(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultiBodyFixedConstraint_setFrameInA(Native, ref value);
+			set {  UnsafeNativeMethods.btMultiBodyFixedConstraint_setFrameInA(Native, ref value);}
 		}
 
 		public Matrix FrameInB
@@ -38,7 +38,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultiBodyFixedConstraint_getFrameInB(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultiBodyFixedConstraint_setFrameInB(Native, ref value);
+			set {  UnsafeNativeMethods.btMultiBodyFixedConstraint_setFrameInB(Native, ref value);}
 		}
 
 		public Vector3 PivotInA
@@ -49,7 +49,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultiBodyFixedConstraint_getPivotInA(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultiBodyFixedConstraint_setPivotInA(Native, ref value);
+			set {  UnsafeNativeMethods.btMultiBodyFixedConstraint_setPivotInA(Native, ref value);}
 		}
 
 		public Vector3 PivotInB
@@ -60,7 +60,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultiBodyFixedConstraint_getPivotInB(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultiBodyFixedConstraint_setPivotInB(Native, ref value);
+			set {  UnsafeNativeMethods.btMultiBodyFixedConstraint_setPivotInB(Native, ref value);}
 		}
 	}
 }

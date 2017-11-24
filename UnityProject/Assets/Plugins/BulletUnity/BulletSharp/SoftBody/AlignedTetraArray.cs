@@ -43,13 +43,13 @@ namespace BulletSharp.SoftBody
 			_i = -1;
 		}
 
-		public Tetra Current => _array[_i];
+		public Tetra Current{ get { return  _array[_i];} }
 
 		public void Dispose()
 		{
 		}
 
-		object System.Collections.IEnumerator.Current => _array[_i];
+		object System.Collections.IEnumerator.Current{ get { return  _array[_i];} }
 
 		public bool MoveNext()
 		{
@@ -94,7 +94,7 @@ namespace BulletSharp.SoftBody
 			{
 				if ((uint)index >= (uint)Count)
 				{
-					throw new ArgumentOutOfRangeException(nameof(index));
+					throw new ArgumentOutOfRangeException("index");
 				}
 				return new Tetra(UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_Tetra_at(_native, index));
 			}
@@ -124,9 +124,9 @@ namespace BulletSharp.SoftBody
 			throw new NotImplementedException();
 		}
 
-		public int Count => UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_Tetra_size(_native);
+		public int Count{ get { return  UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_Tetra_size(_native);} }
 
-		public bool IsReadOnly => false;
+		public bool IsReadOnly{ get { return  false;} }
 
 		public bool Remove(Tetra item)
 		{

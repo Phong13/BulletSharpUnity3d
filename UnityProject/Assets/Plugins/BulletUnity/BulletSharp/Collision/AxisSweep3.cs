@@ -73,7 +73,7 @@ namespace BulletSharp
 				dispatcher.Native);
 		}
 
-		//public ushort NumHandles => UnsafeNativeMethods.btAxisSweep3_getNumHandles(Native);
+		//public ushort NumHandles{ get { return  UnsafeNativeMethods.btAxisSweep3_getNumHandles(Native);} }
         public ushort NumHandles()
         {
             return UnsafeNativeMethods.btAxisSweep3_getNumHandles(Native);

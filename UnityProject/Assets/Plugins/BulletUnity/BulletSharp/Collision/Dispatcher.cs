@@ -185,9 +185,12 @@ namespace BulletSharp
 			get { return UnsafeNativeMethods.btDispatcher_getInternalManifoldPool(Native); }
 		}
 		*/
-        public int NumManifolds()
+        public int NumManifolds
         {
-            return UnsafeNativeMethods.btDispatcher_getNumManifolds(Native);
+            get
+            {
+                return UnsafeNativeMethods.btDispatcher_getNumManifolds(Native);
+            }
         }
 
 		public void Dispose()

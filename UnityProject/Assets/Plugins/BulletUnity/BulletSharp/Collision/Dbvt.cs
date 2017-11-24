@@ -151,19 +151,19 @@ namespace BulletSharp
 		*/
 		public IntPtr Data
 		{
-			get => UnsafeNativeMethods.btDbvtNode_getData(Native);
-			set => UnsafeNativeMethods.btDbvtNode_setData(Native, value);
+			get { return  UnsafeNativeMethods.btDbvtNode_getData(Native);}
+			set {  UnsafeNativeMethods.btDbvtNode_setData(Native, value);}
 		}
 
 		public int DataAsInt
 		{
-			get => UnsafeNativeMethods.btDbvtNode_getDataAsInt(Native);
-			set => UnsafeNativeMethods.btDbvtNode_setDataAsInt(Native, value);
+			get { return  UnsafeNativeMethods.btDbvtNode_getDataAsInt(Native);}
+			set {  UnsafeNativeMethods.btDbvtNode_setDataAsInt(Native, value);}
 		}
 
-		public bool IsInternal => UnsafeNativeMethods.btDbvtNode_isinternal(Native);
+		public bool IsInternal{ get { return  UnsafeNativeMethods.btDbvtNode_isinternal(Native);} }
 
-		public bool Isleaf => UnsafeNativeMethods.btDbvtNode_isleaf(Native);
+		public bool Isleaf{ get { return  UnsafeNativeMethods.btDbvtNode_isleaf(Native);} }
 
 		public DbvtNode Parent
 		{
@@ -172,7 +172,7 @@ namespace BulletSharp
 				IntPtr ptr = UnsafeNativeMethods.btDbvtNode_getParent(Native);
 				return (ptr != IntPtr.Zero) ? new DbvtNode(ptr) : null;
 			}
-			set => UnsafeNativeMethods.btDbvtNode_setParent(Native, (value != null) ? value.Native : IntPtr.Zero);
+			set {  UnsafeNativeMethods.btDbvtNode_setParent(Native, (value != null) ? value.Native : IntPtr.Zero);}
 		}
 
 		public DbvtVolume Volume
@@ -363,7 +363,7 @@ namespace BulletSharp
 					IntPtr ptr = UnsafeNativeMethods.btDbvt_sStkCLN_getNode(Native);
 					return (ptr != IntPtr.Zero) ? new DbvtNode(ptr) : null;
 				}
-				set => UnsafeNativeMethods.btDbvt_sStkCLN_setNode(Native, (value != null) ? value.Native : IntPtr.Zero);
+				set {  UnsafeNativeMethods.btDbvt_sStkCLN_setNode(Native, (value != null) ? value.Native : IntPtr.Zero);}
 			}
 
 			public DbvtNode Parent
@@ -373,7 +373,7 @@ namespace BulletSharp
 					IntPtr ptr = UnsafeNativeMethods.btDbvt_sStkCLN_getParent(Native);
 					return (ptr != IntPtr.Zero) ? new DbvtNode(ptr) : null;
 				}
-				set => UnsafeNativeMethods.btDbvt_sStkCLN_setParent(Native, (value != null) ? value.Native : IntPtr.Zero);
+				set {  UnsafeNativeMethods.btDbvt_sStkCLN_setParent(Native, (value != null) ? value.Native : IntPtr.Zero);}
 			}
 
 			public void Dispose()
@@ -423,7 +423,7 @@ namespace BulletSharp
 					IntPtr ptr = UnsafeNativeMethods.btDbvt_sStkNN_getA(Native);
 					return (ptr != IntPtr.Zero) ? new DbvtNode(ptr) : null;
 				}
-				set => UnsafeNativeMethods.btDbvt_sStkNN_setA(Native, (value != null) ? value.Native : IntPtr.Zero);
+				set {  UnsafeNativeMethods.btDbvt_sStkNN_setA(Native, (value != null) ? value.Native : IntPtr.Zero);}
 			}
 
 			public DbvtNode B
@@ -433,7 +433,7 @@ namespace BulletSharp
 					IntPtr ptr = UnsafeNativeMethods.btDbvt_sStkNN_getB(Native);
 					return (ptr != IntPtr.Zero) ? new DbvtNode(ptr) : null;
 				}
-				set => UnsafeNativeMethods.btDbvt_sStkNN_setB(Native, (value != null) ? value.Native : IntPtr.Zero);
+				set {  UnsafeNativeMethods.btDbvt_sStkNN_setB(Native, (value != null) ? value.Native : IntPtr.Zero);}
 			}
 
 			public void Dispose()
@@ -473,8 +473,8 @@ namespace BulletSharp
 
 			public int Mask
 			{
-				get => UnsafeNativeMethods.btDbvt_sStkNP_getMask(Native);
-				set => UnsafeNativeMethods.btDbvt_sStkNP_setMask(Native, value);
+				get { return  UnsafeNativeMethods.btDbvt_sStkNP_getMask(Native);}
+				set {  UnsafeNativeMethods.btDbvt_sStkNP_setMask(Native, value);}
 			}
 
 			public DbvtNode Node
@@ -484,7 +484,7 @@ namespace BulletSharp
 					IntPtr ptr = UnsafeNativeMethods.btDbvt_sStkNP_getNode(Native);
 					return (ptr != IntPtr.Zero) ? new DbvtNode(ptr) : null;
 				}
-				set => UnsafeNativeMethods.btDbvt_sStkNP_setNode(Native, (value != null) ? value.Native : IntPtr.Zero);
+				set {  UnsafeNativeMethods.btDbvt_sStkNP_setNode(Native, (value != null) ? value.Native : IntPtr.Zero);}
 			}
 
 			public void Dispose()
@@ -529,8 +529,8 @@ namespace BulletSharp
 
 			public int Mask
 			{
-				get => UnsafeNativeMethods.btDbvt_sStkNPS_getMask(Native);
-				set => UnsafeNativeMethods.btDbvt_sStkNPS_setMask(Native, value);
+				get { return  UnsafeNativeMethods.btDbvt_sStkNPS_getMask(Native);}
+				set {  UnsafeNativeMethods.btDbvt_sStkNPS_setMask(Native, value);}
 			}
 
 			public DbvtNode Node
@@ -540,13 +540,13 @@ namespace BulletSharp
 					IntPtr ptr = UnsafeNativeMethods.btDbvt_sStkNPS_getNode(Native);
 					return (ptr != IntPtr.Zero) ? new DbvtNode(ptr) : null;
 				}
-				set => UnsafeNativeMethods.btDbvt_sStkNPS_setNode(Native, (value != null) ? value.Native : IntPtr.Zero);
+				set {  UnsafeNativeMethods.btDbvt_sStkNPS_setNode(Native, (value != null) ? value.Native : IntPtr.Zero);}
 			}
 
 			public float Value
 			{
-				get => UnsafeNativeMethods.btDbvt_sStkNPS_getValue(Native);
-				set => UnsafeNativeMethods.btDbvt_sStkNPS_setValue(Native, value);
+				get { return  UnsafeNativeMethods.btDbvt_sStkNPS_getValue(Native);}
+				set {  UnsafeNativeMethods.btDbvt_sStkNPS_setValue(Native, value);}
 			}
 
 			public void Dispose()
@@ -775,25 +775,25 @@ namespace BulletSharp
 				IntPtr ptr = UnsafeNativeMethods.btDbvt_getFree(Native);
 				return (ptr != IntPtr.Zero) ? new DbvtNode(ptr) : null;
 			}
-			set => UnsafeNativeMethods.btDbvt_setFree(Native, (value != null) ? value.Native : IntPtr.Zero);
+			set {  UnsafeNativeMethods.btDbvt_setFree(Native, (value != null) ? value.Native : IntPtr.Zero);}
 		}
 
 		public int Leaves
 		{
-			get => UnsafeNativeMethods.btDbvt_getLeaves(Native);
-			set => UnsafeNativeMethods.btDbvt_setLeaves(Native, value);
+			get { return  UnsafeNativeMethods.btDbvt_getLeaves(Native);}
+			set {  UnsafeNativeMethods.btDbvt_setLeaves(Native, value);}
 		}
 
 		public int Lkhd
 		{
-			get => UnsafeNativeMethods.btDbvt_getLkhd(Native);
-			set => UnsafeNativeMethods.btDbvt_setLkhd(Native, value);
+			get { return  UnsafeNativeMethods.btDbvt_getLkhd(Native);}
+			set {  UnsafeNativeMethods.btDbvt_setLkhd(Native, value);}
 		}
 
 		public uint Opath
 		{
-			get => UnsafeNativeMethods.btDbvt_getOpath(Native);
-			set => UnsafeNativeMethods.btDbvt_setOpath(Native, value);
+			get { return  UnsafeNativeMethods.btDbvt_getOpath(Native);}
+			set {  UnsafeNativeMethods.btDbvt_setOpath(Native, value);}
 		}
 
 		public DbvtNode Root
@@ -803,7 +803,7 @@ namespace BulletSharp
 				IntPtr ptr = UnsafeNativeMethods.btDbvt_getRoot(Native);
 				return (ptr != IntPtr.Zero) ? new DbvtNode(ptr) : null;
 			}
-			set => UnsafeNativeMethods.btDbvt_setRoot(Native, (value != null) ? value.Native : IntPtr.Zero);
+			set {  UnsafeNativeMethods.btDbvt_setRoot(Native, (value != null) ? value.Native : IntPtr.Zero);}
 		}
 		/*
 		public AlignedStkNNArray StkStack

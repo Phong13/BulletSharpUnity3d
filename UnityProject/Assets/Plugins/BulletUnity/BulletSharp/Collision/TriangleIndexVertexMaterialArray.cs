@@ -14,50 +14,50 @@ namespace BulletSharp
 
 		public IntPtr MaterialBase
 		{
-			get => UnsafeNativeMethods.btMaterialProperties_getMaterialBase(Native);
-			set => UnsafeNativeMethods.btMaterialProperties_setMaterialBase(Native, value);
+			get { return  UnsafeNativeMethods.btMaterialProperties_getMaterialBase(Native);}
+			set {  UnsafeNativeMethods.btMaterialProperties_setMaterialBase(Native, value);}
 		}
 
 		public int MaterialStride
 		{
-			get => UnsafeNativeMethods.btMaterialProperties_getMaterialStride(Native);
-			set => UnsafeNativeMethods.btMaterialProperties_setMaterialStride(Native, value);
+			get { return  UnsafeNativeMethods.btMaterialProperties_getMaterialStride(Native);}
+			set {  UnsafeNativeMethods.btMaterialProperties_setMaterialStride(Native, value);}
 		}
 
 		public PhyScalarType MaterialType
 		{
-			get => UnsafeNativeMethods.btMaterialProperties_getMaterialType(Native);
-			set => UnsafeNativeMethods.btMaterialProperties_setMaterialType(Native, value);
+			get { return  UnsafeNativeMethods.btMaterialProperties_getMaterialType(Native);}
+			set {  UnsafeNativeMethods.btMaterialProperties_setMaterialType(Native, value);}
 		}
 
 		public int NumMaterials
 		{
-			get => UnsafeNativeMethods.btMaterialProperties_getNumMaterials(Native);
-			set => UnsafeNativeMethods.btMaterialProperties_setNumMaterials(Native, value);
+			get { return  UnsafeNativeMethods.btMaterialProperties_getNumMaterials(Native);}
+			set {  UnsafeNativeMethods.btMaterialProperties_setNumMaterials(Native, value);}
 		}
 
 		public int NumTriangles
 		{
-			get => UnsafeNativeMethods.btMaterialProperties_getNumTriangles(Native);
-			set => UnsafeNativeMethods.btMaterialProperties_setNumTriangles(Native, value);
+			get { return  UnsafeNativeMethods.btMaterialProperties_getNumTriangles(Native);}
+			set {  UnsafeNativeMethods.btMaterialProperties_setNumTriangles(Native, value);}
 		}
 
 		public IntPtr TriangleMaterialsBase
 		{
-			get => UnsafeNativeMethods.btMaterialProperties_getTriangleMaterialsBase(Native);
-			set => UnsafeNativeMethods.btMaterialProperties_setTriangleMaterialsBase(Native, value);
+			get { return  UnsafeNativeMethods.btMaterialProperties_getTriangleMaterialsBase(Native);}
+			set {  UnsafeNativeMethods.btMaterialProperties_setTriangleMaterialsBase(Native, value);}
 		}
 
 		public int TriangleMaterialStride
 		{
-			get => UnsafeNativeMethods.btMaterialProperties_getTriangleMaterialStride(Native);
-			set => UnsafeNativeMethods.btMaterialProperties_setTriangleMaterialStride(Native, value);
+			get { return  UnsafeNativeMethods.btMaterialProperties_getTriangleMaterialStride(Native);}
+			set {  UnsafeNativeMethods.btMaterialProperties_setTriangleMaterialStride(Native, value);}
 		}
 
 		public PhyScalarType TriangleType
 		{
-			get => UnsafeNativeMethods.btMaterialProperties_getTriangleType(Native);
-			set => UnsafeNativeMethods.btMaterialProperties_setTriangleType(Native, value);
+			get { return  UnsafeNativeMethods.btMaterialProperties_getTriangleType(Native);}
+			set {  UnsafeNativeMethods.btMaterialProperties_setTriangleType(Native, value);}
 		}
 
 		public void Dispose()

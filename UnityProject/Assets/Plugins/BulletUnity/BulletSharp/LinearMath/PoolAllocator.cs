@@ -34,15 +34,15 @@ namespace BulletSharp
 			return UnsafeNativeMethods.btPoolAllocator_validPtr(_native, ptr);
 		}
 
-		public int ElementSize => UnsafeNativeMethods.btPoolAllocator_getElementSize(_native);
+		public int ElementSize{ get { return  UnsafeNativeMethods.btPoolAllocator_getElementSize(_native);} }
 
-		public int FreeCount => UnsafeNativeMethods.btPoolAllocator_getFreeCount(_native);
+		public int FreeCount{ get { return  UnsafeNativeMethods.btPoolAllocator_getFreeCount(_native);} }
 
-		public int MaxCount => UnsafeNativeMethods.btPoolAllocator_getMaxCount(_native);
+		public int MaxCount{ get { return  UnsafeNativeMethods.btPoolAllocator_getMaxCount(_native);} }
 
-		public IntPtr PoolAddress => UnsafeNativeMethods.btPoolAllocator_getPoolAddress(_native);
+		public IntPtr PoolAddress{ get { return  UnsafeNativeMethods.btPoolAllocator_getPoolAddress(_native);} }
 
-		public int UsedCount => UnsafeNativeMethods.btPoolAllocator_getUsedCount(_native);
+		public int UsedCount{ get { return  UnsafeNativeMethods.btPoolAllocator_getUsedCount(_native);} }
 
 		public void Dispose()
 		{

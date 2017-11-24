@@ -28,7 +28,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultiBodyPoint2Point_getPivotInB(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultiBodyPoint2Point_setPivotInB(Native, ref value);
+			set {  UnsafeNativeMethods.btMultiBodyPoint2Point_setPivotInB(Native, ref value);}
 		}
 	}
 }

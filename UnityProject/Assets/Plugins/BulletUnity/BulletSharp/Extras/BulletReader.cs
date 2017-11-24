@@ -143,7 +143,7 @@ namespace BulletSharp
             string code = Encoding.ASCII.GetString(codeData);
             if (code != tag)
             {
-                throw new InvalidDataException($"Expected tag: {tag}");
+                throw new Exception(String.Format("Expected tag: {0}",tag));
             }
         }
 
@@ -175,6 +175,12 @@ namespace BulletSharp
         {
             BaseStream.Position = position;
             return ReadVector3Double();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -77,110 +77,110 @@ namespace BulletSharp
 
 		public float AppliedImpulse
 		{
-			get => UnsafeNativeMethods.btManifoldPoint_getAppliedImpulse(Native);
-			set => UnsafeNativeMethods.btManifoldPoint_setAppliedImpulse(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldPoint_getAppliedImpulse(Native);}
+			set {  UnsafeNativeMethods.btManifoldPoint_setAppliedImpulse(Native, value);}
 		}
 
 		public float AppliedImpulseLateral1
 		{
-			get => UnsafeNativeMethods.btManifoldPoint_getAppliedImpulseLateral1(Native);
-			set => UnsafeNativeMethods.btManifoldPoint_setAppliedImpulseLateral1(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldPoint_getAppliedImpulseLateral1(Native);}
+			set {  UnsafeNativeMethods.btManifoldPoint_setAppliedImpulseLateral1(Native, value);}
 		}
 
 		public float AppliedImpulseLateral2
 		{
-			get => UnsafeNativeMethods.btManifoldPoint_getAppliedImpulseLateral2(Native);
-			set => UnsafeNativeMethods.btManifoldPoint_setAppliedImpulseLateral2(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldPoint_getAppliedImpulseLateral2(Native);}
+			set {  UnsafeNativeMethods.btManifoldPoint_setAppliedImpulseLateral2(Native, value);}
 		}
 
 		public float CombinedContactDamping1
 		{
-			get => UnsafeNativeMethods.btManifoldPoint_getCombinedContactDamping1(Native);
-			set => UnsafeNativeMethods.btManifoldPoint_setCombinedContactDamping1(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldPoint_getCombinedContactDamping1(Native);}
+			set {  UnsafeNativeMethods.btManifoldPoint_setCombinedContactDamping1(Native, value);}
 		}
 
 		public float CombinedContactStiffness1
 		{
-			get => UnsafeNativeMethods.btManifoldPoint_getCombinedContactStiffness1(Native);
-			set => UnsafeNativeMethods.btManifoldPoint_setCombinedContactStiffness1(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldPoint_getCombinedContactStiffness1(Native);}
+			set {  UnsafeNativeMethods.btManifoldPoint_setCombinedContactStiffness1(Native, value);}
 		}
 
 		public float CombinedFriction
 		{
-			get => UnsafeNativeMethods.btManifoldPoint_getCombinedFriction(Native);
-			set => UnsafeNativeMethods.btManifoldPoint_setCombinedFriction(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldPoint_getCombinedFriction(Native);}
+			set {  UnsafeNativeMethods.btManifoldPoint_setCombinedFriction(Native, value);}
 		}
 
 		public float CombinedRestitution
 		{
-			get => UnsafeNativeMethods.btManifoldPoint_getCombinedRestitution(Native);
-			set => UnsafeNativeMethods.btManifoldPoint_setCombinedRestitution(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldPoint_getCombinedRestitution(Native);}
+			set {  UnsafeNativeMethods.btManifoldPoint_setCombinedRestitution(Native, value);}
 		}
 
 		public float CombinedRollingFriction
 		{
-			get => UnsafeNativeMethods.btManifoldPoint_getCombinedRollingFriction(Native);
-			set => UnsafeNativeMethods.btManifoldPoint_setCombinedRollingFriction(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldPoint_getCombinedRollingFriction(Native);}
+			set {  UnsafeNativeMethods.btManifoldPoint_setCombinedRollingFriction(Native, value);}
 		}
 
 		public float ContactCfm
 		{
-			get => UnsafeNativeMethods.btManifoldPoint_getContactCFM(Native);
-			set => UnsafeNativeMethods.btManifoldPoint_setContactCFM(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldPoint_getContactCFM(Native);}
+			set {  UnsafeNativeMethods.btManifoldPoint_setContactCFM(Native, value);}
 		}
 
 		public float ContactErp
 		{
-			get => UnsafeNativeMethods.btManifoldPoint_getContactERP(Native);
-			set => UnsafeNativeMethods.btManifoldPoint_setContactERP(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldPoint_getContactERP(Native);}
+			set {  UnsafeNativeMethods.btManifoldPoint_setContactERP(Native, value);}
 		}
 
 		public float ContactMotion1
 		{
-			get => UnsafeNativeMethods.btManifoldPoint_getContactMotion1(Native);
-			set => UnsafeNativeMethods.btManifoldPoint_setContactMotion1(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldPoint_getContactMotion1(Native);}
+			set {  UnsafeNativeMethods.btManifoldPoint_setContactMotion1(Native, value);}
 		}
 
 		public float ContactMotion2
 		{
-			get => UnsafeNativeMethods.btManifoldPoint_getContactMotion2(Native);
-			set => UnsafeNativeMethods.btManifoldPoint_setContactMotion2(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldPoint_getContactMotion2(Native);}
+			set {  UnsafeNativeMethods.btManifoldPoint_setContactMotion2(Native, value);}
 		}
 
 		public ContactPointFlags ContactPointFlags
 		{
-			get => UnsafeNativeMethods.btManifoldPoint_getContactPointFlags(Native);
-			set => UnsafeNativeMethods.btManifoldPoint_setContactPointFlags(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldPoint_getContactPointFlags(Native);}
+			set {  UnsafeNativeMethods.btManifoldPoint_setContactPointFlags(Native, value);}
 		}
 
 		public float Distance
 		{
-			get => UnsafeNativeMethods.btManifoldPoint_getDistance(Native);
-			set => UnsafeNativeMethods.btManifoldPoint_setDistance(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldPoint_getDistance(Native);}
+			set {  UnsafeNativeMethods.btManifoldPoint_setDistance(Native, value);}
 		}
 
 		public float Distance1
 		{
-			get => UnsafeNativeMethods.btManifoldPoint_getDistance1(Native);
-			set => UnsafeNativeMethods.btManifoldPoint_setDistance1(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldPoint_getDistance1(Native);}
+			set {  UnsafeNativeMethods.btManifoldPoint_setDistance1(Native, value);}
 		}
 
 		public float FrictionCfm
 		{
-			get => UnsafeNativeMethods.btManifoldPoint_getFrictionCFM(Native);
-			set => UnsafeNativeMethods.btManifoldPoint_setFrictionCFM(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldPoint_getFrictionCFM(Native);}
+			set {  UnsafeNativeMethods.btManifoldPoint_setFrictionCFM(Native, value);}
 		}
 
 		public int Index0
 		{
-			get => UnsafeNativeMethods.btManifoldPoint_getIndex0(Native);
-			set => UnsafeNativeMethods.btManifoldPoint_setIndex0(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldPoint_getIndex0(Native);}
+			set {  UnsafeNativeMethods.btManifoldPoint_setIndex0(Native, value);}
 		}
 
 		public int Index1
 		{
-			get => UnsafeNativeMethods.btManifoldPoint_getIndex1(Native);
-			set => UnsafeNativeMethods.btManifoldPoint_setIndex1(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldPoint_getIndex1(Native);}
+			set {  UnsafeNativeMethods.btManifoldPoint_setIndex1(Native, value);}
 		}
 
 		public Vector3 LateralFrictionDir1
@@ -191,7 +191,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btManifoldPoint_getLateralFrictionDir1(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btManifoldPoint_setLateralFrictionDir1(Native, ref value);
+			set {  UnsafeNativeMethods.btManifoldPoint_setLateralFrictionDir1(Native, ref value);}
 		}
 
 		public Vector3 LateralFrictionDir2
@@ -202,13 +202,13 @@ namespace BulletSharp
 				UnsafeNativeMethods.btManifoldPoint_getLateralFrictionDir2(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btManifoldPoint_setLateralFrictionDir2(Native, ref value);
+			set {  UnsafeNativeMethods.btManifoldPoint_setLateralFrictionDir2(Native, ref value);}
 		}
 
 		public int LifeTime
 		{
-			get => UnsafeNativeMethods.btManifoldPoint_getLifeTime(Native);
-            set => UnsafeNativeMethods.btManifoldPoint_setLifeTime(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldPoint_getLifeTime(Native);}
+            set {  UnsafeNativeMethods.btManifoldPoint_setLifeTime(Native, value);}
 		}
 
 		public Vector3 LocalPointA
@@ -219,7 +219,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btManifoldPoint_getLocalPointA(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btManifoldPoint_setLocalPointA(Native, ref value);
+			set {  UnsafeNativeMethods.btManifoldPoint_setLocalPointA(Native, ref value);}
 		}
 
 		public Vector3 LocalPointB
@@ -230,7 +230,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btManifoldPoint_getLocalPointB(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btManifoldPoint_setLocalPointB(Native, ref value);
+			set {  UnsafeNativeMethods.btManifoldPoint_setLocalPointB(Native, ref value);}
 		}
 
 		public Vector3 NormalWorldOnB
@@ -241,19 +241,19 @@ namespace BulletSharp
 				UnsafeNativeMethods.btManifoldPoint_getNormalWorldOnB(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btManifoldPoint_setNormalWorldOnB(Native, ref value);
+			set {  UnsafeNativeMethods.btManifoldPoint_setNormalWorldOnB(Native, ref value);}
 		}
 
 		public int PartId0
 		{
-			get => UnsafeNativeMethods.btManifoldPoint_getPartId0(Native);
-			set => UnsafeNativeMethods.btManifoldPoint_setPartId0(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldPoint_getPartId0(Native);}
+			set {  UnsafeNativeMethods.btManifoldPoint_setPartId0(Native, value);}
 		}
 
 		public int PartId1
 		{
-			get => UnsafeNativeMethods.btManifoldPoint_getPartId1(Native);
-			set => UnsafeNativeMethods.btManifoldPoint_setPartId1(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldPoint_getPartId1(Native);}
+			set {  UnsafeNativeMethods.btManifoldPoint_setPartId1(Native, value);}
 		}
 
 		public Vector3 PositionWorldOnA
@@ -264,7 +264,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btManifoldPoint_getPositionWorldOnA(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btManifoldPoint_setPositionWorldOnA(Native, ref value);
+			set {  UnsafeNativeMethods.btManifoldPoint_setPositionWorldOnA(Native, ref value);}
 		}
 
 		public Vector3 PositionWorldOnB
@@ -275,7 +275,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btManifoldPoint_getPositionWorldOnB(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btManifoldPoint_setPositionWorldOnB(Native, ref value);
+			set {  UnsafeNativeMethods.btManifoldPoint_setPositionWorldOnB(Native, ref value);}
 		}
 
 		public Object UserPersistentData

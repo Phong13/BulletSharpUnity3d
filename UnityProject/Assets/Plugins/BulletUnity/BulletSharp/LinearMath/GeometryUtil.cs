@@ -6,8 +6,7 @@ namespace BulletSharp
 {
 	public static class GeometryUtil
 	{
-		public static bool AreVerticesBehindPlane(Vector3 planeNormal, float planeConstant, IEnumerable<Vector3> vertices,
-			float margin)
+		public static bool AreVerticesBehindPlane(Vector3 planeNormal, float planeConstant, IEnumerable<Vector3> vertices, float margin)
 		{
 			return vertices.All(v => planeNormal.Dot(v) + planeConstant <= margin);
 		}

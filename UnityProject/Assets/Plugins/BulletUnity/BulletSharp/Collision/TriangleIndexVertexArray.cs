@@ -122,50 +122,50 @@ namespace BulletSharp
 
 		public PhyScalarType IndexType
 		{
-			get => UnsafeNativeMethods.btIndexedMesh_getIndexType(Native);
-			set => UnsafeNativeMethods.btIndexedMesh_setIndexType(Native, value);
+			get { return  UnsafeNativeMethods.btIndexedMesh_getIndexType(Native);}
+			set {  UnsafeNativeMethods.btIndexedMesh_setIndexType(Native, value);}
 		}
 
 		public int NumTriangles
 		{
-			get => UnsafeNativeMethods.btIndexedMesh_getNumTriangles(Native);
-			set => UnsafeNativeMethods.btIndexedMesh_setNumTriangles(Native, value);
+			get { return  UnsafeNativeMethods.btIndexedMesh_getNumTriangles(Native);}
+			set {  UnsafeNativeMethods.btIndexedMesh_setNumTriangles(Native, value);}
 		}
 
 		public int NumVertices
 		{
-			get => UnsafeNativeMethods.btIndexedMesh_getNumVertices(Native);
-			set => UnsafeNativeMethods.btIndexedMesh_setNumVertices(Native, value);
+			get { return  UnsafeNativeMethods.btIndexedMesh_getNumVertices(Native);}
+			set {  UnsafeNativeMethods.btIndexedMesh_setNumVertices(Native, value);}
 		}
 
 		public IntPtr TriangleIndexBase
 		{
-			get => UnsafeNativeMethods.btIndexedMesh_getTriangleIndexBase(Native);
-			set => UnsafeNativeMethods.btIndexedMesh_setTriangleIndexBase(Native, value);
+			get { return  UnsafeNativeMethods.btIndexedMesh_getTriangleIndexBase(Native);}
+			set {  UnsafeNativeMethods.btIndexedMesh_setTriangleIndexBase(Native, value);}
 		}
 
 		public int TriangleIndexStride
 		{
-			get => UnsafeNativeMethods.btIndexedMesh_getTriangleIndexStride(Native);
-			set => UnsafeNativeMethods.btIndexedMesh_setTriangleIndexStride(Native, value);
+			get { return  UnsafeNativeMethods.btIndexedMesh_getTriangleIndexStride(Native);}
+			set {  UnsafeNativeMethods.btIndexedMesh_setTriangleIndexStride(Native, value);}
 		}
 
 		public IntPtr VertexBase
 		{
-			get => UnsafeNativeMethods.btIndexedMesh_getVertexBase(Native);
-			set => UnsafeNativeMethods.btIndexedMesh_setVertexBase(Native, value);
+			get { return  UnsafeNativeMethods.btIndexedMesh_getVertexBase(Native);}
+			set {  UnsafeNativeMethods.btIndexedMesh_setVertexBase(Native, value);}
 		}
 
 		public int VertexStride
 		{
-			get => UnsafeNativeMethods.btIndexedMesh_getVertexStride(Native);
-			set => UnsafeNativeMethods.btIndexedMesh_setVertexStride(Native, value);
+			get { return  UnsafeNativeMethods.btIndexedMesh_getVertexStride(Native);}
+			set {  UnsafeNativeMethods.btIndexedMesh_setVertexStride(Native, value);}
 		}
 
 		public PhyScalarType VertexType
 		{
-			get => UnsafeNativeMethods.btIndexedMesh_getVertexType(Native);
-			set => UnsafeNativeMethods.btIndexedMesh_setVertexType(Native, value);
+			get { return  UnsafeNativeMethods.btIndexedMesh_getVertexType(Native);}
+			set {  UnsafeNativeMethods.btIndexedMesh_setVertexType(Native, value);}
 		}
 
 		public void Dispose()

@@ -89,7 +89,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultibodyLink_getAppliedConstraintForce(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultibodyLink_setAppliedConstraintForce(Native, ref value);
+			set {  UnsafeNativeMethods.btMultibodyLink_setAppliedConstraintForce(Native, ref value);}
 		}
 
 		public Vector3 AppliedConstraintTorque
@@ -100,7 +100,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultibodyLink_getAppliedConstraintTorque(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultibodyLink_setAppliedConstraintTorque(Native, ref value);
+			set {  UnsafeNativeMethods.btMultibodyLink_setAppliedConstraintTorque(Native, ref value);}
 		}
 
 		public Vector3 AppliedForce
@@ -111,7 +111,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultibodyLink_getAppliedForce(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultibodyLink_setAppliedForce(Native, ref value);
+			set {  UnsafeNativeMethods.btMultibodyLink_setAppliedForce(Native, ref value);}
 		}
 
 		public Vector3 AppliedTorque
@@ -122,7 +122,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultibodyLink_getAppliedTorque(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultibodyLink_setAppliedTorque(Native, ref value);
+			set {  UnsafeNativeMethods.btMultibodyLink_setAppliedTorque(Native, ref value);}
 		}
 /*
 		public SpatialMotionVector[] Axes
@@ -138,7 +138,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultibodyLink_getCachedRotParentToThis(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultibodyLink_setCachedRotParentToThis(Native, ref value);
+			set {  UnsafeNativeMethods.btMultibodyLink_setCachedRotParentToThis(Native, ref value);}
 		}
 
 		public Vector3 CachedRVector
@@ -149,7 +149,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultibodyLink_getCachedRVector(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultibodyLink_setCachedRVector(Native, ref value);
+			set {  UnsafeNativeMethods.btMultibodyLink_setCachedRVector(Native, ref value);}
 		}
 
 		public Matrix CachedWorldTransform
@@ -160,31 +160,31 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultibodyLink_getCachedWorldTransform(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultibodyLink_setCachedWorldTransform(Native, ref value);
+			set {  UnsafeNativeMethods.btMultibodyLink_setCachedWorldTransform(Native, ref value);}
 		}
 
 		public int CfgOffset
 		{
-			get => UnsafeNativeMethods.btMultibodyLink_getCfgOffset(Native);
-			set => UnsafeNativeMethods.btMultibodyLink_setCfgOffset(Native, value);
+			get { return  UnsafeNativeMethods.btMultibodyLink_getCfgOffset(Native);}
+			set {  UnsafeNativeMethods.btMultibodyLink_setCfgOffset(Native, value);}
 		}
 
 		public MultiBodyLinkCollider Collider
 		{
-			get => CollisionObject.GetManaged(UnsafeNativeMethods.btMultibodyLink_getCollider(Native)) as MultiBodyLinkCollider;
-			set => UnsafeNativeMethods.btMultibodyLink_setCollider(Native, value.Native);
+			get { return  CollisionObject.GetManaged(UnsafeNativeMethods.btMultibodyLink_getCollider(Native)) as MultiBodyLinkCollider;}
+			set {  UnsafeNativeMethods.btMultibodyLink_setCollider(Native, value.Native);}
 		}
 
 		public int DofCount
 		{
-			get => UnsafeNativeMethods.btMultibodyLink_getDofCount(Native);
-			set => UnsafeNativeMethods.btMultibodyLink_setDofCount(Native, value);
+			get { return  UnsafeNativeMethods.btMultibodyLink_getDofCount(Native);}
+			set {  UnsafeNativeMethods.btMultibodyLink_setDofCount(Native, value);}
 		}
 
 		public int DofOffset
 		{
-			get => UnsafeNativeMethods.btMultibodyLink_getDofOffset(Native);
-			set => UnsafeNativeMethods.btMultibodyLink_setDofOffset(Native, value);
+			get { return  UnsafeNativeMethods.btMultibodyLink_getDofOffset(Native);}
+			set {  UnsafeNativeMethods.btMultibodyLink_setDofOffset(Native, value);}
 		}
 
 		public Vector3 DVector
@@ -195,7 +195,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultibodyLink_getDVector(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultibodyLink_setDVector(Native, ref value);
+			set {  UnsafeNativeMethods.btMultibodyLink_setDVector(Native, ref value);}
 		}
 
 		public Vector3 EVector
@@ -206,13 +206,13 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultibodyLink_getEVector(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultibodyLink_setEVector(Native, ref value);
+			set {  UnsafeNativeMethods.btMultibodyLink_setEVector(Native, ref value);}
 		}
 
 		public int Flags
 		{
-			get => UnsafeNativeMethods.btMultibodyLink_getFlags(Native);
-			set => UnsafeNativeMethods.btMultibodyLink_setFlags(Native, value);
+			get { return  UnsafeNativeMethods.btMultibodyLink_getFlags(Native);}
+			set {  UnsafeNativeMethods.btMultibodyLink_setFlags(Native, value);}
 		}
 
 		public Vector3 InertiaLocal
@@ -223,13 +223,13 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultibodyLink_getInertiaLocal(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultibodyLink_setInertiaLocal(Native, ref value);
+			set {  UnsafeNativeMethods.btMultibodyLink_setInertiaLocal(Native, ref value);}
 		}
 
 		public float JointDamping
 		{
-			get => UnsafeNativeMethods.btMultibodyLink_getJointDamping(Native);
-			set => UnsafeNativeMethods.btMultibodyLink_setJointDamping(Native, value);
+			get { return  UnsafeNativeMethods.btMultibodyLink_getJointDamping(Native);}
+			set {  UnsafeNativeMethods.btMultibodyLink_setJointDamping(Native, value);}
 		}
 		/*
 		public MultiBodyJointFeedback JointFeedback
@@ -244,8 +244,8 @@ namespace BulletSharp
 		*/
 		public float JointFriction
 		{
-			get => UnsafeNativeMethods.btMultibodyLink_getJointFriction(Native);
-			set => UnsafeNativeMethods.btMultibodyLink_setJointFriction(Native, value);
+			get { return  UnsafeNativeMethods.btMultibodyLink_getJointFriction(Native);}
+			set {  UnsafeNativeMethods.btMultibodyLink_setJointFriction(Native, value);}
 		}
 		/*
 		public char JointName
@@ -266,8 +266,8 @@ namespace BulletSharp
 		*/
 		public FeatherstoneJointType JointType
 		{
-			get => UnsafeNativeMethods.btMultibodyLink_getJointType(Native);
-			set => UnsafeNativeMethods.btMultibodyLink_setJointType(Native, value);
+			get { return  UnsafeNativeMethods.btMultibodyLink_getJointType(Native);}
+			set {  UnsafeNativeMethods.btMultibodyLink_setJointType(Native, value);}
 		}
 	   /*
 		public char LinkName
@@ -278,26 +278,26 @@ namespace BulletSharp
 		*/
 		public float Mass
 		{
-			get => UnsafeNativeMethods.btMultibodyLink_getMass(Native);
-			set => UnsafeNativeMethods.btMultibodyLink_setMass(Native, value);
+			get { return  UnsafeNativeMethods.btMultibodyLink_getMass(Native);}
+			set {  UnsafeNativeMethods.btMultibodyLink_setMass(Native, value);}
 		}
 
 		public int Parent
 		{
-			get => UnsafeNativeMethods.btMultibodyLink_getParent(Native);
-			set => UnsafeNativeMethods.btMultibodyLink_setParent(Native, value);
+			get { return  UnsafeNativeMethods.btMultibodyLink_getParent(Native);}
+			set {  UnsafeNativeMethods.btMultibodyLink_setParent(Native, value);}
 		}
 
 		public int PosVarCount
 		{
-			get => UnsafeNativeMethods.btMultibodyLink_getPosVarCount(Native);
-			set => UnsafeNativeMethods.btMultibodyLink_setPosVarCount(Native, value);
+			get { return  UnsafeNativeMethods.btMultibodyLink_getPosVarCount(Native);}
+			set {  UnsafeNativeMethods.btMultibodyLink_setPosVarCount(Native, value);}
 		}
 
 		public IntPtr UserPtr
 		{
-			get => UnsafeNativeMethods.btMultibodyLink_getUserPtr(Native);
-			set => UnsafeNativeMethods.btMultibodyLink_setUserPtr(Native, value);
+			get { return  UnsafeNativeMethods.btMultibodyLink_getUserPtr(Native);}
+			set {  UnsafeNativeMethods.btMultibodyLink_setUserPtr(Native, value);}
 		}
 
 		public Quaternion ZeroRotParentToThis
@@ -308,7 +308,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultibodyLink_getZeroRotParentToThis(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultibodyLink_setZeroRotParentToThis(Native, ref value);
+			set {  UnsafeNativeMethods.btMultibodyLink_setZeroRotParentToThis(Native, ref value);}
 		}
 	}
 }

@@ -19,13 +19,13 @@ namespace BulletSharp
 
 		public int Link
 		{
-			get => UnsafeNativeMethods.btMultiBodyLinkCollider_getLink(Native);
-			set => UnsafeNativeMethods.btMultiBodyLinkCollider_setLink(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodyLinkCollider_getLink(Native);}
+			set {  UnsafeNativeMethods.btMultiBodyLinkCollider_setLink(Native, value);}
 		}
 
 		public MultiBody MultiBody
 		{
-			get => _multiBody;
+			get { return  _multiBody;}
 			set
 			{
 				UnsafeNativeMethods.btMultiBodyLinkCollider_setMultiBody(Native, value.Native);

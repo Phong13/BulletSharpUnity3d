@@ -32,19 +32,19 @@ namespace BulletSharp
 
 			public int MinimumPointsPerturbationThreshold
 			{
-				get => UnsafeNativeMethods.btConvex2dConvex2dAlgorithm_CreateFunc_getMinimumPointsPerturbationThreshold(Native);
-				set => UnsafeNativeMethods.btConvex2dConvex2dAlgorithm_CreateFunc_setMinimumPointsPerturbationThreshold(Native, value);
+				get { return  UnsafeNativeMethods.btConvex2dConvex2dAlgorithm_CreateFunc_getMinimumPointsPerturbationThreshold(Native);}
+				set {  UnsafeNativeMethods.btConvex2dConvex2dAlgorithm_CreateFunc_setMinimumPointsPerturbationThreshold(Native, value);}
 			}
 
 			public int NumPerturbationIterations
 			{
-				get => UnsafeNativeMethods.btConvex2dConvex2dAlgorithm_CreateFunc_getNumPerturbationIterations(Native);
-				set => UnsafeNativeMethods.btConvex2dConvex2dAlgorithm_CreateFunc_setNumPerturbationIterations(Native, value);
+				get { return  UnsafeNativeMethods.btConvex2dConvex2dAlgorithm_CreateFunc_getNumPerturbationIterations(Native);}
+				set {  UnsafeNativeMethods.btConvex2dConvex2dAlgorithm_CreateFunc_setNumPerturbationIterations(Native, value);}
 			}
 
 			public ConvexPenetrationDepthSolver PdSolver
 			{
-				get => _pdSolver;
+				get { return  _pdSolver;}
 				set
 				{
 					UnsafeNativeMethods.btConvex2dConvex2dAlgorithm_CreateFunc_setPdSolver(Native, value.Native);
@@ -54,7 +54,7 @@ namespace BulletSharp
 
 			public VoronoiSimplexSolver SimplexSolver
 			{
-				get => _simplexSolver;
+				get { return  _simplexSolver;}
 				set
 				{
 					UnsafeNativeMethods.btConvex2dConvex2dAlgorithm_CreateFunc_setSimplexSolver(Native, value.Native);
@@ -82,6 +82,6 @@ namespace BulletSharp
 			UnsafeNativeMethods.btConvex2dConvex2dAlgorithm_setLowLevelOfDetail(Native, useLowLevel);
 		}
 
-		public PersistentManifold Manifold => new PersistentManifold(UnsafeNativeMethods.btConvex2dConvex2dAlgorithm_getManifold(Native), true);
+		public PersistentManifold Manifold{ get { return  new PersistentManifold(UnsafeNativeMethods.btConvex2dConvex2dAlgorithm_getManifold(Native), true);} }
 	}
 }

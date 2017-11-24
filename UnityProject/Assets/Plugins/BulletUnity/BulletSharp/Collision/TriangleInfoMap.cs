@@ -20,26 +20,26 @@ namespace BulletSharp
 
 		public float EdgeV0V1Angle
 		{
-			get => UnsafeNativeMethods.btTriangleInfo_getEdgeV0V1Angle(_native);
-			set => UnsafeNativeMethods.btTriangleInfo_setEdgeV0V1Angle(_native, value);
+			get { return  UnsafeNativeMethods.btTriangleInfo_getEdgeV0V1Angle(_native);}
+			set {  UnsafeNativeMethods.btTriangleInfo_setEdgeV0V1Angle(_native, value);}
 		}
 
 		public float EdgeV1V2Angle
 		{
-			get => UnsafeNativeMethods.btTriangleInfo_getEdgeV1V2Angle(_native);
-			set => UnsafeNativeMethods.btTriangleInfo_setEdgeV1V2Angle(_native, value);
+			get { return  UnsafeNativeMethods.btTriangleInfo_getEdgeV1V2Angle(_native);}
+			set {  UnsafeNativeMethods.btTriangleInfo_setEdgeV1V2Angle(_native, value);}
 		}
 
 		public float EdgeV2V0Angle
 		{
-			get => UnsafeNativeMethods.btTriangleInfo_getEdgeV2V0Angle(_native);
-			set => UnsafeNativeMethods.btTriangleInfo_setEdgeV2V0Angle(_native, value);
+			get { return  UnsafeNativeMethods.btTriangleInfo_getEdgeV2V0Angle(_native);}
+			set {  UnsafeNativeMethods.btTriangleInfo_setEdgeV2V0Angle(_native, value);}
 		}
 
 		public int Flags
 		{
-			get => UnsafeNativeMethods.btTriangleInfo_getFlags(_native);
-			set => UnsafeNativeMethods.btTriangleInfo_setFlags(_native, value);
+			get { return  UnsafeNativeMethods.btTriangleInfo_getFlags(_native);}
+			set {  UnsafeNativeMethods.btTriangleInfo_setFlags(_native, value);}
 		}
 
 		public void Dispose()
@@ -96,38 +96,38 @@ namespace BulletSharp
 
 		public float ConvexEpsilon
 		{
-			get => UnsafeNativeMethods.btTriangleInfoMap_getConvexEpsilon(Native);
-			set => UnsafeNativeMethods.btTriangleInfoMap_setConvexEpsilon(Native, value);
+			get { return  UnsafeNativeMethods.btTriangleInfoMap_getConvexEpsilon(Native);}
+			set {  UnsafeNativeMethods.btTriangleInfoMap_setConvexEpsilon(Native, value);}
 		}
 
 		public float EdgeDistanceThreshold
 		{
-			get => UnsafeNativeMethods.btTriangleInfoMap_getEdgeDistanceThreshold(Native);
-			set => UnsafeNativeMethods.btTriangleInfoMap_setEdgeDistanceThreshold(Native, value);
+			get { return  UnsafeNativeMethods.btTriangleInfoMap_getEdgeDistanceThreshold(Native);}
+			set {  UnsafeNativeMethods.btTriangleInfoMap_setEdgeDistanceThreshold(Native, value);}
 		}
 
 		public float EqualVertexThreshold
 		{
-			get => UnsafeNativeMethods.btTriangleInfoMap_getEqualVertexThreshold(Native);
-			set => UnsafeNativeMethods.btTriangleInfoMap_setEqualVertexThreshold(Native, value);
+			get { return  UnsafeNativeMethods.btTriangleInfoMap_getEqualVertexThreshold(Native);}
+			set {  UnsafeNativeMethods.btTriangleInfoMap_setEqualVertexThreshold(Native, value);}
 		}
 
 		public float MaxEdgeAngleThreshold
 		{
-			get => UnsafeNativeMethods.btTriangleInfoMap_getMaxEdgeAngleThreshold(Native);
-			set => UnsafeNativeMethods.btTriangleInfoMap_setMaxEdgeAngleThreshold(Native, value);
+			get { return  UnsafeNativeMethods.btTriangleInfoMap_getMaxEdgeAngleThreshold(Native);}
+			set {  UnsafeNativeMethods.btTriangleInfoMap_setMaxEdgeAngleThreshold(Native, value);}
 		}
 
 		public float PlanarEpsilon
 		{
-			get => UnsafeNativeMethods.btTriangleInfoMap_getPlanarEpsilon(Native);
-			set => UnsafeNativeMethods.btTriangleInfoMap_setPlanarEpsilon(Native, value);
+			get { return  UnsafeNativeMethods.btTriangleInfoMap_getPlanarEpsilon(Native);}
+			set {  UnsafeNativeMethods.btTriangleInfoMap_setPlanarEpsilon(Native, value);}
 		}
 
 		public float ZeroAreaThreshold
 		{
-			get => UnsafeNativeMethods.btTriangleInfoMap_getZeroAreaThreshold(Native);
-			set => UnsafeNativeMethods.btTriangleInfoMap_setZeroAreaThreshold(Native, value);
+			get { return  UnsafeNativeMethods.btTriangleInfoMap_getZeroAreaThreshold(Native);}
+			set {  UnsafeNativeMethods.btTriangleInfoMap_setZeroAreaThreshold(Native, value);}
 		}
 
 		public void Dispose()

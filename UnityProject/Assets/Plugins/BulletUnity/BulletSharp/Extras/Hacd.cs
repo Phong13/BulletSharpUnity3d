@@ -200,25 +200,25 @@ namespace BulletSharp
 
 		public bool AddExtraDistPoints
 		{
-			get => UnsafeNativeMethods.HACD_HACD_GetAddExtraDistPoints(_native);
-			set => UnsafeNativeMethods.HACD_HACD_SetAddExtraDistPoints(_native, value);
+			get { return  UnsafeNativeMethods.HACD_HACD_GetAddExtraDistPoints(_native);}
+			set {  UnsafeNativeMethods.HACD_HACD_SetAddExtraDistPoints(_native, value);}
 		}
 
 		public bool AddFacesPoints
 		{
-			get => UnsafeNativeMethods.HACD_HACD_GetAddFacesPoints(_native);
-			set => UnsafeNativeMethods.HACD_HACD_SetAddFacesPoints(_native, value);
+			get { return  UnsafeNativeMethods.HACD_HACD_GetAddFacesPoints(_native);}
+			set {  UnsafeNativeMethods.HACD_HACD_SetAddFacesPoints(_native, value);}
 		}
 
 		public bool AddNeighboursDistPoints
 		{
-			get => UnsafeNativeMethods.HACD_HACD_GetAddNeighboursDistPoints(_native);
-			set => UnsafeNativeMethods.HACD_HACD_SetAddNeighboursDistPoints(_native, value);
+			get { return  UnsafeNativeMethods.HACD_HACD_GetAddNeighboursDistPoints(_native);}
+			set {  UnsafeNativeMethods.HACD_HACD_SetAddNeighboursDistPoints(_native, value);}
 		}
 
 		public CallbackFunction Callback
 		{
-			get => _callbackFunction;
+			get { return  _callbackFunction;}
 			set
 			{
 				_callbackFunctionUnmanaged = CallbackFunctionUnmanaged;
@@ -236,61 +236,61 @@ namespace BulletSharp
 
 		public double CompacityWeight
 		{
-			get => UnsafeNativeMethods.HACD_HACD_GetCompacityWeight(_native);
-			set => UnsafeNativeMethods.HACD_HACD_SetCompacityWeight(_native, value);
+			get { return  UnsafeNativeMethods.HACD_HACD_GetCompacityWeight(_native);}
+			set {  UnsafeNativeMethods.HACD_HACD_SetCompacityWeight(_native, value);}
 		}
 
 		public double Concavity
 		{
-			get => UnsafeNativeMethods.HACD_HACD_GetConcavity(_native);
-			set => UnsafeNativeMethods.HACD_HACD_SetConcavity(_native, value);
+			get { return  UnsafeNativeMethods.HACD_HACD_GetConcavity(_native);}
+			set {  UnsafeNativeMethods.HACD_HACD_SetConcavity(_native, value);}
 		}
 
 		public double ConnectDist
 		{
-			get => UnsafeNativeMethods.HACD_HACD_GetConnectDist(_native);
-			set => UnsafeNativeMethods.HACD_HACD_SetConnectDist(_native, value);
+			get { return  UnsafeNativeMethods.HACD_HACD_GetConnectDist(_native);}
+			set {  UnsafeNativeMethods.HACD_HACD_SetConnectDist(_native, value);}
 		}
 
 		public int NClusters
 		{
-			get => UnsafeNativeMethods.HACD_HACD_GetNClusters(_native);
-			set => UnsafeNativeMethods.HACD_HACD_SetNClusters(_native, value);
+			get { return  UnsafeNativeMethods.HACD_HACD_GetNClusters(_native);}
+			set {  UnsafeNativeMethods.HACD_HACD_SetNClusters(_native, value);}
 		}
 
 		public int NPoints
 		{
-			get => UnsafeNativeMethods.HACD_HACD_GetNPoints(_native);
-			set => UnsafeNativeMethods.HACD_HACD_SetNPoints(_native, value);
+			get { return  UnsafeNativeMethods.HACD_HACD_GetNPoints(_native);}
+			set {  UnsafeNativeMethods.HACD_HACD_SetNPoints(_native, value);}
 		}
 
 		public int NTriangles
 		{
-			get => UnsafeNativeMethods.HACD_HACD_GetNTriangles(_native);
-			set => UnsafeNativeMethods.HACD_HACD_SetNTriangles(_native, value);
+			get { return  UnsafeNativeMethods.HACD_HACD_GetNTriangles(_native);}
+			set {  UnsafeNativeMethods.HACD_HACD_SetNTriangles(_native, value);}
 		}
 
 		public int VerticesPerConvexHull
 		{
-			get => UnsafeNativeMethods.HACD_HACD_GetNVerticesPerCH(_native);
-			set => UnsafeNativeMethods.HACD_HACD_SetNVerticesPerCH(_native, value);
+			get { return  UnsafeNativeMethods.HACD_HACD_GetNVerticesPerCH(_native);}
+			set {  UnsafeNativeMethods.HACD_HACD_SetNVerticesPerCH(_native, value);}
 		}
 		/*
 		public long Partition
 		{
-			get => UnsafeNativeMethods.HACD_HACD_GetPartition(_native);
+			get { return  UnsafeNativeMethods.HACD_HACD_GetPartition(_native);}
 		}
 		*/
 		public double ScaleFactor
 		{
-			get => UnsafeNativeMethods.HACD_HACD_GetScaleFactor(_native);
-			set => UnsafeNativeMethods.HACD_HACD_SetScaleFactor(_native, value);
+			get { return  UnsafeNativeMethods.HACD_HACD_GetScaleFactor(_native);}
+			set {  UnsafeNativeMethods.HACD_HACD_SetScaleFactor(_native, value);}
 		}
 
 		public double VolumeWeight
 		{
-			get => UnsafeNativeMethods.HACD_HACD_GetVolumeWeight(_native);
-			set => UnsafeNativeMethods.HACD_HACD_SetVolumeWeight(_native, value);
+			get { return  UnsafeNativeMethods.HACD_HACD_GetVolumeWeight(_native);}
+			set {  UnsafeNativeMethods.HACD_HACD_SetVolumeWeight(_native, value);}
 		}
 
 		public void Dispose()

@@ -64,7 +64,7 @@ namespace BulletSharp
 				ref transB);
 		}
 
-		public float ConservativeSeparatingDistance => UnsafeNativeMethods.btConvexSeparatingDistanceUtil_getConservativeSeparatingDistance(_native);
+		public float ConservativeSeparatingDistance{ get { return  UnsafeNativeMethods.btConvexSeparatingDistanceUtil_getConservativeSeparatingDistance(_native);} }
 
 		public void Dispose()
 		{

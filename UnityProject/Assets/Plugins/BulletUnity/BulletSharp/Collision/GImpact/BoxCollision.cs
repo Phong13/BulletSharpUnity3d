@@ -10,7 +10,7 @@ namespace BulletSharp
 
 		public BoxBoxTransformCache()
 		{
-			Native = BT_BOX_BOX_TRANSFORM_CACHE_new();
+            Native = UnsafeNativeMethods.BT_BOX_BOX_TRANSFORM_CACHE_new();
 		}
 
 		public void CalculateAbsoluteMatrix()

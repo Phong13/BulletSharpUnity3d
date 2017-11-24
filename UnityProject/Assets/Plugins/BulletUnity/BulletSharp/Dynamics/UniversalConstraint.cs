@@ -44,9 +44,9 @@ namespace BulletSharp
 			}
 		}
 
-		public float Angle1 => UnsafeNativeMethods.btUniversalConstraint_getAngle1(Native);
+		public float Angle1{ get { return  UnsafeNativeMethods.btUniversalConstraint_getAngle1(Native);} }
 
-		public float Angle2 => UnsafeNativeMethods.btUniversalConstraint_getAngle2(Native);
+		public float Angle2{ get { return  UnsafeNativeMethods.btUniversalConstraint_getAngle2(Native);} }
 
 		public Vector3 Axis1
 		{

@@ -25,32 +25,32 @@ namespace BulletSharp
 
 		public int DataIndex
 		{
-			get => UnsafeNativeMethods.BT_QUANTIZED_BVH_NODE_getDataIndex(Native);
-			set => UnsafeNativeMethods.BT_QUANTIZED_BVH_NODE_setDataIndex(Native, value);
+			get { return  UnsafeNativeMethods.BT_QUANTIZED_BVH_NODE_getDataIndex(Native);}
+			set {  UnsafeNativeMethods.BT_QUANTIZED_BVH_NODE_setDataIndex(Native, value);}
 		}
 
 		public int EscapeIndex
 		{
-			get => UnsafeNativeMethods.BT_QUANTIZED_BVH_NODE_getEscapeIndex(Native);
-			set => UnsafeNativeMethods.BT_QUANTIZED_BVH_NODE_setEscapeIndex(Native, value);
+			get { return  UnsafeNativeMethods.BT_QUANTIZED_BVH_NODE_getEscapeIndex(Native);}
+			set {  UnsafeNativeMethods.BT_QUANTIZED_BVH_NODE_setEscapeIndex(Native, value);}
 		}
 
 		public int EscapeIndexOrDataIndex
 		{
-			get => UnsafeNativeMethods.BT_QUANTIZED_BVH_NODE_getEscapeIndexOrDataIndex(Native);
-			set => UnsafeNativeMethods.BT_QUANTIZED_BVH_NODE_setEscapeIndexOrDataIndex(Native, value);
+			get { return  UnsafeNativeMethods.BT_QUANTIZED_BVH_NODE_getEscapeIndexOrDataIndex(Native);}
+			set {  UnsafeNativeMethods.BT_QUANTIZED_BVH_NODE_setEscapeIndexOrDataIndex(Native, value);}
 		}
 
-		public bool IsLeafNode => UnsafeNativeMethods.BT_QUANTIZED_BVH_NODE_isLeafNode(Native);
+		public bool IsLeafNode{ get { return  UnsafeNativeMethods.BT_QUANTIZED_BVH_NODE_isLeafNode(Native);} }
 		/*
 		public UShortArray QuantizedAabbMax
 		{
-			get => UnsafeNativeMethods.BT_QUANTIZED_BVH_NODE_getQuantizedAabbMax(Native);
+			get { return  UnsafeNativeMethods.BT_QUANTIZED_BVH_NODE_getQuantizedAabbMax(Native);}
 		}
 
 		public UShortArray QuantizedAabbMin
 		{
-			get => UnsafeNativeMethods.BT_QUANTIZED_BVH_NODE_getQuantizedAabbMin(Native);
+			get { return  UnsafeNativeMethods.BT_QUANTIZED_BVH_NODE_getQuantizedAabbMin(Native);}
 		}
 		*/
 		public void Dispose()
@@ -164,7 +164,7 @@ namespace BulletSharp
 			return UnsafeNativeMethods.btQuantizedBvhTree_testQuantizedBoxOverlapp(Native, nodeIndex, quantizedMin, quantizedMax);
 		}
 
-		public int NodeCount => UnsafeNativeMethods.btQuantizedBvhTree_getNodeCount(Native);
+		public int NodeCount{ get { return  UnsafeNativeMethods.btQuantizedBvhTree_getNodeCount(Native);} }
 
 		public void Dispose()
 		{
@@ -288,17 +288,17 @@ namespace BulletSharp
 			UnsafeNativeMethods.btGImpactQuantizedBvh_update(Native);
 		}
 
-		public Aabb GlobalBox => new Aabb(UnsafeNativeMethods.btGImpactQuantizedBvh_getGlobalBox(Native));
+		public Aabb GlobalBox{ get { return  new Aabb(UnsafeNativeMethods.btGImpactQuantizedBvh_getGlobalBox(Native));} }
 
-		public bool HasHierarchy => UnsafeNativeMethods.btGImpactQuantizedBvh_hasHierarchy(Native);
+		public bool HasHierarchy{ get { return  UnsafeNativeMethods.btGImpactQuantizedBvh_hasHierarchy(Native);} }
 
-		public bool IsTrimesh => UnsafeNativeMethods.btGImpactQuantizedBvh_isTrimesh(Native);
+		public bool IsTrimesh{ get { return  UnsafeNativeMethods.btGImpactQuantizedBvh_isTrimesh(Native);} }
 
-		public int NodeCount => UnsafeNativeMethods.btGImpactQuantizedBvh_getNodeCount(Native);
+		public int NodeCount{ get { return  UnsafeNativeMethods.btGImpactQuantizedBvh_getNodeCount(Native);} }
 
 		public PrimitiveManagerBase PrimitiveManager
 		{
-			get => _primitiveManager;
+			get { return  _primitiveManager;}
 			set
 			{
 				UnsafeNativeMethods.btGImpactQuantizedBvh_setPrimitiveManager(Native, value.Native);

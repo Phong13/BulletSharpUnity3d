@@ -11,6 +11,10 @@ namespace BulletSharp
 			ChildShape = childShape;
 		}
 
-		public BvhTriangleMeshShape ChildShape { get; }
+		public BvhTriangleMeshShape ChildShape
+        {
+            get;
+            set;
+        }
 	}
 }

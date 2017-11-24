@@ -31,49 +31,49 @@ namespace BulletSharp
 
 		public float AdditionalAngularDampingFactor
 		{
-			get => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getAdditionalAngularDampingFactor(Native);
-			set => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setAdditionalAngularDampingFactor(Native, value);
+			get { return  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getAdditionalAngularDampingFactor(Native);}
+			set {  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setAdditionalAngularDampingFactor(Native, value);}
 		}
 
 		public float AdditionalAngularDampingThresholdSqr
 		{
-			get => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getAdditionalAngularDampingThresholdSqr(Native);
-			set => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setAdditionalAngularDampingThresholdSqr(Native, value);
+			get { return  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getAdditionalAngularDampingThresholdSqr(Native);}
+			set {  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setAdditionalAngularDampingThresholdSqr(Native, value);}
 		}
 
 		public bool AdditionalDamping
 		{
-			get => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getAdditionalDamping(Native);
-			set => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setAdditionalDamping(Native, value);
+			get { return  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getAdditionalDamping(Native);}
+			set {  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setAdditionalDamping(Native, value);}
 		}
 
 		public float AdditionalDampingFactor
 		{
-			get => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getAdditionalDampingFactor(Native);
-			set => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setAdditionalDampingFactor(Native, value);
+			get { return  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getAdditionalDampingFactor(Native);}
+			set {  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setAdditionalDampingFactor(Native, value);}
 		}
 
 		public float AdditionalLinearDampingThresholdSqr
 		{
-			get => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getAdditionalLinearDampingThresholdSqr(Native);
-			set => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setAdditionalLinearDampingThresholdSqr(Native, value);
+			get { return  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getAdditionalLinearDampingThresholdSqr(Native);}
+			set {  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setAdditionalLinearDampingThresholdSqr(Native, value);}
 		}
 
 		public float AngularDamping
 		{
-			get => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getAngularDamping(Native);
-			set => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setAngularDamping(Native, value);
+			get { return  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getAngularDamping(Native);}
+			set {  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setAngularDamping(Native, value);}
 		}
 
 		public float AngularSleepingThreshold
 		{
-			get => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getAngularSleepingThreshold(Native);
-			set => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setAngularSleepingThreshold(Native, value);
+			get { return  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getAngularSleepingThreshold(Native);}
+			set {  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setAngularSleepingThreshold(Native, value);}
 		}
 
 		public CollisionShape CollisionShape
 		{
-			get => _collisionShape;
+			get { return  _collisionShape;}
 			set
 			{
 				UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setCollisionShape(Native, value != null ? value.Native : IntPtr.Zero);
@@ -83,20 +83,20 @@ namespace BulletSharp
 
 		public float Friction
 		{
-			get => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getFriction(Native);
-			set => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setFriction(Native, value);
+			get { return  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getFriction(Native);}
+			set {  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setFriction(Native, value);}
 		}
 
 		public float LinearDamping
 		{
-			get => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getLinearDamping(Native);
-			set => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setLinearDamping(Native, value);
+			get { return  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getLinearDamping(Native);}
+			set {  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setLinearDamping(Native, value);}
 		}
 
 		public float LinearSleepingThreshold
 		{
-			get => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getLinearSleepingThreshold(Native);
-			set => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setLinearSleepingThreshold(Native, value);
+			get { return  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getLinearSleepingThreshold(Native);}
+			set {  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setLinearSleepingThreshold(Native, value);}
 		}
 
 		public Vector3 LocalInertia
@@ -107,18 +107,18 @@ namespace BulletSharp
 				UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getLocalInertia(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setLocalInertia(Native, ref value);
+			set {  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setLocalInertia(Native, ref value);}
 		}
 
 		public float Mass
 		{
-			get => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getMass(Native);
-			set => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setMass(Native, value);
+			get { return  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getMass(Native);}
+			set {  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setMass(Native, value);}
 		}
 
 		public MotionState MotionState
 		{
-			get => _motionState;
+			get { return  _motionState;}
 			set
 			{
 				UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setMotionState(Native, value != null ? value._native : IntPtr.Zero);
@@ -128,14 +128,14 @@ namespace BulletSharp
 
 		public float Restitution
 		{
-			get => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getRestitution(Native);
-			set => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setRestitution(Native, value);
+			get { return  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getRestitution(Native);}
+			set {  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setRestitution(Native, value);}
 		}
 
 		public float RollingFriction
 		{
-			get => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getRollingFriction(Native);
-			set => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setRollingFriction(Native, value);
+			get { return  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getRollingFriction(Native);}
+			set {  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setRollingFriction(Native, value);}
 		}
 
 		public Matrix StartWorldTransform
@@ -146,7 +146,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_getStartWorldTransform(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setStartWorldTransform(Native, ref value);
+			set {  UnsafeNativeMethods.btRigidBody_btRigidBodyConstructionInfo_setStartWorldTransform(Native, ref value);}
 		}
 
 		public void Dispose()

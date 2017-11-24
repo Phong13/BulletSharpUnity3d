@@ -72,7 +72,7 @@ namespace BulletSharp
         {
         }
 
-        protected override string HeaderTag => "BULLET";
+        protected override string HeaderTag{ get { return  "BULLET";} }
 
         public override void AddDataBlock(byte[] dataBlock)
         {

@@ -183,8 +183,8 @@ namespace BulletSharp
 
 		public bool AngularOnly
 		{
-			get => UnsafeNativeMethods.btHingeConstraint_getAngularOnly(Native);
-			set => UnsafeNativeMethods.btHingeConstraint_setAngularOnly(Native, value);
+			get { return  UnsafeNativeMethods.btHingeConstraint_getAngularOnly(Native);}
+			set {  UnsafeNativeMethods.btHingeConstraint_setAngularOnly(Native, value);}
 		}
 
 		public Matrix BFrame
@@ -199,11 +199,11 @@ namespace BulletSharp
 
 		public bool EnableMotor
 		{
-			get => UnsafeNativeMethods.btHingeConstraint_getEnableAngularMotor(Native);
-			set => UnsafeNativeMethods.btHingeConstraint_enableMotor(Native, value);
+			get { return  UnsafeNativeMethods.btHingeConstraint_getEnableAngularMotor(Native);}
+			set {  UnsafeNativeMethods.btHingeConstraint_enableMotor(Native, value);}
 		}
 
-		public HingeFlags Flags => btHingeConstraint_getFlags(Native);
+		public HingeFlags Flags{ get { return UnsafeNativeMethods.btHingeConstraint_getFlags(Native);} }
 
 		public Matrix FrameOffsetA
 		{
@@ -225,42 +225,42 @@ namespace BulletSharp
 			}
 		}
 
-		public bool HasLimit => UnsafeNativeMethods.btHingeConstraint_hasLimit(Native);
+		public bool HasLimit{ get { return  UnsafeNativeMethods.btHingeConstraint_hasLimit(Native);} }
 
-		public float HingeAngle => UnsafeNativeMethods.btHingeConstraint_getHingeAngle2(Native);
+		public float HingeAngle{ get { return  UnsafeNativeMethods.btHingeConstraint_getHingeAngle2(Native);} }
 
-		public float LimitBiasFactor => UnsafeNativeMethods.btHingeConstraint_getLimitBiasFactor(Native);
+		public float LimitBiasFactor{ get { return  UnsafeNativeMethods.btHingeConstraint_getLimitBiasFactor(Native);} }
 
-		public float LimitRelaxationFactor => UnsafeNativeMethods.btHingeConstraint_getLimitRelaxationFactor(Native);
+		public float LimitRelaxationFactor{ get { return  UnsafeNativeMethods.btHingeConstraint_getLimitRelaxationFactor(Native);} }
 
-		public float LimitSign => UnsafeNativeMethods.btHingeConstraint_getLimitSign(Native);
+		public float LimitSign{ get { return  UnsafeNativeMethods.btHingeConstraint_getLimitSign(Native);} }
 
-		public float LimitSoftness => UnsafeNativeMethods.btHingeConstraint_getLimitSoftness(Native);
+		public float LimitSoftness{ get { return  UnsafeNativeMethods.btHingeConstraint_getLimitSoftness(Native);} }
 
-		public float LowerLimit => UnsafeNativeMethods.btHingeConstraint_getLowerLimit(Native);
+		public float LowerLimit{ get { return  UnsafeNativeMethods.btHingeConstraint_getLowerLimit(Native);} }
 
 		public float MaxMotorImpulse
 		{
-			get => UnsafeNativeMethods.btHingeConstraint_getMaxMotorImpulse(Native);
-			set => UnsafeNativeMethods.btHingeConstraint_setMaxMotorImpulse(Native, value);
+			get { return  UnsafeNativeMethods.btHingeConstraint_getMaxMotorImpulse(Native);}
+			set {  UnsafeNativeMethods.btHingeConstraint_setMaxMotorImpulse(Native, value);}
 		}
 
-		public float MotorTargetVelocity => UnsafeNativeMethods.btHingeConstraint_getMotorTargetVelocity(Native);
+		public float MotorTargetVelocity{ get { return  UnsafeNativeMethods.btHingeConstraint_getMotorTargetVelocity(Native);} }
 
-		public int SolveLimit => UnsafeNativeMethods.btHingeConstraint_getSolveLimit(Native);
+		public int SolveLimit{ get { return  UnsafeNativeMethods.btHingeConstraint_getSolveLimit(Native);} }
 
-		public float UpperLimit => UnsafeNativeMethods.btHingeConstraint_getUpperLimit(Native);
+		public float UpperLimit{ get { return  UnsafeNativeMethods.btHingeConstraint_getUpperLimit(Native);} }
 
 		public bool UseFrameOffset
 		{
-			get => UnsafeNativeMethods.btHingeConstraint_getUseFrameOffset(Native);
-			set => UnsafeNativeMethods.btHingeConstraint_setUseFrameOffset(Native, value);
+			get { return  UnsafeNativeMethods.btHingeConstraint_getUseFrameOffset(Native);}
+			set {  UnsafeNativeMethods.btHingeConstraint_setUseFrameOffset(Native, value);}
 		}
 
 		public bool UseReferenceFrameA
 		{
-			get => UnsafeNativeMethods.btHingeConstraint_getUseReferenceFrameA(Native);
-			set => UnsafeNativeMethods.btHingeConstraint_setUseReferenceFrameA(Native, value);
+			get { return  UnsafeNativeMethods.btHingeConstraint_getUseReferenceFrameA(Native);}
+			set {  UnsafeNativeMethods.btHingeConstraint_setUseReferenceFrameA(Native, value);}
 		}
 	}
 
@@ -304,8 +304,8 @@ namespace BulletSharp
 
 		public float AccumulatedHingeAngle
 		{
-			get => UnsafeNativeMethods.btHingeAccumulatedAngleConstraint_getAccumulatedHingeAngle(Native);
-			set => UnsafeNativeMethods.btHingeAccumulatedAngleConstraint_setAccumulatedHingeAngle(Native, value);
+			get { return  UnsafeNativeMethods.btHingeAccumulatedAngleConstraint_getAccumulatedHingeAngle(Native);}
+			set {  UnsafeNativeMethods.btHingeAccumulatedAngleConstraint_setAccumulatedHingeAngle(Native, value);}
 		}
 	}
 

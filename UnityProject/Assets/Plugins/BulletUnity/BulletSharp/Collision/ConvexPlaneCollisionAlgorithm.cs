@@ -27,14 +27,14 @@ namespace BulletSharp
 
 			public int MinimumPointsPerturbationThreshold
 			{
-				get => UnsafeNativeMethods.btConvexPlaneCollisionAlgorithm_CreateFunc_getMinimumPointsPerturbationThreshold(Native);
-				set => UnsafeNativeMethods.btConvexPlaneCollisionAlgorithm_CreateFunc_setMinimumPointsPerturbationThreshold(Native, value);
+				get { return  UnsafeNativeMethods.btConvexPlaneCollisionAlgorithm_CreateFunc_getMinimumPointsPerturbationThreshold(Native);}
+				set {  UnsafeNativeMethods.btConvexPlaneCollisionAlgorithm_CreateFunc_setMinimumPointsPerturbationThreshold(Native, value);}
 			}
 
 			public int NumPerturbationIterations
 			{
-				get => UnsafeNativeMethods.btConvexPlaneCollisionAlgorithm_CreateFunc_getNumPerturbationIterations(Native);
-				set => UnsafeNativeMethods.btConvexPlaneCollisionAlgorithm_CreateFunc_setNumPerturbationIterations(Native, value);
+				get { return  UnsafeNativeMethods.btConvexPlaneCollisionAlgorithm_CreateFunc_getNumPerturbationIterations(Native);}
+				set {  UnsafeNativeMethods.btConvexPlaneCollisionAlgorithm_CreateFunc_setNumPerturbationIterations(Native, value);}
 			}
 		}
 

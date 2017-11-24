@@ -35,17 +35,17 @@ namespace BulletSharp
 		*/
 		public float PenetrationDepth
 		{
-			get => UnsafeNativeMethods.GIM_TRIANGLE_CONTACT_getPenetration_depth(Native);
-			set => UnsafeNativeMethods.GIM_TRIANGLE_CONTACT_setPenetration_depth(Native, value);
+			get { return  UnsafeNativeMethods.GIM_TRIANGLE_CONTACT_getPenetration_depth(Native);}
+			set {  UnsafeNativeMethods.GIM_TRIANGLE_CONTACT_setPenetration_depth(Native, value);}
 		}
 
 		public int PointCount
 		{
-			get => UnsafeNativeMethods.GIM_TRIANGLE_CONTACT_getPoint_count(Native);
-			set => UnsafeNativeMethods.GIM_TRIANGLE_CONTACT_setPoint_count(Native, value);
+			get { return  UnsafeNativeMethods.GIM_TRIANGLE_CONTACT_getPoint_count(Native);}
+			set {  UnsafeNativeMethods.GIM_TRIANGLE_CONTACT_setPoint_count(Native, value);}
 		}
 
-		public Vector3Array Points => new Vector3Array(UnsafeNativeMethods.GIM_TRIANGLE_CONTACT_getPoints(Native), 16);
+		public Vector3Array Points{ get { return  new Vector3Array(UnsafeNativeMethods.GIM_TRIANGLE_CONTACT_getPoints(Native), 16);} }
 
 		public Vector4 SeparatingNormal
 		{
@@ -55,7 +55,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.GIM_TRIANGLE_CONTACT_getSeparating_normal(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.GIM_TRIANGLE_CONTACT_setSeparating_normal(Native, ref value);
+			set {  UnsafeNativeMethods.GIM_TRIANGLE_CONTACT_setSeparating_normal(Native, ref value);}
 		}
 
 		public void Dispose()
@@ -125,14 +125,14 @@ namespace BulletSharp
 
 		public float Dummy
 		{
-			get => UnsafeNativeMethods.btPrimitiveTriangle_getDummy(Native);
-			set => UnsafeNativeMethods.btPrimitiveTriangle_setDummy(Native, value);
+			get { return  UnsafeNativeMethods.btPrimitiveTriangle_getDummy(Native);}
+			set {  UnsafeNativeMethods.btPrimitiveTriangle_setDummy(Native, value);}
 		}
 
 		public float Margin
 		{
-			get => UnsafeNativeMethods.btPrimitiveTriangle_getMargin(Native);
-			set => UnsafeNativeMethods.btPrimitiveTriangle_setMargin(Native, value);
+			get { return  UnsafeNativeMethods.btPrimitiveTriangle_getMargin(Native);}
+			set {  UnsafeNativeMethods.btPrimitiveTriangle_setMargin(Native, value);}
 		}
 
 		public Vector4 Plane
@@ -143,10 +143,10 @@ namespace BulletSharp
 				UnsafeNativeMethods.btPrimitiveTriangle_getPlane(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btPrimitiveTriangle_setPlane(Native, ref value);
+			set {  UnsafeNativeMethods.btPrimitiveTriangle_setPlane(Native, ref value);}
 		}
 
-		public Vector3Array Vertices => new Vector3Array(UnsafeNativeMethods.btPrimitiveTriangle_getVertices(Native), 3);
+		public Vector3Array Vertices{ get { return  new Vector3Array(UnsafeNativeMethods.btPrimitiveTriangle_getVertices(Native), 3);} }
 
 		public void Dispose()
 		{

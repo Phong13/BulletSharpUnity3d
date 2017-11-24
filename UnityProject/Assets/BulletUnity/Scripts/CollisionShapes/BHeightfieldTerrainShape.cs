@@ -10,7 +10,7 @@ namespace BulletUnity {
 
         public int upIndex;
         GCHandle pinnedTerrainData;
-        PhyScalarType scalarType = PhyScalarType.Float;
+        PhyScalarType scalarType = PhyScalarType.Single;
 
         public void Awake()
         {

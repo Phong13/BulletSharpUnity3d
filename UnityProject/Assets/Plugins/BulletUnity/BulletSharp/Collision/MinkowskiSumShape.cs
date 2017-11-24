@@ -12,9 +12,17 @@ namespace BulletSharp
 			ShapeB = shapeB;
 		}
 
-		public ConvexShape ShapeA { get; }
+		public ConvexShape ShapeA
+        {
+            get;
+            set;
+        }
 
-		public ConvexShape ShapeB { get; }
+		public ConvexShape ShapeB
+        {
+            get;
+            set;
+        }
 
 		public Matrix TransformA
 		{
@@ -24,7 +32,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMinkowskiSumShape_getTransformA(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMinkowskiSumShape_setTransformA(Native, ref value);
+			set {  UnsafeNativeMethods.btMinkowskiSumShape_setTransformA(Native, ref value);}
 		}
 
 		public Matrix TransformB
@@ -35,7 +43,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMinkowskiSumShape_GetTransformB(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMinkowskiSumShape_setTransformB(Native, ref value);
+			set {  UnsafeNativeMethods.btMinkowskiSumShape_setTransformB(Native, ref value);}
 		}
 	}
 }

@@ -22,7 +22,7 @@ namespace BulletSharp
 			return UnsafeNativeMethods.btShapeHull_buildHull(Native, margin);
 		}
 
-		public IntPtr IndexPointer => UnsafeNativeMethods.btShapeHull_getIndexPointer(Native);
+		public IntPtr IndexPointer{ get { return  UnsafeNativeMethods.btShapeHull_getIndexPointer(Native);} }
 
 		public UIntArray Indices
 		{
@@ -36,13 +36,13 @@ namespace BulletSharp
 			}
 		}
 
-		public int NumIndices => UnsafeNativeMethods.btShapeHull_numIndices(Native);
+		public int NumIndices{ get { return  UnsafeNativeMethods.btShapeHull_numIndices(Native);} }
 
-		public int NumTriangles => UnsafeNativeMethods.btShapeHull_numTriangles(Native);
+		public int NumTriangles{ get { return  UnsafeNativeMethods.btShapeHull_numTriangles(Native);} }
 
-		public int NumVertices => UnsafeNativeMethods.btShapeHull_numVertices(Native);
+		public int NumVertices{ get { return  UnsafeNativeMethods.btShapeHull_numVertices(Native);} }
 
-		public IntPtr VertexPointer => UnsafeNativeMethods.btShapeHull_getVertexPointer(Native);
+		public IntPtr VertexPointer{ get { return  UnsafeNativeMethods.btShapeHull_getVertexPointer(Native);} }
 
 		public Vector3Array Vertices
 		{

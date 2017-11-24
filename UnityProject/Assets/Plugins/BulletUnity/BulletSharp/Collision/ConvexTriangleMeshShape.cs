@@ -26,6 +26,6 @@ namespace BulletSharp
 				out inertia, out volume);
 		}
 
-		public StridingMeshInterface MeshInterface => _meshInterface;
+		public StridingMeshInterface MeshInterface{ get { return  _meshInterface;} }
 	}
 }

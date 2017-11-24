@@ -56,32 +56,32 @@ namespace BulletSharp
 			UnsafeNativeMethods.btManifoldResult_refreshContactPoints(Native);
 		}
 
-		public CollisionObject Body0Internal => CollisionObject.GetManaged(UnsafeNativeMethods.btManifoldResult_getBody0Internal(Native));
+		public CollisionObject Body0Internal{ get { return  CollisionObject.GetManaged(UnsafeNativeMethods.btManifoldResult_getBody0Internal(Native));} }
 
 		public CollisionObjectWrapper Body0Wrap
 		{
-			get => new CollisionObjectWrapper(UnsafeNativeMethods.btManifoldResult_getBody0Wrap(Native));
-			set => UnsafeNativeMethods.btManifoldResult_setBody0Wrap(Native, value.Native);
+			get { return  new CollisionObjectWrapper(UnsafeNativeMethods.btManifoldResult_getBody0Wrap(Native));}
+			set {  UnsafeNativeMethods.btManifoldResult_setBody0Wrap(Native, value.Native);}
 		}
 
-		public CollisionObject Body1Internal => CollisionObject.GetManaged(UnsafeNativeMethods.btManifoldResult_getBody1Internal(Native));
+		public CollisionObject Body1Internal{ get { return  CollisionObject.GetManaged(UnsafeNativeMethods.btManifoldResult_getBody1Internal(Native));} }
 
 		public CollisionObjectWrapper Body1Wrap
 		{
-			get => new CollisionObjectWrapper(UnsafeNativeMethods.btManifoldResult_getBody1Wrap(Native));
-			set => UnsafeNativeMethods.btManifoldResult_setBody1Wrap(Native, value.Native);
+			get { return  new CollisionObjectWrapper(UnsafeNativeMethods.btManifoldResult_getBody1Wrap(Native));}
+			set {  UnsafeNativeMethods.btManifoldResult_setBody1Wrap(Native, value.Native);}
 		}
 
 		public float ClosestPointDistanceThreshold
 		{
-			get => UnsafeNativeMethods.btManifoldResult_getClosestPointDistanceThreshold(Native);
-			set => UnsafeNativeMethods.btManifoldResult_setClosestPointDistanceThreshold(Native, value);
+			get { return  UnsafeNativeMethods.btManifoldResult_getClosestPointDistanceThreshold(Native);}
+			set {  UnsafeNativeMethods.btManifoldResult_setClosestPointDistanceThreshold(Native, value);}
 		}
 
 		public PersistentManifold PersistentManifold
 		{
-			get => new PersistentManifold(UnsafeNativeMethods.btManifoldResult_getPersistentManifold(Native), true);
-			set => UnsafeNativeMethods.btManifoldResult_setPersistentManifold(Native, value.Native);
+			get { return  new PersistentManifold(UnsafeNativeMethods.btManifoldResult_getPersistentManifold(Native), true);}
+			set {  UnsafeNativeMethods.btManifoldResult_setPersistentManifold(Native, value.Native);}
 		}
 	}
 }

@@ -47,7 +47,7 @@ namespace BulletSharp
 			_unscaledPoints = points;
 		}
 
-		public int NumPoints => UnsafeNativeMethods.btConvexPointCloudShape_getNumPoints(Native);
+		public int NumPoints{ get { return  UnsafeNativeMethods.btConvexPointCloudShape_getNumPoints(Native);} }
 
 		public Vector3Array UnscaledPoints
 		{

@@ -24,7 +24,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultiBodySolverConstraint_getAngularComponentA(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setAngularComponentA(Native, ref value);
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setAngularComponentA(Native, ref value);}
 		}
 
 		public Vector3 AngularComponentB
@@ -35,25 +35,25 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultiBodySolverConstraint_getAngularComponentB(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setAngularComponentB(Native, ref value);
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setAngularComponentB(Native, ref value);}
 		}
 
 		public float AppliedImpulse
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getAppliedImpulse(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setAppliedImpulse(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getAppliedImpulse(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setAppliedImpulse(Native, value);}
 		}
 
 		public float AppliedPushImpulse
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getAppliedPushImpulse(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setAppliedPushImpulse(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getAppliedPushImpulse(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setAppliedPushImpulse(Native, value);}
 		}
 
 		public float Cfm
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getCfm(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setCfm(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getCfm(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setCfm(Native, value);}
 		}
 
 		public Vector3 ContactNormal1
@@ -64,7 +64,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultiBodySolverConstraint_getContactNormal1(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setContactNormal1(Native, ref value);
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setContactNormal1(Native, ref value);}
 		}
 
 		public Vector3 ContactNormal2
@@ -75,67 +75,67 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultiBodySolverConstraint_getContactNormal2(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setContactNormal2(Native, ref value);
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setContactNormal2(Native, ref value);}
 		}
 
 		public int DeltaVelAindex
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getDeltaVelAindex(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setDeltaVelAindex(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getDeltaVelAindex(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setDeltaVelAindex(Native, value);}
 		}
 
 		public int DeltaVelBindex
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getDeltaVelBindex(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setDeltaVelBindex(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getDeltaVelBindex(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setDeltaVelBindex(Native, value);}
 		}
 
 		public float Friction
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getFriction(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setFriction(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getFriction(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setFriction(Native, value);}
 		}
 
 		public int FrictionIndex
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getFrictionIndex(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setFrictionIndex(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getFrictionIndex(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setFrictionIndex(Native, value);}
 		}
 
 		public int JacAindex
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getJacAindex(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setJacAindex(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getJacAindex(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setJacAindex(Native, value);}
 		}
 
 		public int JacBindex
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getJacBindex(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setJacBindex(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getJacBindex(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setJacBindex(Native, value);}
 		}
 
 		public float JacDiagABInv
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getJacDiagABInv(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setJacDiagABInv(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getJacDiagABInv(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setJacDiagABInv(Native, value);}
 		}
 
 		public int LinkA
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getLinkA(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setLinkA(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getLinkA(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setLinkA(Native, value);}
 		}
 
 		public int LinkB
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getLinkB(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setLinkB(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getLinkB(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setLinkB(Native, value);}
 		}
 
 		public float LowerLimit
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getLowerLimit(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setLowerLimit(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getLowerLimit(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setLowerLimit(Native, value);}
 		}
 
 		public MultiBody MultiBodyA
@@ -180,20 +180,20 @@ namespace BulletSharp
 		*/
 		public int OrgDofIndex
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getOrgDofIndex(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setOrgDofIndex(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getOrgDofIndex(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setOrgDofIndex(Native, value);}
 		}
 
 		public IntPtr OriginalContactPoint
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getOriginalContactPoint(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setOriginalContactPoint(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getOriginalContactPoint(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setOriginalContactPoint(Native, value);}
 		}
 
 		public int OverrideNumSolverIterations
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getOverrideNumSolverIterations(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setOverrideNumSolverIterations(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getOverrideNumSolverIterations(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setOverrideNumSolverIterations(Native, value);}
 		}
 
 		public Vector3 Relpos1CrossNormal
@@ -204,7 +204,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultiBodySolverConstraint_getRelpos1CrossNormal(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setRelpos1CrossNormal(Native, ref value);
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setRelpos1CrossNormal(Native, ref value);}
 		}
 
 		public Vector3 Relpos2CrossNormal
@@ -215,43 +215,43 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultiBodySolverConstraint_getRelpos2CrossNormal(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setRelpos2CrossNormal(Native, ref value);
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setRelpos2CrossNormal(Native, ref value);}
 		}
 
 		public float Rhs
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getRhs(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setRhs(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getRhs(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setRhs(Native, value);}
 		}
 
 		public float RhsPenetration
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getRhsPenetration(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setRhsPenetration(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getRhsPenetration(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setRhsPenetration(Native, value);}
 		}
 
 		public int SolverBodyIdA
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getSolverBodyIdA(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setSolverBodyIdA(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getSolverBodyIdA(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setSolverBodyIdA(Native, value);}
 		}
 
 		public int SolverBodyIdB
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getSolverBodyIdB(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setSolverBodyIdB(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getSolverBodyIdB(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setSolverBodyIdB(Native, value);}
 		}
 
 		public float UnusedPadding4
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getUnusedPadding4(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setUnusedPadding4(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getUnusedPadding4(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setUnusedPadding4(Native, value);}
 		}
 
 		public float UpperLimit
 		{
-			get => UnsafeNativeMethods.btMultiBodySolverConstraint_getUpperLimit(Native);
-			set => UnsafeNativeMethods.btMultiBodySolverConstraint_setUpperLimit(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodySolverConstraint_getUpperLimit(Native);}
+			set {  UnsafeNativeMethods.btMultiBodySolverConstraint_setUpperLimit(Native, value);}
 		}
 
 		public void Dispose()

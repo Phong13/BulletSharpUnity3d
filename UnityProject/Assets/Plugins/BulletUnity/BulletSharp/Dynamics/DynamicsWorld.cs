@@ -259,10 +259,10 @@ namespace BulletSharp
 				UnsafeNativeMethods.btDynamicsWorld_getGravity(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btDynamicsWorld_setGravity(Native, ref value);
+			set {  UnsafeNativeMethods.btDynamicsWorld_setGravity(Native, ref value);}
 		}
 
-		public int NumConstraints => UnsafeNativeMethods.btDynamicsWorld_getNumConstraints(Native);
+		public int NumConstraints{ get { return  UnsafeNativeMethods.btDynamicsWorld_getNumConstraints(Native);} }
 
 		public ContactSolverInfo SolverInfo
 		{
@@ -276,7 +276,7 @@ namespace BulletSharp
 			}
 		}
 
-		public DynamicsWorldType WorldType => UnsafeNativeMethods.btDynamicsWorld_getWorldType(Native);
+		public DynamicsWorldType WorldType{ get { return  UnsafeNativeMethods.btDynamicsWorld_getWorldType(Native);} }
 
 		public Object WorldUserInfo { get; set; }
 

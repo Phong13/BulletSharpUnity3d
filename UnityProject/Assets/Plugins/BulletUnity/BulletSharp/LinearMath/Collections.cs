@@ -78,9 +78,9 @@ namespace BulletSharp
 			_i = 0;
 		}
 
-		public CompoundShapeChild Current => _array[_i];
+		public CompoundShapeChild Current{ get { return  _array[_i];} }
 
-		object System.Collections.IEnumerator.Current => _array[_i];
+		object System.Collections.IEnumerator.Current{ get { return  _array[_i];} }
 	}
 
 	public class UIntArrayEnumerator : IEnumerator<uint>
@@ -111,9 +111,9 @@ namespace BulletSharp
 			_i = 0;
 		}
 
-		public uint Current => _array[_i];
+		public uint Current{ get { return  _array[_i];} }
 
-		object System.Collections.IEnumerator.Current => _array[_i];
+		object System.Collections.IEnumerator.Current{ get { return  _array[_i];} }
 	}
 
 	public class Vector3ArrayEnumerator : IEnumerator<Vector3>
@@ -144,9 +144,9 @@ namespace BulletSharp
 			_i = 0;
 		}
 
-		public Vector3 Current => _array[_i];
+		public Vector3 Current{ get { return  _array[_i];} }
 
-		object System.Collections.IEnumerator.Current => _array[_i];
+		object System.Collections.IEnumerator.Current{ get { return  _array[_i];} }
 	}
 
 	public class FixedSizeArray
@@ -171,9 +171,9 @@ namespace BulletSharp
 			throw new NotSupportedException();
 		}
 
-		public int Count => _count;
+		public int Count{ get { return  _count;} }
 
-		public bool IsReadOnly => false;
+		public bool IsReadOnly{ get { return  false;} }
 	}
 
 	public class CompoundShapeChildArray : FixedSizeArray, IList<CompoundShapeChild>
@@ -219,8 +219,8 @@ namespace BulletSharp
 
 		public CompoundShapeChild this[int index]
 		{
-			get => _backingArray[index];
-			set => throw new NotImplementedException();
+			get { return  _backingArray[index];}
+			set {  throw new NotImplementedException();}
 		}
 
 		public bool Contains(CompoundShapeChild item)
@@ -305,7 +305,7 @@ namespace BulletSharp
 			{
 				if ((uint)index >= (uint)Count)
 				{
-					throw new ArgumentOutOfRangeException(nameof(index));
+					throw new ArgumentOutOfRangeException("index");
 				}
 				return (uint)Marshal.ReadInt32(_native, index * sizeof(uint));
 			}
@@ -313,7 +313,7 @@ namespace BulletSharp
 			{
 				if ((uint)index >= (uint)Count)
 				{
-					throw new ArgumentOutOfRangeException(nameof(index));
+					throw new ArgumentOutOfRangeException("index");
 				}
 				Marshal.WriteInt32(_native, index * sizeof(uint), (int)value);
 			}
@@ -375,7 +375,7 @@ namespace BulletSharp
 			{
 				if ((uint)index >= (uint)Count)
 				{
-					throw new ArgumentOutOfRangeException(nameof(index));
+					throw new ArgumentOutOfRangeException("index");
 				}
 				Vector3 value;
 				UnsafeNativeMethods.btVector3_array_at(_native, index, out value);
@@ -385,7 +385,7 @@ namespace BulletSharp
 			{
 				if ((uint)index >= (uint)Count)
 				{
-					throw new ArgumentOutOfRangeException(nameof(index));
+					throw new ArgumentOutOfRangeException("index");
 				}
 				UnsafeNativeMethods.btVector3_array_set(_native, index, ref value);
 			}
@@ -404,10 +404,10 @@ namespace BulletSharp
 		public void CopyTo(Vector3[] array, int arrayIndex)
 		{
 			if (array == null)
-				throw new ArgumentNullException(nameof(array));
+				throw new ArgumentNullException("array");
 
 			if (arrayIndex < 0)
-				throw new ArgumentOutOfRangeException(nameof(array));
+				throw new ArgumentOutOfRangeException("array");
 
 			int count = Count;
 			if (arrayIndex + count > array.Length)

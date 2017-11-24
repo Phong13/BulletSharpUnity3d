@@ -60,6 +60,6 @@ namespace BulletSharp
 			return "btMultiSphereShapeData";
 		}
 		*/
-		public int SphereCount => UnsafeNativeMethods.btMultiSphereShape_getSphereCount(Native);
+		public int SphereCount{ get { return  UnsafeNativeMethods.btMultiSphereShape_getSphereCount(Native);} }
 	}
 }

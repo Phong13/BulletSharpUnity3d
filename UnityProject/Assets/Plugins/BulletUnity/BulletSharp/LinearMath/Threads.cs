@@ -13,14 +13,14 @@ namespace BulletSharp
 			Native = native;
 		}
 
-		public int MaxNumThreads => UnsafeNativeMethods.btITaskScheduler_getMaxNumThreads(Native);
+		public int MaxNumThreads{ get { return  UnsafeNativeMethods.btITaskScheduler_getMaxNumThreads(Native);} }
 
-		public string Name => Marshal.PtrToStringAnsi(UnsafeNativeMethods.btITaskScheduler_getName(Native));
+		public string Name{ get { return  Marshal.PtrToStringAnsi(UnsafeNativeMethods.btITaskScheduler_getName(Native));} }
 
 		public int NumThreads
 		{
-			get => UnsafeNativeMethods.btITaskScheduler_getNumThreads(Native);
-			set => UnsafeNativeMethods.btITaskScheduler_setNumThreads(Native, value);
+			get { return  UnsafeNativeMethods.btITaskScheduler_getNumThreads(Native);}
+			set {  UnsafeNativeMethods.btITaskScheduler_setNumThreads(Native, value);}
 		}
 	}
 
@@ -66,7 +66,7 @@ namespace BulletSharp
 
 		public static TaskScheduler TaskScheduler
 		{
-			get => _taskScheduler;
+			get { return  _taskScheduler;}
 			set
 			{
 				_taskScheduler = value;

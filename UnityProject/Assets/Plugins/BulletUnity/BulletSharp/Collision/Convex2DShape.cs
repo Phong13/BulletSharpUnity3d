@@ -10,6 +10,10 @@ namespace BulletSharp
 			ChildShape = convexChildShape;
 		}
 
-		public ConvexShape ChildShape { get; }
+
+		public ConvexShape ChildShape {
+            get;
+            set;
+        }
 	}
 }

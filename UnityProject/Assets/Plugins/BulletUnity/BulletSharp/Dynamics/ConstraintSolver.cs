@@ -45,7 +45,7 @@ namespace BulletSharp
 				info._native, DebugDraw.GetUnmanaged(debugDrawer), dispatcher._native);
 		}
 		*/
-		public ConstraintSolverType SolverType => UnsafeNativeMethods.btConstraintSolver_getSolverType(Native);
+		public ConstraintSolverType SolverType{ get { return  UnsafeNativeMethods.btConstraintSolver_getSolverType(Native);} }
 
 		public void Dispose()
 		{

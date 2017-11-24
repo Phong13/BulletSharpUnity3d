@@ -15,8 +15,16 @@ namespace BulletSharp
                 NameInfo = nameInfo;
             }
 
-            public TypeDecl Type { get; }
-            public NameInfo NameInfo { get; }
+            public TypeDecl Type
+            {
+                get;
+                set;
+            }
+            public NameInfo NameInfo
+            {
+                get;
+                set;
+            }
 
             public override bool Equals(object obj)
             {
@@ -47,8 +55,12 @@ namespace BulletSharp
                 Elements = elements;
             }
 
-            public TypeDecl Type { get; }
-            public ElementDecl[] Elements { get; }
+            public TypeDecl Type
+            {
+                get;
+                set;
+            }
+            public ElementDecl[] Elements { get; set; }
 
             public ElementDecl FindElement(Dna dna, bool brokenDna, NameInfo name, out int offset)
             {
@@ -118,8 +130,8 @@ namespace BulletSharp
                 Length = length;
             }
 
-            public string Name { get; }
-            public short Length { get; }
+            public string Name { get; set; }
+            public short Length { get; set; }
 
             public override bool Equals(object obj)
             {
@@ -171,10 +183,10 @@ namespace BulletSharp
                 Dimension1 = int.Parse(name.Substring(bracketStart, bracketEnd - bracketStart));
             }
 
-            public string Name { get; }
-            public bool IsPointer { get; }
-            public int Dimension0 { get; }
-            public int Dimension1 { get; }
+            public string Name { get; set; }
+            public bool IsPointer { get; set; }
+            public int Dimension0 { get; set; }
+            public int Dimension1 { get; set; }
 
             public int ArrayLength { get { return Dimension0 * Dimension1; } }
 

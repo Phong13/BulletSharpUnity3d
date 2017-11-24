@@ -129,9 +129,9 @@ namespace BulletSharp
 			UnsafeNativeMethods.btOverlappingPairCache_sortOverlappingPairs(Native, dispatcher.Native);
 		}
 
-		public bool HasDeferredRemoval => UnsafeNativeMethods.btOverlappingPairCache_hasDeferredRemoval(Native);
+		public bool HasDeferredRemoval{ get { return  UnsafeNativeMethods.btOverlappingPairCache_hasDeferredRemoval(Native);} }
 
-		public int NumOverlappingPairs => UnsafeNativeMethods.btOverlappingPairCache_getNumOverlappingPairs(Native);
+		public int NumOverlappingPairs{ get { return  UnsafeNativeMethods.btOverlappingPairCache_getNumOverlappingPairs(Native);} }
 
 		public AlignedBroadphasePairArray OverlappingPairArray
 		{
@@ -187,11 +187,11 @@ namespace BulletSharp
 				proxy0.Native, dispatcher.Native);
 		}
 
-		public int Count => UnsafeNativeMethods.btHashedOverlappingPairCache_GetCount(Native);
+		public int Count{ get { return  UnsafeNativeMethods.btHashedOverlappingPairCache_GetCount(Native);} }
 
 		public OverlapFilterCallback OverlapFilterCallback
 		{
-			get => _overlapFilterCallback;
+			get { return  _overlapFilterCallback;}
 			set
 			{
 				_overlapFilterCallback = value;
@@ -237,7 +237,7 @@ namespace BulletSharp
 
 		public OverlapFilterCallback OverlapFilterCallback
 		{
-			get => _overlapFilterCallback;
+			get { return  _overlapFilterCallback;}
 			set
 			{
 				_overlapFilterCallback = value;

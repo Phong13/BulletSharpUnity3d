@@ -291,7 +291,7 @@ namespace BulletUnity
 
         [HideInInspector]
         [Tooltip(collisionTooltip)]
-        public BulletSharp.SoftBody.CollisionFlags Collisions = BulletSharp.SoftBody.CollisionFlags.Default;
+        public BulletSharp.SoftBody.Collisions Collisions = BulletSharp.SoftBody.Collisions.Default;
 
 
 

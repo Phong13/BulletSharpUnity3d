@@ -391,8 +391,8 @@ namespace BulletSharp
 
 		public float AngularDamping
 		{
-			get => UnsafeNativeMethods.btMultiBody_getAngularDamping(Native);
-			set => UnsafeNativeMethods.btMultiBody_setAngularDamping(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBody_getAngularDamping(Native);}
+			set {  UnsafeNativeMethods.btMultiBody_setAngularDamping(Native, value);}
 		}
 
 		public Vector3 AngularMomentum
@@ -407,8 +407,8 @@ namespace BulletSharp
 
 		public MultiBodyLinkCollider BaseCollider
 		{
-			get => CollisionObject.GetManaged(UnsafeNativeMethods.btMultiBody_getBaseCollider(Native)) as MultiBodyLinkCollider;
-			set => UnsafeNativeMethods.btMultiBody_setBaseCollider(Native, value.Native);
+			get { return  CollisionObject.GetManaged(UnsafeNativeMethods.btMultiBody_getBaseCollider(Native)) as MultiBodyLinkCollider;}
+			set {  UnsafeNativeMethods.btMultiBody_setBaseCollider(Native, value.Native);}
 		}
 
 		public Vector3 BaseForce
@@ -429,13 +429,13 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultiBody_getBaseInertia(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultiBody_setBaseInertia(Native, ref value);
+			set {  UnsafeNativeMethods.btMultiBody_setBaseInertia(Native, ref value);}
 		}
 
 		public float BaseMass
 		{
-			get => UnsafeNativeMethods.btMultiBody_getBaseMass(Native);
-			set => UnsafeNativeMethods.btMultiBody_setBaseMass(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBody_getBaseMass(Native);}
+			set {  UnsafeNativeMethods.btMultiBody_setBaseMass(Native, value);}
 		}
 		/*
 		public char BaseName
@@ -452,7 +452,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultiBody_getBaseOmega(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultiBody_setBaseOmega(Native, ref value);
+			set {  UnsafeNativeMethods.btMultiBody_setBaseOmega(Native, ref value);}
 		}
 
 		public Vector3 BasePosition
@@ -463,7 +463,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultiBody_getBasePos(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultiBody_setBasePos(Native, ref value);
+			set {  UnsafeNativeMethods.btMultiBody_setBasePos(Native, ref value);}
 		}
 
 		public Vector3 BaseTorque
@@ -484,7 +484,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultiBody_getBaseVel(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultiBody_setBaseVel(Native, ref value);
+			set {  UnsafeNativeMethods.btMultiBody_setBaseVel(Native, ref value);}
 		}
 
 		public Matrix BaseWorldTransform
@@ -495,69 +495,69 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultiBody_getBaseWorldTransform(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultiBody_setBaseWorldTransform(Native, ref value);
+			set {  UnsafeNativeMethods.btMultiBody_setBaseWorldTransform(Native, ref value);}
 		}
 
 		public bool CanSleep
 		{
-			get => UnsafeNativeMethods.btMultiBody_getCanSleep(Native);
-			set => UnsafeNativeMethods.btMultiBody_setCanSleep(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBody_getCanSleep(Native);}
+			set {  UnsafeNativeMethods.btMultiBody_setCanSleep(Native, value);}
 		}
 
 		public int CompanionId
 		{
-			get => UnsafeNativeMethods.btMultiBody_getCompanionId(Native);
-			set => UnsafeNativeMethods.btMultiBody_setCompanionId(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBody_getCompanionId(Native);}
+			set {  UnsafeNativeMethods.btMultiBody_setCompanionId(Native, value);}
 		}
 
-		public bool HasFixedBase => UnsafeNativeMethods.btMultiBody_hasFixedBase(Native);
+		public bool HasFixedBase{ get { return  UnsafeNativeMethods.btMultiBody_hasFixedBase(Native);} }
 		public bool HasSelfCollision
 		{
-			get => UnsafeNativeMethods.btMultiBody_hasSelfCollision(Native);
-			set => UnsafeNativeMethods.btMultiBody_setHasSelfCollision(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBody_hasSelfCollision(Native);}
+			set {  UnsafeNativeMethods.btMultiBody_setHasSelfCollision(Native, value);}
 		}
 
-		public bool IsAwake => UnsafeNativeMethods.btMultiBody_isAwake(Native);
+		public bool IsAwake{ get { return  UnsafeNativeMethods.btMultiBody_isAwake(Native);} }
 
-		public bool IsPosUpdated => UnsafeNativeMethods.btMultiBody_isPosUpdated(Native);
+		public bool IsPosUpdated{ get { return  UnsafeNativeMethods.btMultiBody_isPosUpdated(Native);} }
 
 		public bool IsUsingGlobalVelocities
 		{
-			get => UnsafeNativeMethods.btMultiBody_isUsingGlobalVelocities(Native);
-			set => UnsafeNativeMethods.btMultiBody_useGlobalVelocities(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBody_isUsingGlobalVelocities(Native);}
+			set {  UnsafeNativeMethods.btMultiBody_useGlobalVelocities(Native, value);}
 		}
 
 		public bool IsUsingRK4Integration
 		{
-			get => UnsafeNativeMethods.btMultiBody_isUsingRK4Integration(Native);
-			set => UnsafeNativeMethods.btMultiBody_useRK4Integration(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBody_isUsingRK4Integration(Native);}
+			set {  UnsafeNativeMethods.btMultiBody_useRK4Integration(Native, value);}
 		}
 
-		public float KineticEnergy => UnsafeNativeMethods.btMultiBody_getKineticEnergy(Native);
+		public float KineticEnergy{ get { return  UnsafeNativeMethods.btMultiBody_getKineticEnergy(Native);} }
 
 		public float LinearDamping
 		{
-			get => UnsafeNativeMethods.btMultiBody_getLinearDamping(Native);
-			set => UnsafeNativeMethods.btMultiBody_setLinearDamping(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBody_getLinearDamping(Native);}
+			set {  UnsafeNativeMethods.btMultiBody_setLinearDamping(Native, value);}
 		}
 
 		public float MaxAppliedImpulse
 		{
-			get => UnsafeNativeMethods.btMultiBody_getMaxAppliedImpulse(Native);
-			set => UnsafeNativeMethods.btMultiBody_setMaxAppliedImpulse(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBody_getMaxAppliedImpulse(Native);}
+			set {  UnsafeNativeMethods.btMultiBody_setMaxAppliedImpulse(Native, value);}
 		}
 
 		public float MaxCoordinateVelocity
 		{
-			get => UnsafeNativeMethods.btMultiBody_getMaxCoordinateVelocity(Native);
-			set => UnsafeNativeMethods.btMultiBody_setMaxCoordinateVelocity(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBody_getMaxCoordinateVelocity(Native);}
+			set {  UnsafeNativeMethods.btMultiBody_setMaxCoordinateVelocity(Native, value);}
 		}
 
-		public int NumDofs => UnsafeNativeMethods.btMultiBody_getNumDofs(Native);
+		public int NumDofs{ get { return  UnsafeNativeMethods.btMultiBody_getNumDofs(Native);} }
 
 		public int NumLinks
 		{
-			get => UnsafeNativeMethods.btMultiBody_getNumLinks(Native);
+			get { return  UnsafeNativeMethods.btMultiBody_getNumLinks(Native);}
 			set
 			{
 				UnsafeNativeMethods.btMultiBody_setNumLinks(Native, value);
@@ -568,30 +568,30 @@ namespace BulletSharp
 			}
 		}
 
-		public int NumPosVars => UnsafeNativeMethods.btMultiBody_getNumPosVars(Native);
+		public int NumPosVars{ get { return  UnsafeNativeMethods.btMultiBody_getNumPosVars(Native);} }
 
 		public bool UseGyroTerm
 		{
-			get => UnsafeNativeMethods.btMultiBody_getUseGyroTerm(Native);
-			set => UnsafeNativeMethods.btMultiBody_setUseGyroTerm(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBody_getUseGyroTerm(Native);}
+			set {  UnsafeNativeMethods.btMultiBody_setUseGyroTerm(Native, value);}
 		}
 
 		public int UserIndex
 		{
-			get => UnsafeNativeMethods.btMultiBody_getUserIndex(Native);
-			set => UnsafeNativeMethods.btMultiBody_setUserIndex(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBody_getUserIndex(Native);}
+			set {  UnsafeNativeMethods.btMultiBody_setUserIndex(Native, value);}
 		}
 
 		public int UserIndex2
 		{
-			get => UnsafeNativeMethods.btMultiBody_getUserIndex2(Native);
-			set => UnsafeNativeMethods.btMultiBody_setUserIndex2(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBody_getUserIndex2(Native);}
+			set {  UnsafeNativeMethods.btMultiBody_setUserIndex2(Native, value);}
 		}
 
 		public IntPtr UserPointer
 		{
-			get => UnsafeNativeMethods.btMultiBody_getUserPointer(Native);
-			set => UnsafeNativeMethods.btMultiBody_setUserPointer(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBody_getUserPointer(Native);}
+			set {  UnsafeNativeMethods.btMultiBody_setUserPointer(Native, value);}
 		}
 		/*
 		public float VelocityVector
@@ -607,7 +607,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btMultiBody_getWorldToBaseRot(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btMultiBody_setWorldToBaseRot(Native, ref value);
+			set {  UnsafeNativeMethods.btMultiBody_setWorldToBaseRot(Native, ref value);}
 		}
 
 		public void Dispose()

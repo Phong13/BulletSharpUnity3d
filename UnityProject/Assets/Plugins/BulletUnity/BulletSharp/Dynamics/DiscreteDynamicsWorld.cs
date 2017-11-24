@@ -124,14 +124,14 @@ namespace BulletSharp
 
 		public bool ApplySpeculativeContactRestitution
 		{
-			get => UnsafeNativeMethods.btDiscreteDynamicsWorld_getApplySpeculativeContactRestitution(Native);
-			set => UnsafeNativeMethods.btDiscreteDynamicsWorld_setApplySpeculativeContactRestitution(Native, value);
+			get { return  UnsafeNativeMethods.btDiscreteDynamicsWorld_getApplySpeculativeContactRestitution(Native);}
+			set {  UnsafeNativeMethods.btDiscreteDynamicsWorld_setApplySpeculativeContactRestitution(Native, value);}
 		}
 
 		public bool LatencyMotionStateInterpolation
 		{
-			get => UnsafeNativeMethods.btDiscreteDynamicsWorld_getLatencyMotionStateInterpolation(Native);
-			set => UnsafeNativeMethods.btDiscreteDynamicsWorld_setLatencyMotionStateInterpolation(Native, value);
+			get { return  UnsafeNativeMethods.btDiscreteDynamicsWorld_getLatencyMotionStateInterpolation(Native);}
+			set {  UnsafeNativeMethods.btDiscreteDynamicsWorld_setLatencyMotionStateInterpolation(Native, value);}
 		}
 
 		public SimulationIslandManager SimulationIslandManager
@@ -148,8 +148,8 @@ namespace BulletSharp
 
 		public bool SynchronizeAllMotionStates
 		{
-			get => UnsafeNativeMethods.btDiscreteDynamicsWorld_getSynchronizeAllMotionStates(Native);
-			set => UnsafeNativeMethods.btDiscreteDynamicsWorld_setSynchronizeAllMotionStates(Native, value);
+			get { return  UnsafeNativeMethods.btDiscreteDynamicsWorld_getSynchronizeAllMotionStates(Native);}
+			set {  UnsafeNativeMethods.btDiscreteDynamicsWorld_setSynchronizeAllMotionStates(Native, value);}
 		}
 	}
 }

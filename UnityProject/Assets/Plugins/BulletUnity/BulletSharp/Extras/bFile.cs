@@ -77,8 +77,9 @@ namespace BulletSharp
         protected BinaryReader ChunkReader { get; private set; }
         public bool OK { get; protected set; }
         public FileFlags Flags { get; protected set; }
-        public Dictionary<long, byte[]> LibPointers { get; } = new Dictionary<long, byte[]>();
-        public int Version => _version;
+        public Dictionary<long, byte[]> _LibPointers = new Dictionary<long, byte[]>();
+        public Dictionary<long, byte[]> LibPointers { get { return _LibPointers; } } 
+        public int Version{ get { return  _version;} }
 
         public abstract void AddDataBlock(byte[] dataBlock);
 
@@ -465,7 +466,7 @@ namespace BulletSharp
                 int elementLength = _fileDna.GetElementSize(fileElement);
                 if (elementLength != _memoryDna.GetElementSize(memoryElement))
                 {
-                    throw new InvalidDataException();
+                    throw new Exception();
                 }
                 byte[] mem = new byte[elementLength];
                 ChunkReader.Read(mem, 0, elementLength);
@@ -473,7 +474,7 @@ namespace BulletSharp
             }
             else
             {
-                throw new InvalidDataException();
+                throw new Exception();
                 //GetElement(arrayLen, lookupType, type, data, strcData);
             }
         }

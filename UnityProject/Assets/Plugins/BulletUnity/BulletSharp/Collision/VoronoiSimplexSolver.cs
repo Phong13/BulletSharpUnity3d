@@ -20,50 +20,50 @@ namespace BulletSharp
 
 		public bool Unused1
 		{
-			get => UnsafeNativeMethods.btUsageBitfield_getUnused1(Native);
-			set => UnsafeNativeMethods.btUsageBitfield_setUnused1(Native, value);
+			get { return  UnsafeNativeMethods.btUsageBitfield_getUnused1(Native);}
+			set {  UnsafeNativeMethods.btUsageBitfield_setUnused1(Native, value);}
 		}
 
 		public bool Unused2
 		{
-			get => UnsafeNativeMethods.btUsageBitfield_getUnused2(Native);
-			set => UnsafeNativeMethods.btUsageBitfield_setUnused2(Native, value);
+			get { return  UnsafeNativeMethods.btUsageBitfield_getUnused2(Native);}
+			set {  UnsafeNativeMethods.btUsageBitfield_setUnused2(Native, value);}
 		}
 
 		public bool Unused3
 		{
-			get => UnsafeNativeMethods.btUsageBitfield_getUnused3(Native);
-			set => UnsafeNativeMethods.btUsageBitfield_setUnused3(Native, value);
+			get { return  UnsafeNativeMethods.btUsageBitfield_getUnused3(Native);}
+			set {  UnsafeNativeMethods.btUsageBitfield_setUnused3(Native, value);}
 		}
 
 		public bool Unused4
 		{
-			get => UnsafeNativeMethods.btUsageBitfield_getUnused4(Native);
-			set => UnsafeNativeMethods.btUsageBitfield_setUnused4(Native, value);
+			get { return  UnsafeNativeMethods.btUsageBitfield_getUnused4(Native);}
+			set {  UnsafeNativeMethods.btUsageBitfield_setUnused4(Native, value);}
 		}
 
 		public bool UsedVertexA
 		{
-			get => UnsafeNativeMethods.btUsageBitfield_getUsedVertexA(Native);
-			set => UnsafeNativeMethods.btUsageBitfield_setUsedVertexA(Native, value);
+			get { return  UnsafeNativeMethods.btUsageBitfield_getUsedVertexA(Native);}
+			set {  UnsafeNativeMethods.btUsageBitfield_setUsedVertexA(Native, value);}
 		}
 
 		public bool UsedVertexB
 		{
-			get => UnsafeNativeMethods.btUsageBitfield_getUsedVertexB(Native);
-			set => UnsafeNativeMethods.btUsageBitfield_setUsedVertexB(Native, value);
+			get { return  UnsafeNativeMethods.btUsageBitfield_getUsedVertexB(Native);}
+			set {  UnsafeNativeMethods.btUsageBitfield_setUsedVertexB(Native, value);}
 		}
 
 		public bool UsedVertexC
 		{
-			get => UnsafeNativeMethods.btUsageBitfield_getUsedVertexC(Native);
-			set => UnsafeNativeMethods.btUsageBitfield_setUsedVertexC(Native, value);
+			get { return  UnsafeNativeMethods.btUsageBitfield_getUsedVertexC(Native);}
+			set {  UnsafeNativeMethods.btUsageBitfield_setUsedVertexC(Native, value);}
 		}
 
 		public bool UsedVertexD
 		{
-			get => UnsafeNativeMethods.btUsageBitfield_getUsedVertexD(Native);
-			set => UnsafeNativeMethods.btUsageBitfield_setUsedVertexD(Native, value);
+			get { return  UnsafeNativeMethods.btUsageBitfield_getUsedVertexD(Native);}
+			set {  UnsafeNativeMethods.btUsageBitfield_setUsedVertexD(Native, value);}
 		}
 	}
 
@@ -125,21 +125,21 @@ namespace BulletSharp
 				UnsafeNativeMethods.btSubSimplexClosestResult_getClosestPointOnSimplex(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSubSimplexClosestResult_setClosestPointOnSimplex(Native, ref value);
+			set {  UnsafeNativeMethods.btSubSimplexClosestResult_setClosestPointOnSimplex(Native, ref value);}
 		}
 
 		public bool Degenerate
 		{
-			get => UnsafeNativeMethods.btSubSimplexClosestResult_getDegenerate(Native);
-			set => UnsafeNativeMethods.btSubSimplexClosestResult_setDegenerate(Native, value);
+			get { return  UnsafeNativeMethods.btSubSimplexClosestResult_getDegenerate(Native);}
+			set {  UnsafeNativeMethods.btSubSimplexClosestResult_setDegenerate(Native, value);}
 		}
 
-		public bool IsValid => UnsafeNativeMethods.btSubSimplexClosestResult_isValid(Native);
+		public bool IsValid{ get { return  UnsafeNativeMethods.btSubSimplexClosestResult_isValid(Native);} }
 
 		public UsageBitfield UsedVertices
 		{
-			get => new UsageBitfield(UnsafeNativeMethods.btSubSimplexClosestResult_getUsedVertices(Native));
-			set => UnsafeNativeMethods.btSubSimplexClosestResult_setUsedVertices(Native, value.Native);
+			get { return  new UsageBitfield(UnsafeNativeMethods.btSubSimplexClosestResult_getUsedVertices(Native));}
+			set {  UnsafeNativeMethods.btSubSimplexClosestResult_setUsedVertices(Native, value.Native);}
 		}
 
 		public void Dispose()
@@ -287,8 +287,8 @@ namespace BulletSharp
 
 		public SubSimplexClosestResult CachedBC
 		{
-			get => new SubSimplexClosestResult(UnsafeNativeMethods.btVoronoiSimplexSolver_getCachedBC(Native));
-			set => UnsafeNativeMethods.btVoronoiSimplexSolver_setCachedBC(Native, value.Native);
+			get { return  new SubSimplexClosestResult(UnsafeNativeMethods.btVoronoiSimplexSolver_getCachedBC(Native));}
+			set {  UnsafeNativeMethods.btVoronoiSimplexSolver_setCachedBC(Native, value.Native);}
 		}
 
 		public Vector3 CachedP1
@@ -299,7 +299,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btVoronoiSimplexSolver_getCachedP1(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btVoronoiSimplexSolver_setCachedP1(Native, ref value);
+			set {  UnsafeNativeMethods.btVoronoiSimplexSolver_setCachedP1(Native, ref value);}
 		}
 
 		public Vector3 CachedP2
@@ -310,7 +310,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btVoronoiSimplexSolver_getCachedP2(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btVoronoiSimplexSolver_setCachedP2(Native, ref value);
+			set {  UnsafeNativeMethods.btVoronoiSimplexSolver_setCachedP2(Native, ref value);}
 		}
 
 		public Vector3 CachedV
@@ -321,19 +321,19 @@ namespace BulletSharp
 				UnsafeNativeMethods.btVoronoiSimplexSolver_getCachedV(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btVoronoiSimplexSolver_setCachedV(Native, ref value);
+			set {  UnsafeNativeMethods.btVoronoiSimplexSolver_setCachedV(Native, ref value);}
 		}
 
 		public bool CachedValidClosest
 		{
-			get => UnsafeNativeMethods.btVoronoiSimplexSolver_getCachedValidClosest(Native);
-			set => UnsafeNativeMethods.btVoronoiSimplexSolver_setCachedValidClosest(Native, value);
+			get { return  UnsafeNativeMethods.btVoronoiSimplexSolver_getCachedValidClosest(Native);}
+			set {  UnsafeNativeMethods.btVoronoiSimplexSolver_setCachedValidClosest(Native, value);}
 		}
 
 		public float EqualVertexThreshold
 		{
-			get => UnsafeNativeMethods.btVoronoiSimplexSolver_getEqualVertexThreshold(Native);
-			set => UnsafeNativeMethods.btVoronoiSimplexSolver_setEqualVertexThreshold(Native, value);
+			get { return  UnsafeNativeMethods.btVoronoiSimplexSolver_getEqualVertexThreshold(Native);}
+			set {  UnsafeNativeMethods.btVoronoiSimplexSolver_setEqualVertexThreshold(Native, value);}
 		}
 
 		public Vector3 LastW
@@ -344,19 +344,19 @@ namespace BulletSharp
 				UnsafeNativeMethods.btVoronoiSimplexSolver_getLastW(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btVoronoiSimplexSolver_setLastW(Native, ref value);
+			set {  UnsafeNativeMethods.btVoronoiSimplexSolver_setLastW(Native, ref value);}
 		}
 
 		public bool NeedsUpdate
 		{
-			get => UnsafeNativeMethods.btVoronoiSimplexSolver_getNeedsUpdate(Native);
-			set => UnsafeNativeMethods.btVoronoiSimplexSolver_setNeedsUpdate(Native, value);
+			get { return  UnsafeNativeMethods.btVoronoiSimplexSolver_getNeedsUpdate(Native);}
+			set {  UnsafeNativeMethods.btVoronoiSimplexSolver_setNeedsUpdate(Native, value);}
 		}
 
 		public int NumVertices
 		{
-			get => UnsafeNativeMethods.btVoronoiSimplexSolver_getNumVertices(Native);
-			set => UnsafeNativeMethods.btVoronoiSimplexSolver_setNumVertices(Native, value);
+			get { return  UnsafeNativeMethods.btVoronoiSimplexSolver_getNumVertices(Native);}
+			set {  UnsafeNativeMethods.btVoronoiSimplexSolver_setNumVertices(Native, value);}
 		}
 		/*
 		public Vector3[] SimplexPointsP

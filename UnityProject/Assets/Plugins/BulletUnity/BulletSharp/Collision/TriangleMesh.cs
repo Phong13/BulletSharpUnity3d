@@ -50,16 +50,16 @@ namespace BulletSharp
 			return UnsafeNativeMethods.btTriangleMesh_findOrAddVertex(Native, ref vertex, removeDuplicateVertices);
 		}
 
-		public int NumTriangles => UnsafeNativeMethods.btTriangleMesh_getNumTriangles(Native);
+		public int NumTriangles{ get { return  UnsafeNativeMethods.btTriangleMesh_getNumTriangles(Native);} }
 
-		public bool Use32BitIndices => UnsafeNativeMethods.btTriangleMesh_getUse32bitIndices(Native);
+		public bool Use32BitIndices{ get { return  UnsafeNativeMethods.btTriangleMesh_getUse32bitIndices(Native);} }
 
-		public bool Use4ComponentVertices => UnsafeNativeMethods.btTriangleMesh_getUse4componentVertices(Native);
+		public bool Use4ComponentVertices{ get { return  UnsafeNativeMethods.btTriangleMesh_getUse4componentVertices(Native);} }
 
 		public float WeldingThreshold
 		{
-			get => UnsafeNativeMethods.btTriangleMesh_getWeldingThreshold(Native);
-			set => UnsafeNativeMethods.btTriangleMesh_setWeldingThreshold(Native, value);
+			get { return  UnsafeNativeMethods.btTriangleMesh_getWeldingThreshold(Native);}
+			set {  UnsafeNativeMethods.btTriangleMesh_setWeldingThreshold(Native, value);}
 		}
 	}
 }

@@ -91,11 +91,11 @@ namespace BulletSharp
 
 		public bool SplitIslands
 		{
-			get => UnsafeNativeMethods.btSimulationIslandManager_getSplitIslands(Native);
-			set => UnsafeNativeMethods.btSimulationIslandManager_setSplitIslands(Native, value);
+			get { return  UnsafeNativeMethods.btSimulationIslandManager_getSplitIslands(Native);}
+			set {  UnsafeNativeMethods.btSimulationIslandManager_setSplitIslands(Native, value);}
 		}
 
-		public UnionFind UnionFind => new UnionFind(UnsafeNativeMethods.btSimulationIslandManager_getUnionFind(Native));
+		public UnionFind UnionFind{ get { return  new UnionFind(UnsafeNativeMethods.btSimulationIslandManager_getUnionFind(Native));} }
 
 		public void Dispose()
 		{

@@ -11,8 +11,8 @@ namespace BulletSharp
 
 		public bool OnlyForNoneContact
 		{
-			get => UnsafeNativeMethods.btNNCGConstraintSolver_getOnlyForNoneContact(Native);
-			set => UnsafeNativeMethods.btNNCGConstraintSolver_setOnlyForNoneContact(Native, value);
+			get { return  UnsafeNativeMethods.btNNCGConstraintSolver_getOnlyForNoneContact(Native);}
+			set {  UnsafeNativeMethods.btNNCGConstraintSolver_setOnlyForNoneContact(Native, value);}
 		}
 	}
 }

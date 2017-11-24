@@ -58,8 +58,8 @@ namespace BulletSharp
 */
 		public ulong RandSeed
 		{
-			get => UnsafeNativeMethods.btSequentialImpulseConstraintSolver_getRandSeed(Native);
-			set => UnsafeNativeMethods.btSequentialImpulseConstraintSolver_setRandSeed(Native, value);
+			get { return  UnsafeNativeMethods.btSequentialImpulseConstraintSolver_getRandSeed(Native);}
+			set {  UnsafeNativeMethods.btSequentialImpulseConstraintSolver_setRandSeed(Native, value);}
 		}
 /*
 		public SingleConstraintRowSolver ScalarConstraintRowSolverGeneric

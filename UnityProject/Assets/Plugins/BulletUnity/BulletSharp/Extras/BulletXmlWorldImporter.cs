@@ -461,7 +461,7 @@ namespace BulletSharp
             int i = 0;
             foreach (string value in valueNode.InnerText.Split(' '))
             {
-                if (!string.IsNullOrWhiteSpace(value))
+                if (!string.IsNullOrEmpty(value))
                 {
                     writer.Write(float.Parse(value, CultureInfo.InvariantCulture), offset + i * sizeof(float));
                     i++;

@@ -61,39 +61,39 @@ namespace BulletSharp
 				UnsafeNativeMethods.btGjkPairDetector_getCachedSeparatingAxis(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btGjkPairDetector_setCachedSeparatingAxis(Native, ref value);
+			set {  UnsafeNativeMethods.btGjkPairDetector_setCachedSeparatingAxis(Native, ref value);}
 		}
 
-		public float CachedSeparatingDistance => UnsafeNativeMethods.btGjkPairDetector_getCachedSeparatingDistance(Native);
+		public float CachedSeparatingDistance{ get { return  UnsafeNativeMethods.btGjkPairDetector_getCachedSeparatingDistance(Native);} }
 
 		public int CatchDegeneracies
 		{
-			get => UnsafeNativeMethods.btGjkPairDetector_getCatchDegeneracies(Native);
-			set => UnsafeNativeMethods.btGjkPairDetector_setCatchDegeneracies(Native, value);
+			get { return  UnsafeNativeMethods.btGjkPairDetector_getCatchDegeneracies(Native);}
+			set {  UnsafeNativeMethods.btGjkPairDetector_setCatchDegeneracies(Native, value);}
 		}
 
 		public int CurIter
 		{
-			get => UnsafeNativeMethods.btGjkPairDetector_getCurIter(Native);
-			set => UnsafeNativeMethods.btGjkPairDetector_setCurIter(Native, value);
+			get { return  UnsafeNativeMethods.btGjkPairDetector_getCurIter(Native);}
+			set {  UnsafeNativeMethods.btGjkPairDetector_setCurIter(Native, value);}
 		}
 
 		public int DegenerateSimplex
 		{
-			get => UnsafeNativeMethods.btGjkPairDetector_getDegenerateSimplex(Native);
-			set => UnsafeNativeMethods.btGjkPairDetector_setDegenerateSimplex(Native, value);
+			get { return  UnsafeNativeMethods.btGjkPairDetector_getDegenerateSimplex(Native);}
+			set {  UnsafeNativeMethods.btGjkPairDetector_setDegenerateSimplex(Native, value);}
 		}
 
 		public int FixContactNormalDirection
 		{
-			get => UnsafeNativeMethods.btGjkPairDetector_getFixContactNormalDirection(Native);
-			set => UnsafeNativeMethods.btGjkPairDetector_setFixContactNormalDirection(Native, value);
+			get { return  UnsafeNativeMethods.btGjkPairDetector_getFixContactNormalDirection(Native);}
+			set {  UnsafeNativeMethods.btGjkPairDetector_setFixContactNormalDirection(Native, value);}
 		}
 
 		public int LastUsedMethod
 		{
-			get => UnsafeNativeMethods.btGjkPairDetector_getLastUsedMethod(Native);
-			set => UnsafeNativeMethods.btGjkPairDetector_setLastUsedMethod(Native, value);
+			get { return  UnsafeNativeMethods.btGjkPairDetector_getLastUsedMethod(Native);}
+			set {  UnsafeNativeMethods.btGjkPairDetector_setLastUsedMethod(Native, value);}
 		}
 	}
 }

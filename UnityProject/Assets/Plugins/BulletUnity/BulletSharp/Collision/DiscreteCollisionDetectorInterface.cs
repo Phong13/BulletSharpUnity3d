@@ -17,8 +17,8 @@ namespace BulletSharp
 
 			public float MaximumDistanceSquared
 			{
-				get => UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_ClosestPointInput_getMaximumDistanceSquared(Native);
-				set => UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_ClosestPointInput_setMaximumDistanceSquared(Native, value);
+				get { return  UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_ClosestPointInput_getMaximumDistanceSquared(Native);}
+				set {  UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_ClosestPointInput_setMaximumDistanceSquared(Native, value);}
 			}
 
 			public Matrix TransformA
@@ -29,7 +29,7 @@ namespace BulletSharp
 					UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_ClosestPointInput_getTransformA(Native, out value);
 					return value;
 				}
-				set => UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_ClosestPointInput_setTransformA(Native, ref value);
+				set {  UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_ClosestPointInput_setTransformA(Native, ref value);}
 			}
 
 			public Matrix TransformB
@@ -40,7 +40,7 @@ namespace BulletSharp
 					UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_ClosestPointInput_getTransformB(Native, out value);
 					return value;
 				}
-				set => UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_ClosestPointInput_setTransformB(Native, ref value);
+				set {  UnsafeNativeMethods.btDiscreteCollisionDetectorInterface_ClosestPointInput_setTransformB(Native, ref value);}
 			}
 
 			public void Dispose()
@@ -168,13 +168,13 @@ namespace BulletSharp
 				UnsafeNativeMethods.btStorageResult_getClosestPointInB(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btStorageResult_setClosestPointInB(Native, ref value);
+			set {  UnsafeNativeMethods.btStorageResult_setClosestPointInB(Native, ref value);}
 		}
 
 		public float Distance
 		{
-			get => UnsafeNativeMethods.btStorageResult_getDistance(Native);
-			set => UnsafeNativeMethods.btStorageResult_setDistance(Native, value);
+			get { return  UnsafeNativeMethods.btStorageResult_getDistance(Native);}
+			set {  UnsafeNativeMethods.btStorageResult_setDistance(Native, value);}
 		}
 
 		public Vector3 NormalOnSurfaceB
@@ -185,7 +185,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btStorageResult_getNormalOnSurfaceB(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btStorageResult_setNormalOnSurfaceB(Native, ref value);
+			set {  UnsafeNativeMethods.btStorageResult_setNormalOnSurfaceB(Native, ref value);}
 		}
 	}
 }

@@ -32,9 +32,9 @@ namespace BulletSharp.SoftBody
 			_i = 0;
 		}
 
-		public Node Current => _array[_i];
+		public Node Current{ get { return  _array[_i];} }
 
-		object System.Collections.IEnumerator.Current => _array[_i];
+		object System.Collections.IEnumerator.Current{ get { return  _array[_i];} }
 	}
 
 	public class NodePtrArray : FixedSizeArray, IList<Node>
@@ -60,7 +60,7 @@ namespace BulletSharp.SoftBody
 			{
 				if ((uint)index >= (uint)Count)
 				{
-					throw new ArgumentOutOfRangeException(nameof(index));
+					throw new ArgumentOutOfRangeException("index");
 				}
 				return new Node(UnsafeNativeMethods.btSoftBodyNodePtrArray_at(_native, index));
 			}

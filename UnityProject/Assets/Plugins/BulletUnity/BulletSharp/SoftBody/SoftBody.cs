@@ -106,13 +106,13 @@ namespace BulletSharp.SoftBody
 
 		public float AirDensity
 		{
-			get => UnsafeNativeMethods.btSoftBodyWorldInfo_getAir_density(Native);
-			set => UnsafeNativeMethods.btSoftBodyWorldInfo_setAir_density(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBodyWorldInfo_getAir_density(Native);}
+			set {  UnsafeNativeMethods.btSoftBodyWorldInfo_setAir_density(Native, value);}
 		}
 
 		public BroadphaseInterface Broadphase
 		{
-			get => _broadphase;
+			get { return  _broadphase;}
 			set
 			{
 				UnsafeNativeMethods.btSoftBodyWorldInfo_setBroadphase(Native, (value != null) ? value.Native : IntPtr.Zero);
@@ -122,7 +122,7 @@ namespace BulletSharp.SoftBody
 
 		public Dispatcher Dispatcher
 		{
-			get => _dispatcher;
+			get { return  _dispatcher;}
 			set
 			{
 				UnsafeNativeMethods.btSoftBodyWorldInfo_setDispatcher(Native, (value != null) ? value.Native : IntPtr.Zero);
@@ -138,13 +138,13 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBodyWorldInfo_getGravity(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBodyWorldInfo_setGravity(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBodyWorldInfo_setGravity(Native, ref value);}
 		}
 
 		public float MaxDisplacement
 		{
-			get => UnsafeNativeMethods.btSoftBodyWorldInfo_getMaxDisplacement(Native);
-			set => UnsafeNativeMethods.btSoftBodyWorldInfo_setMaxDisplacement(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBodyWorldInfo_getMaxDisplacement(Native);}
+			set {  UnsafeNativeMethods.btSoftBodyWorldInfo_setMaxDisplacement(Native, value);}
 		}
 
 		public SparseSdf SparseSdf
@@ -161,8 +161,8 @@ namespace BulletSharp.SoftBody
 
 		public float WaterDensity
 		{
-			get => UnsafeNativeMethods.btSoftBodyWorldInfo_getWater_density(Native);
-			set => UnsafeNativeMethods.btSoftBodyWorldInfo_setWater_density(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBodyWorldInfo_getWater_density(Native);}
+			set {  UnsafeNativeMethods.btSoftBodyWorldInfo_setWater_density(Native, value);}
 		}
 
 		public Vector3 WaterNormal
@@ -173,13 +173,13 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBodyWorldInfo_getWater_normal(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBodyWorldInfo_setWater_normal(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBodyWorldInfo_setWater_normal(Native, ref value);}
 		}
 
 		public float WaterOffset
 		{
-			get => UnsafeNativeMethods.btSoftBodyWorldInfo_getWater_offset(Native);
-			set => UnsafeNativeMethods.btSoftBodyWorldInfo_setWater_offset(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBodyWorldInfo_getWater_offset(Native);}
+			set {  UnsafeNativeMethods.btSoftBodyWorldInfo_setWater_offset(Native, value);}
 		}
 
 		public void Dispose()
@@ -330,7 +330,7 @@ namespace BulletSharp.SoftBody
 					UnsafeNativeMethods.btSoftBody_AJoint_Specs_getAxis(Native, out value);
 					return value;
 				}
-				set => UnsafeNativeMethods.btSoftBody_AJoint_Specs_setAxis(Native, ref value);
+				set {  UnsafeNativeMethods.btSoftBody_AJoint_Specs_setAxis(Native, ref value);}
 			}
 
 			public IControl Control
@@ -402,8 +402,8 @@ namespace BulletSharp.SoftBody
 
 		public RigidBody Body
 		{
-			get => CollisionObject.GetManaged(UnsafeNativeMethods.btSoftBody_Anchor_getBody(Native)) as RigidBody;
-			set => UnsafeNativeMethods.btSoftBody_Anchor_setBody(Native, (value != null) ? value.Native : IntPtr.Zero);
+			get { return  CollisionObject.GetManaged(UnsafeNativeMethods.btSoftBody_Anchor_getBody(Native)) as RigidBody;}
+			set {  UnsafeNativeMethods.btSoftBody_Anchor_setBody(Native, (value != null) ? value.Native : IntPtr.Zero);}
 		}
 
 		public Matrix C0
@@ -414,7 +414,7 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Anchor_getC0(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Anchor_setC0(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Anchor_setC0(Native, ref value);}
 		}
 
 		public Vector3 C1
@@ -425,19 +425,19 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Anchor_getC1(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Anchor_setC1(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Anchor_setC1(Native, ref value);}
 		}
 
 		public float C2
 		{
-			get => UnsafeNativeMethods.btSoftBody_Anchor_getC2(Native);
-			set => UnsafeNativeMethods.btSoftBody_Anchor_setC2(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Anchor_getC2(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Anchor_setC2(Native, value);}
 		}
 
 		public float Influence
 		{
-			get => UnsafeNativeMethods.btSoftBody_Anchor_getInfluence(Native);
-			set => UnsafeNativeMethods.btSoftBody_Anchor_setInfluence(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Anchor_getInfluence(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Anchor_setInfluence(Native, value);}
 		}
 
 		public Vector3 Local
@@ -448,7 +448,7 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Anchor_getLocal(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Anchor_setLocal(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Anchor_setLocal(Native, ref value);}
 		}
 
 		public Node Node
@@ -561,11 +561,11 @@ namespace BulletSharp.SoftBody
 
 		public CollisionObject CollisionObject
 		{
-			get => CollisionObject.GetManaged(UnsafeNativeMethods.btSoftBody_Body_getCollisionObject(Native));
-			set => UnsafeNativeMethods.btSoftBody_Body_setCollisionObject(Native, value.Native);
+			get { return  CollisionObject.GetManaged(UnsafeNativeMethods.btSoftBody_Body_getCollisionObject(Native));}
+			set {  UnsafeNativeMethods.btSoftBody_Body_setCollisionObject(Native, value.Native);}
 		}
 
-		public float InverseMass => UnsafeNativeMethods.btSoftBody_Body_invMass(Native);
+		public float InverseMass{ get { return  UnsafeNativeMethods.btSoftBody_Body_invMass(Native);} }
 
 		public Matrix InverseWorldInertia
 		{
@@ -589,8 +589,8 @@ namespace BulletSharp.SoftBody
 
 		public RigidBody Rigid
 		{
-			get => CollisionObject.GetManaged(UnsafeNativeMethods.btSoftBody_Body_getRigid(Native)) as RigidBody;
-			set => UnsafeNativeMethods.btSoftBody_Body_setRigid(Native, value.Native);
+			get { return  CollisionObject.GetManaged(UnsafeNativeMethods.btSoftBody_Body_getRigid(Native)) as RigidBody;}
+			set {  UnsafeNativeMethods.btSoftBody_Body_setRigid(Native, value.Native);}
 		}
 
 		public Cluster Soft
@@ -652,20 +652,20 @@ namespace BulletSharp.SoftBody
 
 		public float Friction
 		{
-			get => UnsafeNativeMethods.btSoftBody_CJoint_getFriction(Native);
-			set => UnsafeNativeMethods.btSoftBody_CJoint_setFriction(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_CJoint_getFriction(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_CJoint_setFriction(Native, value);}
 		}
 
 		public int Life
 		{
-			get => UnsafeNativeMethods.btSoftBody_CJoint_getLife(Native);
-			set => UnsafeNativeMethods.btSoftBody_CJoint_setLife(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_CJoint_getLife(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_CJoint_setLife(Native, value);}
 		}
 
 		public int MaxLife
 		{
-			get => UnsafeNativeMethods.btSoftBody_CJoint_getMaxlife(Native);
-			set => UnsafeNativeMethods.btSoftBody_CJoint_setMaxlife(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_CJoint_getMaxlife(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_CJoint_setMaxlife(Native, value);}
 		}
 
 		public Vector3 Normal
@@ -676,7 +676,7 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_CJoint_getNormal(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_CJoint_setNormal(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_CJoint_setNormal(Native, ref value);}
 		}
 
 		public Vector3Array RPosition
@@ -710,8 +710,8 @@ namespace BulletSharp.SoftBody
 
 		public float AngularDamping
 		{
-			get => UnsafeNativeMethods.btSoftBody_Cluster_getAdamping(Native);
-			set => UnsafeNativeMethods.btSoftBody_Cluster_setAdamping(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Cluster_getAdamping(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Cluster_setAdamping(Native, value);}
 		}
 
 		public Vector3 AngularVelocity
@@ -722,19 +722,19 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Cluster_getAv(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Cluster_setAv(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Cluster_setAv(Native, ref value);}
 		}
 
 		public int ClusterIndex
 		{
-			get => UnsafeNativeMethods.btSoftBody_Cluster_getClusterIndex(Native);
-			set => UnsafeNativeMethods.btSoftBody_Cluster_setClusterIndex(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Cluster_getClusterIndex(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Cluster_setClusterIndex(Native, value);}
 		}
 
 		public bool Collide
 		{
-			get => UnsafeNativeMethods.btSoftBody_Cluster_getCollide(Native);
-			set => UnsafeNativeMethods.btSoftBody_Cluster_setCollide(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Cluster_getCollide(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Cluster_setCollide(Native, value);}
 		}
 
 		public Vector3 CenterOfMass
@@ -745,13 +745,13 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Cluster_getCom(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Cluster_setCom(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Cluster_setCom(Native, ref value);}
 		}
 
 		public bool ContainsAnchor
 		{
-			get => UnsafeNativeMethods.btSoftBody_Cluster_getContainsAnchor(Native);
-			set => UnsafeNativeMethods.btSoftBody_Cluster_setContainsAnchor(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Cluster_getContainsAnchor(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Cluster_setContainsAnchor(Native, value);}
 		}
 
 		public Vector3Array DImpulses
@@ -786,19 +786,19 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Cluster_getFramexform(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Cluster_setFramexform(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Cluster_setFramexform(Native, ref value);}
 		}
 
 		public float Idmass
 		{
-			get => UnsafeNativeMethods.btSoftBody_Cluster_getIdmass(Native);
-			set => UnsafeNativeMethods.btSoftBody_Cluster_setIdmass(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Cluster_getIdmass(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Cluster_setIdmass(Native, value);}
 		}
 
 		public float InverseMass
 		{
-			get => UnsafeNativeMethods.btSoftBody_Cluster_getImass(Native);
-			set => UnsafeNativeMethods.btSoftBody_Cluster_setImass(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Cluster_getImass(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Cluster_setImass(Native, value);}
 		}
 
 		public Matrix InverseWorldInertia
@@ -809,13 +809,13 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Cluster_getInvwi(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Cluster_setInvwi(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Cluster_setInvwi(Native, ref value);}
 		}
 
 		public float LinearDamping
 		{
-			get => UnsafeNativeMethods.btSoftBody_Cluster_getLdamping(Native);
-			set => UnsafeNativeMethods.btSoftBody_Cluster_setLdamping(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Cluster_getLdamping(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Cluster_setLdamping(Native, value);}
 		}
 
 		public DbvtNode Leaf
@@ -843,7 +843,7 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Cluster_getLv(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Cluster_setLv(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Cluster_setLv(Native, ref value);}
 		}
 
 		public Matrix Locii
@@ -854,7 +854,7 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Cluster_getLocii(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Cluster_setLocii(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Cluster_setLocii(Native, ref value);}
 		}
 
 		/*
@@ -872,20 +872,20 @@ namespace BulletSharp.SoftBody
 		*/
 		public float Matching
 		{
-			get => UnsafeNativeMethods.btSoftBody_Cluster_getMatching(Native);
-			set => UnsafeNativeMethods.btSoftBody_Cluster_setMatching(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Cluster_getMatching(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Cluster_setMatching(Native, value);}
 		}
 
 		public float MaxSelfCollisionImpulse
 		{
-			get => UnsafeNativeMethods.btSoftBody_Cluster_getMaxSelfCollisionImpulse(Native);
-			set => UnsafeNativeMethods.btSoftBody_Cluster_setMaxSelfCollisionImpulse(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Cluster_getMaxSelfCollisionImpulse(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Cluster_setMaxSelfCollisionImpulse(Native, value);}
 		}
 
 		public float NodeDamping
 		{
-			get => UnsafeNativeMethods.btSoftBody_Cluster_getNdamping(Native);
-			set => UnsafeNativeMethods.btSoftBody_Cluster_setNdamping(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Cluster_getNdamping(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Cluster_setNdamping(Native, value);}
 		}
 
 		public AlignedNodeArray Nodes
@@ -902,20 +902,20 @@ namespace BulletSharp.SoftBody
 
 		public int NumDImpulses
 		{
-			get => UnsafeNativeMethods.btSoftBody_Cluster_getNdimpulses(Native);
-			set => UnsafeNativeMethods.btSoftBody_Cluster_setNdimpulses(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Cluster_getNdimpulses(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Cluster_setNdimpulses(Native, value);}
 		}
 
 		public int NumVImpulses
 		{
-			get => UnsafeNativeMethods.btSoftBody_Cluster_getNvimpulses(Native);
-			set => UnsafeNativeMethods.btSoftBody_Cluster_setNvimpulses(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Cluster_getNvimpulses(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Cluster_setNvimpulses(Native, value);}
 		}
 
 		public float SelfCollisionImpulseFactor
 		{
-			get => UnsafeNativeMethods.btSoftBody_Cluster_getSelfCollisionImpulseFactor(Native);
-			set => UnsafeNativeMethods.btSoftBody_Cluster_setSelfCollisionImpulseFactor(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Cluster_getSelfCollisionImpulseFactor(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Cluster_setSelfCollisionImpulseFactor(Native, value);}
 		}
 
 		public Vector3Array VImpulses
@@ -946,50 +946,50 @@ namespace BulletSharp.SoftBody
 
 		public AeroModel AeroModel
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getAeromodel(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setAeromodel(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getAeromodel(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setAeromodel(Native, value);}
 		}
 
 		public float AnchorHardness
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getKAHR(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setKAHR(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getKAHR(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setKAHR(Native, value);}
 		}
 
 		public int ClusterIterations
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getCiterations(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setCiterations(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getCiterations(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setCiterations(Native, value);}
 		}
 
 		public Collisions Collisions
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getCollisions(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setCollisions(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getCollisions(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setCollisions(Native, value);}
 		}
 
 		public float Damping
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getKDP(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setKDP(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getKDP(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setKDP(Native, value);}
 		}
 
 		public float DynamicFriction
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getKDF(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setKDF(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getKDF(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setKDF(Native, value);}
 		}
 
 		public float Drag
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getKDG(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setKDG(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getKDG(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setKDG(Native, value);}
 		}
 
 		public int DriftIterations
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getDiterations(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setDiterations(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getDiterations(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setDiterations(Native, value);}
 		}
 		/*
 		public AlignedPSolverArray DriftSequence
@@ -1006,32 +1006,32 @@ namespace BulletSharp.SoftBody
 		*/
 		public float KineticContactHardness
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getKKHR(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setKKHR(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getKKHR(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setKKHR(Native, value);}
 		}
 
 		public float Lift
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getKLF(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setKLF(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getKLF(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setKLF(Native, value);}
 		}
 
 		public float MaxVolume
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getMaxvolume(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setMaxvolume(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getMaxvolume(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setMaxvolume(Native, value);}
 		}
 
 		public float PoseMatching
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getKMT(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setKMT(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getKMT(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setKMT(Native, value);}
 		}
 
 		public int PositionIterations
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getPiterations(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setPiterations(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getPiterations(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setPiterations(Native, value);}
 		}
 		/*
 		public AlignedPSolverArray PositionSequence
@@ -1048,80 +1048,80 @@ namespace BulletSharp.SoftBody
 		*/
 		public float Pressure
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getKPR(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setKPR(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getKPR(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setKPR(Native, value);}
 		}
 
 		public float RigidContactHardness
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getKCHR(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setKCHR(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getKCHR(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setKCHR(Native, value);}
 		}
 
 		public float SoftContactHardness
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getKSHR(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setKSHR(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getKSHR(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setKSHR(Native, value);}
 		}
 
 		public float SoftKineticHardness
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getKSKHR_CL(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setKSKHR_CL(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getKSKHR_CL(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setKSKHR_CL(Native, value);}
 		}
 
 		public float SoftKineticImpulseSplit
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getKSK_SPLT_CL(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setKSK_SPLT_CL(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getKSK_SPLT_CL(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setKSK_SPLT_CL(Native, value);}
 		}
 
 		public float SoftRigidHardness
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getKSRHR_CL(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setKSRHR_CL(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getKSRHR_CL(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setKSRHR_CL(Native, value);}
 		}
 
 		public float SoftRigidImpulseSplit
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getKSR_SPLT_CL(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setKSR_SPLT_CL(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getKSR_SPLT_CL(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setKSR_SPLT_CL(Native, value);}
 		}
 
 		public float SoftSoftHardness
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getKSSHR_CL(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setKSSHR_CL(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getKSSHR_CL(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setKSSHR_CL(Native, value);}
 		}
 
 		public float SoftSoftImpulseSplit
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getKSS_SPLT_CL(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setKSS_SPLT_CL(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getKSS_SPLT_CL(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setKSS_SPLT_CL(Native, value);}
 		}
 
 		public float VolumeConversation
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getKVC(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setKVC(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getKVC(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setKVC(Native, value);}
 		}
 
 		public float VelocityCorrectionFactor
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getKVCF(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setKVCF(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getKVCF(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setKVCF(Native, value);}
 		}
 
 		public float Timescale
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getTimescale(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setTimescale(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getTimescale(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setTimescale(Native, value);}
 		}
 
 		public int VelocityIterations
 		{
-			get => UnsafeNativeMethods.btSoftBody_Config_getViterations(Native);
-			set => UnsafeNativeMethods.btSoftBody_Config_setViterations(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Config_getViterations(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Config_setViterations(Native, value);}
 		}
 		/*
 		public AlignedVSolverArray VelocitySequence
@@ -1149,8 +1149,8 @@ namespace BulletSharp.SoftBody
 
 		public IntPtr Tag
 		{
-			get => UnsafeNativeMethods.btSoftBody_Element_getTag(Native);
-			set => UnsafeNativeMethods.btSoftBody_Element_setTag(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Element_getTag(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Element_setTag(Native, value);}
 		}
 
 		public override bool Equals(object obj)
@@ -1216,13 +1216,13 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Face_getNormal(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Face_setNormal(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Face_setNormal(Native, ref value);}
 		}
 
 		public float RestArea
 		{
-			get => UnsafeNativeMethods.btSoftBody_Face_getRa(Native);
-			set => UnsafeNativeMethods.btSoftBody_Face_setRa(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Face_getRa(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Face_setRa(Native, value);}
 		}
 	}
 
@@ -1318,14 +1318,14 @@ namespace BulletSharp.SoftBody
 		*/
 		public int AsDrift
 		{
-			get => UnsafeNativeMethods.btSoftBody_Impulse_getAsDrift(Native);
-			set => UnsafeNativeMethods.btSoftBody_Impulse_setAsDrift(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Impulse_getAsDrift(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Impulse_setAsDrift(Native, value);}
 		}
 
 		public int AsVelocity
 		{
-			get => UnsafeNativeMethods.btSoftBody_Impulse_getAsVelocity(Native);
-			set => UnsafeNativeMethods.btSoftBody_Impulse_setAsVelocity(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Impulse_getAsVelocity(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Impulse_setAsVelocity(Native, value);}
 		}
 
 		public Vector3 Drift
@@ -1336,7 +1336,7 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Impulse_getDrift(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Impulse_setDrift(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Impulse_setDrift(Native, ref value);}
 		}
 
 		public Vector3 Velocity
@@ -1347,7 +1347,7 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Impulse_getVelocity(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Impulse_setVelocity(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Impulse_setVelocity(Native, ref value);}
 		}
 
 		public void Dispose()
@@ -1384,20 +1384,20 @@ namespace BulletSharp.SoftBody
 
 			public float ConstraintForceMixing
 			{
-				get => UnsafeNativeMethods.btSoftBody_Joint_Specs_getCfm(Native);
-				set => UnsafeNativeMethods.btSoftBody_Joint_Specs_setCfm(Native, value);
+				get { return  UnsafeNativeMethods.btSoftBody_Joint_Specs_getCfm(Native);}
+				set {  UnsafeNativeMethods.btSoftBody_Joint_Specs_setCfm(Native, value);}
 			}
 
 			public float ErrorReductionParameter
 			{
-				get => UnsafeNativeMethods.btSoftBody_Joint_Specs_getErp(Native);
-				set => UnsafeNativeMethods.btSoftBody_Joint_Specs_setErp(Native, value);
+				get { return  UnsafeNativeMethods.btSoftBody_Joint_Specs_getErp(Native);}
+				set {  UnsafeNativeMethods.btSoftBody_Joint_Specs_setErp(Native, value);}
 			}
 
 			public float Split
 			{
-				get => UnsafeNativeMethods.btSoftBody_Joint_Specs_getSplit(Native);
-				set => UnsafeNativeMethods.btSoftBody_Joint_Specs_setSplit(Native, value);
+				get { return  UnsafeNativeMethods.btSoftBody_Joint_Specs_getSplit(Native);}
+				set {  UnsafeNativeMethods.btSoftBody_Joint_Specs_setSplit(Native, value);}
 			}
 
 			public void Dispose()
@@ -1472,14 +1472,14 @@ namespace BulletSharp.SoftBody
 		*/
 		public float ConstraintForceMixing
 		{
-			get => UnsafeNativeMethods.btSoftBody_Joint_getCfm(Native);
-			set => UnsafeNativeMethods.btSoftBody_Joint_setCfm(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Joint_getCfm(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Joint_setCfm(Native, value);}
 		}
 
 		public bool Delete
 		{
-			get => UnsafeNativeMethods.btSoftBody_Joint_getDelete(Native);
-			set => UnsafeNativeMethods.btSoftBody_Joint_setDelete(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Joint_getDelete(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Joint_setDelete(Native, value);}
 		}
 
 		public Vector3 Drift
@@ -1490,13 +1490,13 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Joint_getDrift(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Joint_setDrift(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Joint_setDrift(Native, ref value);}
 		}
 
 		public float ErrorReductionParameter
 		{
-			get => UnsafeNativeMethods.btSoftBody_Joint_getErp(Native);
-			set => UnsafeNativeMethods.btSoftBody_Joint_setErp(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Joint_getErp(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Joint_setErp(Native, value);}
 		}
 
 		public Matrix MassMatrix
@@ -1507,7 +1507,7 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Joint_getMassmatrix(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Joint_setMassmatrix(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Joint_setMassmatrix(Native, ref value);}
 		}
 
 		public Vector3Array Refs
@@ -1530,16 +1530,16 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Joint_getSdrift(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Joint_setSdrift(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Joint_setSdrift(Native, ref value);}
 		}
 
 		public float Split
 		{
-			get => UnsafeNativeMethods.btSoftBody_Joint_getSplit(Native);
-			set => UnsafeNativeMethods.btSoftBody_Joint_setSplit(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Joint_getSplit(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Joint_setSplit(Native, value);}
 		}
 
-		public JointType Type => UnsafeNativeMethods.btSoftBody_Joint_Type(Native);
+		public JointType Type{ get { return  UnsafeNativeMethods.btSoftBody_Joint_Type(Native);} }
 	}
 
 	public class Link : Feature
@@ -1553,20 +1553,20 @@ namespace BulletSharp.SoftBody
 
 		public float C0
 		{
-			get => UnsafeNativeMethods.btSoftBody_Link_getC0(Native);
-			set => UnsafeNativeMethods.btSoftBody_Link_setC0(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Link_getC0(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Link_setC0(Native, value);}
 		}
 
 		public float C1
 		{
-			get => UnsafeNativeMethods.btSoftBody_Link_getC1(Native);
-			set => UnsafeNativeMethods.btSoftBody_Link_setC1(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Link_getC1(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Link_setC1(Native, value);}
 		}
 
 		public float C2
 		{
-			get => UnsafeNativeMethods.btSoftBody_Link_getC2(Native);
-			set => UnsafeNativeMethods.btSoftBody_Link_setC2(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Link_getC2(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Link_setC2(Native, value);}
 		}
 
 		public Vector3 C3
@@ -1577,13 +1577,13 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Link_getC3(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Link_setC3(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Link_setC3(Native, ref value);}
 		}
 
 		public int IsBending
 		{
-			get => UnsafeNativeMethods.btSoftBody_Link_getBbending(Native);
-			set => UnsafeNativeMethods.btSoftBody_Link_setBbending(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Link_getBbending(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Link_setBbending(Native, value);}
 		}
 
 		public NodePtrArray Nodes
@@ -1600,8 +1600,8 @@ namespace BulletSharp.SoftBody
 
 		public float RestLength
 		{
-			get => UnsafeNativeMethods.btSoftBody_Link_getRl(Native);
-			set => UnsafeNativeMethods.btSoftBody_Link_setRl(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Link_getRl(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Link_setRl(Native, value);}
 		}
 	}
 
@@ -1622,7 +1622,7 @@ namespace BulletSharp.SoftBody
 					UnsafeNativeMethods.btSoftBody_LJoint_Specs_getPosition(Native, out value);
 					return value;
 				}
-				set => UnsafeNativeMethods.btSoftBody_LJoint_Specs_setPosition(Native, ref value);
+				set {  UnsafeNativeMethods.btSoftBody_LJoint_Specs_setPosition(Native, ref value);}
 			}
 		}
 
@@ -1655,26 +1655,26 @@ namespace BulletSharp.SoftBody
 
 		public float AngularStiffness
 		{
-			get => UnsafeNativeMethods.btSoftBody_Material_getKAST(Native);
-			set => UnsafeNativeMethods.btSoftBody_Material_setKAST(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Material_getKAST(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Material_setKAST(Native, value);}
 		}
 
 		public MaterialFlags Flags
 		{
-			get => UnsafeNativeMethods.btSoftBody_Material_getFlags(Native);
-			set => UnsafeNativeMethods.btSoftBody_Material_setFlags(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Material_getFlags(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Material_setFlags(Native, value);}
 		}
 
 		public float LinearStiffness
 		{
-			get => UnsafeNativeMethods.btSoftBody_Material_getKLST(Native);
-			set => UnsafeNativeMethods.btSoftBody_Material_setKLST(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Material_getKLST(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Material_setKLST(Native, value);}
 		}
 
 		public float VolumeStiffness
 		{
-			get => UnsafeNativeMethods.btSoftBody_Material_getKVST(Native);
-			set => UnsafeNativeMethods.btSoftBody_Material_setKVST(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Material_getKVST(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Material_setKVST(Native, value);}
 		}
 	}
 
@@ -1689,8 +1689,8 @@ namespace BulletSharp.SoftBody
 
 		public float Area
 		{
-			get => UnsafeNativeMethods.btSoftBody_Node_getArea(Native);
-			set => UnsafeNativeMethods.btSoftBody_Node_setArea(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Node_getArea(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Node_setArea(Native, value);}
 		}
 
 		public Vector3 Force
@@ -1701,19 +1701,19 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Node_getF(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Node_setF(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Node_setF(Native, ref value);}
 		}
 
 		public float InverseMass
 		{
-			get => UnsafeNativeMethods.btSoftBody_Node_getIm(Native);
-			set => UnsafeNativeMethods.btSoftBody_Node_setIm(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Node_getIm(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Node_setIm(Native, value);}
 		}
 
 		public int IsAttached
 		{
-			get => UnsafeNativeMethods.btSoftBody_Node_getBattach(Native);
-			set => UnsafeNativeMethods.btSoftBody_Node_setBattach(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Node_getBattach(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Node_setBattach(Native, value);}
 		}
 
 		public DbvtNode Leaf
@@ -1741,7 +1741,7 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Node_getN(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Node_setN(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Node_setN(Native, ref value);}
 		}
 
 		public Vector3 Position
@@ -1752,7 +1752,7 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Node_getX(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Node_setX(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Node_setX(Native, ref value);}
 		}
 
 		public Vector3 Q
@@ -1763,7 +1763,7 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Node_getQ(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Node_setQ(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Node_setQ(Native, ref value);}
 		}
 
 		public Vector3 Velocity
@@ -1774,7 +1774,7 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Node_getV(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Node_setV(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Node_setV(Native, ref value);}
 		}
 	}
 
@@ -1812,20 +1812,20 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Note_getOffset(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Note_setOffset(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Note_setOffset(Native, ref value);}
 		}
 
 		public int Rank
 		{
-			get => UnsafeNativeMethods.btSoftBody_Note_getRank(Native);
-			set => UnsafeNativeMethods.btSoftBody_Note_setRank(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Note_getRank(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Note_setRank(Native, value);}
 		}
 
 		// TODO: free memory
 		public string Text
 		{
-			get => UnsafeNativeMethods.btSoftBody_Note_getText(Native);
-			set => UnsafeNativeMethods.btSoftBody_Note_setText(Native, Marshal.StringToHGlobalAnsi(value));
+			get { return  UnsafeNativeMethods.btSoftBody_Note_getText(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Note_setText(Native, Marshal.StringToHGlobalAnsi(value));}
 		}
 	}
 
@@ -1849,7 +1849,7 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Pose_getAqq(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Pose_setAqq(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Pose_setAqq(Native, ref value);}
 		}
 
 		public Vector3 Com
@@ -1860,19 +1860,19 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Pose_getCom(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Pose_setCom(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Pose_setCom(Native, ref value);}
 		}
 
 		public bool IsFrameValid
 		{
-			get => UnsafeNativeMethods.btSoftBody_Pose_getBframe(Native);
-			set => UnsafeNativeMethods.btSoftBody_Pose_setBframe(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Pose_getBframe(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Pose_setBframe(Native, value);}
 		}
 
 		public bool IsVolumeValid
 		{
-			get => UnsafeNativeMethods.btSoftBody_Pose_getBvolume(Native);
-			set => UnsafeNativeMethods.btSoftBody_Pose_setBvolume(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Pose_getBvolume(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Pose_setBvolume(Native, value);}
 		}
 
 		public AlignedVector3Array Positions
@@ -1895,7 +1895,7 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Pose_getRot(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Pose_setRot(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Pose_setRot(Native, ref value);}
 		}
 
 		public Matrix Scale
@@ -1906,7 +1906,7 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_Pose_getScl(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_Pose_setScl(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_Pose_setScl(Native, ref value);}
 		}
 		/*
 		public AlignedScalarArray Weights
@@ -1923,8 +1923,8 @@ namespace BulletSharp.SoftBody
 		*/
 		public float Volume
 		{
-			get => UnsafeNativeMethods.btSoftBody_Pose_getVolume(Native);
-			set => UnsafeNativeMethods.btSoftBody_Pose_setVolume(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Pose_getVolume(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Pose_setVolume(Native, value);}
 		}
 	}
 
@@ -1972,8 +1972,8 @@ namespace BulletSharp.SoftBody
 
 		public float Mint
 		{
-			get => UnsafeNativeMethods.btSoftBody_RayFromToCaster_getMint(Native);
-			set => UnsafeNativeMethods.btSoftBody_RayFromToCaster_setMint(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_RayFromToCaster_getMint(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_RayFromToCaster_setMint(Native, value);}
 		}
 
 		public Vector3 RayFrom
@@ -1984,7 +1984,7 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_RayFromToCaster_getRayFrom(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_RayFromToCaster_setRayFrom(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_RayFromToCaster_setRayFrom(Native, ref value);}
 		}
 
 		public Vector3 RayNormalizedDirection
@@ -1995,7 +1995,7 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_RayFromToCaster_getRayNormalizedDirection(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_RayFromToCaster_setRayNormalizedDirection(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_RayFromToCaster_setRayNormalizedDirection(Native, ref value);}
 		}
 
 		public Vector3 RayTo
@@ -2006,13 +2006,13 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_RayFromToCaster_getRayTo(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_RayFromToCaster_setRayTo(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_RayFromToCaster_setRayTo(Native, ref value);}
 		}
 
 		public int Tests
 		{
-			get => UnsafeNativeMethods.btSoftBody_RayFromToCaster_getTests(Native);
-			set => UnsafeNativeMethods.btSoftBody_RayFromToCaster_setTests(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_RayFromToCaster_getTests(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_RayFromToCaster_setTests(Native, value);}
 		}
 	}
 
@@ -2041,7 +2041,7 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_RContact_getC0(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_RContact_setC0(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_RContact_setC0(Native, ref value);}
 		}
 
 		public Vector3 C1
@@ -2052,25 +2052,25 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_RContact_getC1(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_RContact_setC1(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_RContact_setC1(Native, ref value);}
 		}
 
 		public float C2
 		{
-			get => UnsafeNativeMethods.btSoftBody_RContact_getC2(Native);
-			set => UnsafeNativeMethods.btSoftBody_RContact_setC2(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_RContact_getC2(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_RContact_setC2(Native, value);}
 		}
 
 		public float C3
 		{
-			get => UnsafeNativeMethods.btSoftBody_RContact_getC3(Native);
-			set => UnsafeNativeMethods.btSoftBody_RContact_setC3(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_RContact_getC3(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_RContact_setC3(Native, value);}
 		}
 
 		public float C4
 		{
-			get => UnsafeNativeMethods.btSoftBody_RContact_getC4(Native);
-			set => UnsafeNativeMethods.btSoftBody_RContact_setC4(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_RContact_getC4(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_RContact_setC4(Native, value);}
 		}
 
 		public ContactInfo Cti
@@ -2139,8 +2139,8 @@ namespace BulletSharp.SoftBody
 
 		public CollisionObject CollisionObject
 		{
-			get => CollisionObject.GetManaged(UnsafeNativeMethods.btSoftBody_sCti_getColObj(Native));
-			set => UnsafeNativeMethods.btSoftBody_sCti_setColObj(Native, (value != null) ? value.Native : IntPtr.Zero);
+			get { return  CollisionObject.GetManaged(UnsafeNativeMethods.btSoftBody_sCti_getColObj(Native));}
+			set {  UnsafeNativeMethods.btSoftBody_sCti_setColObj(Native, (value != null) ? value.Native : IntPtr.Zero);}
 		}
 
 		public Vector3 Normal
@@ -2151,13 +2151,13 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_sCti_getNormal(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_sCti_setNormal(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_sCti_setNormal(Native, ref value);}
 		}
 
 		public float Offset
 		{
-			get => UnsafeNativeMethods.btSoftBody_sCti_getOffset(Native);
-			set => UnsafeNativeMethods.btSoftBody_sCti_setOffset(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_sCti_getOffset(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_sCti_setOffset(Native, value);}
 		}
 
 		public void Dispose()
@@ -2234,14 +2234,14 @@ namespace BulletSharp.SoftBody
 
 		public float Friction
 		{
-			get => UnsafeNativeMethods.btSoftBody_SContact_getFriction(Native);
-			set => UnsafeNativeMethods.btSoftBody_SContact_setFriction(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_SContact_getFriction(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_SContact_setFriction(Native, value);}
 		}
 
 		public float Margin
 		{
-			get => UnsafeNativeMethods.btSoftBody_SContact_getMargin(Native);
-			set => UnsafeNativeMethods.btSoftBody_SContact_setMargin(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_SContact_getMargin(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_SContact_setMargin(Native, value);}
 		}
 
 		public Node Node
@@ -2269,7 +2269,7 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_SContact_getNormal(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_SContact_setNormal(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_SContact_setNormal(Native, ref value);}
 		}
 
 		public Vector3 Weights
@@ -2280,7 +2280,7 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_SContact_getWeights(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_SContact_setWeights(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_SContact_setWeights(Native, ref value);}
 		}
 
 		public void Dispose()
@@ -2315,32 +2315,32 @@ namespace BulletSharp.SoftBody
 
 		public float InverseSdt
 		{
-			get => UnsafeNativeMethods.btSoftBody_SolverState_getIsdt(Native);
-			set => UnsafeNativeMethods.btSoftBody_SolverState_setIsdt(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_SolverState_getIsdt(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_SolverState_setIsdt(Native, value);}
 		}
 
 		public float RadialMargin
 		{
-			get => UnsafeNativeMethods.btSoftBody_SolverState_getRadmrg(Native);
-			set => UnsafeNativeMethods.btSoftBody_SolverState_setRadmrg(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_SolverState_getRadmrg(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_SolverState_setRadmrg(Native, value);}
 		}
 
 		public float Sdt
 		{
-			get => UnsafeNativeMethods.btSoftBody_SolverState_getSdt(Native);
-			set => UnsafeNativeMethods.btSoftBody_SolverState_setSdt(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_SolverState_getSdt(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_SolverState_setSdt(Native, value);}
 		}
 
 		public float UpdateMargin
 		{
-			get => UnsafeNativeMethods.btSoftBody_SolverState_getUpdmrg(Native);
-			set => UnsafeNativeMethods.btSoftBody_SolverState_setUpdmrg(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_SolverState_getUpdmrg(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_SolverState_setUpdmrg(Native, value);}
 		}
 
 		public float VelocityMargin
 		{
-			get => UnsafeNativeMethods.btSoftBody_SolverState_getVelmrg(Native);
-			set => UnsafeNativeMethods.btSoftBody_SolverState_setVelmrg(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_SolverState_getVelmrg(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_SolverState_setVelmrg(Native, value);}
 		}
 	}
 
@@ -2377,14 +2377,14 @@ namespace BulletSharp.SoftBody
 
 		public float C1
 		{
-			get => UnsafeNativeMethods.btSoftBody_Tetra_getC1(Native);
-			set => UnsafeNativeMethods.btSoftBody_Tetra_setC1(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Tetra_getC1(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Tetra_setC1(Native, value);}
 		}
 
 		public float C2
 		{
-			get => UnsafeNativeMethods.btSoftBody_Tetra_getC2(Native);
-			set => UnsafeNativeMethods.btSoftBody_Tetra_setC2(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Tetra_getC2(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Tetra_setC2(Native, value);}
 		}
 
 		public DbvtNode Leaf
@@ -2418,8 +2418,8 @@ namespace BulletSharp.SoftBody
 
 		public float RestVolume
 		{
-			get => UnsafeNativeMethods.btSoftBody_Tetra_getRv(Native);
-			set => UnsafeNativeMethods.btSoftBody_Tetra_setRv(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_Tetra_getRv(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_Tetra_setRv(Native, value);}
 		}
 	}
 
@@ -3308,7 +3308,7 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_getInitialWorldTransform(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_setInitialWorldTransform(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_setInitialWorldTransform(Native, ref value);}
 		}
 
 		public AlignedJointArray Joints
@@ -3403,8 +3403,8 @@ namespace BulletSharp.SoftBody
 		*/
 		public float RestLengthScale
 		{
-			get => UnsafeNativeMethods.btSoftBody_getRestLengthScale(Native);
-			set => UnsafeNativeMethods.btSoftBody_setRestLengthScale(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_getRestLengthScale(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_setRestLengthScale(Native, value);}
 		}
 		/*
 		public tSContactArray Scontacts
@@ -3415,7 +3415,7 @@ namespace BulletSharp.SoftBody
 		*/
 		public SoftBodySolver SoftBodySolver
 		{
-			get => _softBodySolver;
+			get { return  _softBodySolver;}
 			set
 			{
 				UnsafeNativeMethods.btSoftBody_setSoftBodySolver(Native, (value != null) ? value._native : IntPtr.Zero);
@@ -3451,20 +3451,20 @@ namespace BulletSharp.SoftBody
 
 		public float Timeacc
 		{
-			get => UnsafeNativeMethods.btSoftBody_getTimeacc(Native);
-			set => UnsafeNativeMethods.btSoftBody_setTimeacc(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_getTimeacc(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_setTimeacc(Native, value);}
 		}
 
 		public float TotalMass
 		{
-			get => UnsafeNativeMethods.btSoftBody_getTotalMass(Native);
-			set => SetTotalMass(value);
+			get { return  UnsafeNativeMethods.btSoftBody_getTotalMass(Native);}
+			set {  SetTotalMass(value);}
 		}
 
 		public bool UpdateRuntimeConstants
 		{
-			get => UnsafeNativeMethods.btSoftBody_getBUpdateRtCst(Native);
-			set => UnsafeNativeMethods.btSoftBody_setBUpdateRtCst(Native, value);
+			get { return  UnsafeNativeMethods.btSoftBody_getBUpdateRtCst(Native);}
+			set {  UnsafeNativeMethods.btSoftBody_setBUpdateRtCst(Native, value);}
 		}
 		/*
 		public AlignedObjectArray UserIndexMapping
@@ -3481,14 +3481,15 @@ namespace BulletSharp.SoftBody
 				UnsafeNativeMethods.btSoftBody_getWindVelocity(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btSoftBody_setWindVelocity(Native, ref value);
+			set {  UnsafeNativeMethods.btSoftBody_setWindVelocity(Native, ref value);}
 		}
 
-		public float Volume => UnsafeNativeMethods.btSoftBody_getVolume(Native);
+		public float Volume{ get { return  UnsafeNativeMethods.btSoftBody_getVolume(Native);} }
 
 		public SoftBodyWorldInfo WorldInfo
 		{
-			get => _worldInfo; set
+			get { return _worldInfo; }
+            set
 			{
 				UnsafeNativeMethods.btSoftBody_setWorldInfo(Native, value.Native);
 				_worldInfo = value;

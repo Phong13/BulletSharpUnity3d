@@ -37,20 +37,20 @@ namespace BulletSharp
 
 			public float AllowedPenetration
 			{
-				get => UnsafeNativeMethods.btConvexCast_CastResult_getAllowedPenetration(Native);
-				set => UnsafeNativeMethods.btConvexCast_CastResult_setAllowedPenetration(Native, value);
+				get { return  UnsafeNativeMethods.btConvexCast_CastResult_getAllowedPenetration(Native);}
+				set {  UnsafeNativeMethods.btConvexCast_CastResult_setAllowedPenetration(Native, value);}
 			}
 
 			public IDebugDraw DebugDrawer
 			{
-				get => BulletSharp.DebugDraw.GetManaged(UnsafeNativeMethods.btConvexCast_CastResult_getDebugDrawer(Native));
-				set => UnsafeNativeMethods.btConvexCast_CastResult_setDebugDrawer(Native, BulletSharp.DebugDraw.GetUnmanaged(value));
+				get { return  BulletSharp.DebugDraw.GetManaged(UnsafeNativeMethods.btConvexCast_CastResult_getDebugDrawer(Native));}
+				set {  UnsafeNativeMethods.btConvexCast_CastResult_setDebugDrawer(Native, BulletSharp.DebugDraw.GetUnmanaged(value));}
 			}
 
 			public float Fraction
 			{
-				get => UnsafeNativeMethods.btConvexCast_CastResult_getFraction(Native);
-				set => UnsafeNativeMethods.btConvexCast_CastResult_setFraction(Native, value);
+				get { return  UnsafeNativeMethods.btConvexCast_CastResult_getFraction(Native);}
+				set {  UnsafeNativeMethods.btConvexCast_CastResult_setFraction(Native, value);}
 			}
 
 			public Vector3 HitPoint
@@ -61,7 +61,7 @@ namespace BulletSharp
 					UnsafeNativeMethods.btConvexCast_CastResult_getHitPoint(Native, out value);
 					return value;
 				}
-				set => UnsafeNativeMethods.btConvexCast_CastResult_setHitPoint(Native, ref value);
+				set {  UnsafeNativeMethods.btConvexCast_CastResult_setHitPoint(Native, ref value);}
 			}
 
 			public Matrix HitTransformA
@@ -72,7 +72,7 @@ namespace BulletSharp
 					UnsafeNativeMethods.btConvexCast_CastResult_getHitTransformA(Native, out value);
 					return value;
 				}
-				set => UnsafeNativeMethods.btConvexCast_CastResult_setHitTransformA(Native, ref value);
+				set {  UnsafeNativeMethods.btConvexCast_CastResult_setHitTransformA(Native, ref value);}
 			}
 
 			public Matrix HitTransformB
@@ -83,7 +83,7 @@ namespace BulletSharp
 					UnsafeNativeMethods.btConvexCast_CastResult_getHitTransformB(Native, out value);
 					return value;
 				}
-				set => UnsafeNativeMethods.btConvexCast_CastResult_setHitTransformB(Native, ref value);
+				set {  UnsafeNativeMethods.btConvexCast_CastResult_setHitTransformB(Native, ref value);}
 			}
 
 			public Vector3 Normal
@@ -94,7 +94,7 @@ namespace BulletSharp
 					UnsafeNativeMethods.btConvexCast_CastResult_getNormal(Native, out value);
 					return value;
 				}
-				set => UnsafeNativeMethods.btConvexCast_CastResult_setNormal(Native, ref value);
+				set {  UnsafeNativeMethods.btConvexCast_CastResult_setNormal(Native, ref value);}
 			}
 
 			public void Dispose()

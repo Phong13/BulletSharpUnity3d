@@ -117,19 +117,19 @@ namespace BulletSharp
 			get { return UnsafeNativeMethods.btGImpactShapeInterface_getBoxSet(_native); }
 		}
 		*/
-		public bool ChildrenHasTransform => UnsafeNativeMethods.btGImpactShapeInterface_childrenHasTransform(Native);
+		public bool ChildrenHasTransform{ get { return  UnsafeNativeMethods.btGImpactShapeInterface_childrenHasTransform(Native);} }
 
 		public abstract GImpactShapeType GImpactShapeType { get; }
 
-		public bool HasBoxSet => UnsafeNativeMethods.btGImpactShapeInterface_hasBoxSet(Native);
+		public bool HasBoxSet{ get { return  UnsafeNativeMethods.btGImpactShapeInterface_hasBoxSet(Native);} }
 
-		public Aabb LocalBox => new Aabb(UnsafeNativeMethods.btGImpactShapeInterface_getLocalBox(Native));
+		public Aabb LocalBox{ get { return  new Aabb(UnsafeNativeMethods.btGImpactShapeInterface_getLocalBox(Native));} }
 
-		public bool NeedsRetrieveTetrahedrons => UnsafeNativeMethods.btGImpactShapeInterface_needsRetrieveTetrahedrons(Native);
+		public bool NeedsRetrieveTetrahedrons{ get { return  UnsafeNativeMethods.btGImpactShapeInterface_needsRetrieveTetrahedrons(Native);} }
 
-		public bool NeedsRetrieveTriangles => UnsafeNativeMethods.btGImpactShapeInterface_needsRetrieveTriangles(Native);
+		public bool NeedsRetrieveTriangles{ get { return  UnsafeNativeMethods.btGImpactShapeInterface_needsRetrieveTriangles(Native);} }
 
-		public int NumChildShapes => UnsafeNativeMethods.btGImpactShapeInterface_getNumChildShapes(Native);
+		public int NumChildShapes{ get { return  UnsafeNativeMethods.btGImpactShapeInterface_getNumChildShapes(Native);} }
 
 		public abstract PrimitiveManagerBase PrimitiveManager { get; }
 	}
@@ -142,7 +142,11 @@ namespace BulletSharp
 			CompoundShape = compoundShape;
 		}
 
-		public GImpactCompoundShape CompoundShape { get; }
+		public GImpactCompoundShape CompoundShape
+        {
+            get;
+            set;
+        }
 	}
 
 	public class GImpactCompoundShape : GImpactShapeInterface
@@ -177,7 +181,7 @@ namespace BulletSharp
 			return _childShapes[index];
 		}
 
-		public override PrimitiveManagerBase PrimitiveManager => CompoundPrimitiveManager;
+		public override PrimitiveManagerBase PrimitiveManager{ get { return  CompoundPrimitiveManager;} }
 
 		public CompoundPrimitiveManager CompoundPrimitiveManager
 		{
@@ -192,7 +196,7 @@ namespace BulletSharp
 			}
 		}
 
-		public override GImpactShapeType GImpactShapeType => GImpactShapeType.CompoundShape;
+		public override GImpactShapeType GImpactShapeType{ get { return  GImpactShapeType.CompoundShape;} }
 	}
 
 	public sealed class TrimeshPrimitiveManager : PrimitiveManagerBase
@@ -251,37 +255,37 @@ namespace BulletSharp
 
 		public IntPtr IndexBase
 		{
-			get => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_getIndexbase(Native);
-			set => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setIndexbase(Native, value);
+			get { return  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_getIndexbase(Native);}
+			set {  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setIndexbase(Native, value);}
 		}
 
 		public int IndexStride
 		{
-			get => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_getIndexstride(Native);
-			set => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setIndexstride(Native, value);
+			get { return  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_getIndexstride(Native);}
+			set {  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setIndexstride(Native, value);}
 		}
 
 		public PhyScalarType IndicesType
 		{
-			get => btGImpactMeshShapePart_TrimeshPrimitiveManager_getIndicestype(Native);
-			set => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setIndicestype(Native, value);
+			get { return UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_getIndicestype(Native);}
+			set {  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setIndicestype(Native, value);}
 		}
 
 		public int LockCount
 		{
-			get => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_getLock_count(Native);
-			set => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setLock_count(Native, value);
+			get { return  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_getLock_count(Native);}
+			set {  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setLock_count(Native, value);}
 		}
 
 		public float Margin
 		{
-			get => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_getMargin(Native);
-			set => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setMargin(Native, value);
+			get { return  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_getMargin(Native);}
+			set {  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setMargin(Native, value);}
 		}
 
 		public StridingMeshInterface MeshInterface
 		{
-			get => _meshInterface;
+			get { return  _meshInterface;}
 			set
 			{
 				UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setMeshInterface(Native, value.Native);
@@ -291,20 +295,20 @@ namespace BulletSharp
 
 		public int Numfaces
 		{
-			get => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_getNumfaces(Native);
-			set => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setNumfaces(Native, value);
+			get { return  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_getNumfaces(Native);}
+			set {  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setNumfaces(Native, value);}
 		}
 
 		public int Numverts
 		{
-			get => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_getNumverts(Native);
-			set => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setNumverts(Native, value);
+			get { return  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_getNumverts(Native);}
+			set {  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setNumverts(Native, value);}
 		}
 
 		public int Part
 		{
-			get => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_getPart(Native);
-			set => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setPart(Native, value);
+			get { return  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_getPart(Native);}
+			set {  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setPart(Native, value);}
 		}
 
 		public Vector3 Scale
@@ -315,28 +319,28 @@ namespace BulletSharp
 				UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_getScale(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setScale(Native, ref value);
+			set {  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setScale(Native, ref value);}
 		}
 
 		public int Stride
 		{
-			get => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_getStride(Native);
-			set => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setStride(Native, value);
+			get { return  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_getStride(Native);}
+			set {  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setStride(Native, value);}
 		}
 
 		public PhyScalarType Type
 		{
-			get => btGImpactMeshShapePart_TrimeshPrimitiveManager_getType(Native);
-			set => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setType(Native, value);
+			get { return UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_getType(Native);}
+			set {  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setType(Native, value);}
 		}
 
 		public IntPtr VertexBase
 		{
-			get => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_getVertexbase(Native);
-			set => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setVertexbase(Native, value);
+			get { return  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_getVertexbase(Native);}
+			set {  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_setVertexbase(Native, value);}
 		}
 
-		public int VertexCount => UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_get_vertex_count(Native);
+		public int VertexCount{ get { return  UnsafeNativeMethods.btGImpactMeshShapePart_TrimeshPrimitiveManager_get_vertex_count(Native);} }
 	}
 
 	public class GImpactMeshShapePart : GImpactShapeInterface
@@ -368,7 +372,7 @@ namespace BulletSharp
 			UnsafeNativeMethods.btGImpactMeshShapePart_getVertex(Native, vertexIndex, out vertex);
 		}
 
-		public override GImpactShapeType GImpactShapeType => GImpactShapeType.TrimeshShapePart;
+		public override GImpactShapeType GImpactShapeType{ get { return  GImpactShapeType.TrimeshShapePart;} }
 
 		public TrimeshPrimitiveManager GImpactTrimeshPrimitiveManager
 		{
@@ -383,11 +387,11 @@ namespace BulletSharp
 			}
 		}
 
-		public int Part => UnsafeNativeMethods.btGImpactMeshShapePart_getPart(Native);
+		public int Part{ get { return  UnsafeNativeMethods.btGImpactMeshShapePart_getPart(Native);} }
 
-		public override PrimitiveManagerBase PrimitiveManager => GImpactTrimeshPrimitiveManager;
+		public override PrimitiveManagerBase PrimitiveManager{ get { return  GImpactTrimeshPrimitiveManager;} }
 
-		public int VertexCount => UnsafeNativeMethods.btGImpactMeshShapePart_getVertexCount(Native);
+		public int VertexCount{ get { return  UnsafeNativeMethods.btGImpactMeshShapePart_getVertexCount(Native);} }
 	}
 
 	public class GImpactMeshShape : GImpactShapeInterface
@@ -429,11 +433,11 @@ namespace BulletSharp
 			}
 		}
 
-		public int MeshPartCount => UnsafeNativeMethods.btGImpactMeshShape_getMeshPartCount(Native);
+		public int MeshPartCount{ get { return  UnsafeNativeMethods.btGImpactMeshShape_getMeshPartCount(Native);} }
 
-		public override PrimitiveManagerBase PrimitiveManager => null;
+		public override PrimitiveManagerBase PrimitiveManager{ get { return  null;} }
 
-		public override GImpactShapeType GImpactShapeType => GImpactShapeType.TrimeshShape;
+		public override GImpactShapeType GImpactShapeType{ get { return  GImpactShapeType.TrimeshShape;} }
 
 		protected override void Dispose(bool disposing)
 		{

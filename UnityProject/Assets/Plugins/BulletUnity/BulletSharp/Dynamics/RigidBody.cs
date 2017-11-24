@@ -264,7 +264,7 @@ namespace BulletSharp
 			return UnsafeNativeMethods.btRigidBody_wantsSleeping(Native);
 		}
 
-		public float AngularDamping => UnsafeNativeMethods.btRigidBody_getAngularDamping(Native);
+		public float AngularDamping{ get { return  UnsafeNativeMethods.btRigidBody_getAngularDamping(Native);} }
 
 		public Vector3 AngularFactor
 		{
@@ -274,10 +274,10 @@ namespace BulletSharp
 				UnsafeNativeMethods.btRigidBody_getAngularFactor(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btRigidBody_setAngularFactor(Native, ref value);
+			set {  UnsafeNativeMethods.btRigidBody_setAngularFactor(Native, ref value);}
 		}
 
-		public float AngularSleepingThreshold => UnsafeNativeMethods.btRigidBody_getAngularSleepingThreshold(Native);
+		public float AngularSleepingThreshold{ get { return  UnsafeNativeMethods.btRigidBody_getAngularSleepingThreshold(Native);} }
 
 		public Vector3 AngularVelocity
 		{
@@ -287,10 +287,10 @@ namespace BulletSharp
 				UnsafeNativeMethods.btRigidBody_getAngularVelocity(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btRigidBody_setAngularVelocity(Native, ref value);
+			set {  UnsafeNativeMethods.btRigidBody_setAngularVelocity(Native, ref value);}
 		}
 
-		public BroadphaseProxy BroadphaseProxy => BroadphaseProxy.GetManaged(UnsafeNativeMethods.btRigidBody_getBroadphaseProxy(Native));
+		public BroadphaseProxy BroadphaseProxy{ get { return  BroadphaseProxy.GetManaged(UnsafeNativeMethods.btRigidBody_getBroadphaseProxy(Native));} }
 
 		public Vector3 CenterOfMassPosition
 		{
@@ -310,25 +310,25 @@ namespace BulletSharp
 				UnsafeNativeMethods.btRigidBody_getCenterOfMassTransform(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btRigidBody_setCenterOfMassTransform(Native, ref value);
+			set {  UnsafeNativeMethods.btRigidBody_setCenterOfMassTransform(Native, ref value);}
 		}
 
 		public int ContactSolverType
 		{
-			get => UnsafeNativeMethods.btRigidBody_getContactSolverType(Native);
-			set => UnsafeNativeMethods.btRigidBody_setContactSolverType(Native, value);
+			get { return  UnsafeNativeMethods.btRigidBody_getContactSolverType(Native);}
+			set {  UnsafeNativeMethods.btRigidBody_setContactSolverType(Native, value);}
 		}
 
 		public RigidBodyFlags Flags
 		{
-			get => btRigidBody_getFlags(Native);
-			set => UnsafeNativeMethods.btRigidBody_setFlags(Native, value);
+			get { return UnsafeNativeMethods.btRigidBody_getFlags(Native);}
+			set {  UnsafeNativeMethods.btRigidBody_setFlags(Native, value);}
 		}
 
 		public int FrictionSolverType
 		{
-			get => UnsafeNativeMethods.btRigidBody_getFrictionSolverType(Native);
-			set => UnsafeNativeMethods.btRigidBody_setFrictionSolverType(Native, value);
+			get { return  UnsafeNativeMethods.btRigidBody_getFrictionSolverType(Native);}
+			set {  UnsafeNativeMethods.btRigidBody_setFrictionSolverType(Native, value);}
 		}
 
 		public Vector3 Gravity
@@ -339,7 +339,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btRigidBody_getGravity(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btRigidBody_setGravity(Native, ref value);
+			set {  UnsafeNativeMethods.btRigidBody_setGravity(Native, ref value);}
 		}
 
 		public Vector3 InvInertiaDiagLocal
@@ -350,7 +350,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btRigidBody_getInvInertiaDiagLocal(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btRigidBody_setInvInertiaDiagLocal(Native, ref value);
+			set {  UnsafeNativeMethods.btRigidBody_setInvInertiaDiagLocal(Native, ref value);}
 		}
 
 		public Matrix InvInertiaTensorWorld
@@ -363,11 +363,11 @@ namespace BulletSharp
 			}
 		}
 
-		public float InvMass => UnsafeNativeMethods.btRigidBody_getInvMass(Native);
+		public float InvMass{ get { return  UnsafeNativeMethods.btRigidBody_getInvMass(Native);} }
 
-		public bool IsInWorld => UnsafeNativeMethods.btRigidBody_isInWorld(Native);
+		public bool IsInWorld{ get { return  UnsafeNativeMethods.btRigidBody_isInWorld(Native);} }
 
-		public float LinearDamping => UnsafeNativeMethods.btRigidBody_getLinearDamping(Native);
+		public float LinearDamping{ get { return  UnsafeNativeMethods.btRigidBody_getLinearDamping(Native);} }
 
 		public Vector3 LinearFactor
 		{
@@ -377,10 +377,10 @@ namespace BulletSharp
 				UnsafeNativeMethods.btRigidBody_getLinearFactor(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btRigidBody_setLinearFactor(Native, ref value);
+			set {  UnsafeNativeMethods.btRigidBody_setLinearFactor(Native, ref value);}
 		}
 
-		public float LinearSleepingThreshold => UnsafeNativeMethods.btRigidBody_getLinearSleepingThreshold(Native);
+		public float LinearSleepingThreshold{ get { return  UnsafeNativeMethods.btRigidBody_getLinearSleepingThreshold(Native);} }
 
 		public Vector3 LinearVelocity
 		{
@@ -390,7 +390,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btRigidBody_getLinearVelocity(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btRigidBody_setLinearVelocity(Native, ref value);
+			set {  UnsafeNativeMethods.btRigidBody_setLinearVelocity(Native, ref value);}
 		}
 
 		public Vector3 LocalInertia
@@ -405,7 +405,7 @@ namespace BulletSharp
 
 		public MotionState MotionState
 		{
-			get => _motionState;
+			get { return  _motionState;}
 			set
 			{
 				UnsafeNativeMethods.btRigidBody_setMotionState(Native, (value != null) ? value._native : IntPtr.Zero);
@@ -413,7 +413,7 @@ namespace BulletSharp
 			}
 		}
 
-		public int NumConstraintRefs => (_constraintRefs != null) ? _constraintRefs.Count : 0;
+		public int NumConstraintRefs{ get { return  (_constraintRefs != null) ? _constraintRefs.Count : 0;} }
 
 		public Quaternion Orientation
 		{

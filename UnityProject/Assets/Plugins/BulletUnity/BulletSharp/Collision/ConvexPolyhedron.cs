@@ -99,7 +99,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btConvexPolyhedron_getExtents(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btConvexPolyhedron_setExtents(Native, ref value);
+			set {  UnsafeNativeMethods.btConvexPolyhedron_setExtents(Native, ref value);}
 		}
 		/*
 		public AlignedFaceArray Faces
@@ -115,7 +115,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btConvexPolyhedron_getLocalCenter(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btConvexPolyhedron_setLocalCenter(Native, ref value);
+			set {  UnsafeNativeMethods.btConvexPolyhedron_setLocalCenter(Native, ref value);}
 		}
 
 		public Vector3 C
@@ -126,7 +126,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btConvexPolyhedron_getMC(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btConvexPolyhedron_setMC(Native, ref value);
+			set {  UnsafeNativeMethods.btConvexPolyhedron_setMC(Native, ref value);}
 		}
 
 		public Vector3 E
@@ -137,13 +137,13 @@ namespace BulletSharp
 				UnsafeNativeMethods.btConvexPolyhedron_getME(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btConvexPolyhedron_setME(Native, ref value);
+			set {  UnsafeNativeMethods.btConvexPolyhedron_setME(Native, ref value);}
 		}
 
 		public float Radius
 		{
-			get => UnsafeNativeMethods.btConvexPolyhedron_getRadius(Native);
-			set => UnsafeNativeMethods.btConvexPolyhedron_setRadius(Native, value);
+			get { return  UnsafeNativeMethods.btConvexPolyhedron_getRadius(Native);}
+			set {  UnsafeNativeMethods.btConvexPolyhedron_setRadius(Native, value);}
 		}
 
 		public AlignedVector3Array UniqueEdges

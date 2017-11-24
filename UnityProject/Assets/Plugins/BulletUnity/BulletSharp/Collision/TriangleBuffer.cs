@@ -24,14 +24,14 @@ namespace BulletSharp
 
 		public int PartId
 		{
-			get => UnsafeNativeMethods.btTriangle_getPartId(Native);
-			set => UnsafeNativeMethods.btTriangle_setPartId(Native, value);
+			get { return  UnsafeNativeMethods.btTriangle_getPartId(Native);}
+			set {  UnsafeNativeMethods.btTriangle_setPartId(Native, value);}
 		}
 
 		public int TriangleIndex
 		{
-			get => UnsafeNativeMethods.btTriangle_getTriangleIndex(Native);
-			set => UnsafeNativeMethods.btTriangle_setTriangleIndex(Native, value);
+			get { return  UnsafeNativeMethods.btTriangle_getTriangleIndex(Native);}
+			set {  UnsafeNativeMethods.btTriangle_setTriangleIndex(Native, value);}
 		}
 
 		public Vector3 Vertex0
@@ -42,7 +42,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btTriangle_getVertex0(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btTriangle_setVertex0(Native, ref value);
+			set {  UnsafeNativeMethods.btTriangle_setVertex0(Native, ref value);}
 		}
 
 		public Vector3 Vertex1
@@ -53,7 +53,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btTriangle_getVertex1(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btTriangle_setVertex1(Native, ref value);
+			set {  UnsafeNativeMethods.btTriangle_setVertex1(Native, ref value);}
 		}
 
 		public Vector3 Vertex2
@@ -64,7 +64,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btTriangle_getVertex2(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btTriangle_setVertex2(Native, ref value);
+			set {  UnsafeNativeMethods.btTriangle_setVertex2(Native, ref value);}
 		}
 
 		public void Dispose()
@@ -118,6 +118,6 @@ namespace BulletSharp
 			throw new NotImplementedException();
 		}
 
-		public int NumTriangles => UnsafeNativeMethods.btTriangleBuffer_getNumTriangles(Native);
+		public int NumTriangles{ get { return  UnsafeNativeMethods.btTriangleBuffer_getNumTriangles(Native);} }
 	}
 }

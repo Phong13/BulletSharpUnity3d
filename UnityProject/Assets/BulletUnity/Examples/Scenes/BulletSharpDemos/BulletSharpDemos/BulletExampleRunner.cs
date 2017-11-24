@@ -40,6 +40,7 @@ public class BulletExampleRunner : MonoBehaviour {
         if (nm.Equals("BasicDemo")) {
             demo = new BasicDemo.BasicDemo();
         }
+        /*
         if (nm.Equals("BenchmarkDemo"))
         {
             demo = new BenchmarkDemo.BenchmarkDemo();
@@ -120,6 +121,7 @@ public class BulletExampleRunner : MonoBehaviour {
         {
             demo = new VehicleDemo.VehicleDemo();
         }
+        */
         demo.DebugDrawMode = DebugDrawModes.DrawWireframe;
         demo.Run();
         IsDebugDrawEnabled = false;
@@ -158,6 +160,8 @@ public class BulletExampleRunner : MonoBehaviour {
             }
             GUILayout.EndVertical();
             GUILayout.BeginVertical("box", w);
+            //TODO perhaps put back
+            /*
             if (demo is SoftDemo.SoftDemo)
             {
                 SoftDemo.SoftDemo sd = (SoftDemo.SoftDemo) demo;
@@ -178,6 +182,7 @@ public class BulletExampleRunner : MonoBehaviour {
                     }
                 }
             }
+            */
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
         }

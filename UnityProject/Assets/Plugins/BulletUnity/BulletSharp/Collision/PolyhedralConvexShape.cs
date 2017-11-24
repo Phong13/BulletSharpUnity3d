@@ -62,11 +62,11 @@ namespace BulletSharp
 			}
 		}
 
-		public int NumEdges => UnsafeNativeMethods.btPolyhedralConvexShape_getNumEdges(Native);
+		public int NumEdges{ get { return  UnsafeNativeMethods.btPolyhedralConvexShape_getNumEdges(Native);} }
 
-		public int NumPlanes => UnsafeNativeMethods.btPolyhedralConvexShape_getNumPlanes(Native);
+		public int NumPlanes{ get { return  UnsafeNativeMethods.btPolyhedralConvexShape_getNumPlanes(Native);} }
 
-		public int NumVertices => UnsafeNativeMethods.btPolyhedralConvexShape_getNumVertices(Native);
+		public int NumVertices{ get { return  UnsafeNativeMethods.btPolyhedralConvexShape_getNumVertices(Native);} }
 	}
 
 	public abstract class PolyhedralConvexAabbCachingShape : PolyhedralConvexShape

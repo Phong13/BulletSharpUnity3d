@@ -80,8 +80,8 @@ namespace BulletSharp
 			_constraints.Remove(constraint);
 		}
 
-		public int NumMultibodies => _bodies.Count;
+		public int NumMultibodies{ get { return  _bodies.Count;} }
 
-		public int NumMultiBodyConstraints => UnsafeNativeMethods.btMultiBodyDynamicsWorld_getNumMultiBodyConstraints(Native);
+		public int NumMultiBodyConstraints{ get { return  UnsafeNativeMethods.btMultiBodyDynamicsWorld_getNumMultiBodyConstraints(Native);} }
 	}
 }

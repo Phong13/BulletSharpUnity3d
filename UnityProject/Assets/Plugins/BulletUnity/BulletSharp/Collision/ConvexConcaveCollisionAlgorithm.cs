@@ -58,14 +58,14 @@ namespace BulletSharp
 
 		public PersistentManifold ManifoldPtr
 		{
-			get => btConvexTriangleCallback_getManifoldPtr(_native);
-			set => btConvexTriangleCallback_setManifoldPtr(_native, value._native);
+			get { return  btConvexTriangleCallback_getManifoldPtr(_native);}
+			set {  btConvexTriangleCallback_setManifoldPtr(_native, value._native);}
 		}
 
 		public int TriangleCount
 		{
-			get => btConvexTriangleCallback_getTriangleCount(_native);
-			set => btConvexTriangleCallback_setTriangleCount(_native, value);
+			get { return  btConvexTriangleCallback_getTriangleCount(_native);}
+			set {  btConvexTriangleCallback_setTriangleCount(_native, value);}
 		}
 
 		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]

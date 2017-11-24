@@ -17,20 +17,20 @@ namespace BulletSharp
 
 		public int ConeUpIndex
 		{
-			get => UnsafeNativeMethods.btConeShape_getConeUpIndex(Native);
-			set => UnsafeNativeMethods.btConeShape_setConeUpIndex(Native, value);
+			get { return  UnsafeNativeMethods.btConeShape_getConeUpIndex(Native);}
+			set {  UnsafeNativeMethods.btConeShape_setConeUpIndex(Native, value);}
 		}
 
 		public float Height
 		{
-			get => UnsafeNativeMethods.btConeShape_getHeight(Native);
-			set => UnsafeNativeMethods.btConeShape_setHeight(Native, value);
+			get { return  UnsafeNativeMethods.btConeShape_getHeight(Native);}
+			set {  UnsafeNativeMethods.btConeShape_setHeight(Native, value);}
 		}
 
 		public float Radius
 		{
-			get => UnsafeNativeMethods.btConeShape_getRadius(Native);
-			set => UnsafeNativeMethods.btConeShape_setRadius(Native, value);
+			get { return  UnsafeNativeMethods.btConeShape_getRadius(Native);}
+			set {  UnsafeNativeMethods.btConeShape_setRadius(Native, value);}
 		}
 	}
 

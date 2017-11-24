@@ -132,8 +132,8 @@ namespace BulletSharp
 
 		public bool AngularOnly
 		{
-			get => UnsafeNativeMethods.btConeTwistConstraint_getAngularOnly(Native);
-			set => UnsafeNativeMethods.btConeTwistConstraint_setAngularOnly(Native, value);
+			get { return  UnsafeNativeMethods.btConeTwistConstraint_getAngularOnly(Native);}
+			set {  UnsafeNativeMethods.btConeTwistConstraint_setAngularOnly(Native, value);}
 		}
 
 		public Matrix BFrame
@@ -146,21 +146,21 @@ namespace BulletSharp
 			}
 		}
 
-		public float BiasFactor => UnsafeNativeMethods.btConeTwistConstraint_getBiasFactor(Native);
+		public float BiasFactor{ get { return  UnsafeNativeMethods.btConeTwistConstraint_getBiasFactor(Native);} }
 
 		public float Damping
 		{
-			get => UnsafeNativeMethods.btConeTwistConstraint_getDamping(Native);
-			set => UnsafeNativeMethods.btConeTwistConstraint_setDamping(Native, value);
+			get { return  UnsafeNativeMethods.btConeTwistConstraint_getDamping(Native);}
+			set {  UnsafeNativeMethods.btConeTwistConstraint_setDamping(Native, value);}
 		}
 
 		public float FixThresh
 		{
-			get => UnsafeNativeMethods.btConeTwistConstraint_getFixThresh(Native);
-			set => UnsafeNativeMethods.btConeTwistConstraint_setFixThresh(Native, value);
+			get { return  UnsafeNativeMethods.btConeTwistConstraint_getFixThresh(Native);}
+			set {  UnsafeNativeMethods.btConeTwistConstraint_setFixThresh(Native, value);}
 		}
 
-		public ConeTwistFlags Flags => UnsafeNativeMethods.btConeTwistConstraint_getFlags(Native);
+		public ConeTwistFlags Flags{ get { return  UnsafeNativeMethods.btConeTwistConstraint_getFlags(Native);} }
 
 		public Matrix FrameOffsetA
 		{
@@ -182,18 +182,18 @@ namespace BulletSharp
 			}
 		}
 
-		public bool IsMaxMotorImpulseNormalized => UnsafeNativeMethods.btConeTwistConstraint_isMaxMotorImpulseNormalized(Native);
+		public bool IsMaxMotorImpulseNormalized{ get { return  UnsafeNativeMethods.btConeTwistConstraint_isMaxMotorImpulseNormalized(Native);} }
 
-		public bool IsMotorEnabled => UnsafeNativeMethods.btConeTwistConstraint_isMotorEnabled(Native);
+		public bool IsMotorEnabled{ get { return  UnsafeNativeMethods.btConeTwistConstraint_isMotorEnabled(Native);} }
 
-		public bool IsPastSwingLimit => UnsafeNativeMethods.btConeTwistConstraint_isPastSwingLimit(Native);
+		public bool IsPastSwingLimit{ get { return  UnsafeNativeMethods.btConeTwistConstraint_isPastSwingLimit(Native);} }
 
-		public float LimitSoftness => UnsafeNativeMethods.btConeTwistConstraint_getLimitSoftness(Native);
+		public float LimitSoftness{ get { return  UnsafeNativeMethods.btConeTwistConstraint_getLimitSoftness(Native);} }
 
 		public float MaxMotorImpulse
 		{
-			get => UnsafeNativeMethods.btConeTwistConstraint_getMaxMotorImpulse(Native);
-			set => UnsafeNativeMethods.btConeTwistConstraint_setMaxMotorImpulse(Native, value);
+			get { return  UnsafeNativeMethods.btConeTwistConstraint_getMaxMotorImpulse(Native);}
+			set {  UnsafeNativeMethods.btConeTwistConstraint_setMaxMotorImpulse(Native, value);}
 		}
 
 		public Quaternion MotorTarget
@@ -204,17 +204,17 @@ namespace BulletSharp
 				UnsafeNativeMethods.btConeTwistConstraint_getMotorTarget(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btConeTwistConstraint_setMotorTarget(Native, ref value);
+			set {  UnsafeNativeMethods.btConeTwistConstraint_setMotorTarget(Native, ref value);}
 		}
 
-		public float RelaxationFactor => UnsafeNativeMethods.btConeTwistConstraint_getRelaxationFactor(Native);
-		public int SolveSwingLimit => UnsafeNativeMethods.btConeTwistConstraint_getSolveSwingLimit(Native);
-		public int SolveTwistLimit => UnsafeNativeMethods.btConeTwistConstraint_getSolveTwistLimit(Native);
-		public float SwingSpan1 => UnsafeNativeMethods.btConeTwistConstraint_getSwingSpan1(Native);
-		public float SwingSpan2 => UnsafeNativeMethods.btConeTwistConstraint_getSwingSpan2(Native);
-		public float TwistAngle => UnsafeNativeMethods.btConeTwistConstraint_getTwistAngle(Native);
-		public float TwistLimitSign => UnsafeNativeMethods.btConeTwistConstraint_getTwistLimitSign(Native);
-		public float TwistSpan => UnsafeNativeMethods.btConeTwistConstraint_getTwistSpan(Native);
+		public float RelaxationFactor{ get { return  UnsafeNativeMethods.btConeTwistConstraint_getRelaxationFactor(Native);} }
+		public int SolveSwingLimit{ get { return  UnsafeNativeMethods.btConeTwistConstraint_getSolveSwingLimit(Native);} }
+		public int SolveTwistLimit{ get { return  UnsafeNativeMethods.btConeTwistConstraint_getSolveTwistLimit(Native);} }
+		public float SwingSpan1{ get { return  UnsafeNativeMethods.btConeTwistConstraint_getSwingSpan1(Native);} }
+		public float SwingSpan2{ get { return  UnsafeNativeMethods.btConeTwistConstraint_getSwingSpan2(Native);} }
+		public float TwistAngle{ get { return  UnsafeNativeMethods.btConeTwistConstraint_getTwistAngle(Native);} }
+		public float TwistLimitSign{ get { return  UnsafeNativeMethods.btConeTwistConstraint_getTwistLimitSign(Native);} }
+		public float TwistSpan{ get { return  UnsafeNativeMethods.btConeTwistConstraint_getTwistSpan(Native);} }
 	}
 
 	[StructLayout(LayoutKind.Sequential)]

@@ -566,7 +566,7 @@ namespace BulletSharp
                 {
                     if (rigidBodyA == null || rigidBodyB == null)
                     {
-                        throw new InvalidDataException("Error: requires rigidBodyA && rigidBodyB");
+                        throw new Exception("Error: requires rigidBodyA && rigidBodyB");
                     }
 
                     Matrix rbaFrame = rigidBodyA.WorldTransform;

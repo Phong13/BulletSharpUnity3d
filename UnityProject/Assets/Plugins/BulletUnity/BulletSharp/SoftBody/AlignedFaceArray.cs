@@ -43,13 +43,13 @@ namespace BulletSharp.SoftBody
 			_i = -1;
 		}
 
-		public Face Current => _array[_i];
+		public Face Current{ get { return  _array[_i];} }
 
 		public void Dispose()
 		{
 		}
 
-		object System.Collections.IEnumerator.Current => _array[_i];
+		object System.Collections.IEnumerator.Current{ get { return  _array[_i];} }
 
 		public bool MoveNext()
 		{
@@ -94,7 +94,7 @@ namespace BulletSharp.SoftBody
 			{
 				if ((uint)index >= (uint)Count)
 				{
-					throw new ArgumentOutOfRangeException(nameof(index));
+					throw new ArgumentOutOfRangeException("index");
 				}
 				return new Face(UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_Face_at(_native, index));
 			}
@@ -124,9 +124,9 @@ namespace BulletSharp.SoftBody
 			throw new NotImplementedException();
 		}
 
-		public int Count => UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_Face_size(_native);
+		public int Count{ get { return  UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_Face_size(_native);} }
 
-		public bool IsReadOnly => false;
+		public bool IsReadOnly{ get { return  false;} }
 
 		public bool Remove(Face item)
 		{

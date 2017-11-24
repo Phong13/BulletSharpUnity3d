@@ -23,7 +23,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btGearConstraint_getAxisA(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btGearConstraint_setAxisA(Native, ref value);
+			set {  UnsafeNativeMethods.btGearConstraint_setAxisA(Native, ref value);}
 		}
 
 		public Vector3 AxisB
@@ -34,13 +34,13 @@ namespace BulletSharp
 				UnsafeNativeMethods.btGearConstraint_getAxisB(Native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btGearConstraint_setAxisB(Native, ref value);
+			set {  UnsafeNativeMethods.btGearConstraint_setAxisB(Native, ref value);}
 		}
 
 		public float Ratio
 		{
-			get => UnsafeNativeMethods.btGearConstraint_getRatio(Native);
-			set => UnsafeNativeMethods.btGearConstraint_setRatio(Native, value);
+			get { return  UnsafeNativeMethods.btGearConstraint_getRatio(Native);}
+			set {  UnsafeNativeMethods.btGearConstraint_setRatio(Native, value);}
 		}
 	}
 

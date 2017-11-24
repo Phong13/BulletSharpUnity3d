@@ -27,32 +27,32 @@ namespace BulletSharp
 
 		public int ChunkCode
 		{
-			get => UnsafeNativeMethods.btChunk_getChunkCode(_native);
-			set => UnsafeNativeMethods.btChunk_setChunkCode(_native, value);
+			get { return  UnsafeNativeMethods.btChunk_getChunkCode(_native);}
+			set {  UnsafeNativeMethods.btChunk_setChunkCode(_native, value);}
 		}
 
 		public int DnaNr
 		{
-			get => UnsafeNativeMethods.btChunk_getDna_nr(_native);
-			set => UnsafeNativeMethods.btChunk_setDna_nr(_native, value);
+			get { return  UnsafeNativeMethods.btChunk_getDna_nr(_native);}
+			set {  UnsafeNativeMethods.btChunk_setDna_nr(_native, value);}
 		}
 
 		public int Length
 		{
-			get => UnsafeNativeMethods.btChunk_getLength(_native);
-			set => UnsafeNativeMethods.btChunk_setLength(_native, value);
+			get { return  UnsafeNativeMethods.btChunk_getLength(_native);}
+			set {  UnsafeNativeMethods.btChunk_setLength(_native, value);}
 		}
 
 		public int Number
 		{
-			get => UnsafeNativeMethods.btChunk_getNumber(_native);
-			set => UnsafeNativeMethods.btChunk_setNumber(_native, value);
+			get { return  UnsafeNativeMethods.btChunk_getNumber(_native);}
+			set {  UnsafeNativeMethods.btChunk_setNumber(_native, value);}
 		}
 
 		public IntPtr OldPtr
 		{
-			get => UnsafeNativeMethods.btChunk_getOldPtr(_native);
-			set => UnsafeNativeMethods.btChunk_setOldPtr(_native, value);
+			get { return  UnsafeNativeMethods.btChunk_getOldPtr(_native);}
+			set {  UnsafeNativeMethods.btChunk_setOldPtr(_native, value);}
 		}
 
 		public void Dispose()
@@ -318,7 +318,7 @@ namespace BulletSharp
 			IntPtr ptr;
 			if (_totalSize != 0)
 			{
-				ptr = _buffer + _currentSize;
+				ptr = _buffer.Add(_currentSize);
 				_currentSize += size;
 				Debug.Assert(_currentSize < _totalSize);
 			}
@@ -334,7 +334,7 @@ namespace BulletSharp
 		{
 			int length = (int)size * numElements;
 			IntPtr ptr = InternalAlloc(length + ChunkInd.Size);
-			IntPtr data = ptr + ChunkInd.Size;
+			IntPtr data = ptr.Add(ChunkInd.Size);
 			var chunk = new Chunk(ptr)
 			{
 				ChunkCode = 0,
@@ -401,7 +401,7 @@ namespace BulletSharp
 
 				IntPtr currentPtr = _buffer;
 				WriteHeader(_buffer);
-				currentPtr += 12;
+				currentPtr = currentPtr.Add(12);
 				foreach (Chunk chunk in _chunks)
 				{
 					if (IntPtr.Size == 8)
@@ -416,7 +416,7 @@ namespace BulletSharp
 						Marshal.PtrToStructure(chunk._native, chunkPtr);
 						Marshal.StructureToPtr(chunkPtr, currentPtr, false);
 					}
-					currentPtr += ChunkInd.Size + chunk.Length;
+					currentPtr = currentPtr.Add( ChunkInd.Size + chunk.Length );
 				}
 			}
 
@@ -451,7 +451,7 @@ namespace BulletSharp
 				return uniquePtr;
 			}
 			
-			_uniqueIdGenerator = IntPtr.Add(_uniqueIdGenerator, 1);
+			_uniqueIdGenerator = _uniqueIdGenerator.Add(1);
 			_uniquePointers.Add(oldPtr, _uniqueIdGenerator);
 
 			return _uniqueIdGenerator;
@@ -559,14 +559,14 @@ namespace BulletSharp
 			Marshal.Copy(header, 0, buffer, header.Length);
 		}
 
-		public override IntPtr BufferPointer => _buffer;
+		public override IntPtr BufferPointer{ get { return  _buffer;} }
 
-		public override int CurrentBufferSize => _currentSize;
+		public override int CurrentBufferSize{ get { return  _currentSize;} }
 
 		public override SerializationFlags SerializationFlags
 		{
-			get => _serializationFlags;
-			set => _serializationFlags = value;
+			get { return  _serializationFlags;}
+			set {  _serializationFlags = value;}
 		}
 	}
 }

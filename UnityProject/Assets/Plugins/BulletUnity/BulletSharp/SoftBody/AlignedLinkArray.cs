@@ -43,13 +43,13 @@ namespace BulletSharp.SoftBody
 			_i = -1;
 		}
 
-		public Link Current => _array[_i];
+		public Link Current{ get { return  _array[_i];} }
 
 		public void Dispose()
 		{
 		}
 
-		object System.Collections.IEnumerator.Current => _array[_i];
+		object System.Collections.IEnumerator.Current{ get { return  _array[_i];} }
 
 		public bool MoveNext()
 		{
@@ -94,7 +94,7 @@ namespace BulletSharp.SoftBody
 			{
 				if ((uint)index >= (uint)Count)
 				{
-					throw new ArgumentOutOfRangeException(nameof(index));
+					throw new ArgumentOutOfRangeException("index");
 				}
 				return new Link(UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_Link_at(_native, index));
 			}
@@ -123,7 +123,7 @@ namespace BulletSharp.SoftBody
 		{
 			if (array == null)
 			{
-				throw new ArgumentNullException(nameof(array));
+				throw new ArgumentNullException("array");
 			}
 			if (arrayIndex < 0)
 			{
@@ -141,9 +141,9 @@ namespace BulletSharp.SoftBody
 			}
 		}
 
-		public int Count => UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_Link_size(_native);
+		public int Count{ get { return  UnsafeNativeMethods.btAlignedObjectArray_btSoftBody_Link_size(_native);} }
 
-		public bool IsReadOnly => false;
+		public bool IsReadOnly{ get { return  false;} }
 
 		public bool Remove(Link item)
 		{

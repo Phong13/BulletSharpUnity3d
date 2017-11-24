@@ -54,14 +54,14 @@ namespace BulletSharp.SoftBody
 
 		public int NumberOfPositionIterations
 		{
-			get => UnsafeNativeMethods.btSoftBodySolver_getNumberOfPositionIterations(_native);
-			set => UnsafeNativeMethods.btSoftBodySolver_setNumberOfPositionIterations(_native, value);
+			get { return  UnsafeNativeMethods.btSoftBodySolver_getNumberOfPositionIterations(_native);}
+			set {  UnsafeNativeMethods.btSoftBodySolver_setNumberOfPositionIterations(_native, value);}
 		}
 
 		public int NumberOfVelocityIterations
 		{
-			get => UnsafeNativeMethods.btSoftBodySolver_getNumberOfVelocityIterations(_native);
-			set => UnsafeNativeMethods.btSoftBodySolver_setNumberOfVelocityIterations(_native, value);
+			get { return  UnsafeNativeMethods.btSoftBodySolver_getNumberOfVelocityIterations(_native);}
+			set {  UnsafeNativeMethods.btSoftBodySolver_setNumberOfVelocityIterations(_native, value);}
 		}
 		/*
 		public SolverTypes SolverType
@@ -69,7 +69,7 @@ namespace BulletSharp.SoftBody
 			get { return btSoftBodySolver_getSolverType(_native); }
 		}
 		*/
-		public float TimeScale => UnsafeNativeMethods.btSoftBodySolver_getTimeScale(_native);
+		public float TimeScale{ get { return  UnsafeNativeMethods.btSoftBodySolver_getTimeScale(_native);} }
 
 		public void Dispose()
 		{

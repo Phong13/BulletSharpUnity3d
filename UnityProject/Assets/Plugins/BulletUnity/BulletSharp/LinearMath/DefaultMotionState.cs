@@ -39,7 +39,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btDefaultMotionState_getCenterOfMassOffset(_native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btDefaultMotionState_setCenterOfMassOffset(_native, ref value);
+			set {  UnsafeNativeMethods.btDefaultMotionState_setCenterOfMassOffset(_native, ref value);}
 		}
 
 		public Matrix GraphicsWorldTrans
@@ -50,7 +50,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btDefaultMotionState_getGraphicsWorldTrans(_native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btDefaultMotionState_setGraphicsWorldTrans(_native, ref value);
+			set {  UnsafeNativeMethods.btDefaultMotionState_setGraphicsWorldTrans(_native, ref value);}
 		}
 
 		public Matrix StartWorldTrans
@@ -61,13 +61,13 @@ namespace BulletSharp
 				UnsafeNativeMethods.btDefaultMotionState_getStartWorldTrans(_native, out value);
 				return value;
 			}
-			set => UnsafeNativeMethods.btDefaultMotionState_setStartWorldTrans(_native, ref value);
+			set {  UnsafeNativeMethods.btDefaultMotionState_setStartWorldTrans(_native, ref value);}
 		}
 
 		public IntPtr UserPointer
 		{
-			get => UnsafeNativeMethods.btDefaultMotionState_getUserPointer(_native);
-			set => UnsafeNativeMethods.btDefaultMotionState_setUserPointer(_native, value);
+			get { return  UnsafeNativeMethods.btDefaultMotionState_getUserPointer(_native);}
+			set {  UnsafeNativeMethods.btDefaultMotionState_setUserPointer(_native, value);}
 		}
 	}
 }

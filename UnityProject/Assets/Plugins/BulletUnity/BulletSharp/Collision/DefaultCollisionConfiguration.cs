@@ -16,7 +16,7 @@ namespace BulletSharp
 
 		public PoolAllocator CollisionAlgorithmPool
 		{
-			get => _collisionAlgorithmPool;
+			get { return  _collisionAlgorithmPool;}
 			set
 			{
 				UnsafeNativeMethods.btDefaultCollisionConstructionInfo_setCollisionAlgorithmPool(_native, value._native);
@@ -26,25 +26,25 @@ namespace BulletSharp
 
 		public int CustomCollisionAlgorithmMaxElementSize
 		{
-			get => UnsafeNativeMethods.btDefaultCollisionConstructionInfo_getCustomCollisionAlgorithmMaxElementSize(_native);
-			set => UnsafeNativeMethods.btDefaultCollisionConstructionInfo_setCustomCollisionAlgorithmMaxElementSize(_native, value);
+			get { return  UnsafeNativeMethods.btDefaultCollisionConstructionInfo_getCustomCollisionAlgorithmMaxElementSize(_native);}
+			set {  UnsafeNativeMethods.btDefaultCollisionConstructionInfo_setCustomCollisionAlgorithmMaxElementSize(_native, value);}
 		}
 
 		public int DefaultMaxCollisionAlgorithmPoolSize
 		{
-			get => UnsafeNativeMethods.btDefaultCollisionConstructionInfo_getDefaultMaxCollisionAlgorithmPoolSize(_native);
-			set => UnsafeNativeMethods.btDefaultCollisionConstructionInfo_setDefaultMaxCollisionAlgorithmPoolSize(_native, value);
+			get { return  UnsafeNativeMethods.btDefaultCollisionConstructionInfo_getDefaultMaxCollisionAlgorithmPoolSize(_native);}
+			set {  UnsafeNativeMethods.btDefaultCollisionConstructionInfo_setDefaultMaxCollisionAlgorithmPoolSize(_native, value);}
 		}
 
 		public int DefaultMaxPersistentManifoldPoolSize
 		{
-			get => UnsafeNativeMethods.btDefaultCollisionConstructionInfo_getDefaultMaxPersistentManifoldPoolSize(_native);
-			set => UnsafeNativeMethods.btDefaultCollisionConstructionInfo_setDefaultMaxPersistentManifoldPoolSize(_native, value);
+			get { return  UnsafeNativeMethods.btDefaultCollisionConstructionInfo_getDefaultMaxPersistentManifoldPoolSize(_native);}
+			set {  UnsafeNativeMethods.btDefaultCollisionConstructionInfo_setDefaultMaxPersistentManifoldPoolSize(_native, value);}
 		}
 
 		public PoolAllocator PersistentManifoldPool
 		{
-			get => _persistentManifoldPool;
+			get { return  _persistentManifoldPool;}
 			set
 			{
 				UnsafeNativeMethods.btDefaultCollisionConstructionInfo_setPersistentManifoldPool(_native, value._native);
@@ -54,8 +54,8 @@ namespace BulletSharp
 
 		public int UseEpaPenetrationAlgorithm
 		{
-			get => UnsafeNativeMethods.btDefaultCollisionConstructionInfo_getUseEpaPenetrationAlgorithm(_native);
-			set => UnsafeNativeMethods.btDefaultCollisionConstructionInfo_setUseEpaPenetrationAlgorithm(_native, value);
+			get { return  UnsafeNativeMethods.btDefaultCollisionConstructionInfo_getUseEpaPenetrationAlgorithm(_native);}
+			set {  UnsafeNativeMethods.btDefaultCollisionConstructionInfo_setUseEpaPenetrationAlgorithm(_native, value);}
 		}
 
 		public void Dispose()

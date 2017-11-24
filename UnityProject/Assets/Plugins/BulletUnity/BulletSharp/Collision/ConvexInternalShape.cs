@@ -48,7 +48,7 @@ namespace BulletSharp
 			}
 		}
 
-		public float MarginNV => UnsafeNativeMethods.btConvexInternalShape_getMarginNV(Native);
+		public float MarginNV{ get { return  UnsafeNativeMethods.btConvexInternalShape_getMarginNV(Native);} }
 	}
 
 	public abstract class ConvexInternalAabbCachingShape : ConvexInternalShape

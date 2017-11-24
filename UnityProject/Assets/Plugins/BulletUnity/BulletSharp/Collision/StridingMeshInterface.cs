@@ -115,9 +115,9 @@ namespace BulletSharp
 			UnsafeNativeMethods.btStridingMeshInterface_unLockVertexBase(Native, subpart);
 		}
 
-		public bool HasPremadeAabb => UnsafeNativeMethods.btStridingMeshInterface_hasPremadeAabb(Native);
+		public bool HasPremadeAabb{ get { return  UnsafeNativeMethods.btStridingMeshInterface_hasPremadeAabb(Native);} }
 
-		public int NumSubParts => UnsafeNativeMethods.btStridingMeshInterface_getNumSubParts(Native);
+		public int NumSubParts{ get { return  UnsafeNativeMethods.btStridingMeshInterface_getNumSubParts(Native);} }
 
 		public Vector3 Scaling
 		{
@@ -127,7 +127,7 @@ namespace BulletSharp
 				UnsafeNativeMethods.btStridingMeshInterface_getScaling(Native, out value);
 				return value;
 			}
-            set => UnsafeNativeMethods.btStridingMeshInterface_setScaling(Native, ref value);
+            set {  UnsafeNativeMethods.btStridingMeshInterface_setScaling(Native, ref value);}
         }
 
 		public void Dispose()

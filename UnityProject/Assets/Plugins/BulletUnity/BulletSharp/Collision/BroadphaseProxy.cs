@@ -47,7 +47,8 @@ namespace BulletSharp
 	[Flags]
 	public enum CollisionFilterGroups
 	{
-		None = 0,
+        Everything = -1,
+        None = 0,
 		DefaultFilter = 1,
 		StaticFilter = 2,
 		KinematicFilter = 4,

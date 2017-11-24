@@ -77,26 +77,26 @@ namespace BulletSharp
 
 		public int Face0
 		{
-			get => UnsafeNativeMethods.btGImpactCollisionAlgorithm_getFace0(Native);
-			set => UnsafeNativeMethods.btGImpactCollisionAlgorithm_setFace0(Native, value);
+			get { return  UnsafeNativeMethods.btGImpactCollisionAlgorithm_getFace0(Native);}
+			set {  UnsafeNativeMethods.btGImpactCollisionAlgorithm_setFace0(Native, value);}
 		}
 
 		public int Face1
 		{
-			get => UnsafeNativeMethods.btGImpactCollisionAlgorithm_getFace1(Native);
-			set => UnsafeNativeMethods.btGImpactCollisionAlgorithm_setFace1(Native, value);
+			get { return  UnsafeNativeMethods.btGImpactCollisionAlgorithm_getFace1(Native);}
+			set {  UnsafeNativeMethods.btGImpactCollisionAlgorithm_setFace1(Native, value);}
 		}
 
 		public int Part0
 		{
-			get => UnsafeNativeMethods.btGImpactCollisionAlgorithm_getPart0(Native);
-			set => UnsafeNativeMethods.btGImpactCollisionAlgorithm_setPart0(Native, value);
+			get { return  UnsafeNativeMethods.btGImpactCollisionAlgorithm_getPart0(Native);}
+			set {  UnsafeNativeMethods.btGImpactCollisionAlgorithm_setPart0(Native, value);}
 		}
 
 		public int Part1
 		{
-			get => UnsafeNativeMethods.btGImpactCollisionAlgorithm_getPart1(Native);
-			set => UnsafeNativeMethods.btGImpactCollisionAlgorithm_setPart1(Native, value);
+			get { return  UnsafeNativeMethods.btGImpactCollisionAlgorithm_getPart1(Native);}
+			set {  UnsafeNativeMethods.btGImpactCollisionAlgorithm_setPart1(Native, value);}
 		}
 	}
 }

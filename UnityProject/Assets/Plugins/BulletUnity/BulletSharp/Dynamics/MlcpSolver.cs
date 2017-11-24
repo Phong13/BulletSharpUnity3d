@@ -20,8 +20,8 @@ namespace BulletSharp
 
 		public int NumFallbacks
 		{
-			get => UnsafeNativeMethods.btMLCPSolver_getNumFallbacks(Native);
-			set => UnsafeNativeMethods.btMLCPSolver_setNumFallbacks(Native, value);
+			get { return  UnsafeNativeMethods.btMLCPSolver_getNumFallbacks(Native);}
+			set {  UnsafeNativeMethods.btMLCPSolver_setNumFallbacks(Native, value);}
 		}
 	}
 }

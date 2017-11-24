@@ -66,7 +66,7 @@ namespace BulletSharp
 			return GetManaged(UnsafeNativeMethods.btGhostObject_upcast(colObj.Native)) as GhostObject;
 		}
 
-		public int NumOverlappingObjects => UnsafeNativeMethods.btGhostObject_getNumOverlappingObjects(Native);
+		public int NumOverlappingObjects{ get { return  UnsafeNativeMethods.btGhostObject_getNumOverlappingObjects(Native);} }
 
 		public AlignedCollisionObjectArray OverlappingPairs
 		{

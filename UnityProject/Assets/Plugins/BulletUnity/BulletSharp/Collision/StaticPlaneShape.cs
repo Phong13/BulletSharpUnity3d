@@ -11,7 +11,7 @@ namespace BulletSharp
 		{
 		}
 
-		public float PlaneConstant => UnsafeNativeMethods.btStaticPlaneShape_getPlaneConstant(Native);
+		public float PlaneConstant{ get { return  UnsafeNativeMethods.btStaticPlaneShape_getPlaneConstant(Native);} }
 
 		public Vector3 PlaneNormal
 		{

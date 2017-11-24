@@ -14,14 +14,14 @@ namespace BulletSharp
 
 		public int Id
 		{
-			get => UnsafeNativeMethods.btElement_getId(Native);
-			set => UnsafeNativeMethods.btElement_setId(Native, value);
+			get { return  UnsafeNativeMethods.btElement_getId(Native);}
+			set {  UnsafeNativeMethods.btElement_setId(Native, value);}
 		}
 
 		public int Sz
 		{
-			get => UnsafeNativeMethods.btElement_getSz(Native);
-			set => UnsafeNativeMethods.btElement_setSz(Native, value);
+			get { return  UnsafeNativeMethods.btElement_getSz(Native);}
+			set {  UnsafeNativeMethods.btElement_setSz(Native, value);}
 		}
 	}
 
@@ -79,6 +79,6 @@ namespace BulletSharp
 			UnsafeNativeMethods.btUnionFind_unite(Native, p, q);
 		}
 
-		public int NumElements => UnsafeNativeMethods.btUnionFind_getNumElements(Native);
+		public int NumElements{ get { return  UnsafeNativeMethods.btUnionFind_getNumElements(Native);} }
 	}
 }

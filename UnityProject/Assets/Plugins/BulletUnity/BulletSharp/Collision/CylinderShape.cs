@@ -42,9 +42,9 @@ namespace BulletSharp
 			}
 		}
 
-		public float Radius => UnsafeNativeMethods.btCylinderShape_getRadius(Native);
+		public float Radius{ get { return  UnsafeNativeMethods.btCylinderShape_getRadius(Native);} }
 
-		public int UpAxis => UnsafeNativeMethods.btCylinderShape_getUpAxis(Native);
+		public int UpAxis{ get { return  UnsafeNativeMethods.btCylinderShape_getUpAxis(Native);} }
 	}
 
 	public class CylinderShapeX : CylinderShape

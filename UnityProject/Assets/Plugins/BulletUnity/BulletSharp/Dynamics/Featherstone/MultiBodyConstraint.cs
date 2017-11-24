@@ -71,23 +71,31 @@ namespace BulletSharp
 			UnsafeNativeMethods.btMultiBodyConstraint_updateJacobianSizes(Native);
 		}
 
-		public int IslandIdA => UnsafeNativeMethods.btMultiBodyConstraint_getIslandIdA(Native);
+		public int IslandIdA{ get { return  UnsafeNativeMethods.btMultiBodyConstraint_getIslandIdA(Native);} }
 
-		public int IslandIdB => UnsafeNativeMethods.btMultiBodyConstraint_getIslandIdB(Native);
+		public int IslandIdB{ get { return  UnsafeNativeMethods.btMultiBodyConstraint_getIslandIdB(Native);} }
 
-		public bool IsUnilateral => UnsafeNativeMethods.btMultiBodyConstraint_isUnilateral(Native);
+		public bool IsUnilateral{ get { return  UnsafeNativeMethods.btMultiBodyConstraint_isUnilateral(Native);} }
 
 		public float MaxAppliedImpulse
 		{
-			get => UnsafeNativeMethods.btMultiBodyConstraint_getMaxAppliedImpulse(Native);
-			set => UnsafeNativeMethods.btMultiBodyConstraint_setMaxAppliedImpulse(Native, value);
+			get { return  UnsafeNativeMethods.btMultiBodyConstraint_getMaxAppliedImpulse(Native);}
+			set {  UnsafeNativeMethods.btMultiBodyConstraint_setMaxAppliedImpulse(Native, value);}
 		}
 
-		public MultiBody MultiBodyA { get; }
+		public MultiBody MultiBodyA
+        {
+            get;
+            set;
+        }
 
-		public MultiBody MultiBodyB { get; }
+		public MultiBody MultiBodyB
+        {
+            get;
+            set;
+        }
 
-		public int NumRows => UnsafeNativeMethods.btMultiBodyConstraint_getNumRows(Native);
+		public int NumRows{ get { return  UnsafeNativeMethods.btMultiBodyConstraint_getNumRows(Native);} }
 
 		public void Dispose()
 		{

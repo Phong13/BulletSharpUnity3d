@@ -14,6 +14,6 @@ namespace BulletSharp
 
 	public static class CpuFeatureUtility
 	{
-		public static CpuFeatures CpuFeatures => UnsafeNativeMethods.btCpuFeatureUtility_getCpuFeatures();
+		public static CpuFeatures CpuFeatures{ get { return  UnsafeNativeMethods.btCpuFeatureUtility_getCpuFeatures();} }
 	}
 }

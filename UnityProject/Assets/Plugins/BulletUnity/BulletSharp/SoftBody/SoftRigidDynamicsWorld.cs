@@ -26,7 +26,7 @@ namespace BulletSharp.SoftBody
 				(constraintSolver != null) ? constraintSolver.Native : IntPtr.Zero,
 				collisionConfiguration.Native, _softBodySolver._native);
 
-			CollisionObjectArray = new AlignedCollisionObjectArray(btCollisionWorld_getCollisionObjectArray(Native), this);
+			CollisionObjectArray = new AlignedCollisionObjectArray(UnsafeNativeMethods.btCollisionWorld_getCollisionObjectArray(Native), this);
 
 			_constraintSolver = constraintSolver;
 			WorldInfo = new SoftBodyWorldInfo(UnsafeNativeMethods.btSoftRigidDynamicsWorld_getWorldInfo(Native), true);
@@ -59,8 +59,8 @@ namespace BulletSharp.SoftBody
 
 		public int DrawFlags
 		{
-			get => UnsafeNativeMethods.btSoftRigidDynamicsWorld_getDrawFlags(Native);
-			set => UnsafeNativeMethods.btSoftRigidDynamicsWorld_setDrawFlags(Native, value);
+			get { return  UnsafeNativeMethods.btSoftRigidDynamicsWorld_getDrawFlags(Native);}
+			set {  UnsafeNativeMethods.btSoftRigidDynamicsWorld_setDrawFlags(Native, value);}
 		}
 
 		public AlignedSoftBodyArray SoftBodyArray
@@ -75,7 +75,7 @@ namespace BulletSharp.SoftBody
 			}
 		}
 
-		public SoftBodyWorldInfo WorldInfo { get; }
+		public SoftBodyWorldInfo WorldInfo { get; set; }
 
 		protected override void Dispose(bool disposing)
 		{

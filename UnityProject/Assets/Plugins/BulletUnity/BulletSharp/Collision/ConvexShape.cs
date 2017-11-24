@@ -78,8 +78,8 @@ namespace BulletSharp
 				out witnesPtMin, out witnesPtMax);
 		}
 
-		public float MarginNonVirtual => UnsafeNativeMethods.btConvexShape_getMarginNonVirtual(Native);
+		public float MarginNonVirtual{ get { return  UnsafeNativeMethods.btConvexShape_getMarginNonVirtual(Native);} }
 
-		public int NumPreferredPenetrationDirections => UnsafeNativeMethods.btConvexShape_getNumPreferredPenetrationDirections(Native);
+		public int NumPreferredPenetrationDirections{ get { return  UnsafeNativeMethods.btConvexShape_getNumPreferredPenetrationDirections(Native);} }
 	}
 }

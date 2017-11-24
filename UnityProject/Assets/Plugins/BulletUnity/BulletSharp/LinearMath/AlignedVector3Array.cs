@@ -68,7 +68,7 @@ namespace BulletSharp
 			{
 				if ((uint)index >= (uint)Count)
 				{
-					throw new ArgumentOutOfRangeException(nameof(index));
+					throw new ArgumentOutOfRangeException("index");
 				}
 				Vector3 value;
 				UnsafeNativeMethods.btAlignedObjectArray_btVector3_at(_native, index, out value);
@@ -78,7 +78,7 @@ namespace BulletSharp
 			{
 				if ((uint)index >= (uint)Count)
 				{
-					throw new ArgumentOutOfRangeException(nameof(index));
+					throw new ArgumentOutOfRangeException("index");
 				}
 				UnsafeNativeMethods.btAlignedObjectArray_btVector3_set(_native, index, ref value);
 			}
@@ -102,10 +102,10 @@ namespace BulletSharp
 		public void CopyTo(Vector3[] array, int arrayIndex)
 		{
 			if (array == null)
-				throw new ArgumentNullException(nameof(array));
+				throw new ArgumentNullException("array");
 
 			if (arrayIndex < 0)
-				throw new ArgumentOutOfRangeException(nameof(array));
+				throw new ArgumentOutOfRangeException("array");
 
 			int count = Count;
 			if (arrayIndex + count > array.Length)
@@ -117,9 +117,9 @@ namespace BulletSharp
 			}
 		}
 
-		public int Count => UnsafeNativeMethods.btAlignedObjectArray_btVector3_size(_native);
+		public int Count{ get { return  UnsafeNativeMethods.btAlignedObjectArray_btVector3_size(_native);} }
 
-		public bool IsReadOnly => false;
+		public bool IsReadOnly{ get { return  false;} }
 
 		public bool Remove(Vector3 item)
 		{

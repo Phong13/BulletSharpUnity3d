@@ -156,44 +156,44 @@ namespace BulletSharp
 			return UnsafeNativeMethods.btPersistentManifold_validContactDistance(Native, pt.Native);
 		}
 
-		public CollisionObject Body0 => CollisionObject.GetManaged(UnsafeNativeMethods.btPersistentManifold_getBody0(Native));
+		public CollisionObject Body0{ get { return  CollisionObject.GetManaged(UnsafeNativeMethods.btPersistentManifold_getBody0(Native));} }
 
-		public CollisionObject Body1 => CollisionObject.GetManaged(UnsafeNativeMethods.btPersistentManifold_getBody1(Native));
+		public CollisionObject Body1{ get { return  CollisionObject.GetManaged(UnsafeNativeMethods.btPersistentManifold_getBody1(Native));} }
 
 		public int CompanionIdA
 		{
-			get => UnsafeNativeMethods.btPersistentManifold_getCompanionIdA(Native);
-			set => UnsafeNativeMethods.btPersistentManifold_setCompanionIdA(Native, value);
+			get { return  UnsafeNativeMethods.btPersistentManifold_getCompanionIdA(Native);}
+			set {  UnsafeNativeMethods.btPersistentManifold_setCompanionIdA(Native, value);}
 		}
 
 		public int CompanionIdB
 		{
-			get => UnsafeNativeMethods.btPersistentManifold_getCompanionIdB(Native);
-			set => UnsafeNativeMethods.btPersistentManifold_setCompanionIdB(Native, value);
+			get { return  UnsafeNativeMethods.btPersistentManifold_getCompanionIdB(Native);}
+			set {  UnsafeNativeMethods.btPersistentManifold_setCompanionIdB(Native, value);}
 		}
 
 		public float ContactBreakingThreshold
 		{
-			get => UnsafeNativeMethods.btPersistentManifold_getContactBreakingThreshold(Native);
-			set => UnsafeNativeMethods.btPersistentManifold_setContactBreakingThreshold(Native, value);
+			get { return  UnsafeNativeMethods.btPersistentManifold_getContactBreakingThreshold(Native);}
+			set {  UnsafeNativeMethods.btPersistentManifold_setContactBreakingThreshold(Native, value);}
 		}
 
 		public float ContactProcessingThreshold
 		{
-			get => UnsafeNativeMethods.btPersistentManifold_getContactProcessingThreshold(Native);
-			set => UnsafeNativeMethods.btPersistentManifold_setContactProcessingThreshold(Native, value);
+			get { return  UnsafeNativeMethods.btPersistentManifold_getContactProcessingThreshold(Native);}
+			set {  UnsafeNativeMethods.btPersistentManifold_setContactProcessingThreshold(Native, value);}
 		}
 
 		public int Index1A
 		{
-			get => UnsafeNativeMethods.btPersistentManifold_getIndex1a(Native);
-			set => UnsafeNativeMethods.btPersistentManifold_setIndex1a(Native, value);
+			get { return  UnsafeNativeMethods.btPersistentManifold_getIndex1a(Native);}
+			set {  UnsafeNativeMethods.btPersistentManifold_setIndex1a(Native, value);}
 		}
 
 		public int NumContacts
 		{
-			get => UnsafeNativeMethods.btPersistentManifold_getNumContacts(Native);
-			set => UnsafeNativeMethods.btPersistentManifold_setNumContacts(Native, value);
+			get { return  UnsafeNativeMethods.btPersistentManifold_getNumContacts(Native);}
+			set {  UnsafeNativeMethods.btPersistentManifold_setNumContacts(Native, value);}
 		}
 
 		public void Dispose()
