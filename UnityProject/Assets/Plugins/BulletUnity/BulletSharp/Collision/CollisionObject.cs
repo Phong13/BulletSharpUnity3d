@@ -78,7 +78,7 @@ namespace BulletSharp
 		internal CollisionObject(IntPtr native)
 		{
 			Native = native;
-			GCHandle handle = GCHandle.Alloc(this, GCHandleType.Weak);
+			GCHandle handle = GCHandle.Alloc(this, GCHandleType.Normal);
             UnsafeNativeMethods.btCollisionObject_setUserPointer(Native, GCHandle.ToIntPtr(handle));
 		}
 

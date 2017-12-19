@@ -251,7 +251,7 @@ namespace BulletSharp.SoftBody
 				Native = UnsafeNativeMethods.btSoftBody_AJoint_IControlWrapper_new(
 					Marshal.GetFunctionPointerForDelegate(_prepare),
 					Marshal.GetFunctionPointerForDelegate(_speed));
-				GCHandle handle = GCHandle.Alloc(this, GCHandleType.Weak);
+				GCHandle handle = GCHandle.Alloc(this, GCHandleType.Normal);
 				UnsafeNativeMethods.btSoftBody_AJoint_IControlWrapper_setWrapperData(Native, GCHandle.ToIntPtr(handle));
 			}
 

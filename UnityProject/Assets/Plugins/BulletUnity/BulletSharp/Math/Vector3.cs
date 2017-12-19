@@ -1912,7 +1912,7 @@ namespace BulletSharp.Math
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal unsafe struct Vector3FloatData
+    public unsafe struct Vector3FloatData
     {
         public fixed float floats[4];
     }

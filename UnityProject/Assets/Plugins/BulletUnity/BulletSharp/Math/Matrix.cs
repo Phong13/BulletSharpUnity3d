@@ -325,6 +325,24 @@ namespace BulletSharp.Math
             set { M11 = value.X; M22 = value.Y; M33 = value.Z; }
         }
 
+        public Quaternion Rotation
+        {
+            set
+            {
+                Quaternion q = value;
+                float d = q.X + q.X + q.Y + q.Y + q.Z + q.Z + q.W + q.W;
+                UnityEngine.Debug.Assert(d != 0.0f);
+                float s = 2.0f / d;
+                float xs = q.X * s, ys = q.Y * s, zs = q.Z * s;
+                float wx = q.W * xs, wy = q.W * ys, wz = q.W * zs;
+                float xx = q.X * xs, xy = q.X * ys, xz = q.X * zs;
+                float yy = q.Y * ys, yz = q.Y * zs, zz = q.Z * zs;
+                M11 = 1.0f - (yy + zz); M12 = xy - wz; M13 = xz + wy;
+                M21 = xy + wz; M22 = 1.0f - (xx + zz); M23 = yz -wx;
+                M31 = xz - wy; M32 = yz + wx; M33 = 1.0f - (xx + yy);
+            }
+        }
+
         /// <summary>
         /// Gets a value indicating whether this instance is an identity matrix.
         /// </summary>
@@ -3032,7 +3050,7 @@ namespace BulletSharp.Math
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct Matrix3x3FloatData
+    public struct Matrix3x3FloatData
     {
         public Vector3FloatData Element0;
         public Vector3FloatData Element1;
