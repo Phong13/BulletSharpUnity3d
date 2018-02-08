@@ -208,6 +208,36 @@ namespace BulletSharp.Math
             M44 = values[15];
         }
 
+        public Matrix(Matrix m)
+        {
+            M11 = m.M11;
+            M12 = m.M12;
+            M13 = m.M13;
+            M14 = m.M14;
+
+            M21 = m.M21;
+            M22 = m.M22;
+            M23 = m.M23;
+            M24 = m.M24;
+
+            M31 = m.M31;
+            M32 = m.M32;
+            M33 = m.M33;
+            M34 = m.M34;
+
+            M41 = m.M41;
+            M42 = m.M42;
+            M43 = m.M43;
+            M44 = m.M44;
+        }
+
+        public Matrix Inverse()
+        {
+            Matrix m = new Matrix(this);
+            m.Invert();
+            return m;
+        }
+
         /// <summary>
         /// Gets or sets the basis matrix for the rotation.
         /// </summary>
@@ -340,6 +370,44 @@ namespace BulletSharp.Math
                 M11 = 1.0f - (yy + zz); M12 = xy - wz; M13 = xz + wy;
                 M21 = xy + wz; M22 = 1.0f - (xx + zz); M23 = yz -wx;
                 M31 = xz - wy; M32 = yz + wx; M33 = 1.0f - (xx + yy);
+            }
+            get
+            {
+                float tr = M11 + M22 + M33;
+                Quaternion q = new Quaternion();
+                if (tr > 0)
+                {
+                    float S = UnityEngine.Mathf.Sqrt(tr + 1.0f) * 2; // S=4*qw 
+                    q.W = 0.25f * S;
+                    q.X = (M32 - M23) / S;
+                    q.Y = (M13 - M31) / S;
+                    q.Z = (M21 - M12) / S;
+                }
+                else if ((M11 > M22) & (M11 > M33))
+                {
+                    float S = UnityEngine.Mathf.Sqrt(1.0f + M11 - M22 - M33) * 2; // S=4*qx 
+                    q.W = (M32 - M23) / S;
+                    q.X = 0.25f * S;
+                    q.Y = (M12 + M21) / S;
+                    q.Z = (M13 + M31) / S;
+                }
+                else if (M22 > M33)
+                {
+                    float S = UnityEngine.Mathf.Sqrt(1.0f + M22 - M11 - M33) * 2; // S=4*qy
+                    q.W = (M13 - M31) / S;
+                    q.X = (M12 + M21) / S;
+                    q.Y = 0.25f * S;
+                    q.Z = (M23 + M32) / S;
+                }
+                else
+                {
+                    float S = UnityEngine.Mathf.Sqrt(1.0f + M33 - M11 - M22) * 2; // S=4*qz
+                    q.W = (M21 - M12) / S;
+                    q.X = (M13 + M31) / S;
+                    q.Y = (M23 + M32) / S;
+                    q.Z = 0.25f * S;
+                }
+                return q;
             }
         }
 
@@ -2439,6 +2507,45 @@ namespace BulletSharp.Math
             Matrix result;
             RotationAxis(ref axis, angle, out result);
             return result;
+        }
+
+        public Quaternion GetRotation() {
+            float qw, qx, qy, qz;
+            float tr = M11 + M22 + M33;
+
+            if (tr > 0)
+            {
+                float S = UnityEngine.Mathf.Sqrt(tr + 1.0f) * 2; // S=4*qw 
+                qw = 0.25f * S;
+                qx = (M32 - M23) / S;
+                qy = (M13 - M31) / S;
+                qz = (M21 - M12) / S;
+            }
+            else if ((M11 > M22) & (M11 > M33))
+            {
+                float S = UnityEngine.Mathf.Sqrt(1.0f + M11 - M22 - M33) * 2; // S=4*qx 
+                qw = (M32 - M23) / S;
+                qx = 0.25f * S;
+                qy = (M12 + M21) / S;
+                qz = (M13 + M31) / S;
+            }
+            else if (M22 > M33)
+            {
+                float S = UnityEngine.Mathf.Sqrt(1.0f + M22 - M11 - M33) * 2; // S=4*qy
+                qw = (M13 - M31) / S;
+                qx = (M12 + M21) / S;
+                qy = 0.25f * S;
+                qz = (M23 + M32) / S;
+            }
+            else
+            {
+                float S = UnityEngine.Mathf.Sqrt(1.0f + M33 - M11 - M22) * 2; // S=4*qz
+                qw = (M21 - M12) / S;
+                qx = (M13 + M31) / S;
+                qy = (M23 + M32) / S;
+                qz = 0.25f * S;
+            }
+            return new Quaternion(qx, qy, qz, qw);
         }
 
         /// <summary>

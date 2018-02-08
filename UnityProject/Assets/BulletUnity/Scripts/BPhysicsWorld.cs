@@ -459,6 +459,72 @@ namespace BulletUnity
       }
     }
 
+    public bool AddMultiBody(BMultiBody mb)
+        {
+            if (!_isDisposed)
+            {
+                if (m_worldType < WorldType.MultiBodyWorld)
+                {
+                    Debug.LogError("World type must be be multibody");
+                }
+                if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Adding multibody {0} to world", mb);
+                if (mb._BuildMultiBody())
+                {
+                    ((MultiBodyDynamicsWorld)m_world).AddMultiBody(mb.GetMultiBody(), (int) mb.groupsIBelongTo, (int) mb.collisionMask);
+                    mb.CreateColliders();
+                    if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Adding MultiBodyBaseCollider {0} to world", mb);
+                    m_world.AddCollisionObject(mb.GetBaseCollider(),mb.groupsIBelongTo,mb.collisionMask);
+                    List<BMultiBodyLink> links = mb.GetLinks();
+                    for (int i = 0; i < links.Count; i++)
+                    {
+                        if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Adding MultiBodyLinkCollider {0} to world", links[i]);
+                        m_world.AddCollisionObject(links[i].GetLinkCollider(),links[i].groupsIBelongTo,links[i].collisionMask);
+                        links[i].isInWorld = true;
+                        BMultiBodyConstraint bmbc = links[i].GetComponent<BMultiBodyConstraint>();
+                        if (bmbc != null)
+                        {
+                            MultiBodyConstraint mbc = bmbc.GetMultiBodyConstraint(mb.GetMultiBody());
+                            if (mbc != null)
+                            {
+                                if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Adding MultiBodyLinkConstraint {0} to world", mbc);
+                                ((MultiBodyDynamicsWorld)m_world).AddMultiBodyConstraint(mbc);
+                                bmbc.isInWorld = true;
+                            }
+                        }
+                    }
+                    mb.isInWorld = true;
+                } else
+                {
+                    if (debugType >= BDebug.DebugType.Debug) Debug.LogWarningFormat("Failed To Add MultiBody {0} to world ", mb);
+                }
+                return true;
+            }
+            return false;
+        }
+
+    public void RemoveMultiBody(BMultiBody mb)
+        {
+            if (!_isDisposed)
+            {
+                if (m_worldType < WorldType.MultiBodyWorld)
+                {
+                    Debug.LogError("World type must be multibody");
+                }
+                if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Removing multibody {0} from world", mb);
+                List<BMultiBodyLink> links = mb.GetLinks();
+                for (int i = 0; i < links.Count; i++)
+                {
+                    if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Removing MultiBodyLinkCollider {0} from world", links[i]);
+                    m_world.RemoveCollisionObject(links[i].GetLinkCollider());
+                    links[i].isInWorld = false;
+                }
+                if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Removing MultiBodyBaseCollider {0} from world", mb);
+                m_world.RemoveCollisionObject(mb.GetBaseCollider());
+                ((MultiBodyDynamicsWorld)m_world).RemoveMultiBody(mb.GetMultiBody());
+                mb.isInWorld = false;
+            }
+        }
+
     public bool AddConstraint(BTypedConstraint c)
     {
       if (!_isDisposed)
@@ -606,6 +672,7 @@ namespace BulletUnity
         MultiBodyConstraintSolver mbConstraintSolver = new MultiBodyConstraintSolver();
         constraintSolver = mbConstraintSolver;
         world = new MultiBodyDynamicsWorld(dispatcher, broadphase, mbConstraintSolver, collisionConfig);
+        if (debugType >= BDebug.DebugType.Debug) Debug.Log("Created MultiBodyDynamicsWorld " + world);
       }
       else if (m_worldType == WorldType.SoftBodyAndRigidBody)
       {
@@ -649,8 +716,30 @@ namespace BulletUnity
       }
       if (m_world != null)
       {
+                int i;
+                if (m_world is MultiBodyDynamicsWorld)
+                {
+                    MultiBodyDynamicsWorld multiBodyWorld = (MultiBodyDynamicsWorld)m_world;
+                    if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Removing Multibody Constraints {0}", multiBodyWorld.NumMultiBodyConstraints);
+                    for (i = multiBodyWorld.NumMultiBodyConstraints - 1; i >= 0; i--)
+                    {
+                        MultiBodyConstraint constraint = multiBodyWorld.GetMultiBodyConstraint(i);
+                        multiBodyWorld.RemoveMultiBodyConstraint(constraint);
+                        if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Removed Multbody Constaint {0}", constraint);
+                        constraint.Dispose();
+                    }
+                    if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Removing Multibodies {0}", multiBodyWorld.NumMultibodies);
+                    for (i = multiBodyWorld.NumMultibodies-1; i >=0; i--)
+                    {
+                        MultiBody mb = multiBodyWorld.GetMultiBody(i);
+                        multiBodyWorld.RemoveMultiBody(mb);
+                        if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Removed Multbody {0}", mb);
+                        //TODO user pointer for the multibody
+                        mb.Dispose();
+                    }
+                }
         //remove/dispose constraints
-        int i;
+        
         if (_ddWorld != null)
         {
           if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Removing Constraints {0}", _ddWorld.NumConstraints);
@@ -663,6 +752,8 @@ namespace BulletUnity
             constraint.Dispose();
           }
         }
+
+        //todo multibody 
 
         if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Removing Collision Objects {0}", _ddWorld.NumCollisionObjects);
         //remove the rigidbodies from the dynamics world and delete them

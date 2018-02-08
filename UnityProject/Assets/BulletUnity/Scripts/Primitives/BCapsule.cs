@@ -10,7 +10,6 @@ namespace BulletUnity.Primitives
     /// <summary>
     /// BCylinder
     /// </summary>
-    [RequireComponent(typeof(BRigidBody))]
     [RequireComponent(typeof(BCapsuleShape))]
     public class BCapsule : BPrimitive
     {
@@ -21,6 +20,7 @@ namespace BulletUnity.Primitives
         {
             GameObject go = new GameObject();
             BCapsule bCylinder = go.AddComponent<BCapsule>();
+            go.AddComponent<BRigidBody>();
             CreateNewBase(go, position, rotation);
             bCylinder.BuildMesh();
             go.name = "BCapsule";

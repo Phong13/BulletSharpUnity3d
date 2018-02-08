@@ -9,7 +9,6 @@ namespace BulletUnity.Primitives
     /// <summary>
     /// Basic BBox
     /// </summary>
-    [RequireComponent(typeof(BRigidBody))]
     [RequireComponent(typeof(BConvexTriangleMeshShape))]
     public class BConvexTriMesh : BPrimitive
     {
@@ -19,6 +18,7 @@ namespace BulletUnity.Primitives
         {
             GameObject go = new GameObject();
             BConvexHull bConvexHull = go.AddComponent<BConvexHull>();
+            go.AddComponent<BRigidBody>();
             CreateNewBase(go, position, rotation);
             bConvexHull.BuildMesh();
             go.name = "BConvexTriMesh";

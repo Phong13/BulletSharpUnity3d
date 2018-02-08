@@ -18,8 +18,7 @@ They are included here as a reference and to make sure things are working correc
 public class BulletExampleRunner : MonoBehaviour {
     protected static BulletExampleRunner singleton;
     public BulletSharpExamples.Graphics graphics;
-    public Demo demo;
-    //public ISimulation demoSimulation;
+    public DemoFramework.Demo demo;
     public Material mat;
     public Material groundMat;
     public GameObject cubePrefab;
@@ -27,19 +26,24 @@ public class BulletExampleRunner : MonoBehaviour {
     public GameObject softBodyPrefab;
     public List<GameObject> createdObjs = new List<GameObject>();
     public bool IsDebugDrawEnabled = false;
-
-    string[] demoNames = new string[] { "BasicDemo", "InverseDynamicsDemo", "BenchmarkDemo", "Box2DDemo", "BspDemo", "CcdPhysicsDemo", "CharacterDemo", "CollisionInterfaceDemo", "ConcaveConvexCastDemo", "ConcaveRaycastDemo",
+    public string[] demoNames = new string[] { "BasicDemo", "InverseDynamics", "BenchmarkDemo", "Box2DDemo", "CcdPhysicsDemo", "CollisionInterfaceDemo", "ConcaveConvexCastDemo", "ConcaveRaycastDemo",
                                                 "ConstraintDemo", "ConvexDecompositionDemo", "DistanceDemo", "FeatherStoneDemo", "GImpactTestDemo", "MotorDemo", "PendulumDemo", "RagdollDemo", "RollingFrictionDemo",
                                                 "SerializeDemo", "SoftDemo", "VehicleDemo"};
 
+    void Start()
+    {
+        RunDemo("BasicDemo");
+    }
+
     void RunDemo(string nm)
     {
-        IDemoConfiguration demoConfig = null;
         if (nm.Equals("BasicDemo")) {
-            Debug.Log("Creating BasicDemo");
-            demoConfig = new BasicDemo.BasicDemo();
+            demo = new BasicDemo.BasicDemo();
         }
-        /*
+        if (nm.Equals("InverseDynamics"))
+        {
+            demo = new InverseDynamicsExample.InverseDynamicsExampleSimulation();
+        }
         if (nm.Equals("BenchmarkDemo"))
         {
             demo = new BenchmarkDemo.BenchmarkDemo();
@@ -48,17 +52,9 @@ public class BulletExampleRunner : MonoBehaviour {
         {
             demo = new Box2DDemo.Box2DDemo();
         }
-        if (nm.Equals("BspDemo"))
-        {
-            demo = new BspDemo.BspDemo();
-        }
         if (nm.Equals("CcdPhysicsDemo"))
         {
             demo = new CcdPhysicsDemo.CcdPhysicsDemo();
-        }
-        if (nm.Equals("CharacterDemo"))
-        {
-            demo = new CharacterDemo.CharacterDemo();
         }
         if (nm.Equals("CollisionInterfaceDemo"))
         {
@@ -84,18 +80,10 @@ public class BulletExampleRunner : MonoBehaviour {
         {
             demo = new DistanceDemo.DistanceDemo();
         }
-        */
         if (nm.Equals("FeatherStoneDemo"))
         {
-            Debug.Log("Creating Featherstone Demo");
-            demoConfig = new FeatherStoneDemo.FeatherStoneDemo();
+            demo = new FeatherStoneDemo.FeatherStoneDemo();
         }
-        if (nm.Equals("InverseDynamicsDemo"))
-        {
-            Debug.Log("Creating InverseDynamics Demo");
-            demoConfig = new InverseDynamicsExample.InverseDynamicsExample();
-        }
-        /*
         if (nm.Equals("GImpactTestDemo"))
         {
             demo = new GImpactTestDemo.GImpactTestDemo();
@@ -104,13 +92,10 @@ public class BulletExampleRunner : MonoBehaviour {
         {
             demo = new MotorDemo.MotorDemo();
         }
-        */
         if (nm.Equals("PendulumDemo"))
         {
-            Debug.Log("Creating Pendulum Demo");
-            demoConfig = new PendulumDemo.PendulumDemo();
+            demo = new PendulumDemo.PendulumDemo();
         }
-        /*
         if (nm.Equals("RagdollDemo"))
         {
             demo = new RagdollDemo.RagdollDemo();
@@ -131,20 +116,14 @@ public class BulletExampleRunner : MonoBehaviour {
         {
             demo = new VehicleDemo.VehicleDemo();
         }
-        */
-
-        if (demoConfig != null)
-        {
-            demo = new DemoFramework.Demo(demoConfig);
-            demo.Run();
-            PostOnInitializePhysics();
-            IsDebugDrawEnabled = false;
-        }
+        demo.DebugDrawMode = DebugDrawModes.DrawWireframe;
+        demo.Run();
+        IsDebugDrawEnabled = false;
     }
 
     bool showDemoNames = false;
     public GUILayoutOption w = GUILayout.MinWidth(150);
-    int maxPerCol = 10;
+    int maxPerCol = 15;
     void OnGUI()
     {
         if (GUILayout.Button("Demo List", GUILayout.MinWidth(120), GUILayout.MinHeight(44)))
@@ -162,8 +141,7 @@ public class BulletExampleRunner : MonoBehaviour {
                 {
                     if (demo != null)
                     {
-                        Debug.Log("Unitinitialize Physics for demo " + demo.Simulation);
-                        demo.UninitializePhysics();
+                        demo.ExitPhysics();
                     }
                     RunDemo(demoNames[j]);
                 }
@@ -176,8 +154,6 @@ public class BulletExampleRunner : MonoBehaviour {
             }
             GUILayout.EndVertical();
             GUILayout.BeginVertical("box", w);
-            //TODO perhaps put back
-            /*
             if (demo is SoftDemo.SoftDemo)
             {
                 SoftDemo.SoftDemo sd = (SoftDemo.SoftDemo) demo;
@@ -198,7 +174,6 @@ public class BulletExampleRunner : MonoBehaviour {
                     }
                 }
             }
-            */
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
         }
@@ -207,10 +182,10 @@ public class BulletExampleRunner : MonoBehaviour {
 
     public void OnDrawGizmos()
     {
-        if (demo != null && demo.Simulation.World != null)
+        if (demo != null && demo.World != null)
         {
             IsDebugDrawEnabled = false;
-            demo.Simulation.World.DebugDrawWorld();
+            demo.World.DebugDrawWorld();
         }
     }
 
@@ -234,8 +209,8 @@ public class BulletExampleRunner : MonoBehaviour {
     }
 
     public void PostOnInitializePhysics() {
-        for (int i = 0; i < demo.Simulation.World.CollisionObjectArray.Count; i++) {
-            CollisionObject co = demo.Simulation.World.CollisionObjectArray[i];
+        for (int i = 0; i < demo.World.CollisionObjectArray.Count; i++) {
+            CollisionObject co = demo.World.CollisionObjectArray[i];
             CollisionShape cs = co.CollisionShape;
             GameObject go;
             if (cs.ShapeType == BroadphaseNativeType.SoftBodyShape) {
@@ -296,8 +271,6 @@ public class BulletExampleRunner : MonoBehaviour {
     }
 
     void Update() {
-
-        if (demo == null) return;
         if (demo.Input != null) {
             demo.Input.KeysReleased.Clear();
             demo.Input.KeysReleased.AddRange(demo.Input.KeysDown);
@@ -321,27 +294,16 @@ public class BulletExampleRunner : MonoBehaviour {
             {
                 demo.Input.KeysReleased.Remove(demo.Input.KeysDown[i]);
             }
-            //demo.Input. OnHandleInput();
+            demo.OnHandleInput();
         }
     }
 
     void FixedUpdate() {
-        if (demo != null)
-        {
-            if (demo.Simulation is ISimulationCustomUpdate)
-            {
-                ((ISimulationCustomUpdate)demo.Simulation).OnUpdate();
-            }
-            else
-            {
-                demo.OnUpdate();
-            }
-        }
+        demo.OnUpdate();
     }
 
     void OnDestroy() {
-        demo.UninitializeDebugDrawer();
-        demo.UninitializePhysics();
+        demo.Dispose();
     }
 
     public void ExitPhysics() {

@@ -38,7 +38,8 @@ namespace BulletUnity {
             for (int i = 0; i < spheres.Length; i++) {
                 Vector3 v = spheres[i].position;
                 v.x *= m_localScaling.x; v.y *= m_localScaling.y; v.z *= m_localScaling.z;
-                BUtility.DebugDrawSphere(transform.TransformPoint(v), Quaternion.identity, Vector3.one, Vector3.one * spheres[i].radius, Gizmos.color);
+                Gizmos.DrawWireSphere(transform.TransformPoint(v), spheres[i].radius);
+                //BUtility.DebugDrawSphere(transform.TransformPoint(v), Quaternion.identity, Vector3.one, Vector3.one * spheres[i].radius, Gizmos.color);
             }
         }
 

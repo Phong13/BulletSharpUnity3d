@@ -187,6 +187,13 @@ namespace BulletSharp.Math
             }
         }
 
+        public void SetValue(float x, float y, float z)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+        }
+
         /// <summary>
         /// Converts the vector into a unit vector.
         /// </summary>

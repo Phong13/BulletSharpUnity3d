@@ -10,7 +10,6 @@ namespace BulletUnity.Primitives
     /// <summary>
     /// BCylinder
     /// </summary>
-    [RequireComponent(typeof(BRigidBody))]
     [RequireComponent(typeof(BConeShape))]
     public class BCone : BPrimitive
     {
@@ -21,6 +20,7 @@ namespace BulletUnity.Primitives
         {
             GameObject go = new GameObject();
             BCone bCone = go.AddComponent<BCone>();
+            go.AddComponent<BRigidBody>();
             CreateNewBase(go, position, rotation);
             bCone.BuildMesh();
             go.name = "BCone";

@@ -31,20 +31,22 @@ namespace InverseDynamicsExample
         BT_ID_PROGRAMMATICALLY = 1
     }
 
-    internal sealed class InverseDynamicsExample : IDemoConfiguration
+    /*
+    internal sealed class InverseDynamicsExample
     {
         public ISimulation CreateSimulation(Demo demo)
         {
-            demo.FreeLook.Eye = new BulletSharp.Math.Vector3(0, 5, 10);
-            demo.FreeLook.Target = BulletSharp.Math.Vector3.Zero;
-            demo.Graphics.WindowTitle = "BulletSharp - FeatherStone Demo";
+            //demo.FreeLook.Eye = new BulletSharp.Math.Vector3(0, 5, 10);
+            //demo.FreeLook.Target = BulletSharp.Math.Vector3.Zero;
+            //demo.Graphics.WindowTitle = "BulletSharp - FeatherStone Demo";
             return new InverseDynamicsExampleSimulation(btInverseDynamicsExampleOptions.BT_ID_PROGRAMMATICALLY);
         }
     }
+    */
 
-    class InverseDynamicsExampleSimulation : CommonMultiBodyBase, ISimulationCustomUpdate
+    public class InverseDynamicsExampleSimulation : Demo
     {
-        btInverseDynamicsExampleOptions m_option;
+        btInverseDynamicsExampleOptions m_option = btInverseDynamicsExampleOptions.BT_ID_PROGRAMMATICALLY;
         MultiBody m_multiBody;
         InverseDynamicsBullet3.MultiBodyTree m_inverseModel;
 
@@ -57,6 +59,300 @@ namespace InverseDynamicsExample
         string[] qd_name;
         string[] q_name;
         public float radius = 1f;
+
+        //------------- Start CommonMultiBodyBase
+
+
+        //keep the collision shapes, for deletion/cleanup
+        /*
+        protected AlignedCollisionObjectArray m_collisionShapes;
+        //MyOverlapFilterCallback2 m_filterCallback;
+        
+        protected BroadphaseInterface m_broadphase;
+        protected CollisionDispatcher m_dispatcher;
+        
+        protected DefaultCollisionConfiguration m_collisionConfiguration;
+        
+        */
+        protected OverlappingPairCache m_pairCache;
+        protected MultiBodyConstraintSolver m_solver;
+        protected MultiBodyDynamicsWorld m_dynamicsWorld;
+
+        //data for picking objects
+        //class btRigidBody	m_pickedBody;
+        //class btTypedConstraint m_pickedConstraint;
+        //class btMultiBodyPoint2Point		m_pickingMultiBodyPoint2Point;
+
+        BulletSharp.Math.Vector3 m_oldPickingPos;
+        BulletSharp.Math.Vector3 m_hitPos;
+        float m_oldPickingDist;
+        bool m_prevCanSleep;
+
+        /*
+        public CollisionConfiguration CollisionConfiguration
+        {
+            get
+            {
+                return m_collisionConfiguration;
+            }
+        }
+
+        public CollisionDispatcher Dispatcher
+        {
+            get
+            {
+                return m_dispatcher;
+            }
+        }
+
+        public BroadphaseInterface Broadphase
+        {
+            get
+            {
+                return m_broadphase;
+            }
+        }
+
+        public DiscreteDynamicsWorld World
+        {
+            get
+            {
+                return m_dynamicsWorld;
+            }
+        }
+        */
+        //GUIHelperInterface m_guiHelper;
+
+        public virtual void createEmptyDynamicsWorld()
+        {
+            ///collision configuration contains default setup for memory, collision setup
+            CollisionConf = new DefaultCollisionConfiguration();
+            //m_collisionConfiguration.setConvexConvexMultipointIterations();
+            //m_filterCallback = new MyOverlapFilterCallback2();
+
+            ///use the default collision dispatcher. For parallel processing you can use a diffent dispatcher (see Extras/BulletMultiThreaded)
+            Dispatcher = new CollisionDispatcher(CollisionConf);
+
+            m_pairCache = new HashedOverlappingPairCache();
+
+            //m_pairCache.OverlapFilterCallback = (m_filterCallback);
+
+            Broadphase = new DbvtBroadphase(m_pairCache);//btSimpleBroadphase();
+
+            m_solver = new MultiBodyConstraintSolver();
+
+            World = m_dynamicsWorld = new MultiBodyDynamicsWorld(Dispatcher, Broadphase, m_solver, CollisionConf);
+
+            m_dynamicsWorld.Gravity = (new BulletSharp.Math.Vector3(0, -10, 0));
+        }
+
+
+        public override void ExitPhysics()
+        {
+
+            Debug.Log("InverseDynamicsExitPhysics");
+            removePickingConstraint();
+            //cleanup in the reverse order of creation/initialization
+
+            //remove the rigidbodies from the dynamics world and delete them
+
+            if (m_dynamicsWorld == null)
+            {
+
+                int i;
+                for (i = m_dynamicsWorld.NumConstraints - 1; i >= 0; i--)
+                {
+                    m_dynamicsWorld.RemoveConstraint(m_dynamicsWorld.GetConstraint(i));
+                }
+
+                for (i = m_dynamicsWorld.NumMultiBodyConstraints - 1; i >= 0; i--)
+                {
+                    MultiBodyConstraint mbc = m_dynamicsWorld.GetMultiBodyConstraint(i);
+                    m_dynamicsWorld.RemoveMultiBodyConstraint(mbc);
+                    mbc.Dispose();
+                }
+
+                for (i = m_dynamicsWorld.NumMultibodies - 1; i >= 0; i--)
+                {
+                    MultiBody mb = m_dynamicsWorld.GetMultiBody(i);
+                    m_dynamicsWorld.RemoveMultiBody(mb);
+                    mb.Dispose();
+                }
+                for (i = m_dynamicsWorld.NumCollisionObjects - 1; i >= 0; i--)
+                {
+                    CollisionObject obj = m_dynamicsWorld.CollisionObjectArray[i];
+                    RigidBody body = RigidBody.Upcast(obj);
+                    if (body != null && body.MotionState != null)
+                    {
+                        body.MotionState.Dispose();
+                    }
+                    m_dynamicsWorld.RemoveCollisionObject(obj);
+                    obj.Dispose();
+                }
+            }
+
+            if (m_inverseModel != null)
+            {
+                Debug.Log("Dispose inverse model " + m_inverseModel.NumBodies());
+                m_inverseModel.Dispose();
+            }
+            if (m_multiBody != null) m_multiBody.Dispose();
+
+            //delete collision shapes
+            for (int j = 0; j < CollisionShapes.Count; j++)
+            {
+                CollisionShape shape = CollisionShapes[j];
+                shape.Dispose();
+            }
+            CollisionShapes.Clear();
+
+            m_dynamicsWorld.Dispose();
+            m_dynamicsWorld = null;
+
+            m_solver.Dispose();
+            m_solver = null;
+
+            Broadphase.Dispose();
+            Broadphase = null;
+
+            Dispatcher.Dispose();
+            Dispatcher = null;
+
+            m_pairCache.Dispose();
+            m_pairCache = null;
+
+            //m_filterCallback.Dispose();
+            //m_filterCallback = null;
+
+            CollisionConf.Dispose();
+            CollisionConf = null;
+        }
+
+        public virtual void physicsDebugDraw(DebugDrawModes debugDrawFlags)
+        {
+            if (m_dynamicsWorld != null)
+            {
+                if (m_dynamicsWorld.DebugDrawer != null)
+                {
+                    m_dynamicsWorld.DebugDrawer.DebugMode = (debugDrawFlags);
+                }
+                m_dynamicsWorld.DebugDrawWorld();
+            }
+
+        }
+
+        public virtual bool keyboardCallback(int key, int state)
+        {
+            /*
+            if ((key==B3G_F3) && state && m_dynamicsWorld)
+            {
+                btDefaultSerializer*	serializer = new btDefaultSerializer();
+                m_dynamicsWorld.serialize(serializer);
+
+                FILE* file = fopen("testFile.bullet","wb");
+                fwrite(serializer.getBufferPointer(),serializer.getCurrentBufferSize(),1, file);
+                fclose(file);
+                //b3Printf("btDefaultSerializer wrote testFile.bullet");
+                serializer.Dispose();
+                return true;
+
+            }
+            */
+            return false;//don't handle this key
+        }
+
+
+        BulletSharp.Math.Vector3 getRayTo(int x, int y)
+        {
+            /*
+            CommonRenderInterface* renderer = m_guiHelper.getRenderInterface();
+
+            if (!renderer)
+            {
+                btAssert(0);
+                return BulletSharp.Math.Vector3(0,0,0);
+            }
+
+            float top = 1.f;
+            float bottom = -1.f;
+            float nearPlane = 1.f;
+            float tanFov = (top-bottom)*0.5f / nearPlane;
+            float fov = 2.0f * btAtan(tanFov);
+
+            BulletSharp.Math.Vector3 camPos,camTarget;
+            renderer.getActiveCamera().getCameraPosition(camPos);
+            renderer.getActiveCamera().getCameraTargetPosition(camTarget);
+
+            BulletSharp.Math.Vector3	rayFrom = camPos;
+            BulletSharp.Math.Vector3 rayForward = (camTarget-camPos);
+            rayForward.normalize();
+            float farPlane = 10000.f;
+            rayForward*= farPlane;
+
+            BulletSharp.Math.Vector3 rightOffset;
+            BulletSharp.Math.Vector3 cameraUp=BulletSharp.Math.Vector3(0,0,0);
+            cameraUp[m_guiHelper.getAppInterface().getUpAxis()]=1;
+
+            BulletSharp.Math.Vector3 vertical = cameraUp;
+
+            BulletSharp.Math.Vector3 hor;
+            hor = rayForward.cross(vertical);
+            hor.normalize();
+            vertical = hor.cross(rayForward);
+            vertical.normalize();
+
+            float tanfov = tanf(0.5f*fov);
+
+
+            hor *= 2.f * farPlane * tanfov;
+            vertical *= 2.f * farPlane * tanfov;
+
+            float aspect;
+            float width = renderer.getScreenWidth();
+            float height = renderer.getScreenHeight();
+
+            aspect =  width / height;
+
+            hor*=aspect;
+
+
+            BulletSharp.Math.Vector3 rayToCenter = rayFrom + rayForward;
+            BulletSharp.Math.Vector3 dHor = hor * 1.f/width;
+            BulletSharp.Math.Vector3 dVert = vertical * 1.f/height;
+
+
+            BulletSharp.Math.Vector3 rayTo = rayToCenter - 0.5f * hor + 0.5f * vertical;
+            rayTo += x * dHor;
+            rayTo -= y * dVert;
+            */
+            return new BulletSharp.Math.Vector3();
+            //return rayTo;
+        }
+
+        public virtual void removePickingConstraint()
+        {
+            /*
+            if (m_pickedConstraint)
+            {
+                m_dynamicsWorld.removeConstraint(m_pickedConstraint);
+                delete m_pickedConstraint;
+                m_pickedConstraint = 0;
+                m_pickedBody = 0;
+            }
+            if (m_pickingMultiBodyPoint2Point)
+            {
+                m_pickingMultiBodyPoint2Point.getMultiBodyA().setCanSleep(m_prevCanSleep);
+                btMultiBodyDynamicsWorld* world = (btMultiBodyDynamicsWorld*) m_dynamicsWorld;
+                world.removeMultiBodyConstraint(m_pickingMultiBodyPoint2Point);
+                delete m_pickingMultiBodyPoint2Point;
+                m_pickingMultiBodyPoint2Point = 0;
+            }
+            */
+        }
+
+
+        //------------- End CommonMultiBodyBase
+
 
         static BulletSharp.Math.Vector4[] sJointCurveColors = new BulletSharp.Math.Vector4[]
         {
@@ -72,44 +368,27 @@ namespace InverseDynamicsExample
         };
 
 
-        void toggleUseInverseModel(int buttonId, bool buttonState)
-        {
-            useInverseModel = !useInverseModel;
-            // todo(thomas) is there a way to get a toggle button with changing text?
-            Debug.LogFormat("switched inverse model {0}", useInverseModel ? "on" : "off");
-        }
-
         /*
-        virtual void resetCamera()
-        {
-            float dist = 1.5;
-            float pitch = -10;
-            float yaw = -80;
-            float[] targetPos = new float{0,0,0};
-            m_guiHelper.resetCamera(dist,yaw,pitch,targetPos[0],targetPos[1],targetPos[2]);
-        }
-        */
+                public InverseDynamicsExampleSimulation(btInverseDynamicsExampleOptions option) : base()
+                {
+                    m_option = option;
+                    m_multiBody = null;
+                    m_inverseModel = null;
+                    //m_timeSeriesCanvas = null;
+                    OnInitializePhysics();
+                }
+            */
 
-
-        public InverseDynamicsExampleSimulation(btInverseDynamicsExampleOptions option) : base()
+        protected override void OnInitialize()
         {
-            m_option = option;
-            m_multiBody = null;
-            m_inverseModel = null;
-            //m_timeSeriesCanvas = null;
-            initPhysics();
+            //Freelook.SetEyeTarget(eye, target);
+
+            Graphics.SetFormText("BulletSharp - Inverse Dynamics");
         }
 
-        public override void Dispose()
+        protected override void OnInitializePhysics()
         {
-            //exitPhysics();
-            if (m_inverseModel != null) m_inverseModel.Dispose();
-            this.StandardCleanup();
-            //delete m_timeSeriesCanvas;
-        }
-
-        public void initPhysics()
-        {
+            Debug.Log("Begin onInitialize physics");
             //roboticists like Z up
             int upAxis = 2;
             //m_guiHelper.setUpAxis(upAxis);
@@ -199,7 +478,7 @@ namespace InverseDynamicsExample
             };
 
 
-            if (false)//(m_multiBody != null)
+            if (true)//(m_multiBody != null)
             {
                 {
                     //if (m_guiHelper.getAppInterface() && m_guiHelper.getParameterInterface())
@@ -224,7 +503,7 @@ namespace InverseDynamicsExample
 
                 qd_name = new string[m_multiBody.NumDofs];
                 q_name = new string[m_multiBody.NumDofs];
-
+                Debug.Log("Created inverse model");
                 /*
                             if (m_timeSeriesCanvas && m_guiHelper.getParameterInterface())
                             {
@@ -251,13 +530,12 @@ namespace InverseDynamicsExample
             }
 
             // m_guiHelper.autogenerateGraphicsObjects(m_dynamicsWorld);
-
+            Debug.Log("End onInitialize physics");
         }
 
         public override void OnUpdate()
         {
-            Debug.Log("Step Simulation");
-            if (false) //(m_multiBody != null)
+            if (true) //(m_multiBody != null)
             {
                 int num_dofs = m_multiBody.NumDofs;
                 float[] nu = new float[num_dofs];
@@ -298,7 +576,6 @@ namespace InverseDynamicsExample
                             //joint_force(dof) += damping*dot_q(dof);
                             // use inverse model: apply joint force corresponding to
                             // desired acceleration nu
-
                             for (int dof = 0; dof < num_dofs; dof++)
                             {
                                 m_multiBody.AddJointTorque(dof, joint_force[dof]);
@@ -323,16 +600,12 @@ namespace InverseDynamicsExample
                             //joint_force(dof) += damping*dot_q(dof);
                             // use inverse model: apply joint force corresponding to
                             // desired acceleration nu
-
                             for (int dof = 0; dof < num_dofs; dof++)
                             {
                                 m_multiBody.AddJointTorque(dof, joint_force6[dof + 6]);
                             }
                         }
-
                     }
-
-
                 }
                 else
                 {
@@ -360,7 +633,7 @@ namespace InverseDynamicsExample
                                                          btAlignedObjectArray<BulletSharp.Math.Vector3> scratch_m;
                                                          m_multiBody.ForwardKinematics(scratch_q, scratch_m);
                                                          */
-                Debug.LogError("TODO forward kinematics");
+                //"TODO forward kinematics";
                /*
                 #if 0
                         for (int i = 0; i < m_multiBody.getNumLinks(); i++)

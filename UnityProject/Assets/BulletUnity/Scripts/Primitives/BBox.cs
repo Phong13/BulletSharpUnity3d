@@ -10,7 +10,6 @@ namespace BulletUnity.Primitives
     /// <summary>
     /// Basic BBox
     /// </summary>
-    [RequireComponent(typeof(BRigidBody))]
     [RequireComponent(typeof(BBoxShape))]
     public class BBox : BPrimitive
     {
@@ -21,6 +20,7 @@ namespace BulletUnity.Primitives
         {
             GameObject go = new GameObject();
             BBox bBox = go.AddComponent<BBox>();
+            go.AddComponent<BRigidBody>();
             CreateNewBase(go, position, rotation);
             bBox.BuildMesh();
             go.name = "BBox";

@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using BulletSharp;
 
 namespace BulletUnity {
@@ -18,7 +19,7 @@ namespace BulletUnity {
     [AddComponentMenu("Physics Bullet/Shapes/Compund")]
     public class BCompoundShape : BCollisionShape {
         [SerializeField]
-        protected BCollisionShape[] colliders;
+        protected List<BCollisionShape> colliders;
 
         [SerializeField]
         protected Vector3 m_localScaling = Vector3.one;
@@ -42,7 +43,7 @@ namespace BulletUnity {
                 return;
             }
             if (colliders != null) {
-                for (int i = 0; i < colliders.Length; i++) {
+                for (int i = 0; i < colliders.Count; i++) {
                     if (colliders[i] != null)
                     {
                         colliders[i].OnDrawGizmosSelected();
@@ -51,8 +52,23 @@ namespace BulletUnity {
             }
         }
 
+        public void AddBCollisionShape(BCollisionShape bs)
+        {
+            if (colliders == null) colliders = new List<BCollisionShape>();
+            if (!colliders.Contains(bs)) colliders.Add(bs);
+        }
+
+        public void RemoveBCollisionShape(BCollisionShape bs)
+        {
+            if (colliders != null)
+            {
+                colliders.Remove(bs);
+            }
+        }
+
         CompoundShape _CreateCompoundShape(bool copyChildren)
         {
+            /*
             BCollisionShape[] css = GetComponentsInChildren<BCollisionShape>();
             colliders = new BCollisionShape[css.Length - 1];
             int ii = 0;
@@ -67,9 +83,10 @@ namespace BulletUnity {
                     ii++;
                 }
             }
-            if (colliders.Length == 0)
+            */
+            if (colliders.Count == 0)
             {
-                Debug.LogError("Compound collider");
+                Debug.LogError("Compound collider has no colliders");
             }
 
             //TODO
@@ -78,7 +95,7 @@ namespace BulletUnity {
             // allowed should check for these.
             // what about scaling not sure if it is handled correctly
             CompoundShape cs = new CompoundShape();
-            for (int i = 0; i < colliders.Length; i++)
+            for (int i = 0; i < colliders.Count; i++)
             {
                 CollisionShape chcs;
                 if (copyChildren == true)

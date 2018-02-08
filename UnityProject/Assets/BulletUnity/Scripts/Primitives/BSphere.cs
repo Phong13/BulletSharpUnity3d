@@ -10,7 +10,6 @@ namespace BulletUnity.Primitives
     /// <summary>
     /// Basic BSphere
     /// </summary>
-    [RequireComponent(typeof(BRigidBody))]
     [RequireComponent(typeof(BSphereShape))]
     public class BSphere : BPrimitive
     {
@@ -20,6 +19,7 @@ namespace BulletUnity.Primitives
         {
             GameObject go = new GameObject();
             go.AddComponent<BSphereShape>();
+            go.AddComponent<BRigidBody>();
             BSphere bSphere = go.AddComponent<BSphere>();
             CreateNewBase(go, position, rotation);
             bSphere.BuildMesh();

@@ -138,6 +138,23 @@ namespace BulletUnity {
             }
         }
 
+        public static void DebugDrawTransform(Transform t, Vector3 pivotPointLocalToTransform, Vector3 forwardLocalToTransform, Vector3 upLocalToTransform, float gizmoScale)
+        {
+            Vector3 pivotWorld = t.TransformPoint(pivotPointLocalToTransform);
+            Vector3 xWorld = t.TransformDirection(forwardLocalToTransform).normalized * gizmoScale;
+            Vector3 yWorld = t.TransformDirection(upLocalToTransform).normalized * gizmoScale;
+            Vector3 zWorld = Vector3.Cross(xWorld, yWorld);
+            yWorld = Vector3.Cross(zWorld, xWorld);
+            yWorld = yWorld.normalized * gizmoScale;
+            xWorld = xWorld.normalized * gizmoScale;
+            zWorld = zWorld.normalized * (gizmoScale * .5f);
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(pivotWorld, pivotWorld + xWorld);
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(pivotWorld, pivotWorld + yWorld);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(pivotWorld, pivotWorld + zWorld);
+        }
 
         /*	
             //it is very slow, so don't use it if you don't need it indeed..
@@ -359,6 +376,33 @@ namespace BulletUnity {
                 vec2[0] = -planeNormal[2] * vec1[1];
                 vec2[1] = planeNormal[2] * vec1[0];
                 vec2[2] = a * k;
+            }
+        }
+
+        public static bool GetPerpendicularVector(Vector3 v, out Vector3 vPerp)
+        {
+            if (v.x > 10e-7f)
+            {
+                vPerp.x = (-v.y - v.z) / v.x;
+                vPerp.y = 1;
+                vPerp.z = 1;
+                return true;
+            } else if (v.y > 10e-7f)
+            {
+                vPerp.x = 1;
+                vPerp.y = (-v.x - v.z) / v.y;
+                vPerp.z = 1;
+                return true;
+            } else if (v.z > 10e-7f)
+            {
+                vPerp.x = 1;
+                vPerp.y = 1;
+                vPerp.z = (-v.x - v.y) / v.z;
+                return true;
+            } else
+            {
+                vPerp = Vector3.one;
+                return false;
             }
         }
 

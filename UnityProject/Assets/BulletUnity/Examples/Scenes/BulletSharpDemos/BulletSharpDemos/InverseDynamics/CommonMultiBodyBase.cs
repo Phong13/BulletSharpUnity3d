@@ -45,7 +45,7 @@ struct MyOverlapFilterCallback2 : public btOverlapFilterCallback
 };
 */
 
-public abstract class CommonMultiBodyBase : ISimulation, ISimulationCustomUpdate
+public abstract class CommonMultiBodyBase
 {
     
 		//keep the collision shapes, for deletion/cleanup
@@ -121,8 +121,9 @@ public abstract class CommonMultiBodyBase : ISimulation, ISimulationCustomUpdate
 
 	public virtual void createEmptyDynamicsWorld()
 	{
-		///collision configuration contains default setup for memory, collision setup
-		m_collisionConfiguration = new DefaultCollisionConfiguration();
+        ///collision configuration contains default setup for memory, collision setup
+        
+        m_collisionConfiguration = new DefaultCollisionConfiguration();
 		//m_collisionConfiguration.setConvexConvexMultipointIterations();
 		//m_filterCallback = new MyOverlapFilterCallback2();
 		
