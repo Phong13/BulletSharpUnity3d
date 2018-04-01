@@ -666,8 +666,8 @@ namespace DemoFramework.FileLoaders
                                         //string name = u2b.getLinkName(urdfLinkIndex);
                                         //printf("create btMultiBodyJointLimitConstraint for revolute link name=%s urdf link index=%d (low=%f, up=%f)\n", name.c_str(), urdfLinkIndex, jointLowerLimit, jointUpperLimit);
                                         BMultiBodyJointLimitConstraint mbc = gameObject.AddComponent<BMultiBodyJointLimitConstraint>();
-                                        mbc.jointLowerLimit = jointLowerLimit;
-                                        mbc.jointUpperLimit = jointUpperLimit;
+                                        mbc.m_jointLowerLimit = jointLowerLimit;
+                                        mbc.m_jointUpperLimit = jointUpperLimit;
                                     }
                                 }
                                 else
@@ -714,8 +714,8 @@ namespace DemoFramework.FileLoaders
                                         //string name = u2b.getLinkName(urdfLinkIndex);
                                         //printf("create btMultiBodyJointLimitConstraint for prismatic link name=%s urdf link index=%d (low=%f, up=%f)\n", name.c_str(), urdfLinkIndex, jointLowerLimit,jointUpperLimit);
                                         BMultiBodyJointLimitConstraint mbc = gameObject.AddComponent<BMultiBodyJointLimitConstraint>();
-                                        mbc.jointLowerLimit = jointLowerLimit;
-                                        mbc.jointUpperLimit = jointUpperLimit;
+                                        mbc.m_jointLowerLimit = jointLowerLimit;
+                                        mbc.m_jointUpperLimit = jointUpperLimit;
                                     }
                                     //printf("joint lower limit=%d, upper limit = %f\n", jointLowerLimit, jointUpperLimit);
 

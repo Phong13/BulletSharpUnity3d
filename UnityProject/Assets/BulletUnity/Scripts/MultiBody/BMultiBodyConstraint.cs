@@ -5,6 +5,7 @@ using System;
 
 namespace BulletUnity
 {
+    [RequireComponent(typeof(BMultiBodyLink))]
     public abstract class BMultiBodyConstraint : MonoBehaviour, IDisposable
     {
         protected MultiBodyConstraint m_multiBodyConstraintPtr;

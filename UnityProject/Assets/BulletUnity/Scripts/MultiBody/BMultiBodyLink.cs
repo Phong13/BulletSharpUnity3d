@@ -13,14 +13,78 @@ namespace BulletUnity
         public float jointDamping = 0f;
         public float jointFriction = 0f;
 
-        [Range(.05f,10f)]
+        [Range(.05f, 10f)]
         public float gizmoScale = .15f;
+
+        [System.NonSerialized]
         internal MultiBodyLinkCollider m_linkCollider;
 
         [System.NonSerialized]
         internal int parentIndex;
+
         [System.NonSerialized]
         internal int index;
+
+        /// <summary>
+        /// Joint axis are frozen when multibody is created.
+        /// </summary>
+        private bool m_axisAreFrozen = false;
+        public bool axesAreFrozen { get { return m_axisAreFrozen; } }
+
+        private Vector3 m_rotationAxisInParentFrame;
+        public Vector3 rotationAxisInParentFrame
+        {
+            get { return m_rotationAxisInParentFrame; }
+            protected set
+            {
+                Debug.Assert(m_axisAreFrozen, "Should not be called before axis are frozen.");
+                m_rotationAxisInParentFrame = value;
+            }
+        }
+
+        private Vector3 m_jointToThisCOMInParentFrame;
+        public Vector3 jointToThisCOMInParentFrame
+        {
+            get { return m_jointToThisCOMInParentFrame; }
+            protected set
+            {
+                Debug.Assert(m_axisAreFrozen, "Should not be called before axis are frozen.");
+                m_jointToThisCOMInParentFrame = value;
+            }
+        }
+
+        private Vector3 m_thisPivotToJointCOMOffset;
+        public Vector3 thisPivotToJointCOMOffset
+        {
+            get { return m_thisPivotToJointCOMOffset; }
+            protected set
+            {
+                Debug.Assert(m_axisAreFrozen, "Should not be called before axis are frozen.");
+                m_thisPivotToJointCOMOffset = value;
+            }
+        }
+
+        private Quaternion m_parentToJointRotation;
+        public Quaternion parentToJointRotation
+        {
+            get { return m_parentToJointRotation; }
+            protected set
+            {
+                Debug.Assert(m_axisAreFrozen, "Should not be called before axis are frozen.");
+                m_parentToJointRotation = value;
+            }
+        }
+
+        private Vector3 m_parentCOM2JointPivotOffset;
+        public Vector3 parentCOM2JointPivotOffset
+        {
+            get { return m_parentCOM2JointPivotOffset; }
+            protected set
+            {
+                Debug.Assert(m_axisAreFrozen, "Should not be called before axis are frozen.");
+                m_parentCOM2JointPivotOffset = value;
+            }
+        }
 
         public MultiBodyLinkCollider GetLinkCollider()
         {
@@ -61,6 +125,20 @@ namespace BulletUnity
             base.OnDisable();
         }
 
+        /// <summary>
+        /// Should only be called when the multibody is being created. The joint axes are frozen
+        /// in the parents frame at that moment.
+        /// </summary>
+        internal void FreezeJointAxis()
+        {
+            m_jointToThisCOMInParentFrame = transform.parent.InverseTransformDirection(transform.InverseTransformDirection(-localPivotPosition));
+            m_rotationAxisInParentFrame = transform.parent.InverseTransformDirection(transform.TransformDirection(rotationAxis));
+            m_parentCOM2JointPivotOffset = transform.parent.InverseTransformPoint(transform.TransformPoint(localPivotPosition));
+            m_thisPivotToJointCOMOffset = -localPivotPosition;
+            m_parentToJointRotation = UnityEngine.Quaternion.Inverse(transform.localRotation);
+            m_axisAreFrozen = true;
+        }
+
         protected override void Dispose(bool isdisposing)
         {
             if (isInWorld && isdisposing && m_linkCollider != null)
@@ -76,7 +154,7 @@ namespace BulletUnity
                         ((DiscreteDynamicsWorld)pw.world).RemoveConstraint(tc.GetConstraint());
                     }
                     */
-                    
+
                     ((DiscreteDynamicsWorld)pw.world).RemoveCollisionObject(m_linkCollider);
                 }
             }
@@ -101,12 +179,13 @@ namespace BulletUnity
                     BUtility.GetPerpendicularVector(forward, out rperp);
                     rperp.Normalize();
                 }
-            } else
+            }
+            else
             {
                 rotationAxis = transform.forward;
                 rperp = transform.up;
             }
-            BUtility.DebugDrawTransform(transform, localPivotPosition, rotationAxis,rperp, gizmoScale);
+            BUtility.DebugDrawTransform(transform, localPivotPosition, rotationAxis, rperp, gizmoScale);
         }
     }
 }

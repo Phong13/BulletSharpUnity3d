@@ -477,10 +477,11 @@ namespace BulletUnity
                     List<BMultiBodyLink> links = mb.GetLinks();
                     for (int i = 0; i < links.Count; i++)
                     {
-                        if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Adding MultiBodyLinkCollider {0} to world", links[i]);
-                        m_world.AddCollisionObject(links[i].GetLinkCollider(),links[i].groupsIBelongTo,links[i].collisionMask);
-                        links[i].isInWorld = true;
-                        BMultiBodyConstraint bmbc = links[i].GetComponent<BMultiBodyConstraint>();
+                        BMultiBodyLink link = links[i];
+                        if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Adding MultiBodyLinkCollider {0} to world", link);
+                        m_world.AddCollisionObject(link.GetLinkCollider(), link.groupsIBelongTo, link.collisionMask);
+                        link.isInWorld = true;
+                        BMultiBodyConstraint bmbc = link.GetComponent<BMultiBodyConstraint>();
                         if (bmbc != null)
                         {
                             MultiBodyConstraint mbc = bmbc.GetMultiBodyConstraint(mb.GetMultiBody());

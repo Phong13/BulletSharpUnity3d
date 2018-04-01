@@ -26,6 +26,9 @@ namespace BulletUnity
             return m_multibody;
         }
 
+        /// <summary>
+        /// This is not a copy of the list. Don't alter this list.
+        /// </summary>
         public List<BMultiBodyLink> GetLinks()
         {
             return m_links;
@@ -46,7 +49,10 @@ namespace BulletUnity
             if (isInWorld)
             {
                 BPhysicsWorld w = BPhysicsWorld.Get(); //todo adding UserObject to multibody should fix this
-                if (w != null) BPhysicsWorld.Get().RemoveMultiBody(this);
+                if (w != null)
+                {
+                    BPhysicsWorld.Get().RemoveMultiBody(this);
+                }
             }
         }
 
@@ -91,7 +97,7 @@ namespace BulletUnity
         // when scene is closed objects, including the physics world, are destroyed in random order. 
         // There is no way to distinquish between scene close destruction and normal gameplay destruction.
         // Objects cannot depend on world existing when they Dispose of themselves. World may have been destroyed first.
-        protected virtual void OnDisable()
+        protected override void OnDisable()
         {
             if (isInWorld)
             {
@@ -99,7 +105,7 @@ namespace BulletUnity
             }
         }
 
-        protected virtual void OnDestroy()
+        protected override void OnDestroy()
         {
             Dispose(false);
         }
@@ -110,7 +116,7 @@ namespace BulletUnity
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool isdisposing)
+        protected override void Dispose(bool isdisposing)
         {
             if (isInWorld && isdisposing && m_multibody != null)
             {
@@ -220,45 +226,47 @@ namespace BulletUnity
             mb.WorldToBaseRot = r.ToBullet();
             for (int i = 0; i < m_links.Count; i++)
             {
-                Debug.Log("Found link " + i + " parent " + m_links[i].parentIndex + " index " + m_links[i].index);
+                //Debug.Log("Found link " + i + " parent " + m_links[i].parentIndex + " index " + m_links[i].index);
+                BMultiBodyLink link = m_links[i];
                 CollisionShape cs = shapes[i].GetCollisionShape();
                 if (cs != null)
                 {
-                    cs.CalculateLocalInertia(m_links[i].mass, out inertia);
+                    cs.CalculateLocalInertia(link.mass, out inertia);
                 } else
                 {
                     inertia = BulletSharp.Math.Vector3.Zero;
                 }
-                FeatherstoneJointType jt = m_links[i].jointType;
-                int parentIdx = m_links[i].parentIndex;
+                FeatherstoneJointType jt = link.jointType;
+                int parentIdx = link.parentIndex;
                 UnityEngine.Vector3 parentCOM2ThisPivotOffset;
-                if (m_links[i].parentIndex >= 0) {
-                    parentCOM2ThisPivotOffset = m_links[parentIdx].transform.InverseTransformPoint(m_links[i].transform.TransformPoint(m_links[i].localPivotPosition));
+                link.FreezeJointAxis();
+                if (link.parentIndex >= 0) {
+                    parentCOM2ThisPivotOffset = link.parentCOM2JointPivotOffset;
                 } else
                 {
-                    parentCOM2ThisPivotOffset = transform.InverseTransformPoint(m_links[i].transform.TransformPoint(m_links[i].localPivotPosition));
+                    parentCOM2ThisPivotOffset = transform.InverseTransformPoint(link.transform.TransformPoint(link.localPivotPosition));
                 }
-                UnityEngine.Vector3 thisPivotToThisCOMOffset = -m_links[i].localPivotPosition;
-                UnityEngine.Quaternion parentToThisRotation = UnityEngine.Quaternion.Inverse(m_links[i].transform.localRotation);
+                UnityEngine.Vector3 thisPivotToThisCOMOffset = link.thisPivotToJointCOMOffset;
+                UnityEngine.Quaternion parentToThisRotation = link.parentToJointRotation;
                 switch (jt)
                 {
                     case FeatherstoneJointType.Fixed:
-                        mb.SetupFixed(i,m_links[i].mass,inertia,m_links[i].parentIndex, parentToThisRotation.ToBullet(), parentCOM2ThisPivotOffset.ToBullet(), thisPivotToThisCOMOffset.ToBullet(), false);
+                        mb.SetupFixed(i,link.mass,inertia,link.parentIndex, parentToThisRotation.ToBullet(), parentCOM2ThisPivotOffset.ToBullet(), thisPivotToThisCOMOffset.ToBullet(), false);
                         break;
                     case FeatherstoneJointType.Planar:
-                        mb.SetupPlanar(i, m_links[i].mass, inertia, m_links[i].parentIndex, parentToThisRotation.ToBullet(), m_links[i].rotationAxis.ToBullet(), thisPivotToThisCOMOffset.ToBullet(), false);
+                        mb.SetupPlanar(i, link.mass, inertia, link.parentIndex, parentToThisRotation.ToBullet(), link.rotationAxis.ToBullet(), thisPivotToThisCOMOffset.ToBullet(), false);
                         break;
                     case FeatherstoneJointType.Prismatic:
-                        mb.SetupPrismatic(i, m_links[i].mass, inertia, m_links[i].parentIndex, parentToThisRotation.ToBullet(), m_links[i].rotationAxis.ToBullet(), parentCOM2ThisPivotOffset.ToBullet(), thisPivotToThisCOMOffset.ToBullet(), false);
+                        mb.SetupPrismatic(i, link.mass, inertia, link.parentIndex, parentToThisRotation.ToBullet(), link.rotationAxis.ToBullet(), parentCOM2ThisPivotOffset.ToBullet(), thisPivotToThisCOMOffset.ToBullet(), false);
                         break;
                     case FeatherstoneJointType.Revolute:
-                        mb.SetupRevolute(i, m_links[i].mass, inertia, m_links[i].parentIndex, parentToThisRotation.ToBullet(), m_links[i].rotationAxis.ToBullet(), parentCOM2ThisPivotOffset.ToBullet(), thisPivotToThisCOMOffset.ToBullet(), false);
+                        mb.SetupRevolute(i, link.mass, inertia, link.parentIndex, parentToThisRotation.ToBullet(), link.rotationAxis.ToBullet(), parentCOM2ThisPivotOffset.ToBullet(), thisPivotToThisCOMOffset.ToBullet(), false);
                         break;
                     case FeatherstoneJointType.Spherical:
-                        mb.SetupSpherical(i, m_links[i].mass, inertia, m_links[i].parentIndex, parentToThisRotation.ToBullet(), parentCOM2ThisPivotOffset.ToBullet(), thisPivotToThisCOMOffset.ToBullet(), false);
+                        mb.SetupSpherical(i, link.mass, inertia, link.parentIndex, parentToThisRotation.ToBullet(), parentCOM2ThisPivotOffset.ToBullet(), thisPivotToThisCOMOffset.ToBullet(), false);
                         break;
                     default:
-                        Debug.LogError("Invalid joint type for link " + m_links[i].name);
+                        Debug.LogError("Invalid joint type for link " + link.name);
                         break;
                 }
             }
@@ -282,7 +290,14 @@ namespace BulletUnity
             m_multibody = mb;
         }
 
-        public void CreateColliders()
+        /// <summary>
+        /// A MultiBody object needs to be created and added a controled sequence
+        ///    1) The multibody needs to be added to the PhysicsWorld.
+        ///    2) Then the base colliders and other colliders can be created and added. They
+        ///       depend on the multibody reference.
+        ///    3) Then collision objects can be added.
+        /// </summary>
+        internal void CreateColliders()
         {
             if (m_multibody == null)
             {
@@ -316,9 +331,9 @@ namespace BulletUnity
             }
         }
 
-    //TODO handle random BMultiBodyLinks that skip in hierarchy
-    //not using GetComponentsInChildren because the order in which links are discovered is important.
-    bool GetLinksInChildrenAndNumber(Transform t, List<BMultiBodyLink> links, int parentIndex)
+    // TODO handle random BMultiBodyLinks that skip in hierarchy
+    // not using GetComponentsInChildren because the order in which links are discovered is important.
+    private bool GetLinksInChildrenAndNumber(Transform t, List<BMultiBodyLink> links, int parentIndex)
         {
             BMultiBodyLink mbl = t.GetComponent<BMultiBodyLink>();
             if (mbl != null)
