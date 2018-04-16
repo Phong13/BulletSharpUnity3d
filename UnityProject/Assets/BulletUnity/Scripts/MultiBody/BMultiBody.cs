@@ -19,6 +19,11 @@ namespace BulletUnity
         protected MultiBody m_multibody;
         protected BCollisionShape m_baseCollisionShape;
         protected MultiBodyLinkCollider m_baseCollider;
+
+        /// <summary>
+        /// The order of the links in this list is important. The links are added from root to
+        /// leafs.
+        /// </summary>
         protected List<BMultiBodyLink> m_links;
 
         public MultiBody GetMultiBody()
@@ -78,6 +83,13 @@ namespace BulletUnity
                 Matrix4x4 m = m_baseCollider.WorldTransform.ToUnity();
                 transform.position = BSExtensionMethods2.ExtractTranslationFromMatrix(ref m);
                 transform.rotation = BSExtensionMethods2.ExtractRotationFromMatrix(ref m);
+                for (int i = 0; i < m_links.Count; i++)
+                {
+                    MultiBodyLinkCollider linkCollider = m_links[i].GetLinkCollider();
+                    m = linkCollider.WorldTransform.ToUnity();
+                    m_links[i].transform.position = BSExtensionMethods2.ExtractTranslationFromMatrix(ref m);
+                    m_links[i].transform.rotation = BSExtensionMethods2.ExtractRotationFromMatrix(ref m);
+                }
             }
         }
 
@@ -86,7 +98,7 @@ namespace BulletUnity
         //has a chance to initialize itself. Objects that depend on other objects such as constraints should make
         //sure those objects have been added to the world first.
         //don't try to call functions on world before Start is called. It may not exist.
-        protected virtual void OnEnable()
+        protected override void OnEnable()
         {
             if (!isInWorld && m_startHasBeenCalled)
             {

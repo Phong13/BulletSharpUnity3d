@@ -206,7 +206,7 @@ namespace ConcaveConvexCastDemo
         Vector3 eye = new Vector3(0, 15, 60);
         Vector3 target = new Vector3(-5, 5, 0);
 
-        const DebugDrawModes debugMode = DebugDrawModes.None;
+        const DebugDrawModes debugMode = 0;
 
         const float TriangleSize = 8.0f;
         const int NumVertsX = 30;

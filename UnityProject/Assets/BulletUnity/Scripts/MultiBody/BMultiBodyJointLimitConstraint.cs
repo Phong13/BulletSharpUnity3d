@@ -65,7 +65,7 @@ namespace BulletUnity
                         from = transform.TransformDirection(-link.localPivotPosition);
                         if (from.magnitude < 10E-7f)
                         {
-                            from = transform.parent.position - p;
+                            from = p - transform.parent.position;
                         }
 
                         from = Vector3.ProjectOnPlane(from, axisOfRotation);

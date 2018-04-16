@@ -13,6 +13,8 @@ namespace BulletUnity
         public float jointDamping = 0f;
         public float jointFriction = 0f;
 
+        public bool m_doDrawGizmos = true;
+
         [Range(.05f, 10f)]
         public float gizmoScale = .15f;
 
@@ -98,16 +100,6 @@ namespace BulletUnity
             m_startHasBeenCalled = true;
         }
 
-        private void Update()
-        {
-            if (m_linkCollider != null && isInWorld)
-            {
-                Matrix4x4 m = m_linkCollider.WorldTransform.ToUnity();
-                transform.position = BSExtensionMethods2.ExtractTranslationFromMatrix(ref m);
-                transform.rotation = BSExtensionMethods2.ExtractRotationFromMatrix(ref m);
-            }
-        }
-
         protected override void OnDisable()
         {
             if (m_linkCollider != null && isInWorld)
@@ -167,6 +159,11 @@ namespace BulletUnity
 
         private void OnDrawGizmosSelected()
         {
+            if (!m_doDrawGizmos)
+            {
+                return;
+            }
+
             Vector3 rperp = Vector3.up;
             Vector3 forward = rotationAxis;
             if (jointType == FeatherstoneJointType.Planar ||

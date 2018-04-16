@@ -26,7 +26,7 @@ public class BDynamicsWorldEditor : Editor
     public override void OnInspectorGUI()
     {
         BPhysicsWorld pw = (BPhysicsWorld) target;
-//pw.doCollisionCallbacks = EditorGUILayout.Toggle("Do Collision Callbacks", pw.doCollisionCallbacks);
+
         pw.DoDebugDraw = EditorGUILayout.Toggle(gcDoDebugDraw, pw.DoDebugDraw);
         pw.DebugDrawMode = (BulletSharp.DebugDrawModes) EditorGUILayout.EnumMaskPopup(DebugDrawMode, pw.DebugDrawMode);
         

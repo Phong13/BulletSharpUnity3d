@@ -61,8 +61,10 @@ namespace BulletSharp
 	[Flags]
 	public enum DebugDrawModes
 	{
-		None = 0,
-		DrawWireframe = 1,
+        // Removed None because they EditorGUILayout.EnumMaskPopup doesn't handle enums that start from 0
+        // properly. Can still assign integer 0 to a variable of type DebugDrawModes.
+        //None = 0,
+        DrawWireframe = 1,
 		DrawAabb = 2,
 		DrawFeaturesText = 4,
 		DrawContactPoints = 8,
