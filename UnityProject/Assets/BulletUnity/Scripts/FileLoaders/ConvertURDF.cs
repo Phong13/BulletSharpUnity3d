@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using BulletSharp;
 using BulletSharp.Math;
+using BulletUnity.Debugging;
 using BulletUnity;
 using System;
 
@@ -297,6 +298,8 @@ namespace DemoFramework.FileLoaders
     public class ConvertURDF
     {
 
+        BDebug.DebugType debugLevel = BDebug.DebugType.Info;
+
         private void Resize(List<int> list, int n)
         {
             for (int i = list.Count; i < n; i++) {  list.Add(0); }
@@ -374,17 +377,15 @@ namespace DemoFramework.FileLoaders
                         bool enableConstraints,
                         ConvertURDFFlags flags = 0)
         {
-            UnityEngine.Debug.LogError("Test Matrix To Quaternion");
+            UnityEngine.Debug.LogError("TODO Test Matrix To Quaternion");
             Matrix linkTransformInWorldSpace = Matrix.Identity;
-
-
             int mbLinkIndex = cache.getMbIndexFromUrdfIndex(urdfLinkIndex);
-
             int urdfParentIndex = cache.getParentUrdfIndex(urdfLinkIndex);
             int mbParentIndex = cache.getMbIndexFromUrdfIndex(urdfParentIndex);
             RigidBody parentRigidBody = null;
 
-            //b3Printf("mb link index = %d\n",mbLinkIndex);
+            //b3Printf();
+            if (debugLevel >= BDebug.DebugType.Debug) { Debug.LogFormat("mb link index = {0}\n", mbLinkIndex); }
 
             Matrix parentLocalInertialFrame = Matrix.Identity;
             float parentMass = (1);
@@ -392,15 +393,20 @@ namespace DemoFramework.FileLoaders
 
             if (urdfParentIndex == -2)
             {
-                //b3Printf("root link has no parent\n");
+                if (debugLevel >= BDebug.DebugType.Debug)
+                {
+                    Debug.LogFormat("root link has no parent\n");
+                }
             }
             else
             {
-                //b3Printf("urdf parent index = %d\n",urdfParentIndex);
-                //b3Printf("mb parent index = %d\n",mbParentIndex);
+                if (debugLevel >= BDebug.DebugType.Debug)
+                {
+                    Debug.LogFormat("urdf parent index = {0}",urdfParentIndex);
+                    Debug.LogFormat("mb parent index = {0}",mbParentIndex);
+                }
                 parentRigidBody = cache.getRigidBodyFromLink(urdfParentIndex);
                 u2b.getMassAndInertia(urdfParentIndex, out parentMass, out parentLocalInertiaDiagonal, out parentLocalInertialFrame);
-
             }
 
             float mass = 0;
@@ -482,8 +488,6 @@ namespace DemoFramework.FileLoaders
 
             if (compoundShape != null)
             {
-
-
                 UrdfMaterialColor matColor;
                 Color color2 = Color.red;
                 Color specular = new Color(0.5f, 0.5f, 0.5f);
@@ -518,22 +522,13 @@ namespace DemoFramework.FileLoaders
                 {
                     RigidBody body = creation.allocateRigidBody(urdfLinkIndex, mass, localInertiaDiagonal, inertialFrameInWorldSpace, compoundShape.GetCollisionShape());
                     linkRigidBody = body;
-
                     world1.AddRigidBody(body);
-
-
                     compoundShape.GetCollisionShape().UserIndex = (graphicsIndex);
-
                     URDFLinkContactInfo contactInfo;
                     u2b.getLinkContactInfo(urdfLinkIndex, out contactInfo);
-
-
                     ProcessContactParameters(contactInfo, body);
                     creation.createRigidBodyGraphicsInstance2(urdfLinkIndex, body, color2, specular, graphicsIndex);
                     cache.registerRigidBody(urdfLinkIndex, body, inertialFrameInWorldSpace, mass, localInertiaDiagonal, compoundShape.GetCollisionShape(), ref localInertialFrame);
-
-
-
                     //untested: u2b.convertLinkVisualShapes2(linkIndex,urdfLinkIndex,pathPrefix,localInertialFrame,body);
                 }
                 else
@@ -549,7 +544,6 @@ namespace DemoFramework.FileLoaders
                         bmm.fixedBase = isFixedBase;
                         bmm.canSleep = canSleep;
                         bmm.baseMass = mass;
-                        
                         //new btMultiBody(totalNumJoints, mass, localInertiaDiagonal, isFixedBase, canSleep);
                         //if ((flags & ConvertURDFFlags.CUF_USE_MJCF) != 0)
                         //{
@@ -570,8 +564,6 @@ namespace DemoFramework.FileLoaders
                     //offsetInB = localInertialFrame.inverse();
                     //btQuaternion parentRotToThis = offsetInB.getRotation() * offsetInA.inverse().getRotation();
                     //=====================
-
-
                     Matrix offsetInA, offsetInB;
                     offsetInA = parentLocalInertialFrame.Inverse() * parent2joint;
                     offsetInB = localInertialFrame.Inverse();
@@ -585,13 +577,16 @@ namespace DemoFramework.FileLoaders
                     Matrix.Multiply(ref tmp, ref tmp2, out tmp3);
                     Matrix.Multiply(ref tmp3, ref tmp4, out link2joint);
 
-                    Debug.Log("Creating link " + linkName + " offsetInA=" + offsetInA.Origin + " offsetInB=" + offsetInB.Origin + " parentLocalInertialFrame=" + parentLocalInertialFrame.Origin + " localInertialFrame=" + localInertialFrame.Origin + " localTrnaform=" +
-                             " linkTransInWorldSpace=" + linkTransformInWorldSpace.Origin +
-                             " linkTransInWorldSpaceInv=" + linkTransformInWorldSpace.Inverse().Origin +
-                             " parentTransInWorldSpace=" + parentTransformInWorldSpace.Origin +
-                             " parentTransInWorldSpaceInv=" + parentTransformInWorldSpace.Inverse().Origin +
-                             " link2joint=" + link2joint.Origin + 
-                             " jointType=" + jointType);
+                    if (debugLevel >= BDebug.DebugType.Debug)
+                    {
+                        Debug.Log("Creating link " + linkName + " offsetInA=" + offsetInA.Origin + " offsetInB=" + offsetInB.Origin + " parentLocalInertialFrame=" + parentLocalInertialFrame.Origin + " localInertialFrame=" + localInertialFrame.Origin + " localTrnaform=" +
+                                 " linkTransInWorldSpace=" + linkTransformInWorldSpace.Origin +
+                                 " linkTransInWorldSpaceInv=" + linkTransformInWorldSpace.Inverse().Origin +
+                                 " parentTransInWorldSpace=" + parentTransformInWorldSpace.Origin +
+                                 " parentTransInWorldSpaceInv=" + parentTransformInWorldSpace.Inverse().Origin +
+                                 " link2joint=" + link2joint.Origin +
+                                 " jointType=" + jointType);
+                    }
 
                     bool disableParentCollision = true;
                     
@@ -669,6 +664,11 @@ namespace DemoFramework.FileLoaders
                                         mbc.m_jointLowerLimit = jointLowerLimit;
                                         mbc.m_jointUpperLimit = jointUpperLimit;
                                     }
+                                    Debug.Log("=========== Creating joint for: " + gameObject.name);
+                                    Debug.Log("parentRotateToThis: " + parentRotToThis.ToUnity().eulerAngles);
+                                    Debug.Log("rotationAxis: " + bmbl.rotationAxis);
+                                    Debug.Log("offsetInA: " + offsetInA.Origin);
+                                    Debug.Log("negOffsetInB: " + -offsetInB.Origin);
                                 }
                                 else
                                 {

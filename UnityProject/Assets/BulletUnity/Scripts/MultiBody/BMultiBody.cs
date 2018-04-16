@@ -20,7 +20,7 @@ namespace BulletUnity
         protected BCollisionShape m_baseCollisionShape;
         protected MultiBodyLinkCollider m_baseCollider;
         protected List<BMultiBodyLink> m_links;
-        
+
         public MultiBody GetMultiBody()
         {
             return m_multibody;
@@ -183,11 +183,18 @@ namespace BulletUnity
                 Debug.LogError("Error building multibody");
                 return false;
             }
+
             if (m_links.Count == 0)
             {
                 Debug.LogError("Could not find any links");
                 return false;
             }
+
+            if (!ValidateMultiBodyHierarchy(m_links))
+            {
+                return false;
+            }
+
             BCollisionShape[] shapes = new BCollisionShape[m_links.Count];
             BMultiBodyConstraint[] constraints = new BMultiBodyConstraint[m_links.Count];
             for (int i = 0; i < m_links.Count; i++)
@@ -232,26 +239,34 @@ namespace BulletUnity
                 if (cs != null)
                 {
                     cs.CalculateLocalInertia(link.mass, out inertia);
-                } else
+                }
+                else
                 {
                     inertia = BulletSharp.Math.Vector3.Zero;
                 }
                 FeatherstoneJointType jt = link.jointType;
                 int parentIdx = link.parentIndex;
+
+                // Vector from parent pivot (COM) to the joint pivot point in parent's frame
                 UnityEngine.Vector3 parentCOM2ThisPivotOffset;
                 link.FreezeJointAxis();
-                if (link.parentIndex >= 0) {
+                if (link.parentIndex >= 0)
+                {
                     parentCOM2ThisPivotOffset = link.parentCOM2JointPivotOffset;
-                } else
+                }
+                else
                 {
                     parentCOM2ThisPivotOffset = transform.InverseTransformPoint(link.transform.TransformPoint(link.localPivotPosition));
                 }
+                // Vector from the joint pivot point to link's pivot point (COM) in link's frame.
                 UnityEngine.Vector3 thisPivotToThisCOMOffset = link.thisPivotToJointCOMOffset;
+
+                // Should rotate vectors in parent frame to vectors in local frame 
                 UnityEngine.Quaternion parentToThisRotation = link.parentToJointRotation;
                 switch (jt)
                 {
                     case FeatherstoneJointType.Fixed:
-                        mb.SetupFixed(i,link.mass,inertia,link.parentIndex, parentToThisRotation.ToBullet(), parentCOM2ThisPivotOffset.ToBullet(), thisPivotToThisCOMOffset.ToBullet(), false);
+                        mb.SetupFixed(i, link.mass, inertia, link.parentIndex, parentToThisRotation.ToBullet(), parentCOM2ThisPivotOffset.ToBullet(), thisPivotToThisCOMOffset.ToBullet(), false);
                         break;
                     case FeatherstoneJointType.Planar:
                         mb.SetupPlanar(i, link.mass, inertia, link.parentIndex, parentToThisRotation.ToBullet(), link.rotationAxis.ToBullet(), thisPivotToThisCOMOffset.ToBullet(), false);
@@ -316,7 +331,7 @@ namespace BulletUnity
             m_groupsIBelongTo = isDynamic ? (m_groupsIBelongTo) : (m_groupsIBelongTo | BulletSharp.CollisionFilterGroups.StaticFilter);
             m_collisionMask = isDynamic ? (m_collisionMask) : (m_collisionMask | BulletSharp.CollisionFilterGroups.StaticFilter);
             m_multibody.BaseCollider = m_baseCollider;
-            
+
             for (int i = 0; i < m_links.Count; i++)
             {
                 //create colliders
@@ -331,9 +346,8 @@ namespace BulletUnity
             }
         }
 
-    // TODO handle random BMultiBodyLinks that skip in hierarchy
-    // not using GetComponentsInChildren because the order in which links are discovered is important.
-    private bool GetLinksInChildrenAndNumber(Transform t, List<BMultiBodyLink> links, int parentIndex)
+        // not using GetComponentsInChildren because the order in which links are discovered is important.
+        private bool GetLinksInChildrenAndNumber(Transform t, List<BMultiBodyLink> links, int parentIndex)
         {
             BMultiBodyLink mbl = t.GetComponent<BMultiBodyLink>();
             if (mbl != null)
@@ -355,6 +369,21 @@ namespace BulletUnity
                 }
                 if (!GetLinksInChildrenAndNumber(t.GetChild(i), links, newParent))
                 {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private bool ValidateMultiBodyHierarchy(List<BMultiBodyLink> links)
+        {
+            for (int i = 0; i < links.Count; i++)
+            {
+                BMultiBodyLink link = links[i];
+                if (link.transform.parent.GetComponent<BMultiBodyLink>() == null &&
+                    link.transform.parent.GetComponent<BMultiBody>() == null)
+                {
+                    Debug.LogErrorFormat("Bad multibody hierarchy. The parent of link {0} does not have a BMultiBodyLink or BMultiBody component", link.name);
                     return false;
                 }
             }

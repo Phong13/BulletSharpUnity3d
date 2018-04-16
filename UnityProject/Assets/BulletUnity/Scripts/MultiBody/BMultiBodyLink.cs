@@ -177,6 +177,25 @@ namespace BulletUnity
                 if (rotationAxis != Vector3.zero)
                 {
                     BUtility.GetPerpendicularVector(forward, out rperp);
+
+                    Vector3 axisOfRotation;
+                    if (axesAreFrozen)
+                    {
+                        axisOfRotation = transform.parent.TransformDirection(rotationAxisInParentFrame);
+                        rperp = transform.parent.TransformDirection(jointToThisCOMInParentFrame);
+                    }
+                    else
+                    {
+                        axisOfRotation = transform.TransformDirection(rotationAxis);
+                        rperp = transform.TransformDirection(-localPivotPosition);
+                        if (rperp.magnitude < 10E-7f)
+                        {
+                            rperp = transform.parent.position - transform.TransformPoint(localPivotPosition);
+                        }
+
+                        rperp = Vector3.ProjectOnPlane(rperp, axisOfRotation);
+                    }
+
                     rperp.Normalize();
                 }
             }
