@@ -31,19 +31,6 @@ namespace InverseDynamicsExample
         BT_ID_PROGRAMMATICALLY = 1
     }
 
-    /*
-    internal sealed class InverseDynamicsExample
-    {
-        public ISimulation CreateSimulation(Demo demo)
-        {
-            //demo.FreeLook.Eye = new BulletSharp.Math.Vector3(0, 5, 10);
-            //demo.FreeLook.Target = BulletSharp.Math.Vector3.Zero;
-            //demo.Graphics.WindowTitle = "BulletSharp - FeatherStone Demo";
-            return new InverseDynamicsExampleSimulation(btInverseDynamicsExampleOptions.BT_ID_PROGRAMMATICALLY);
-        }
-    }
-    */
-
     public class InverseDynamicsExampleSimulation : Demo
     {
         btInverseDynamicsExampleOptions m_option = btInverseDynamicsExampleOptions.BT_ID_PROGRAMMATICALLY;
@@ -64,80 +51,27 @@ namespace InverseDynamicsExample
 
 
         //keep the collision shapes, for deletion/cleanup
-        /*
-        protected AlignedCollisionObjectArray m_collisionShapes;
-        //MyOverlapFilterCallback2 m_filterCallback;
-        
-        protected BroadphaseInterface m_broadphase;
-        protected CollisionDispatcher m_dispatcher;
-        
-        protected DefaultCollisionConfiguration m_collisionConfiguration;
-        
-        */
         protected OverlappingPairCache m_pairCache;
         protected MultiBodyConstraintSolver m_solver;
         protected MultiBodyDynamicsWorld m_dynamicsWorld;
 
-        //data for picking objects
-        //class btRigidBody	m_pickedBody;
-        //class btTypedConstraint m_pickedConstraint;
-        //class btMultiBodyPoint2Point		m_pickingMultiBodyPoint2Point;
 
         BulletSharp.Math.Vector3 m_oldPickingPos;
         BulletSharp.Math.Vector3 m_hitPos;
         float m_oldPickingDist;
         bool m_prevCanSleep;
 
-        /*
-        public CollisionConfiguration CollisionConfiguration
-        {
-            get
-            {
-                return m_collisionConfiguration;
-            }
-        }
-
-        public CollisionDispatcher Dispatcher
-        {
-            get
-            {
-                return m_dispatcher;
-            }
-        }
-
-        public BroadphaseInterface Broadphase
-        {
-            get
-            {
-                return m_broadphase;
-            }
-        }
-
-        public DiscreteDynamicsWorld World
-        {
-            get
-            {
-                return m_dynamicsWorld;
-            }
-        }
-        */
-        //GUIHelperInterface m_guiHelper;
-
         public virtual void createEmptyDynamicsWorld()
         {
             ///collision configuration contains default setup for memory, collision setup
             CollisionConf = new DefaultCollisionConfiguration();
-            //m_collisionConfiguration.setConvexConvexMultipointIterations();
-            //m_filterCallback = new MyOverlapFilterCallback2();
 
             ///use the default collision dispatcher. For parallel processing you can use a diffent dispatcher (see Extras/BulletMultiThreaded)
             Dispatcher = new CollisionDispatcher(CollisionConf);
 
             m_pairCache = new HashedOverlappingPairCache();
 
-            //m_pairCache.OverlapFilterCallback = (m_filterCallback);
-
-            Broadphase = new DbvtBroadphase(m_pairCache);//btSimpleBroadphase();
+            Broadphase = new DbvtBroadphase(m_pairCache);
 
             m_solver = new MultiBodyConstraintSolver();
 
@@ -149,9 +83,13 @@ namespace InverseDynamicsExample
 
         public override void ExitPhysics()
         {
+            if (m_inverseModel != null)
+            {
+                Debug.Log("Dispose inverse model " + m_inverseModel.NumBodies());
+                m_inverseModel.Dispose();
+            }
 
             Debug.Log("InverseDynamicsExitPhysics");
-            removePickingConstraint();
             //cleanup in the reverse order of creation/initialization
 
             //remove the rigidbodies from the dynamics world and delete them
@@ -162,7 +100,9 @@ namespace InverseDynamicsExample
                 int i;
                 for (i = m_dynamicsWorld.NumConstraints - 1; i >= 0; i--)
                 {
-                    m_dynamicsWorld.RemoveConstraint(m_dynamicsWorld.GetConstraint(i));
+                    TypedConstraint tc = m_dynamicsWorld.GetConstraint(i);
+                    m_dynamicsWorld.RemoveConstraint(tc);
+                    tc.Dispose();
                 }
 
                 for (i = m_dynamicsWorld.NumMultiBodyConstraints - 1; i >= 0; i--)
@@ -191,11 +131,6 @@ namespace InverseDynamicsExample
                 }
             }
 
-            if (m_inverseModel != null)
-            {
-                Debug.Log("Dispose inverse model " + m_inverseModel.NumBodies());
-                m_inverseModel.Dispose();
-            }
             if (m_multiBody != null) m_multiBody.Dispose();
 
             //delete collision shapes
@@ -221,11 +156,9 @@ namespace InverseDynamicsExample
             m_pairCache.Dispose();
             m_pairCache = null;
 
-            //m_filterCallback.Dispose();
-            //m_filterCallback = null;
-
             CollisionConf.Dispose();
             CollisionConf = null;
+            Debug.Log("After dispose B");
         }
 
         public virtual void physicsDebugDraw(DebugDrawModes debugDrawFlags)
@@ -240,144 +173,6 @@ namespace InverseDynamicsExample
             }
 
         }
-
-        public virtual bool keyboardCallback(int key, int state)
-        {
-            /*
-            if ((key==B3G_F3) && state && m_dynamicsWorld)
-            {
-                btDefaultSerializer*	serializer = new btDefaultSerializer();
-                m_dynamicsWorld.serialize(serializer);
-
-                FILE* file = fopen("testFile.bullet","wb");
-                fwrite(serializer.getBufferPointer(),serializer.getCurrentBufferSize(),1, file);
-                fclose(file);
-                //b3Printf("btDefaultSerializer wrote testFile.bullet");
-                serializer.Dispose();
-                return true;
-
-            }
-            */
-            return false;//don't handle this key
-        }
-
-
-        BulletSharp.Math.Vector3 getRayTo(int x, int y)
-        {
-            /*
-            CommonRenderInterface* renderer = m_guiHelper.getRenderInterface();
-
-            if (!renderer)
-            {
-                btAssert(0);
-                return BulletSharp.Math.Vector3(0,0,0);
-            }
-
-            float top = 1.f;
-            float bottom = -1.f;
-            float nearPlane = 1.f;
-            float tanFov = (top-bottom)*0.5f / nearPlane;
-            float fov = 2.0f * btAtan(tanFov);
-
-            BulletSharp.Math.Vector3 camPos,camTarget;
-            renderer.getActiveCamera().getCameraPosition(camPos);
-            renderer.getActiveCamera().getCameraTargetPosition(camTarget);
-
-            BulletSharp.Math.Vector3	rayFrom = camPos;
-            BulletSharp.Math.Vector3 rayForward = (camTarget-camPos);
-            rayForward.normalize();
-            float farPlane = 10000.f;
-            rayForward*= farPlane;
-
-            BulletSharp.Math.Vector3 rightOffset;
-            BulletSharp.Math.Vector3 cameraUp=BulletSharp.Math.Vector3(0,0,0);
-            cameraUp[m_guiHelper.getAppInterface().getUpAxis()]=1;
-
-            BulletSharp.Math.Vector3 vertical = cameraUp;
-
-            BulletSharp.Math.Vector3 hor;
-            hor = rayForward.cross(vertical);
-            hor.normalize();
-            vertical = hor.cross(rayForward);
-            vertical.normalize();
-
-            float tanfov = tanf(0.5f*fov);
-
-
-            hor *= 2.f * farPlane * tanfov;
-            vertical *= 2.f * farPlane * tanfov;
-
-            float aspect;
-            float width = renderer.getScreenWidth();
-            float height = renderer.getScreenHeight();
-
-            aspect =  width / height;
-
-            hor*=aspect;
-
-
-            BulletSharp.Math.Vector3 rayToCenter = rayFrom + rayForward;
-            BulletSharp.Math.Vector3 dHor = hor * 1.f/width;
-            BulletSharp.Math.Vector3 dVert = vertical * 1.f/height;
-
-
-            BulletSharp.Math.Vector3 rayTo = rayToCenter - 0.5f * hor + 0.5f * vertical;
-            rayTo += x * dHor;
-            rayTo -= y * dVert;
-            */
-            return new BulletSharp.Math.Vector3();
-            //return rayTo;
-        }
-
-        public virtual void removePickingConstraint()
-        {
-            /*
-            if (m_pickedConstraint)
-            {
-                m_dynamicsWorld.removeConstraint(m_pickedConstraint);
-                delete m_pickedConstraint;
-                m_pickedConstraint = 0;
-                m_pickedBody = 0;
-            }
-            if (m_pickingMultiBodyPoint2Point)
-            {
-                m_pickingMultiBodyPoint2Point.getMultiBodyA().setCanSleep(m_prevCanSleep);
-                btMultiBodyDynamicsWorld* world = (btMultiBodyDynamicsWorld*) m_dynamicsWorld;
-                world.removeMultiBodyConstraint(m_pickingMultiBodyPoint2Point);
-                delete m_pickingMultiBodyPoint2Point;
-                m_pickingMultiBodyPoint2Point = 0;
-            }
-            */
-        }
-
-
-        //------------- End CommonMultiBodyBase
-
-
-        static BulletSharp.Math.Vector4[] sJointCurveColors = new BulletSharp.Math.Vector4[]
-        {
-        new BulletSharp.Math.Vector4(1, 0.3f, 0.3f, 1),
-    new BulletSharp.Math.Vector4(0.3f,1,0.3f,1),
-    new BulletSharp.Math.Vector4(0.3f,0.3f,1,1),
-     new BulletSharp.Math.Vector4(0.3f,1,1,1),
-    new BulletSharp.Math.Vector4(1,0.3f,1,1),
-     new BulletSharp.Math.Vector4(1,1,0.3f,1),
-     new BulletSharp.Math.Vector4(1,0.7f,0.7f,1),
-     new BulletSharp.Math.Vector4(0.7f,1,1,1),
-
-        };
-
-
-        /*
-                public InverseDynamicsExampleSimulation(btInverseDynamicsExampleOptions option) : base()
-                {
-                    m_option = option;
-                    m_multiBody = null;
-                    m_inverseModel = null;
-                    //m_timeSeriesCanvas = null;
-                    OnInitializePhysics();
-                }
-            */
 
         protected override void OnInitialize()
         {
@@ -398,35 +193,9 @@ namespace InverseDynamicsExample
             // gravity[upAxis]=-9.8;
             m_dynamicsWorld.Gravity = (gravity);
 
-            //m_guiHelper.createPhysicsDebugDrawer(m_dynamicsWorld);
-            {
-                /*
-            SliderParams slider("Kp",kp);
-            slider.m_minVal=0;
-            slider.m_maxVal=2000;
-            if (m_guiHelper.getParameterInterface())
-                m_guiHelper.getParameterInterface().registerSliderFloatParameter(slider);
-                */
-            }
-            {
-                /*
-            SliderParams slider("Kd",kd);
-            slider.m_minVal=0;
-            slider.m_maxVal=50;
-            if (m_guiHelper.getParameterInterface())
-                m_guiHelper.getParameterInterface().registerSliderFloatParameter(slider);
-                */
-            }
-
             if (m_option == btInverseDynamicsExampleOptions.BT_ID_PROGRAMMATICALLY)
             {
-               /*
-            ButtonParams button("toggle inverse model",0,true);
-            button.m_callback = toggleUseInverseModel;
-            m_guiHelper.getParameterInterface().registerButtonParameter(button);
-            */
             }
-
 
             switch (m_option)
             {
@@ -434,32 +203,6 @@ namespace InverseDynamicsExample
                     {
 
                         Debug.LogError("Not implemented");
-                        /*
-                        BulletURDFImporter u2b = new BulletURDFImporter(m_guiHelper, 0, 1);
-                        bool loadOk = u2b.loadURDF("kuka_iiwa/model.urdf");// lwr / kuka.urdf");
-                        if (loadOk)
-                        {
-                            int rootLinkIndex = u2b.getRootLinkIndex();
-                            Debug.Log("urdf root link index = {0}\n", rootLinkIndex);
-                            MyMultiBodyCreator creation = new MyMultiBodyCreator(m_guiHelper);
-                            Transform identityTrans;
-                            identityTrans.setIdentity();
-                            ConvertURDF2Bullet(u2b, creation, identityTrans, m_dynamicsWorld, true, u2b.getPathPrefix());
-                            for (int i = 0; i < u2b.getNumAllocatedCollisionShapes(); i++)
-                            {
-                                m_collisionShapes.push_back(u2b.getAllocatedCollisionShape(i));
-                            }
-                            m_multiBody = creation.getBulletMultiBody();
-                            if (m_multiBody)
-                            {
-                                //kuka without joint control/constraints will gain energy explode soon due to timestep/integrator
-                                //temporarily set some extreme damping factors until we have some joint control or constraints
-                                m_multiBody.AngularDamping = (0 * 0.99);
-                                m_multiBody.LinearDamping = (0 * 0.99);
-                                Debug.Log("Root link name = {0}", u2b.getLinkName(u2b.getRootLinkIndex()).c_str());
-                            }
-                        }
-                        */
                         break;
                     }
                 case btInverseDynamicsExampleOptions.BT_ID_PROGRAMMATICALLY:
@@ -480,14 +223,6 @@ namespace InverseDynamicsExample
 
             if (true)//(m_multiBody != null)
             {
-                {
-                    //if (m_guiHelper.getAppInterface() && m_guiHelper.getParameterInterface())
-                    //{
-                    //m_timeSeriesCanvas = new TimeSeriesCanvas(m_guiHelper.getAppInterface().m_2dCanvasInterface, 512, 230, "Joint Space Trajectory");
-                    //m_timeSeriesCanvas.setupTimeSeries(3, 100, 0);
-                    //}
-                }
-
                 // construct inverse model
                 InverseDynamicsBullet3.MultiBodyTreeCreator id_creator = new InverseDynamicsBullet3.MultiBodyTreeCreator();
                 if (-1 == id_creator.CreateFromMultiBody(m_multiBody))
@@ -504,32 +239,8 @@ namespace InverseDynamicsExample
                 qd_name = new string[m_multiBody.NumDofs];
                 q_name = new string[m_multiBody.NumDofs];
                 Debug.Log("Created inverse model");
-                /*
-                            if (m_timeSeriesCanvas && m_guiHelper.getParameterInterface())
-                            {
-                                for (std.size_t dof = 0; dof < qd.size(); dof++)
-                                {
-
-                                    qd[dof] = 0;
-                                    char tmp[25];
-                                    sprintf(tmp,"q_desired[%lu]",dof);
-                                    qd_name[dof] = tmp;
-                                    SliderParams slider(qd_name[dof].c_str(),&qd[dof]);
-                                    slider.m_minVal=-3.14;
-                                    slider.m_maxVal=3.14;
-
-                                    sprintf(tmp,"q[%lu]",dof); 
-                                    q_name[dof] = tmp;   
-                                    m_guiHelper.getParameterInterface().registerSliderFloatParameter(slider);
-                                    btVector4 color = sJointCurveColors[dof&7];
-                                    m_timeSeriesCanvas.addDataSource(q_name[dof].c_str(), color[0]*255,color[1]*255,color[2]*255);
-
-                                }
-                            }
-                 */
             }
 
-            // m_guiHelper.autogenerateGraphicsObjects(m_dynamicsWorld);
             Debug.Log("End onInitialize physics");
         }
 
@@ -537,12 +248,13 @@ namespace InverseDynamicsExample
         {
             if (true) //(m_multiBody != null)
             {
+                int baseDofs = m_multiBody.HasFixedBase ? 0 : 6;
                 int num_dofs = m_multiBody.NumDofs;
-                float[] nu = new float[num_dofs];
-                float[] qdot = new float[num_dofs];
-                float[] q = new float[num_dofs];
-                float[] joint_force = new float[num_dofs];
-                float[] pd_control = new float[num_dofs];
+                float[] nu = new float[num_dofs + baseDofs];
+                float[] qdot = new float[num_dofs + baseDofs];
+                float[] q = new float[num_dofs + baseDofs];
+                float[] joint_force = new float[num_dofs + baseDofs];
+                float[] pd_control = new float[num_dofs + baseDofs];
 
                 // compute joint forces from one of two control laws:
                 // 1) "computed torque" control, which gives perfect, decoupled,
@@ -566,12 +278,12 @@ namespace InverseDynamicsExample
                     nu[dof] = qd_ddot + pd_control[dof];
 
                 }
-                if (useInverseModel)
+                if (true)
                 {
                     // calculate joint forces corresponding to desired accelerations nu
                     if (m_multiBody.HasFixedBase)
                     {
-                        if (-1 != m_inverseModel.CalculateInverseDynamics(q, qdot, nu, joint_force))
+                        if (-1 != m_inverseModel.CalculateInverseDynamics(m_multiBody.HasFixedBase, q, qdot, nu, joint_force))
                         {
                             //joint_force(dof) += damping*dot_q(dof);
                             // use inverse model: apply joint force corresponding to
@@ -580,6 +292,9 @@ namespace InverseDynamicsExample
                             {
                                 m_multiBody.AddJointTorque(dof, joint_force[dof]);
                             }
+                        } else
+                        {
+                            Debug.LogError("Bad return from CalculateInverseDynamics");
                         }
 
                     }
@@ -595,7 +310,7 @@ namespace InverseDynamicsExample
                             q6[6 + i] = q[i];
                             joint_force6[6 + i] = joint_force[i];
                         }
-                        if (-1 != m_inverseModel.CalculateInverseDynamics(q6, qdot6, nu6, joint_force6))
+                        if (-1 != m_inverseModel.CalculateInverseDynamics(m_multiBody.HasFixedBase, q6, qdot6, nu6, joint_force6))
                         {
                             //joint_force(dof) += damping*dot_q(dof);
                             // use inverse model: apply joint force corresponding to
@@ -604,6 +319,9 @@ namespace InverseDynamicsExample
                             {
                                 m_multiBody.AddJointTorque(dof, joint_force6[dof + 6]);
                             }
+                        } else
+                        {
+                            Debug.LogError("Bad return from CalculateInverseDynamics");
                         }
                     }
                 }
@@ -643,10 +361,6 @@ namespace InverseDynamicsExample
                             BulletSharp.Math.Vector3 pos = tr.getOrigin() - quatRotate(tr.getRotation(), m_multiBody.getLink(i).m_dVector);
                             BulletSharp.Math.Vector3 localAxis = m_multiBody.getLink(i).m_axes[0].m_topVec;
                             //printf("link %d: %f,%f,%f, local axis:%f,%f,%f\n", i, pos.x(), pos.y(), pos.z(), localAxis.x(), localAxis.y(), localAxis.z());
-
-
-
-
                         }
                 #endif
                 */
@@ -690,9 +404,6 @@ namespace InverseDynamicsExample
 
 
             MultiBody pMultiBody = new MultiBody(numLinks, 0, baseInertiaDiag, fixedBase, canSleep);
-
-
-
             pMultiBody.BaseWorldTransform = baseWorldTrans;
             BulletSharp.Math.Vector3 vel = new BulletSharp.Math.Vector3(0, 0, 0);
             //	pMultiBody.setBaseVel(vel);
@@ -755,9 +466,6 @@ namespace InverseDynamicsExample
                                         parentComToCurrentPivot,
                                         currentPivotToCurrentCom);
                     }
-
-                    //pMultiBody.setupFixed(i,linkMass,linkInertiaDiag,i-1,BulletSharp.Math.Quaternion(0,0,0,1),parentComToCurrentPivot,currentPivotToCurrentCom,false);
-
                 }
                 else
                 {
@@ -767,10 +475,6 @@ namespace InverseDynamicsExample
             }
 
             pMultiBody.FinalizeMultiDof();
-
-
-
-            ///
             world.AddMultiBody(pMultiBody);
             MultiBody mbC = pMultiBody;
             mbC.CanSleep = (canSleep);
@@ -787,10 +491,8 @@ namespace InverseDynamicsExample
                 mbC.LinearDamping = (0.1f);
                 mbC.AngularDamping = (0.9f);
             }
-            //
 
 
-            //////////////////////////////////////////////
             if (numLinks > 0)
             {
                 q0 = 180.0f * Mathf.PI / 180.0f;
@@ -818,11 +520,6 @@ namespace InverseDynamicsExample
             local_origin[0] = pMultiBody.BasePosition;
             //  double friction = 1;
             {
-
-                //	float pos[4]={local_origin[0].x(),local_origin[0].y(),local_origin[0].z(),1};
-                // float quat[4]={-world_to_local[0].x(),-world_to_local[0].y(),-world_to_local[0].z(),world_to_local[0].w()};
-
-
                 if (true)
                 {
                     CollisionShape shape = new BoxShape(new BulletSharp.Math.Vector3(baseHalfExtents[0], baseHalfExtents[1], baseHalfExtents[2]));//new btSphereShape(baseHalfExtents[0]);
@@ -889,7 +586,6 @@ namespace InverseDynamicsExample
 
                 //guiHelper.createCollisionShapeGraphicsObject(shape);
                 MultiBodyLinkCollider col = new MultiBodyLinkCollider(pMultiBody, i);
-
                 col.CollisionShape = (shape);
                 Matrix tr = new Matrix();
                 tr.ScaleVector = new BulletSharp.Math.Vector3();
@@ -917,17 +613,5 @@ namespace InverseDynamicsExample
 
             return pMultiBody;
         }
-
-        
-
-
-        
-        /*
-        DemoFramework.ISimulation InverseDynamicsExampleCreateFunc(CommonExampleOptions options)
-        {
-            return new InverseDynamicsExample(options.m_guiHelper, btInverseDynamicsExampleOptions(options.m_option));
-        }
-        */
-
     }
 }

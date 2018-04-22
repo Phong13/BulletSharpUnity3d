@@ -51,17 +51,39 @@ namespace InverseDynamicsBullet3
 		{
             return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_addBody(Native, body_index, parent_index, joint_type, ref parent_r_parent_body_ref, ref body_T_parent_ref, ref body_axis_of_motion, mass, ref body_r_body_com, ref body_I_body, user_int, user_ptr);
 		}
+
 		public void AddUserForce(int body_index, Vector3 body_force)
 		{
-		}
-		public void AddUserMoment(int body_index, Vector3 body_moment)
-		{
+            UnsafeNativeMethodsInverseDynamics.MultiBodyTree_addUserForce(Native, body_index, ref body_force);
 		}
 
-        public int CalculateInverseDynamics(float[] q, float[] u, float[] dot_u, float[] joint_forces)
+		public void AddUserMoment(int body_index, Vector3 body_moment)
+		{
+            UnsafeNativeMethodsInverseDynamics.MultiBodyTree_addUserMoment(Native, body_index, ref body_moment);
+		}
+
+        /// <summary>
+        /// Calculate Inverse Dynamics
+        /// </summary>
+        /// <param name="floatingBase"> Does the multibody have a floating base. </param>
+        /// <param name="q"> Value of DOFs should be length of dofs excluding fixed base if is fixed base</param>
+        /// <param name="u"> Value of DOFs velocity </param>
+        /// <param name="dot_u"> Value of DOFs Acceleration </param>
+        /// <param name="joint_forces"></param>
+        /// <returns></returns>
+        public int CalculateInverseDynamics(bool floatingBase, float[] q, float[] u, float[] dot_u, float[] joint_forces)
         {
-            //todo check lenghts of arrays
-            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_calculateInverseDynamics(Native,q.Length,u.Length,q,u,dot_u,joint_forces);
+            int baseDofs;
+            if (floatingBase)
+            {
+                baseDofs = 6;
+            }
+            else
+            {
+                baseDofs = 0;
+            }
+            int numDof = q.Length;
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_calculateInverseDynamics(Native,numDof,baseDofs,q,u,dot_u,joint_forces);
         }
 
         public void Dispose()

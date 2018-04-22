@@ -55,18 +55,21 @@ namespace BulletSharp
         public static extern void MultiBodyTree_calculatePositionAndVelocityKinematics(IntPtr obj, vecx^ q, vecx^ u);
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
         public static extern void MultiBodyTree_calculatePositionKinematics(IntPtr obj, vecx^ q);
+        */
+
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
         public static extern void MultiBodyTree_clearAllUserForcesAndMoments(IntPtr obj);
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
         public static extern void MultiBodyTree_getAcceptInvalidMassProperties(IntPtr obj);
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
-        public static extern void MultiBodyTree_getBodyAngularAcceleration(IntPtr obj, int body_index, vec3^ world_dot_omega);
+        public static extern void MultiBodyTree_getBodyAngularAcceleration(IntPtr obj, int body_index, ref Vector3 world_dot_omega);
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
-        public static extern void MultiBodyTree_getBodyAngularVelocity(IntPtr obj, int body_index, vec3^ world_omega);
+        public static extern void MultiBodyTree_getBodyAngularVelocity(IntPtr obj, int body_index, ref Vector3 world_omega);
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
-        public static extern void MultiBodyTree_getBodyAxisOfMotion(IntPtr obj, int body_index, vec3^ axis);
+        public static extern void MultiBodyTree_getBodyAxisOfMotion(IntPtr obj, int body_index, ref Vector3 axis);
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
-        public static extern void MultiBodyTree_getBodyCoM(IntPtr obj, int body_index, vec3^ world_com);
+        public static extern void MultiBodyTree_getBodyCoM(IntPtr obj, int body_index, ref Vector3 world_com);
+        /*
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
         public static extern void MultiBodyTree_getBodyDotJacobianRotU(IntPtr obj, int body_index, vec3^ world_dot_jac_rot_u);
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]

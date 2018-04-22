@@ -55,10 +55,11 @@ namespace BulletUnity {
                     {
                         //need to set mass to zero for kinematic and static
                         m_rigidBody.SetMassProps(0f, BulletSharp.Math.Vector3.Zero);
-                    } else if (!wasDynamic && isDynamic())
+                    }
+                    else if (!wasDynamic && isDynamic())
                     {
                         //need to set mass to mass
-                        m_rigidBody.SetMassProps(_mass,_localInertia);
+                        m_rigidBody.SetMassProps(_mass, _localInertia);
                     }
                 }
                 else
@@ -233,9 +234,11 @@ namespace BulletUnity {
                 _additionalAngularDampingFactor = value; }
         }
 
-        /* can lock axis with this */
         [SerializeField]
         UnityEngine.Vector3 _linearFactor = UnityEngine.Vector3.one;
+        /// <summary>
+        /// can lock axis with this
+        /// </summary>
         public UnityEngine.Vector3 linearFactor
         {
             get { return _linearFactor; }

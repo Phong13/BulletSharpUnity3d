@@ -258,7 +258,7 @@ namespace BulletUnity
             return mesh;
         }
 
-        public static void CreateMeshCapsule(Mesh mesh, float height = 1, float bottomRadius = 1f, float topRadius = 0f, int nbSides = 18, int axis=1)
+        public static void CreateMeshCapsule(Mesh mesh, float height = 1, float bottomRadius = 1f, float topRadius = 0f, int nbSides = 18, int axis = 1)
         {
 
 
@@ -357,7 +357,8 @@ namespace BulletUnity
             if (axis == 0)
             {
                 q = Quaternion.AngleAxis(90, UnityEngine.Vector3.forward);
-            } else if (axis == 2)
+            }
+            else if (axis == 2)
             {
                 q = Quaternion.AngleAxis(90, UnityEngine.Vector3.right);
             }
@@ -1398,12 +1399,12 @@ namespace BulletUnity
         /// After mesh is created, process it based on selected options
         /// </summary>
         public static void ApplyMeshPostProcessing(this Mesh mesh,
-                bool autoWeldVertices = false,
-         float autoWeldThreshold = 0.001f,
-         bool addBackFaceTriangles = false,
-         bool recalculateNormals = false,
-         bool recalculateBounds = true,
-         bool optimize = true)
+                 bool autoWeldVertices = false,
+                 float autoWeldThreshold = 0.001f,
+                 bool addBackFaceTriangles = false,
+                 bool recalculateNormals = false,
+                 bool recalculateBounds = true,
+                 bool optimize = true)
         {
 
             if (autoWeldVertices)
@@ -1420,7 +1421,6 @@ namespace BulletUnity
 
             if (optimize)
                 mesh.Optimize();
-
         }
     }
 }

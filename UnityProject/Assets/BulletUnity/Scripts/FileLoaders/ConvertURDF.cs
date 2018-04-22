@@ -377,7 +377,6 @@ namespace DemoFramework.FileLoaders
                         bool enableConstraints,
                         ConvertURDFFlags flags = 0)
         {
-            UnityEngine.Debug.LogError("TODO Test Matrix To Quaternion");
             Matrix linkTransformInWorldSpace = Matrix.Identity;
             int mbLinkIndex = cache.getMbIndexFromUrdfIndex(urdfLinkIndex);
             int urdfParentIndex = cache.getParentUrdfIndex(urdfLinkIndex);
@@ -664,11 +663,13 @@ namespace DemoFramework.FileLoaders
                                         mbc.m_jointLowerLimit = jointLowerLimit;
                                         mbc.m_jointUpperLimit = jointUpperLimit;
                                     }
+                                    /*
                                     Debug.Log("=========== Creating joint for: " + gameObject.name);
                                     Debug.Log("parentRotateToThis: " + parentRotToThis.ToUnity().eulerAngles);
                                     Debug.Log("rotationAxis: " + bmbl.rotationAxis);
                                     Debug.Log("offsetInA: " + offsetInA.Origin);
                                     Debug.Log("negOffsetInB: " + -offsetInB.Origin);
+                                    */
                                 }
                                 else
                                 {

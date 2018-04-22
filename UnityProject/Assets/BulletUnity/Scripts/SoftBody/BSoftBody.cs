@@ -100,10 +100,12 @@ namespace BulletUnity
                 {
                     verts = new Vector3[m_BSoftBody.Nodes.Count];
                 }
+
                 if (norms.Length != verts.Length)
                 {
                     norms = new Vector3[m_BSoftBody.Nodes.Count];
                 }
+                
                 for (int i = 0; i < m_BSoftBody.Nodes.Count; i++)
                 {
                     verts[i] = m_BSoftBody.Nodes[i].Position.ToUnity();
