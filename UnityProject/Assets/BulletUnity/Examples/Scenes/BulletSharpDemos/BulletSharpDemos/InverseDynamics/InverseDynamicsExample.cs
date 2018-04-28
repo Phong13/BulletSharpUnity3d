@@ -85,7 +85,7 @@ namespace InverseDynamicsExample
         {
             if (m_inverseModel != null)
             {
-                Debug.Log("Dispose inverse model " + m_inverseModel.NumBodies());
+                Debug.Log("Dispose inverse model " + m_inverseModel.NumBodies);
                 m_inverseModel.Dispose();
             }
 
@@ -283,7 +283,15 @@ namespace InverseDynamicsExample
                     // calculate joint forces corresponding to desired accelerations nu
                     if (m_multiBody.HasFixedBase)
                     {
-                        if (-1 != m_inverseModel.CalculateInverseDynamics(m_multiBody.HasFixedBase, q, qdot, nu, joint_force))
+
+                        Debug.Log("Adding body forces.");
+                        for (int dof = 0; dof < num_dofs; dof++)
+                        {
+                            m_inverseModel.AddUserForce(dof, new BulletSharp.Math.Vector3(0, 1, 1));
+                        }
+
+
+                            if (-1 != m_inverseModel.CalculateInverseDynamics(m_multiBody.HasFixedBase, q, qdot, nu, joint_force))
                         {
                             //joint_force(dof) += damping*dot_q(dof);
                             // use inverse model: apply joint force corresponding to

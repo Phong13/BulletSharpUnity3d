@@ -22,7 +22,23 @@ namespace InverseDynamicsBullet3
         internal IntPtr Native;
         private bool _preventDelete;
         private bool _isDisposed;
-        
+
+        public int NumBodies
+        {
+            get
+            {
+                return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_numBodies(Native);
+            }
+        }
+
+        public int NumDoFs
+        {
+            get
+            {
+                return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_numDoFs(Native);
+            }
+        }
+
         internal MultiBodyTree(IntPtr tree, bool preventDelete = false)
         {
             Native = tree;
@@ -47,6 +63,7 @@ namespace InverseDynamicsBullet3
                 //UnsafeNativeMethodsInverseDynamics.btCollisionShape_setUserPointer(native, GCHandle.ToIntPtr(handle));
             }
         }
+
 		public int AddBody(int body_index, int parent_index, JointType joint_type, Vector3 parent_r_parent_body_ref, Matrix3x3FloatData body_T_parent_ref, Vector3 body_axis_of_motion, int mass, Vector3 body_r_body_com, Matrix3x3FloatData body_I_body, int user_int, IntPtr user_ptr)
 		{
             return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_addBody(Native, body_index, parent_index, joint_type, ref parent_r_parent_body_ref, ref body_T_parent_ref, ref body_axis_of_motion, mass, ref body_r_body_com, ref body_I_body, user_int, user_ptr);
@@ -61,6 +78,16 @@ namespace InverseDynamicsBullet3
 		{
             UnsafeNativeMethodsInverseDynamics.MultiBodyTree_addUserMoment(Native, body_index, ref body_moment);
 		}
+
+        /// <summary>
+        /// Call this after adding bodies using AddBody.
+        /// Don't add any bodies after calling this.
+        /// It is not necessary to call this if using MultiBodyTreeCreator.CreateTree
+        /// </summary>
+        public void FinalizeInitialization()
+        {
+            UnsafeNativeMethodsInverseDynamics.MultiBodyTree_finalize(Native);
+        }
 
         /// <summary>
         /// Calculate Inverse Dynamics
@@ -140,125 +167,178 @@ namespace InverseDynamicsBullet3
 		public void CalculatePositionKinematics(vecx^ q)
 		{
 		}
+        */
+
 		public void ClearAllUserForcesAndMoments()
 		{
-		}
-		public void Finalize()
+            UnsafeNativeMethodsInverseDynamics.MultiBodyTree_clearAllUserForcesAndMoments(Native);
+        }
+
+		public bool GetAcceptInvalidMassProperties()
+		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getAcceptInvalidMassProperties(Native);
+        }
+
+		public int GetBodyAngularAcceleration(int body_index, out Vector3 world_dot_omega)
+		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getBodyAngularAcceleration(Native, body_index, out world_dot_omega);
+
+        }
+
+		public int GetBodyAngularVelocity(int body_index, out Vector3 world_omega)
+		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getBodyAngularVelocity(Native, body_index, out world_omega);
+        }
+
+		public int GetBodyAxisOfMotion(int body_index, out Vector3 axis)
+		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getBodyAxisOfMotion(Native, body_index, out axis);
+        }
+
+		public int GetBodyCoM(int body_index, out Vector3 world_com)
+		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getBodyCoM(Native, body_index, out world_com);
+        }
+
+		public int GetBodyDotJacobianRotU(int body_index, out Vector3 world_dot_jac_rot_u)
+		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getBodyDotJacobianRotU(Native, body_index, out world_dot_jac_rot_u);
+        }
+
+		public int GetBodyDotJacobianTransU(int body_index, out Vector3 world_dot_jac_trans_u)
+		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getBodyDotJacobianTransU(Native, body_index, out world_dot_jac_trans_u);
+        }
+
+		public int GetBodyFirstMassMoment(int body_index, out Vector3 first_mass_moment)
+		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getBodyFirstMassMoment(Native, body_index, out first_mass_moment);
+        }
+
+        /*
+		public int GetBodyJacobianRot(int body_index, mat3x^ world_jac_rot)
 		{
 		}
-		public void GetAcceptInvalidMassProperties()
-		{
-		}
-		public void GetBodyAngularAcceleration(int body_index, Vector3 world_dot_omega)
-		{
-		}
-		public void GetBodyAngularVelocity(int body_index, Vector3 world_omega)
-		{
-		}
-		public void GetBodyAxisOfMotion(int body_index, Vector3 axis)
-		{
-		}
-		public void GetBodyCoM(int body_index, Vector3 world_com)
-		{
-		}
-		public void GetBodyDotJacobianRotU(int body_index, Vector3 world_dot_jac_rot_u)
-		{
-		}
-		public void GetBodyDotJacobianTransU(int body_index, Vector3 world_dot_jac_trans_u)
-		{
-		}
-		public void GetBodyFirstMassMoment(int body_index, Vector3 first_mass_moment)
-		{
-		}
-		public void GetBodyJacobianRot(int body_index, mat3x^ world_jac_rot)
-		{
-		}
-		public void GetBodyJacobianTrans(int body_index, mat3x^ world_jac_trans)
-		{
-		}
-		public void GetBodyLinearAcceleration(int body_index, Vector3 world_acceleration)
-		{
-		}
-		public void GetBodyLinearVelocity(int body_index, Vector3 world_velocity)
-		{
-		}
-		public void GetBodyLinearVelocityCoM(int body_index, Vector3 world_velocity)
-		{
-		}
-		public void GetBodyMass(int body_index, int^ mass)
-		{
-		}
-		public void GetBodyOrigin(int body_index, Vector3 world_origin)
-		{
-		}
-		public void GetBodySecondMassMoment(int body_index, Matrix3x3 second_mass_moment)
-		{
-		}
-		public void GetBodyTParentRef(int body_index, Matrix3x3 T)
-		{
-		}
-		public void GetBodyTransform(int body_index, Matrix3x3 world_T_body)
-		{
-		}
-		public void GetDoFOffset(int body_index, int^ q_offset)
-		{
-		}
-		public void GetJointType(int body_index, JointType^ joint_type)
-		{
-		}
-		public void GetJointTypeStr(int body_index, char^ joint_type)
-		{
-		}
-		public void GetParentIndex(int body_index, int^ parent_index)
-		{
-		}
-		public void GetParentRParentBodyRef(int body_index, Vector3 r)
-		{
-		}
-		public void GetUserInt(int body_index, int^ user_int)
-		{
-		}
-		public void GetUserPtr(int body_index, void^ user_ptr)
+		public int GetBodyJacobianTrans(int body_index, mat3x^ world_jac_trans)
 		{
 		}
         */
-        public int NumBodies()
-		{
 
-            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_numBodies(Native);
-		}
-		public int NumDoFs()
+        public int GetBodyLinearAcceleration(int body_index, out Vector3 world_acceleration)
 		{
-            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_numDoFs(Native);
-		}
-        /*
-		public void PrintTree()
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getBodyLinearAcceleration(Native, body_index, out world_acceleration);
+        }
+
+		public int GetBodyLinearVelocity(int body_index, out Vector3 world_velocity)
 		{
-		}
-		public void PrintTreeData()
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getBodyLinearVelocity(Native, body_index, out world_velocity);
+        }
+
+		public int GetBodyLinearVelocityCoM(int body_index, out Vector3 world_velocity)
 		{
-		}
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getBodyLinearVelocityCoM(Native, body_index, out world_velocity);
+        }
+
+		public int GetBodyMass(int body_index, out float mass)
+		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getBodyMass(Native, body_index, out mass);
+        }
+
+		public int GetBodyOrigin(int body_index, out Vector3 world_origin)
+		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getBodyOrigin(Native, body_index, out world_origin);
+        }
+
+		public int GetBodySecondMassMoment(int body_index, out Matrix3x3FloatData second_mass_moment)
+		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getBodySecondMassMoment(Native, body_index, out second_mass_moment);
+
+        }
+
+		public int GetBodyTParentRef(int body_index, out Matrix3x3FloatData T)
+		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getBodyTParentRef(Native, body_index, out T);
+
+        }
+
+		public int GetBodyTransform(int body_index, out Matrix3x3FloatData world_T_body)
+		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getBodyTransform(Native, body_index, out world_T_body);
+
+        }
+
+		public int GetDoFOffset(int body_index, out int q_offset)
+		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getDoFOffset(Native, body_index, out q_offset);
+        }
+
+		public int GetJointType(int body_index, out JointType joint_type)
+		{
+            int jointTypeInt;
+            int ret = UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getJointType(Native, body_index, out jointTypeInt);
+            if (ret != -1)
+            {
+                joint_type = (JointType)jointTypeInt;
+            } else
+            {
+                joint_type = JointType.FIXED;
+            }
+            return ret;
+        }
+
+		public int GetParentIndex(int body_index, out int parent_index)
+		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getParentIndex(Native, body_index, out parent_index);
+        }
+
+		public int GetParentRParentBodyRef(int body_index, out Vector3 r)
+		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getParentRParentBodyRef(Native, body_index, out r);
+        }
+
+		public int GetUserInt(int body_index, out int user_int)
+		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getUserInt(Native, body_index, out user_int);
+        }
+
+		public IntPtr GetUserPtr(int body_index)
+		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getUserPtr(Native, body_index);
+        }
+        
 		public void SetAcceptInvalidMassParameters(bool flag)
 		{
-		}
-		public void SetBodyFirstMassMoment(int body_index, Vector3 first_mass_moment)
+            UnsafeNativeMethodsInverseDynamics.MultiBodyTree_setAcceptInvalidMassParameters(Native, flag);
+        }
+
+		public int SetBodyFirstMassMoment(int body_index, ref Vector3 first_mass_moment)
 		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_setBodyFirstMassMoment(Native, body_index, ref first_mass_moment);
 		}
-		public void SetBodyMass(int body_index, int mass)
+
+		public int SetBodyMass(int body_index, float mass)
 		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_setBodyMass(Native, body_index, mass);
 		}
-		public void SetBodySecondMassMoment(int body_index, Matrix3x3 second_mass_moment)
+
+		public int SetBodySecondMassMoment(int body_index, ref Matrix3x3FloatData second_mass_moment)
 		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_setBodySecondMassMoment(Native, body_index, ref second_mass_moment);
 		}
+
 		public void SetGravityInWorldFrame(Vector3 gravity)
 		{
+            UnsafeNativeMethodsInverseDynamics.MultiBodyTree_setGravityInWorldFrame(Native, ref gravity);
 		}
-		public void SetUserInt(int body_index, int user_int)
+
+		public int SetUserInt(int body_index, int user_int)
 		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_setUserInt(Native, body_index, user_int);
 		}
-		public void SetUserPtr(int body_index, void^ user_ptr)
+
+		public int SetUserPtr(int body_index, IntPtr user_ptr)
 		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_setUserPtr(Native, body_index, user_ptr);
 		}
-        */
     }
 }
