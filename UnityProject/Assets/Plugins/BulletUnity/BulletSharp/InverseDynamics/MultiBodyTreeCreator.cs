@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using BulletSharp.Math;
 using BulletSharp;
 
-namespace InverseDynamicsBullet3
+namespace BulletSharp.InverseDynamics
 {
 
     public class MultiBodyTreeCreator : IDisposable
@@ -51,10 +51,10 @@ namespace InverseDynamicsBullet3
 
                 if (!_preventDelete)
                 {
-                    UnityEngine.Debug.LogError("TODO userPtr");
+                    //UnityEngine.Debug.LogError("TODO userPtr");
                     //IntPtr userPtr = UnsafeNativeMethods.btCollisionShape_getUserPointer(Native);
                     //GCHandle.FromIntPtr(userPtr).Free();
-                    UnsafeNativeMethodsInverseDynamics.MultiBodyTreeCreator_delete(Native);
+                    //UnsafeNativeMethodsInverseDynamics.MultiBodyTreeCreator_delete(Native);
                 }
             }
         }

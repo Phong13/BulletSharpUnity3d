@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Security;
-using InverseDynamicsBullet3;
+using BulletSharp.InverseDynamics;
 
 namespace BulletSharp
 {
@@ -31,7 +31,7 @@ namespace BulletSharp
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
         public static extern void MultiBodyTree_addUserMoment(IntPtr obj, int body_index, [In] ref Vector3 body_moment);
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
-        public static extern int MultiBodyTree_calculateInverseDynamics(IntPtr obj, int qLength, int uLenght, float[] q, float[] u, float[] dot_u, [In, Out] float[] joint_forces);
+        public static extern int MultiBodyTree_calculateInverseDynamics(IntPtr obj, int num_dof, int baseDofs, float[] q, float[] u, float[] dot_u, [In, Out] float[] joint_forces);
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
         public static extern int MultiBodyTree_numBodies(IntPtr obj);
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
@@ -40,22 +40,24 @@ namespace BulletSharp
         public static extern void MultiBodyTree_finalize(IntPtr obj);
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
         public static extern void MultiBodyTree_delete(IntPtr obj);
+        
+        [DllImport(Native.Dll, CallingConvention = Native.Conv)]
+        public static extern int MultiBodyTree_calculateJacobians(IntPtr obj, int num_dof, int baseDofs, float[] q, float[] u);
+        [DllImport(Native.Dll, CallingConvention = Native.Conv)]
+        public static extern int MultiBodyTree_calculateJacobians(IntPtr obj, int num_dof, int baseDofs, float[] q);
+        [DllImport(Native.Dll, CallingConvention = Native.Conv)]
+        public static extern int MultiBodyTree_calculateKinematics(IntPtr obj, int num_dof, int baseDofs, float[] q, float[] u, float[] dot_u);
         /*
-        [DllImport(Native.Dll, CallingConvention = Native.Conv)]
-        public static extern void MultiBodyTree_calculateJacobians(IntPtr obj, vecx^ q, vecx^ u);
-        [DllImport(Native.Dll, CallingConvention = Native.Conv)]
-        public static extern void MultiBodyTree_calculateJacobians(IntPtr obj, vecx^ q);
-        [DllImport(Native.Dll, CallingConvention = Native.Conv)]
-        public static extern void MultiBodyTree_calculateKinematics(IntPtr obj, vecx^ q, vecx^ u, vecx^ dot_u);
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
         public static extern void MultiBodyTree_calculateMassMatrix(IntPtr obj, vecx^ q, bool update_kinematics, bool initialize_matrix, bool set_lower_triangular_matrix, matxx^ mass_matrix);
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
         public static extern void MultiBodyTree_calculateMassMatrix(IntPtr obj, vecx^ q, matxx^ mass_matrix);
-        [DllImport(Native.Dll, CallingConvention = Native.Conv)]
-        public static extern void MultiBodyTree_calculatePositionAndVelocityKinematics(IntPtr obj, vecx^ q, vecx^ u);
-        [DllImport(Native.Dll, CallingConvention = Native.Conv)]
-        public static extern void MultiBodyTree_calculatePositionKinematics(IntPtr obj, vecx^ q);
         */
+        [DllImport(Native.Dll, CallingConvention = Native.Conv)]
+        public static extern int MultiBodyTree_calculatePositionAndVelocityKinematics(IntPtr obj, int num_dof, int baseDofs, float[] q, float[] u);
+        [DllImport(Native.Dll, CallingConvention = Native.Conv)]
+        public static extern int MultiBodyTree_calculatePositionKinematics(IntPtr obj, int num_dof, int baseDofs, float[] q);
+        
 
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
         public static extern void MultiBodyTree_clearAllUserForcesAndMoments(IntPtr obj);
@@ -108,8 +110,9 @@ namespace BulletSharp
         public static extern int MultiBodyTree_getParentRParentBodyRef(IntPtr obj, int body_index, out Vector3 r);
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
         public static extern int MultiBodyTree_getUserInt(IntPtr obj, int body_index, out int userInt);
-        [DllImport(Native.Dll, CallingConvention = Native.Conv)]
-        public static extern IntPtr MultiBodyTree_getUserPtr(IntPtr obj, int body_index);
+
+        // [DllImport(Native.Dll, CallingConvention = Native.Conv)]
+        // public static extern IntPtr MultiBodyTree_getUserPtr(IntPtr obj, int body_index);
 
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
         public static extern void MultiBodyTree_setAcceptInvalidMassParameters(IntPtr obj, bool flag);
@@ -123,8 +126,9 @@ namespace BulletSharp
         public static extern void MultiBodyTree_setGravityInWorldFrame(IntPtr obj, ref Vector3 gravity);
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
         public static extern int MultiBodyTree_setUserInt(IntPtr obj, int body_index, int user_int);
-        [DllImport(Native.Dll, CallingConvention = Native.Conv)]
-        public static extern int MultiBodyTree_setUserPtr(IntPtr obj, int body_index, IntPtr user_ptr);
+
+        //[DllImport(Native.Dll, CallingConvention = Native.Conv)]
+        //public static extern int MultiBodyTree_setUserPtr(IntPtr obj, int body_index, IntPtr user_ptr);
         
     }
 }

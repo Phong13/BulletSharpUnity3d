@@ -177,6 +177,12 @@ namespace BulletUnity
                 Debug.LogErrorFormat("The local scale on {0} rigid body is not one. Bullet physics does not support scaling on a rigid body world transform. Instead alter the dimensions of the CollisionShape.", name);
             }
 
+            if (!fixedBase && baseMass <= 0f)
+            {
+                Debug.LogErrorFormat("If not fixed base then baseMass must be greater than zero.");
+                return false;
+            }
+
             m_baseCollisionShape = GetComponent<BCollisionShape>();
             if (m_baseCollisionShape == null)
             {

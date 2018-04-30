@@ -16,6 +16,7 @@ subject to the following restrictions:
 using DemoFramework;
 using BulletSharp;
 using BulletSharp.Math;
+using BulletSharp.InverseDynamics;
 using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
@@ -35,7 +36,7 @@ namespace InverseDynamicsExample
     {
         btInverseDynamicsExampleOptions m_option = btInverseDynamicsExampleOptions.BT_ID_PROGRAMMATICALLY;
         MultiBody m_multiBody;
-        InverseDynamicsBullet3.MultiBodyTree m_inverseModel;
+        MultiBodyTree m_inverseModel;
 
         // the UI interface makes it easier to use static variables & free functions
         // as parameters and callbacks
@@ -224,7 +225,7 @@ namespace InverseDynamicsExample
             if (true)//(m_multiBody != null)
             {
                 // construct inverse model
-                InverseDynamicsBullet3.MultiBodyTreeCreator id_creator = new InverseDynamicsBullet3.MultiBodyTreeCreator();
+                MultiBodyTreeCreator id_creator = new MultiBodyTreeCreator();
                 if (-1 == id_creator.CreateFromMultiBody(m_multiBody))
                 {
                     Debug.LogError("error creating tree\n");

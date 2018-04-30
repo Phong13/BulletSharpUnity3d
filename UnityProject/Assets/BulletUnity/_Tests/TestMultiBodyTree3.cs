@@ -4,6 +4,7 @@ using System.Collections;
 using DemoFramework;
 using BulletSharp;
 using BulletSharp.Math;
+using BulletSharp.InverseDynamics;
 using BulletUnity;
 using System;
 using System.Globalization;
@@ -110,7 +111,7 @@ public class TestMultiBodyTree3 : MonoBehaviour {
     float oldPickingDist;
 
     MultiBody m_multiBody;
-    InverseDynamicsBullet3.MultiBodyTree m_inverseModel;
+    MultiBodyTree m_inverseModel;
 
     // the UI interface makes it easier to use static variables & free functions
     // as parameters and callbacks
@@ -282,7 +283,7 @@ public class TestMultiBodyTree3 : MonoBehaviour {
         if (true)//(m_multiBody != null)
         {
             // construct inverse model
-            InverseDynamicsBullet3.MultiBodyTreeCreator id_creator = new InverseDynamicsBullet3.MultiBodyTreeCreator();
+            MultiBodyTreeCreator id_creator = new MultiBodyTreeCreator();
             if (-1 == id_creator.CreateFromMultiBody(m_multiBody))
             {
                 Debug.LogError("error creating tree\n");
@@ -348,7 +349,7 @@ public class TestMultiBodyTree3 : MonoBehaviour {
                         m_inverseModel.AddUserForce(dof, new BulletSharp.Math.Vector3(0, 1, 1));
                     }
 
-
+                    Debug.LogFormat("{0}, {1}, {2}, {3}, {4}", m_multiBody.HasFixedBase, q.Length, qdot.Length, nu.Length, joint_force.Length);
                     if (-1 != m_inverseModel.CalculateInverseDynamics(m_multiBody.HasFixedBase, q, qdot, nu, joint_force))
                     {
                         //joint_force(dof) += damping*dot_q(dof);
@@ -454,13 +455,13 @@ public class TestMultiBodyTree3 : MonoBehaviour {
                     v = new BulletSharp.Math.Vector3(.1f, -10f, .1f);
                     m_inverseModel.SetGravityInWorldFrame(v);
 
-                    InverseDynamicsBullet3.JointType jt;
+                    JointType jt;
                     m_inverseModel.GetJointType(bodyIdx, out jt);
                     Debug.Log("JointType " + jt);
 
                     m_inverseModel.GetBodySecondMassMoment(bodyIdx, out fd);
                     m_inverseModel.SetBodySecondMassMoment(bodyIdx, ref fd);
-                    
+
                     //=====================================
 
                     m_inverseModel.ClearAllUserForcesAndMoments();
@@ -480,6 +481,9 @@ public class TestMultiBodyTree3 : MonoBehaviour {
                         q6[6 + i] = q[i];
                         joint_force6[6 + i] = joint_force[i];
                     }
+
+
+                    Debug.LogFormat("{0}, {1}, {2}, {3}, {4}, {5}", m_multiBody.HasFixedBase, q6.Length, qdot6.Length, nu6.Length, joint_force6.Length, num_dofs);
                     if (-1 != m_inverseModel.CalculateInverseDynamics(m_multiBody.HasFixedBase, q6, qdot6, nu6, joint_force6))
                     {
                         //joint_force(dof) += damping*dot_q(dof);
@@ -493,6 +497,28 @@ public class TestMultiBodyTree3 : MonoBehaviour {
                     else
                     {
                         Debug.LogError("Bad return from CalculateInverseDynamics");
+                    }
+
+                    if (-1 == m_inverseModel.CalculateJacobians(m_multiBody.HasFixedBase, q6))
+                    {
+                        Debug.LogError("Bad return from CalculateJacobians");
+                    }
+
+                    if (-1 == m_inverseModel.CalculateJacobians(m_multiBody.HasFixedBase, q6, qdot6))
+                    {
+                        Debug.LogError("Bad return from CalculateJacobians");
+                    }
+                    if (-1 == m_inverseModel.CalculateKinematics(m_multiBody.HasFixedBase, q6, qdot6, nu6))
+                    {
+                        Debug.LogError("Bad return from CalculateKinematics");
+                    }
+                    if (-1 == m_inverseModel.CalculatePositionAndVelocityKinematics(m_multiBody.HasFixedBase, q6, qdot6))
+                    {
+                        Debug.LogError("Bad return from CalculatePositionAndVelocityKinematics");
+                    }
+                    if (-1 == m_inverseModel.CalculatePositionKinematics(m_multiBody.HasFixedBase, q6))
+                    {
+                        Debug.LogError("Bad return from CalculatePositionKinematics");
                     }
                 }
             }
@@ -572,7 +598,7 @@ public class TestMultiBodyTree3 : MonoBehaviour {
             shape.Dispose();
         }
 
-
+        Debug.Log("NumLinks " + numLinks);
         MultiBody pMultiBody = new MultiBody(numLinks, 0, baseInertiaDiag, fixedBase, canSleep);
         pMultiBody.BaseWorldTransform = baseWorldTrans;
         BulletSharp.Math.Vector3 vel = new BulletSharp.Math.Vector3(0, 0, 0);

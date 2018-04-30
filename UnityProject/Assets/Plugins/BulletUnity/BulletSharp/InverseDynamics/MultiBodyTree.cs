@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using BulletSharp.Math;
 using BulletSharp;
 
-namespace InverseDynamicsBullet3
+namespace BulletSharp.InverseDynamics
 {
     public enum JointType
     {
@@ -60,7 +60,7 @@ namespace InverseDynamicsBullet3
             {
                 UnityEngine.Debug.LogError("TODO handle userPtr");
                 GCHandle handle = GCHandle.Alloc(this, GCHandleType.Normal);
-                //UnsafeNativeMethodsInverseDynamics.btCollisionShape_setUserPointer(native, GCHandle.ToIntPtr(handle));
+                // UnsafeNativeMethodsInverseDynamics.MultiBodyTree_setUserPtr(Native, GCHandle.ToIntPtr(handle));
             }
         }
 
@@ -90,13 +90,14 @@ namespace InverseDynamicsBullet3
         }
 
         /// <summary>
-        /// Calculate Inverse Dynamics
+        /// Calculate Inverse Dynamics. The returned values are only for the joints. Be careful when using this for floating base models. 
+        /// MultiBodyTree includes the 6 DOF for the base (Unlike for a Multbody), so the input and output arrays need to be prepadded with 6 extra elements.
         /// </summary>
-        /// <param name="floatingBase"> Does the multibody have a floating base. </param>
-        /// <param name="q"> Value of DOFs should be length of dofs excluding fixed base if is fixed base</param>
-        /// <param name="u"> Value of DOFs velocity </param>
-        /// <param name="dot_u"> Value of DOFs Acceleration </param>
-        /// <param name="joint_forces"></param>
+        /// <param name="floatingBase"> Does the multibody have a floating base. Pad with six extra elements if floating base.</param>
+        /// <param name="q"> Positions of joints. Value of DOFs should be length of dofs excluding fixed base if is fixed base. Pad with six extra elements if floating base.</param>
+        /// <param name="u"> Velocities of joints. Value of DOFs velocity. Pad with six extra elements if floating base.</param>
+        /// <param name="dot_u"> Desired accelerations of joints. Pad with six extra elements if floating base. </param>
+        /// <param name="joint_forces"> Output jorces necessary to achieve desired accelerations. Pad with six extra elements if floating base.</param>
         /// <returns></returns>
         public int CalculateInverseDynamics(bool floatingBase, float[] q, float[] u, float[] dot_u, float[] joint_forces)
         {
@@ -109,7 +110,8 @@ namespace InverseDynamicsBullet3
             {
                 baseDofs = 0;
             }
-            int numDof = q.Length;
+
+            int numDof = q.Length - baseDofs;
             return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_calculateInverseDynamics(Native,numDof,baseDofs,q,u,dot_u,joint_forces);
         }
 
@@ -127,7 +129,6 @@ namespace InverseDynamicsBullet3
 
                 if (!_preventDelete)
                 {
-                    UnityEngine.Debug.LogError("TODO userPtr");
                     //IntPtr userPtr = UnsafeNativeMethods.btCollisionShape_getUserPointer(Native);
                     //GCHandle.FromIntPtr(userPtr).Free();
                     UnsafeNativeMethodsInverseDynamics.MultiBodyTree_delete(Native);
@@ -139,35 +140,97 @@ namespace InverseDynamicsBullet3
         {
             Dispose(false);
         }
+
         /*
 		public void B3_DECLARE_ALIGNED_ALLOCATOR()
 		{
 		}
-		public void CalculateInverseDynamics(vecx^ q, vecx^ u, vecx^ dot_u, vecx^ joint_forces)
+        */
+
+		public int CalculateJacobians(bool floatingBase, float[] q)
 		{
-		}
-		public void CalculateJacobians(vecx^ q, vecx^ u)
+            int baseDofs;
+            if (floatingBase)
+            {
+                baseDofs = 6;
+            }
+            else
+            {
+                baseDofs = 0;
+            }
+            int numDof = q.Length;
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_calculateJacobians(Native, numDof, baseDofs, q);
+        }
+
+		public int CalculateJacobians(bool floatingBase, float[] q, float[] u)
 		{
-		}
-		public void CalculateJacobians(vecx^ q)
+            int baseDofs;
+            if (floatingBase)
+            {
+                baseDofs = 6;
+            }
+            else
+            {
+                baseDofs = 0;
+            }
+            int numDof = q.Length;
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_calculateJacobians(Native, numDof, baseDofs, q, u);
+        }
+
+		public int CalculateKinematics(bool floatingBase, float[] q, float[] u, float[] dot_u)
 		{
-		}
-		public void CalculateKinematics(vecx^ q, vecx^ u, vecx^ dot_u)
-		{
-		}
+            int baseDofs;
+            if (floatingBase)
+            {
+                baseDofs = 6;
+            }
+            else
+            {
+                baseDofs = 0;
+            }
+            int numDof = q.Length;
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_calculateKinematics(Native, numDof, baseDofs, q, u, dot_u);
+        }
+
+        /*
 		public void CalculateMassMatrix(vecx^ q, bool update_kinematics, bool initialize_matrix, bool set_lower_triangular_matrix, matxx^ mass_matrix)
 		{
 		}
+        
 		public void CalculateMassMatrix(vecx^ q, matxx^ mass_matrix)
 		{
 		}
-		public void CalculatePositionAndVelocityKinematics(vecx^ q, vecx^ u)
-		{
-		}
-		public void CalculatePositionKinematics(vecx^ q)
-		{
-		}
         */
+
+		public int CalculatePositionAndVelocityKinematics(bool floatingBase, float[] q, float[] u)
+		{
+            int baseDofs;
+            if (floatingBase)
+            {
+                baseDofs = 6;
+            }
+            else
+            {
+                baseDofs = 0;
+            }
+            int numDof = q.Length;
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_calculatePositionAndVelocityKinematics(Native, numDof, baseDofs, q, u);
+        }
+
+		public int CalculatePositionKinematics(bool floatingBase, float[] q)
+		{
+            int baseDofs;
+            if (floatingBase)
+            {
+                baseDofs = 6;
+            }
+            else
+            {
+                baseDofs = 0;
+            }
+            int numDof = q.Length;
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_calculatePositionKinematics(Native, numDof, baseDofs, q);
+        }
 
 		public void ClearAllUserForcesAndMoments()
 		{
@@ -301,10 +364,10 @@ namespace InverseDynamicsBullet3
             return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getUserInt(Native, body_index, out user_int);
         }
 
-		public IntPtr GetUserPtr(int body_index)
-		{
-            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getUserPtr(Native, body_index);
-        }
+		//public IntPtr GetUserPtr(int body_index)
+		//{
+        //    return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getUserPtr(Native, body_index);
+        //}
         
 		public void SetAcceptInvalidMassParameters(bool flag)
 		{
@@ -336,9 +399,9 @@ namespace InverseDynamicsBullet3
             return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_setUserInt(Native, body_index, user_int);
 		}
 
-		public int SetUserPtr(int body_index, IntPtr user_ptr)
-		{
-            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_setUserPtr(Native, body_index, user_ptr);
-		}
+		//public int SetUserPtr(int body_index, IntPtr user_ptr)
+		//{
+        //    return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_setUserPtr(Native, body_index, user_ptr);
+		//}
     }
 }
