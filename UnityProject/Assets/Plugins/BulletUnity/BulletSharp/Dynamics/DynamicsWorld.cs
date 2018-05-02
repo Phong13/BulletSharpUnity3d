@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
+using AOT;
 
 
 namespace BulletSharp
@@ -18,7 +19,23 @@ namespace BulletSharp
 
 	public abstract class DynamicsWorld : CollisionWorld
 	{
-		public delegate void InternalTickCallback(DynamicsWorld world, float timeStep);
+        /// <summary>
+        /// This is a hack to deal with the fact that callbacks (preTick and postTick) must be static on AOT platforms.
+        /// 
+        /// The problem is that when native code calls the static managed function (eg. preTick): Which DynamicsWorld instance should the call apply to?
+        /// I have delt with this in other cases by having native wrappers cache a reference to the managed wrapper and added a parameter
+        /// to the static function: parameter = IntPtr to the managed wrapper that the call applies to.
+        /// It is a lot of work to use that approach in this case because Native does not point to a native BulletSharp wrapper (which I am willing to modify),
+        /// instead it points to the raw btDynamicsWorld object which I am very reluctant to modify because I don't want to get into touching Bullet Physics source
+        /// which makes updating harder. I could write wrappers for all the differen world types implementing all the methods but that is a lot of code to write an maintain.
+        /// 
+        /// Instead the hack is to maintain a static dictionary that maps a native pointer to a btPhysicsWorld to its corresponding wrapper on the managed side.
+        /// This dictionary exists entirely here on the managed side.
+        /// In the preTick and postTick calls we will look up the Managed wrapper that corresponds to the native World.
+        /// </summary>
+        protected static Dictionary<IntPtr, DynamicsWorld> _native2ManagedMap = new Dictionary<IntPtr, DynamicsWorld>();
+
+        public delegate void InternalTickCallback(DynamicsWorld world, float timeStep);
 		
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
 		delegate void InternalTickCallbackUnmanaged(IntPtr world, float timeStep);
@@ -33,12 +50,11 @@ namespace BulletSharp
 		private Dictionary<IAction, ActionInterfaceWrapper> _actions;
 		private List<TypedConstraint> _constraints = new List<TypedConstraint>();
 
-		internal DynamicsWorld(IntPtr native, Dispatcher dispatcher, BroadphaseInterface pairCache)
-			: base(native, dispatcher, pairCache)
-		{
-		}
+        protected DynamicsWorld(Dispatcher dispatcher, BroadphaseInterface broadphasePairCache) : base(dispatcher, broadphasePairCache)
+        {
+        }
 
-		public void AddAction(IAction action)
+        public void AddAction(IAction action)
 		{
 			if (_actions == null)
 			{
@@ -155,17 +171,21 @@ namespace BulletSharp
 			UnsafeNativeMethods.btDynamicsWorld_setGravity(Native, ref gravity);
 		}
 
-		private void InternalPreTickCallbackNative(IntPtr world, float timeStep)
+        [MonoPInvokeCallback(typeof(InternalTickCallbackUnmanaged))]
+        static private void InternalPreTickCallbackNative(IntPtr world, float timeStep)
 		{
-			_preTickCallback(this, timeStep);
+            DynamicsWorld dw = _native2ManagedMap[world];
+            if (dw != null) dw._preTickCallback(dw, timeStep);
 		}
 
-		private void InternalPostTickCallbackNative(IntPtr world, float timeStep)
+        [MonoPInvokeCallback(typeof(InternalTickCallbackUnmanaged))]
+        static private void InternalPostTickCallbackNative(IntPtr world, float timeStep)
 		{
-			_postTickCallback(this, timeStep);
+            DynamicsWorld dw = _native2ManagedMap[world];
+            if (dw != null) dw._postTickCallback(dw, timeStep);
 		}
 
-		public void SetInternalTickCallback(InternalTickCallback callback, Object worldUserInfo = null,
+        public void SetInternalTickCallback(InternalTickCallback callback, Object worldUserInfo = null,
 			bool isPreTick = false)
 		{
 			if (isPreTick)
@@ -289,8 +309,14 @@ namespace BulletSharp
 					wrapper.Dispose();
 				}
 			}
-
-			base.Dispose(disposing);
+            if (Native != IntPtr.Zero)
+            {
+                if (_native2ManagedMap.ContainsKey(Native))
+                {
+                    _native2ManagedMap.Remove(Native);
+                }
+            }
+            base.Dispose(disposing);
 		}
 	}
 }

@@ -76,7 +76,7 @@ namespace InverseDynamicsExample
 
             m_solver = new MultiBodyConstraintSolver();
 
-            World = m_dynamicsWorld = new MultiBodyDynamicsWorld(Dispatcher, Broadphase, m_solver, CollisionConf);
+            World = m_dynamicsWorld = MultiBodyDynamicsWorld.CreateMultiBodyDynamicsWorld(Dispatcher, Broadphase, m_solver, CollisionConf);
 
             m_dynamicsWorld.Gravity = (new BulletSharp.Math.Vector3(0, -10, 0));
         }

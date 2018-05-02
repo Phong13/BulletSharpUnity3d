@@ -43,7 +43,7 @@ namespace FeatherStoneDemo
             Broadphase = new DbvtBroadphase();
             Solver = new MultiBodyConstraintSolver();
 
-            World = new MultiBodyDynamicsWorld(Dispatcher, Broadphase, Solver as MultiBodyConstraintSolver, CollisionConf);
+            World = MultiBodyDynamicsWorld.CreateMultiBodyDynamicsWorld(Dispatcher, Broadphase, Solver as MultiBodyConstraintSolver, CollisionConf);
             World.Gravity = new Vector3(0, -10, 0);
 
             // create a few basic rigid bodies

@@ -60,7 +60,7 @@ namespace CcdPhysicsDemo
             // the default constraint solver.
             Solver = new SequentialImpulseConstraintSolver();
 
-            World = new DiscreteDynamicsWorld(Dispatcher, Broadphase, Solver, CollisionConf);
+            World = DiscreteDynamicsWorld.CreateDiscreteDynamicsWorld(Dispatcher, Broadphase, Solver, CollisionConf);
             World.SolverInfo.SolverMode |= SolverModes.Use2FrictionDirections | SolverModes.RandomizeOrder;
             //World.SolverInfo.SplitImpulse = 0;
             World.SolverInfo.NumIterations = 20;

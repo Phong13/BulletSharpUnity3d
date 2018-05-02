@@ -14,10 +14,11 @@ namespace BulletUnity
 
     public enum WorldType
     {
-      CollisionOnly,
-      RigidBodyDynamics,
-      MultiBodyWorld, //for FeatherStone forward dynamics I think
-      SoftBodyAndRigidBody,
+      CollisionOnly = 0,
+      RigidBodyDynamics = 1,
+      MultiBodyWorld = 2,
+      MultiBodyWorldMultiThreaded = 4,
+      SoftBodyAndRigidBody = 3,
     }
 
     public enum CollisionConfType
@@ -611,9 +612,18 @@ namespace BulletUnity
       lateUpdateHelper.m_lastSimulationStepTime = 0;
     }
 
-    /*
-    Does not set any local variables. Is safe to use to create duplicate physics worlds for independant simulation.
-    */
+
+
+    /// <summary>
+    /// Does not set any local variables. Is safe to use to create duplicate physics worlds for independant simulation.
+    /// </summary>
+    /// <param name="world"></param>
+    /// <param name="collisionConfig"></param>
+    /// <param name="dispatcher"></param>
+    /// <param name="broadphase"></param>
+    /// <param name="solver"></param>
+    /// <param name="softBodyWorldInfo"></param>
+    /// <returns></returns>
     public bool CreatePhysicsWorld(out CollisionWorld world,
                                     out CollisionConfiguration collisionConfig,
                                     out CollisionDispatcher dispatcher,
@@ -662,17 +672,22 @@ namespace BulletUnity
       solver = null;
       if (m_worldType == WorldType.CollisionOnly)
       {
-        world = new CollisionWorld(dispatcher, broadphase, collisionConfig);
+        world = CollisionWorld.CreateCollisionWorld(dispatcher, broadphase, collisionConfig);
       }
       else if (m_worldType == WorldType.RigidBodyDynamics)
       {
-        world = new DiscreteDynamicsWorld(dispatcher, broadphase, null, collisionConfig);
+        world = DiscreteDynamicsWorld.CreateDiscreteDynamicsWorld(dispatcher, broadphase, null, collisionConfig);
+      }
+      else if (m_worldType == WorldType.MultiBodyWorldMultiThreaded)
+      {
+        ConstraintSolverPoolMultiThreaded multiThreadedConstraintSolver = new ConstraintSolverPoolMultiThreaded(4);
+        world = DiscreteDynamicsWorldMultiThreaded.CreateDiscreteDynamicsWorldMultiThreaded(dispatcher, broadphase, multiThreadedConstraintSolver, collisionConfig);
       }
       else if (m_worldType == WorldType.MultiBodyWorld)
       {
         MultiBodyConstraintSolver mbConstraintSolver = new MultiBodyConstraintSolver();
         constraintSolver = mbConstraintSolver;
-        world = new MultiBodyDynamicsWorld(dispatcher, broadphase, mbConstraintSolver, collisionConfig);
+        world = MultiBodyDynamicsWorld.CreateMultiBodyDynamicsWorld(dispatcher, broadphase, mbConstraintSolver, collisionConfig);
         if (debugType >= BDebug.DebugType.Debug) Debug.Log("Created MultiBodyDynamicsWorld " + world);
       }
       else if (m_worldType == WorldType.SoftBodyAndRigidBody)
@@ -680,7 +695,7 @@ namespace BulletUnity
         SequentialImpulseConstraintSolver siConstraintSolver = new SequentialImpulseConstraintSolver();
         constraintSolver = siConstraintSolver;
         siConstraintSolver.RandSeed = sequentialImpulseConstraintSolverRandomSeed;
-        m_world = new SoftRigidDynamicsWorld(Dispatcher, Broadphase, siConstraintSolver, CollisionConf);
+        m_world = SoftRigidDynamicsWorld.CreateSoftRigidDynamicsWorld(Dispatcher, Broadphase, siConstraintSolver, CollisionConf);
         _ddWorld = (DiscreteDynamicsWorld)m_world;
         SoftRigidDynamicsWorld _sworld = (SoftRigidDynamicsWorld)m_world;
 

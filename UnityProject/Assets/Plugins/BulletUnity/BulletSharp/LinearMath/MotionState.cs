@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
-
+using AOT;
 
 namespace BulletSharp
 {
@@ -11,9 +11,9 @@ namespace BulletSharp
 		internal IntPtr _native;
 
 		[UnmanagedFunctionPointer(Native.Conv), SuppressUnmanagedCodeSecurity]
-		private delegate void GetWorldTransformUnmanagedDelegate(out Matrix worldTrans);
+		private delegate void GetWorldTransformUnmanagedDelegate(IntPtr thisPtr, out Matrix worldTrans);
 		[UnmanagedFunctionPointer(Native.Conv), SuppressUnmanagedCodeSecurity]
-		private delegate void SetWorldTransformUnmanagedDelegate(ref Matrix worldTrans);
+		private delegate void SetWorldTransformUnmanagedDelegate(IntPtr thisPtr, ref Matrix worldTrans);
 
 		private GetWorldTransformUnmanagedDelegate _getWorldTransform;
 		private SetWorldTransformUnmanagedDelegate _setWorldTransform;
@@ -27,20 +27,27 @@ namespace BulletSharp
 		{
 			_getWorldTransform = new GetWorldTransformUnmanagedDelegate(GetWorldTransformUnmanaged);
 			_setWorldTransform = new SetWorldTransformUnmanagedDelegate(SetWorldTransformUnmanaged);
+            GCHandle handle = GCHandle.Alloc(this, GCHandleType.Normal);
 
-			_native = UnsafeNativeMethods.btMotionStateWrapper_new(
+            _native = UnsafeNativeMethods.btMotionStateWrapper_new(
 				Marshal.GetFunctionPointerForDelegate(_getWorldTransform),
-				Marshal.GetFunctionPointerForDelegate(_setWorldTransform));
+				Marshal.GetFunctionPointerForDelegate(_setWorldTransform),
+                GCHandle.ToIntPtr(handle)
+                );
 		}
 
-		void GetWorldTransformUnmanaged(out Matrix worldTrans)
+        [MonoPInvokeCallback(typeof(GetWorldTransformUnmanagedDelegate))]
+        static void GetWorldTransformUnmanaged(IntPtr msPtr, out Matrix worldTrans)
 		{
-			GetWorldTransform(out worldTrans);
+            MotionState ms = GCHandle.FromIntPtr(msPtr).Target as MotionState;
+            ms.GetWorldTransform(out worldTrans);
 		}
 
-		void SetWorldTransformUnmanaged(ref Matrix worldTrans)
+        [MonoPInvokeCallback(typeof(SetWorldTransformUnmanagedDelegate))]
+        static void SetWorldTransformUnmanaged(IntPtr msPtr, ref Matrix worldTrans)
 		{
-			SetWorldTransform(ref worldTrans);
+            MotionState ms = GCHandle.FromIntPtr(msPtr).Target as MotionState;
+            ms.SetWorldTransform(ref worldTrans);
 		}
 
 		public abstract void GetWorldTransform(out Matrix worldTrans);

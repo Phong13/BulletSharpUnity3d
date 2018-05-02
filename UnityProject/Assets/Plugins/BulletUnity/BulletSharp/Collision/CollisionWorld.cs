@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
+using AOT;
 
 namespace BulletSharp
 {
@@ -125,9 +126,9 @@ namespace BulletSharp
 		internal IntPtr Native;
 
 		[UnmanagedFunctionPointer(BulletSharp.Native.Conv), SuppressUnmanagedCodeSecurity]
-		private delegate float AddSingleResultUnmanagedDelegate(IntPtr cp, IntPtr colObj0Wrap, int partId0, int index0, IntPtr colObj1Wrap, int partId1, int index1);
+		private delegate float AddSingleResultUnmanagedDelegate(IntPtr thisPtr, IntPtr cp, IntPtr colObj0Wrap, int partId0, int index0, IntPtr colObj1Wrap, int partId1, int index1);
 		[UnmanagedFunctionPointer(BulletSharp.Native.Conv), SuppressUnmanagedCodeSecurity]
-		private delegate bool NeedsCollisionUnmanagedDelegate(IntPtr proxy0);
+		private delegate bool NeedsCollisionUnmanagedDelegate(IntPtr thisPtr, IntPtr proxy0);
 
 		private AddSingleResultUnmanagedDelegate _addSingleResult;
 		private NeedsCollisionUnmanagedDelegate _needsCollision;
@@ -136,23 +137,29 @@ namespace BulletSharp
 		{
 			_addSingleResult = AddSingleResultUnmanaged;
 			_needsCollision = NeedsCollisionUnmanaged;
-			Native = UnsafeNativeMethods.btCollisionWorld_ContactResultCallbackWrapper_new(
+            GCHandle handle = GCHandle.Alloc(this, GCHandleType.Normal);
+            Native = UnsafeNativeMethods.btCollisionWorld_ContactResultCallbackWrapper_new(
 				Marshal.GetFunctionPointerForDelegate(_addSingleResult),
-				Marshal.GetFunctionPointerForDelegate(_needsCollision));
+				Marshal.GetFunctionPointerForDelegate(_needsCollision),
+                GCHandle.ToIntPtr(handle));
 		}
 
-		private float AddSingleResultUnmanaged(IntPtr cp, IntPtr colObj0Wrap, int partId0, int index0, IntPtr colObj1Wrap, int partId1, int index1)
+        [MonoPInvokeCallback(typeof(AddSingleResultUnmanagedDelegate))]
+        static private float AddSingleResultUnmanaged(IntPtr thisPtr, IntPtr cp, IntPtr colObj0Wrap, int partId0, int index0, IntPtr colObj1Wrap, int partId1, int index1)
 		{
-			return AddSingleResult(new ManifoldPoint(cp, true),
+            ContactResultCallback ai = GCHandle.FromIntPtr(thisPtr).Target as ContactResultCallback;
+            return ai.AddSingleResult(new ManifoldPoint(cp, true),
 				new CollisionObjectWrapper(colObj0Wrap), partId0, index0,
 				new CollisionObjectWrapper(colObj1Wrap), partId1, index1);
 		}
 
 		public abstract float AddSingleResult(ManifoldPoint cp, CollisionObjectWrapper colObj0Wrap, int partId0, int index0, CollisionObjectWrapper colObj1Wrap, int partId1, int index1);
 
-		private bool NeedsCollisionUnmanaged(IntPtr proxy0)
+        [MonoPInvokeCallback(typeof(NeedsCollisionUnmanagedDelegate))]
+        static private bool NeedsCollisionUnmanaged(IntPtr thisPtr, IntPtr proxy0)
 		{
-			return NeedsCollision(BroadphaseProxy.GetManaged(proxy0));
+            ContactResultCallback ai = GCHandle.FromIntPtr(thisPtr).Target as ContactResultCallback;
+            return ai.NeedsCollision(BroadphaseProxy.GetManaged(proxy0));
 		}
 
 		public virtual bool NeedsCollision(BroadphaseProxy proxy0)
@@ -204,9 +211,9 @@ namespace BulletSharp
 		internal IntPtr Native;
 
 		[UnmanagedFunctionPointer(BulletSharp.Native.Conv), SuppressUnmanagedCodeSecurity]
-		private delegate float AddSingleResultUnmanagedDelegate(IntPtr convexResult, bool normalInWorldSpace);
+		private delegate float AddSingleResultUnmanagedDelegate(IntPtr thisPtr, IntPtr convexResult, bool normalInWorldSpace);
 		[UnmanagedFunctionPointer(BulletSharp.Native.Conv), SuppressUnmanagedCodeSecurity]
-		private delegate bool NeedsCollisionUnmanagedDelegate(IntPtr proxy0);
+		private delegate bool NeedsCollisionUnmanagedDelegate(IntPtr thisPtr, IntPtr proxy0);
 
 		private AddSingleResultUnmanagedDelegate _addSingleResult;
 		private NeedsCollisionUnmanagedDelegate _needsCollision;
@@ -215,21 +222,27 @@ namespace BulletSharp
 		{
 			_addSingleResult = AddSingleResultUnmanaged;
 			_needsCollision = NeedsCollisionUnmanaged;
-			Native = UnsafeNativeMethods.btCollisionWorld_ConvexResultCallbackWrapper_new(
+            GCHandle handle = GCHandle.Alloc(this, GCHandleType.Normal);
+            Native = UnsafeNativeMethods.btCollisionWorld_ConvexResultCallbackWrapper_new(
 				Marshal.GetFunctionPointerForDelegate(_addSingleResult),
-				Marshal.GetFunctionPointerForDelegate(_needsCollision));
+				Marshal.GetFunctionPointerForDelegate(_needsCollision),
+                GCHandle.ToIntPtr(handle));
 		}
 
-		private float AddSingleResultUnmanaged(IntPtr convexResult, bool normalInWorldSpace)
+        [MonoPInvokeCallback(typeof(AddSingleResultUnmanagedDelegate))]
+        static private float AddSingleResultUnmanaged(IntPtr ptrThis, IntPtr convexResult, bool normalInWorldSpace)
 		{
-			return AddSingleResult(new LocalConvexResult(convexResult), normalInWorldSpace);
+            ConvexResultCallback ptr = GCHandle.FromIntPtr(ptrThis).Target as ConvexResultCallback;
+            return ptr.AddSingleResult(new LocalConvexResult(convexResult), normalInWorldSpace);
 		}
 
 		public abstract float AddSingleResult(LocalConvexResult convexResult, bool normalInWorldSpace);
 
-		private bool NeedsCollisionUnmanaged(IntPtr proxy0)
+        [MonoPInvokeCallback(typeof(NeedsCollisionUnmanagedDelegate))]
+        static private bool NeedsCollisionUnmanaged(IntPtr ptrThis, IntPtr proxy0)
 		{
-			return NeedsCollision(BroadphaseProxy.GetManaged(proxy0));
+            ConvexResultCallback ptr = GCHandle.FromIntPtr(ptrThis).Target as ConvexResultCallback;
+            return ptr.NeedsCollision(BroadphaseProxy.GetManaged(proxy0));
 		}
 
 		public virtual bool NeedsCollision(BroadphaseProxy proxy0)
@@ -520,32 +533,38 @@ namespace BulletSharp
 		internal IntPtr Native;
 
 		[UnmanagedFunctionPointer(BulletSharp.Native.Conv), SuppressUnmanagedCodeSecurity]
-		private delegate float AddSingleResultUnmanagedDelegate(IntPtr rayResult, bool normalInWorldSpace);
+		private delegate float AddSingleResultUnmanagedDelegate(IntPtr thisPtr, IntPtr rayResult, bool normalInWorldSpace);
 		[UnmanagedFunctionPointer(BulletSharp.Native.Conv), SuppressUnmanagedCodeSecurity]
-		private delegate bool NeedsCollisionUnmanagedDelegate(IntPtr proxy0);
+		private delegate bool NeedsCollisionUnmanagedDelegate(IntPtr thisPtr, IntPtr proxy0);
 
 		private AddSingleResultUnmanagedDelegate _addSingleResult;
 		private NeedsCollisionUnmanagedDelegate _needsCollision;
 
 		protected RayResultCallback()
 		{
-			_addSingleResult = AddSingleResultUnmanaged;
+ 
 			_needsCollision = NeedsCollisionUnmanaged;
-			Native = UnsafeNativeMethods.btCollisionWorld_RayResultCallbackWrapper_new(
+            GCHandle handle = GCHandle.Alloc(this, GCHandleType.Normal);
+            Native = UnsafeNativeMethods.btCollisionWorld_RayResultCallbackWrapper_new(
 				Marshal.GetFunctionPointerForDelegate(_addSingleResult),
-				Marshal.GetFunctionPointerForDelegate(_needsCollision));
+				Marshal.GetFunctionPointerForDelegate(_needsCollision),
+                GCHandle.ToIntPtr(handle));
 		}
 
-		private float AddSingleResultUnmanaged(IntPtr rayResult, bool normalInWorldSpace)
+        [MonoPInvokeCallback(typeof(AddSingleResultUnmanagedDelegate))]
+        static private float AddSingleResultUnmanaged(IntPtr thisPtr, IntPtr rayResult, bool normalInWorldSpace)
 		{
-			return AddSingleResult(new LocalRayResult(rayResult), normalInWorldSpace);
+            RayResultCallback ai = GCHandle.FromIntPtr(thisPtr).Target as RayResultCallback;
+            return ai.AddSingleResult(new LocalRayResult(rayResult), normalInWorldSpace);
 		}
 
 		public abstract float AddSingleResult(LocalRayResult rayResult, bool normalInWorldSpace);
 
-		private bool NeedsCollisionUnmanaged(IntPtr proxy0)
+        [MonoPInvokeCallback(typeof(NeedsCollisionUnmanagedDelegate))]
+        static private bool NeedsCollisionUnmanaged(IntPtr thisPtr, IntPtr proxy0)
 		{
-			return NeedsCollision(BroadphaseProxy.GetManaged(proxy0));
+            RayResultCallback ai = GCHandle.FromIntPtr(thisPtr).Target as RayResultCallback;
+            return ai.NeedsCollision(BroadphaseProxy.GetManaged(proxy0));
 		}
 
 		public virtual bool NeedsCollision(BroadphaseProxy proxy0)
@@ -611,29 +630,38 @@ namespace BulletSharp
 		internal IntPtr Native;
 
 		internal IDebugDraw _debugDrawer;
-		private BroadphaseInterface _broadphase;
-		private Dispatcher _dispatcher;
-		private DispatcherInfo _dispatchInfo;
+		protected BroadphaseInterface _broadphase;
+        protected Dispatcher _dispatcher;
+        protected DispatcherInfo _dispatchInfo;
 
-		internal CollisionWorld(IntPtr native, Dispatcher dispatcher, BroadphaseInterface broadphase)
+        /// <summary>
+        /// Use this static factory method to create instances instead of the Constructors.
+        /// 
+        /// It is tricky to use constructors to create CollisionWorld and its derived types, because, idealy we want to
+        /// initialize all the fields, then create a native instance of the appropriate type, then create anything else that needs
+        /// a reference to the native type. This ordered structure is hard to control when base class constructors are
+        /// called before inheriting type constructors.
+        /// 
+        /// This is a static factory method that calls several methods in sequence to create the world in an orderly way.
+        /// </summary>
+        public static CollisionWorld CreateCollisionWorld(Dispatcher dispatcher, BroadphaseInterface pairCache, CollisionConfiguration collisionConfiguration)
+        {
+            CollisionWorld w = new CollisionWorld(dispatcher, pairCache);
+            w.CreateNativePart(collisionConfiguration);
+            return w;
+        }
+
+        protected CollisionWorld(Dispatcher dispatcher, BroadphaseInterface broadphasePairCache)
 		{
-			_dispatcher = dispatcher;
-			Broadphase = broadphase;
+            _dispatcher = dispatcher;
+            Broadphase = broadphasePairCache;
+        }
 
-			if (native == IntPtr.Zero)
-			{
-				return;
-			}
-			Native = native;
-			CollisionObjectArray = new AlignedCollisionObjectArray( UnsafeNativeMethods.btCollisionWorld_getCollisionObjectArray(native), this);
-		}
-
-		public CollisionWorld(Dispatcher dispatcher, BroadphaseInterface broadphasePairCache,
-			CollisionConfiguration collisionConfiguration)
-			: this(UnsafeNativeMethods.btCollisionWorld_new(dispatcher.Native, broadphasePairCache.Native,
-				collisionConfiguration.Native), dispatcher, broadphasePairCache)
-		{
-		}
+        protected virtual void CreateNativePart(CollisionConfiguration collisionConfiguration)
+        {
+            Native = UnsafeNativeMethods.btCollisionWorld_new(_dispatcher.Native, _broadphase.Native, collisionConfiguration.Native);
+            CollisionObjectArray = new AlignedCollisionObjectArray(UnsafeNativeMethods.btCollisionWorld_getCollisionObjectArray(Native), this);
+        }
 
 		public void AddCollisionObject(CollisionObject collisionObject)
 		{

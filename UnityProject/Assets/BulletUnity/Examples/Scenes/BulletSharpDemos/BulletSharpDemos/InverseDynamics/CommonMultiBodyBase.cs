@@ -138,7 +138,7 @@ public abstract class CommonMultiBodyBase
 
 		m_solver = new MultiBodyConstraintSolver();
 
-		m_dynamicsWorld = new MultiBodyDynamicsWorld(m_dispatcher, m_broadphase, m_solver, m_collisionConfiguration);
+		m_dynamicsWorld = MultiBodyDynamicsWorld.CreateMultiBodyDynamicsWorld(m_dispatcher, m_broadphase, m_solver, m_collisionConfiguration);
 
 		m_dynamicsWorld.Gravity = ( new BulletSharp.Math.Vector3(0, -10, 0));
 	}

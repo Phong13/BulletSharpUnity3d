@@ -154,7 +154,7 @@ public class TestMultiBodyTree3 : MonoBehaviour {
 
         m_solver = new MultiBodyConstraintSolver();
 
-        World = m_dynamicsWorld = new MultiBodyDynamicsWorld(Dispatcher, Broadphase, m_solver, CollisionConf);
+        World = m_dynamicsWorld = MultiBodyDynamicsWorld.CreateMultiBodyDynamicsWorld(Dispatcher, Broadphase, m_solver, CollisionConf);
 
         m_dynamicsWorld.Gravity = (new BulletSharp.Math.Vector3(0, -10, 0));
     }
@@ -462,6 +462,14 @@ public class TestMultiBodyTree3 : MonoBehaviour {
                     m_inverseModel.GetBodySecondMassMoment(bodyIdx, out fd);
                     m_inverseModel.SetBodySecondMassMoment(bodyIdx, ref fd);
 
+                    
+                    float[] jacobianTrans = new float[3 * num_dofs];
+                    m_inverseModel.GetBodyJacobianTrans(bodyIdx, num_dofs, 6, jacobianTrans);
+                    
+                    float[] jacobianRot = new float[3 * num_dofs];
+                    m_inverseModel.GetBodyJacobianRot(bodyIdx, num_dofs, 6, jacobianRot);
+                    
+
                     //=====================================
 
                     m_inverseModel.ClearAllUserForcesAndMoments();
@@ -497,6 +505,17 @@ public class TestMultiBodyTree3 : MonoBehaviour {
                     else
                     {
                         Debug.LogError("Bad return from CalculateInverseDynamics");
+                    }
+
+                    float[] massMatrix = new float[num_dofs * num_dofs];
+                    if (-1 == m_inverseModel.CalculateMassMatrix(m_multiBody.HasFixedBase, q6, massMatrix))
+                    {
+                        Debug.LogError("Bad return from CalculateMassMatrix");
+                    }
+
+                    if (-1 == m_inverseModel.CalculateMassMatrix(m_multiBody.HasFixedBase, q6, true, true, true, massMatrix))
+                    {
+                        Debug.LogError("Bad return from CalculateMassMatrix");
                     }
 
                     if (-1 == m_inverseModel.CalculateJacobians(m_multiBody.HasFixedBase, q6))

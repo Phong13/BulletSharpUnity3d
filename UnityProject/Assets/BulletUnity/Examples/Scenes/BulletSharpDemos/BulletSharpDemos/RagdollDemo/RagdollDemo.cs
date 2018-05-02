@@ -34,7 +34,7 @@ namespace RagdollDemo
             Broadphase = new AxisSweep3(new Vector3(-10000, -10000, -10000), new Vector3(10000, 10000, 10000));
             Solver = new SequentialImpulseConstraintSolver();
 
-            World = new DiscreteDynamicsWorld(Dispatcher, Broadphase, Solver, CollisionConf);
+            World = DiscreteDynamicsWorld.CreateDiscreteDynamicsWorld(Dispatcher, Broadphase, Solver, CollisionConf);
             World.Gravity = new Vector3(0, -10, 0);
 
             //World.DispatchInfo.UseConvexConservativeDistanceUtil = true;

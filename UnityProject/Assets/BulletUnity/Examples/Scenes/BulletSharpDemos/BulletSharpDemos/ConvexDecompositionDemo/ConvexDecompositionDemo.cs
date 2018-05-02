@@ -77,7 +77,7 @@ namespace ConvexDecompositionDemo
             Dispatcher = new CollisionDispatcher(CollisionConf);
             Broadphase = new AxisSweep3(new Vector3(-10000, -10000, -10000), new Vector3(10000, 10000, 10000));
             Solver = new SequentialImpulseConstraintSolver();
-            World = new DiscreteDynamicsWorld(Dispatcher, Broadphase, Solver, CollisionConf);
+            World = DiscreteDynamicsWorld.CreateDiscreteDynamicsWorld(Dispatcher, Broadphase, Solver, CollisionConf);
 
             // create the ground
             CollisionShape groundShape = new BoxShape(30, 2, 30);

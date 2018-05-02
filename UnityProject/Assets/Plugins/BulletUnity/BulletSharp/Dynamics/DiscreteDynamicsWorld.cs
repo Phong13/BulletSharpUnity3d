@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.IO;
 
 
@@ -8,21 +9,32 @@ namespace BulletSharp
 	{
 		private SimulationIslandManager _simulationIslandManager;
 
-		internal DiscreteDynamicsWorld(IntPtr native, Dispatcher dispatcher, BroadphaseInterface pairCache)
-			: base(native, dispatcher, pairCache)
+        // See comments in CollisionWorld
+        public static DiscreteDynamicsWorld CreateDiscreteDynamicsWorld(Dispatcher dispatcher, BroadphaseInterface pairCache, ConstraintSolver constraintSolver, CollisionConfiguration collisionConfiguration)
+        {
+            DiscreteDynamicsWorld w = new DiscreteDynamicsWorld(dispatcher, pairCache, constraintSolver);
+            w.CreateNativePart(collisionConfiguration);
+            return w;
+        }
+
+        protected DiscreteDynamicsWorld(Dispatcher dispatcher, BroadphaseInterface pairCache,
+			ConstraintSolver constraintSolver) : base(dispatcher,pairCache)
 		{
+            _constraintSolver = constraintSolver;
 		}
 
-		public DiscreteDynamicsWorld(Dispatcher dispatcher, BroadphaseInterface pairCache,
-			ConstraintSolver constraintSolver, CollisionConfiguration collisionConfiguration)
-			: this(UnsafeNativeMethods.btDiscreteDynamicsWorld_new(dispatcher != null ? dispatcher.Native : IntPtr.Zero, pairCache != null ? pairCache.Native : IntPtr.Zero,
-				constraintSolver != null ? constraintSolver.Native : IntPtr.Zero, collisionConfiguration != null ? collisionConfiguration.Native : IntPtr.Zero),
-				  dispatcher, pairCache)
-		{
-			_constraintSolver = constraintSolver;
-		}
+        protected override void CreateNativePart(CollisionConfiguration collisionConfiguration)
+        {
+            Native = UnsafeNativeMethods.btDiscreteDynamicsWorld_new(
+                _dispatcher != null ? _dispatcher.Native : IntPtr.Zero,
+                _broadphase != null ? _broadphase.Native : IntPtr.Zero,
+                _constraintSolver != null ? _constraintSolver.Native : IntPtr.Zero,
+                collisionConfiguration != null ? collisionConfiguration.Native : IntPtr.Zero);
+            CollisionObjectArray = new AlignedCollisionObjectArray(UnsafeNativeMethods.btCollisionWorld_getCollisionObjectArray(Native), this);
+            _native2ManagedMap.Add(Native, this);
+        }
 
-		public void ApplyGravity()
+        public void ApplyGravity()
 		{
 			UnsafeNativeMethods.btDiscreteDynamicsWorld_applyGravity(Native);
 		}

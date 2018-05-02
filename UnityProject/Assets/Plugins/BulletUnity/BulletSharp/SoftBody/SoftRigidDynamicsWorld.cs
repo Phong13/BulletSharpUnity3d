@@ -1,40 +1,58 @@
 ﻿using System;
-
+using System.Runtime.InteropServices;
 
 namespace BulletSharp.SoftBody
 {
 	public class SoftRigidDynamicsWorld : DiscreteDynamicsWorld
 	{
-		private AlignedSoftBodyArray _softBodyArray;
+        // See comments in CollisionWorld
+        public static SoftRigidDynamicsWorld CreateSoftRigidDynamicsWorld(Dispatcher dispatcher, BroadphaseInterface pairCache,
+            ConstraintSolver constraintSolver, CollisionConfiguration collisionConfiguration,
+            SoftBodySolver softBodySolver = null)
+        {
+            SoftRigidDynamicsWorld w = new SoftRigidDynamicsWorld(dispatcher, pairCache, constraintSolver, softBodySolver);
+            w.CreateNativePart(collisionConfiguration);
+            return w;
+        }
+
+        private AlignedSoftBodyArray _softBodyArray;
 		private SoftBodySolver _softBodySolver; // private ref passed to bodies during AddSoftBody
 		private bool _ownsSolver;
 
-		public SoftRigidDynamicsWorld(Dispatcher dispatcher, BroadphaseInterface pairCache,
-			ConstraintSolver constraintSolver, CollisionConfiguration collisionConfiguration,
+        protected SoftRigidDynamicsWorld(Dispatcher dispatcher, BroadphaseInterface pairCache,
+			ConstraintSolver constraintSolver, 
 			SoftBodySolver softBodySolver = null)
-			: base(IntPtr.Zero, dispatcher, pairCache)
+			: base(dispatcher, pairCache, constraintSolver)
 		{
-			if (softBodySolver != null) {
-				_softBodySolver = softBodySolver;
-				_ownsSolver = false;
-			} else {
-				_softBodySolver = new DefaultSoftBodySolver();
-				_ownsSolver = true;
-			}
-
-			Native = UnsafeNativeMethods.btSoftRigidDynamicsWorld_new(dispatcher.Native, pairCache.Native,
-				(constraintSolver != null) ? constraintSolver.Native : IntPtr.Zero,
-				collisionConfiguration.Native, _softBodySolver._native);
-
-			CollisionObjectArray = new AlignedCollisionObjectArray(UnsafeNativeMethods.btCollisionWorld_getCollisionObjectArray(Native), this);
+            if (softBodySolver != null)
+            {
+                _softBodySolver = softBodySolver;
+                _ownsSolver = false;
+            }
+            else
+            {
+                _softBodySolver = new DefaultSoftBodySolver();
+                _ownsSolver = true;
+            }
 
 			_constraintSolver = constraintSolver;
-			WorldInfo = new SoftBodyWorldInfo(UnsafeNativeMethods.btSoftRigidDynamicsWorld_getWorldInfo(Native), true);
-			WorldInfo.Dispatcher = dispatcher;
-			WorldInfo.Broadphase = pairCache;
 		}
 
-		public void AddSoftBody(SoftBody body)
+        protected override void CreateNativePart(CollisionConfiguration collisionConfiguration)
+        {
+            Native = UnsafeNativeMethods.btSoftRigidDynamicsWorld_new(
+                _dispatcher.Native, _broadphase.Native,
+                (_constraintSolver != null) ? _constraintSolver.Native : IntPtr.Zero,
+                collisionConfiguration.Native, 
+                _softBodySolver._native);
+            CollisionObjectArray = new AlignedCollisionObjectArray(UnsafeNativeMethods.btCollisionWorld_getCollisionObjectArray(Native), this);
+            WorldInfo = new SoftBodyWorldInfo(UnsafeNativeMethods.btSoftRigidDynamicsWorld_getWorldInfo(Native), true);
+            WorldInfo.Dispatcher = _dispatcher;
+            WorldInfo.Broadphase = _broadphase;
+            _native2ManagedMap.Add(Native, this);
+        }
+
+        public void AddSoftBody(SoftBody body)
 		{
 			body.SoftBodySolver = _softBodySolver;
 			CollisionObjectArray.Add(body);

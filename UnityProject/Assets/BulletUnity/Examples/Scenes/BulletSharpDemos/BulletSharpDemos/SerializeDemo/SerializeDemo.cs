@@ -61,7 +61,7 @@ namespace SerializeDemo
 
             Broadphase = new DbvtBroadphase();
 
-            World = new DiscreteDynamicsWorld(Dispatcher, Broadphase, null, CollisionConf);
+            World = DiscreteDynamicsWorld.CreateDiscreteDynamicsWorld(Dispatcher, Broadphase, null, CollisionConf);
             World.Gravity = new Vector3(0, -10, 0);
 
             GImpactCollisionAlgorithm.RegisterAlgorithm(Dispatcher);

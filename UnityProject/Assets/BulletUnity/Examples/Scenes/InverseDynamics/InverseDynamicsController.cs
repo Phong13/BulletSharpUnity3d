@@ -138,7 +138,7 @@ public class InverseDynamicsController : MonoBehaviour {
         }
 
         float[] joint_force = new float[numDofs + baseDofs]; 
-        if (-1 != m_inverseModel.CalculateInverseDynamics(!mb.HasFixedBase, qq, qqdot, ddesiredAcceleration, joint_force))
+        if (-1 != m_inverseModel.CalculateInverseDynamics(mb.HasFixedBase, qq, qqdot, ddesiredAcceleration, joint_force))
         {
             // use inverse model: apply joint force corresponding to
             // desired acceleration nu. for floating base will have been padded by baseDofs

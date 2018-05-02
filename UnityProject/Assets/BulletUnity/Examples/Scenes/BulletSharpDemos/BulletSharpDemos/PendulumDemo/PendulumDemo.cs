@@ -40,7 +40,7 @@ namespace PendulumDemo
             Broadphase = new DbvtBroadphase();
             Solver = new MultiBodyConstraintSolver();
 
-            World = new MultiBodyDynamicsWorld(Dispatcher, Broadphase, Solver as MultiBodyConstraintSolver, CollisionConf);
+            World = MultiBodyDynamicsWorld.CreateMultiBodyDynamicsWorld(Dispatcher, Broadphase, Solver as MultiBodyConstraintSolver, CollisionConf);
             World.Gravity = new Vector3(0, -9.81f, 0);
 
             const bool floating = false;

@@ -93,22 +93,22 @@ namespace BulletSharp.InverseDynamics
         /// Calculate Inverse Dynamics. The returned values are only for the joints. Be careful when using this for floating base models. 
         /// MultiBodyTree includes the 6 DOF for the base (Unlike for a Multbody), so the input and output arrays need to be prepadded with 6 extra elements.
         /// </summary>
-        /// <param name="floatingBase"> Does the multibody have a floating base. Pad with six extra elements if floating base.</param>
+        /// <param name="fixedBase"> Does the multibody have a floating base. Pad with six extra elements if floating base.</param>
         /// <param name="q"> Positions of joints. Value of DOFs should be length of dofs excluding fixed base if is fixed base. Pad with six extra elements if floating base.</param>
         /// <param name="u"> Velocities of joints. Value of DOFs velocity. Pad with six extra elements if floating base.</param>
         /// <param name="dot_u"> Desired accelerations of joints. Pad with six extra elements if floating base. </param>
         /// <param name="joint_forces"> Output jorces necessary to achieve desired accelerations. Pad with six extra elements if floating base.</param>
         /// <returns></returns>
-        public int CalculateInverseDynamics(bool floatingBase, float[] q, float[] u, float[] dot_u, float[] joint_forces)
+        public int CalculateInverseDynamics(bool fixedBase, float[] q, float[] u, float[] dot_u, float[] joint_forces)
         {
             int baseDofs;
-            if (floatingBase)
+            if (fixedBase)
             {
-                baseDofs = 6;
+                baseDofs = 0;
             }
             else
             {
-                baseDofs = 0;
+                baseDofs = 6;
             }
 
             int numDof = q.Length - baseDofs;
@@ -147,88 +147,119 @@ namespace BulletSharp.InverseDynamics
 		}
         */
 
-		public int CalculateJacobians(bool floatingBase, float[] q)
+		public int CalculateJacobians(bool fixedBase, float[] q)
 		{
             int baseDofs;
-            if (floatingBase)
-            {
-                baseDofs = 6;
-            }
-            else
+            if (fixedBase)
             {
                 baseDofs = 0;
             }
-            int numDof = q.Length;
+            else
+            {
+                baseDofs = 6;
+            }
+
+            int numDof = q.Length - baseDofs;
             return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_calculateJacobians(Native, numDof, baseDofs, q);
         }
 
-		public int CalculateJacobians(bool floatingBase, float[] q, float[] u)
+		public int CalculateJacobians(bool fixedBase, float[] q, float[] u)
 		{
             int baseDofs;
-            if (floatingBase)
-            {
-                baseDofs = 6;
-            }
-            else
+            if (fixedBase)
             {
                 baseDofs = 0;
             }
-            int numDof = q.Length;
+            else
+            {
+                baseDofs = 6;
+            }
+
+            int numDof = q.Length - baseDofs;
             return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_calculateJacobians(Native, numDof, baseDofs, q, u);
         }
 
-		public int CalculateKinematics(bool floatingBase, float[] q, float[] u, float[] dot_u)
+		public int CalculateKinematics(bool fixedBase, float[] q, float[] u, float[] dot_u)
 		{
             int baseDofs;
-            if (floatingBase)
-            {
-                baseDofs = 6;
-            }
-            else
+            if (fixedBase)
             {
                 baseDofs = 0;
             }
-            int numDof = q.Length;
+            else
+            {
+                baseDofs = 6;
+            }
+
+            int numDof = q.Length - baseDofs;
             return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_calculateKinematics(Native, numDof, baseDofs, q, u, dot_u);
         }
 
-        /*
-		public void CalculateMassMatrix(vecx^ q, bool update_kinematics, bool initialize_matrix, bool set_lower_triangular_matrix, matxx^ mass_matrix)
-		{
-		}
         
-		public void CalculateMassMatrix(vecx^ q, matxx^ mass_matrix)
-		{
-		}
-        */
-
-		public int CalculatePositionAndVelocityKinematics(bool floatingBase, float[] q, float[] u)
+		public int CalculateMassMatrix(bool fixedBase, float[] q, bool update_kinematics, bool initialize_matrix, bool set_lower_triangular_matrix, float[] mass_matrix)
 		{
             int baseDofs;
-            if (floatingBase)
-            {
-                baseDofs = 6;
-            }
-            else
+            if (fixedBase)
             {
                 baseDofs = 0;
             }
-            int numDof = q.Length;
+            else
+            {
+                baseDofs = 6;
+            }
+
+            int numDof = q.Length - baseDofs;
+            //if (mass_matrix.Length != q.Length * q.Length) return -1;
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_calculateMassMatrix(Native, numDof, baseDofs, q, update_kinematics, initialize_matrix, set_lower_triangular_matrix, mass_matrix);
+		}
+        
+		public int CalculateMassMatrix(bool fixedBase, float[] q, float[] mass_matrix)
+		{
+            int baseDofs;
+            if (fixedBase)
+            {
+                baseDofs = 0;
+            }
+            else
+            {
+                baseDofs = 6;
+            }
+
+            int numDof = q.Length - baseDofs;
+            //if (mass_matrix.Length != q.Length * q.Length) return -1;
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_calculateMassMatrix2(Native, numDof, baseDofs, q, mass_matrix);
+        }
+        
+
+		public int CalculatePositionAndVelocityKinematics(bool fixedBase, float[] q, float[] u)
+		{
+            int baseDofs;
+            if (fixedBase)
+            {
+                baseDofs = 0;
+            }
+            else
+            {
+                baseDofs = 6;
+            }
+
+            int numDof = q.Length - baseDofs;
             return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_calculatePositionAndVelocityKinematics(Native, numDof, baseDofs, q, u);
         }
 
-		public int CalculatePositionKinematics(bool floatingBase, float[] q)
+		public int CalculatePositionKinematics(bool fixedBase, float[] q)
 		{
             int baseDofs;
-            if (floatingBase)
-            {
-                baseDofs = 6;
-            }
-            else
+            if (fixedBase)
             {
                 baseDofs = 0;
             }
-            int numDof = q.Length;
+            else
+            {
+                baseDofs = 6;
+            }
+
+            int numDof = q.Length - baseDofs;
             return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_calculatePositionKinematics(Native, numDof, baseDofs, q);
         }
 
@@ -278,14 +309,15 @@ namespace BulletSharp.InverseDynamics
             return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getBodyFirstMassMoment(Native, body_index, out first_mass_moment);
         }
 
-        /*
-		public int GetBodyJacobianRot(int body_index, mat3x^ world_jac_rot)
+		public int GetBodyJacobianRot(int body_index, int numBodyDof, int numBaseDof, float[] world_jac_rot)
 		{
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getBodyJacobianRot(Native, body_index, numBodyDof, numBaseDof, world_jac_rot);
 		}
-		public int GetBodyJacobianTrans(int body_index, mat3x^ world_jac_trans)
+
+		public int GetBodyJacobianTrans(int body_index, int numBodyDof,  int numBaseDof, float[] world_jac_trans)
 		{
-		}
-        */
+            return UnsafeNativeMethodsInverseDynamics.MultiBodyTree_getBodyJacobianTrans(Native, body_index, numBodyDof, numBaseDof, world_jac_trans);
+        }
 
         public int GetBodyLinearAcceleration(int body_index, out Vector3 world_acceleration)
 		{

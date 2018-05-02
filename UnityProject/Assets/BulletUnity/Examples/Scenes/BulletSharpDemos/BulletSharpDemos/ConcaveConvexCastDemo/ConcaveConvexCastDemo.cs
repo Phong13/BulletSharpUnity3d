@@ -297,7 +297,7 @@ namespace ConcaveConvexCastDemo
             Broadphase = new AxisSweep3(worldMin, worldMax);
             Solver = new SequentialImpulseConstraintSolver();
 
-            World = new DiscreteDynamicsWorld(Dispatcher, Broadphase, Solver, CollisionConf);
+            World = DiscreteDynamicsWorld.CreateDiscreteDynamicsWorld(Dispatcher, Broadphase, Solver, CollisionConf);
             World.SolverInfo.SplitImpulse = 1;
             World.Gravity = new Vector3(0, -10, 0);
 

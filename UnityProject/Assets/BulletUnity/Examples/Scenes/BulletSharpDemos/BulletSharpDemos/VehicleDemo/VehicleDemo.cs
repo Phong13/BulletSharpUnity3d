@@ -76,7 +76,7 @@ namespace VehicleDemo
             Broadphase = new AxisSweep3(worldMin, worldMax);
             //Broadphase = new DbvtBroadphase();
 
-            World = new DiscreteDynamicsWorld(Dispatcher, Broadphase, Solver, CollisionConf);
+            World = DiscreteDynamicsWorld.CreateDiscreteDynamicsWorld(Dispatcher, Broadphase, Solver, CollisionConf);
 
             int i;
             Matrix tr;

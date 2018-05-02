@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
+using AOT;
 
 
 namespace BulletSharp.SoftBody
@@ -214,9 +215,9 @@ namespace BulletSharp.SoftBody
 			private bool _preventDelete;
 
 			[UnmanagedFunctionPointer(BulletSharp.Native.Conv), SuppressUnmanagedCodeSecurity]
-			private delegate void PrepareUnmanagedDelegate(IntPtr angularJoint);
+			private delegate void PrepareUnmanagedDelegate(IntPtr thisPtr, IntPtr angularJoint);
 			[UnmanagedFunctionPointer(BulletSharp.Native.Conv), SuppressUnmanagedCodeSecurity]
-			private delegate float SpeedUnmanagedDelegate(IntPtr angularJoint, float current);
+			private delegate float SpeedUnmanagedDelegate(IntPtr thisPtr, IntPtr angularJoint, float current);
 
 			private PrepareUnmanagedDelegate _prepare;
 			private SpeedUnmanagedDelegate _speed;
@@ -268,14 +269,18 @@ namespace BulletSharp.SoftBody
 				}
 			}
 
-			private void PrepareUnmanaged(IntPtr angularJoint)
+            [MonoPInvokeCallback(typeof(PrepareUnmanagedDelegate))]
+            static private void PrepareUnmanaged(IntPtr thisPtr, IntPtr angularJoint)
 			{
-				Prepare(new AngularJoint(angularJoint));
+                IControl ms = GCHandle.FromIntPtr(thisPtr).Target as IControl;
+				ms.Prepare(new AngularJoint(angularJoint));
 			}
 
-			public float SpeedUnmanaged(IntPtr angularJoint, float current)
+            [MonoPInvokeCallback(typeof(SpeedUnmanagedDelegate))]
+            static public float SpeedUnmanaged(IntPtr thisPtr, IntPtr angularJoint, float current)
 			{
-				return Speed(new AngularJoint(angularJoint), current);
+                IControl ms = GCHandle.FromIntPtr(thisPtr).Target as IControl;
+                return ms.Speed(new AngularJoint(angularJoint), current);
 			}
 
 			public virtual void Prepare(AngularJoint angularJoint)

@@ -47,12 +47,12 @@ namespace BulletSharp
         public static extern int MultiBodyTree_calculateJacobians(IntPtr obj, int num_dof, int baseDofs, float[] q);
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
         public static extern int MultiBodyTree_calculateKinematics(IntPtr obj, int num_dof, int baseDofs, float[] q, float[] u, float[] dot_u);
-        /*
+        
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
-        public static extern void MultiBodyTree_calculateMassMatrix(IntPtr obj, vecx^ q, bool update_kinematics, bool initialize_matrix, bool set_lower_triangular_matrix, matxx^ mass_matrix);
+        public static extern int MultiBodyTree_calculateMassMatrix(IntPtr obj, int num_dof, int baseDofs, float[] q, bool update_kinematics, bool initialize_matrix, bool set_lower_triangular_matrix, [In, Out] float[] mass_matrix);
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
-        public static extern void MultiBodyTree_calculateMassMatrix(IntPtr obj, vecx^ q, matxx^ mass_matrix);
-        */
+        public static extern int MultiBodyTree_calculateMassMatrix2(IntPtr obj, int num_dof, int baseDofs, float[] q, [In, Out] float[] mass_matrix);
+        
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
         public static extern int MultiBodyTree_calculatePositionAndVelocityKinematics(IntPtr obj, int num_dof, int baseDofs, float[] q, float[] u);
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
@@ -78,10 +78,10 @@ namespace BulletSharp
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
         public static extern int MultiBodyTree_getBodyFirstMassMoment(IntPtr obj, int body_index, out Vector3 first_mass_moment);
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
-        //public static extern int MultiBodyTree_getBodyJacobianRot(IntPtr obj, int body_index, mat3x^ world_jac_rot);
-        //[DllImport(Native.Dll, CallingConvention = Native.Conv)]
-        //public static extern int MultiBodyTree_getBodyJacobianTrans(IntPtr obj, int body_index, mat3x^ world_jac_trans);
-        //[DllImport(Native.Dll, CallingConvention = Native.Conv)]
+        public static extern int MultiBodyTree_getBodyJacobianRot(IntPtr obj, int body_index, int numMultiBodyDofs, int baseDofs, [In,Out] float[] world_jac_rot_matrix);
+        [DllImport(Native.Dll, CallingConvention = Native.Conv)]
+        public static extern int MultiBodyTree_getBodyJacobianTrans(IntPtr obj, int body_index, int numMultiBodyDofs, int baseDofs, [In, Out] float[] world_jac_trans);
+        [DllImport(Native.Dll, CallingConvention = Native.Conv)]
         public static extern int MultiBodyTree_getBodyLinearAcceleration(IntPtr obj, int body_index, out Vector3 world_acceleration);
         [DllImport(Native.Dll, CallingConvention = Native.Conv)]
         public static extern int MultiBodyTree_getBodyLinearVelocity(IntPtr obj, int body_index, out Vector3 world_velocity);

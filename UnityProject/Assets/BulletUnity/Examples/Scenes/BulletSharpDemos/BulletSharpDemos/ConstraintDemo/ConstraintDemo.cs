@@ -44,7 +44,7 @@ namespace ConstraintDemo
             Dispatcher = new CollisionDispatcher(CollisionConf);
             Broadphase = new DbvtBroadphase();
             Solver = new SequentialImpulseConstraintSolver();
-            World = new DiscreteDynamicsWorld(Dispatcher, Broadphase, Solver, CollisionConf);
+            World = DiscreteDynamicsWorld.CreateDiscreteDynamicsWorld(Dispatcher, Broadphase, Solver, CollisionConf);
             World.Gravity = new Vector3(0, -10, 0);
         }
 

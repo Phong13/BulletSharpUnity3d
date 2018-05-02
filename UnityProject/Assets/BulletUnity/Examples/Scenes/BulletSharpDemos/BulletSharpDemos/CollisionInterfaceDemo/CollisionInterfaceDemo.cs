@@ -60,7 +60,7 @@ namespace CollisionInterfaceDemo
 
             Broadphase = new AxisSweep3(new Vector3(-1000, -1000, -1000), new Vector3(1000, 1000, 1000));
 
-            World = new DiscreteDynamicsWorld(Dispatcher, Broadphase, null, CollisionConf);
+            World = DiscreteDynamicsWorld.CreateDiscreteDynamicsWorld(Dispatcher, Broadphase, null, CollisionConf);
             World.Gravity = new Vector3(0, -10, 0);
 
             renderCallback = new DrawingResult(World);

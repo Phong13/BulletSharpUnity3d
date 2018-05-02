@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-
+using System.Runtime.InteropServices;
+using System;
 
 namespace BulletSharp
 {
@@ -8,18 +9,34 @@ namespace BulletSharp
 		private List<MultiBody> _bodies;
 		private List<MultiBodyConstraint> _constraints;
 
-		public MultiBodyDynamicsWorld(Dispatcher dispatcher, BroadphaseInterface pairCache,
-			MultiBodyConstraintSolver constraintSolver, CollisionConfiguration collisionConfiguration)
-			: base(UnsafeNativeMethods.btMultiBodyDynamicsWorld_new(dispatcher.Native, pairCache.Native,
-				constraintSolver.Native, collisionConfiguration.Native), dispatcher, pairCache)
-		{
-			_constraintSolver = constraintSolver;
+        // See comments in CollisionWorld
+        public static MultiBodyDynamicsWorld CreateMultiBodyDynamicsWorld(Dispatcher dispatcher, BroadphaseInterface pairCache, MultiBodyConstraintSolver constraintSolver, CollisionConfiguration collisionConfiguration)
+        {
+            MultiBodyDynamicsWorld w = new MultiBodyDynamicsWorld(dispatcher, pairCache, constraintSolver);
+            w.CreateNativePart(collisionConfiguration);
+            return w;
+        }
 
+        protected MultiBodyDynamicsWorld(Dispatcher dispatcher, BroadphaseInterface pairCache,
+			MultiBodyConstraintSolver constraintSolver)
+			: base(dispatcher, pairCache, constraintSolver)
+		{
 			_bodies = new List<MultiBody>();
 			_constraints = new List<MultiBodyConstraint>();
 		}
 
-		public void AddMultiBody(MultiBody body, int group = (int)CollisionFilterGroups.DefaultFilter,
+        protected override void CreateNativePart(CollisionConfiguration collisionConfiguration)
+        {
+            Native = UnsafeNativeMethods.btMultiBodyDynamicsWorld_new(
+                _dispatcher.Native, 
+                _broadphase.Native,
+                _constraintSolver.Native, 
+                collisionConfiguration.Native);
+            CollisionObjectArray = new AlignedCollisionObjectArray(UnsafeNativeMethods.btCollisionWorld_getCollisionObjectArray(Native), this);
+            _native2ManagedMap.Add(Native, this);
+        }
+
+        public void AddMultiBody(MultiBody body, int group = (int)CollisionFilterGroups.DefaultFilter,
 			int mask = (int)CollisionFilterGroups.AllFilter)
 		{
 			UnsafeNativeMethods.btMultiBodyDynamicsWorld_addMultiBody(Native, body.Native, group,

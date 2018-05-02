@@ -1088,7 +1088,7 @@ namespace SoftDemo
             };
             softBodyWorldInfo.SparseSdf.Initialize();
 
-            World = new SoftRigidDynamicsWorld(Dispatcher, Broadphase, Solver, CollisionConf);
+            World = SoftRigidDynamicsWorld.CreateSoftRigidDynamicsWorld(Dispatcher, Broadphase, Solver, CollisionConf);
             World.Gravity = new Vector3(0, -10, 0);
             World.DispatchInfo.EnableSpu = true;
 

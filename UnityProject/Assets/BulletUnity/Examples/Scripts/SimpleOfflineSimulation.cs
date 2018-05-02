@@ -19,7 +19,7 @@ public class SimpleOfflineSimulation : MonoBehaviour {
 
         DbvtBroadphase Broadphase = new DbvtBroadphase();
 
-        DiscreteDynamicsWorld World = new DiscreteDynamicsWorld(Dispatcher, Broadphase, null, CollisionConf);
+        DiscreteDynamicsWorld World = DiscreteDynamicsWorld.CreateDiscreteDynamicsWorld(Dispatcher, Broadphase, null, CollisionConf);
         World.Gravity = new BulletSharp.Math.Vector3(0, -10, 0);
 
 
