@@ -486,6 +486,7 @@ namespace BulletUnity
                         if (bmbc != null)
                         {
                             MultiBodyConstraint mbc = bmbc.GetMultiBodyConstraint(mb.GetMultiBody());
+                            mbc.FinalizeMultiDof();
                             if (mbc != null)
                             {
                                 if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Adding MultiBodyLinkConstraint {0} to world", mbc);

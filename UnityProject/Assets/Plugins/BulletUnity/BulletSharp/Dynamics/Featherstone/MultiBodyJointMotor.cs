@@ -22,5 +22,20 @@ namespace BulletSharp
 		{
 			UnsafeNativeMethods.btMultiBodyJointMotor_setVelocityTarget(Native, velTarget);
 		}
+
+        public void SetVelocityTarget(float velTarget, float kd)
+        {
+            UnsafeNativeMethods.btMultiBodyJointMotor_setVelocityTarget2(Native, velTarget,kd);
+        }
+
+        public void SetPositionTarget(float velTarget)
+        {
+            UnsafeNativeMethods.btMultiBodyJointMotor_setPositionTarget(Native, velTarget);
+        }
+
+        public void SetPositionTarget(float velTarget, float kp)
+        {
+            UnsafeNativeMethods.btMultiBodyJointMotor_setPositionTarget2(Native, velTarget, kp);
+        }
 	}
 }

@@ -3514,6 +3514,13 @@ namespace BulletSharp
 		public static extern IntPtr btMultiBodyJointMotor_new2(IntPtr body, int link, int linkDoF, float desiredVelocity, float maxMotorImpulse);
 		[DllImport(Native.Dll, CallingConvention = Native.Conv)]
 		public static extern void btMultiBodyJointMotor_setVelocityTarget(IntPtr obj, float velTarget);
+        [DllImport(Native.Dll, CallingConvention = Native.Conv)]
+        public static extern void btMultiBodyJointMotor_setVelocityTarget2(IntPtr obj, float velTarget, float kd);
+        [DllImport(Native.Dll, CallingConvention = Native.Conv)]
+        public static extern void btMultiBodyJointMotor_setPositionTarget(IntPtr obj, float velTarget);
+        [DllImport(Native.Dll, CallingConvention = Native.Conv)]
+        public static extern void btMultiBodyJointMotor_setPositionTarget2(IntPtr obj, float velTarget, float kp);
+
 
 		[DllImport(Native.Dll, CallingConvention = Native.Conv)]
 		public static extern IntPtr btMultiBodyLinkCollider_new(IntPtr multiBody, int link);
