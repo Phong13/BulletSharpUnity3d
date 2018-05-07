@@ -13,7 +13,16 @@ namespace BulletUnity
         [NonSerialized]
         internal bool isInWorld = false;
 
-        public MultiBodyConstraint GetMultiBodyConstraint(MultiBody mb)
+        public MultiBodyConstraint GetMultiBodyConstraint()
+        {
+            if (m_multiBodyConstraintPtr == null)
+            {
+                Debug.LogError("Must not call GetMultiBodyConstraint before the multibody has been created.");
+            }
+            return m_multiBodyConstraintPtr;
+        }
+
+        public MultiBodyConstraint CreateMultiBodyConstraint(MultiBody mb)
         {
             if (m_multiBodyConstraintPtr == null)
             {

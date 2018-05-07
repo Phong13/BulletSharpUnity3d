@@ -485,7 +485,7 @@ namespace BulletUnity
                         BMultiBodyConstraint bmbc = link.GetComponent<BMultiBodyConstraint>();
                         if (bmbc != null)
                         {
-                            MultiBodyConstraint mbc = bmbc.GetMultiBodyConstraint(mb.GetMultiBody());
+                            MultiBodyConstraint mbc = bmbc.CreateMultiBodyConstraint(mb.GetMultiBody());
                             mbc.FinalizeMultiDof();
                             if (mbc != null)
                             {
