@@ -469,6 +469,8 @@ namespace BulletUnity
                     Debug.LogError("World type must be be multibody");
                 }
                 if (debugType >= BDebug.DebugType.Debug) Debug.LogFormat("Adding multibody {0} to world", mb);
+                // This is complicated because the native parts for multiple components are created by bullet when the MultiBody is created. We
+                // need to let Bullet create these then get the references to the native parts and assign them to the components.
                 if (mb._BuildMultiBody())
                 {
                     ((MultiBodyDynamicsWorld)m_world).AddMultiBody(mb.GetMultiBody(), (int) mb.groupsIBelongTo, (int) mb.collisionMask);
@@ -495,6 +497,14 @@ namespace BulletUnity
                             }
                         }
                     }
+
+                    MultiBody mbb = mb.GetMultiBody();
+                    for (int i = 0; i < links.Count; i++)
+                    {
+                        MultiBodyLink mbLink = mbb.GetLink(i);
+                        links[i].AssignMultiBodyLinkOnCreation(mb, mbLink);
+                    }   
+                                     
                     mb.isInWorld = true;
                 } else
                 {

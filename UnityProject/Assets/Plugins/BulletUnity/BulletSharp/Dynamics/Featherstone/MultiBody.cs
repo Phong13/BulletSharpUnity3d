@@ -185,6 +185,7 @@ namespace BulletSharp
 			return UnsafeNativeMethods.btMultiBody_getJointVelMultiDof(Native, i);
 		}
 		*/
+
 		public MultiBodyLink GetLink(int index)
 		{
 			if (_links == null) {

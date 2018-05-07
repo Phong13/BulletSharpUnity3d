@@ -10,6 +10,21 @@ namespace BulletUnity
     {
         protected MultiBodyConstraint m_multiBodyConstraintPtr;
 
+        [SerializeField]
+        protected float _maxMotorImpulse = 0f;
+        public float maxMotorImpulse
+        {
+            get { return _maxMotorImpulse; }
+            set
+            {
+                if (m_multiBodyConstraintPtr != null && _maxMotorImpulse != value)
+                {
+                    m_multiBodyConstraintPtr.MaxAppliedImpulse = value;
+                }
+                _maxMotorImpulse = value;
+            }
+        }
+
         [NonSerialized]
         internal bool isInWorld = false;
 

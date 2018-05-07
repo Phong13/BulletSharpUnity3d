@@ -353,7 +353,8 @@ namespace BulletUnity
             for (int i = 0; i < m_links.Count; i++)
             {
                 //create colliders
-                MultiBodyLinkCollider col = m_links[i].m_linkCollider = new MultiBodyLinkCollider(m_multibody, m_links[i].index);
+                MultiBodyLinkCollider col = new MultiBodyLinkCollider(m_multibody, m_links[i].index);
+                m_links[i].AssignMultiBodyLinkColliderOnCreation(this, col);
                 col.UserObject = m_links[i];
                 shape = m_links[i].GetComponent<BCollisionShape>();
                 col.CollisionShape = shape.GetCollisionShape();

@@ -19,7 +19,10 @@ namespace BulletUnity
         public float gizmoScale = .15f;
 
         [System.NonSerialized]
-        internal MultiBodyLinkCollider m_linkCollider;
+        protected MultiBodyLinkCollider m_linkCollider;
+
+        [System.NonSerialized]
+        protected MultiBodyLink m_link;
 
         [System.NonSerialized]
         internal int parentIndex;
@@ -91,6 +94,31 @@ namespace BulletUnity
         public MultiBodyLinkCollider GetLinkCollider()
         {
             return m_linkCollider;
+        }
+
+        public MultiBodyLink GetMultiBodyLink()
+        {
+            return m_link;
+        }
+
+        /// <summary>
+        /// BMultiBodyLinks do not create their own native parts. That happens as part of the MultiBody creation.
+        /// After the native MultiBody has been created. The references to the native MultiBodyLinks can be 
+        /// obtatined and are assigned using this function.
+        /// </summary>
+        internal void AssignMultiBodyLinkOnCreation(BMultiBody mb, MultiBodyLink link)
+        {
+            m_link = link;
+        }
+
+        /// <summary>
+        /// BMultiBodyLinks do not create their own native parts. That happens as part of the MultiBody creation.
+        /// After the native MultiBody has been created. The references to the native MultiBodyLinkColliders can be 
+        /// obtatined and are assigned using this function.
+        /// </summary>
+        internal void AssignMultiBodyLinkColliderOnCreation(BMultiBody mb, MultiBodyLinkCollider linkCollider)
+        {
+            m_linkCollider = linkCollider;
         }
 
         internal override void Start()

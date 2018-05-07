@@ -231,17 +231,18 @@ namespace BulletSharp
 			get { return  UnsafeNativeMethods.btMultibodyLink_getJointDamping(Native);}
 			set {  UnsafeNativeMethods.btMultibodyLink_setJointDamping(Native, value);}
 		}
-		/*
-		public MultiBodyJointFeedback JointFeedback
+
+        JointFeedback _jointFeedback;
+		public JointFeedback JointFeedback
 		{
 			get { return _jointFeedback; }
 			set
 			{
-				UnsafeNativeMethods.btMultibodyLink_setJointFeedback(_native, value._native);
+				UnsafeNativeMethods.btMultibodyLink_setJointFeedback(Native, value.Native);
 				_jointFeedback = value;
 			}
 		}
-		*/
+		
 		public float JointFriction
 		{
 			get { return  UnsafeNativeMethods.btMultibodyLink_getJointFriction(Native);}
