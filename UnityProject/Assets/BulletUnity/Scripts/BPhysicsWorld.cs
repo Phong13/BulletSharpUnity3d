@@ -228,24 +228,6 @@ namespace BulletUnity
       }
     }
 
-    [SerializeField]
-    int m_maxSubsteps = 3;
-    public int maxSubsteps
-    {
-      get
-      {
-        return m_maxSubsteps;
-      }
-      set
-      {
-        if (lateUpdateHelper != null)
-        {
-          lateUpdateHelper.m_maxSubsteps = value;
-        }
-        m_maxSubsteps = value;
-      }
-    }
-
     public BDebug.DebugType debugType;
 
     /*
@@ -541,7 +523,6 @@ namespace BulletUnity
       lateUpdateHelper.m_ddWorld = _ddWorld;
       lateUpdateHelper.m_physicsWorld = this;
       lateUpdateHelper.m__frameCount = 0;
-      lateUpdateHelper.m_lastSimulationStepTime = 0;
     }
 
     /*

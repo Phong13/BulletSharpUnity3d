@@ -26,32 +26,33 @@ namespace BulletUnity
         internal DiscreteDynamicsWorld m_ddWorld;
         internal CollisionWorld m_world;
         internal int m__frameCount = 0;
-        internal float m_lastSimulationStepTime = 0;
+        internal float m_lastInterpolationTime = 0;
+        internal float m_elapsedBetweenFixedFrames = 0;
         internal float m_fixedTimeStep = 1f / 60f;
-        internal int m_maxSubsteps = 3;
 
         void Awake()
         {
-            m_lastSimulationStepTime = UnityEngine.Time.time;
+            Debug.Assert(m_fixedTimeStep == Time.fixedDeltaTime);
+            m_lastInterpolationTime = UnityEngine.Time.time;
+            m_elapsedBetweenFixedFrames = 0;
         }
 
         protected virtual void FixedUpdate()
         {
-            
             if (m_ddWorld != null)
             {
-                float deltaTime = UnityEngine.Time.time - m_lastSimulationStepTime;
-                if (deltaTime > 0f)
-                {
-                    ///stepSimulation proceeds the simulation over 'timeStep', units in preferably in seconds.
-                    ///By default, Bullet will subdivide the timestep in constant substeps of each 'fixedTimeStep'.
-                    ///in order to keep the simulation real-time, the maximum number of substeps can be clamped to 'maxSubSteps'.
-                    ///You can disable subdividing the timestep/substepping by passing maxSubSteps=0 as second argument to stepSimulation, but in that case you have to keep the timeStep constant.
-                    int numSteps = m_ddWorld.StepSimulation(deltaTime, m_maxSubsteps, m_fixedTimeStep);
-                    m__frameCount += numSteps;
-                    //Debug.Log("FixedUpdate " + numSteps);
-                    m_lastSimulationStepTime = UnityEngine.Time.time;
-                }
+                ///stepSimulation proceeds the simulation over 'timeStep', units in preferably in seconds.
+                ///By default, Bullet will subdivide the timestep in constant substeps of each 'fixedTimeStep'.
+                ///in order to keep the simulation real-time, the maximum number of substeps can be clamped to 'maxSubSteps'.
+                ///You can disable subdividing the timestep/substepping by passing maxSubSteps=0 as second argument to stepSimulation, but in that case you have to keep the timeStep constant.
+                Debug.Assert(m_elapsedBetweenFixedFrames < m_fixedTimeStep);
+                float deltaTime = m_fixedTimeStep - m_elapsedBetweenFixedFrames;
+                int numSteps = m_ddWorld.StepSimulation(deltaTime, 1, m_fixedTimeStep);
+                Debug.Assert(numSteps == 1);
+                m__frameCount += numSteps;
+                m_lastInterpolationTime = UnityEngine.Time.time;
+                m_elapsedBetweenFixedFrames = 0f;
+                numUpdates = 0;
             }
 
             //collisions
@@ -61,16 +62,20 @@ namespace BulletUnity
             }
         }
 
+        int numUpdates = 0;
+
         //This is needed for rigidBody interpolation. The motion states will update the positions of the rigidbodies
         protected virtual void Update()
         {
-            float deltaTime = UnityEngine.Time.time - m_lastSimulationStepTime;
-            if (deltaTime > 0f)
+            float deltaTime = UnityEngine.Time.time - m_lastInterpolationTime;
+            
+            // We want to ensure that each bullet sim step corresponds to exactly one Unity FixedUpdate timestep
+            if (deltaTime > 0f && (m_elapsedBetweenFixedFrames + deltaTime) < m_fixedTimeStep)
             {
-                int numSteps = m_ddWorld.StepSimulation(deltaTime, m_maxSubsteps, m_fixedTimeStep);
-                m__frameCount += numSteps;
-                //Debug.Log("Update " + numSteps);
-                m_lastSimulationStepTime = UnityEngine.Time.time;
+                m_elapsedBetweenFixedFrames += deltaTime;
+                int numSteps = m_ddWorld.StepSimulation(deltaTime, 1, m_fixedTimeStep);
+                m_lastInterpolationTime = UnityEngine.Time.time;
+                numUpdates++;
             }
         }
     }
