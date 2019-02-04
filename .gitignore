@@ -11,12 +11,8 @@
 *.userprefs
 
 # Build results
-[Dd]ebug/
-[Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-[Xx]64/
-[Xx]86/
 [Bb]uild/
 bld/
 [Bb]in/
@@ -243,11 +239,6 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
 /Assets/AssetStoreTools*
 /Assets/Profiler
 
