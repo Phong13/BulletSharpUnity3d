@@ -1,4 +1,4 @@
-Copyright for portions of project BulletSharp and BulletSharpPInvoke are held by Andres Traks, 2013-2015 as part of project BulletSharpUnity3d. 
+The files in Assets/Plugins/BulletUnity/BulletSharp and Assets/BulletUnity/Examples/Scenes/BulletSharpDemos are Copyright (c) 2013-2016 Andres Traks. 
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
