@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
-using AOT;
 
 namespace BulletSharp
 {
@@ -140,7 +139,6 @@ namespace BulletSharp
 				GCHandle.ToIntPtr(handle));
         }
 
-		[MonoPInvokeCallback(typeof(AddSingleResultUnmanagedDelegate))]
 		static float AddSingleResultUnmanaged(IntPtr thisPtr, IntPtr cp, IntPtr colObj0Wrap, int partId0, int index0, IntPtr colObj1Wrap, int partId1, int index1)
         {
 			ContactResultCallback ai = GCHandle.FromIntPtr(thisPtr).Target as ContactResultCallback;
@@ -151,7 +149,6 @@ namespace BulletSharp
 
         public abstract float AddSingleResult(ManifoldPoint cp, CollisionObjectWrapper colObj0Wrap, int partId0, int index0, CollisionObjectWrapper colObj1Wrap, int partId1, int index1);
 
-		[MonoPInvokeCallback(typeof(NeedsCollisionUnmanagedDelegate))]
         static bool NeedsCollisionUnmanaged(IntPtr thisPtr, IntPtr proxy0)
         {
 			ContactResultCallback ai = GCHandle.FromIntPtr(thisPtr).Target as ContactResultCallback;
@@ -236,7 +233,6 @@ namespace BulletSharp
 				GCHandle.ToIntPtr(handle));
         }
 
-		[MonoPInvokeCallback(typeof(AddSingleResultUnmanagedDelegate))]
 		static float AddSingleResultUnmanaged(IntPtr ptrThis, IntPtr convexResult, bool normalInWorldSpace)
         {
 			ConvexResultCallback ptr = GCHandle.FromIntPtr(ptrThis).Target as ConvexResultCallback;
@@ -245,7 +241,6 @@ namespace BulletSharp
 
         public abstract float AddSingleResult(LocalConvexResult convexResult, bool normalInWorldSpace);
 
-		[MonoPInvokeCallback(typeof(NeedsCollisionUnmanagedDelegate))]
 		static bool NeedsCollisionUnmanaged(IntPtr ptrThis, IntPtr proxy0)
         {
 			ConvexResultCallback ptr = GCHandle.FromIntPtr(ptrThis).Target as ConvexResultCallback;
@@ -638,7 +633,6 @@ namespace BulletSharp
 				GCHandle.ToIntPtr(handle));
 		}
 
-		[MonoPInvokeCallback(typeof(AddSingleResultUnmanagedDelegate))]
         static float AddSingleResultUnmanaged(IntPtr thisPtr, IntPtr rayResult, bool normalInWorldSpace)
 		{
 			RayResultCallback ai = GCHandle.FromIntPtr(thisPtr).Target as RayResultCallback;
@@ -647,7 +641,6 @@ namespace BulletSharp
 
         public abstract float AddSingleResult(LocalRayResult rayResult, bool normalInWorldSpace);
 
-		[MonoPInvokeCallback(typeof(NeedsCollisionUnmanagedDelegate))]
 		static bool NeedsCollisionUnmanaged(IntPtr thisPtr, IntPtr proxy0)
 		{
 			RayResultCallback ai = GCHandle.FromIntPtr(thisPtr).Target as RayResultCallback;

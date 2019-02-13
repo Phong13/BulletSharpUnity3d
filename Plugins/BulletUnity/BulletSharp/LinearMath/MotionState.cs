@@ -2,7 +2,6 @@ using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
-using AOT;
 
 namespace BulletSharp
 {
@@ -36,7 +35,6 @@ namespace BulletSharp
 				GCHandle.ToIntPtr(handle));
         }
 
-		[MonoPInvokeCallback(typeof(GetWorldTransformUnmanagedDelegate))]
         static void GetWorldTransformUnmanaged(IntPtr msPtr, out Matrix worldTrans)
         {
 			//UnityEngine.Debug.Log("Get" + msPtr.ToInt64());
@@ -44,7 +42,6 @@ namespace BulletSharp
             ms.GetWorldTransform(out worldTrans);
         }
 
-		[MonoPInvokeCallback(typeof(SetWorldTransformUnmanagedDelegate))]
         static void SetWorldTransformUnmanaged(IntPtr msPtr, ref Matrix worldTrans)
         {
 			//UnityEngine.Debug.Log("Set" + msPtr.ToInt64());

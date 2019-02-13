@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 
 namespace BulletSharp.Math
@@ -38,17 +39,17 @@ namespace BulletSharp.Math
     public struct Matrix : IEquatable<Matrix>, IFormattable
     {
         /// <summary>
-        /// The size of the <see cref="SlimMath.Matrix"/> type, in bytes.
+        /// The size of the <see cref="Matrix"/> type, in bytes.
         /// </summary>
         public static readonly int SizeInBytes = Marshal.SizeOf(typeof(Matrix));
 
         /// <summary>
-        /// A <see cref="SlimMath.Matrix"/> with all of its components set to zero.
+        /// A <see cref="Matrix"/> with all of its components set to zero.
         /// </summary>
         public static readonly Matrix Zero = new Matrix();
 
         /// <summary>
-        /// The identity <see cref="SlimMath.Matrix"/>.
+        /// The identity <see cref="Matrix"/>.
         /// </summary>
         public static readonly Matrix Identity = new Matrix() { M11 = 1.0f, M22 = 1.0f, M33 = 1.0f, M44 = 1.0f };
 
@@ -133,7 +134,7 @@ namespace BulletSharp.Math
         public float M44;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SlimMath.Matrix"/> struct.
+        /// Initializes a new instance of the <see cref="Matrix"/> struct.
         /// </summary>
         /// <param name="value">The value that will be assigned to all components.</param>
         public Matrix(float value)
@@ -145,7 +146,7 @@ namespace BulletSharp.Math
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SlimMath.Matrix"/> struct.
+        /// Initializes a new instance of the <see cref="Matrix"/> struct.
         /// </summary>
         /// <param name="M11">The value to assign at row 1 column 1 of the matrix.</param>
         /// <param name="M12">The value to assign at row 1 column 2 of the matrix.</param>
@@ -175,7 +176,7 @@ namespace BulletSharp.Math
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SlimMath.Matrix"/> struct.
+        /// Initializes a new instance of the <see cref="Matrix"/> struct.
         /// </summary>
         /// <param name="values">The values to assign to the components of the matrix. This must be an array with sixteen elements.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="values"/> is <c>null</c>.</exception>
@@ -326,7 +327,7 @@ namespace BulletSharp.Math
 
                 if (trace > 0.0f)
                 {
-                    float s = UnityEngine.Mathf.Sqrt(trace + (1.0f));
+                    float s = (float)System.Math.Sqrt(trace + (1.0f));
                     temp[3] = (s * (0.5f));
                     s = (0.5f) / s;
 
@@ -342,7 +343,7 @@ namespace BulletSharp.Math
                     int j = (i + 1) % 3;
                     int k = (i + 2) % 3;
 
-                    float s = UnityEngine.Mathf.Sqrt(this[i,i] - this[j,j] - this[k,k] + 1.0f);
+                    float s = (float)System.Math.Sqrt(this[i,i] - this[j,j] - this[k,k] + 1.0f);
                     temp[i] = s * 0.5f;
                     s = 0.5f / s;
 
@@ -355,7 +356,7 @@ namespace BulletSharp.Math
             set
             {
                 float d = value.X * value.X + value.Y * value.Y + value.Z * value.Z + value.W * value.W;
-                UnityEngine.Debug.Assert(d != 0.0f);
+                Debug.Assert(d != 0.0f);
                 float s = 2.0f / d;
                 float xs = value.X * s, ys = value.Y * s, zs = value.Z * s;
                 float wx = value.W * xs, wy = value.W * ys, wz = value.W * zs;
@@ -2902,11 +2903,11 @@ namespace BulletSharp.Math
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="SlimMath.Matrix"/> is equal to this instance.
+        /// Determines whether the specified <see cref="Matrix"/> is equal to this instance.
         /// </summary>
-        /// <param name="other">The <see cref="SlimMath.Matrix"/> to compare with this instance.</param>
+        /// <param name="other">The <see cref="Matrix"/> to compare with this instance.</param>
         /// <returns>
-        /// <c>true</c> if the specified <see cref="SlimMath.Matrix"/> is equal to this instance; otherwise, <c>false</c>.
+        /// <c>true</c> if the specified <see cref="Matrix"/> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
         public bool Equals(Matrix other)
         {
@@ -2932,12 +2933,12 @@ namespace BulletSharp.Math
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="SlimMath.Matrix"/> is equal to this instance.
+        /// Determines whether the specified <see cref="Matrix"/> is equal to this instance.
         /// </summary>
-        /// <param name="other">The <see cref="SlimMath.Matrix"/> to compare with this instance.</param>
+        /// <param name="other">The <see cref="Matrix"/> to compare with this instance.</param>
         /// <param name="epsilon">The amount of error allowed.</param>
         /// <returns>
-        /// <c>true</c> if the specified <see cref="SlimMath.Matrix"/> is equal to this instance; otherwise, <c>false</c>.
+        /// <c>true</c> if the specified <see cref="Matrix"/> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
         public bool Equals(Matrix other, float epsilon)
         {

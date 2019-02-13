@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
-using AOT;
 
 namespace BulletSharp
 {
@@ -172,7 +171,6 @@ namespace BulletSharp
         }
         */
 
-        [MonoPInvokeCallback(typeof(InternalTickCallbackUnmanaged))]
         static private void InternalTickCallbackNative(IntPtr world, float timeStep)
         {
             CollisionWorld cw = _native2ManagedMap[world];

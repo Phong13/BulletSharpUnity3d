@@ -1,7 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Security;
-using AOT;
 
 namespace BulletSharp
 {
@@ -42,7 +41,6 @@ namespace BulletSharp
         }
 
 		//changed these so they are static fuctions and have MonoPInvokeCallback decorator so they work from iOS (uses AOT)
-		[MonoPInvokeCallback(typeof(DebugDrawUnmanagedDelegate))]
         private static void DebugDrawUnmanaged(IntPtr iaPtrThis, IntPtr debugDrawer)
         {
 			//UnityEngine.Debug.Log("callback dd yes!");
@@ -51,7 +49,6 @@ namespace BulletSharp
         }
 
 		//changed these so they are static fuctions and have MonoPInvokeCallback decorator so they work from iOS (uses AOT)
-		[MonoPInvokeCallback(typeof(UpdateActionUnmanagedDelegate))]
         private static void UpdateActionUnmanaged(IntPtr iaPtrThis, IntPtr collisionWorld, float deltaTimeStep)
         {
 			//UnityEngine.Debug.Log("Callback yes!! " + iaPtrThis.ToInt64());

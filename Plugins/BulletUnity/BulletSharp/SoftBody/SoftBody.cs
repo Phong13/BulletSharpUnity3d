@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security;
 using BulletSharp.Math;
-using AOT;
 
 namespace BulletSharp.SoftBody
 {
@@ -304,14 +303,12 @@ namespace BulletSharp.SoftBody
                 }
 			}
 
-			[MonoPInvokeCallback(typeof(PrepareUnmanagedDelegate))]
             static private void PrepareUnmanaged(IntPtr thisPtr,IntPtr aJoint)
             {
 				IControl ms = GCHandle.FromIntPtr(thisPtr).Target as IControl;
                 ms.Prepare(new AngularJoint(aJoint));
             }
 
-			[MonoPInvokeCallback(typeof(SpeedUnmanagedDelegate))]
             static public float SpeedUnmanaged(IntPtr thisPtr, IntPtr aJoint, float current)
             {
 				IControl ms = GCHandle.FromIntPtr(thisPtr).Target as IControl;
