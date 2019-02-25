@@ -19,7 +19,7 @@ namespace BulletUnity
 
         //used to hide specific serialized properties in the editor
         //Hide softBody Settings until we want to display it, also script name
-        private static readonly string[] hideMe = new string[] { "_softBodySettings", "m_Script" };
+        private static readonly string[] hideMe = new string[] { "_softBodySettings", "m_Script"};
 
         const string collisionTooltip = "Collisions flags\n" +
        "SDF_RS Rigid versus soft mask.\n" +
@@ -52,14 +52,7 @@ namespace BulletUnity
         {
             serializedObject.Update();
 
-            //Color GUIBlue = new Color32(82, 140, 255, 255);
-
             EditorHelpers.DrawLogoAndVersion();
-
-            //BSoftBody sb = (BSoftBody)target;
-            //sb.m_collisionFlags = BCollisionObjectEditor.RenderEnumMaskCollisionFlagsField(BCollisionObjectEditor.gcCollisionFlags, sb.m_collisionFlags);
-            //sb.m_groupsIBelongTo = BCollisionObjectEditor.RenderEnumMaskCollisionFilterGroupsField(BCollisionObjectEditor.gcGroupsIBelongTo, sb.m_groupsIBelongTo);
-            //sb.m_collisionMask = BCollisionObjectEditor.RenderEnumMaskCollisionFilterGroupsField(BCollisionObjectEditor.gcCollisionMask, sb.m_collisionMask);
 
             if (bSoftBodyTarget is BSoftBodyWMesh)
             {
