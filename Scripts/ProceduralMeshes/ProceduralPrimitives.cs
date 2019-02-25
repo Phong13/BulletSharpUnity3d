@@ -1418,8 +1418,10 @@ namespace BulletUnity
             if (recalculateBounds)
                 mesh.RecalculateBounds();
 
+#if UNITY_EDITOR
             if (optimize)
-                mesh.Optimize();
+                UnityEditor.MeshUtility.Optimize(mesh);
+#endif
 
         }
     }
