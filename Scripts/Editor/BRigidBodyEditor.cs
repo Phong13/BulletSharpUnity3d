@@ -15,11 +15,8 @@ public class BRigidBodyEditor : Editor
 
     public override void OnInspectorGUI()
     {
-
+        serializedObject.Update();
         EditorGUILayout.LabelField("Collision", EditorStyles.boldLabel);
-        BulletSharp.CollisionFlags collisionFlags;
-        BulletSharp.CollisionFilterGroups groupsIBelongTo;
-        BulletSharp.CollisionFilterGroups collisionMask;
         float mass;
         Vector3 linearFactor;
         Vector3 angularFactor;
@@ -36,10 +33,9 @@ public class BRigidBodyEditor : Editor
         float linearSleepingThreshold;
         float angularSleepingThreshold;
 
-
-        collisionFlags = BCollisionObjectEditor.RenderEnumMaskCollisionFlagsField(BCollisionObjectEditor.gcCollisionFlags, rb.collisionFlags);
-        groupsIBelongTo = BCollisionObjectEditor.RenderEnumMaskCollisionFilterGroupsField(BCollisionObjectEditor.gcGroupsIBelongTo, rb.groupsIBelongTo);
-        collisionMask = BCollisionObjectEditor.RenderEnumMaskCollisionFilterGroupsField(BCollisionObjectEditor.gcCollisionMask, rb.collisionMask);
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_collisionFlags"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_groupsIBelongTo"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_collisionMask"));
 
         EditorGUILayout.Separator();
 
@@ -92,9 +88,6 @@ public class BRigidBodyEditor : Editor
 
         if (GUI.changed)
         {
-            rb.collisionFlags = collisionFlags;
-            rb.groupsIBelongTo = groupsIBelongTo;
-            rb.collisionMask = collisionMask;
             rb.mass = mass;
             rb.linearFactor = linearFactor;
             rb.angularFactor = angularFactor;
@@ -119,5 +112,6 @@ public class BRigidBodyEditor : Editor
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
             Repaint();
         }
+        serializedObject.ApplyModifiedProperties();
     }
 }

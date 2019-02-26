@@ -26,11 +26,11 @@ namespace BulletUnity
         protected CollisionObject m_collisionObject;
         protected BCollisionShape m_collisionShape;
         internal bool isInWorld = false;
-        [SerializeField]
+        [SerializeField, EnumFlag]
         protected BulletSharp.CollisionFlags m_collisionFlags = BulletSharp.CollisionFlags.None;
-        [SerializeField]
+        [SerializeField, EnumFlag]
         protected BulletSharp.CollisionFilterGroups m_groupsIBelongTo = BulletSharp.CollisionFilterGroups.DefaultFilter; // A bitmask
-        [SerializeField]
+        [SerializeField, EnumFlag]
         protected BulletSharp.CollisionFilterGroups m_collisionMask = CollisionFilterGroups.Everything; // A colliding object must match this mask in order to collide with me.
 
         public virtual BulletSharp.CollisionFlags collisionFlags
