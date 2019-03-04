@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using BulletSharp.SoftBody;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -222,5 +223,67 @@ namespace BulletUnity
             EditorGUILayout.Space();
         }
 
+        private int _currentSelectedNode = -1;
+        
+        private void OnSceneGUI()
+        {
+            
+            SoftBody softBody = bSoftBodyTarget.GetCollisionObject() as SoftBody;
+            MeshFilter meshFilter = bSoftBodyTarget.GetComponent<MeshFilter>();
+            Transform trans = bSoftBodyTarget.transform;
+            Vector3[] vertices = meshFilter.sharedMesh.vertices;
+            for (int i = 0; i < vertices.Length; i++)
+            {
+//                Vector3 position = trans.TransformPoint(vertices[i]);
+//                if(Handles.Button(position, Quaternion.identity, 1, 1, Handles.SphereHandleCap))
+//                {
+//                    Debug.Log(position);
+//                }
+            }
+
+            if (softBody == null)
+            {
+                Handles.BeginGUI();
+                GUILayout.Label("Viewing nodes only supported during run-time.");
+                Handles.EndGUI();
+                return;
+            }
+
+            bool clickedNode = false;
+            AlignedNodeArray nodes = softBody.Nodes;
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                if (_currentSelectedNode == i)
+                {
+                    float mass = softBody.GetMass(i);
+                    Handles.BeginGUI();
+                    EditorGUI.BeginChangeCheck();
+                    mass = EditorGUILayout.Slider("Mass",mass, 0, Mathf.Clamp(mass * 10, 1, 100), GUILayout.Width(500));
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        softBody.SetMass(i, mass);
+                        nodes[i].Velocity = BulletSharp.Math.Vector3.Zero;
+                        nodes[i].Force = BulletSharp.Math.Vector3.Zero;
+                    }
+                    Handles.EndGUI();
+                    Handles.color = Color.green;
+                }
+                else
+                {
+                    Handles.color = Color.white;
+                }
+                BulletSharp.Math.Vector3 position = nodes[i].Position;
+                if(Handles.Button(position.ToUnity(), Quaternion.identity, 1, 1, Handles.SphereHandleCap))
+                {
+                    clickedNode = true;
+                    _currentSelectedNode = i;
+                }
+            }
+
+            if (!clickedNode && Input.GetMouseButton(0))
+            {
+                _currentSelectedNode = -1;
+            }
+        }
     }
 }
