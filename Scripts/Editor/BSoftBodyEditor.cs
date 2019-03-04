@@ -251,13 +251,23 @@ namespace BulletUnity
 
             bool clickedNode = false;
             AlignedNodeArray nodes = softBody.Nodes;
+            float highestMass = 0;
             for (int i = 0; i < nodes.Count; i++)
             {
+                float invMass = nodes[i].InverseMass; 
+                if (invMass > 0 && 1 / invMass > highestMass)
+                {
+                    highestMass = 1 / invMass;
+                }
+            }
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                float mass = softBody.GetMass(i);
                 if (_currentSelectedNode == i)
                 {
-                    float mass = softBody.GetMass(i);
                     Handles.BeginGUI();
                     EditorGUI.BeginChangeCheck();
+                    EditorGUILayout.LabelField(string.Format("id: {0}", i));
                     mass = EditorGUILayout.Slider("Mass",mass, 0, Mathf.Clamp(mass * 10, 1, 100), GUILayout.Width(500));
                     if (EditorGUI.EndChangeCheck())
                     {
@@ -270,10 +280,21 @@ namespace BulletUnity
                 }
                 else
                 {
-                    Handles.color = Color.white;
+                    Color usedColor;
+                    if (mass > 0)
+                    {
+                        usedColor = Color.Lerp(Color.white, Color.gray, mass / highestMass);
+                    }
+                    else
+                    {
+                        usedColor = Color.blue;
+                    }
+                    
+                    Handles.color = usedColor;
                 }
-                BulletSharp.Math.Vector3 position = nodes[i].Position;
-                if(Handles.Button(position.ToUnity(), Quaternion.identity, 1, 1, Handles.SphereHandleCap))
+                Vector3 position = nodes[i].Position.ToUnity();
+                float size = HandleUtility.GetHandleSize(position) * 0.5f;
+                if(Handles.Button(position, Quaternion.identity, size, size , Handles.SphereHandleCap))
                 {
                     clickedNode = true;
                     _currentSelectedNode = i;
