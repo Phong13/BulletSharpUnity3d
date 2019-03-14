@@ -230,16 +230,8 @@ namespace BulletUnity
             
             SoftBody softBody = bSoftBodyTarget.GetCollisionObject() as SoftBody;
             MeshFilter meshFilter = bSoftBodyTarget.GetComponent<MeshFilter>();
-            Transform trans = bSoftBodyTarget.transform;
+//            Transform trans = bSoftBodyTarget.transform;
             Vector3[] vertices = meshFilter.sharedMesh.vertices;
-            for (int i = 0; i < vertices.Length; i++)
-            {
-//                Vector3 position = trans.TransformPoint(vertices[i]);
-//                if(Handles.Button(position, Quaternion.identity, 1, 1, Handles.SphereHandleCap))
-//                {
-//                    Debug.Log(position);
-//                }
-            }
 
             if (softBody == null)
             {
