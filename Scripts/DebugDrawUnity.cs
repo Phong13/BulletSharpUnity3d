@@ -26,7 +26,7 @@ namespace BulletUnity
             UnityEngine.Vector3 pos = BSExtensionMethods2.ExtractTranslationFromMatrix(ref trans);
             UnityEngine.Quaternion rot = BSExtensionMethods2.ExtractRotationFromMatrix(ref trans);
             UnityEngine.Vector3 scale = BSExtensionMethods2.ExtractScaleFromMatrix(ref trans);
-            UnityEngine.Vector3 size = (bbMax - bbMin).ToUnity();
+            UnityEngine.Vector3 size = (bbMax - bbMin).ToUnity() / 2;
             UnityEngine.Color c = new UnityEngine.Color(color.X, color.Y, color.Z);
             BUtility.DebugDrawBox(pos, rot, scale, size,c);
         }
