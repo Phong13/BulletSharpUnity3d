@@ -14,6 +14,12 @@ namespace BulletUnity {
     public class BRigidBody : BCollisionObject, IDisposable {
         BGameObjectMotionState m_motionState;
 
+        public object UserObject
+        {
+            get;
+            set;
+        }
+
         RigidBody m_rigidBody
         {
             get { return (RigidBody) m_collisionObject; }
@@ -439,7 +445,7 @@ namespace BulletUnity {
             BulletSharp.RigidBody rb = (BulletSharp.RigidBody) m_collisionObject;
             CreateOrConfigureRigidBody(ref rb, ref _localInertia, cs, m_motionState);
             m_collisionObject = rb;
-            m_collisionObject.UserObject = this;
+            m_collisionObject.UserObject = UserObject ?? this;
 
             return true;
         }
