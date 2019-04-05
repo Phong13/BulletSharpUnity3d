@@ -227,14 +227,20 @@ namespace BulletUnity
         
         private void OnSceneGUI()
         {
+            if (!EditorApplication.isPlaying)
+            {
+                Handles.BeginGUI();
+                GUILayout.Label("Viewing nodes only supported while playing.");
+                Handles.EndGUI();
+                return;
+            }
             
             SoftBody softBody = bSoftBodyTarget.GetCollisionObject() as SoftBody;
-            MeshFilter meshFilter = bSoftBodyTarget.GetComponent<MeshFilter>();
 
             if (softBody == null)
             {
                 Handles.BeginGUI();
-                GUILayout.Label("Viewing nodes only supported during run-time.");
+                GUILayout.Label("Seems like the CollisionObject has not been generated.");
                 Handles.EndGUI();
                 return;
             }
