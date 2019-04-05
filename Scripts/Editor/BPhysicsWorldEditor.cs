@@ -1,16 +1,17 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using BulletUnity;
+using UnityEditor;
 using UnityEditor.SceneManagement;
-using BulletUnity;
+using UnityEngine;
 
-[CustomEditor(typeof(BPhysicsWorld),true)]
+[CustomEditor(typeof(BPhysicsWorld), true)]
 public class BDynamicsWorldEditor : Editor
 {
     [MenuItem("BulletForUnity/BulletPhysicsWorld")]
     [MenuItem("GameObject/Create Other/BulletForUnity/BulletPhysicsWorld")]  //right click menu
     public static GameObject CreateNew()
     {
-        if (GameObject.FindObjectOfType<BPhysicsWorld>() != null){
+        if (GameObject.FindObjectOfType<BPhysicsWorld>() != null)
+        {
             Debug.LogError("The Scene already includes a BulletPhysicsWorld. Not creating.");
             return null;
         }
@@ -25,12 +26,14 @@ public class BDynamicsWorldEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        BPhysicsWorld pw = (BPhysicsWorld) target;
-//pw.doCollisionCallbacks = EditorGUILayout.Toggle("Do Collision Callbacks", pw.doCollisionCallbacks);
+        BPhysicsWorld pw = (BPhysicsWorld)target;
+        //pw.doCollisionCallbacks = EditorGUILayout.Toggle("Do Collision Callbacks", pw.doCollisionCallbacks);
         pw.DoDebugDraw = EditorGUILayout.Toggle(gcDoDebugDraw, pw.DoDebugDraw);
-        pw.DebugDrawMode = (BulletSharp.DebugDrawModes) EditorGUILayout.EnumMaskPopup(DebugDrawMode, pw.DebugDrawMode);
-        
+        pw.DebugDrawMode = (BulletSharp.DebugDrawModes)EditorGUILayout.EnumMaskPopup(DebugDrawMode, pw.DebugDrawMode);
+
         pw.worldType = (BPhysicsWorld.WorldType)EditorGUILayout.EnumPopup("World Type", pw.worldType);
+        pw.helperType = (BPhysicsWorld.HelperType)EditorGUILayout.EnumPopup("Helper Type", pw.helperType);
+        pw.fixedTimeStep = EditorGUILayout.FloatField("Fixed time Step", pw.fixedTimeStep);
         EditorGUILayout.Separator();
         pw.gravity = EditorGUILayout.Vector3Field("Gravity", pw.gravity);
         EditorGUILayout.Separator();
@@ -38,11 +41,11 @@ public class BDynamicsWorldEditor : Editor
         pw.collisionType = (BPhysicsWorld.CollisionConfType)EditorGUILayout.EnumPopup("Collision Type", pw.collisionType);
 
 
-        pw.broadphaseType = (BPhysicsWorld.BroadphaseType) EditorGUILayout.EnumPopup("Broadphase Algorithm", pw.broadphaseType);
+        pw.broadphaseType = (BPhysicsWorld.BroadphaseType)EditorGUILayout.EnumPopup("Broadphase Algorithm", pw.broadphaseType);
         pw.axis3SweepBroadphaseMin = EditorGUILayout.Vector3Field("Broadphase Axis 3 Sweep Min", pw.axis3SweepBroadphaseMin);
         pw.axis3SweepBroadphaseMax = EditorGUILayout.Vector3Field("Broadphase Axis 3 Sweep Max", pw.axis3SweepBroadphaseMax);
 
-		pw.debugType = EditorInterface.DrawDebug(pw.debugType, pw);
+        pw.debugType = EditorInterface.DrawDebug(pw.debugType, pw);
 
         if (GUI.changed)
         {
