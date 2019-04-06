@@ -74,10 +74,12 @@ namespace BulletSharp.SoftBody
     public class AlignedNodeArray : IList<Node>
     {
         private IntPtr _native;
+        private Dictionary<long, Node> _nodeObjects;
 
         internal AlignedNodeArray(IntPtr native)
         {
             _native = native;
+            _nodeObjects = new Dictionary<long, Node>();
         }
 
         public int IndexOf(Node item)
@@ -103,7 +105,17 @@ namespace BulletSharp.SoftBody
                 {
                     throw new ArgumentOutOfRangeException("index");
                 }
-                return new Node(btAlignedSoftBodyNodeArray_at(_native, index));
+
+                IntPtr nodePtr = btAlignedSoftBodyNodeArray_at(_native, index);
+                long nodePtrInt = nodePtr.ToInt64();
+                Node node;
+                if (!_nodeObjects.TryGetValue(nodePtrInt, out node))
+                {
+                    node = new Node(nodePtr);
+                    _nodeObjects.Add(nodePtrInt, node);
+                }
+
+                return node;
             }
             set
             {

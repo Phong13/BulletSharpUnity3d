@@ -106,8 +106,9 @@ namespace BulletUnity
                 }
                 for (int i = 0; i < m_BSoftBody.Nodes.Count; i++)
                 {
-                    verts[i] = m_BSoftBody.Nodes[i].Position.ToUnity();
-                    norms[i] = m_BSoftBody.Nodes[i].Normal.ToUnity();
+                    Node node = m_BSoftBody.Nodes[i];
+                    verts[i] = node.Position.ToUnity();
+                    norms[i] = node.Normal.ToUnity();
                 }
             }
         }
