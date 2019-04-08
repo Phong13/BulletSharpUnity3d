@@ -103,7 +103,7 @@ namespace BulletSharp.SoftBody
             {
                 if ((uint)index >= (uint)Count)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(index));
+                    throw new ArgumentOutOfRangeException("index");
                 }
 
                 IntPtr nodePtr = btAlignedSoftBodyNodeArray_at(_native, index);
@@ -127,7 +127,7 @@ namespace BulletSharp.SoftBody
         {
             if ((uint)index >= (uint)Count)
             {
-                throw new ArgumentOutOfRangeException(nameof(index));
+                throw new ArgumentOutOfRangeException("index");
             }
             return btAlignedSoftBodyNodeArray_at(_native, index);
         }
