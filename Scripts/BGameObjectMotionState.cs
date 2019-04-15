@@ -10,10 +10,9 @@ namespace BulletUnity
     {
 
         public Transform transform;
-        //BM.Matrix wt;
 
-        Matrix trans;
-        bool mustSetTransform = false;
+        Matrix lastBulletTransform;
+        bool mustUpdateTransform = false;
 
         BulletSharp.Math.Vector3 pos;
         BulletSharp.Math.Quaternion rot;
@@ -22,6 +21,8 @@ namespace BulletUnity
         public BGameObjectMotionState(Transform t)
         {
             transform = t;
+            pos = transform.position.ToBullet();
+            rot = transform.rotation.ToBullet();
         }
 
         public delegate void GetTransformDelegate(out BM.Matrix worldTrans);
@@ -39,22 +40,27 @@ namespace BulletUnity
         //Bullet calls this so I can copy bullet data to unity
         public override void SetWorldTransform(ref BM.Matrix m)
         {
-            trans = m;
-            mustSetTransform = true;
+            lock (transform)
+            {
+                lastBulletTransform = m;
+                mustUpdateTransform = true;
+            }
         }
 
         // Update is called once per frame
         public void Update()
         {
-
-            pos = transform.position.ToBullet();
-            rot = transform.rotation.ToBullet();
-            if (mustSetTransform)
+            lock (transform)
             {
-                transform.position = BSExtensionMethods2.ExtractTranslationFromMatrix(ref trans);
-                transform.rotation = BSExtensionMethods2.ExtractRotationFromMatrix(ref trans);
+                if (mustUpdateTransform)
+                {
+                    transform.position = BSExtensionMethods2.ExtractTranslationFromMatrix(ref lastBulletTransform);
+                    transform.rotation = BSExtensionMethods2.ExtractRotationFromMatrix(ref lastBulletTransform);
+                    mustUpdateTransform = false;
+                }
+                pos = transform.position.ToBullet();
+                rot = transform.rotation.ToBullet();
             }
-            mustSetTransform = false;
         }
     }
 }

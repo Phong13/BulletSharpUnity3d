@@ -24,7 +24,7 @@ namespace BulletUnity
             timer.UseHighPriorityThread = false;
             timer.Elapsed += (s, e) =>
             {
-                PhysicsUpdate(e.Delay);
+                PhysicsUpdate(e.Delay / 1000);
             };
             timer.Start();
             yield return null;
@@ -36,8 +36,10 @@ namespace BulletUnity
             {
                 lock (m_ddWorld)
                 {
-                    float timeStep = (float)deltaTime;
-                    m__frameCount += m_ddWorld.StepSimulation(timeStep, 1, FixedTimeStep);
+                    float timeStep = (float)deltaTime * TimeStepRatio;
+                    int maxStep = Mathf.CeilToInt(timeStep / FixedTimeStep);
+
+                    m__frameCount += m_ddWorld.StepSimulation(timeStep, maxStep < 1 ? 1 : maxStep, FixedTimeStep);
 
                     if (m_collisionEventHandler != null)
                     {

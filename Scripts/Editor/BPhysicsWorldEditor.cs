@@ -34,6 +34,7 @@ public class BDynamicsWorldEditor : Editor
         pw.worldType = (BPhysicsWorld.WorldType)EditorGUILayout.EnumPopup("World Type", pw.worldType);
         pw.helperType = (BPhysicsWorld.HelperType)EditorGUILayout.EnumPopup("Helper Type", pw.helperType);
         pw.fixedTimeStep = EditorGUILayout.FloatField("Fixed time Step", pw.fixedTimeStep);
+        pw.timeStepRatio = EditorGUILayout.FloatField("Time Step Ratio", pw.timeStepRatio);
         EditorGUILayout.Separator();
         pw.gravity = EditorGUILayout.Vector3Field("Gravity", pw.gravity);
         EditorGUILayout.Separator();

@@ -31,6 +31,13 @@ namespace BulletUnity
             }
         }
 
+        public float TimeStepRatio
+        {
+            get
+            {
+                return m_physicsWorld.timeStepRatio;
+            }
+        }
 
     }
 }

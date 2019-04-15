@@ -245,6 +245,20 @@ namespace BulletUnity
             }
         }
 
+        [SerializeField]
+        float m_timeStepRatio = 1;
+        public float timeStepRatio
+        {
+            get
+            {
+                return m_timeStepRatio;
+            }
+            set
+            {
+                m_timeStepRatio = value;
+            }
+        }
+
         public BDebug.DebugType debugType;
 
         /*
