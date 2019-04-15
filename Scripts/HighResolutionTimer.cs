@@ -140,7 +140,7 @@ namespace BulletUnity
         private void ExecuteTimer()
         {
             float nextTrigger = 0f;
-
+            double lastTriggerTime = 0f;
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
@@ -170,7 +170,8 @@ namespace BulletUnity
                 }
 
 
-                double delay = elapsed - nextTrigger;
+                double delay = elapsed - lastTriggerTime;
+                lastTriggerTime = elapsed;
                 Elapsed?.Invoke(this, new HighResolutionTimerElapsedEventArgs(delay));
 
                 if (!_isRunning)
