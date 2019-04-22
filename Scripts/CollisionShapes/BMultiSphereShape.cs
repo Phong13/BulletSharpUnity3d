@@ -15,21 +15,6 @@ namespace BulletUnity {
 
         public Sphere[] spheres = new Sphere[0];
 
-        [SerializeField]
-        protected Vector3 m_localScaling = Vector3.one;
-        public Vector3 LocalScaling
-        {
-            get { return m_localScaling; }
-            set
-            {
-                m_localScaling = value;
-                if (collisionShapePtr != null)
-                {
-                    ((MultiSphereShape)collisionShapePtr).LocalScaling = value.ToBullet();
-                }
-            }
-        }
-
         public override void OnDrawGizmosSelected() {
             if (drawGizmo == false)
             {

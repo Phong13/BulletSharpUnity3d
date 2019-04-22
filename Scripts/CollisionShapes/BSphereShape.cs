@@ -24,31 +24,6 @@ namespace BulletUnity {
             }
         }
 
-        [SerializeField]
-        protected Vector3 m_localScaling = Vector3.one;
-        public Vector3 LocalScaling
-        {
-            get
-            {
-                if (collisionShapePtr != null)
-                {
-                    return collisionShapePtr.LocalScaling.ToUnity();
-                }
-                else
-                {
-                    return m_localScaling;    
-                }
-            }
-            set
-            {
-                m_localScaling = value;
-                if (collisionShapePtr != null)
-                {
-                    collisionShapePtr.LocalScaling = value.ToBullet();
-                }
-            }
-        }
-
         public override void OnDrawGizmosSelected() {
             if (drawGizmo == false)
             {
