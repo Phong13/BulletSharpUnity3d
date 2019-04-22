@@ -28,13 +28,23 @@ namespace BulletUnity {
         protected Vector3 m_localScaling = Vector3.one;
         public Vector3 LocalScaling
         {
-            get { return m_localScaling; }
+            get
+            {
+                if (collisionShapePtr != null)
+                {
+                    return collisionShapePtr.LocalScaling.ToUnity();
+                }
+                else
+                {
+                    return m_localScaling;    
+                }
+            }
             set
             {
                 m_localScaling = value;
                 if (collisionShapePtr != null)
                 {
-                    ((SphereShape)collisionShapePtr).LocalScaling = value.ToBullet();
+                    collisionShapePtr.LocalScaling = value.ToBullet();
                 }
             }
         }
@@ -46,7 +56,15 @@ namespace BulletUnity {
             }
             UnityEngine.Vector3 position = transform.position;
             UnityEngine.Quaternion rotation = transform.rotation;
-            UnityEngine.Vector3 scale = m_localScaling;
+            UnityEngine.Vector3 scale;
+            if (collisionShapePtr != null)
+            {
+                scale = collisionShapePtr.LocalScaling.ToUnity();
+            }
+            else
+            {
+                scale = m_localScaling;
+            }
             BUtility.DebugDrawSphere(position, rotation, scale, Vector3.one * radius, Color.yellow);
         }
 
