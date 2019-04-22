@@ -52,8 +52,7 @@ namespace BulletUnity
             }
             UnityEngine.Vector3 position = transform.position;
             UnityEngine.Quaternion rotation = transform.rotation;
-            UnityEngine.Vector3 scale = m_localScaling;
-            BUtility.DebugDrawCone(position, rotation, scale, radius, height, 1, Color.yellow);
+            BUtility.DebugDrawCone(position, rotation, LocalScaling, radius, height, 1, Color.yellow);
         }
 
         public override CollisionShape CopyCollisionShape()
