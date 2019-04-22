@@ -54,18 +54,9 @@ namespace BulletUnity {
             {
                 return;
             }
-            UnityEngine.Vector3 position = transform.position;
-            UnityEngine.Quaternion rotation = transform.rotation;
-            UnityEngine.Vector3 scale;
-            if (collisionShapePtr != null)
-            {
-                scale = collisionShapePtr.LocalScaling.ToUnity();
-            }
-            else
-            {
-                scale = m_localScaling;
-            }
-            BUtility.DebugDrawSphere(position, rotation, scale, Vector3.one * radius, Color.yellow);
+            Vector3 position = transform.position;
+            Quaternion rotation = transform.rotation;
+            BUtility.DebugDrawSphere(position, rotation, LocalScaling, Vector3.one * radius, Color.yellow);
         }
 
         public override CollisionShape CopyCollisionShape()
