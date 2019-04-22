@@ -342,7 +342,7 @@ public class BulletExampleRunner : MonoBehaviour {
         //rope
         GameObject rope = Instantiate<GameObject>(ropePrefab);
         LineRenderer lr = rope.GetComponent<LineRenderer>();
-        lr.SetVertexCount(body.Nodes.Count);
+        lr.positionCount = body.Nodes.Count;
         BulletRopeProxy ropeProxy = rope.GetComponent<BulletRopeProxy>();
         ropeProxy.target = body;
         return rope;

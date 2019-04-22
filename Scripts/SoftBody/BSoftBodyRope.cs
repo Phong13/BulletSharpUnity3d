@@ -90,9 +90,11 @@ namespace BulletUnity
 
             lr.useWorldSpace = false;
 
-            lr.SetVertexCount(verts.Length);
-            lr.SetWidth(meshSettings.width, meshSettings.width);
-            lr.SetColors(meshSettings.startColor, meshSettings.endColor);
+            lr.positionCount = verts.Length;
+            lr.startWidth = meshSettings.width;
+            lr.endWidth = meshSettings.width;
+            lr.startColor = meshSettings.startColor;
+            lr.endColor = meshSettings.endColor;
 
             //Set SB position to GO position
             //m_BSoftBody.Rotate(transform.rotation.ToBullet());
@@ -146,9 +148,11 @@ namespace BulletUnity
             if (lrVertexCount != verts.Length)
             {
                 lrVertexCount = verts.Length;
-                lr.SetVertexCount(lrVertexCount);
-                lr.SetWidth(meshSettings.width, meshSettings.width);
-                lr.SetColors(meshSettings.startColor, meshSettings.endColor);
+                lr.positionCount = lrVertexCount;
+                lr.startWidth = meshSettings.width;
+                lr.endWidth = meshSettings.width;
+                lr.startColor = meshSettings.startColor;
+                lr.endColor = meshSettings.endColor;
             }
             for (int i = 0; i < verts.Length; i++)
             {
