@@ -74,13 +74,13 @@ namespace BulletUnity {
             }
         }
 
-        [SerializeField]
+        [SerializeField, GetSet("friction")]
         float _friction = .5f;
         public float friction
         {
             get { return _friction; }
             set {
-                if (m_collisionObject != null && _friction != value)
+                if (m_collisionObject != null)
                 {
                     m_collisionObject.Friction = value;
                 }
@@ -88,13 +88,13 @@ namespace BulletUnity {
             }
         }
 
-        [SerializeField]
+        [SerializeField, GetSet("rollingFriction")]
         float _rollingFriction = 0f;
         public float rollingFriction
         {
             get { return _rollingFriction; }
             set {
-                if (m_collisionObject != null && _rollingFriction != value)
+                if (m_collisionObject != null)
                 {
                     m_collisionObject.RollingFriction = value;
                 }
@@ -102,13 +102,13 @@ namespace BulletUnity {
             }
         }
 
-        [SerializeField]
+        [SerializeField, GetSet("linearDamping")]
         float _linearDamping = 0f;
         public float linearDamping
         {
             get { return _linearDamping; }
             set {
-                if (m_collisionObject != null && _linearDamping != value)
+                if (m_collisionObject != null)
                 {
                     m_rigidBody.SetDamping(value,_angularDamping);
                 }
@@ -116,65 +116,65 @@ namespace BulletUnity {
             }
         }
 
-        [SerializeField]
+        [SerializeField, GetSet("angularDamping")]
         float _angularDamping = 0f;
         public float angularDamping
         {
             get { return _angularDamping; }
             set {
-                if (m_collisionObject != null && _angularDamping != value)
+                if (m_collisionObject != null)
                 {
                     m_rigidBody.SetDamping(_linearDamping,value);
                 }
                 _angularDamping = value; }
         }
 
-        [SerializeField]
+        [SerializeField, GetSet("restitution")]
         float _restitution = 0f;
         public float restitution
         {
             get { return _restitution; }
             set {
-                if (m_collisionObject != null && _restitution != value)
+                if (m_collisionObject != null)
                 {
                     m_collisionObject.Restitution = value;
                 }
                 _restitution = value; }
         }
 
-        [SerializeField]
+        [SerializeField, GetSet("linearSleepingThreshold")]
         float _linearSleepingThreshold = .8f;
         public float linearSleepingThreshold
         {
             get { return _linearSleepingThreshold; }
             set {
-                if (m_collisionObject != null && _linearSleepingThreshold != value)
+                if (m_collisionObject != null)
                 {
                     m_rigidBody.SetSleepingThresholds(value,_angularSleepingThreshold);
                 }
                 _linearSleepingThreshold = value; }
         }
 
-        [SerializeField]
+        [SerializeField, GetSet("angularSleepingThreshold")]
         float _angularSleepingThreshold = 1f;
         public float angularSleepingThreshold
         {
             get { return _angularSleepingThreshold; }
             set {
-                if (m_collisionObject != null && _angularSleepingThreshold != value)
+                if (m_collisionObject != null)
                 {
                     m_rigidBody.SetSleepingThresholds(_linearSleepingThreshold, value);
                 }
                 _angularSleepingThreshold = value; }
         }
         
-        [SerializeField]
+        [SerializeField, GetSet("additionalDamping")]
         bool _additionalDamping = false;
         public bool additionalDamping
         {
             get { return _additionalDamping; }
             set {
-                if (isInWorld && _additionalDamping != value)
+                if (isInWorld)
                 {
 					Debug.LogError("Need to remove and re-add the rigid body to change additional damping setting");
                     return;
@@ -183,13 +183,13 @@ namespace BulletUnity {
             }
         }
 
-        [SerializeField]
+        [SerializeField, GetSet("additionalDampingFactor")]
         float _additionalDampingFactor = .005f;
         public float additionalDampingFactor
         {
             get { return _additionalDampingFactor; }
             set {
-                if (m_collisionObject != null && _additionalDampingFactor != value)
+                if (m_collisionObject != null)
                 {
 					Debug.LogError("Additional Damping settings cannot be changed once the Rigid Body has been created");
                     return;
@@ -197,13 +197,13 @@ namespace BulletUnity {
                 _additionalDampingFactor = value; }
         }
 
-        [SerializeField]
+        [SerializeField, GetSet("additionalLinearDampingThresholdSqr")]
         float _additionalLinearDampingThresholdSqr = .01f;
         public float additionalLinearDampingThresholdSqr
         {
             get { return _additionalLinearDampingThresholdSqr; }
             set {
-                if (m_collisionObject != null && _additionalLinearDampingThresholdSqr != value)
+                if (m_collisionObject != null)
                 {
 					Debug.LogError("Additional Damping settings cannot be changed once the Rigid Body has been created");
                     return;
@@ -211,13 +211,13 @@ namespace BulletUnity {
                 _additionalLinearDampingThresholdSqr = value; }
         }
 
-        [SerializeField]
+        [SerializeField, GetSet("additionalAngularDampingThresholdSqr")]
         float _additionalAngularDampingThresholdSqr = .01f;
         public float additionalAngularDampingThresholdSqr
         {
             get { return _additionalAngularDampingThresholdSqr; }
             set {
-                if (m_collisionObject != null && _additionalAngularDampingThresholdSqr != value)
+                if (m_collisionObject != null)
                 {
 					Debug.LogError("Additional Damping settings cannot be changed once the Rigid Body has been created");
                     return;
@@ -225,13 +225,13 @@ namespace BulletUnity {
                 _additionalAngularDampingThresholdSqr = value; }
         }
 
-        [SerializeField]
+        [SerializeField, GetSet("additionalAngularDampingFactor")]
         float _additionalAngularDampingFactor = .01f;
         public float additionalAngularDampingFactor
         {
             get { return _additionalAngularDampingFactor; }
             set {
-                if (m_collisionObject != null && _additionalAngularDampingFactor != value)
+                if (m_collisionObject != null)
                 {
 					Debug.LogError("Additional Damping settings cannot be changed once the Rigid Body has been created");
                     return;
@@ -240,13 +240,13 @@ namespace BulletUnity {
         }
 
         /* can lock axis with this */
-        [SerializeField]
+        [SerializeField, GetSet("linearFactor")]
         UnityEngine.Vector3 _linearFactor = UnityEngine.Vector3.one;
         public UnityEngine.Vector3 linearFactor
         {
             get { return _linearFactor; }
             set {
-                if (m_collisionObject != null && _linearFactor != value)
+                if (m_collisionObject != null)
                 {
                     m_rigidBody.LinearFactor = value.ToBullet();
                 }
@@ -254,20 +254,20 @@ namespace BulletUnity {
             }
         }
 
-        [SerializeField]
+        [SerializeField, GetSet("angularFactor")]
         UnityEngine.Vector3 _angularFactor = UnityEngine.Vector3.one;
         public UnityEngine.Vector3 angularFactor
         {
             get { return _angularFactor; }
             set {
-                if (m_rigidBody != null && _angularFactor != value)
+                if (m_rigidBody != null)
                 {
                     m_rigidBody.AngularFactor = value.ToBullet();
                 }
                 _angularFactor = value; }
         }
 
-        [SerializeField]
+        [SerializeField, GetSet("mass")]
         float _mass = 1f;
         public float mass
         {
