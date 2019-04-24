@@ -1,7 +1,7 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using BulletUnity;
+using UnityEditor;
 using UnityEditor.SceneManagement;
-using BulletUnity;
+using UnityEngine;
 
 [CustomEditor(typeof(BRigidBody))]
 public class BRigidBodyEditor : Editor
@@ -76,9 +76,11 @@ public class BRigidBodyEditor : Editor
         linearSleepingThreshold = EditorInterface.Layout.DrawFloat("Linear Sleeping Threshold", rb.linearSleepingThreshold, rb);
         angularSleepingThreshold = EditorInterface.Layout.DrawFloat("Angular Sleeping Threshold", rb.angularSleepingThreshold, rb);
 
-		EditorGUILayout.Separator();
+        rb.Extrapolate = EditorGUILayout.Toggle(new GUIContent("Extrapolate", "in threaded mode only"), rb.Extrapolate);
 
-		rb.debugType = EditorInterface.DrawDebug(rb.debugType, rb);
+        EditorGUILayout.Separator();
+
+        rb.debugType = EditorInterface.DrawDebug(rb.debugType, rb);
 
         if (rb.debugType != 0)
         {

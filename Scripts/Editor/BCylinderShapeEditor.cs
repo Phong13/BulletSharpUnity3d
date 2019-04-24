@@ -1,11 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using BulletUnity;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using BulletUnity;
+using UnityEngine;
 
 [CustomEditor(typeof(BCylinderShape))]
-public class BCylinderShapeEditor : Editor {
+public class BCylinderShapeEditor : Editor
+{
 
     public const float Two_PI = 6.283185307179586232f;
     public const float RADS_PER_DEG = Two_PI / 360.0f;
@@ -13,12 +13,13 @@ public class BCylinderShapeEditor : Editor {
     private float lineWidth = 5.0f;
 
     BCylinderShape script;
-	SerializedProperty extents;
+    SerializedProperty extents;
 
-	void OnEnable() {
-		script = (BCylinderShape)target;
-		//GetSerializedProperties();
-	}
+    void OnEnable()
+    {
+        script = (BCylinderShape)target;
+        //GetSerializedProperties();
+    }
 
     /*
 	void GetSerializedProperties() {
@@ -26,13 +27,14 @@ public class BCylinderShapeEditor : Editor {
 	}
     */
 
-	public override void OnInspectorGUI() {
+    public override void OnInspectorGUI()
+    {
         if (script.transform.localScale != Vector3.one)
         {
             EditorGUILayout.HelpBox("This shape doesn't support transform.scale.\nThe scale must be one. Use 'LocalScaling'", MessageType.Warning);
         }
         script.HalfExtent = EditorGUILayout.Vector3Field("Extents", script.HalfExtent);
-        script.LocalScaling = EditorGUILayout.Vector3Field("Local Scaling", script.LocalScaling);
+        script.LocalScaling = EditorGUILayout.Vector2Field("Local Scaling", script.LocalScaling);
         if (GUI.changed)
         {
             serializedObject.ApplyModifiedProperties();

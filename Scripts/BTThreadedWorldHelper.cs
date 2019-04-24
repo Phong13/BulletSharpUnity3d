@@ -9,6 +9,15 @@ namespace BulletUnity
     /// </summary>
     public class BTThreadedWorldHelper : BasePhysicsWorldHelper
     {
+        HighResolutionTimer timer;
+
+        public double TotalSimulationTime
+        {
+            get
+            {
+                return timer == null ? -1 : timer.ElapsedHiRes();
+            }
+        }
 
         private void Start()
         {
@@ -19,8 +28,8 @@ namespace BulletUnity
         private IEnumerator DelayThreadStart()
         {
             // wait 5 sec before starting
-            yield return new WaitForSeconds(5);
-            HighResolutionTimer timer = new HighResolutionTimer(FixedTimeStep * 1000);
+            yield return new WaitForSeconds(1);
+            timer = new HighResolutionTimer(FixedTimeStep * 1000);
             timer.UseHighPriorityThread = false;
             timer.Elapsed += (s, e) =>
             {
@@ -38,7 +47,6 @@ namespace BulletUnity
                 {
                     float timeStep = (float)deltaTime * TimeStepRatio;
                     int maxStep = Mathf.CeilToInt(timeStep / FixedTimeStep);
-
                     m__frameCount += m_ddWorld.StepSimulation(timeStep, maxStep < 1 ? 1 : maxStep, FixedTimeStep);
 
                     if (m_collisionEventHandler != null)

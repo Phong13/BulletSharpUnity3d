@@ -5,7 +5,30 @@ using UnityEngine;
 public class CollisionNormalDisplayCallback : BCollisionCallbacksDefault
 {
 
+    public Color CollisionNormalColor = Color.red;
 
+    private Vector3 collisionPoint;
+    private Vector3 collistionNormal;
+    private bool MustDisplay = false;
+
+    System.Object lck = new object();
+
+    public override void Start()
+    {
+        base.Start();
+        UnityThreadExecute.RegisterActionForExecutionSteps(() => CollisionToDisplay(), UnityThreadExecute.UnityExecutionStep.Update);
+    }
+
+
+    private void CollisionToDisplay()
+    {
+        lock (lck)
+        {
+            if (MustDisplay)
+                Debug.DrawLine(collisionPoint, collisionPoint + collistionNormal, CollisionNormalColor, 0.5f);
+            MustDisplay = false;
+        }
+    }
 
     /// <summary>
     ///Beware of creating, destroying, adding or removing bullet objects inside CollisionEnter, CollisionStay and CollisionExit. Doing so can alter the list of collisions and ContactManifolds 
@@ -26,9 +49,30 @@ public class CollisionNormalDisplayCallback : BCollisionCallbacksDefault
             for (int i = 0; i < manifold.NumContacts; i++)
             {
                 ManifoldPoint manifoldPoint = manifold.GetContactPoint(i);
-                Vector3 position = manifoldPoint.PositionWorldOnB.ToUnity();
-                Vector3 normal = manifoldPoint.NormalWorldOnB.ToUnity();
-                UnityThreadExecute.InvokeNextUpdate(() => Debug.DrawLine(position, position + normal, Color.red, 0.5f));
+                lock (lck)
+                {
+                    collisionPoint = manifoldPoint.PositionWorldOnB.ToUnity();
+                    collistionNormal = manifoldPoint.NormalWorldOnB.ToUnity();
+                    MustDisplay = true;
+                }
+
+            }
+        }
+    }
+
+    public override void BOnCollisionStay(CollisionObject other, PersistentManifoldList manifoldList)
+    {
+        foreach (PersistentManifold manifold in manifoldList.manifolds)
+        {
+            for (int i = 0; i < manifold.NumContacts; i++)
+            {
+                ManifoldPoint manifoldPoint = manifold.GetContactPoint(i);
+                lock (lck)
+                {
+                    collisionPoint = manifoldPoint.PositionWorldOnB.ToUnity();
+                    collistionNormal = manifoldPoint.NormalWorldOnB.ToUnity() / 10f;
+                    MustDisplay = true;
+                }
 
             }
         }

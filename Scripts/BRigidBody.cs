@@ -49,6 +49,8 @@ namespace BulletUnity
                 && (m_collisionFlags & BulletSharp.CollisionFlags.KinematicObject) != BulletSharp.CollisionFlags.KinematicObject;
         }
 
+        public bool Extrapolate = false;
+
         public override BulletSharp.CollisionFlags collisionFlags
         {
             get { return m_collisionFlags; }
@@ -484,7 +486,7 @@ namespace BulletUnity
             CollisionShape cs = m_collisionShape.GetCollisionShape();
             if (m_motionState == null)
             {
-                m_motionState = new BGameObjectMotionState(transform);
+                m_motionState = new BGameObjectMotionState(this);
             }
 
             BulletSharp.RigidBody rb = (BulletSharp.RigidBody)m_collisionObject;
@@ -564,11 +566,21 @@ namespace BulletUnity
             }
         }
 
-        public void AddImpulse(UnityEngine.Vector3 impulse)
+        public void AddImpulse(UnityEngine.Vector3 impulse, UnityEngine.Space space = Space.World)
         {
             if (isInWorld)
             {
-                m_rigidBody.ApplyCentralImpulse(impulse.ToBullet());
+                switch (space)
+                {
+                    case Space.World:
+                        m_rigidBody.ApplyCentralImpulse(impulse.ToBullet());
+                        break;
+                    default:
+                        BulletSharp.Math.Vector3 bulletImpulse = impulse.ToBullet();
+                        BulletSharp.Math.Vector3 worldBulletImpulse = BulletSharp.Math.Vector3.TransformCoordinate(bulletImpulse, m_rigidBody.WorldTransform.Basis);
+                        m_rigidBody.ApplyCentralImpulse(worldBulletImpulse);
+                        break;
+                }
             }
         }
 
@@ -594,11 +606,21 @@ namespace BulletUnity
         The force accumulator is cleared after every StepSimulation call including interpolation StepSimulation calls which clear the force
         accumulator and do nothing. 
         */
-        public void AddForce(UnityEngine.Vector3 force)
+        public void AddForce(UnityEngine.Vector3 force, UnityEngine.Space space = Space.World)
         {
             if (isInWorld)
             {
-                m_rigidBody.ApplyCentralForce(force.ToBullet());
+                switch (space)
+                {
+                    case Space.World:
+                        m_rigidBody.ApplyCentralForce(force.ToBullet());
+                        break;
+                    default:
+                        BulletSharp.Math.Vector3 bulletImpulse = force.ToBullet();
+                        BulletSharp.Math.Vector3 worldBulletImpulse = BulletSharp.Math.Vector3.TransformCoordinate(bulletImpulse, m_rigidBody.WorldTransform.Basis);
+                        m_rigidBody.ApplyCentralForce(worldBulletImpulse);
+                        break;
+                }
             }
         }
 

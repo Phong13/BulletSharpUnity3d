@@ -271,7 +271,11 @@ namespace BulletUnity
         }
         */
 
-        BasePhysicsWorldHelper PhysicsWorldHelper;
+        public BasePhysicsWorldHelper PhysicsWorldHelper
+        {
+            get;
+            private set;
+        }
 
         CollisionConfiguration CollisionConf;
         CollisionDispatcher Dispatcher;

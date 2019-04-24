@@ -17,6 +17,8 @@ namespace BulletUnity
     /// </remarks>
     public class HighResolutionTimer
     {
+        private Stopwatch stopwatch;
+
         /// <summary>
         /// Tick time length in [ms]
         /// </summary>
@@ -141,7 +143,7 @@ namespace BulletUnity
         {
             float nextTrigger = 0f;
             double lastTriggerTime = 0f;
-            Stopwatch stopwatch = new Stopwatch();
+            stopwatch = new Stopwatch();
             stopwatch.Start();
 
             while (_isRunning)
@@ -172,7 +174,7 @@ namespace BulletUnity
 
                 double delay = elapsed - lastTriggerTime;
                 lastTriggerTime = elapsed;
-                Elapsed?.Invoke(this, new HighResolutionTimerElapsedEventArgs(delay));
+                Elapsed?.Invoke(this, new HighResolutionTimerElapsedEventArgs(delay, elapsed));
 
                 if (!_isRunning)
                     return;
@@ -188,6 +190,11 @@ namespace BulletUnity
             stopwatch.Stop();
         }
 
+        public double ElapsedHiRes()
+        {
+            return stopwatch == null ? -1 : ElapsedHiRes(stopwatch);
+        }
+
         private static double ElapsedHiRes(Stopwatch stopwatch)
         {
             return stopwatch.ElapsedTicks * TickLength;
@@ -200,9 +207,13 @@ namespace BulletUnity
         /// <summary>/// Real timer delay in [ms]/// </summary>
         public double Delay { get; }
 
-        internal HighResolutionTimerElapsedEventArgs(double delay)
+        /// <summary>/// Real timer total time in [ms]/// </summary>
+        public double TotalTime { get; }
+
+        internal HighResolutionTimerElapsedEventArgs(double delay, double elapsedTime)
         {
             Delay = delay;
+            TotalTime = elapsedTime;
         }
     }
 }
