@@ -44,21 +44,6 @@ namespace BulletUnity
             }
         }
 
-        [SerializeField]
-        protected Vector3 m_localScaling = Vector3.one;
-        public Vector3 LocalScaling
-        {
-            get { return m_localScaling; }
-            set
-            {
-                m_localScaling = value;
-                if (collisionShapePtr != null)
-                {
-                    ((ConeShape)collisionShapePtr).LocalScaling = value.ToBullet();
-                }
-            }
-        }
-
         public override void OnDrawGizmosSelected()
         {
             if (drawGizmo == false)
@@ -67,8 +52,7 @@ namespace BulletUnity
             }
             UnityEngine.Vector3 position = transform.position;
             UnityEngine.Quaternion rotation = transform.rotation;
-            UnityEngine.Vector3 scale = m_localScaling;
-            BUtility.DebugDrawCone(position, rotation, scale, radius, height, 1, Color.yellow);
+            BUtility.DebugDrawCone(position, rotation, LocalScaling, radius, height, 1, Color.yellow);
         }
 
         public override CollisionShape CopyCollisionShape()

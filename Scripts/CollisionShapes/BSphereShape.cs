@@ -24,30 +24,14 @@ namespace BulletUnity {
             }
         }
 
-        [SerializeField]
-        protected Vector3 m_localScaling = Vector3.one;
-        public Vector3 LocalScaling
-        {
-            get { return m_localScaling; }
-            set
-            {
-                m_localScaling = value;
-                if (collisionShapePtr != null)
-                {
-                    ((SphereShape)collisionShapePtr).LocalScaling = value.ToBullet();
-                }
-            }
-        }
-
         public override void OnDrawGizmosSelected() {
             if (drawGizmo == false)
             {
                 return;
             }
-            UnityEngine.Vector3 position = transform.position;
-            UnityEngine.Quaternion rotation = transform.rotation;
-            UnityEngine.Vector3 scale = m_localScaling;
-            BUtility.DebugDrawSphere(position, rotation, scale, Vector3.one * radius, Color.yellow);
+            Vector3 position = transform.position;
+            Quaternion rotation = transform.rotation;
+            BUtility.DebugDrawSphere(position, rotation, LocalScaling, Vector3.one * radius, Color.yellow);
         }
 
         public override CollisionShape CopyCollisionShape()

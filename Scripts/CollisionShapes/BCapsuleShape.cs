@@ -68,21 +68,6 @@ namespace BulletUnity {
             }
         }
 
-        [SerializeField]
-        protected Vector3 m_localScaling = Vector3.one;
-        public Vector3 LocalScaling
-        {
-            get { return m_localScaling; }
-            set
-            {
-                m_localScaling = value;
-                if (collisionShapePtr != null)
-                {
-                    ((CapsuleShape)collisionShapePtr).LocalScaling = value.ToBullet();
-                }
-            }
-        }
-
         public override void OnDrawGizmosSelected() {
             if (drawGizmo == false)
             {
@@ -90,7 +75,6 @@ namespace BulletUnity {
             }
             UnityEngine.Vector3 position = transform.position;
             UnityEngine.Quaternion rotation = transform.rotation;
-            UnityEngine.Vector3 scale = m_localScaling;
             if (upAxis == CapsuleAxis.x)
             {
                 rotation = Quaternion.AngleAxis(90, transform.forward) * rotation;
@@ -98,7 +82,7 @@ namespace BulletUnity {
             {
                 rotation = Quaternion.AngleAxis(90, transform.right) * rotation;
             }
-            BUtility.DebugDrawCapsule(position, rotation, scale, radius, height / 2f, 1, Gizmos.color);
+            BUtility.DebugDrawCapsule(position, rotation, LocalScaling, radius, height / 2f, 1, Gizmos.color);
 
         }
 
