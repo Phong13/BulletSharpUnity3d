@@ -18,7 +18,7 @@ public class BulletRopeProxy : MonoBehaviour {
         target.GetLinkVertexData(ref linkVerts);
 		if (numVerts != linkVerts.Length / (3 * 2)) {
 			numVerts = linkVerts.Length / (3 * 2) + 1;
-            line.SetVertexCount(numVerts);
+            line.positionCount = numVerts;
         }
 		if (linkVerts.Length > 0){
 			//link verts are in pairs marking the ends of the links.
