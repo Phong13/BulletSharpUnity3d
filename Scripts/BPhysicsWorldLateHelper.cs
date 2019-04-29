@@ -27,9 +27,8 @@ namespace BulletUnity
                     in order to keep the simulation real-time, the maximum number of substeps can be clamped to 'maxSubSteps'.
                     You can disable subdividing the timestep/substepping by passing maxSubSteps=0 as second argument to stepSimulation, but in that case you have to keep the timeStep constant. */
                 Debug.Assert(m_elapsedBetweenFixedFrames < FixedTimeStep);
-                float deltaTime = FixedTimeStep - m_elapsedBetweenFixedFrames;
+                float deltaTime = (FixedTimeStep - m_elapsedBetweenFixedFrames) * TimeStepRatio;
                 int numSteps = m_ddWorld.StepSimulation(deltaTime, 1, FixedTimeStep);
-                Debug.Assert(numSteps == 1);
                 m__frameCount += numSteps;
                 m_lastInterpolationTime = UnityEngine.Time.time;
                 m_elapsedBetweenFixedFrames = 0f;
@@ -48,7 +47,7 @@ namespace BulletUnity
         //This is needed for rigidBody interpolation. The motion states will update the positions of the rigidbodies
         protected virtual void Update()
         {
-            float deltaTime = Time.time - m_lastInterpolationTime;
+            float deltaTime = (Time.time - m_lastInterpolationTime) * TimeStepRatio;
 
             // We want to ensure that each bullet sim step corresponds to exactly one Unity FixedUpdate timestep
             if (deltaTime > 0f && (m_elapsedBetweenFixedFrames + deltaTime) < FixedTimeStep)

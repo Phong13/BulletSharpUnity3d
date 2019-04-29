@@ -7,25 +7,14 @@ using UnityEngine;
 public class BCylinderShapeEditor : Editor
 {
 
-    public const float Two_PI = 6.283185307179586232f;
-    public const float RADS_PER_DEG = Two_PI / 360.0f;
-
-    private float lineWidth = 5.0f;
-
     BCylinderShape script;
     SerializedProperty extents;
 
     void OnEnable()
     {
         script = (BCylinderShape)target;
-        //GetSerializedProperties();
     }
 
-    /*
-	void GetSerializedProperties() {
-		extents = serializedObject.FindProperty("halfExtent");
-	}
-    */
 
     public override void OnInspectorGUI()
     {
@@ -33,8 +22,22 @@ public class BCylinderShapeEditor : Editor
         {
             EditorGUILayout.HelpBox("This shape doesn't support transform.scale.\nThe scale must be one. Use 'LocalScaling'", MessageType.Warning);
         }
-        script.HalfExtent = EditorGUILayout.Vector3Field("Extents", script.HalfExtent);
-        script.LocalScaling = EditorGUILayout.Vector2Field("Local Scaling", script.LocalScaling);
+        script.drawGizmo = EditorGUILayout.Toggle("Draw Gizmo", script.drawGizmo);
+        script.HalfExtent = EditorGUILayout.Vector2Field("Extents", script.HalfExtent);
+        Rect position = EditorGUILayout.BeginHorizontal();
+        position.height = EditorGUIUtility.singleLineHeight;
+        EditorGUILayout.GetControlRect();
+        Rect contentPosition = EditorGUI.PrefixLabel(position, new GUIContent("Local Scaling"));
+        contentPosition.width /= 4;
+        EditorGUI.LabelField(contentPosition, new GUIContent("Half Height"));
+        contentPosition.x += contentPosition.width;
+        float height = EditorGUI.FloatField(contentPosition, script.LocalScaling.y);
+        contentPosition.x += contentPosition.width;
+        EditorGUI.LabelField(contentPosition, new GUIContent("Radius"));
+        contentPosition.x += contentPosition.width;
+        float radius = EditorGUI.FloatField(contentPosition, script.LocalScaling.x);
+        script.LocalScaling = new Vector3(radius, height, radius);
+        EditorGUILayout.EndHorizontal();
         if (GUI.changed)
         {
             serializedObject.ApplyModifiedProperties();

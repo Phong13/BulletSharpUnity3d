@@ -75,49 +75,6 @@ namespace BulletUnity
             return singleton;
         }
 
-        [SerializeField]
-        protected DebugDrawModes _debugDrawMode = DebugDrawModes.DrawWireframe;
-        public DebugDrawModes DebugDrawMode
-        {
-            get { return _debugDrawMode; }
-            set
-            {
-                _debugDrawMode = value;
-                if (_doDebugDraw && m_world != null && m_world.DebugDrawer != null)
-                {
-                    m_world.DebugDrawer.DebugMode = value;
-                }
-            }
-        }
-
-        [SerializeField]
-        protected bool _doDebugDraw = false;
-        public bool DoDebugDraw
-        {
-            get { return _doDebugDraw; }
-            set
-            {
-                if (_doDebugDraw != value && m_world != null)
-                {
-                    if (value == true)
-                    {
-                        DebugDrawUnity db = new DebugDrawUnity();
-                        db.DebugMode = _debugDrawMode;
-                        m_world.DebugDrawer = db;
-                    }
-                    else
-                    {
-                        IDebugDraw db = m_world.DebugDrawer;
-                        if (db != null && db is IDisposable)
-                        {
-                            ((IDisposable)db).Dispose();
-                        }
-                        m_world.DebugDrawer = null;
-                    }
-                }
-                _doDebugDraw = value;
-            }
-        }
 
         [SerializeField]
         WorldType m_worldType = WorldType.RigidBodyDynamics;
@@ -136,7 +93,7 @@ namespace BulletUnity
         }
 
         [SerializeField]
-        HelperType m_helperType = HelperType.Thread;
+        HelperType m_helperType = HelperType.LateUpdate;
         public HelperType helperType
         {
             get { return m_helperType; }
@@ -259,6 +216,52 @@ namespace BulletUnity
             }
         }
 
+        [Header("Debug")]
+        [SerializeField]
+        protected bool _doDebugDraw = false;
+        public bool DoDebugDraw
+        {
+            get { return _doDebugDraw; }
+            set
+            {
+                if (_doDebugDraw != value && m_world != null)
+                {
+                    if (value == true)
+                    {
+                        DebugDrawUnity db = new DebugDrawUnity();
+                        db.DebugMode = _debugDrawMode;
+                        m_world.DebugDrawer = db;
+                    }
+                    else
+                    {
+                        IDebugDraw db = m_world.DebugDrawer;
+                        if (db != null && db is IDisposable)
+                        {
+                            ((IDisposable)db).Dispose();
+                        }
+                        m_world.DebugDrawer = null;
+                    }
+                }
+                _doDebugDraw = value;
+            }
+        }
+
+        [SerializeField, EnumFlag]
+        protected DebugDrawModes _debugDrawMode = DebugDrawModes.DrawWireframe;
+        public DebugDrawModes DebugDrawMode
+        {
+            get { return _debugDrawMode; }
+            set
+            {
+                _debugDrawMode = value;
+                if (_doDebugDraw && m_world != null && m_world.DebugDrawer != null)
+                {
+                    m_world.DebugDrawer.DebugMode = value;
+                }
+            }
+        }
+
+        [EnumFlag]
         public BDebug.DebugType debugType;
 
         /*
@@ -311,6 +314,7 @@ namespace BulletUnity
             }
         }
 
+        [HideInInspector]
         public float timeStr;
 
         public void RegisterCollisionCallbackListener(BCollisionObject.BICollisionCallbackEventHandler toBeAdded)

@@ -4,81 +4,106 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 
 [CustomEditor(typeof(BRigidBody))]
+[CanEditMultipleObjects]
 public class BRigidBodyEditor : Editor
 {
     BRigidBody rb;
+    private SerializedProperty m_collisionFlagsProp;
+    private SerializedProperty m_groupsIBelongToProp;
+    private SerializedProperty m_collisionMaskProp;
+    private SerializedProperty _massProp;
+    private SerializedProperty _linearFactorProp;
+    private SerializedProperty _angularFactorProp;
+    private SerializedProperty _frictionProp;
+    private SerializedProperty _rollingFrictionProp;
+    private SerializedProperty _linearDampingProp;
+    private SerializedProperty _angularDampingProp;
+    private SerializedProperty _additionalDampingProp;
+    private SerializedProperty _additionalDampingFactorProp;
+    private SerializedProperty _additionalLinearDampingThresholdSqrProp;
+    private SerializedProperty _additionalAngularDampingThresholdSqrProp;
+    private SerializedProperty _additionalAngularDampingFactorProp;
+    private SerializedProperty _restitutionProp;
+    private SerializedProperty _linearSleepingThresholdProp;
+    private SerializedProperty _angularSleepingThresholdProp;
+    private SerializedProperty debugTypeProp;
 
     void OnEnable()
     {
         rb = (BRigidBody)target;
+        m_collisionFlagsProp = serializedObject.FindProperty("m_collisionFlags");
+        m_groupsIBelongToProp = serializedObject.FindProperty("m_groupsIBelongTo");
+        m_collisionMaskProp = serializedObject.FindProperty("m_collisionMask");
+        _massProp = serializedObject.FindProperty("_mass");
+        _linearFactorProp = serializedObject.FindProperty("_linearFactor");
+        _angularFactorProp = serializedObject.FindProperty("_angularFactor");
+        _frictionProp = serializedObject.FindProperty("_friction");
+        _rollingFrictionProp = serializedObject.FindProperty("_rollingFriction");
+        _linearDampingProp = serializedObject.FindProperty("_linearDamping");
+        _angularDampingProp = serializedObject.FindProperty("_angularDamping");
+        _additionalDampingProp = serializedObject.FindProperty("_additionalDamping");
+        _additionalDampingFactorProp = serializedObject.FindProperty("_additionalDampingFactor");
+        _additionalLinearDampingThresholdSqrProp =
+            serializedObject.FindProperty("_additionalLinearDampingThresholdSqr");
+        _additionalAngularDampingThresholdSqrProp = serializedObject.FindProperty("_additionalAngularDampingThresholdSqr");
+        _additionalAngularDampingFactorProp = serializedObject.FindProperty("_additionalAngularDampingFactor");
+        _restitutionProp = serializedObject.FindProperty("_restitution");
+        _linearSleepingThresholdProp = serializedObject.FindProperty("_linearSleepingThreshold");
+        _angularSleepingThresholdProp = serializedObject.FindProperty("_angularSleepingThreshold");
+        debugTypeProp = serializedObject.FindProperty("debugType");
     }
 
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
         EditorGUILayout.LabelField("Collision", EditorStyles.boldLabel);
-        float mass;
-        Vector3 linearFactor;
-        Vector3 angularFactor;
-        float friction;
-        float rollingFriction;
-        float linearDamping;
-        float angularDamping;
-        bool additionalDamping;
-        float additionalDampingFactor = 0f;
-        float additionalLinearDampingThresholdSqr = 0f;
-        float additionalAngularDampingThresholdSqr = 0f;
-        float additionalAngularDampingFactor = 0f;
-        float restitution;
-        float linearSleepingThreshold;
-        float angularSleepingThreshold;
 
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_collisionFlags"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_groupsIBelongTo"));
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("m_collisionMask"));
+        EditorGUILayout.PropertyField(m_collisionFlagsProp);
+        EditorGUILayout.PropertyField(m_groupsIBelongToProp);
+        EditorGUILayout.PropertyField(m_collisionMaskProp);
 
         EditorGUILayout.Separator();
 
         EditorGUILayout.LabelField("Object", EditorStyles.boldLabel);
-        mass = EditorInterface.Layout.DrawFloat("Mass", rb.mass, rb);
+        EditorGUILayout.PropertyField(_massProp);
 
         EditorGUILayout.Separator();
 
         EditorGUILayout.LabelField("Limits", EditorStyles.boldLabel);
-        linearFactor = EditorInterface.Layout.DrawVector3("Linear Factor", rb.linearFactor, rb);
-        angularFactor = EditorInterface.Layout.DrawVector3("Angular Factor", rb.angularFactor, rb);
+        EditorGUILayout.PropertyField(_linearFactorProp);
+        EditorGUILayout.PropertyField(_angularFactorProp);
 
         EditorGUILayout.Separator();
 
         EditorGUILayout.LabelField("Friction", EditorStyles.boldLabel);
-        friction = EditorInterface.Layout.DrawFloat("Friction", rb.friction, rb);
-        rollingFriction = EditorInterface.Layout.DrawFloat("Rolling Friction", rb.rollingFriction, rb);
+        EditorGUILayout.PropertyField(_frictionProp);
+        EditorGUILayout.PropertyField(_rollingFrictionProp);
 
         EditorGUILayout.Separator();
 
         EditorGUILayout.LabelField("Damping", EditorStyles.boldLabel);
-        linearDamping = EditorInterface.Layout.DrawFloat("Linear Damping", rb.linearDamping, rb);
-        angularDamping = EditorInterface.Layout.DrawFloat("Angular Damping", rb.angularDamping, rb);
-        additionalDamping = EditorInterface.Layout.DrawToggle("Additional Damping", rb.additionalDamping, rb);
+        EditorGUILayout.PropertyField(_linearDampingProp);
+        EditorGUILayout.PropertyField(_angularDampingProp);
+        EditorGUILayout.PropertyField(_additionalDampingProp);
 
-        if (additionalDamping)
+        if (rb.additionalDamping)
         {
-            additionalDampingFactor = EditorInterface.Layout.DrawFloat("Additional Damping Factor", rb.additionalDampingFactor, rb);
-            additionalLinearDampingThresholdSqr = EditorInterface.Layout.DrawFloat("Additional Linear Damping Threshold Sqr", rb.additionalLinearDampingThresholdSqr, rb);
-            additionalAngularDampingThresholdSqr = EditorInterface.Layout.DrawFloat("Additional Angular Damping Threshold Sqr", rb.additionalAngularDampingThresholdSqr, rb);
-            additionalAngularDampingFactor = EditorInterface.Layout.DrawFloat("Additional Angular Damping Factor", rb.additionalAngularDampingFactor, rb);
+            EditorGUILayout.PropertyField(_additionalDampingFactorProp);
+            EditorGUILayout.PropertyField(_additionalLinearDampingThresholdSqrProp);
+            EditorGUILayout.PropertyField(_additionalAngularDampingThresholdSqrProp);
+            EditorGUILayout.PropertyField(_additionalAngularDampingFactorProp);
         }
 
         EditorGUILayout.Separator();
 
         EditorGUILayout.LabelField("Other Settings", EditorStyles.boldLabel);
-        restitution = EditorInterface.Layout.DrawFloat("Restitution", rb.restitution, rb);
-        linearSleepingThreshold = EditorInterface.Layout.DrawFloat("Linear Sleeping Threshold", rb.linearSleepingThreshold, rb);
-        angularSleepingThreshold = EditorInterface.Layout.DrawFloat("Angular Sleeping Threshold", rb.angularSleepingThreshold, rb);
+        EditorGUILayout.PropertyField(_restitutionProp);
+        EditorGUILayout.PropertyField(_linearSleepingThresholdProp);
+        EditorGUILayout.PropertyField(_angularSleepingThresholdProp);
 
         rb.Extrapolate = EditorGUILayout.Toggle(new GUIContent("Extrapolate", "in threaded mode only"), rb.Extrapolate);
 
-        EditorGUILayout.Separator();
+        EditorGUILayout.PropertyField(debugTypeProp);
 
         rb.debugType = EditorInterface.DrawDebug(rb.debugType, rb);
 
@@ -88,32 +113,6 @@ public class BRigidBodyEditor : Editor
             EditorGUILayout.LabelField(string.Format("Angular Velocity {0}", rb.angularVelocity));
         }
 
-        if (GUI.changed)
-        {
-            rb.mass = mass;
-            rb.linearFactor = linearFactor;
-            rb.angularFactor = angularFactor;
-            rb.friction = friction;
-            rb.rollingFriction = rollingFriction;
-            rb.linearDamping = linearDamping;
-            rb.angularDamping = angularDamping;
-            rb.additionalDamping = additionalDamping;
-            if (additionalDamping)
-            {
-                rb.additionalDampingFactor = additionalDampingFactor;
-                rb.additionalLinearDampingThresholdSqr = additionalLinearDampingThresholdSqr;
-                rb.additionalAngularDampingThresholdSqr = additionalAngularDampingThresholdSqr;
-                rb.additionalAngularDampingFactor = additionalAngularDampingFactor;
-            }
-            rb.restitution = restitution;
-            rb.linearSleepingThreshold = linearSleepingThreshold;
-            rb.angularSleepingThreshold = angularSleepingThreshold;
-
-            serializedObject.ApplyModifiedProperties();
-            EditorUtility.SetDirty(rb);
-            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
-            Repaint();
-        }
         serializedObject.ApplyModifiedProperties();
     }
 }

@@ -34,21 +34,6 @@ namespace BulletUnity
         [SerializeField]
         protected BCollisionShape[] colliders;
 
-        [SerializeField]
-        protected Vector3 m_localScaling = Vector3.one;
-        public Vector3 LocalScaling
-        {
-            get { return m_localScaling; }
-            set
-            {
-                m_localScaling = value;
-                if (collisionShapePtr != null)
-                {
-                    ((CompoundShape)collisionShapePtr).LocalScaling = value.ToBullet();
-                }
-            }
-        }
-
         //TODO the gizmos do not draw correctly when collision shape is scaled
         public override void OnDrawGizmosSelected()
         {
