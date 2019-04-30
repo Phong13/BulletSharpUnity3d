@@ -49,8 +49,6 @@ namespace BulletUnity
                 && (m_collisionFlags & BulletSharp.CollisionFlags.KinematicObject) != BulletSharp.CollisionFlags.KinematicObject;
         }
 
-        public bool Extrapolate = false;
-
         public override BulletSharp.CollisionFlags collisionFlags
         {
             get { return m_collisionFlags; }

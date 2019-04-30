@@ -34,11 +34,6 @@ namespace BulletUnity
 
         private BRigidBody rigidBody;
 
-        public bool Extrapolate
-        {
-            get { return rigidBody.Extrapolate; }
-        }
-
         public BGameObjectMotionState(BRigidBody rigidBody)
         {
             this.rigidBody = rigidBody;
@@ -89,21 +84,10 @@ namespace BulletUnity
                         UnityEngine.Vector3 previousPosition = BSExtensionMethods2.ExtractTranslationFromMatrix(ref previousBulletTransform.Transform);
                         UnityEngine.Quaternion previousRotation = BSExtensionMethods2.ExtractRotationFromMatrix(ref previousBulletTransform.Transform);
 
-                        if (Extrapolate)
-                        {
-                            Debug.Log("extrapolate");
-                            double extrapolationFactor = (currentTime - previousBulletTransform.TimeStamp) / (lastBulletTransform.TimeStamp - previousBulletTransform.TimeStamp);
+                        double interpolationFactor = (currentTime - lastBulletTransform.TimeStamp) / (lastBulletTransform.TimeStamp - previousBulletTransform.TimeStamp);
 
-                            transform.position = UnityEngine.Vector3.LerpUnclamped(previousPosition, position, (float)extrapolationFactor);
-                            transform.rotation = UnityEngine.Quaternion.LerpUnclamped(previousRotation, rotation, (float)extrapolationFactor);
-                        }
-                        else
-                        {
-                            double interpolationFactor = (currentTime - lastBulletTransform.TimeStamp) / (lastBulletTransform.TimeStamp - previousBulletTransform.TimeStamp);
-
-                            transform.position = UnityEngine.Vector3.LerpUnclamped(previousPosition, position, (float)interpolationFactor);
-                            transform.rotation = UnityEngine.Quaternion.LerpUnclamped(previousRotation, rotation, (float)interpolationFactor);
-                        }
+                        transform.position = UnityEngine.Vector3.LerpUnclamped(previousPosition, position, (float)interpolationFactor);
+                        transform.rotation = UnityEngine.Quaternion.LerpUnclamped(previousRotation, rotation, (float)interpolationFactor);
                     }
                     else
                     {

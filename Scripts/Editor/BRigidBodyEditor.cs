@@ -1,7 +1,5 @@
 ﻿using BulletUnity;
 using UnityEditor;
-using UnityEditor.SceneManagement;
-using UnityEngine;
 
 [CustomEditor(typeof(BRigidBody))]
 [CanEditMultipleObjects]
@@ -100,8 +98,6 @@ public class BRigidBodyEditor : Editor
         EditorGUILayout.PropertyField(_restitutionProp);
         EditorGUILayout.PropertyField(_linearSleepingThresholdProp);
         EditorGUILayout.PropertyField(_angularSleepingThresholdProp);
-
-        rb.Extrapolate = EditorGUILayout.Toggle(new GUIContent("Extrapolate", "in threaded mode only"), rb.Extrapolate);
 
         EditorGUILayout.PropertyField(debugTypeProp);
 
