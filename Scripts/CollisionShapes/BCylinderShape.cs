@@ -1,16 +1,15 @@
-﻿using System;
+﻿using BulletSharp;
 using UnityEngine;
-using System.Collections;
-using BulletSharp;
 
 namespace BulletUnity
 {
     [AddComponentMenu("Physics Bullet/Shapes/Cylinder")]
     public class BCylinderShape : BCollisionShape
     {
+
         [SerializeField]
-        protected Vector3 halfExtent = new Vector3(0.5f, 0.5f, 0.5f);
-        public Vector3 HalfExtent
+        protected Vector2 halfExtent = new Vector2(0.5f, 0.5f);
+        public Vector2 HalfExtent
         {
             get { return halfExtent; }
             set
@@ -20,7 +19,8 @@ namespace BulletUnity
                     Debug.LogError("Cannot change the extents after the bullet shape has been created. Extents is only the initial value " +
                                     "Use LocalScaling to change the shape of a bullet shape.");
                 }
-                else {
+                else
+                {
                     halfExtent = value;
                 }
             }
@@ -28,7 +28,7 @@ namespace BulletUnity
 
         public override void OnDrawGizmosSelected()
         {
-            if (drawGizmo == false)
+            if (!drawGizmo)
             {
                 return;
             }
@@ -39,7 +39,7 @@ namespace BulletUnity
 
         public override CollisionShape CopyCollisionShape()
         {
-            CylinderShape cs = new CylinderShape(halfExtent.ToBullet());
+            CylinderShape cs = new CylinderShape(new Vector3(HalfExtent.x, HalfExtent.y, HalfExtent.x).ToBullet());
             cs.LocalScaling = m_localScaling.ToBullet();
             return cs;
         }
@@ -48,7 +48,7 @@ namespace BulletUnity
         {
             if (collisionShapePtr == null)
             {
-                collisionShapePtr = new CylinderShape(halfExtent.ToBullet());
+                collisionShapePtr = new CylinderShape(new Vector3(HalfExtent.x, HalfExtent.y, HalfExtent.x).ToBullet());
                 ((CylinderShape)collisionShapePtr).LocalScaling = m_localScaling.ToBullet();
             }
             return collisionShapePtr;
