@@ -20,7 +20,7 @@ namespace BulletUnity
             }
         }
 
-        public Transform transform;
+        protected Transform transform;
 
         BulletTransformData lastBulletTransform;
         BulletTransformData previousBulletTransform;
@@ -32,12 +32,12 @@ namespace BulletUnity
 
         BTThreadedWorldHelper threadHelper;
 
-        private BRigidBody rigidBody;
 
-        public BGameObjectMotionState(BRigidBody rigidBody)
+        private object lck = new object();
+
+        public BGameObjectMotionState(Transform transform)
         {
-            this.rigidBody = rigidBody;
-            transform = rigidBody.transform;
+            this.transform = transform;
             pos = transform.position.ToBullet();
             rot = transform.rotation.ToBullet();
             threadHelper = BPhysicsWorld.Get().PhysicsWorldHelper as BTThreadedWorldHelper;
@@ -61,7 +61,7 @@ namespace BulletUnity
             double timeStamp = -1;
             if (threadHelper != null)
                 timeStamp = threadHelper.TotalSimulationTime;
-            lock (transform)
+            lock (lck)
             {
                 previousBulletTransform = lastBulletTransform;
                 lastBulletTransform = new BulletTransformData(m, timeStamp);
@@ -72,7 +72,7 @@ namespace BulletUnity
         // Update is called once per frame
         public void Update()
         {
-            lock (transform)
+            lock (lck)
             {
                 if (mustUpdateTransform)
                 {
