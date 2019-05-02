@@ -89,7 +89,7 @@ namespace BulletUnity
                         double interpolationFactor = (currentTime - lastBulletTransform.TimeStamp) / (lastBulletTransform.TimeStamp - previousBulletTransform.TimeStamp);
 
                         transform.position = UnityEngine.Vector3.LerpUnclamped(previousPosition, position, (float)interpolationFactor);
-                        transform.rotation = UnityEngine.Quaternion.LerpUnclamped(previousRotation, rotation, (float)interpolationFactor);
+                        transform.rotation = UnityEngine.Quaternion.SlerpUnclamped(previousRotation, rotation, (float)interpolationFactor);
                     }
                     else
                     {
