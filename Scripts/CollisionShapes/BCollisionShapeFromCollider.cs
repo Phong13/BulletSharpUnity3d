@@ -17,7 +17,6 @@ namespace BulletUnity
                 if (meshCollider.convex)
                 {
                     float[] points = new float[vertices.Length * 3];
-                    Debug.Log(points.Length);
                     for (int i = 0; i < vertices.Length; ++i)
                     {
                         int idx = i * 3;
@@ -36,7 +35,6 @@ namespace BulletUnity
                 {
                     int[] tris = meshCollider.sharedMesh.triangles;
                     TriangleMesh tm = new TriangleMesh();
-                    Debug.Log(tris.Length * 3);
                     for (int i = 0; i < tris.Length; i += 3)
                     {
                         tm.AddTriangle(vertices[tris[i]].ToBullet(),
