@@ -31,6 +31,7 @@ public class BCompoundShapeEditor : Editor
 
         EditorGUILayout.PropertyField(shapes, true);
         script.LocalScaling = EditorGUILayout.Vector3Field("Local Scaling", script.LocalScaling);
+        script.Margin = EditorGUILayout.FloatField("Margin", script.Margin);
         if (GUI.changed)
         {
             serializedObject.ApplyModifiedProperties();

@@ -1,11 +1,9 @@
-﻿using System;
+﻿using BulletSharp;
 using UnityEngine;
-using System.Collections;
-using BulletSharp;
 
 namespace BulletUnity
 {
-	[AddComponentMenu("Physics Bullet/Shapes/Cone")]
+    [AddComponentMenu("Physics Bullet/Shapes/Cone")]
     public class BConeShape : BCollisionShape
     {
         [SerializeField]
@@ -20,7 +18,8 @@ namespace BulletUnity
                     Debug.LogError("Cannot change the radius after the bullet shape has been created. Radius is only the initial value " +
                                     "Use LocalScaling to change the shape of a bullet shape.");
                 }
-                else {
+                else
+                {
                     radius = value;
                 }
             }
@@ -38,7 +37,8 @@ namespace BulletUnity
                     Debug.LogError("Cannot change the height after the bullet shape has been created. Height is only the initial value " +
                                     "Use LocalScaling to change the shape of a bullet shape.");
                 }
-                else {
+                else
+                {
                     height = value;
                 }
             }
@@ -59,6 +59,7 @@ namespace BulletUnity
         {
             ConeShape cs = new ConeShape(radius, height);
             cs.LocalScaling = m_localScaling.ToBullet();
+            cs.Margin = m_Margin;
             return cs;
         }
 

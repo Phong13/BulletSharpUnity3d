@@ -1,11 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using BulletUnity;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using BulletUnity;
+using UnityEngine;
 
 [CustomEditor(typeof(BConvexTriangleMeshShape))]
-public class BConvexTriangleShapeEditor : Editor {
+public class BConvexTriangleShapeEditor : Editor
+{
 
     BConvexTriangleMeshShape script;
     //SerializedProperty hullMesh;
@@ -31,6 +31,7 @@ public class BConvexTriangleShapeEditor : Editor {
         }
         script.HullMesh = (Mesh)EditorGUILayout.ObjectField("Hull Mesh", script.HullMesh, typeof(Mesh), true);
         script.LocalScaling = EditorGUILayout.Vector3Field("Local Scaling", script.LocalScaling);
+        script.Margin = EditorGUILayout.FloatField("Margin", script.Margin);
         if (GUI.changed)
         {
             serializedObject.ApplyModifiedProperties();

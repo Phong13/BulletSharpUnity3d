@@ -7,6 +7,7 @@ using UnityEngine;
 public class BCylinderShapeEditor : Editor
 {
 
+
     BCylinderShape script;
     SerializedProperty extents;
 
@@ -38,6 +39,7 @@ public class BCylinderShapeEditor : Editor
         float radius = EditorGUI.FloatField(contentPosition, script.LocalScaling.x);
         script.LocalScaling = new Vector3(radius, height, radius);
         EditorGUILayout.EndHorizontal();
+        script.Margin = EditorGUILayout.FloatField("Margin", script.Margin);
         if (GUI.changed)
         {
             serializedObject.ApplyModifiedProperties();

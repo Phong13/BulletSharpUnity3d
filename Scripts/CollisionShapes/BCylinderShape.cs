@@ -42,6 +42,7 @@ namespace BulletUnity
         {
             CylinderShape cs = new CylinderShape(new Vector3(HalfExtent.x, HalfExtent.y, HalfExtent.x).ToBullet());
             cs.LocalScaling = m_localScaling.ToBullet();
+            collisionShapePtr.Margin = m_Margin;
             return cs;
         }
 
@@ -51,6 +52,7 @@ namespace BulletUnity
             {
                 collisionShapePtr = new CylinderShape(new Vector3(HalfExtent.x, HalfExtent.y, HalfExtent.x).ToBullet());
                 ((CylinderShape)collisionShapePtr).LocalScaling = m_localScaling.ToBullet();
+                collisionShapePtr.Margin = m_Margin;
             }
             return collisionShapePtr;
         }

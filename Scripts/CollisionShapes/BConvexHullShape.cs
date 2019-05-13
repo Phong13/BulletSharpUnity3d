@@ -61,6 +61,7 @@ namespace BulletUnity
             }
             ConvexHullShape cs = new ConvexHullShape(points);
             cs.LocalScaling = m_localScaling.ToBullet();
+            cs.Margin = m_Margin;
             return cs;
         }
 
