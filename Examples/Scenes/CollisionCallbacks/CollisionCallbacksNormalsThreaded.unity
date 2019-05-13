@@ -179,9 +179,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 211847792}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9faf066049320042ac0f3eda4214686, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e894323cfa988d4fa21438ac74bb73b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PhysicsWorld: {fileID: 0}
+  _simulationTime: []
+  _meanStepTime: []
+  _deltaTime: []
+  nbData: 0
+  ShowGraphs: 1
 --- !u!1 &549962443
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,7 +403,6 @@ MonoBehaviour:
   m_collisionFlags: 0
   m_groupsIBelongTo: 1
   m_collisionMask: 63
-  Extrapolate: 0
   _friction: 0.5
   _rollingFriction: 0
   _linearDamping: 0
@@ -1323,7 +1328,6 @@ MonoBehaviour:
   m_collisionFlags: 0
   m_groupsIBelongTo: 1
   m_collisionMask: 63
-  Extrapolate: 0
   _friction: 0.5
   _rollingFriction: 0
   _linearDamping: 0
@@ -1481,7 +1485,6 @@ MonoBehaviour:
   m_collisionFlags: 1
   m_groupsIBelongTo: 1
   m_collisionMask: 63
-  Extrapolate: 0
   _friction: 0.5
   _rollingFriction: 0
   _linearDamping: 0
@@ -1625,7 +1628,6 @@ MonoBehaviour:
   m_collisionFlags: 3
   m_groupsIBelongTo: 1
   m_collisionMask: 63
-  Extrapolate: 0
   _friction: 0.5
   _rollingFriction: 0
   _linearDamping: 0
@@ -1770,7 +1772,6 @@ MonoBehaviour:
   m_collisionFlags: 0
   m_groupsIBelongTo: 1
   m_collisionMask: 63
-  Extrapolate: 0
   _friction: 0.5
   _rollingFriction: 0
   _linearDamping: 0

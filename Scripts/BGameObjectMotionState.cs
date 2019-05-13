@@ -30,7 +30,7 @@ namespace BulletUnity
         BulletSharp.Math.Vector3 pos;
         BulletSharp.Math.Quaternion rot;
 
-        BTThreadedWorldHelper threadHelper;
+        BThreadedWorldHelper threadHelper;
 
 
         private object lck = new object();
@@ -40,7 +40,7 @@ namespace BulletUnity
             this.transform = transform;
             pos = transform.position.ToBullet();
             rot = transform.rotation.ToBullet();
-            threadHelper = BPhysicsWorld.Get().PhysicsWorldHelper as BTThreadedWorldHelper;
+            threadHelper = BPhysicsWorld.Get().PhysicsWorldHelper as BThreadedWorldHelper;
         }
 
         public delegate void GetTransformDelegate(out BM.Matrix worldTrans);

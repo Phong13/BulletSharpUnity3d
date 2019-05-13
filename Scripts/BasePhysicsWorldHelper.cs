@@ -8,7 +8,8 @@ namespace BulletUnity
 
         internal int m__frameCount = 0;
 
-        internal BPhysicsWorld m_physicsWorld;
+        [HideInInspector]
+        public BPhysicsWorld PhysicsWorld;
         internal BDefaultCollisionHandler m_collisionEventHandler = new BDefaultCollisionHandler();
         public void RegisterCollisionCallbackListener(BCollisionObject.BICollisionCallbackEventHandler toBeAdded)
         {
@@ -27,7 +28,7 @@ namespace BulletUnity
         {
             get
             {
-                return m_physicsWorld.fixedTimeStep;
+                return PhysicsWorld.fixedTimeStep;
             }
         }
 
@@ -35,7 +36,7 @@ namespace BulletUnity
         {
             get
             {
-                return m_physicsWorld.timeStepRatio;
+                return PhysicsWorld.timeStepRatio;
             }
         }
 

@@ -559,11 +559,11 @@ namespace BulletUnity
                 if (helperType == HelperType.LateUpdate)
                     PhysicsWorldHelper = gameObject.AddComponent<BPhysicsWorldLateHelper>();
                 if (helperType == HelperType.Thread)
-                    PhysicsWorldHelper = gameObject.AddComponent<BTThreadedWorldHelper>();
+                    PhysicsWorldHelper = gameObject.AddComponent<BThreadedWorldHelper>();
             }
             PhysicsWorldHelper.m_world = world;
             PhysicsWorldHelper.m_ddWorld = _ddWorld;
-            PhysicsWorldHelper.m_physicsWorld = this;
+            PhysicsWorldHelper.PhysicsWorld = this;
             PhysicsWorldHelper.m__frameCount = 0;
         }
 
