@@ -1,11 +1,11 @@
-﻿using System;
+﻿using BulletSharp;
 using UnityEngine;
-using System.Collections;
-using BulletSharp;
 
-namespace BulletUnity {
-	[AddComponentMenu("Physics Bullet/Shapes/Convex Triangle Mesh")]
-    public class BConvexTriangleMeshShape : BCollisionShape {
+namespace BulletUnity
+{
+    [AddComponentMenu("Physics Bullet/Shapes/Convex Triangle Mesh")]
+    public class BConvexTriangleMeshShape : BCollisionShape
+    {
         [SerializeField]
         protected Mesh hullMesh;
         public Mesh HullMesh
@@ -18,7 +18,8 @@ namespace BulletUnity {
                     Debug.LogError("Cannot change the Hull Mesh after the bullet shape has been created. This is only the initial value " +
                                     "Use LocalScaling to change the shape of a bullet shape.");
                 }
-                else {
+                else
+                {
                     hullMesh = value;
                 }
             }
@@ -27,7 +28,8 @@ namespace BulletUnity {
         //todo draw the hull when not in the world
         //todo can this be used with Dynamic objects? The manual hints that it is for static only.
 
-        public override void OnDrawGizmosSelected() {
+        public override void OnDrawGizmosSelected()
+        {
             //BUtility.DebugDrawCapsule(position, rotation, scale, radius, height / 2f, 1, Gizmos.color);  
         }
 
@@ -46,6 +48,7 @@ namespace BulletUnity {
             }
             ConvexTriangleMeshShape ms = new ConvexTriangleMeshShape(tm);
             ms.LocalScaling = m_localScaling.ToBullet();
+            ms.Margin = m_Margin;
             return ms;
         }
 
@@ -54,9 +57,11 @@ namespace BulletUnity {
             return _CreateConvexTriangleMeshShape();
         }
 
-        public override CollisionShape GetCollisionShape() {
-            if (collisionShapePtr == null) {
-                collisionShapePtr = _CreateConvexTriangleMeshShape();              
+        public override CollisionShape GetCollisionShape()
+        {
+            if (collisionShapePtr == null)
+            {
+                collisionShapePtr = _CreateConvexTriangleMeshShape();
             }
             return collisionShapePtr;
         }

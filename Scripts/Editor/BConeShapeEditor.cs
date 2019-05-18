@@ -1,20 +1,21 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using BulletUnity;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using BulletUnity;
+using UnityEngine;
 
 [CustomEditor(typeof(BConeShape))]
-public class BConeShapeEditor : Editor {
+public class BConeShapeEditor : Editor
+{
 
-	BConeShape script;
-	SerializedProperty radius;
-	SerializedProperty height;
+    BConeShape script;
+    SerializedProperty radius;
+    SerializedProperty height;
 
-	void OnEnable() {
-		script = (BConeShape)target;
-		//GetSerializedProperties();
-	}
+    void OnEnable()
+    {
+        script = (BConeShape)target;
+        //GetSerializedProperties();
+    }
 
     /*
 	void GetSerializedProperties() {
@@ -23,7 +24,8 @@ public class BConeShapeEditor : Editor {
 	}
     */
 
-	public override void OnInspectorGUI() {
+    public override void OnInspectorGUI()
+    {
         if (script.transform.localScale != Vector3.one)
         {
             EditorGUILayout.HelpBox("This shape doesn't support transform.scale.\nThe scale must be one. Use 'LocalScaling'", MessageType.Warning);
@@ -31,6 +33,7 @@ public class BConeShapeEditor : Editor {
         script.Radius = EditorGUILayout.FloatField("Radius", script.Radius);
         script.Height = EditorGUILayout.FloatField("Height", script.Height);
         script.LocalScaling = EditorGUILayout.Vector3Field("Local Scaling", script.LocalScaling);
+        script.Margin = EditorGUILayout.FloatField("Margin", script.Margin);
         if (GUI.changed)
         {
             serializedObject.ApplyModifiedProperties();

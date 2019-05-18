@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using BulletUnity;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using BulletUnity;
+using UnityEngine;
 
 [CustomEditor(typeof(BSphereShape))]
 public class BSphereShapeEditor : Editor
@@ -32,6 +31,7 @@ public class BSphereShapeEditor : Editor
         script.drawGizmo = EditorGUILayout.Toggle("Draw Shape", script.drawGizmo);
         script.Radius = EditorGUILayout.FloatField("Radius", script.Radius);
         script.LocalScaling = EditorGUILayout.Vector3Field("Local Scaling", script.LocalScaling);
+        script.Margin = EditorGUILayout.FloatField("Margin", script.Margin);
         if (GUI.changed)
         {
             serializedObject.ApplyModifiedProperties();

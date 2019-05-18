@@ -1,11 +1,11 @@
-﻿using System;
+﻿using BulletSharp;
 using UnityEngine;
-using System.Collections;
-using BulletSharp;
 
-namespace BulletUnity {
-	[AddComponentMenu("Physics Bullet/Shapes/Box")]
-    public class BBoxShape : BCollisionShape {
+namespace BulletUnity
+{
+    [AddComponentMenu("Physics Bullet/Shapes/Box")]
+    public class BBoxShape : BCollisionShape
+    {
         //public Vector3 extents = Vector3.one;
 
         [SerializeField]
@@ -19,13 +19,16 @@ namespace BulletUnity {
                 {
                     Debug.LogError("Cannot change the extents after the bullet shape has been created. Extents is only the initial value " +
                                     "Use LocalScaling to change the shape of a bullet shape.");
-                } else {
+                }
+                else
+                {
                     extents = value;
                 }
             }
         }
 
-        public override void OnDrawGizmosSelected() {
+        public override void OnDrawGizmosSelected()
+        {
             if (drawGizmo == false)
             {
                 return;
@@ -40,13 +43,17 @@ namespace BulletUnity {
         {
             BoxShape bs = new BoxShape(extents.ToBullet());
             bs.LocalScaling = m_localScaling.ToBullet();
+            bs.Margin = m_Margin;
             return bs;
         }
 
-        public override CollisionShape GetCollisionShape() {
-            if (collisionShapePtr == null) {
+        public override CollisionShape GetCollisionShape()
+        {
+            if (collisionShapePtr == null)
+            {
                 collisionShapePtr = new BoxShape(extents.ToBullet());
                 ((BoxShape)collisionShapePtr).LocalScaling = m_localScaling.ToBullet();
+                collisionShapePtr.Margin = m_Margin;
             }
             return collisionShapePtr;
         }

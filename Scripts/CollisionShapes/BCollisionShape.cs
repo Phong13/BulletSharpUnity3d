@@ -1,11 +1,14 @@
-﻿using UnityEngine;
+﻿using BulletSharp;
 using System;
-using BulletSharp;
+using UnityEngine;
 
-namespace BulletUnity {
+namespace BulletUnity
+{
     [System.Serializable]
-    public abstract class BCollisionShape : MonoBehaviour, IDisposable {
-        public enum CollisionShapeType {
+    public abstract class BCollisionShape : MonoBehaviour, IDisposable
+    {
+        public enum CollisionShapeType
+        {
             // dynamic
             BoxShape = 0,
             SphereShape = 1,
@@ -23,17 +26,21 @@ namespace BulletUnity {
         protected CollisionShape collisionShapePtr = null;
         public bool drawGizmo = true;
 
-        void OnDestroy() {
+        void OnDestroy()
+        {
             Dispose(false);
         }
 
-        public void Dispose() {
+        public void Dispose()
+        {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool isdisposing) {
-            if (collisionShapePtr != null) {
+        protected virtual void Dispose(bool isdisposing)
+        {
+            if (collisionShapePtr != null)
+            {
                 collisionShapePtr.Dispose();
                 collisionShapePtr = null;
             }
@@ -44,7 +51,7 @@ namespace BulletUnity {
         public abstract CollisionShape CopyCollisionShape();
 
         public abstract CollisionShape GetCollisionShape();
-        
+
         [SerializeField]
         protected Vector3 m_localScaling = Vector3.one;
         public Vector3 LocalScaling
@@ -57,7 +64,7 @@ namespace BulletUnity {
                 }
                 else
                 {
-                    return m_localScaling;    
+                    return m_localScaling;
                 }
             }
             set
@@ -66,6 +73,31 @@ namespace BulletUnity {
                 if (collisionShapePtr != null)
                 {
                     collisionShapePtr.LocalScaling = value.ToBullet();
+                }
+            }
+        }
+
+        [SerializeField]
+        protected float m_Margin = 0.04f;
+        public float Margin
+        {
+            get
+            {
+                if (collisionShapePtr != null)
+                {
+                    return collisionShapePtr.Margin;
+                }
+                else
+                {
+                    return m_Margin;
+                }
+            }
+            set
+            {
+                m_Margin = value;
+                if (collisionShapePtr != null)
+                {
+                    collisionShapePtr.Margin = value;
                 }
             }
         }

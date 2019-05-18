@@ -1,9 +1,9 @@
-﻿using System;
+﻿using BulletSharp;
+using System.Linq;
 using UnityEngine;
-using System.Collections;
-using BulletSharp;
 
-namespace BulletUnity {
+namespace BulletUnity
+{
     /*
     Doesn't check for changes in the transforms on the child objects or the transforms between 
     the child colliders and the compound collider. If the child colliders change then 
@@ -16,18 +16,35 @@ namespace BulletUnity {
         - children being moved to different possibly invalid locations in hierarchy 
     */
     [AddComponentMenu("Physics Bullet/Shapes/Compund")]
-    public class BCompoundShape : BCollisionShape {
+    public class BCompoundShape : BCollisionShape
+    {
+
+        public struct CollisionShapeWithTransform
+        {
+            public CollisionShape Shape;
+            public Transform Transform;
+
+            public CollisionShapeWithTransform(CollisionShape shape, Transform transform)
+            {
+                Shape = shape;
+                Transform = transform;
+            }
+        }
+
         [SerializeField]
         protected BCollisionShape[] colliders;
 
         //TODO the gizmos do not draw correctly when collision shape is scaled
-        public override void OnDrawGizmosSelected() {
-            if (drawGizmo == false)
+        public override void OnDrawGizmosSelected()
+        {
+            if (!drawGizmo)
             {
                 return;
             }
-            if (colliders != null) {
-                for (int i = 0; i < colliders.Length; i++) {
+            if (colliders != null)
+            {
+                for (int i = 0; i < colliders.Length; i++)
+                {
                     if (colliders[i] != null)
                     {
                         colliders[i].OnDrawGizmosSelected();
@@ -36,26 +53,9 @@ namespace BulletUnity {
             }
         }
 
-        CompoundShape _CreateCompoundShape(bool copyChildren)
+        protected virtual CompoundShape _CreateCompoundShape(bool copyChildren)
         {
-            BCollisionShape[] css = GetComponentsInChildren<BCollisionShape>();
-            colliders = new BCollisionShape[css.Length - 1];
-            int ii = 0;
-            for (int i = 0; i < css.Length; i++)
-            {
-                if (css[i] == this)
-                {
-                    //skip
-                }
-                else {
-                    colliders[ii] = css[i];
-                    ii++;
-                }
-            }
-            if (colliders.Length == 0)
-            {
-                Debug.LogError("Compound collider");
-            }
+
 
             //TODO
             // some of the collider types (non-finite and other compound colliders) are probably not
@@ -63,24 +63,18 @@ namespace BulletUnity {
             // allowed should check for these.
             // what about scaling not sure if it is handled correctly
             CompoundShape cs = new CompoundShape();
-            for (int i = 0; i < colliders.Length; i++)
+            CollisionShapeWithTransform[] collisionShapes = GetSubCollisionShapes(copyChildren);
+            for (int i = 0; i < collisionShapes.Length; i++)
             {
-                CollisionShape chcs;
-                if (copyChildren == true)
-                {
-                    chcs = colliders[i].CopyCollisionShape();
-                }
-                else {
-                    chcs = colliders[i].GetCollisionShape();
-                }
+                CollisionShape chcs = collisionShapes[i].Shape;
 
                 Vector3 up = Vector3.up;
                 Vector3 origin = Vector3.zero;
                 Vector3 forward = Vector3.forward;
                 //to world
-                up = colliders[i].transform.TransformDirection(up);
-                origin = colliders[i].transform.TransformPoint(origin);
-                forward = colliders[i].transform.TransformDirection(forward);
+                up = collisionShapes[i].Transform.TransformDirection(up);
+                origin = collisionShapes[i].Transform.TransformPoint(origin);
+                forward = collisionShapes[i].Transform.TransformDirection(forward);
                 //to compound collider
                 up = transform.InverseTransformDirection(up);
                 origin = transform.InverseTransformPoint(origin);
@@ -100,7 +94,35 @@ namespace BulletUnity {
                 cs.AddChildShape(m, chcs);
             }
             cs.LocalScaling = m_localScaling.ToBullet();
+            cs.Margin = m_Margin;
             return cs;
+        }
+
+        protected virtual CollisionShapeWithTransform[] GetSubCollisionShapes(bool copyChildren)
+        {
+            BCollisionShape[] css = GetComponentsInChildren<BCollisionShape>();
+            colliders = new BCollisionShape[css.Length - 1];
+            int ii = 0;
+            for (int i = 0; i < css.Length; i++)
+            {
+                if (css[i] == this)
+                {
+                    //skip
+                }
+                else
+                {
+                    colliders[ii] = css[i];
+                    ii++;
+                }
+            }
+            if (colliders.Length == 0)
+            {
+                Debug.LogError("Compound collider");
+            }
+            if (copyChildren)
+                return colliders.Select(cs => new CollisionShapeWithTransform(cs.CopyCollisionShape(), cs.transform)).ToArray();
+            else
+                return colliders.Select(cs => new CollisionShapeWithTransform(cs.GetCollisionShape(), cs.transform)).ToArray();
         }
 
         public override CollisionShape CopyCollisionShape()
@@ -108,8 +130,10 @@ namespace BulletUnity {
             return _CreateCompoundShape(true);
         }
 
-        public override CollisionShape GetCollisionShape() {
-            if (collisionShapePtr == null) {
+        public override CollisionShape GetCollisionShape()
+        {
+            if (collisionShapePtr == null)
+            {
                 collisionShapePtr = _CreateCompoundShape(false);
             }
             return collisionShapePtr;

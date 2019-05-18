@@ -1,12 +1,12 @@
-﻿using System;
+﻿using BulletSharp;
 using UnityEngine;
-using System.Collections;
-using BulletSharp;
 
-namespace BulletUnity {
+namespace BulletUnity
+{
 
-	[AddComponentMenu("Physics Bullet/Shapes/Capsule")]
-    public class BCapsuleShape : BCollisionShape {
+    [AddComponentMenu("Physics Bullet/Shapes/Capsule")]
+    public class BCapsuleShape : BCollisionShape
+    {
         public enum CapsuleAxis
         {
             x,
@@ -26,7 +26,8 @@ namespace BulletUnity {
                     Debug.LogError("Cannot change the radius after the bullet shape has been created. Radius is only the initial value " +
                                     "Use LocalScaling to change the shape of a bullet shape.");
                 }
-                else {
+                else
+                {
                     radius = value;
                 }
             }
@@ -44,7 +45,8 @@ namespace BulletUnity {
                     Debug.LogError("Cannot change the height after the bullet shape has been created. Height is only the initial value " +
                                     "Use LocalScaling to change the shape of a bullet shape.");
                 }
-                else {
+                else
+                {
                     height = value;
                 }
             }
@@ -62,13 +64,15 @@ namespace BulletUnity {
                     Debug.LogError("Cannot change the upAxis after the bullet shape has been created. upAxis is only the initial value " +
                                     "Use LocalScaling to change the shape of a bullet shape.");
                 }
-                else {
+                else
+                {
                     upAxis = value;
                 }
             }
         }
 
-        public override void OnDrawGizmosSelected() {
+        public override void OnDrawGizmosSelected()
+        {
             if (drawGizmo == false)
             {
                 return;
@@ -78,7 +82,8 @@ namespace BulletUnity {
             if (upAxis == CapsuleAxis.x)
             {
                 rotation = Quaternion.AngleAxis(90, transform.forward) * rotation;
-            } else if (upAxis == CapsuleAxis.z)
+            }
+            else if (upAxis == CapsuleAxis.z)
             {
                 rotation = Quaternion.AngleAxis(90, transform.right) * rotation;
             }
@@ -106,6 +111,7 @@ namespace BulletUnity {
                 Debug.LogError("invalid axis value");
             }
             cs.LocalScaling = m_localScaling.ToBullet();
+            cs.Margin = m_Margin;
             return cs;
         }
 
@@ -114,8 +120,10 @@ namespace BulletUnity {
             return _CreateCapsuleShape();
         }
 
-        public override CollisionShape GetCollisionShape() {
-            if (collisionShapePtr == null) {
+        public override CollisionShape GetCollisionShape()
+        {
+            if (collisionShapePtr == null)
+            {
                 collisionShapePtr = _CreateCapsuleShape();
             }
             return collisionShapePtr;
