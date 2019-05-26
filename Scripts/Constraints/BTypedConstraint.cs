@@ -1,13 +1,15 @@
-﻿using System;
-using UnityEngine;
+﻿using BulletSharp;
+using System;
 using System.Collections;
-using BulletSharp;
+using UnityEngine;
 using BM = BulletSharp.Math;
 
-namespace BulletUnity {
+namespace BulletUnity
+{
 
     [System.Serializable]
-    public abstract class BTypedConstraint : MonoBehaviour, IDisposable {
+    public abstract class BTypedConstraint : MonoBehaviour, IDisposable
+    {
         protected bool m_startWasCalled = false;
 
         public enum ConstraintType
@@ -101,7 +103,8 @@ namespace BulletUnity {
                 if (m_constraintPtr != null && m_disableCollisionsBetweenConstrainedBodies != value)
                 {
                     Debug.LogError("Cannot only set disableCollisionsBetweenConstrainedBodies before the constraint has been created");
-                } else
+                }
+                else
                 {
                     m_disableCollisionsBetweenConstrainedBodies = value;
                 }
@@ -274,7 +277,7 @@ namespace BulletUnity {
             Vector3 xx = new Vector3(x.X, x.Y, x.Z);
             Vector3 yy = new Vector3(y.X, y.Y, y.Z);
             Vector3 zz = new Vector3(z.X, z.Y, z.Z);
-            Quaternion q = transform.localRotation * Quaternion.Inverse(m_otherRigidBody.transform.localRotation);
+            Quaternion q = transform.rotation * Quaternion.Inverse(m_otherRigidBody.transform.rotation);
             xx = q * xx;
             yy = q * yy;
             zz = q * zz;
@@ -317,19 +320,19 @@ namespace BulletUnity {
         protected virtual void Start()
         {
             m_startWasCalled = true;
-            //deal with nasty script order of execution bug. Order of Start call is random so force rigid bodies to be in the world before constraint is added
-            if (!m_thisRigidBody.isInWorld)
-            {
-                m_thisRigidBody.Start();
-            }
-            if (m_constraintType == ConstraintType.constrainToAnotherBody && !m_otherRigidBody.isInWorld)
-            {
-                m_otherRigidBody.Start();
-            }
+            StartCoroutine(AddToWorldWhenRigidBodiesReady());
+        }
+
+        private IEnumerator AddToWorldWhenRigidBodiesReady()
+        {
+            while (!m_thisRigidBody.isInWorld || (m_constraintType == ConstraintType.constrainToAnotherBody && !m_otherRigidBody.isInWorld))
+                yield return null;
+
             AddToBulletWorld();
         }
 
-        void OnDestroy() {
+        void OnDestroy()
+        {
             Dispose(false);
         }
 
@@ -349,14 +352,17 @@ namespace BulletUnity {
         }
 
         //do not override this
-        public void Dispose() {
+        public void Dispose()
+        {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         //override this one
-        protected virtual void Dispose(bool isdisposing) {
-            if (m_constraintPtr != null) {
+        protected virtual void Dispose(bool isdisposing)
+        {
+            if (m_constraintPtr != null)
+            {
                 m_constraintPtr.Dispose();
                 m_constraintPtr = null;
             }
