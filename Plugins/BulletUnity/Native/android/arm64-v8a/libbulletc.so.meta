@@ -1,7 +1,7 @@
 fileFormatVersion: 2
-guid: 3f10c3eb0a99cc04284b23d09facac01
-timeCreated: 1473561725
-licenseType: Free
+guid: 77925be38ee112447a74a0286e8227e0
+timeCreated: 1560051377
+licenseType: Pro
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -15,7 +15,7 @@ PluginImporter:
     second:
       enabled: 0
       settings:
-        Exclude Android: 0
+        Exclude Android: 1
         Exclude Editor: 1
         Exclude Linux: 1
         Exclude Linux64: 1
@@ -25,23 +25,11 @@ PluginImporter:
         Exclude Win64: 1
         Exclude iOS: 1
   - first:
-      '': OSXIntel
-    second:
-      enabled: 0
-      settings:
-        CPU: AnyCPU
-  - first:
-      '': OSXIntel64
-    second:
-      enabled: 0
-      settings:
-        CPU: AnyCPU
-  - first:
       Android: Android
     second:
-      enabled: 1
+      enabled: 0
       settings:
-        CPU: x86
+        CPU: ARMv7
   - first:
       Any: 
     second:
@@ -80,6 +68,12 @@ PluginImporter:
       settings:
         CPU: x86_64
   - first:
+      Standalone: LinuxUniversal
+    second:
+      enabled: 0
+      settings:
+        CPU: None
+  - first:
       Standalone: OSXUniversal
     second:
       enabled: 0
@@ -97,16 +91,6 @@ PluginImporter:
       enabled: 0
       settings:
         CPU: AnyCPU
-  - first:
-      Windows Store Apps: WindowsStoreApps
-    second:
-      enabled: 0
-      settings:
-        CPU: AnyCPU
-        DontProcess: False
-        PlaceholderPath: 
-        SDK: AnySDK
-        ScriptingBackend: AnyScriptingBackend
   - first:
       iPhone: iOS
     second:
