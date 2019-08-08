@@ -87,8 +87,9 @@ namespace BulletUnity
             {
                 rotation = Quaternion.AngleAxis(90, transform.right) * rotation;
             }
-            BUtility.DebugDrawCapsule(position, rotation, LocalScaling, radius, height / 2f, 1, Gizmos.color);
-
+            float scaledRadius = radius * LocalScaling[(((int)upAxis) + 2) % 3];
+            float scaledHeight = height * LocalScaling[(int)upAxis];
+            BUtility.DebugDrawCapsule(position, rotation, Vector3.one, scaledRadius, scaledHeight / 2f, 1, Gizmos.color);
         }
 
         CapsuleShape _CreateCapsuleShape()
