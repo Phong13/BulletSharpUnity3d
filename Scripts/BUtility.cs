@@ -225,9 +225,12 @@ namespace BulletUnity {
 
         public static void DebugDrawCapsule(Vector3 position, Quaternion rotation, Vector3 scale, float radius, float halfHeight, int upAxis, Color color) {
 
-            Matrix4x4 matrix = Matrix4x4.TRS(position, rotation, scale);
+            Matrix4x4 matrix = Matrix4x4.Translate(position)*Matrix4x4.Rotate(rotation);
 
             Gizmos.color = color;
+
+            radius *= radius * scale[(((int)upAxis) + 2) % 3];
+            halfHeight *= scale[(int)upAxis];
 
             Vector3 capStart = new Vector3(0.0f, 0.0f, 0.0f);
             capStart[upAxis] = -halfHeight;
