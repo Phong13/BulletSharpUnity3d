@@ -1,6 +1,6 @@
-﻿using BulletSharp;
+﻿using System;
+using BulletSharp;
 using BulletUnity.Debugging;
-using System;
 using UnityEngine;
 
 namespace BulletUnity
@@ -484,7 +484,7 @@ namespace BulletUnity
             CollisionShape cs = m_collisionShape.GetCollisionShape();
             if (m_motionState == null)
             {
-                m_motionState = new BGameObjectMotionState(this);
+                m_motionState = new BGameObjectMotionState(transform);
             }
 
             BulletSharp.RigidBody rb = (BulletSharp.RigidBody)m_collisionObject;
