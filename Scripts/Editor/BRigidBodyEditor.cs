@@ -1,7 +1,5 @@
-﻿using UnityEditor;
-using UnityEngine;
-using UnityEditor.SceneManagement;
-using BulletUnity;
+﻿using BulletUnity;
+using UnityEditor;
 
 [CustomEditor(typeof(BRigidBody))]
 [CanEditMultipleObjects]
@@ -101,9 +99,9 @@ public class BRigidBodyEditor : Editor
         EditorGUILayout.PropertyField(_linearSleepingThresholdProp);
         EditorGUILayout.PropertyField(_angularSleepingThresholdProp);
 
-		EditorGUILayout.Separator();
-
         EditorGUILayout.PropertyField(debugTypeProp);
+
+        rb.debugType = EditorInterface.DrawDebug(rb.debugType, rb);
 
         if (rb.debugType != 0)
         {
