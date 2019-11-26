@@ -1,6 +1,6 @@
-﻿using System;
-using BulletSharp;
+﻿using BulletSharp;
 using BulletUnity.Debugging;
+using System;
 using UnityEngine;
 
 namespace BulletUnity
@@ -564,21 +564,11 @@ namespace BulletUnity
             }
         }
 
-        public void AddImpulse(UnityEngine.Vector3 impulse, UnityEngine.Space space = Space.World)
+        public void AddImpulse(UnityEngine.Vector3 impulse)
         {
             if (isInWorld)
             {
-                switch (space)
-                {
-                    case Space.World:
-                        m_rigidBody.ApplyCentralImpulse(impulse.ToBullet());
-                        break;
-                    default:
-                        BulletSharp.Math.Vector3 bulletImpulse = impulse.ToBullet();
-                        BulletSharp.Math.Vector3 worldBulletImpulse = BulletSharp.Math.Vector3.TransformCoordinate(bulletImpulse, m_rigidBody.WorldTransform.Basis);
-                        m_rigidBody.ApplyCentralImpulse(worldBulletImpulse);
-                        break;
-                }
+                m_rigidBody.ApplyCentralImpulse(impulse.ToBullet());
             }
         }
 
@@ -604,21 +594,11 @@ namespace BulletUnity
         The force accumulator is cleared after every StepSimulation call including interpolation StepSimulation calls which clear the force
         accumulator and do nothing. 
         */
-        public void AddForce(UnityEngine.Vector3 force, UnityEngine.Space space = Space.World)
+        public void AddForce(UnityEngine.Vector3 force)
         {
             if (isInWorld)
             {
-                switch (space)
-                {
-                    case Space.World:
-                        m_rigidBody.ApplyCentralForce(force.ToBullet());
-                        break;
-                    default:
-                        BulletSharp.Math.Vector3 bulletImpulse = force.ToBullet();
-                        BulletSharp.Math.Vector3 worldBulletImpulse = BulletSharp.Math.Vector3.TransformCoordinate(bulletImpulse, m_rigidBody.WorldTransform.Basis);
-                        m_rigidBody.ApplyCentralForce(worldBulletImpulse);
-                        break;
-                }
+                m_rigidBody.ApplyCentralForce(force.ToBullet());
             }
         }
 

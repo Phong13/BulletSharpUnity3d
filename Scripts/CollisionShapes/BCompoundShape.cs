@@ -19,6 +19,10 @@ namespace BulletUnity
     public class BCompoundShape : BCollisionShape
     {
 
+        // TODO We should store the transform matrix to apply between the subshape and the mainshape
+        // because there are different cases.
+        // With shapes from unity colliders, we need to invert the local scale of the object as the collider takes it into account already
+        // With shapes from bullet, we must not invert the local scale
         public struct CollisionShapeWithTransform
         {
             public CollisionShape Shape;
@@ -31,6 +35,7 @@ namespace BulletUnity
             }
         }
 
+        [HideInInspector]
         [SerializeField]
         protected BCollisionShape[] colliders;
 
@@ -67,30 +72,8 @@ namespace BulletUnity
             for (int i = 0; i < collisionShapes.Length; i++)
             {
                 CollisionShape chcs = collisionShapes[i].Shape;
-
-                Vector3 up = Vector3.up;
-                Vector3 origin = Vector3.zero;
-                Vector3 forward = Vector3.forward;
-                //to world
-                up = collisionShapes[i].Transform.TransformDirection(up);
-                origin = collisionShapes[i].Transform.TransformPoint(origin);
-                forward = collisionShapes[i].Transform.TransformDirection(forward);
-                //to compound collider
-                up = transform.InverseTransformDirection(up);
-                origin = transform.InverseTransformPoint(origin);
-                forward = transform.InverseTransformDirection(forward);
-                Quaternion q = Quaternion.LookRotation(forward, up);
-
-                /*
-                Some collision shapes can have local scaling applied. Use
-                btCollisionShape::setScaling(vector3).Non uniform scaling with different scaling
-                values for each axis, can be used for btBoxShape, btMultiSphereShape,
-                btConvexShape, btTriangleMeshShape.Note that a non - uniform scaled
-                sphere can be created by using a btMultiSphereShape with 1 sphere.
-                */
-
-                BulletSharp.Math.Matrix m = BulletSharp.Math.Matrix.AffineTransformation(1f, q.ToBullet(), origin.ToBullet());
-
+                // we need to invert the scale
+                BulletSharp.Math.Matrix m = (this.transform.worldToLocalMatrix * collisionShapes[i].Transform.localToWorldMatrix * Matrix4x4.Scale(collisionShapes[i].Transform.lossyScale).inverse).ToBullet();
                 cs.AddChildShape(m, chcs);
             }
             cs.LocalScaling = m_localScaling.ToBullet();

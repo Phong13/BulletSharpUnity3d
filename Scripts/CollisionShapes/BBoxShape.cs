@@ -29,14 +29,26 @@ namespace BulletUnity
 
         public override void OnDrawGizmosSelected()
         {
-            if (drawGizmo == false)
+            if (!drawGizmo)
             {
                 return;
             }
             Vector3 position = transform.position;
             Quaternion rotation = transform.rotation;
             Vector3 scale = m_localScaling;
-            BUtility.DebugDrawBox(position, rotation, scale, extents, Color.yellow);
+            Gizmos.color = Color.yellow;
+            BoxShape shape = GetCollisionShape() as BoxShape;
+            Gizmos.matrix = this.transform.localToWorldMatrix * Matrix4x4.Scale(transform.lossyScale).inverse;
+            for (int i = 0; i < shape.NumEdges; i++)
+            {
+                BulletSharp.Math.Vector3 vertex1;
+                BulletSharp.Math.Vector3 vertex2;
+                shape.GetEdge(i, out vertex1, out vertex2);
+                Vector3 vertexUnity1 = BSExtensionMethods2.ToUnity(vertex1);
+                Vector3 vertexUnity2 = BSExtensionMethods2.ToUnity(vertex2);
+                Gizmos.DrawLine(vertexUnity1, vertexUnity2);
+            }
+            //BUtility.DebugDrawBox(position, rotation, scale, extents, Color.yellow);
         }
 
         public override CollisionShape CopyCollisionShape()

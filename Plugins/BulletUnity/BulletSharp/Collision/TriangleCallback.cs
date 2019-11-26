@@ -1,13 +1,13 @@
+using BulletSharp.Math;
 using System;
 using System.Runtime.InteropServices;
 using System.Security;
-using BulletSharp.Math;
 
 namespace BulletSharp
 {
-	public abstract class TriangleCallback : IDisposable
-	{
-		internal IntPtr _native;
+    public abstract class TriangleCallback : IDisposable
+    {
+        internal IntPtr _native;
 
         [UnmanagedFunctionPointer(Native.Conv), SuppressUnmanagedCodeSecurity]
         delegate void ProcessTriangleDelegate(IntPtr triangle, int partId, int triangleIndex);
@@ -34,48 +34,48 @@ namespace BulletSharp
 
         public abstract void ProcessTriangle(ref Vector3 point0, ref Vector3 point1, ref Vector3 point2, int partId, int triangleIndex);
 
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-		protected virtual void Dispose(bool disposing)
-		{
-			if (_native != IntPtr.Zero)
-			{
-				btTriangleCallback_delete(_native);
-				_native = IntPtr.Zero;
-			}
-		}
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_native != IntPtr.Zero)
+            {
+                btTriangleCallback_delete(_native);
+                _native = IntPtr.Zero;
+            }
+        }
 
-		~TriangleCallback()
-		{
-			Dispose(false);
-		}
+        ~TriangleCallback()
+        {
+            Dispose(false);
+        }
 
         [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
         static extern IntPtr btTriangleCallbackWrapper_new(IntPtr internalProcessTriangleIndexCallback);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btTriangleCallback_delete(IntPtr obj);
-	}
+        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
+        static extern void btTriangleCallback_delete(IntPtr obj);
+    }
 
-	public abstract class InternalTriangleIndexCallback : IDisposable
-	{
-		internal IntPtr _native;
+    public abstract class InternalTriangleIndexCallback : IDisposable
+    {
+        internal IntPtr _native;
 
         [UnmanagedFunctionPointer(Native.Conv), SuppressUnmanagedCodeSecurity]
         delegate void InternalProcessTriangleIndexDelegate(IntPtr triangle, int partId, int triangleIndex);
 
         InternalProcessTriangleIndexDelegate _internalProcessTriangleIndex;
 
-		internal InternalTriangleIndexCallback()
-		{
+        public InternalTriangleIndexCallback()
+        {
             _internalProcessTriangleIndex = new InternalProcessTriangleIndexDelegate(InternalProcessTriangleIndexUnmanaged);
 
             _native = btInternalTriangleIndexCallbackWrapper_new(
                 Marshal.GetFunctionPointerForDelegate(_internalProcessTriangleIndex));
-		}
+        }
 
         private void InternalProcessTriangleIndexUnmanaged(IntPtr triangle, int partId, int triangleIndex)
         {
@@ -89,29 +89,29 @@ namespace BulletSharp
 
         public abstract void InternalProcessTriangleIndex(ref Vector3 point0, ref Vector3 point1, ref Vector3 point2, int partId, int triangleIndex);
 
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-		protected virtual void Dispose(bool disposing)
-		{
-			if (_native != IntPtr.Zero)
-			{
-				btInternalTriangleIndexCallback_delete(_native);
-				_native = IntPtr.Zero;
-			}
-		}
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_native != IntPtr.Zero)
+            {
+                btInternalTriangleIndexCallback_delete(_native);
+                _native = IntPtr.Zero;
+            }
+        }
 
-		~InternalTriangleIndexCallback()
-		{
-			Dispose(false);
-		}
+        ~InternalTriangleIndexCallback()
+        {
+            Dispose(false);
+        }
 
         [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
         static extern IntPtr btInternalTriangleIndexCallbackWrapper_new(IntPtr internalProcessTriangleIndexCallback);
-		[DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
-		static extern void btInternalTriangleIndexCallback_delete(IntPtr obj);
-	}
+        [DllImport(Native.Dll, CallingConvention = Native.Conv), SuppressUnmanagedCodeSecurity]
+        static extern void btInternalTriangleIndexCallback_delete(IntPtr obj);
+    }
 }

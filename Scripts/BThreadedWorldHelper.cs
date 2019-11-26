@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace BulletUnity
 {
@@ -10,7 +11,7 @@ namespace BulletUnity
     /// </summary>
     public class BThreadedWorldHelper : BasePhysicsWorldHelper
     {
-        MicroTimer microTimer;
+        public MicroTimer microTimer;
 
         Stopwatch stopwatch;
 
@@ -58,7 +59,6 @@ namespace BulletUnity
             _meanStepTime = new double[nbData];
             _deltaTime = new double[nbData];
             StartCoroutine(DelayThreadStart());
-
         }
 
         private IEnumerator DelayThreadStart()
@@ -116,10 +116,16 @@ namespace BulletUnity
             }
         }
 
+        private void OnApplicationQuit()
+        {
+            if (microTimer != null)
+                microTimer.Stop();
+        }
+
         private void OnDestroy()
         {
             if (microTimer != null)
-                microTimer.Enabled = false;
+                microTimer.Stop();
         }
 
     }

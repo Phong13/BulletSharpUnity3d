@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System;
-using System.Collections;
+﻿using System;
+using System.Collections.Generic;
 using BulletSharp;
+using UnityEngine;
 
 namespace BulletUnity
 {
@@ -36,12 +36,14 @@ namespace BulletUnity
         public virtual BulletSharp.CollisionFlags collisionFlags
         {
             get { return m_collisionFlags; }
-            set {
+            set
+            {
                 if (m_collisionObject != null && value != m_collisionFlags)
                 {
                     m_collisionObject.CollisionFlags = value;
                     m_collisionFlags = value;
-                } else
+                }
+                else
                 {
                     m_collisionFlags = value;
                 }
@@ -56,7 +58,8 @@ namespace BulletUnity
                 if (m_collisionObject != null && value != m_groupsIBelongTo)
                 {
                     Debug.LogError("Cannot change the collision group once a collision object has been created");
-                } else 
+                }
+                else
                 {
                     m_groupsIBelongTo = value;
                 }
@@ -71,39 +74,35 @@ namespace BulletUnity
                 if (m_collisionObject != null && value != m_collisionMask)
                 {
                     Debug.LogError("Cannot change the collision mask once a collision object has been created");
-                } else
+                }
+                else
                 {
                     m_collisionMask = value;
                 }
             }
         }
 
-        BICollisionCallbackEventHandler m_onCollisionCallback;
-        public virtual BICollisionCallbackEventHandler collisionCallbackEventHandler
+        HashSet<BICollisionCallbackEventHandler> m_onCollisionCallbacks = new HashSet<BICollisionCallbackEventHandler>();
+        public virtual HashSet<BICollisionCallbackEventHandler> collisionCallbackEventHandlers
         {
-            get { return m_onCollisionCallback; }
+            get { return m_onCollisionCallbacks; }
         }
 
         public virtual void AddOnCollisionCallbackEventHandler(BICollisionCallbackEventHandler myCallback)
         {
             BPhysicsWorld bhw = BPhysicsWorld.Get();
-            if (m_onCollisionCallback != null)
-            {
-                Debug.LogErrorFormat("BCollisionObject {0} already has a collision callback. You must remove it before adding another. ", name);
-                
-            }
-            m_onCollisionCallback = myCallback;
-            bhw.RegisterCollisionCallbackListener(m_onCollisionCallback);
+            m_onCollisionCallbacks.Add(myCallback);
+            bhw.RegisterCollisionCallbackListener(myCallback);
         }
 
-        public virtual void RemoveOnCollisionCallbackEventHandler()
+        public virtual void RemoveOnCollisionCallbackEventHandler(BICollisionCallbackEventHandler myCallback)
         {
             BPhysicsWorld bhw = BPhysicsWorld.Get();
-            if (bhw != null && m_onCollisionCallback != null)
+            if (bhw != null && m_onCollisionCallbacks.Contains(myCallback))
             {
-                bhw.DeregisterCollisionCallbackListener(m_onCollisionCallback);
+                m_onCollisionCallbacks.Remove(myCallback);
+                bhw.DeregisterCollisionCallbackListener(myCallback);
             }
-            m_onCollisionCallback = null;
         }
 
         //called by Physics World just before rigid body is added to world.
@@ -149,7 +148,8 @@ namespace BulletUnity
                 m_collisionObject.WorldTransform = worldTrans;
                 m_collisionObject.CollisionFlags = m_collisionFlags;
             }
-            else {
+            else
+            {
                 m_collisionObject.CollisionShape = cs;
                 BulletSharp.Math.Matrix worldTrans;
                 BulletSharp.Math.Quaternion q = transform.rotation.ToBullet();
@@ -190,7 +190,7 @@ namespace BulletUnity
             BPhysicsWorld.Get().RemoveCollisionObject(this);
         }
 
-        
+
         // Add this object to the world on Start. We are doing this so that scripts which add this componnet to 
         // game objects have a chance to configure them before the object is added to the bullet world.
         // Be aware that Start is not affected by script execution order so objects such as constraints should
@@ -252,7 +252,7 @@ namespace BulletUnity
             }
             if (m_collisionObject != null)
             {
-               
+
                 m_collisionObject.Dispose();
                 m_collisionObject = null;
             }
@@ -266,7 +266,8 @@ namespace BulletUnity
                 newTrans.Origin = position.ToBullet();
                 m_collisionObject.WorldTransform = newTrans;
                 transform.position = position;
-            } else
+            }
+            else
             {
                 transform.position = position;
             }
@@ -284,7 +285,8 @@ namespace BulletUnity
                 m_collisionObject.WorldTransform = newTrans;
                 transform.position = position;
                 transform.rotation = rotation;
-            } else
+            }
+            else
             {
                 transform.position = position;
                 transform.rotation = rotation;

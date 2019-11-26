@@ -547,7 +547,9 @@ namespace BulletSharp
 			set { btMultiBody_setMaxCoordinateVelocity(_native, value); }
 		}
 
-		public int NumDofs
+        public object UserObject { get; set; }
+
+        public int NumDofs
 		{
 			get { return btMultiBody_getNumDofs(_native); }
 		}

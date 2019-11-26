@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
-using BulletSharp;
-using System;
+﻿using BulletSharp;
+using UnityEngine;
 
 namespace BulletUnity
 {
@@ -23,7 +21,7 @@ namespace BulletUnity
             BCollisionObject co = GetComponent<BCollisionObject>();
             if (co != null)
             {
-                co.RemoveOnCollisionCallbackEventHandler();
+                co.RemoveOnCollisionCallbackEventHandler(this);
             }
         }
 

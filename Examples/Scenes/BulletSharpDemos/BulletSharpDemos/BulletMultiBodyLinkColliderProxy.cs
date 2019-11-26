@@ -1,14 +1,18 @@
-﻿using UnityEngine;
-using System.Collections;
-using BulletSharp;
-using BulletSharp.Math;
+﻿using BulletSharp;
 using BulletUnity;
+using UnityEngine;
 
-public class BulletMultiBodyLinkColliderProxy : MonoBehaviour {
+public class BulletMultiBodyLinkColliderProxy : MonoBehaviour
+{
     public MultiBodyLinkCollider target;
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update()
+    {
+        if (target == null)
+        {
+            return;
+        }
         Matrix4x4 m = target.WorldTransform.ToUnity();
         transform.position = BSExtensionMethods2.ExtractTranslationFromMatrix(ref m);
         transform.rotation = BSExtensionMethods2.ExtractRotationFromMatrix(ref m);

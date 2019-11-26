@@ -157,48 +157,61 @@ namespace BulletUnity
                                ref long ignoreEventIfLateBy,
                                ref bool stopTimer)
         {
-            int timerCount = 0;
-            long nextNotification = 0;
-
-            MicroStopwatch microStopwatch = new MicroStopwatch();
-            microStopwatch.Start();
-
-            while (!stopTimer)
+            try
             {
-                long callbackFunctionExecutionTime =
-                    microStopwatch.ElapsedMicroseconds - nextNotification;
+                int timerCount = 0;
+                long nextNotification = 0;
+                long lastNotification = 0;
+                long delay = 0;
 
-                long timerIntervalInMicroSecCurrent =
-                    System.Threading.Interlocked.Read(ref timerIntervalInMicroSec);
-                long ignoreEventIfLateByCurrent =
-                    System.Threading.Interlocked.Read(ref ignoreEventIfLateBy);
+                MicroStopwatch microStopwatch = new MicroStopwatch();
+                microStopwatch.Start();
 
-                nextNotification += timerIntervalInMicroSecCurrent;
-                timerCount++;
-                long elapsedMicroseconds = 0;
-
-                while ((elapsedMicroseconds = microStopwatch.ElapsedMicroseconds)
-                        < nextNotification)
+                while (!stopTimer)
                 {
-                    System.Threading.Thread.SpinWait(10);
+                    long callbackFunctionExecutionTime =
+                        microStopwatch.ElapsedMicroseconds - nextNotification;
+
+                    long timerIntervalInMicroSecCurrent =
+                        System.Threading.Interlocked.Read(ref timerIntervalInMicroSec);
+                    long ignoreEventIfLateByCurrent =
+                        System.Threading.Interlocked.Read(ref ignoreEventIfLateBy);
+
+                    lastNotification = nextNotification;
+                    nextNotification += timerIntervalInMicroSecCurrent;
+                    timerCount++;
+                    long elapsedMicroseconds = 0;
+
+                    while ((elapsedMicroseconds = microStopwatch.ElapsedMicroseconds)
+                            < nextNotification)
+                    {
+                        System.Threading.Thread.SpinWait(10);
+                    }
+
+                    long timerLateBy = elapsedMicroseconds - nextNotification;
+
+                    if (timerLateBy >= ignoreEventIfLateByCurrent)
+                    {
+                        continue;
+                    }
+
+                    delay = microStopwatch.ElapsedMicroseconds - lastNotification;
+
+                    MicroTimerEventArgs microTimerEventArgs =
+                         new MicroTimerEventArgs(timerCount,
+                                                 elapsedMicroseconds,
+                                                 delay,
+                                                 timerLateBy,
+                                                 callbackFunctionExecutionTime);
+                    MicroTimerElapsed(this, microTimerEventArgs);
                 }
 
-                long timerLateBy = elapsedMicroseconds - nextNotification;
-
-                if (timerLateBy >= ignoreEventIfLateByCurrent)
-                {
-                    continue;
-                }
-
-                MicroTimerEventArgs microTimerEventArgs =
-                     new MicroTimerEventArgs(timerCount,
-                                             elapsedMicroseconds,
-                                             timerLateBy,
-                                             callbackFunctionExecutionTime);
-                MicroTimerElapsed(this, microTimerEventArgs);
+                microStopwatch.Stop();
             }
-
-            microStopwatch.Stop();
+            catch (Exception e)
+            {
+                UnityEngine.Debug.LogError("Exception in thread : " + e + "\n");
+            }
         }
     }
 
@@ -213,6 +226,9 @@ namespace BulletUnity
         // Time when timed event was called since timer started
         public long ElapsedMicroseconds { get; private set; }
 
+        // Time when timed event was called since last timed event (dt)
+        public long Delay { get; private set; }
+
         // How late the timer was compared to when it should have been called
         public long TimerLateBy { get; private set; }
 
@@ -221,11 +237,13 @@ namespace BulletUnity
 
         public MicroTimerEventArgs(int timerCount,
                                    long elapsedMicroseconds,
+                                   long delay,
                                    long timerLateBy,
                                    long callbackFunctionExecutionTime)
         {
             TimerCount = timerCount;
             ElapsedMicroseconds = elapsedMicroseconds;
+            Delay = delay;
             TimerLateBy = timerLateBy;
             CallbackFunctionExecutionTime = callbackFunctionExecutionTime;
         }

@@ -1,6 +1,5 @@
 ﻿using BulletUnity;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 [CustomEditor(typeof(BCompoundShape))]
@@ -36,7 +35,6 @@ public class BCompoundShapeEditor : Editor
         {
             serializedObject.ApplyModifiedProperties();
             EditorUtility.SetDirty(script);
-            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
             Repaint();
         }
     }
