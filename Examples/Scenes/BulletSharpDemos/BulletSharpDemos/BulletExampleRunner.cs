@@ -1,10 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BulletSharp;
-using BulletSharpExamples;
-using DemoFramework;
 using BulletUnity;
+using DemoFramework;
+using UnityEngine;
 
 /*
 WARNING
@@ -15,7 +13,8 @@ I would not recommend setting up Bullet physics in Unity based on the DemoFramew
 This framework is designed to run the demos included in the bullet distribution with minimal modification. 
 They are included here as a reference and to make sure things are working correctly.
 */
-public class BulletExampleRunner : MonoBehaviour {
+public class BulletExampleRunner : MonoBehaviour
+{
     protected static BulletExampleRunner singleton;
     public BulletSharpExamples.Graphics graphics;
     public DemoFramework.Demo demo;
@@ -37,7 +36,8 @@ public class BulletExampleRunner : MonoBehaviour {
 
     void RunDemo(string nm)
     {
-        if (nm.Equals("BasicDemo")) {
+        if (nm.Equals("BasicDemo"))
+        {
             demo = new BasicDemo.BasicDemo();
         }
         if (nm.Equals("BenchmarkDemo"))
@@ -127,7 +127,7 @@ public class BulletExampleRunner : MonoBehaviour {
 
     bool showDemoNames = false;
     public GUILayoutOption w = GUILayout.MinWidth(150);
-    int maxPerCol = 15;
+    int maxPerCol = 5;
     void OnGUI()
     {
         if (GUILayout.Button("Demo List", GUILayout.MinWidth(120), GUILayout.MinHeight(44)))
@@ -136,7 +136,7 @@ public class BulletExampleRunner : MonoBehaviour {
         }
         if (showDemoNames)
         {
-            GUILayout.BeginHorizontal(GUILayout.Width(1000));
+            GUILayout.BeginHorizontal(GUILayout.Width(Screen.width), GUILayout.Height(Screen.height - 50));
             GUILayout.BeginVertical("box", w);
             int counter = 0;
             for (int j = 0; j < demoNames.Length; j++)
@@ -160,7 +160,7 @@ public class BulletExampleRunner : MonoBehaviour {
             GUILayout.BeginVertical("box", w);
             if (demo is SoftDemo.SoftDemo)
             {
-                SoftDemo.SoftDemo sd = (SoftDemo.SoftDemo) demo;
+                SoftDemo.SoftDemo sd = (SoftDemo.SoftDemo)demo;
                 SoftDemo.SoftDemo.DemoConstructor[] sdemos = sd.demos;
                 for (int j = 0; j < sdemos.Length; j++)
                 {
@@ -194,17 +194,25 @@ public class BulletExampleRunner : MonoBehaviour {
     }
 
     //singleton not sure if it needs to be
-    public static BulletExampleRunner Get() {
-        if (singleton == null) {
+    public static BulletExampleRunner Get()
+    {
+        if (singleton == null)
+        {
             BulletExampleRunner[] ws = FindObjectsOfType<BulletExampleRunner>();
-            if (ws.Length == 1) {
+            if (ws.Length == 1)
+            {
                 singleton = ws[0];
-            } else if (ws.Length == 0) {
+            }
+            else if (ws.Length == 0)
+            {
                 Debug.LogError("Need to add a BulletExampleRunner to the scene");
-            } else {
+            }
+            else
+            {
                 Debug.LogError("Found more than one dynamics world.");
                 singleton = ws[0];
-                for (int i = 1; i < ws.Length; i++) {
+                for (int i = 1; i < ws.Length; i++)
+                {
                     GameObject.Destroy(ws[i].gameObject);
                 }
             }
@@ -212,27 +220,37 @@ public class BulletExampleRunner : MonoBehaviour {
         return singleton;
     }
 
-    public void PostOnInitializePhysics() {
-        for (int i = 0; i < demo.World.CollisionObjectArray.Count; i++) {
+    public void PostOnInitializePhysics()
+    {
+        for (int i = 0; i < demo.World.CollisionObjectArray.Count; i++)
+        {
             CollisionObject co = demo.World.CollisionObjectArray[i];
             CollisionShape cs = co.CollisionShape;
             GameObject go;
-            if (cs.ShapeType == BroadphaseNativeType.SoftBodyShape) {
+            if (cs.ShapeType == BroadphaseNativeType.SoftBodyShape)
+            {
                 BulletSharp.SoftBody.SoftBody sb = (BulletSharp.SoftBody.SoftBody)co;
-                if (sb.Faces.Count == 0) {
+                if (sb.Faces.Count == 0)
+                {
                     //rope
                     go = CreateUnitySoftBodyRope(sb);
-                } else {
+                }
+                else
+                {
                     go = CreateUnitySoftBodyCloth(sb);
                 }
-            } else {
+            }
+            else
+            {
                 //rigid body
-                if (cs.ShapeType == BroadphaseNativeType.CompoundShape) {
+                if (cs.ShapeType == BroadphaseNativeType.CompoundShape)
+                {
                     //BulletSharp.Math.Matrix transform = co.WorldTransform;
                     go = new GameObject("Compund Shape");
                     BulletRigidBodyProxy rbp = go.AddComponent<BulletRigidBodyProxy>();
                     rbp.target = co as RigidBody;
-                    foreach (BulletSharp.CompoundShapeChild child in (cs as CompoundShape).ChildList) {
+                    foreach (BulletSharp.CompoundShapeChild child in (cs as CompoundShape).ChildList)
+                    {
                         BulletSharp.Math.Matrix childTransform = child.Transform;
                         GameObject ggo = new GameObject(child.ToString());
                         MeshFilter mf = ggo.AddComponent<MeshFilter>();
@@ -253,18 +271,22 @@ public class BulletExampleRunner : MonoBehaviour {
                         */
                         //InitRigidBodyInstance(colObj, child.ChildShape, ref childTransform);
                     }
-                } else if (cs.ShapeType == BroadphaseNativeType.CapsuleShape) {
-                    CapsuleShape css = (CapsuleShape) cs;
+                }
+                else if (cs.ShapeType == BroadphaseNativeType.CapsuleShape)
+                {
+                    CapsuleShape css = (CapsuleShape)cs;
                     GameObject ggo = GameObject.CreatePrimitive(PrimitiveType.Capsule);
                     Destroy(ggo.GetComponent<Collider>());
                     go = new GameObject();
                     ggo.transform.parent = go.transform;
                     ggo.transform.localPosition = Vector3.zero;
                     ggo.transform.localRotation = Quaternion.identity;
-                    ggo.transform.localScale = new Vector3(css.Radius * 2f,css.HalfHeight * 2f,css.Radius * 2f);
+                    ggo.transform.localScale = new Vector3(css.Radius * 2f, css.HalfHeight * 2f, css.Radius * 2f);
                     BulletRigidBodyProxy rbp = go.AddComponent<BulletRigidBodyProxy>();
                     rbp.target = co;
-                } else { 
+                }
+                else
+                {
                     //Debug.Log("Creating " + cs.ShapeType + " for " + co.ToString());
                     go = CreateUnityCollisionObjectProxy(co as CollisionObject);
                 }
@@ -274,19 +296,24 @@ public class BulletExampleRunner : MonoBehaviour {
         }
     }
 
-    void Update() {
-        if (demo.Input != null) {
+    void Update()
+    {
+        if (demo.Input != null)
+        {
             demo.Input.KeysReleased.Clear();
             demo.Input.KeysReleased.AddRange(demo.Input.KeysDown);
             demo.Input.KeysPressed.Clear();
             demo.Input.KeysDown.Clear();
             //demo.Input.ClearKeyCache();
-            for (int i = 0; i < BulletSharpExamples.Input.UnityKeys.Length; i++) {
+            for (int i = 0; i < BulletSharpExamples.Input.UnityKeys.Length; i++)
+            {
                 KeyCode k = BulletSharpExamples.Input.UnityKeys[i];
-                if (UnityEngine.Input.GetKey(k)) {
+                if (UnityEngine.Input.GetKey(k))
+                {
                     demo.Input.KeysDown.Add(BulletSharpExamples.Input.BSKeys[i]);
                 }
-                if (UnityEngine.Input.GetKeyDown(k)) {
+                if (UnityEngine.Input.GetKeyDown(k))
+                {
                     demo.Input.KeysPressed.Add(BulletSharpExamples.Input.BSKeys[i]);
                 }
             }
@@ -302,23 +329,28 @@ public class BulletExampleRunner : MonoBehaviour {
         }
     }
 
-    void FixedUpdate() {
+    void FixedUpdate()
+    {
         demo.OnUpdate();
     }
 
-    void OnDestroy() {
+    void OnDestroy()
+    {
         demo.Dispose();
     }
 
-    public void ExitPhysics() {
-        for (int i = 0; i < createdObjs.Count; i++) {
+    public void ExitPhysics()
+    {
+        for (int i = 0; i < createdObjs.Count; i++)
+        {
             Destroy(createdObjs[i]);
         }
         createdObjs.Clear();
     }
 
 
-    public GameObject CreateUnityCollisionObjectProxy(CollisionObject body) {
+    public GameObject CreateUnityCollisionObjectProxy(CollisionObject body)
+    {
         if (body is GhostObject)
         {
             Debug.Log("ghost obj");
@@ -329,7 +361,8 @@ public class BulletExampleRunner : MonoBehaviour {
         MeshFactory2.CreateShape(body.CollisionShape, m);
         MeshRenderer mr = go.AddComponent<MeshRenderer>();
         mr.sharedMaterial = mat;
-        if (body.UserObject != null && body.UserObject.Equals("Ground")) {
+        if (body.UserObject != null && body.UserObject.Equals("Ground"))
+        {
             mr.sharedMaterial = groundMat;
         }
         BulletRigidBodyProxy rbp = go.AddComponent<BulletRigidBodyProxy>();
@@ -337,38 +370,45 @@ public class BulletExampleRunner : MonoBehaviour {
         return go;
     }
 
-    public GameObject CreateUnitySoftBodyRope(BulletSharp.SoftBody.SoftBody body) {
+    public GameObject CreateUnitySoftBodyRope(BulletSharp.SoftBody.SoftBody body)
+    {
         //determine what kind of soft body it is
         //rope
         GameObject rope = Instantiate<GameObject>(ropePrefab);
         LineRenderer lr = rope.GetComponent<LineRenderer>();
-        lr.positionCount = body.Nodes.Count;
+        lr.SetVertexCount(body.Nodes.Count);
         BulletRopeProxy ropeProxy = rope.GetComponent<BulletRopeProxy>();
         ropeProxy.target = body;
         return rope;
     }
 
-    public GameObject CreateUnitySoftBodyCloth(BulletSharp.SoftBody.SoftBody body) {
+    public GameObject CreateUnitySoftBodyCloth(BulletSharp.SoftBody.SoftBody body)
+    {
         //build nodes 2 verts map
         Dictionary<BulletSharp.SoftBody.Node, int> node2vertIdx = new Dictionary<BulletSharp.SoftBody.Node, int>();
-        for (int i = 0; i < body.Nodes.Count; i++) {
+        for (int i = 0; i < body.Nodes.Count; i++)
+        {
             node2vertIdx.Add(body.Nodes[i], i);
         }
         List<int> tris = new List<int>();
-        for (int i = 0; i < body.Faces.Count; i++) {
+        for (int i = 0; i < body.Faces.Count; i++)
+        {
             BulletSharp.SoftBody.Face f = body.Faces[i];
-            if (f.Nodes.Count != 3) {
+            if (f.Nodes.Count != 3)
+            {
                 Debug.LogError("Face was not a triangle");
                 continue;
             }
-            for (int j = 0; j < f.Nodes.Count; j++) { 
-                tris.Add( node2vertIdx[f.Nodes[j]]);
+            for (int j = 0; j < f.Nodes.Count; j++)
+            {
+                tris.Add(node2vertIdx[f.Nodes[j]]);
             }
         }
         GameObject go = Instantiate<GameObject>(softBodyPrefab);
         BulletSoftBodyProxy sbp = go.GetComponent<BulletSoftBodyProxy>();
         List<int> trisRev = new List<int>();
-        for (int i = 0; i < tris.Count; i+=3) {
+        for (int i = 0; i < tris.Count; i += 3)
+        {
             trisRev.Add(tris[i]);
             trisRev.Add(tris[i + 2]);
             trisRev.Add(tris[i + 1]);
@@ -380,10 +420,12 @@ public class BulletExampleRunner : MonoBehaviour {
         return go;
     }
 
-    public void CreateUnityMultiBodyLinkColliderProxy(MultiBodyLinkCollider body) {
+    public void CreateUnityMultiBodyLinkColliderProxy(MultiBodyLinkCollider body)
+    {
         GameObject cube = Instantiate<GameObject>(cubePrefab);
         CollisionShape cs = body.CollisionShape;
-        if (cs is BoxShape) {
+        if (cs is BoxShape)
+        {
             BoxShape bxcs = cs as BoxShape;
             BulletSharp.Math.Vector3 s = bxcs.HalfExtentsWithMargin;
             MeshRenderer mr = cube.GetComponentInChildren<MeshRenderer>();
@@ -396,7 +438,9 @@ public class BulletExampleRunner : MonoBehaviour {
             BulletMultiBodyLinkColliderProxy cp = cube.AddComponent<BulletMultiBodyLinkColliderProxy>();
             cp.target = body;
 
-        } else {
+        }
+        else
+        {
             Debug.LogError("Not implemented");
         }
 

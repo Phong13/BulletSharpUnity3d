@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using BulletSharp;
-using System;
+using UnityEngine;
 
 namespace BulletUnity
 {
@@ -21,17 +20,46 @@ namespace BulletUnity
         public override void Start()
         {
 
+            StartCoroutine(TryToGetCollisionObject());
+
+        }
+
+        private IEnumerator TryToGetCollisionObject()
+        {
+            CollisionObject collisionObject;
             BCollisionObject co = GetComponent<BCollisionObject>();
             if (co == null)
             {
-                Debug.LogError("BCollisionCallbacksDefault must be attached to an object with a BCollisionObject.");
-                return;
+                Debug.LogError("BCollisionCallbacksDefault must be attached to an object with a BCollisionObject", this);
+                yield break;
             }
-            myCollisionObject = co.GetCollisionObject();
+            collisionObject = co.GetCollisionObject();
+            if (collisionObject == null)
+            {
+                if (BPhysicsWorld.Get().debugType >= BulletUnity.Debugging.BDebug.DebugType.Debug)
+                    Debug.Log("Could not recover the collision object from the current BCollisionObject. Will try again.", this);
+                float currentTime = Time.time;
+                while (collisionObject == null && (Time.time - currentTime) < 5f)
+                {
+                    collisionObject = co.GetCollisionObject();
+                    yield return null;
+                }
+            }
+            if (collisionObject == null)
+            {
+                Debug.LogError("Could not recover the collision object from the current BCollisionObject.", this);
+                yield break;
+            }
+            else
+                Debug.Log("Finally found the collision object", this);
+            myCollisionObject = collisionObject;
         }
 
         public override void OnVisitPersistentManifold(PersistentManifold pm)
         {
+            if (myCollisionObject == null)
+                return;
+
             CollisionObject other;
             if (pm.NumContacts > 0)
             {
@@ -78,6 +106,9 @@ namespace BulletUnity
 
         public override void OnFinishedVisitingManifolds()
         {
+            if (myCollisionObject == null)
+                return;
+
             objectsToRemove.Clear();
             foreach (CollisionObject co in otherObjs2ManifoldMap.Keys)
             {

@@ -8,10 +8,17 @@ namespace BulletUnity
 {
     public class BGameObjectMotionState : MotionState, IDisposable
     {
-        class BulletTransformData
+        struct BulletTransformData
         {
             public Matrix Transform;
             public double TimeStamp;
+
+            public BulletTransformData(double time)
+            {
+                Transform = Matrix.Identity;
+                TimeStamp = time;
+            }
+
 
             public BulletTransformData(Matrix transform, double time = -1)
             {
@@ -41,6 +48,7 @@ namespace BulletUnity
             pos = transform.position.ToBullet();
             rot = transform.rotation.ToBullet();
             threadHelper = BPhysicsWorld.Get().PhysicsWorldHelper as BThreadedWorldHelper;
+            lastBulletTransform = new BulletTransformData(-1);
         }
 
         public delegate void GetTransformDelegate(out BM.Matrix worldTrans);
@@ -80,7 +88,7 @@ namespace BulletUnity
                     UnityEngine.Quaternion rotation = BSExtensionMethods2.ExtractRotationFromMatrix(ref lastBulletTransform.Transform);
                     // Interpolation is needed in threaded mode
                     // Maybe we can have a call to the physics engine in an update method instead ?
-                    if (threadHelper != null && previousBulletTransform != null)
+                    if (threadHelper != null && previousBulletTransform.TimeStamp >= 0)
                     {
                         double currentTime = threadHelper.TotalSimulationTime;
                         UnityEngine.Vector3 previousPosition = BSExtensionMethods2.ExtractTranslationFromMatrix(ref previousBulletTransform.Transform);

@@ -1,4 +1,5 @@
-﻿using BulletUnity;
+﻿using BulletSharp;
+using BulletUnity;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -35,7 +36,7 @@ public class BCapsuleShapeEditor : Editor
         script.drawGizmo = EditorGUILayout.Toggle("Draw Shape", script.drawGizmo);
         script.Radius = EditorGUILayout.FloatField("Radius", script.Radius);
         script.Height = EditorGUILayout.FloatField("Height", script.Height);
-        script.UpAxis = (BCapsuleShape.CapsuleAxis)EditorGUILayout.EnumPopup("Up Axis", script.UpAxis);
+        script.UpAxis = (Axis)EditorGUILayout.EnumPopup("Up Axis", script.UpAxis);
         script.LocalScaling = EditorGUILayout.Vector3Field("Local Scaling", script.LocalScaling);
         script.Margin = EditorGUILayout.FloatField("Margin", script.Margin);
         if (GUI.changed)

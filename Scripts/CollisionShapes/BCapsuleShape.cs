@@ -7,12 +7,6 @@ namespace BulletUnity
     [AddComponentMenu("Physics Bullet/Shapes/Capsule")]
     public class BCapsuleShape : BCollisionShape
     {
-        public enum CapsuleAxis
-        {
-            x,
-            y,
-            z
-        }
 
         [SerializeField]
         protected float radius = 1f;
@@ -53,8 +47,8 @@ namespace BulletUnity
         }
 
         [SerializeField]
-        protected CapsuleAxis upAxis = CapsuleAxis.y;
-        public CapsuleAxis UpAxis
+        protected Axis upAxis = Axis.y;
+        public Axis UpAxis
         {
             get { return upAxis; }
             set
@@ -79,11 +73,11 @@ namespace BulletUnity
             }
             UnityEngine.Vector3 position = transform.position;
             UnityEngine.Quaternion rotation = transform.rotation;
-            if (upAxis == CapsuleAxis.x)
+            if (upAxis == Axis.x)
             {
                 rotation = Quaternion.AngleAxis(90, transform.forward) * rotation;
             }
-            else if (upAxis == CapsuleAxis.z)
+            else if (upAxis == Axis.z)
             {
                 rotation = Quaternion.AngleAxis(90, transform.right) * rotation;
             }
@@ -94,15 +88,15 @@ namespace BulletUnity
         CapsuleShape _CreateCapsuleShape()
         {
             CapsuleShape cs = null;
-            if (upAxis == CapsuleAxis.x)
+            if (upAxis == Axis.x)
             {
                 cs = new CapsuleShapeX(radius, height);
             }
-            else if (upAxis == CapsuleAxis.y)
+            else if (upAxis == Axis.y)
             {
                 cs = new CapsuleShape(radius, height);
             }
-            else if (upAxis == CapsuleAxis.z)
+            else if (upAxis == Axis.z)
             {
                 cs = new CapsuleShapeZ(radius, height);
             }

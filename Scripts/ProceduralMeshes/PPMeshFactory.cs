@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BulletSharp;
+using System;
 using System.ComponentModel;
 using UnityEngine;
 
@@ -42,7 +42,7 @@ namespace BulletUnity
                 return null;
             }
 
-            Mesh mesh = (Mesh)GameObject.Instantiate(UserMesh);  //create a copy of UserMesh, dont overwrite prefabs
+            Mesh mesh = GameObject.Instantiate(UserMesh);  //create a copy of UserMesh, dont overwrite prefabs
 
             mesh.ApplyMeshPostProcessing(autoWeldVertices, autoWeldThreshold, addBackFaceTriangles,
                  recalculateNormals, recalculateBounds, optimize);
@@ -94,7 +94,7 @@ namespace BulletUnity
         public float radius = 0.5f;
         [Range(2, 100)]
         public int nbSides = 18;
-        public BCapsuleShape.CapsuleAxis upAxis = BCapsuleShape.CapsuleAxis.y;
+        public Axis upAxis = Axis.y;
 
         public Vector3 halfExtent  //Bullet dimensions
         {
@@ -103,7 +103,7 @@ namespace BulletUnity
 
         public override Mesh Build()
         {
-            Mesh mesh = ProceduralPrimitives.CreateMeshCapsule(height, radius, nbSides, (int) upAxis);
+            Mesh mesh = ProceduralPrimitives.CreateMeshCapsule(height, radius, nbSides, (int)upAxis);
             return mesh;
         }
 
@@ -213,7 +213,7 @@ namespace BulletUnity
                         Debug.Log("Must provide a mesh for UserDefinedMesh setting.");
                     }
 
-                    mesh = (Mesh)GameObject.Instantiate(settings.userMesh);
+                    mesh = GameObject.Instantiate(settings.userMesh);
                     break;
                 case PrimitiveMeshOptions.Box:
                     mesh = ProceduralPrimitives.CreateMeshBox(settings.extents.x, settings.extents.y, settings.extents.z);
