@@ -10,14 +10,14 @@ public class UpdateScenesListMenu : MonoBehaviour {
 	public static void UpdateScenesList () {
 		// Create list.
 		ScenesList asset = ScriptableObject.CreateInstance<ScenesList>();
-		asset.Scenes = new List<Scene>();
+		asset.Scenes = new List<BulletScene>();
 
 		// Fill list.
 		for (int i = 0; i < EditorBuildSettings.scenes.Count(); i++) {
 			EditorBuildSettingsScene scene = EditorBuildSettings.scenes[i];
 			if (!scene.enabled) continue;
 			
-			asset.Scenes.Add(new Scene(Path.GetFileNameWithoutExtension(scene.path), scene.path, i));
+			asset.Scenes.Add(new BulletScene(Path.GetFileNameWithoutExtension(scene.path), scene.path, i));
 		}
 
 		// Write asset to disk.
