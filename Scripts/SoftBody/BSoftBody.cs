@@ -96,18 +96,24 @@ namespace BulletUnity
             if (isInWorld)
             {
                 SoftBody m_BSoftBody = (SoftBody)m_collisionObject;
-                if (verts.Length != m_BSoftBody.Nodes.Count)
+                int nodeCount = m_BSoftBody.Nodes.Count;
+                if (verts.Length != nodeCount)
                 {
-                    verts = new Vector3[m_BSoftBody.Nodes.Count];
+                    verts = new Vector3[nodeCount];
                 }
                 if (norms.Length != verts.Length)
                 {
-                    norms = new Vector3[m_BSoftBody.Nodes.Count];
+                    norms = new Vector3[nodeCount];
                 }
-                for (int i = 0; i < m_BSoftBody.Nodes.Count; i++)
+                for (int i = 0; i < nodeCount; i++)
                 {
-                    verts[i] = m_BSoftBody.Nodes[i].Position.ToUnity();
-                    norms[i] = m_BSoftBody.Nodes[i].Normal.ToUnity();
+                    BulletSharp.Math.Vector3 pos;
+                    Node.btSoftBody_Node_getX(m_BSoftBody.Nodes.GetNodePointer(i), out pos);
+                    verts[i] = pos.ToUnity();
+                    
+                    BulletSharp.Math.Vector3 normal;
+                    Node.btSoftBody_Node_getN(m_BSoftBody.Nodes.GetNodePointer(i), out normal);
+                    norms[i] = normal.ToUnity();
                 }
             }
         }
